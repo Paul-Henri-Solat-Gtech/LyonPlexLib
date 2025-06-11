@@ -44,6 +44,7 @@
     <ClInclude Include="Include\Scene.h" />
     <ClInclude Include="Include\SceneManager.h" />
     <ClInclude Include="Include\SystemManager.h" />
+    <ClInclude Include="Include\TextureManager.h" />
     <ClInclude Include="Include\TransformSystem.h" />
     <ClInclude Include="Include\Utils.h" />
     <ClInclude Include="Include\WindowPlex.h" />
