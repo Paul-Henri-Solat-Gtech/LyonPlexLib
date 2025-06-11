@@ -127,7 +127,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>LyonPlexLib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>LyonPlexLib.lib;$(SolutionDir)ExternalLib\DirectXTK12-main\Bin\Desktop_2022_Win10\x64\Debug\DirectXTK12.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

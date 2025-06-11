@@ -3,7 +3,6 @@
 #include "WindowPlex.h"
 #include "RenderingManager.h"
 #include "ECSManager.h"
-
 #include "SceneManager.h"
 
 #include "chrono"
