@@ -60,7 +60,7 @@ void GraphicsPipeline::CompileShader()
     // 2) Compilation des shaders
 
     //VERTEX SHADER
-    HRESULT hr = D3DCompileFromFile(L"src\\src_LyonPlexLib\\VertexShader.hlsl", nullptr, nullptr, "VSMain", "vs_5_0", 0, 0, &m_vsBlob, &m_errorBlob);
+    HRESULT hr = D3DCompileFromFile(L"src/src_LyonPlexLib/VertexShader.hlsl", nullptr, nullptr, "VSMain", "vs_5_0", 0, 0, &m_vsBlob, &m_errorBlob);
 
     if (FAILED(hr)) {
         if (m_errorBlob) {
@@ -72,7 +72,7 @@ void GraphicsPipeline::CompileShader()
     }
 
     //PIXEL SHADER
-    hr = D3DCompileFromFile(L"src\\src_LyonPlexLib\\VertexShader.hlsl", nullptr, nullptr, "PSMain", "ps_5_0", 0, 0, &m_psBlob, &m_errorBlob);
+    hr = D3DCompileFromFile(L"src/src_LyonPlexLib/VertexShader.hlsl", nullptr, nullptr, "PSMain", "ps_5_0", 0, 0, &m_psBlob, &m_errorBlob);
 
     if (FAILED(hr)) {
         if (m_errorBlob) OutputDebugStringA((char*)m_errorBlob->GetBufferPointer());
