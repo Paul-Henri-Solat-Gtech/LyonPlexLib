@@ -19,66 +19,63 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\src_LyonPlexLib\CameraManager.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\CameraSystem.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\CommandManager.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\ComponentManager.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\DescriptorManager.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\ECSManager.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\EntityManager.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\GameManager.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\GraphicsDevice.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\GraphicsPipeline.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\InputManager.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\MeshManager.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\pch.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\Render3D.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\RenderingManager.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\ResourceManager.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\SampleScene.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\Scene.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\SceneManager.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\SystemManager.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\TransformSystem.cpp" />
-    <ClCompile Include="..\src\src_LyonPlexLib\WindowPlex.cpp" />
+    <ClInclude Include="Include\CameraManager.h" />
+    <ClInclude Include="Include\CameraSystem.h" />
+    <ClInclude Include="Include\CommandManager.h" />
+    <ClInclude Include="Include\CommonInclude.h" />
+    <ClInclude Include="Include\ComponentManager.h" />
+    <ClInclude Include="Include\Components.h" />
+    <ClInclude Include="Include\d3dx12.h" />
+    <ClInclude Include="Include\DescriptorManager.h" />
+    <ClInclude Include="Include\ECSManager.h" />
+    <ClInclude Include="Include\EntityManager.h" />
+    <ClInclude Include="Include\GameManager.h" />
+    <ClInclude Include="Include\GraphicsDevice.h" />
+    <ClInclude Include="Include\GraphicsPipeline.h" />
+    <ClInclude Include="Include\InputManager.h" />
+    <ClInclude Include="Include\IRender.h" />
+    <ClInclude Include="Include\ISystem.h" />
+    <ClInclude Include="Include\MeshManager.h" />
+    <ClInclude Include="Include\pch.h" />
+    <ClInclude Include="Include\Render3D.h" />
+    <ClInclude Include="Include\RenderingManager.h" />
+    <ClInclude Include="Include\ResourceManager.h" />
+    <ClInclude Include="Include\SampleScene.h" />
+    <ClInclude Include="Include\Scene.h" />
+    <ClInclude Include="Include\SceneManager.h" />
+    <ClInclude Include="Include\SystemManager.h" />
+    <ClInclude Include="Include\TransformSystem.h" />
+    <ClInclude Include="Include\Utils.h" />
+    <ClInclude Include="Include\WindowPlex.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\src_LyonPlexLib\CameraManager.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\CameraSystem.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\CommandManager.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\CommonInclude.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\ComponentManager.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\Components.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\d3dx12.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\DescriptorManager.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\ECSManager.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\EntityManager.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\GameManager.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\GraphicsDevice.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\GraphicsPipeline.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\InputManager.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\IRender.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\ISystem.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\MeshManager.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\pch.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\Render3D.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\RenderingManager.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\ResourceManager.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\SampleScene.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\Scene.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\SceneManager.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\SystemManager.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\TransformSystem.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\Utils.h" />
-    <ClInclude Include="..\src\src_LyonPlexLib\WindowPlex.h" />
+    <None Include="Ressources\VertexShader.hlsl">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\src\src_LyonPlexLib\LyonShader.hlsl">
-      <FileType>Document</FileType>
-    </None>
-    <None Include="..\src\src_LyonPlexLib\VertexShader.hlsl">
-      <FileType>Document</FileType>
-    </None>
+    <ClCompile Include="Src\CameraManager.cpp" />
+    <ClCompile Include="Src\CameraSystem.cpp" />
+    <ClCompile Include="Src\CommandManager.cpp" />
+    <ClCompile Include="Src\ComponentManager.cpp" />
+    <ClCompile Include="Src\DescriptorManager.cpp" />
+    <ClCompile Include="Src\ECSManager.cpp" />
+    <ClCompile Include="Src\EntityManager.cpp" />
+    <ClCompile Include="Src\GameManager.cpp" />
+    <ClCompile Include="Src\GraphicsDevice.cpp" />
+    <ClCompile Include="Src\GraphicsPipeline.cpp" />
+    <ClCompile Include="Src\InputManager.cpp" />
+    <ClCompile Include="Src\MeshManager.cpp" />
+    <ClCompile Include="Src\pch.cpp" />
+    <ClCompile Include="Src\Render3D.cpp" />
+    <ClCompile Include="Src\RenderingManager.cpp" />
+    <ClCompile Include="Src\ResourceManager.cpp" />
+    <ClCompile Include="Src\SampleScene.cpp" />
+    <ClCompile Include="Src\Scene.cpp" />
+    <ClCompile Include="Src\SceneManager.cpp" />
+    <ClCompile Include="Src\SystemManager.cpp" />
+    <ClCompile Include="Src\TransformSystem.cpp" />
+    <ClCompile Include="Src\WindowPlex.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -166,7 +163,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\src_LyonPlexLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>

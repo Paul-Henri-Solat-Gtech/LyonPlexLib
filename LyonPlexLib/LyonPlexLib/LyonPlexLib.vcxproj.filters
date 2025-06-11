@@ -15,165 +15,160 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\src_LyonPlexLib\CameraManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\CameraSystem.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\CommandManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\ComponentManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\DescriptorManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\ECSManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\EntityManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\GameManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\GraphicsDevice.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\GraphicsPipeline.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\InputManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\MeshManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\pch.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\Render3D.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\RenderingManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\ResourceManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\SampleScene.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\Scene.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\SceneManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\SystemManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\TransformSystem.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\src_LyonPlexLib\WindowPlex.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\src\src_LyonPlexLib\CameraManager.h">
+    <ClInclude Include="Include\CameraManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\CameraSystem.h">
+    <ClInclude Include="Include\CameraSystem.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\CommandManager.h">
+    <ClInclude Include="Include\CommandManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\CommonInclude.h">
+    <ClInclude Include="Include\CommonInclude.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\ComponentManager.h">
+    <ClInclude Include="Include\ComponentManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\Components.h">
+    <ClInclude Include="Include\Components.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\d3dx12.h">
+    <ClInclude Include="Include\d3dx12.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\DescriptorManager.h">
+    <ClInclude Include="Include\DescriptorManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\ECSManager.h">
+    <ClInclude Include="Include\ECSManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\EntityManager.h">
+    <ClInclude Include="Include\EntityManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\GameManager.h">
+    <ClInclude Include="Include\GameManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\GraphicsDevice.h">
+    <ClInclude Include="Include\GraphicsDevice.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\GraphicsPipeline.h">
+    <ClInclude Include="Include\GraphicsPipeline.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\InputManager.h">
+    <ClInclude Include="Include\InputManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\IRender.h">
+    <ClInclude Include="Include\IRender.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\ISystem.h">
+    <ClInclude Include="Include\ISystem.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\MeshManager.h">
+    <ClInclude Include="Include\MeshManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\pch.h">
+    <ClInclude Include="Include\pch.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\Render3D.h">
+    <ClInclude Include="Include\Render3D.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\RenderingManager.h">
+    <ClInclude Include="Include\RenderingManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\ResourceManager.h">
+    <ClInclude Include="Include\ResourceManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\SampleScene.h">
+    <ClInclude Include="Include\SampleScene.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\Scene.h">
+    <ClInclude Include="Include\Scene.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\SceneManager.h">
+    <ClInclude Include="Include\SceneManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\SystemManager.h">
+    <ClInclude Include="Include\SystemManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\TransformSystem.h">
+    <ClInclude Include="Include\TransformSystem.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\Utils.h">
+    <ClInclude Include="Include\Utils.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_LyonPlexLib\WindowPlex.h">
+    <ClInclude Include="Include\WindowPlex.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\src\src_LyonPlexLib\LyonShader.hlsl">
-      <Filter>Fichiers de ressources</Filter>
-    </None>
-    <None Include="..\src\src_LyonPlexLib\VertexShader.hlsl">
-      <Filter>Fichiers de ressources</Filter>
-    </None>
+    <ClCompile Include="Src\CameraManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\CameraSystem.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\CommandManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ComponentManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\DescriptorManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ECSManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EntityManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GameManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GraphicsDevice.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GraphicsPipeline.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\InputManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MeshManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\pch.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Render3D.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\RenderingManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ResourceManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SampleScene.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Scene.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SceneManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SystemManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TransformSystem.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\WindowPlex.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Ressources\VertexShader.hlsl" />
   </ItemGroup>
 </Project>

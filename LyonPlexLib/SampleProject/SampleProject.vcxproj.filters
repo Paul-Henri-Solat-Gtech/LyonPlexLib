@@ -15,39 +15,39 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\src_SampleProject\AllScenes.cpp">
+    <ClCompile Include="Src\AllScenes.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\src_SampleProject\GameScene.cpp">
+    <ClCompile Include="Src\GameScene.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\src_SampleProject\main.cpp">
+    <ClCompile Include="Src\main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\src_SampleProject\pch.cpp">
+    <ClCompile Include="Src\pch.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\src_SampleProject\SampleScene2.cpp">
+    <ClCompile Include="Src\SampleScene2.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\src_SampleProject\AllScenes.h">
+    <ClInclude Include="Include\AllScenes.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_SampleProject\GameScene.h">
+    <ClInclude Include="Include\GameScene.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_SampleProject\main.h">
+    <ClInclude Include="Include\main.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_SampleProject\pch.h">
+    <ClInclude Include="Include\pch.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_SampleProject\resource.h">
+    <ClInclude Include="Include\resource.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\src_SampleProject\SampleScene2.h">
+    <ClInclude Include="Include\SampleScene2.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

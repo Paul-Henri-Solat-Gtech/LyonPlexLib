@@ -18,6 +18,21 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Src\AllScenes.cpp" />
+    <ClCompile Include="Src\GameScene.cpp" />
+    <ClCompile Include="Src\main.cpp" />
+    <ClCompile Include="Src\pch.cpp" />
+    <ClCompile Include="Src\SampleScene2.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\AllScenes.h" />
+    <ClInclude Include="Include\GameScene.h" />
+    <ClInclude Include="Include\main.h" />
+    <ClInclude Include="Include\pch.h" />
+    <ClInclude Include="Include\resource.h" />
+    <ClInclude Include="Include\SampleScene2.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -104,7 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\src_LyonPlexLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)LyonPlexLib\Include;$(ProjectDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -129,21 +144,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\src\src_SampleProject\AllScenes.cpp" />
-    <ClCompile Include="..\src\src_SampleProject\GameScene.cpp" />
-    <ClCompile Include="..\src\src_SampleProject\main.cpp" />
-    <ClCompile Include="..\src\src_SampleProject\pch.cpp" />
-    <ClCompile Include="..\src\src_SampleProject\SampleScene2.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\src\src_SampleProject\AllScenes.h" />
-    <ClInclude Include="..\src\src_SampleProject\GameScene.h" />
-    <ClInclude Include="..\src\src_SampleProject\main.h" />
-    <ClInclude Include="..\src\src_SampleProject\pch.h" />
-    <ClInclude Include="..\src\src_SampleProject\resource.h" />
-    <ClInclude Include="..\src\src_SampleProject\SampleScene2.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
