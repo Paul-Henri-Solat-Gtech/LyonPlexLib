@@ -6,7 +6,6 @@
 //Don't touch (only for sampleProject)
 #include "resource.h"
 #include "AllScenes.h"
-#include <AllScenes.h>
 
 #ifdef _DEBUG
 #include <crtdbg.h>

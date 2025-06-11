@@ -1,6 +1,4 @@
 ﻿#include "pch.h"
-#include "main.h"
-#include <AllScenes.h>
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int) 
 {
