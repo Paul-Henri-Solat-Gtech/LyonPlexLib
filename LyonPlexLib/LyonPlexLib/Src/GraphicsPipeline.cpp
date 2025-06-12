@@ -1,5 +1,30 @@
 ﻿#include "pch.h"
 #include "GraphicsPipeline.h"
+//
+#include "../../ExternalLib/DirectXTK12-main/Src/d3dx12.h"
+//#include <d3d12.h>
+//#include "d3dx12.h"
+//
+//#include <windows.h>
+//#include <dxgi1_6.h>
+//#include <wrl.h>
+//
+//#include <DirectXMath.h>
+//#include <d3dcompiler.h>
+//#include <stdexcept>
+//#include <vector>
+//#include <unordered_map>
+//
+////Lib DX12
+//#pragma comment(lib, "d3d12.lib")
+//#pragma comment(lib, "dxgi.lib")
+//#pragma comment(lib, "dxguid.lib")
+//#pragma comment(lib, "d3dcompiler.lib")
+//
+////Namespace to shortcut variables
+//using namespace Microsoft::WRL;
+//using namespace DirectX;
+
 
 void GraphicsPipeline::Init(GraphicsDevice* graphicsDevice, DescriptorManager* descriptorManager, CommandManager* commandManager)
 {
@@ -17,23 +42,64 @@ void GraphicsPipeline::CreatePipeline()
 
 void GraphicsPipeline::CreateRootSignature()
 {
+    // La range[] sert à placer toutes les textures dans un meme slot de rootParam
+
+    // 1. Définit un descriptor range pour SRV (RangeCount = nombre max de textures)
+    CD3DX12_DESCRIPTOR_RANGE1  ranges[1];
+    // Table 0 : textures 2D
+    ranges[0].Init(
+        D3D12_DESCRIPTOR_RANGE_TYPE_SRV,   // type
+        512,                              // NumDescriptors
+        0,                                 // BaseShaderRegister (t0)
+        0,                                 // register space
+        D3D12_DESCRIPTOR_RANGE_FLAG_NONE,
+        0                                  // offset in descriptors (auto) -> autre possibilite : D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND
+    );
+
+    // 2. Définit un descriptor range pour Sampler (optionnel)
+    CD3DX12_DESCRIPTOR_RANGE1 samplerRanges[1];
+    samplerRanges[0].Init(
+        D3D12_DESCRIPTOR_RANGE_TYPE_SAMPLER,
+        1,      // un sampler "linear wrap" par défaut
+        0,      // s0
+        0
+    );          // A REVOIR
+
+
     // 0) shader with camera
     // 1) Definition des deux root parameters (slot b0 et b1)
-    CD3DX12_ROOT_PARAMETER rootParams[2];
+    CD3DX12_ROOT_PARAMETER1 rootParams[4];
     rootParams[0].InitAsConstantBufferView(0); // <- b0 côte shader pour camera (view & proj)
     rootParams[1].InitAsConstantBufferView(1); // <- b1 côte shader pour transform (world)
 
-    // Params supplementaires
+    // Slot 1 : SRV descriptor table (textures)
+    rootParams[2].InitAsDescriptorTable(
+        1,          // RangeCount
+        &ranges[0], // pointeur sur notre range SRV
+        D3D12_SHADER_VISIBILITY_PIXEL
+    );
+    // Slot 2 : Sampler descriptor table
+    rootParams[3].InitAsDescriptorTable(
+        1,
+        &samplerRanges[0],
+        D3D12_SHADER_VISIBILITY_PIXEL
+    );
+    /* rootParams supplementaires   */
 
-    // 2) Construire la root signature
-    D3D12_ROOT_SIGNATURE_DESC rootSigDesc = {};
-    rootSigDesc.NumParameters = _countof(rootParams);
-    rootSigDesc.pParameters = rootParams;
-    rootSigDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+
+    //// 2) Construire la root signature
+    D3D12_VERSIONED_ROOT_SIGNATURE_DESC rootSigDesc = {};
+    rootSigDesc.Version = D3D_ROOT_SIGNATURE_VERSION_1_1;
+    rootSigDesc.Desc_1_1.NumParameters = _countof(rootParams);
+    rootSigDesc.Desc_1_1.pParameters = rootParams;
+    rootSigDesc.Desc_1_1.NumStaticSamplers = 0;         // A REVOIR
+    rootSigDesc.Desc_1_1.pStaticSamplers = nullptr;     // A REVOIR
+    rootSigDesc.Desc_1_1.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
     // 3) Serialiser et creer
     ComPtr<ID3DBlob> signature, error;
-    HRESULT hr = D3D12SerializeRootSignature(&rootSigDesc, D3D_ROOT_SIGNATURE_VERSION_1, &signature, &error);
+    HRESULT hr = D3D12SerializeVersionedRootSignature(&rootSigDesc, &signature, &error);
+
     if (FAILED(hr))
     {
         // Si errorBlob n’est pas null, on peut afficher son contenu (c'est un ID3DBlob)
@@ -57,45 +123,110 @@ void GraphicsPipeline::CreateRootSignature()
 
 void GraphicsPipeline::CompileShader()
 {
+
     // 2) Compilation des shaders
 
-    //VERTEX SHADER
-    HRESULT hr = D3DCompileFromFile(L"../LyonPlexLib/Ressources/VertexShader.hlsl", nullptr, nullptr, "VSMain", "vs_5_0", 0, 0, &m_vsBlob, &m_errorBlob);
+    ////VERTEX SHADER
+    //HRESULT hr = D3DCompileFromFile(L"../LyonPlexLib/Ressources/VertexShader.hlsl", nullptr, nullptr, "VSMain", "vs_5_0", 0, 0, &m_vsBlob, &m_errorBlob);
+
+    //if (FAILED(hr)) {
+    //    if (m_errorBlob) {
+    //        // Affiche la raison exacte dans une MessageBox ou via Debug
+    //        std::string msg((char*)m_errorBlob->GetBufferPointer(), m_errorBlob->GetBufferSize());
+    //        MessageBoxA(nullptr, msg.c_str(), "Shader Compilation Error", MB_OK | MB_ICONERROR);
+    //    }
+    //    throw std::runtime_error("VS compilation failed");
+    //}
+
+    ////PIXEL SHADER
+    //hr = D3DCompileFromFile(L"../LyonPlexLib/Ressources/VertexShader.hlsl", nullptr, nullptr, "PSMain", "ps_5_0", 0, 0, &m_psBlob, &m_errorBlob);
+
+    //if (FAILED(hr)) {
+    //    if (m_errorBlob) OutputDebugStringA((char*)m_errorBlob->GetBufferPointer());
+    //    throw std::runtime_error("PS compilation failed");
+    //}
+    // 
+    
+
+    DWORD len = GetFullPathNameW(L"..\\LyonPlexLib\\Ressources\\PixelShade.hlsl", 0, nullptr, nullptr);
+    std::wstring fullpath(len, L'\0');
+    GetFullPathNameW(L"..\\LyonPlexLib\\Ressources\\PixelShader.hlsl", len, fullpath.data(), nullptr);
+    MessageBoxW(nullptr, fullpath.c_str(), L"Full path", MB_OK);
+    // ==> Déclare deux blobs distincts
+    ComPtr<ID3DBlob> vsBlob, vsErrorBlob;
+    ComPtr<ID3DBlob> psBlob, psErrorBlob;
+
+    // 1) VS
+    HRESULT hr = D3DCompileFromFile(
+        L"../LyonPlexLib/Ressources/VertexShader.hlsl",
+        nullptr, nullptr,
+        "VSMain", "vs_5_0",
+        D3DCOMPILE_ENABLE_STRICTNESS, 0,
+        &vsBlob, &vsErrorBlob);
 
     if (FAILED(hr)) {
-        if (m_errorBlob) {
-            // Affiche la raison exacte dans une MessageBox ou via Debug
-            std::string msg((char*)m_errorBlob->GetBufferPointer(), m_errorBlob->GetBufferSize());
-            MessageBoxA(nullptr, msg.c_str(), "Shader Compilation Error", MB_OK | MB_ICONERROR);
+        if (vsErrorBlob) {
+            std::string msg{ (char*)vsErrorBlob->GetBufferPointer(),
+                             vsErrorBlob->GetBufferSize() };
+            MessageBoxA(nullptr, msg.c_str(), "VS Compilation Error", MB_OK | MB_ICONERROR);
         }
         throw std::runtime_error("VS compilation failed");
     }
 
-    //PIXEL SHADER
-    hr = D3DCompileFromFile(L"../LyonPlexLib/Ressources/VertexShader.hlsl", nullptr, nullptr, "PSMain", "ps_5_0", 0, 0, &m_psBlob, &m_errorBlob);
+    // 2) PS (fichier ou entry pont corrigé)
+    hr = D3DCompileFromFile(
+        L"../LyonPlexLib/Ressources/VertexShader.hlsl", // ← fichier dédié
+        nullptr, nullptr,
+        "PSMain", "ps_5_0",
+        D3DCOMPILE_ENABLE_STRICTNESS, 0,
+        &psBlob, &psErrorBlob);
 
     if (FAILED(hr)) {
-        if (m_errorBlob) OutputDebugStringA((char*)m_errorBlob->GetBufferPointer());
+        // Affiche l'HRESULT hex et le blob d'erreur s'il y en a un
+        std::ostringstream oss;
+        oss << "PS compilation failed (hr = 0x"
+            << std::hex << hr << ")\n";
+        if (psErrorBlob) {
+            oss << static_cast<char*>(psErrorBlob->GetBufferPointer());
+        }
+        MessageBoxA(nullptr, oss.str().c_str(), "Shader Error", MB_OK | MB_ICONERROR);
         throw std::runtime_error("PS compilation failed");
     }
+
+   /* if (FAILED(hr)) {
+        if (psErrorBlob) {
+            std::string msg{ (char*)psErrorBlob->GetBufferPointer(),
+                             psErrorBlob->GetBufferSize() };
+            MessageBoxA(nullptr, msg.c_str(), "PS Compilation Error", MB_OK | MB_ICONERROR);
+        }
+        throw std::runtime_error("PS compilation failed");
+    }*/
 }
 
 void GraphicsPipeline::CreatePipelineStateObject()
 {
     // 3) Input layout
-    D3D12_INPUT_ELEMENT_DESC layout[] =
-    {
-        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,   0, 0,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-        {"COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT,0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-        // Ajouter params supplémentaires
+    //D3D12_INPUT_ELEMENT_DESC layout[] =
+    //{
+    //    {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,   0, 0,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+    //    {"COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT,0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+    //    // Ajouter params supplémentaires
+    //};
+    D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
+  { "POSITION",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0,   D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+  { "COLOR",     0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+  { "TEXCOORD",  0, DXGI_FORMAT_R32G32_FLOAT,    0, 28,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+  { "TEXCOORD",  1, DXGI_FORMAT_R32_UINT,        0, 36,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
     };
 
     // 4) PSO
     D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
-    psoDesc.InputLayout = { layout, _countof(layout) };
+    psoDesc.InputLayout = { inputLayout, _countof(inputLayout) };
     psoDesc.pRootSignature = m_rootSignature.Get();
+    psoDesc.VS = CD3DX12_SHADER_BYTECODE(m_vsBlob.Get());
+    psoDesc.PS = CD3DX12_SHADER_BYTECODE(m_psBlob.Get()); /*
     psoDesc.VS = { m_vsBlob->GetBufferPointer(), m_vsBlob->GetBufferSize() };
-    psoDesc.PS = { m_psBlob->GetBufferPointer(), m_psBlob->GetBufferSize() };
+    psoDesc.PS = { m_psBlob->GetBufferPointer(), m_psBlob->GetBufferSize() };*/
     
     // ) Rasterizer State : on veut afficher la face extérieure, winding CCW = front
     D3D12_RASTERIZER_DESC rasterDesc = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);

@@ -25,7 +25,6 @@
     <ClInclude Include="Include\CommonInclude.h" />
     <ClInclude Include="Include\ComponentManager.h" />
     <ClInclude Include="Include\Components.h" />
-    <ClInclude Include="Include\d3dx12.h" />
     <ClInclude Include="Include\DescriptorManager.h" />
     <ClInclude Include="Include\ECSManager.h" />
     <ClInclude Include="Include\EntityManager.h" />
@@ -75,6 +74,7 @@
     <ClCompile Include="Src\Scene.cpp" />
     <ClCompile Include="Src\SceneManager.cpp" />
     <ClCompile Include="Src\SystemManager.cpp" />
+    <ClCompile Include="Src\TextureManager.cpp" />
     <ClCompile Include="Src\TransformSystem.cpp" />
     <ClCompile Include="Src\WindowPlex.cpp" />
   </ItemGroup>

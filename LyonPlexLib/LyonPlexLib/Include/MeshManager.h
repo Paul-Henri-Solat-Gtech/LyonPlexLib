@@ -7,7 +7,7 @@ struct VertexParam
 {
 	XMFLOAT3 Position;		// Position des points
 	XMFLOAT4 Color;			// Couleur des points
-	//XMFLOAT2 TexCoord;	// Coordonees du point sur la texture ?
+	XMFLOAT2 TexCoord;	// Coordonees du point sur la texture ?
 	//XMFLOAT3 Normal;		// Normale ・la face visible du mesh (vecteur de direction)
 };
 

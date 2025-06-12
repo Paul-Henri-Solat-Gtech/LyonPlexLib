@@ -3,13 +3,15 @@
 #include "IRender.h"
 #include "GraphicsPipeline.h"
 #include "MeshManager.h"
+#include "TextureManager.h"
 
 inline UINT Align256(UINT size) { return (size + 255) & ~255; } //	Mettre dans Utils ??
 
 struct ConstantBuffData
 {
 	DirectX::XMFLOAT4X4 World;		// Pos objet
-	//DirectX::XMFLOAT4X4 ViewProj;	// Projection par rapport a la camera ? (mieux de ne pas combiner cote CPU (en code) pour laisser faire dans le shader (GPU?))
+	uint32_t            materialIndex; // 4 bytes, occupe le premier float du slot suivant
+	float               padding[3];    // 12 bytes de « rembourrage » pour remplir le slot 16 bytes
 };
 
 class Render3D : public IRender
@@ -40,6 +42,7 @@ private:
 
 	GraphicsPipeline	m_graphicsPipeline;
 	MeshManager			m_meshManager;
+	TextureManager*		m_textureManager = nullptr;
 
 	//ECS Manager
 	ECSManager*			m_ECS;

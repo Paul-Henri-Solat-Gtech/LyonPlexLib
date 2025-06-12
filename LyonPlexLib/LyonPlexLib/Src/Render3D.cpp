@@ -5,6 +5,10 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 {
 	m_ECS = ECS;
 
+	m_textureManager = new TextureManager;
+
+	m_textureManager->Init(graphicsDevice, descriptorManager);
+
 	mp_graphicsDevice = graphicsDevice;
 	mp_descriptorManager = descriptorManager;
 	mp_commandManager = commandManager;
@@ -16,14 +20,15 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 
 	InitConstantBuffer();
 	UpdateCbParams();
-	//Entity eTriangle = m_ECS->CreateEntity();
-	//m_ECS->AddComponent<MeshComponent>(eTriangle, new MeshComponent(1, 0));
-	//
-	//Entity eSquare = m_ECS->CreateEntity();
-	//m_ECS->AddComponent<MeshComponent>(eSquare, new MeshComponent(0, 0));
 
-	//Entity eCube = m_ECS->CreateEntity();
-	//m_ECS->AddComponent<MeshComponent>(eCube, new MeshComponent(2, 0));
+	//m_textureManager->LoadTexture("C:\\Users\\cleme\\Programmation\\The ArmOnizer Project\\LyonPlexLib\\LyonPlexLib\\LyonPlexLib\\Ressources\\Test3.jpg");
+	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
+	//m_textureManager->LoadTexture("Test3.jpg");
+	//m_textureManager->LoadTexture("Test.png");
+	//m_textureManager->LoadTexture("Users/cleme/Programmation/The ArmOnizer Project/LyonPlexLib/LyonPlexLib/LyonPlexLib/Ressources/Test4.dds");
+	
+	//m_textureManager->LoadTexture("C:\\Users\\cleme\\Bureau\\Tempon\\Test3.jpg");
+	m_textureManager->LoadTexture("C:/Users/cleme/Bureau/Tempon/Test3.jpg");
 
 	return true;
 }
@@ -41,18 +46,20 @@ void Render3D::RecordCommands()
 	mp_commandManager->GetCommandList()->SetPipelineState(m_graphicsPipeline.GetPipelineState().Get());
 
 	// Bind du buffer ViewProj de la Camera au slot b0
-	mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(
-		/*rootParameterIndex=*/ 0,
-		m_ECS->m_systemMgr.GetCameraSystem().GetCBbuffer()->GetGPUVirtualAddress()
-	);
+	mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(/*rootParameterIndex = slot b0*/ 0, m_ECS->m_systemMgr.GetCameraSystem().GetCBbuffer()->GetGPUVirtualAddress());
+
+	// Bind des Heaps SRV + Sampler
+	ID3D12DescriptorHeap* heaps[] = {mp_descriptorManager->GetSrvHeap(), mp_descriptorManager->GetSamplerHeap()};
+	mp_commandManager->GetCommandList()->SetDescriptorHeaps(_countof(heaps), heaps);
+
+	// Si votre sampler est unique, vous pouvez aussi le binder ici via root slot 3
+	mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*slot s0*/ 4, mp_descriptorManager->GetSamplerHeap()->GetGPUDescriptorHandleForHeapStart());
+
 
 	//Draw vertices and index (mesh)
 	mp_commandManager->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	mp_commandManager->GetCommandList()->IASetVertexBuffers(0, 1, &m_meshManager.GetGlobalVBView());
 	mp_commandManager->GetCommandList()->IASetIndexBuffer(&m_meshManager.GetGlobalIBView());
-
-
-
 
 	UINT frameIdx = mp_graphicsDevice->GetFrameIndex();
 	// Clear RTV
@@ -65,22 +72,11 @@ void Render3D::RecordCommands()
 	mp_commandManager->GetCommandList()->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 
 	// Clear DSV
-	CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle(
-		mp_descriptorManager->GetDsvHeap()->GetCPUDescriptorHandleForHeapStart(),
-		frameIdx,
-		mp_descriptorManager->GetDsvDescriptorSize()
-	);
-	mp_commandManager->GetCommandList()->ClearDepthStencilView(dsvHandle,
-		D3D12_CLEAR_FLAG_DEPTH,  // seulement clear la profondeur
-		1.0f,
-		0,
-		0, nullptr);
+	CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle(mp_descriptorManager->GetDsvHeap()->GetCPUDescriptorHandleForHeapStart(), frameIdx, mp_descriptorManager->GetDsvDescriptorSize());
+	mp_commandManager->GetCommandList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH,  1.0f, 0, 0, nullptr);
 
 	// F) OMSetRenderTargets (RTV + DSV)
 	mp_commandManager->GetCommandList()->OMSetRenderTargets(1, &rtvHandle, FALSE, &dsvHandle);
-
-
-
 
 
 	// Get la width et height du client (fenetre)
@@ -117,8 +113,17 @@ void Render3D::RecordCommands()
 
 			UpdateAndBindCB(ent); 
 
-			MeshComponent* m = m_ECS->GetComponent< MeshComponent>(ent);
-			const MeshData& data = m_meshManager.GetMeshLib().Get(m->meshID);
+			MeshComponent* meshComp = m_ECS->GetComponent< MeshComponent>(ent);
+			uint32_t matID = meshComp->materialID;
+
+			// 3) Calcule à la volée le GPU handle pour la texture de cet objet
+			auto srvHandle = m_textureManager->GetSrvGpuHandle(matID);
+
+			// 4) Bind ce SRV au slot t0 (root slot 2)
+			mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*slot t0*/ 2, srvHandle);
+
+
+			const MeshData& data = m_meshManager.GetMeshLib().Get(meshComp->meshID);
 			mp_commandManager->GetCommandList()->DrawIndexedInstanced(
 				data.iSize,      // nombre d’indices
 				1,

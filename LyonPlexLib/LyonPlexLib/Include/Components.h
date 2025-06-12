@@ -8,6 +8,7 @@ enum ComponentID
     Transform_ID,
     Camera_ID,
     Mesh_ID,
+    Texture_ID,
 
     TotalComponentsCount
 };
@@ -89,3 +90,18 @@ struct MeshComponent : public Component
         materialID = materialID_;
     }
 };
+
+//struct TextureComponent : public Component
+//{
+//    static constexpr uint32_t StaticTypeID = Texture_ID;
+//    uint32_t meshID;
+//    uint32_t materialID;
+//
+//    MeshComponent(uint32_t meshID_, uint32_t materialID_)
+//    {
+//        mask = 1ULL << StaticTypeID;
+//        typeID = StaticTypeID;
+//        meshID = meshID_;
+//        materialID = materialID_;
+//    }
+//};

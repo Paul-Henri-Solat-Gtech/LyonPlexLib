@@ -31,6 +31,10 @@ public:
     ID3D12DescriptorHeap* GetDsvHeap()     const { return m_dsvHeap.Get(); }
     ID3D12DescriptorHeap* GetSamplerHeap() const { return m_samplerHeap.Get(); }
 
+    UINT GetSrvDescriptorSize() { return m_srvDescriptorSize; }
+
+    UINT GetSrvNextOffset() { return m_srvNextOffset; }
+
     void ResetSrv() { m_srvNextOffset = 0; }
     void ResetRtv() { m_rtvNextOffset = 0; }
     void ResetDsv() { m_dsvNextOffset = 0; }
