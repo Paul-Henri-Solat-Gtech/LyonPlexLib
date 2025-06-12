@@ -1,29 +1,26 @@
 #pragma once
 
 #include "Scene.h"
+#include <functional>
 
 class GameManager;
-
-struct CreatedScene 
-{
-	std::string sceneName;
-	Scene* scene;
-};
 
 class SceneManager
 {
 public:
+	~SceneManager();
+
 	void Init(ECSManager* ecsManager,GameManager* gameManager , HWND windowHandle);
 
-	void StartScene();
+	//void StartScene();
 	void UpdateScene(float deltatime);
 	void ReleaseScene();
 
-	void CreateScene(Scene* scene, std::string sceneName);
+	// Set active scene and launch it
+	void SetScene(const std::string& sceneName);
 
-	void SetScene(std::string sceneName);
-	
-	//& GetScene() { return *m_scene; };
+	// Save a scene model
+	void RegisterScene(const std::string& sceneName, std::function<Scene*()> sceneModel);
 
 	GameManager* GetGameManager() { return mp_gameManager; };
 
@@ -33,11 +30,9 @@ private:
 	GameManager* mp_gameManager;
 	HWND m_windowHandle; // Just for debug and window name
 
+	// Model scenes list
+	std::unordered_map<std::string, std::function<Scene* ()>> m_sceneModels;
 	// Scene active
-	CreatedScene m_scene;
-	bool m_sceneAsSarted = true;
-
-	// Scene list
-	std::vector<CreatedScene> m_scenes;
+	std::unique_ptr<Scene> m_currentScene;
 };
 

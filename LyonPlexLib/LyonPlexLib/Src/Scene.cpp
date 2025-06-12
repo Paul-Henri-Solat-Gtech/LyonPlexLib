@@ -62,4 +62,5 @@ Entity* Scene::GetEntity(const std::string& entityName)
 			return &entity.entity;
 		}
 	}
+	return nullptr;
 }

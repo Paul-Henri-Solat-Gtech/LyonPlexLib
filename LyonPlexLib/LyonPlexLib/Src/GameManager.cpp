@@ -33,8 +33,7 @@ bool GameManager::Init()
     m_sceneManager.Init(&m_ECS,this,hwnd);
     
     // 4) Create new scene (OPTIONAL IN LIB)
-    SampleScene* newSampleScene = new SampleScene();
-    m_sceneManager.CreateScene(newSampleScene, "SampleScene");
+    // mp_gameManager->GetSceneManager()->RegisterScene("SampleScene", []() { return new SampleScene(); });
 
     return true;
 }
