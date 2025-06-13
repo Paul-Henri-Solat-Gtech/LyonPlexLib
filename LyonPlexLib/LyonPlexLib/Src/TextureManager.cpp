@@ -17,9 +17,7 @@ TextureID TextureManager::LoadTexture(const std::string& key)
     std::transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
 
     // Get or add resource entry
-    TextureID id = m_textures.Has(key)
-        ? m_textures.Load(key)
-        : m_textures.Add(TextureData{});
+    TextureID id = m_textures.Load(key);
     TextureData& tex = m_textures.Get(id);
 
     // Already loaded?

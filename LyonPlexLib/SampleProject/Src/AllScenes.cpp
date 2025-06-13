@@ -13,8 +13,8 @@ void AllScenes::Init(GameManager* gameManager)
     CreateAllScenes();
 
     // START SCENE
-    //StartScene("SampleScene2");
-    StartScene("GameScene");
+    StartScene("SampleScene2");
+    //StartScene("GameScene");
 }
 
 void AllScenes::CreateAllScenes()

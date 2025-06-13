@@ -15,10 +15,12 @@ cbuffer ObjectBuffer : register(b1)
 };
 
 // slot t0 : table SRV textures
-Texture2D textures[512] : register(t0);
+Texture2D textures[15] : register(t0);
+//Texture2D textures[] : register(t0);
 
 // slot s0 : sampler linéaire
 SamplerState linearClamp : register(s0);
+//SamplerState linearClamp[1] : register(s0);
 
 
 //-----------------------------------------------------------------------------//
@@ -30,25 +32,16 @@ struct VSInput // VSmain in
     float3 position : POSITION;
     float4 color    : COLOR;
     float2 uv       : TEXCOORD0;
-    uint   material : TEXCOORD1;
+    //uint   material : TEXCOORD1;
 };
 struct PSInput // VSmain out
 {
     float4 positionH : SV_POSITION; 
     float4 color     : COLOR; 
     float2 uv        : TEXCOORD0;
-    uint   material  : TEXCOORD1; 
+    //uint   material  : TEXCOORD1; 
 };
-//struct VSInput
-//{
-//    float3 position : POSITION;
-//    float4 color : COLOR;
-//};
-//struct PSInput
-//{
-//    float4 positionH : SV_POSITION;
-//    float4 color : COLOR;
-//};
+
 
 
 //-----------------------------------------------------------------------------//
@@ -63,19 +56,15 @@ PSInput VSMain(VSInput input)
     output.positionH = mul(viewPos, projectMatrix);
     
     output.uv = input.uv;
-    output.material = input.material;
     
     output.color = input.color;
-    return output;
+    return output;    
 };
 
 float4 PSMain(PSInput input) : SV_Target
 {
-    // On récupère l’UV et l’indice
-    float2 uv = input.uv;
-    uint idx = input.material;
     // On échantillonne la bonne texture
-    return textures[idx].Sample(linearClamp, uv);
+    return textures[materialIndex].Sample(linearClamp, input.uv);
+    //return textures[idx].Sample(linearClamp[idx], uv);
     
-    //return input.color;
 }

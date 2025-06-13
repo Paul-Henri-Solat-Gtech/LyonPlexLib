@@ -14,7 +14,7 @@ void SampleScene2::Start()
 
     CreateEntity("camera");
     AddComponent<CameraComponent>("camera", new CameraComponent());
-    GetComponent<TransformComponent>("camera")->position = { 0, 0, -1 };
+    GetComponent<TransformComponent>("camera")->position = { 0, 0.5, -1 };
 
     CreateEntity("cube");
     AddComponent<MeshComponent>("cube", new MeshComponent(2, 0));
@@ -22,18 +22,18 @@ void SampleScene2::Start()
     GetComponent<TransformComponent>("cube")->dirty = true;
 
     CreateEntity("cube2");
-    AddComponent<MeshComponent>("cube2", new MeshComponent(2, 0));
+    AddComponent<MeshComponent>("cube2", new MeshComponent(2, 1));
     GetComponent<TransformComponent>("cube2")->position = { 5, -0, -1 };
     GetComponent<TransformComponent>("cube2")->dirty = true;
 
     CreateEntity("cube3");
-    AddComponent<MeshComponent>("cube3", new MeshComponent(2, 0));
+    AddComponent<MeshComponent>("cube3", new MeshComponent(2, 1));
     GetComponent<TransformComponent>("cube3")->position = { -5, -0, 0 };
     GetComponent<TransformComponent>("cube3")->dirty = true;
 
     CreateEntity("cube4");
-    AddComponent<MeshComponent>("cube4", new MeshComponent(2, 0));
-    GetComponent<TransformComponent>("cube4")->position = { 0, -0, 5 };
+    AddComponent<MeshComponent>("cube4", new MeshComponent(2, 2));
+    GetComponent<TransformComponent>("cube4")->position = { 0, -0, 1 };
     GetComponent<TransformComponent>("cube4")->dirty = true;
 
     GetComponent<TransformComponent>("camera")->parent = { GetEntity("cube")->id };

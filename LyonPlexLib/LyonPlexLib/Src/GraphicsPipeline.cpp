@@ -49,7 +49,7 @@ void GraphicsPipeline::CreateRootSignature()
     // Table 0 : textures 2D
     ranges[0].Init(
         D3D12_DESCRIPTOR_RANGE_TYPE_SRV,   // type
-        512,                              // NumDescriptors
+        15,                              // NumDescriptors
         0,                                 // BaseShaderRegister (t0)
         0,                                 // register space
         D3D12_DESCRIPTOR_RANGE_FLAG_NONE,
@@ -69,16 +69,19 @@ void GraphicsPipeline::CreateRootSignature()
     // 0) shader with camera
     // 1) Definition des deux root parameters (slot b0 et b1)
     CD3DX12_ROOT_PARAMETER1 rootParams[4];
+    // Slot 0 : Camera View & Proj
     rootParams[0].InitAsConstantBufferView(0); // <- b0 côte shader pour camera (view & proj)
+
+    // Slot 1 : Object world matrix
     rootParams[1].InitAsConstantBufferView(1); // <- b1 côte shader pour transform (world)
 
-    // Slot 1 : SRV descriptor table (textures)
+    // Slot 2 : SRV descriptor table (textures)
     rootParams[2].InitAsDescriptorTable(
         1,          // RangeCount
         &ranges[0], // pointeur sur notre range SRV
         D3D12_SHADER_VISIBILITY_PIXEL
     );
-    // Slot 2 : Sampler descriptor table
+    // Slot 3 : Sampler descriptor table
     rootParams[3].InitAsDescriptorTable(
         1,
         &samplerRanges[0],
@@ -124,50 +127,31 @@ void GraphicsPipeline::CreateRootSignature()
 void GraphicsPipeline::CompileShader()
 {
 
-    // 2) Compilation des shaders
+    // Compilation des shaders
 
-    ////VERTEX SHADER
-    //HRESULT hr = D3DCompileFromFile(L"../LyonPlexLib/Ressources/VertexShader.hlsl", nullptr, nullptr, "VSMain", "vs_5_0", 0, 0, &m_vsBlob, &m_errorBlob);
-
-    //if (FAILED(hr)) {
-    //    if (m_errorBlob) {
-    //        // Affiche la raison exacte dans une MessageBox ou via Debug
-    //        std::string msg((char*)m_errorBlob->GetBufferPointer(), m_errorBlob->GetBufferSize());
-    //        MessageBoxA(nullptr, msg.c_str(), "Shader Compilation Error", MB_OK | MB_ICONERROR);
-    //    }
-    //    throw std::runtime_error("VS compilation failed");
-    //}
-
-    ////PIXEL SHADER
-    //hr = D3DCompileFromFile(L"../LyonPlexLib/Ressources/VertexShader.hlsl", nullptr, nullptr, "PSMain", "ps_5_0", 0, 0, &m_psBlob, &m_errorBlob);
-
-    //if (FAILED(hr)) {
-    //    if (m_errorBlob) OutputDebugStringA((char*)m_errorBlob->GetBufferPointer());
-    //    throw std::runtime_error("PS compilation failed");
-    //}
-    // 
-    
-
-    DWORD len = GetFullPathNameW(L"..\\LyonPlexLib\\Ressources\\PixelShade.hlsl", 0, nullptr, nullptr);
+    // Ce bloc permet de vérifier si un chemin/fichier existe
+   /* DWORD len = GetFullPathNameW(L"..\\LyonPlexLib\\Ressources\\PixelShader.hlsl", 0, nullptr, nullptr);
     std::wstring fullpath(len, L'\0');
     GetFullPathNameW(L"..\\LyonPlexLib\\Ressources\\PixelShader.hlsl", len, fullpath.data(), nullptr);
-    MessageBoxW(nullptr, fullpath.c_str(), L"Full path", MB_OK);
+    MessageBoxW(nullptr, fullpath.c_str(), L"Full path", MB_OK);*/
+
+
     // ==> Déclare deux blobs distincts
-    ComPtr<ID3DBlob> vsBlob, vsErrorBlob;
-    ComPtr<ID3DBlob> psBlob, psErrorBlob;
+ /*   ComPtr<ID3DBlob>  vsErrorBlob;
+    ComPtr<ID3DBlob>  psErrorBlob;*/
 
     // 1) VS
     HRESULT hr = D3DCompileFromFile(
         L"../LyonPlexLib/Ressources/VertexShader.hlsl",
         nullptr, nullptr,
-        "VSMain", "vs_5_0",
+        "VSMain", "vs_5_1",
         D3DCOMPILE_ENABLE_STRICTNESS, 0,
-        &vsBlob, &vsErrorBlob);
+        &m_vsBlob, &m_errorBlob);
 
     if (FAILED(hr)) {
-        if (vsErrorBlob) {
-            std::string msg{ (char*)vsErrorBlob->GetBufferPointer(),
-                             vsErrorBlob->GetBufferSize() };
+        if (m_errorBlob) {
+            std::string msg{ (char*)m_errorBlob->GetBufferPointer(),
+                             m_errorBlob->GetBufferSize() };
             MessageBoxA(nullptr, msg.c_str(), "VS Compilation Error", MB_OK | MB_ICONERROR);
         }
         throw std::runtime_error("VS compilation failed");
@@ -177,46 +161,32 @@ void GraphicsPipeline::CompileShader()
     hr = D3DCompileFromFile(
         L"../LyonPlexLib/Ressources/VertexShader.hlsl", // ← fichier dédié
         nullptr, nullptr,
-        "PSMain", "ps_5_0",
+        "PSMain", "ps_5_1",
         D3DCOMPILE_ENABLE_STRICTNESS, 0,
-        &psBlob, &psErrorBlob);
+        &m_psBlob, &m_errorBlob);
 
     if (FAILED(hr)) {
         // Affiche l'HRESULT hex et le blob d'erreur s'il y en a un
         std::ostringstream oss;
         oss << "PS compilation failed (hr = 0x"
             << std::hex << hr << ")\n";
-        if (psErrorBlob) {
-            oss << static_cast<char*>(psErrorBlob->GetBufferPointer());
+        if (m_errorBlob) {
+            oss << static_cast<char*>(m_errorBlob->GetBufferPointer());
         }
         MessageBoxA(nullptr, oss.str().c_str(), "Shader Error", MB_OK | MB_ICONERROR);
         throw std::runtime_error("PS compilation failed");
     }
 
-   /* if (FAILED(hr)) {
-        if (psErrorBlob) {
-            std::string msg{ (char*)psErrorBlob->GetBufferPointer(),
-                             psErrorBlob->GetBufferSize() };
-            MessageBoxA(nullptr, msg.c_str(), "PS Compilation Error", MB_OK | MB_ICONERROR);
-        }
-        throw std::runtime_error("PS compilation failed");
-    }*/
+
 }
 
 void GraphicsPipeline::CreatePipelineStateObject()
 {
-    // 3) Input layout
-    //D3D12_INPUT_ELEMENT_DESC layout[] =
-    //{
-    //    {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,   0, 0,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-    //    {"COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT,0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
-    //    // Ajouter params supplémentaires
-    //};
     D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
   { "POSITION",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0,   D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
   { "COLOR",     0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
   { "TEXCOORD",  0, DXGI_FORMAT_R32G32_FLOAT,    0, 28,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-  { "TEXCOORD",  1, DXGI_FORMAT_R32_UINT,        0, 36,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+  /*{ "TEXCOORD",  1, DXGI_FORMAT_R32_UINT,        0, 36,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },*/
     };
 
     // 4) PSO
