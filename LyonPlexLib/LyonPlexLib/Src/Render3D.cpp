@@ -5,6 +5,10 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 {
 	m_ECS = ECS;
 
+	m_textureManager = new TextureManager;
+
+	m_textureManager->Init(graphicsDevice, descriptorManager);
+
 	mp_graphicsDevice = graphicsDevice;
 	mp_descriptorManager = descriptorManager;
 	mp_commandManager = commandManager;
@@ -16,6 +20,17 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 
 	InitConstantBuffer();
 	UpdateCbParams();
+
+	//m_textureManager->LoadTexture("C:\\Users\\cleme\\Programmation\\The ArmOnizer Project\\LyonPlexLib\\LyonPlexLib\\LyonPlexLib\\Ressources\\Test3.jpg");
+	//m_textureManager->LoadTexture("C:\\Users\\cleme\\Programmation\\The ArmOnizer Project\\LyonPlexLib\\LyonPlexLib\\LyonPlexLib\\Ressources\\Test2.avif");
+	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
+	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
+	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test.png");
+	//m_textureManager->LoadTexture("Test3.jpg");
+	//m_textureManager->LoadTexture("Test.png");
+	
+	//m_textureManager->LoadTexture("C:\\Users\\cleme\\Bureau\\Tempon\\Test3.jpg");
+	//m_textureManager->LoadTexture("C:/Users/cleme/Bureau/Tempon/Test3.jpg");
 
 	return true;
 }
@@ -33,18 +48,30 @@ void Render3D::RecordCommands()
 	mp_commandManager->GetCommandList()->SetPipelineState(m_graphicsPipeline.GetPipelineState().Get());
 
 	// Bind du buffer ViewProj de la Camera au slot b0
-	mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(
-		/*rootParameterIndex=*/ 0,
-		m_ECS->m_systemMgr.GetCameraSystem().GetCBbuffer()->GetGPUVirtualAddress()
-	);
+	mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(/*rootParameterIndex = slot b0*/ 0, m_ECS->m_systemMgr.GetCameraSystem().GetCBbuffer()->GetGPUVirtualAddress());
+
+	// Bind des Heaps SRV + Sampler
+	// 1. Rassemble tous tes descriptor heaps (SRV + Sampler)
+	ID3D12DescriptorHeap* heaps[] = {mp_descriptorManager->GetSrvHeap(), mp_descriptorManager->GetSamplerHeap()}; //  SRV heap (contenant toutes les textures) et Sampler heap
+	mp_commandManager->GetCommandList()->SetDescriptorHeaps(_countof(heaps), heaps);
+
+	// 2. Bind UNE SEULE FOIS l’intégralité de ton heap SRV au slot t0 (rootParameter index = 2)
+	D3D12_GPU_DESCRIPTOR_HANDLE srvBase = mp_descriptorManager->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart();
+	mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*rootParameterIndex=*/2, srvBase);
+
+	// Si votre sampler est unique, vous pouvez aussi le binder ici via root slot 3
+	//mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*slot s0*/ 3, mp_descriptorManager->GetSamplerHeap()->GetGPUDescriptorHandleForHeapStart());
+
+
+	//commandList->SetGraphicsRootDescriptorTable(rootIndexSrv, srvHeap->GetGPUDescriptorHandleForHeapStart());
+
+	//commandList->SetGraphicsRootDescriptorTable(rootIndexSampler, samplerHeap->GetGPUDescriptorHandleForHeapStart());
+
 
 	//Draw vertices and index (mesh)
 	mp_commandManager->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	mp_commandManager->GetCommandList()->IASetVertexBuffers(0, 1, &m_meshManager.GetGlobalVBView());
 	mp_commandManager->GetCommandList()->IASetIndexBuffer(&m_meshManager.GetGlobalIBView());
-
-
-
 
 	UINT frameIdx = mp_graphicsDevice->GetFrameIndex();
 	// Clear RTV
@@ -57,16 +84,8 @@ void Render3D::RecordCommands()
 	mp_commandManager->GetCommandList()->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 
 	// Clear DSV
-	CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle(
-		mp_descriptorManager->GetDsvHeap()->GetCPUDescriptorHandleForHeapStart(),
-		frameIdx,
-		mp_descriptorManager->GetDsvDescriptorSize()
-	);
-	mp_commandManager->GetCommandList()->ClearDepthStencilView(dsvHandle,
-		D3D12_CLEAR_FLAG_DEPTH,  // seulement clear la profondeur
-		1.0f,
-		0,
-		0, nullptr);
+	CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle(mp_descriptorManager->GetDsvHeap()->GetCPUDescriptorHandleForHeapStart(), frameIdx, mp_descriptorManager->GetDsvDescriptorSize());
+	mp_commandManager->GetCommandList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH,  1.0f, 0, 0, nullptr);
 
 	// F) OMSetRenderTargets (RTV + DSV)
 	mp_commandManager->GetCommandList()->OMSetRenderTargets(1, &rtvHandle, FALSE, &dsvHandle);
@@ -106,8 +125,17 @@ void Render3D::RecordCommands()
 
 			UpdateAndBindCB(ent); 
 
-			MeshComponent* m = m_ECS->GetComponent< MeshComponent>(ent);
-			const MeshData& data = m_meshManager.GetMeshLib().Get(m->meshID);
+			MeshComponent* meshComp = m_ECS->GetComponent<MeshComponent>(ent);
+			uint32_t matID = meshComp->materialID;
+
+			//// 3) Calcule à la volée le GPU handle pour la texture de cet objet
+			//auto srvHandle = m_textureManager->GetSrvGpuHandle(matID);
+
+			//// 4) Bind ce SRV au slot t0 (root slot 2)
+			//mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*slot t0*/ 2, srvHandle);
+
+
+			const MeshData& data = m_meshManager.GetMeshLib().Get(meshComp->meshID);
 			mp_commandManager->GetCommandList()->DrawIndexedInstanced(
 				data.iSize,      // nombre d’indices
 				1,
@@ -185,6 +213,9 @@ void Render3D::UpdateAndBindCB(Entity ent)
 	ConstantBuffData cbData;
 	XMStoreFloat4x4(&cbData.World, XMMatrixTranspose(world));
 
+	MeshComponent* meshComp = m_ECS->GetComponent<MeshComponent>(ent);
+	cbData.materialIndex = meshComp->materialID;
+
 	UpdateCbParams();
 	UINT entityOffset = ent.id * m_cbSize;
 	UINT frameOffset = mp_graphicsDevice->GetFrameIndex() * m_entityCount * m_cbSize;
@@ -193,7 +224,7 @@ void Render3D::UpdateAndBindCB(Entity ent)
 	//// 4) Copier les donnees dans le buffer upload mappe
 	memcpy((BYTE*)m_mappedCBData + finalOffset, &cbData, sizeof(ConstantBuffData));
 
-	// 5) Binder le constant buffer au root slot 0 (register b0) avec offset
+	// 5) Binder le constant buffer au root slot 1 (register b1) avec offset
 	mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(/*rootParameterIndex=*/ 1, m_cbTransformUpload->GetGPUVirtualAddress() + finalOffset);
 	D3D12_GPU_VIRTUAL_ADDRESS gpuAddress = m_cbTransformUpload->GetGPUVirtualAddress();
 }

@@ -31,6 +31,10 @@ public:
     ID3D12DescriptorHeap* GetDsvHeap()     const { return m_dsvHeap.Get(); }
     ID3D12DescriptorHeap* GetSamplerHeap() const { return m_samplerHeap.Get(); }
 
+    UINT GetSrvDescriptorSize() { return m_srvDescriptorSize; }
+
+    UINT GetSrvNextOffset() { return m_srvNextOffset; }
+
     void ResetSrv() { m_srvNextOffset = 0; }
     void ResetRtv() { m_rtvNextOffset = 0; }
     void ResetDsv() { m_dsvNextOffset = 0; }
@@ -54,9 +58,9 @@ private:
 
     // Membres distincts
     ComPtr<ID3D12DescriptorHeap> m_rtvHeap; // TAS de descripteurs pour les render target views (RTV)
-    ComPtr<ID3D12DescriptorHeap> m_srvHeap;
-    ComPtr<ID3D12DescriptorHeap> m_dsvHeap;
-    ComPtr<ID3D12DescriptorHeap> m_samplerHeap;
+    ComPtr<ID3D12DescriptorHeap> m_srvHeap; // TAS de descripteurs textures
+    ComPtr<ID3D12DescriptorHeap> m_dsvHeap; // TAS de descripteurs pour depth stencil
+    ComPtr<ID3D12DescriptorHeap> m_samplerHeap; // TAS de descripteurs pour samplers
 
     UINT m_srvDescriptorSize, m_rtvDescriptorSize, m_dsvDescriptorSize, m_samplerDescriptorSize;
     UINT m_srvNextOffset, m_rtvNextOffset, m_dsvNextOffset, m_samplerNextOffset;

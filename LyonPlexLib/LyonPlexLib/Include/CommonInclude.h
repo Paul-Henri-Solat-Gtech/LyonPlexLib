@@ -26,7 +26,7 @@ using namespace Microsoft::WRL;
 using namespace DirectX;
 
 //Second Priority
-#include "d3dx12.h"
+#include "../../ExternalLib/DirectXTK12-main/Src/d3dx12.h"
 
 //CLASS OF LYONPLEX
 #include "WindowPlex.h"

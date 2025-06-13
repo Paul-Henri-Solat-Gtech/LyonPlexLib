@@ -16,6 +16,8 @@ GameManager::~GameManager()
 
 bool GameManager::Init() 
 {
+    CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
+
     // 1) Creer la fenetre
     if (!m_window.Init(m_hInstance, L"MonJeuDX12", 800, 600))
         return false;
