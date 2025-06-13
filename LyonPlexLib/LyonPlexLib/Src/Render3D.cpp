@@ -21,16 +21,9 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 	InitConstantBuffer();
 	UpdateCbParams();
 
-	//m_textureManager->LoadTexture("C:\\Users\\cleme\\Programmation\\The ArmOnizer Project\\LyonPlexLib\\LyonPlexLib\\LyonPlexLib\\Ressources\\Test3.jpg");
-	//m_textureManager->LoadTexture("C:\\Users\\cleme\\Programmation\\The ArmOnizer Project\\LyonPlexLib\\LyonPlexLib\\LyonPlexLib\\Ressources\\Test2.avif");
 	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
 	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
 	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test.png");
-	//m_textureManager->LoadTexture("Test3.jpg");
-	//m_textureManager->LoadTexture("Test.png");
-	
-	//m_textureManager->LoadTexture("C:\\Users\\cleme\\Bureau\\Tempon\\Test3.jpg");
-	//m_textureManager->LoadTexture("C:/Users/cleme/Bureau/Tempon/Test3.jpg");
 
 	return true;
 }
@@ -58,14 +51,6 @@ void Render3D::RecordCommands()
 	// 2. Bind UNE SEULE FOIS l’intégralité de ton heap SRV au slot t0 (rootParameter index = 2)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvBase = mp_descriptorManager->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart();
 	mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*rootParameterIndex=*/2, srvBase);
-
-	// Si votre sampler est unique, vous pouvez aussi le binder ici via root slot 3
-	//mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*slot s0*/ 3, mp_descriptorManager->GetSamplerHeap()->GetGPUDescriptorHandleForHeapStart());
-
-
-	//commandList->SetGraphicsRootDescriptorTable(rootIndexSrv, srvHeap->GetGPUDescriptorHandleForHeapStart());
-
-	//commandList->SetGraphicsRootDescriptorTable(rootIndexSampler, samplerHeap->GetGPUDescriptorHandleForHeapStart());
 
 
 	//Draw vertices and index (mesh)
@@ -128,19 +113,13 @@ void Render3D::RecordCommands()
 			MeshComponent* meshComp = m_ECS->GetComponent<MeshComponent>(ent);
 			uint32_t matID = meshComp->materialID;
 
-			//// 3) Calcule à la volée le GPU handle pour la texture de cet objet
-			//auto srvHandle = m_textureManager->GetSrvGpuHandle(matID);
-
-			//// 4) Bind ce SRV au slot t0 (root slot 2)
-			//mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*slot t0*/ 2, srvHandle);
-
 
 			const MeshData& data = m_meshManager.GetMeshLib().Get(meshComp->meshID);
 			mp_commandManager->GetCommandList()->DrawIndexedInstanced(
 				data.iSize,      // nombre d’indices
 				1,
 				data.iOffset,    // offset dans le buffer d’indices
-				0,    // BaseVertexLocation toujours = 0 ?
+				0,				// BaseVertexLocation toujours = 0 ?
 				0
 			);
 		});

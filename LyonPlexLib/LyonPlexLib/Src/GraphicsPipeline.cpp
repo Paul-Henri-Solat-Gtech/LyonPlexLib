@@ -1,29 +1,7 @@
 ﻿#include "pch.h"
 #include "GraphicsPipeline.h"
-//
+
 #include "../../ExternalLib/DirectXTK12-main/Src/d3dx12.h"
-//#include <d3d12.h>
-//#include "d3dx12.h"
-//
-//#include <windows.h>
-//#include <dxgi1_6.h>
-//#include <wrl.h>
-//
-//#include <DirectXMath.h>
-//#include <d3dcompiler.h>
-//#include <stdexcept>
-//#include <vector>
-//#include <unordered_map>
-//
-////Lib DX12
-//#pragma comment(lib, "d3d12.lib")
-//#pragma comment(lib, "dxgi.lib")
-//#pragma comment(lib, "dxguid.lib")
-//#pragma comment(lib, "d3dcompiler.lib")
-//
-////Namespace to shortcut variables
-//using namespace Microsoft::WRL;
-//using namespace DirectX;
 
 
 void GraphicsPipeline::Init(GraphicsDevice* graphicsDevice, DescriptorManager* descriptorManager, CommandManager* commandManager)
@@ -186,7 +164,7 @@ void GraphicsPipeline::CreatePipelineStateObject()
   { "POSITION",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0,   D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
   { "COLOR",     0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
   { "TEXCOORD",  0, DXGI_FORMAT_R32G32_FLOAT,    0, 28,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-  /*{ "TEXCOORD",  1, DXGI_FORMAT_R32_UINT,        0, 36,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },*/
+  /*{ "TEXCOORD",  1, DXGI_FORMAT_R32_UINT,        0, 36,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, Si textures differentes sur chaque pixel */
     };
 
     // 4) PSO
@@ -194,9 +172,7 @@ void GraphicsPipeline::CreatePipelineStateObject()
     psoDesc.InputLayout = { inputLayout, _countof(inputLayout) };
     psoDesc.pRootSignature = m_rootSignature.Get();
     psoDesc.VS = CD3DX12_SHADER_BYTECODE(m_vsBlob.Get());
-    psoDesc.PS = CD3DX12_SHADER_BYTECODE(m_psBlob.Get()); /*
-    psoDesc.VS = { m_vsBlob->GetBufferPointer(), m_vsBlob->GetBufferSize() };
-    psoDesc.PS = { m_psBlob->GetBufferPointer(), m_psBlob->GetBufferSize() };*/
+    psoDesc.PS = CD3DX12_SHADER_BYTECODE(m_psBlob.Get());
     
     // ) Rasterizer State : on veut afficher la face extérieure, winding CCW = front
     D3D12_RASTERIZER_DESC rasterDesc = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
