@@ -15,7 +15,7 @@ bool InputManager::GetKeyIsPressed(char keyName)
 
 bool InputManager::GetKeyIsReleased(char keyName)
 {
-	// tableau statique pour mémoriser l'état précédent de chaque touche
+	// tableau statique pour memoriser l'etat precedent de chaque touche
 	static bool prevState[256] = {};
 
 	bool isDownNow = (GetAsyncKeyState(keyName) & 0x8000) != 0;

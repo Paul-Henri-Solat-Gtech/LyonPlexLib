@@ -31,7 +31,7 @@ namespace Utils
     }
 
 
-    // Interpolation linÈaire
+    // Interpolation lineaire
     inline float lerp(float a, float b, float t) 
     {
         return a + (b - a) * t;
@@ -45,7 +45,7 @@ namespace Utils
     {
         // Ajuste x dans [0,1]
         float t = clamp((x - edge0) / (edge1 - edge0), 0.0f, 1.0f);
-        // Fonction spÈcifique smooth
+        // Fonction specifique smooth
         return t * t * (3.0f - 2.0f * t);
     }
 
@@ -59,7 +59,7 @@ namespace Utils
         return radians * (180.0f / PI);
     }
 
-    // Creation du "generateur aleatoire" necessaire ÅEla generation de nombres alÈatoires
+    // Creation du "generateur aleatoire" necessaire ÅEla generation de nombres aleatoires
     static std::mt19937& rng() 
     {
         static std::mt19937 s_rng{ std::random_device{}() };
@@ -82,7 +82,7 @@ namespace Utils
 
 
     // ----------------------------------------
-    // 2. OpÈrations sur vecteurs simples (exemple Vec3)
+    // 2. Operations sur vecteurs simples (exemple Vec3)
     // ----------------------------------------
     struct Vec3 
     {
@@ -202,20 +202,20 @@ namespace Utils
     // 6. Transform
     // ----------------------------------------
     
-    /// Ajoute (accrÈdite) ÅEla rotation actuelle un incrÈment dÈfini
-    /// par trois angles Euler (en degrÈs) autour des axes X (pitch), Y (yaw), Z (roll).
+    /// Ajoute (accredite) ÅEla rotation actuelle un increment defini
+    /// par trois angles Euler (en degres) autour des axes X (pitch), Y (yaw), Z (roll).
 
     // AddRotation<TransformComponent>(tComp, a, b, c)
     template<typename T>
     inline void AddRotation(T& t, float deltaPitchDeg, float deltaYawDeg, float deltaRollDeg)
     {
-        // 1) Convertir l'incrÈment d'angles en radians
+        // 1) Convertir l'increment d'angles en radians
         float p = XMConvertToRadians(deltaPitchDeg);
         float y = XMConvertToRadians(deltaYawDeg);
         float r = XMConvertToRadians(deltaRollDeg);
 
-        // 2) Construire le quaternion de l'incrÈment de rotation
-        //    (Èquivalent ÅE"tourner p autour de X, puis y autour de Y, puis r autour de Z")
+        // 2) Construire le quaternion de l'increment de rotation
+        //    (equivalent ÅE"tourner p autour de X, puis y autour de Y, puis r autour de Z")
         XMVECTOR incQv = XMQuaternionRotationRollPitchYaw(p, y, r);
 
         // 3) Charger le quaternion actuel (x,y,z,w) dans un XMVECTOR
@@ -223,10 +223,10 @@ namespace Utils
 
         // 4) Composer les deux quaternions : newQ = incQ * curQ
         //    (l'ordre importe : ici on applique incQ **avant** la rotation actuelle,
-        //     ce qui correspond ÅEun repËre local).
+        //     ce qui correspond ÅEun repere local).
         XMVECTOR newQv = XMQuaternionMultiply(incQv, curQv);
 
-        // 5) Normaliser (Èviter la dÈrive numÈrique)
+        // 5) Normaliser (eviter la derive numerique)
         newQv = XMQuaternionNormalize(newQv);
 
         // 6) Stocker de retour dans le composant
@@ -254,6 +254,6 @@ namespace Utils
     // ----------------------------------------
     // 7. (…ventuel) Extensions futuresÅE
     // ----------------------------------------
-    // Vous pouvez ajouter ici : gestion des threads, alignement mÈmoire, etc.
+    // Vous pouvez ajouter ici : gestion des threads, alignement memoire, etc.
 }
 

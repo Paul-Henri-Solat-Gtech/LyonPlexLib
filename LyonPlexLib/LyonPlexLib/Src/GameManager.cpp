@@ -43,12 +43,12 @@ bool GameManager::Init()
 int GameManager::Run() 
 {
    
-    int i = 0;
+    //float i = 0;
     // Message et boucle de rendu
     MSG msg = {};
 
     // Delatime
-    float t = Utils::getTimeSeconds();
+    double t = Utils::getTimeSeconds();
 
     while (m_isRunning) 
     {
@@ -59,14 +59,14 @@ int GameManager::Run()
 
         // 1) Gestion des messages Windows
         ProcessMessage();
-        float j = i * 0.1;
+        //float j = i * 0.1;
         //m_ECS.GetComponent<TransformComponent>(eCube)->position = { 0, 0, j };
-        i++;
+        //i++;
         // 2) Traitement manuel des messages restants
         while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
             if (msg.message == WM_QUIT) 
             {
-                // Si on reçoit WM_QUIT, on sort de la boucle
+                // Si on recoit WM_QUIT, on sort de la boucle
                 m_isRunning = false;
             }
             TranslateMessage(&msg); // Prepare le message (gestion du clavier, etc.)

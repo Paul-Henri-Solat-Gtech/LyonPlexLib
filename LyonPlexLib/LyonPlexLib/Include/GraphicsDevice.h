@@ -20,7 +20,7 @@ public:
 
 	CD3DX12_CPU_DESCRIPTOR_HANDLE& GetRtvHandle() { return m_rtvHandle; };
 
-	const UINT& const GetFrameCount() { return FRAMECOUNT; };
+	const UINT& const GetFrameCount() { return FRAMECOUNT; }; // déplacer le  2eme const APRES GetFrameCount() si ça ne fait pas bugger, pour le moment il est juste ignore par le programme
 	UINT& GetFrameIndex() { return m_frameIndex; };
 
 	HWND GetWindow() { return m_windowWP; }

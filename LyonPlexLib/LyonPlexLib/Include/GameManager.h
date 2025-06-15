@@ -4,7 +4,7 @@
 #include "RenderingManager.h"
 #include "ECSManager.h"
 #include "SceneManager.h"
-#include "WICTextureLoader.h"
+//#include "WICTextureLoader.h"
 #include "chrono"
 
 class GameManager 

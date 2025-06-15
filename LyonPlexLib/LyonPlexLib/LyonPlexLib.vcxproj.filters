@@ -179,5 +179,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Ressources\VertexShader.hlsl" />
+    <None Include="Ressources\2DShader.hlsl">
+      <Filter>Fichiers sources</Filter>
+    </None>
   </ItemGroup>
 </Project>

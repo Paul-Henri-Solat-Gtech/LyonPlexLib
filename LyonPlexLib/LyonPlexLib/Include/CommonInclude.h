@@ -27,6 +27,7 @@ using namespace DirectX;
 
 //Second Priority
 #include "../../ExternalLib/DirectXTK12-main/Src/d3dx12.h"
+//#include <d3d12.h>
 
 //CLASS OF LYONPLEX
 #include "WindowPlex.h"

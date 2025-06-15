@@ -22,7 +22,7 @@ public:
 
     void ClearAllEntities();
 
-    int GetEntityCount() { return m_entityMgr.GetEntityCount(); }
+    size_t GetEntityCount() { return m_entityMgr.GetEntityCount(); }
 
     // Add/remove m_components
     template<typename T>

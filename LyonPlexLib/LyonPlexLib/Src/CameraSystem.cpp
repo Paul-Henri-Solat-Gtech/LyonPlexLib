@@ -63,7 +63,7 @@ void CameraSystem::Update(ECSManager& ecs, float dt)
             // Charger le quaternion de rotation
             XMVECTOR qRot = XMLoadFloat4(&tComp->rotation);
 
-            // Vecteurs de base (dans l'espace local de la caméra)
+            // Vecteurs de base (dans l'espace local de la camera)
             static const XMVECTOR defaultForward = XMVectorSet(0.f, 0.f, 1.f, 0.f);
             static const XMVECTOR defaultUp = XMVectorSet(0.f, 1.f, 0.f, 0.f);
             static const XMVECTOR defaultRight = XMVectorSet(1.f, 0.f, 0.f, 0.f);
@@ -73,12 +73,12 @@ void CameraSystem::Update(ECSManager& ecs, float dt)
             XMVECTOR vUp = XMVector3Rotate(defaultUp, qRot);
             XMVECTOR vRight = XMVector3Rotate(defaultRight, qRot);
 
-            // Stocker les résultats dans le CameraComponent
+            // Stocker les resultats dans le CameraComponent
             XMStoreFloat3(&cam->forward, vForward);
             XMStoreFloat3(&cam->up, vUp);
             XMStoreFloat3(&cam->right, vRight);
 
-            // Indiquer que la vue doit être recalculée
+            // Indiquer que la vue doit etre recalculee
             cam->viewDirty = true;
         }
 

@@ -3,10 +3,10 @@
 #include "ResourceManager.h"
 #include "GraphicsDevice.h"
 #include "DescriptorManager.h"
-#include <wrl.h>
-#include <d3d12.h>
+
+//#include <d3d12.h>
 #include <filesystem>
-#include <string>
+
 //#include "WICTextureLoader.h"   // DirectXTK12 helper
 //#include "DDSTextureLoader.h"   // DirectXTK12 helper
 #include "../../ExternalLib/DirectXTK12-main/Inc/WICTextureLoader.h"
@@ -14,8 +14,8 @@
 
 #include "ResourceUploadBatch.h"   // DirectXTK12 helper
 
-using Microsoft::WRL::ComPtr;
-using namespace DirectX;
+//using Microsoft::WRL::ComPtr;
+//using namespace DirectX;
 
 //-----------------------------------------------------------------------------//
 // TextureData: holds GPU resource + descriptor index

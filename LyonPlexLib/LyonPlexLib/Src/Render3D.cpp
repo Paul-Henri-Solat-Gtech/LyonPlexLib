@@ -48,7 +48,7 @@ void Render3D::RecordCommands()
 	ID3D12DescriptorHeap* heaps[] = {mp_descriptorManager->GetSrvHeap(), mp_descriptorManager->GetSamplerHeap()}; //  SRV heap (contenant toutes les textures) et Sampler heap
 	mp_commandManager->GetCommandList()->SetDescriptorHeaps(_countof(heaps), heaps);
 
-	// 2. Bind UNE SEULE FOIS l’intégralité de ton heap SRV au slot t0 (rootParameter index = 2)
+	// 2. Bind UNE SEULE FOIS l’integralite de ton heap SRV au slot t0 (rootParameter index = 2)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvBase = mp_descriptorManager->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart();
 	mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*rootParameterIndex=*/2, srvBase);
 
@@ -78,8 +78,8 @@ void Render3D::RecordCommands()
 
 	// Get la width et height du client (fenetre)
 	RECT rc;
-	int width = 0;
-	int height = 0;
+	float width = 0;
+	float height = 0;
 	if (GetClientRect(mp_graphicsDevice->GetWindow(), &rc))
 	{
 		width = rc.right - rc.left;   // largeur de la zone client
@@ -102,7 +102,8 @@ void Render3D::RecordCommands()
 	mp_commandManager->GetCommandList()->RSSetViewports(1, &viewport);
 	mp_commandManager->GetCommandList()->RSSetScissorRects(1, &scissorRect);
 
-	ComponentMask renderMask = 1ULL << MeshComponent::StaticTypeID;
+	//ComponentMask renderMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D::StaticTypeID);
+	ComponentMask renderMask = (1ULL << MeshComponent::StaticTypeID) ;
 	// Boucle sur toutes les entity a dessiner (componentMask MeshComponent)
 	m_ECS->ForEach(renderMask, [&](Entity ent)
 		{
@@ -153,7 +154,7 @@ bool Render3D::InitConstantBuffer()
 	CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_UPLOAD);
 
 	// Decrire un buffer de m_cbSize octets
-	CD3DX12_RESOURCE_DESC bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(m_cbSize);
+	CD3DX12_RESOURCE_DESC bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(m_cbSize/* * mp_graphicsDevice->GetFrameCount() * m_ECS->GetEntityCount()*/);
 
 	// Creer le buffer upload
 	HRESULT hr = mp_graphicsDevice->GetDevice()->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE, &bufferDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&m_cbTransformUpload));

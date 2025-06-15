@@ -18,7 +18,7 @@ cbuffer ObjectBuffer : register(b1)
 Texture2D textures[15] : register(t0);
 //Texture2D textures[] : register(t0);
 
-// slot s0 : sampler linéaire
+// slot s0 : sampler lineaire
 SamplerState linearClamp : register(s0);
 //SamplerState linearClamp[1] : register(s0);
 
@@ -63,7 +63,7 @@ PSInput VSMain(VSInput input)
 
 float4 PSMain(PSInput input) : SV_Target
 {
-    // On échantillonne la bonne texture
+    // On echantillonne la bonne texture
     return textures[materialIndex].Sample(linearClamp, input.uv);
     //return textures[idx].Sample(linearClamp[idx], uv);
     
