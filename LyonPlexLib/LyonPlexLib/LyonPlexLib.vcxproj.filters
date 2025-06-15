@@ -99,9 +99,6 @@
     <ClInclude Include="Include\TextureManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Render2D.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\CameraManager.cpp">
@@ -172,9 +169,6 @@
     </ClCompile>
     <ClCompile Include="Src\TextureManager.cpp">
       <Filter>Fichiers d%27en-tête</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Render2D.cpp">
-      <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

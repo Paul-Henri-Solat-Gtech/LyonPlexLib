@@ -47,7 +47,6 @@
     <ClInclude Include="Include\TransformSystem.h" />
     <ClInclude Include="Include\Utils.h" />
     <ClInclude Include="Include\WindowPlex.h" />
-    <ClInclude Include="Src\Render2D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Ressources\VertexShader.hlsl">
@@ -67,8 +66,9 @@
     <ClCompile Include="Src\GraphicsPipeline.cpp" />
     <ClCompile Include="Src\InputManager.cpp" />
     <ClCompile Include="Src\MeshManager.cpp" />
-    <ClCompile Include="Src\pch.cpp" />
-    <ClCompile Include="Src\Render2D.cpp" />
+    <ClCompile Include="Src\pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Src\Render3D.cpp" />
     <ClCompile Include="Src\RenderingManager.cpp" />
     <ClCompile Include="Src\ResourceManager.cpp" />
@@ -168,6 +168,8 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)Include;$(SolutionDir)ExternalLib\DirectXTK12-main\Inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
