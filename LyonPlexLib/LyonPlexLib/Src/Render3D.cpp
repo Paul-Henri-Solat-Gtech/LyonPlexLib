@@ -21,6 +21,8 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 	InitConstantBuffer();
 	UpdateCbParams();
 
+	CreatePipeline();
+
 	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
 	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
 	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test.png");
@@ -58,32 +60,32 @@ void Render3D::RecordCommands()
 	mp_commandManager->GetCommandList()->IASetVertexBuffers(0, 1, &m_meshManager.GetGlobalVBView());
 	mp_commandManager->GetCommandList()->IASetIndexBuffer(&m_meshManager.GetGlobalIBView());
 
-	UINT frameIdx = mp_graphicsDevice->GetFrameIndex();
-	// Clear RTV
-	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(
-		mp_descriptorManager->GetRtvHeap()->GetCPUDescriptorHandleForHeapStart(),
-		frameIdx,
-		mp_descriptorManager->GetRtvDescriptorSize()
-	);
-	const float clearColor[] = { 0.1f, 0.2f, 0.3f, 1.0f };
-	mp_commandManager->GetCommandList()->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+	//UINT frameIdx = mp_graphicsDevice->GetFrameIndex();
+	//// Clear RTV
+	//CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(
+	//	mp_descriptorManager->GetRtvHeap()->GetCPUDescriptorHandleForHeapStart(),
+	//	frameIdx,
+	//	mp_descriptorManager->GetRtvDescriptorSize()
+	//);
+	//const float clearColor[] = { 0.1f, 0.2f, 0.3f, 1.0f };
+	//mp_commandManager->GetCommandList()->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 
-	// Clear DSV
-	CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle(mp_descriptorManager->GetDsvHeap()->GetCPUDescriptorHandleForHeapStart(), frameIdx, mp_descriptorManager->GetDsvDescriptorSize());
-	mp_commandManager->GetCommandList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH,  1.0f, 0, 0, nullptr);
+	//// Clear DSV
+	//CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle(mp_descriptorManager->GetDsvHeap()->GetCPUDescriptorHandleForHeapStart(), frameIdx, mp_descriptorManager->GetDsvDescriptorSize());
+	//mp_commandManager->GetCommandList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH,  1.0f, 0, 0, nullptr);
 
-	// F) OMSetRenderTargets (RTV + DSV)
-	mp_commandManager->GetCommandList()->OMSetRenderTargets(1, &rtvHandle, FALSE, &dsvHandle);
+	//// F) OMSetRenderTargets (RTV + DSV)
+	//mp_commandManager->GetCommandList()->OMSetRenderTargets(1, &rtvHandle, FALSE, &dsvHandle);
 
 
 	// Get la width et height du client (fenetre)
 	RECT rc;
-	float width = 0;
-	float height = 0;
+	FLOAT width = 0;
+	FLOAT height = 0;
 	if (GetClientRect(mp_graphicsDevice->GetWindow(), &rc))
 	{
-		width = rc.right - rc.left;   // largeur de la zone client
-		height = rc.bottom - rc.top;    // hauteur de la zone client
+		width = static_cast<FLOAT>(rc.right - rc.left);   // largeur de la zone client
+		height = static_cast<FLOAT>(rc.bottom - rc.top);    // hauteur de la zone client
 	}
 
 	// Definir le viewport et le scissor  (peuvent servir a "fenetrer" de l'affichage, par exemple pour minimap) : PEUT ETRE GENERAL OU VARIABLE
@@ -97,13 +99,13 @@ void Render3D::RecordCommands()
 	viewport.MaxDepth = 1.0f;
 
 	// Le scissor defini un rectangle de pixels a dessiner dans la zone de dessin (viewport). Tous les pixels en dehors de cette zone ne sont pas dessines.
-	D3D12_RECT scissorRect = { 0, 0, width, height };
+	D3D12_RECT scissorRect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
 	// Actualisation du rectangle dans lequel on dessine, dans la fenetre
 	mp_commandManager->GetCommandList()->RSSetViewports(1, &viewport);
 	mp_commandManager->GetCommandList()->RSSetScissorRects(1, &scissorRect);
 
-	//ComponentMask renderMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D::StaticTypeID);
-	ComponentMask renderMask = (1ULL << MeshComponent::StaticTypeID) ;
+	ComponentMask renderMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D::StaticTypeID);
+	//ComponentMask renderMask = (1ULL << MeshComponent::StaticTypeID) ;
 	// Boucle sur toutes les entity a dessiner (componentMask MeshComponent)
 	m_ECS->ForEach(renderMask, [&](Entity ent)
 		{
@@ -170,11 +172,12 @@ bool Render3D::InitConstantBuffer()
 	{
 		return false;
 	}
+	return true;
 }
 
 void Render3D::UpdateCbParams()
 {
-	UINT m_entityCount = m_ECS->GetEntityCount();
+	UINT m_entityCount = static_cast<UINT>(m_ECS->GetEntityCount());
 	UINT m_frameCount = mp_graphicsDevice->GetFrameCount();
 	UINT totalSize = m_cbSize * m_entityCount * m_frameCount;
 }
@@ -206,5 +209,4 @@ void Render3D::UpdateAndBindCB(Entity ent)
 
 	// 5) Binder le constant buffer au root slot 1 (register b1) avec offset
 	mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(/*rootParameterIndex=*/ 1, m_cbTransformUpload->GetGPUVirtualAddress() + finalOffset);
-	D3D12_GPU_VIRTUAL_ADDRESS gpuAddress = m_cbTransformUpload->GetGPUVirtualAddress();
 }

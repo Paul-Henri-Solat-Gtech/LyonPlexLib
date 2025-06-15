@@ -1,11 +1,11 @@
 #include "pch.h"
-#include "CameraSystem.h"
+//#include "CameraSystem.h"
 
-void CameraSystem::InitRenderVariables(GraphicsDevice* device, CommandManager* cmdMgr, Render3D* r3d)
+void CameraSystem::InitRenderVariables(GraphicsDevice* device, CommandManager* cmdMgr/*, Render3D* r3d*/)
 {
 	mp_graphicsDevice = device;
 	mp_commandManager = cmdMgr;
-	mp_render3d = r3d;
+	//mp_render3d = r3d;
 }
 
 void CameraSystem::Init(ECSManager& ecs)

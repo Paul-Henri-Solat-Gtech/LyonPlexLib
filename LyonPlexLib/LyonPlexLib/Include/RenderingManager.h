@@ -10,6 +10,7 @@
 #include "CommandManager.h"
 #include "CameraManager.h"
 #include "Render3D.h"
+#include "Render2D.h"
 
 class RenderingManager
 {
@@ -33,6 +34,7 @@ public:
 	GraphicsDevice* GetGraphicsDevice() { return &m_graphicsDevice; }
 	CommandManager* GetCommandManager() { return &m_commandManager; }
 	Render3D* GetRender3D() { return &m_render3D; }
+	Render2D* GetRender2D() { return &m_render2D; }
 
 
 	void Release();
@@ -51,6 +53,7 @@ private:
 	DescriptorManager m_descriptorManager;
 	CommandManager m_commandManager;
 	Render3D m_render3D;
+	Render2D m_render2D;
 	//CameraManager m_cameraManager;
 };
 

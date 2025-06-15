@@ -53,10 +53,8 @@ PSInput VSMain(VSInput input)
     PSInput output;
     float4 worldPos = mul(float4(input.position, 1.0f), worldMatrix);
     float4 viewPos = mul(worldPos, viewMatrix);
-    output.positionH = mul(viewPos, projectMatrix);
-    
-    output.uv = input.uv;
-    
+    output.positionH = mul(viewPos, projectMatrix);    
+    output.uv = input.uv;    
     output.color = input.color;
     return output;    
 };
