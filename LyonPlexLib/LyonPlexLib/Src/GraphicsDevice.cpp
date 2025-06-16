@@ -41,8 +41,8 @@ void GraphicsDevice::CreateSwapChain()
     DXGI_SWAP_CHAIN_DESC1 scDesc = {};
     scDesc.BufferCount = FRAMECOUNT;
     scDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    scDesc.Width = 800;  // ou la taille de ta fenetre
-    scDesc.Height = 600;
+    scDesc.Width = 700;  // ou la taille de ta fenetre
+    scDesc.Height = 500;
     scDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
     scDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
     scDesc.SampleDesc.Count = 1;

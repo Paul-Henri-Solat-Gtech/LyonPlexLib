@@ -20,13 +20,13 @@ bool Render2D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* gd, Desc
 	{
 		return false;
 	}
-
+	CreatePipeline();
 
 	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
 	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
 	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test.png");
 
-	CreatePipeline();
+
 	Resize(800, 600);
 	//UpdateCbParams();
 
@@ -164,117 +164,23 @@ void Render2D::RecordCommands()
 	cmdList->RSSetViewports(1, &vp);
 	cmdList->RSSetScissorRects(1, &sc);
 
-
-
-	//// 7) Boucle sur tes quads (MeshComponent)
-	//ComponentMask mask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_2D::StaticTypeID);
-	//m_ECS->ForEach(mask, [&](Entity ent) {
-	//	auto* tc = m_ECS->GetComponent<TransformComponent>(ent);
-	//	if (!tc)
-	//		return;
-
-	//	// 7a) Recupere la world matrix calculee par ton TransformSystem
-	//	XMMATRIX world = m_ECS->m_systemMgr.GetTransformSystem().worldMatrices[ent.id];
-
-	//	//// 7b) Remplit le CB identique au 3D
-	//	//CB2D_World cbData;
-	//	//XMStoreFloat4x4(&cbData.world, XMMatrixTranspose(world));
-
-	//	auto* mc = m_ECS->GetComponent<MeshComponent>(ent);
-	//	//cbData.materialIndex = mc->materialID;
-
-	//	////UpdateCbParams();
-
-	//	//// 7c) Calcul des offsets identique au 3D
-	//	//UINT entityOffset = ent.id * m_cbSize;
-	//	//UINT frameOffset = mp_graphicsDevice->GetFrameIndex() * m_ECS->GetEntityCount() * m_cbSize;
-	//	//UINT finalOffset = frameOffset + entityOffset;
-
-	//	//// 7d) Copier dans le CB upload
-	//	//memcpy((BYTE*)m_mappedCB +/*entityOffset*/ finalOffset, &cbData, sizeof(CB2D_World /*cbData*/));
-
-	//	//// 7e) Bind CB world (slot b1)
-	//	//cmdList->SetGraphicsRootConstantBufferView(1, m_cbUpload->GetGPUVirtualAddress() + /*entityOffset*/ finalOffset);
-	//	CB2D_World cbw;
-	//	XMStoreFloat4x4(&cbw.world, XMMatrixTranspose(XMMatrixIdentity()));
-	//	cbw.materialIndex = 0;  // premiere texture
-	//	memcpy(m_mappedCB, &cbw, sizeof(cbw));
-	//	cmdList->SetGraphicsRootConstantBufferView(1, m_cbUpload->GetGPUVirtualAddress());
-	//	// 7f) Draw
-	//	const MeshData& quad = m_meshManager.GetMeshLib().Get(mc->meshID);
-	//	cmdList->DrawIndexedInstanced(quad.iSize, 1, quad.iOffset, 0, 0);
-	//	});
-
-
-
-
-
-
-
-
-
-
-
-//	// --- TEST D’UN TRIANGLE HARD CODe ---
-//
-//// 1) Definition des sommets
-//	struct Vertex {
-//		DirectX::XMFLOAT3 pos;
-//		DirectX::XMFLOAT4 color;
-//		DirectX::XMFLOAT2 uv;
-//	};
-//
-//	Vertex triangleVerts[3] = {
-//		{ { -0.5f,  0.5f, 0.0f }, {1,0,0,1}, {0,0} },
-//		{ {  0.5f,  0.5f, 0.0f }, {0,1,0,1}, {1,0} },
-//		{ {  0.0f, -0.5f, 0.0f }, {0,0,1,1}, {0.5f,1} },
-//	};
-//	uint16_t triangleIdxs[3] = { 0, 1, 2 };
-//
-//	// 2) Copier dans un buffer upload que tu as cree et mappe dans InitConstantBuffers()
-//	//    Par exemple, si tu as ajoute a la suite de ton CB world un buffer temporaire m_tempUploadBuffer
-//	//    et son pointeur CPU m_mappedTemp :
-//
-//	// memcpy(m_mappedTemp, triangleVerts, sizeof(triangleVerts));
-//	// memcpy((BYTE*)m_mappedTemp + sizeof(triangleVerts), triangleIdxs, sizeof(triangleIdxs));
-//
-//	// 3) Creer et bind les vues
-//	D3D12_VERTEX_BUFFER_VIEW vbView = {};
-//	vbView.BufferLocation = m_tempUploadBuffer->GetGPUVirtualAddress();
-//	vbView.StrideInBytes = sizeof(Vertex);
-//	vbView.SizeInBytes = sizeof(triangleVerts);
-//
-//	D3D12_INDEX_BUFFER_VIEW ibView = {};
-//	ibView.BufferLocation = m_tempUploadBuffer->GetGPUVirtualAddress() + sizeof(triangleVerts);
-//	ibView.Format = DXGI_FORMAT_R16_UINT;
-//	ibView.SizeInBytes = sizeof(triangleIdxs);
-//
-//	cmdList->IASetVertexBuffers(0, 1, &vbView);
-//	cmdList->IASetIndexBuffer(&ibView);
-//	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-//
-//	// 4) Uploader et binder les CB avant le draw (montrer un quad blanc):
-//	CB2D_World cbw;
-//	XMStoreFloat4x4(&cbw.world, XMMatrixTranspose(XMMatrixIdentity()));
-//	cbw.materialIndex = 0;
-//	memcpy(m_mappedCB, &cbw, sizeof(cbw));
-//	cmdList->SetGraphicsRootConstantBufferView(1, m_cbUpload->GetGPUVirtualAddress());
-//
-//	// 5) Lancer le draw
-//	cmdList->DrawIndexedInstanced(3, 1, 0, 0, 0);
-
-
-
-
-
-
 	// TEST : draw a hard?coded triangle, bypass MeshManager
 	struct Vertex { DirectX::XMFLOAT3 pos; DirectX::XMFLOAT4 color; DirectX::XMFLOAT2 uv; };
 	Vertex triVerts[3] = {
-		{{-500,  500, 0.0f}, {1, 0, 0, 1}, {0, 0}},
-		{{ 500,  500, 0.0f}, {0, 1, 0, 1}, {1, 0}},
-		{{ 100.0f, -500, 0.0f}, {0, 0, 1, 1}, {0.5f, 1}}
-	};/*
+		// Sommet 0
+		{ { 0.0f, 0.0f, 0.0f }, {1, 0, 0, 1}, {0, 0} },
+		// Sommet 1
+		{ { 200.0f, 0.0f, 0.0f }, {0, 1, 0, 1}, {1, 0} },
+		// Sommet 2
+		{ { 100.0f, 200.0f, 0.0f }, {0, 0, 1, 1}, {0.5f, 1} }
+	};
+	
+	//Vertex triVerts[3] = {
+	//	{{-500,  500, 0.0f}, {1, 0, 0, 1}, {0, 0}},
+	//	{{ 500,  500, 0.0f}, {0, 1, 0, 1}, {1, 0}},
+	//	{{ 100.0f, -500, 0.0f}, {0, 0, 1, 1}, {0.5f, 1}}
+	//};
+	/*
 	Vertex triVerts[3] = {
 		{{-0.5f,  0.5f, 0.0f}, {1, 0, 0, 1}, {0, 0}},
 		{{ 0.5f,  0.5f, 0.0f}, {0, 1, 0, 1}, {1, 0}},
