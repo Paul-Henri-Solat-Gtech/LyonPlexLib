@@ -40,6 +40,6 @@ PSInput VSMain2D(VSInput input)
 
 float4 PSMain2D(PSInput input) : SV_TARGET
 {
-    return input.color;
-    //return textures[materialIndex].Sample(linearClamp, input.uv);
+    //return input.color;
+    return textures[materialIndex].Sample(linearClamp, input.uv);
 }

@@ -18,9 +18,9 @@ private:
 	void CompileShader();
 	void CreatePipelineStateObject();
 
-	void CreateRootSignature3D();
+	/*void CreateRootSignature3D();
 	void CompileShaders3D();
-	void CreatePipelineStateObject3D();
+	void CreatePipelineStateObject3D();*/
 
 	void CreateRootSignature2D();
 	void CompileShaders2D();

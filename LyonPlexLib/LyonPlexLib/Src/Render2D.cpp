@@ -22,9 +22,9 @@ bool Render2D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* gd, Desc
 	}
 
 
-	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
+	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
 	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
-	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test.png");
+	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test.png");
 
 	CreatePipeline();
 	Resize(800, 600);
@@ -271,9 +271,9 @@ void Render2D::RecordCommands()
 	// TEST : draw a hard?coded triangle, bypass MeshManager
 	struct Vertex { DirectX::XMFLOAT3 pos; DirectX::XMFLOAT4 color; DirectX::XMFLOAT2 uv; };
 	Vertex triVerts[3] = {
-		{{-500,  500, 0.0f}, {1, 0, 0, 1}, {0, 0}},
-		{{ 500,  500, 0.0f}, {0, 1, 0, 1}, {1, 0}},
-		{{ 100.0f, -500, 0.0f}, {0, 0, 1, 1}, {0.5f, 1}}
+		{{0,  0, 0.0f}, {1, 0, 0, 1}, {0, 0}},
+		{{ 200,  0, 0.0f}, {0, 1, 0, 1}, {1, 0}},
+		{{ 100.0f, 200, 0.0f}, {0, 0, 1, 1}, {0.5f, 1}}
 	};/*
 	Vertex triVerts[3] = {
 		{{-0.5f,  0.5f, 0.0f}, {1, 0, 0, 1}, {0, 0}},
