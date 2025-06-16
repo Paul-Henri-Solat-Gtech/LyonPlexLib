@@ -24,9 +24,6 @@
     <ClCompile Include="Src\main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\pch.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Src\SampleScene2.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>

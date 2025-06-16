@@ -25,7 +25,6 @@
     <ClCompile Include="Src\AllScenes.cpp" />
     <ClCompile Include="Src\GameScene.cpp" />
     <ClCompile Include="Src\main.cpp" />
-    <ClCompile Include="Src\pch.cpp" />
     <ClCompile Include="Src\SampleScene2.cpp" />
   </ItemGroup>
   <ItemGroup>

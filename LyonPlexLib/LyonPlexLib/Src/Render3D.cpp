@@ -24,7 +24,7 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 	//m_textureManager->LoadTexture("C:\\Users\\cleme\\Programmation\\The ArmOnizer Project\\LyonPlexLib\\LyonPlexLib\\LyonPlexLib\\Ressources\\Test3.jpg");
 	//m_textureManager->LoadTexture("C:\\Users\\cleme\\Programmation\\The ArmOnizer Project\\LyonPlexLib\\LyonPlexLib\\LyonPlexLib\\Ressources\\Test2.avif");
 	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
-	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
+	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
 	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test.png");
 	//m_textureManager->LoadTexture("Test3.jpg");
 	//m_textureManager->LoadTexture("Test.png");
