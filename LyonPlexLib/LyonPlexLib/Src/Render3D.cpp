@@ -23,8 +23,14 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 
 	CreatePipeline();
 
+	// Ce bloc permet de verifier si un chemin/fichier existe
+    /*DWORD len = GetFullPathNameW(L"..\\LyonPlexLib\\Ressources\\PixelShader.hlsl", 0, nullptr, nullptr);
+	std::wstring fullpath(len, L'\0');
+	GetFullPathNameW(L"..\\LyonPlexLib\\Ressources\\PixelShader.hlsl", len, fullpath.data(), nullptr);
+	MessageBoxW(nullptr, fullpath.c_str(), L"Full path", MB_OK);*/
+
 	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
-	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
+	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
 	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test.png");
 
 	return true;
