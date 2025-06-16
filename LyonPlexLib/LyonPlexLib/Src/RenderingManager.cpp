@@ -131,3 +131,8 @@ void RenderingManager::Release()
 void RenderingManager::Update()
 {
 }
+
+void RenderingManager::OnResize(UINT newWidth, UINT newHeight) 
+{
+
+}

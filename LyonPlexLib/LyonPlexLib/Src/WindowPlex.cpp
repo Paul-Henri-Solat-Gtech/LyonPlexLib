@@ -54,7 +54,15 @@ LRESULT CALLBACK WindowPlex::WindowProcedure(HWND hWnd, UINT message, WPARAM wPa
 		// autres messages...
 	case WM_SIZE:
 		// RESIZE
-
+		if (wParam != SIZE_MINIMIZED) {
+			UINT newW = LOWORD(lParam);
+			UINT newH = HIWORD(lParam);
+			// appeler votre gestionnaire pour redimensionner :
+			// par exemple :
+			auto app = reinterpret_cast<RenderingManager*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+			if (app) app->OnResize(newW, newH);
+		}
+		return 0;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}

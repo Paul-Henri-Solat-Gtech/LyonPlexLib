@@ -38,11 +38,15 @@ void GraphicsDevice::CreateCommandQueue()
 void GraphicsDevice::CreateSwapChain()
 {
     // Creer le Swap chain
+    RECT renderZone;
+    GetClientRect(m_windowWP, &renderZone);
+    UINT renderWidth = renderZone.right - renderZone.left;
+    UINT renderHeight = renderZone.bottom - renderZone.top;
     DXGI_SWAP_CHAIN_DESC1 scDesc = {};
     scDesc.BufferCount = FRAMECOUNT;
     scDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    scDesc.Width = 800;  // ou la taille de ta fenetre
-    scDesc.Height = 600;
+    scDesc.Width = renderWidth;  // 800 ou la taille de ta fenetre
+    scDesc.Height = renderHeight; // 600
     scDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
     scDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
     scDesc.SampleDesc.Count = 1;

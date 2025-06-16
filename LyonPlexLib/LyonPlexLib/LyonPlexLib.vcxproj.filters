@@ -178,9 +178,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Ressources\VertexShader.hlsl" />
     <None Include="Ressources\2DShader.hlsl">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers de ressources</Filter>
+    </None>
+    <None Include="Ressources\VertexShader.hlsl">
+      <Filter>Fichiers de ressources</Filter>
     </None>
   </ItemGroup>
 </Project>

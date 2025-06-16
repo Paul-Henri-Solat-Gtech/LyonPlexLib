@@ -41,6 +41,8 @@ public:
 
 	void Update();
 
+	void OnResize(UINT newWidth, UINT newHeight);
+
 private:
 	
 	HWND m_windowWP;		// The created base window (pour le swapchain)
