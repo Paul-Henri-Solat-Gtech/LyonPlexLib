@@ -21,16 +21,17 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 	InitConstantBuffer();
 	UpdateCbParams();
 
-	//m_textureManager->LoadTexture("C:\\Users\\cleme\\Programmation\\The ArmOnizer Project\\LyonPlexLib\\LyonPlexLib\\LyonPlexLib\\Ressources\\Test3.jpg");
-	//m_textureManager->LoadTexture("C:\\Users\\cleme\\Programmation\\The ArmOnizer Project\\LyonPlexLib\\LyonPlexLib\\LyonPlexLib\\Ressources\\Test2.avif");
+	CreatePipeline();
+
+	// Ce bloc permet de verifier si un chemin/fichier existe
+    /*DWORD len = GetFullPathNameW(L"..\\LyonPlexLib\\Ressources\\PixelShader.hlsl", 0, nullptr, nullptr);
+	std::wstring fullpath(len, L'\0');
+	GetFullPathNameW(L"..\\LyonPlexLib\\Ressources\\PixelShader.hlsl", len, fullpath.data(), nullptr);
+	MessageBoxW(nullptr, fullpath.c_str(), L"Full path", MB_OK);*/
+
 	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
 	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
 	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test.png");
-	//m_textureManager->LoadTexture("Test3.jpg");
-	//m_textureManager->LoadTexture("Test.png");
-	
-	//m_textureManager->LoadTexture("C:\\Users\\cleme\\Bureau\\Tempon\\Test3.jpg");
-	//m_textureManager->LoadTexture("C:/Users/cleme/Bureau/Tempon/Test3.jpg");
 
 	return true;
 }
@@ -55,17 +56,9 @@ void Render3D::RecordCommands()
 	ID3D12DescriptorHeap* heaps[] = {mp_descriptorManager->GetSrvHeap(), mp_descriptorManager->GetSamplerHeap()}; //  SRV heap (contenant toutes les textures) et Sampler heap
 	mp_commandManager->GetCommandList()->SetDescriptorHeaps(_countof(heaps), heaps);
 
-	// 2. Bind UNE SEULE FOIS l’intégralité de ton heap SRV au slot t0 (rootParameter index = 2)
+	// 2. Bind UNE SEULE FOIS l’integralite de ton heap SRV au slot t0 (rootParameter index = 2)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvBase = mp_descriptorManager->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart();
 	mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*rootParameterIndex=*/2, srvBase);
-
-	// Si votre sampler est unique, vous pouvez aussi le binder ici via root slot 3
-	//mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*slot s0*/ 3, mp_descriptorManager->GetSamplerHeap()->GetGPUDescriptorHandleForHeapStart());
-
-
-	//commandList->SetGraphicsRootDescriptorTable(rootIndexSrv, srvHeap->GetGPUDescriptorHandleForHeapStart());
-
-	//commandList->SetGraphicsRootDescriptorTable(rootIndexSampler, samplerHeap->GetGPUDescriptorHandleForHeapStart());
 
 
 	//Draw vertices and index (mesh)
@@ -73,32 +66,32 @@ void Render3D::RecordCommands()
 	mp_commandManager->GetCommandList()->IASetVertexBuffers(0, 1, &m_meshManager.GetGlobalVBView());
 	mp_commandManager->GetCommandList()->IASetIndexBuffer(&m_meshManager.GetGlobalIBView());
 
-	UINT frameIdx = mp_graphicsDevice->GetFrameIndex();
-	// Clear RTV
-	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(
-		mp_descriptorManager->GetRtvHeap()->GetCPUDescriptorHandleForHeapStart(),
-		frameIdx,
-		mp_descriptorManager->GetRtvDescriptorSize()
-	);
-	const float clearColor[] = { 0.1f, 0.2f, 0.3f, 1.0f };
-	mp_commandManager->GetCommandList()->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+	//UINT frameIdx = mp_graphicsDevice->GetFrameIndex();
+	//// Clear RTV
+	//CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(
+	//	mp_descriptorManager->GetRtvHeap()->GetCPUDescriptorHandleForHeapStart(),
+	//	frameIdx,
+	//	mp_descriptorManager->GetRtvDescriptorSize()
+	//);
+	//const float clearColor[] = { 0.1f, 0.2f, 0.3f, 1.0f };
+	//mp_commandManager->GetCommandList()->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 
-	// Clear DSV
-	CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle(mp_descriptorManager->GetDsvHeap()->GetCPUDescriptorHandleForHeapStart(), frameIdx, mp_descriptorManager->GetDsvDescriptorSize());
-	mp_commandManager->GetCommandList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH,  1.0f, 0, 0, nullptr);
+	//// Clear DSV
+	//CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle(mp_descriptorManager->GetDsvHeap()->GetCPUDescriptorHandleForHeapStart(), frameIdx, mp_descriptorManager->GetDsvDescriptorSize());
+	//mp_commandManager->GetCommandList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH,  1.0f, 0, 0, nullptr);
 
-	// F) OMSetRenderTargets (RTV + DSV)
-	mp_commandManager->GetCommandList()->OMSetRenderTargets(1, &rtvHandle, FALSE, &dsvHandle);
+	//// F) OMSetRenderTargets (RTV + DSV)
+	//mp_commandManager->GetCommandList()->OMSetRenderTargets(1, &rtvHandle, FALSE, &dsvHandle);
 
 
 	// Get la width et height du client (fenetre)
 	RECT rc;
-	int width = 0;
-	int height = 0;
+	FLOAT width = 0;
+	FLOAT height = 0;
 	if (GetClientRect(mp_graphicsDevice->GetWindow(), &rc))
 	{
-		width = rc.right - rc.left;   // largeur de la zone client
-		height = rc.bottom - rc.top;    // hauteur de la zone client
+		width = static_cast<FLOAT>(rc.right - rc.left);   // largeur de la zone client
+		height = static_cast<FLOAT>(rc.bottom - rc.top);    // hauteur de la zone client
 	}
 
 	// Definir le viewport et le scissor  (peuvent servir a "fenetrer" de l'affichage, par exemple pour minimap) : PEUT ETRE GENERAL OU VARIABLE
@@ -112,12 +105,13 @@ void Render3D::RecordCommands()
 	viewport.MaxDepth = 1.0f;
 
 	// Le scissor defini un rectangle de pixels a dessiner dans la zone de dessin (viewport). Tous les pixels en dehors de cette zone ne sont pas dessines.
-	D3D12_RECT scissorRect = { 0, 0, width, height };
+	D3D12_RECT scissorRect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
 	// Actualisation du rectangle dans lequel on dessine, dans la fenetre
 	mp_commandManager->GetCommandList()->RSSetViewports(1, &viewport);
 	mp_commandManager->GetCommandList()->RSSetScissorRects(1, &scissorRect);
 
-	ComponentMask renderMask = 1ULL << MeshComponent::StaticTypeID;
+	ComponentMask renderMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D::StaticTypeID);
+	//ComponentMask renderMask = (1ULL << MeshComponent::StaticTypeID) ;
 	// Boucle sur toutes les entity a dessiner (componentMask MeshComponent)
 	m_ECS->ForEach(renderMask, [&](Entity ent)
 		{
@@ -128,19 +122,13 @@ void Render3D::RecordCommands()
 			MeshComponent* meshComp = m_ECS->GetComponent<MeshComponent>(ent);
 			uint32_t matID = meshComp->materialID;
 
-			//// 3) Calcule à la volée le GPU handle pour la texture de cet objet
-			//auto srvHandle = m_textureManager->GetSrvGpuHandle(matID);
-
-			//// 4) Bind ce SRV au slot t0 (root slot 2)
-			//mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*slot t0*/ 2, srvHandle);
-
 
 			const MeshData& data = m_meshManager.GetMeshLib().Get(meshComp->meshID);
 			mp_commandManager->GetCommandList()->DrawIndexedInstanced(
 				data.iSize,      // nombre d’indices
 				1,
 				data.iOffset,    // offset dans le buffer d’indices
-				0,    // BaseVertexLocation toujours = 0 ?
+				0,				// BaseVertexLocation toujours = 0 ?
 				0
 			);
 		});
@@ -174,7 +162,7 @@ bool Render3D::InitConstantBuffer()
 	CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_UPLOAD);
 
 	// Decrire un buffer de m_cbSize octets
-	CD3DX12_RESOURCE_DESC bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(m_cbSize);
+	CD3DX12_RESOURCE_DESC bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(m_cbSize/* * mp_graphicsDevice->GetFrameCount() * m_ECS->GetEntityCount()*/);
 
 	// Creer le buffer upload
 	HRESULT hr = mp_graphicsDevice->GetDevice()->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE, &bufferDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&m_cbTransformUpload));
@@ -190,11 +178,12 @@ bool Render3D::InitConstantBuffer()
 	{
 		return false;
 	}
+	return true;
 }
 
 void Render3D::UpdateCbParams()
 {
-	UINT m_entityCount = m_ECS->GetEntityCount();
+	UINT m_entityCount = static_cast<UINT>(m_ECS->GetEntityCount());
 	UINT m_frameCount = mp_graphicsDevice->GetFrameCount();
 	UINT totalSize = m_cbSize * m_entityCount * m_frameCount;
 }
@@ -226,5 +215,4 @@ void Render3D::UpdateAndBindCB(Entity ent)
 
 	// 5) Binder le constant buffer au root slot 1 (register b1) avec offset
 	mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(/*rootParameterIndex=*/ 1, m_cbTransformUpload->GetGPUVirtualAddress() + finalOffset);
-	D3D12_GPU_VIRTUAL_ADDRESS gpuAddress = m_cbTransformUpload->GetGPUVirtualAddress();
 }

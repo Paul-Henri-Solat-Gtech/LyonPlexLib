@@ -9,7 +9,7 @@
 
 class GraphicsDevice;
 class CommandManager;
-class Render3D;
+//class Render3D;
 
 
 struct CBPerCamera {
@@ -21,7 +21,7 @@ class CameraSystem : public ISystem {
 public:
     CameraSystem() {}
 
-    void InitRenderVariables(GraphicsDevice* device, CommandManager* cmdMgr, Render3D* r3d);
+    void InitRenderVariables(GraphicsDevice* device, CommandManager* cmdMgr/*, Render3D* r3d*/);
 
     // Appele une seule fois apres avoir ajoute le composant a ECS
     virtual void Init(ECSManager& ecs) override;
@@ -38,7 +38,7 @@ public:
 private:
     GraphicsDevice* mp_graphicsDevice = nullptr;
     CommandManager* mp_commandManager = nullptr;
-    Render3D* mp_render3d = nullptr;
+    //Render3D* mp_render3d = nullptr;
 
     ComPtr<ID3D12Resource> m_cameraConstantBuffer;
     void* m_mappedCBData = nullptr;

@@ -51,8 +51,9 @@ LRESULT CALLBACK WindowPlex::WindowProcedure(HWND hWnd, UINT message, WPARAM wPa
 		// case WM_PAINT:
 		//     // BeginPaint/EndPaint si tu veux dessiner
 		//     break;
-
 		// autres messages...
+	case WM_SIZE:
+		// RESIZE
 
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);

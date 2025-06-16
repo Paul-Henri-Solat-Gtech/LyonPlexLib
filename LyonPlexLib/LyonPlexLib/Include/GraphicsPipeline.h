@@ -7,6 +7,9 @@ public:
 
 	void CreatePipeline();
 
+	void CreatePipeline3D();
+	void CreatePipeline2D();
+
 	ComPtr<ID3D12RootSignature>& GetRootSignature() { return m_rootSignature; };
 	ComPtr<ID3D12PipelineState>& GetPipelineState() { return m_pipelineState; };
 
@@ -14,6 +17,14 @@ private:
 	void CreateRootSignature();
 	void CompileShader();
 	void CreatePipelineStateObject();
+
+	/*void CreateRootSignature3D();
+	void CompileShaders3D();
+	void CreatePipelineStateObject3D();*/
+
+	void CreateRootSignature2D();
+	void CompileShaders2D();
+	void CreatePipelineStateObject2D();
 
 	GraphicsDevice* mp_graphicsDevice;
 	DescriptorManager* mp_descriptorManager;

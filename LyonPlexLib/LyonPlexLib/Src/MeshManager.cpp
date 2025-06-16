@@ -77,7 +77,7 @@ MeshData MeshManager::CreateMesh_Cube()
 		{{ 0.25f, -0.25f, -0.25f}, {0,0,1,1}, {1,1}},   
 		{{ 0.25f,  0.25f, -0.25f}, {1,1,0,1}, {1,0}},  
 
-		// Face arrière (z = +0.25)
+		// Face arriere (z = +0.25)
 		{{-0.25f,  0.25f,  0.25f}, {1,0,1,1}, {1,0}},  
 		{{-0.25f, -0.25f,  0.25f}, {0,1,1,1}, {1,1}},   
 		{{ 0.25f, -0.25f,  0.25f}, {1,1,1,1}, {0,1}},  
@@ -200,40 +200,5 @@ void MeshManager::InitializeMesh_Cube()
 	MeshData cube = CreateMesh_Cube();
 	auto cubeID = m_meshLibrary.Add(cube);
 
-	//Mesh* newMesh = new Mesh;
-
-	//VertexParam cube[] =
-	//{
-	//	// Face avant
-	//	{{ -0.25f,  0.25f, -0.25f },{1,0,0,1}}, // 0
-	//	{{ -0.25f, -0.25f, -0.25f },{0,1,0,1}}, // 1
-	//	{{  0.25f, -0.25f, -0.25f },{0,0,1,1}}, // 2
-	//	{{  0.25f,  0.25f, -0.25f },{1,1,0,1}}, // 3
-
-	//	// Face arriere
-	//	{{ -0.25f,  0.25f,  0.25f },{1,0,1,1}}, // 4
-	//	{{ -0.25f, -0.25f,  0.25f },{0,1,1,1}}, // 5
-	//	{{  0.25f, -0.25f,  0.25f },{1,1,1,1}}, // 6
-	//	{{  0.25f,  0.25f,  0.25f },{0,0,0,1}}, // 7
-	//};
-
-	//// Definition des indices pour dessiner 2 triangles
-	//uint16_t indices[] =
-	//{
-	//	// Face avant
-	//	0, 1, 2,  0, 2, 3,
-	//	// Face arriere
-	//	4, 6, 5,  4, 7, 6,
-	//	// Face gauche
-	//	4, 5, 1,  4, 1, 0,
-	//	// Face droite
-	//	3, 2, 6,  3, 6, 7,
-	//	// Face haut
-	//	4, 0, 3,  4, 3, 7,
-	//	// Face bas
-	//	1, 5, 6,  1, 6, 2
-	//};
-
-	//AddNewMeshToList(newMesh, cube, indices, _countof(cube), _countof(indices));
 }
 

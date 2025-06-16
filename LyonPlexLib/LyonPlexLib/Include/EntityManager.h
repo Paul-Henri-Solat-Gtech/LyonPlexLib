@@ -1,4 +1,5 @@
 #pragma once
+//#include <cstddef>
 
 //-----------------------------------------------------------------------------//
 // Entity definition
@@ -26,7 +27,7 @@ public:
 
     const std::vector<uint32_t>& GetAll() const { return m_dense; }
 
-    int GetEntityCount() { return m_dense.size(); }
+    size_t GetEntityCount() { return m_dense.size(); }
 
 private:
     uint32_t m_nextId = 0;

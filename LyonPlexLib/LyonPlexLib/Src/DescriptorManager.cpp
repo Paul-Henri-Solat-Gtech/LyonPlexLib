@@ -21,9 +21,8 @@ void DescriptorManager::CreateDescriptors()
 	/*
 	numRTVdescriptors = nb de backbuffers(swap chain)
 					  + nb de textures rendues(G - Buffer, post - processing)
-					  + nb de rendus intermédiaires
+					  + nb de rendus intermediaires
 	*/
-
 	CreateDsvHeap(mp_graphicsDevice->GetFrameCount());
 	/*
 	numDSVdescriptors = 1 pour le z-buffer principal
@@ -35,14 +34,14 @@ void DescriptorManager::CreateDescriptors()
 	CreateSrvHeap(15); // Valeur max de textures a charger
 	/*
 	numSRVdescriptors = total des :
-									- Textures visibles dans les shaders (1 par entité si chaque entité a une texture)
+									- Textures visibles dans les shaders (1 par entite si chaque entite a une texture)
 									- Buffers (CBV pour per-object/per-frame data)
 									- UAV (ex : compute shaders)
 	*/
 
 	CreateSamplerHeap(1);
 
-	for (int i = 0; i < mp_graphicsDevice->GetFrameCount(); i++)
+	for (UINT i = 0; i < mp_graphicsDevice->GetFrameCount(); i++)
 	{
 		CreateDepthStencilFormat(i);
 	}
@@ -61,7 +60,7 @@ void DescriptorManager::CreateDepthStencilFormat(int i)
 		height = rc.bottom - rc.top;    // hauteur de la zone client
 	}
 
-	// 1) Définir l’état initial, dimension, format
+	// 1) Definir l’etat initial, dimension, format
 	D3D12_RESOURCE_DESC depthDesc = {};
 	depthDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D; // Changer pour textures avancees ?
 	depthDesc.Alignment = 0;
@@ -81,19 +80,19 @@ void DescriptorManager::CreateDepthStencilFormat(int i)
 	clearValue.DepthStencil.Depth = 1.0f;
 	clearValue.DepthStencil.Stencil = 0;
 
-	// 3) Créer la ressource
+	// 3) Creer la ressource
 	CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_DEFAULT);
 	ID3D12Resource* depthResource = nullptr;
 	mp_graphicsDevice->GetDevice()->CreateCommittedResource(
 		&heapProps,
 		D3D12_HEAP_FLAG_NONE,
 		&depthDesc,
-		D3D12_RESOURCE_STATE_DEPTH_WRITE, // état initial
+		D3D12_RESOURCE_STATE_DEPTH_WRITE, // etat initial
 		&clearValue,
 		IID_PPV_ARGS(&depthResource)
 	);
 
-	// 4) Créer la DSV dans le heap DSV
+	// 4) Creer la DSV dans le heap DSV
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvViewDesc = {};
 	dsvViewDesc.Format = DXGI_FORMAT_D32_FLOAT;
 	dsvViewDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;

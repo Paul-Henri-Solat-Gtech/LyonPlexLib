@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+//#include <string>
 
 template<typename T, typename Key = std::string>
 class ResourceManager 
@@ -81,7 +81,7 @@ public:
         m_resources[id] = T{};
         m_keys[id] = Key{};
 
-        // Supprimer l'entrée du cache
+        // Supprimer l'entree du cache
         for (auto it = m_lookup.begin(); it != m_lookup.end(); ++it) {
             if (it->second == id) {
                 m_lookup.erase(it);

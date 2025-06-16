@@ -33,7 +33,14 @@ bool RenderingManager::Init(ECSManager* ECS)
     {
         return false;
     }
-    m_render3D.CreatePipeline();
+    //m_render3D.CreatePipeline();
+
+    // Render 2D
+    if (!m_render2D.Init(m_windowWP, ECS, &m_graphicsDevice, &m_descriptorManager, &m_commandManager))
+    {
+        return false;
+    }
+    //m_render2D.CreatePipeline();
 
 
     return true;
@@ -48,10 +55,27 @@ void RenderingManager::RecordCommands()
     CD3DX12_RESOURCE_BARRIER barrier;
     SetBarrierToRenderTarget(barrier);
 
+    UINT frameIdx = m_graphicsDevice.GetFrameIndex();
+    // Clear RTV
+    CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(
+        m_descriptorManager.GetRtvHeap()->GetCPUDescriptorHandleForHeapStart(),
+        frameIdx,
+        m_descriptorManager.GetRtvDescriptorSize()
+    );
+    const float clearColor[] = { 0.1f, 0.8f, 0.3f, 1.0f };
+    m_commandManager.GetCommandList()->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+
+    // Clear DSV
+    CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle(m_descriptorManager.GetDsvHeap()->GetCPUDescriptorHandleForHeapStart(), frameIdx, m_descriptorManager.GetDsvDescriptorSize());
+    m_commandManager.GetCommandList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+
+    // F) OMSetRenderTargets (RTV + DSV)
+    m_commandManager.GetCommandList()->OMSetRenderTargets(1, &rtvHandle, FALSE, &dsvHandle);
 
     // Classes Render
     // 4) Dessine la scene 3D (Render3D, PSO, viewports, etc.)
     m_render3D.RecordCommands();
+    m_render2D.RecordCommands();
 
     // 5) Transition render target : present -> fin d’enregistrement
     SetBarrierToPresent(barrier);   
@@ -99,6 +123,7 @@ void RenderingManager::Release()
     m_descriptorManager.Release();
     m_commandManager.Release();
     m_render3D.Release();
+    m_render2D.Release();
 
     delete mp_ECS;
 }

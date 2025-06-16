@@ -18,7 +18,7 @@ cbuffer ObjectBuffer : register(b1)
 Texture2D textures[15] : register(t0);
 //Texture2D textures[] : register(t0);
 
-// slot s0 : sampler linéaire
+// slot s0 : sampler lineaire
 SamplerState linearClamp : register(s0);
 //SamplerState linearClamp[1] : register(s0);
 
@@ -53,17 +53,15 @@ PSInput VSMain(VSInput input)
     PSInput output;
     float4 worldPos = mul(float4(input.position, 1.0f), worldMatrix);
     float4 viewPos = mul(worldPos, viewMatrix);
-    output.positionH = mul(viewPos, projectMatrix);
-    
-    output.uv = input.uv;
-    
+    output.positionH = mul(viewPos, projectMatrix);    
+    output.uv = input.uv;    
     output.color = input.color;
     return output;    
 };
 
 float4 PSMain(PSInput input) : SV_Target
 {
-    // On échantillonne la bonne texture
+    // On echantillonne la bonne texture
     return textures[materialIndex].Sample(linearClamp, input.uv);
     //return textures[idx].Sample(linearClamp[idx], uv);
     

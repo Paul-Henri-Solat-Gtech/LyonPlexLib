@@ -4,7 +4,7 @@
 #include "RenderingManager.h"
 #include "ECSManager.h"
 #include "SceneManager.h"
-#include "WICTextureLoader.h"
+//#include "WICTextureLoader.h"
 #include "chrono"
 
 class GameManager 
@@ -22,7 +22,7 @@ public:
     void Release();
 
     SceneManager* GetSceneManager() { return &m_sceneManager; };
-    float& GetDeltaTime() { return m_deltaTime; };
+    double& GetDeltaTime() { return m_deltaTime; };
 
 private:
     void ProcessMessage(); // Gestion messages windows
@@ -34,7 +34,7 @@ private:
     bool m_isRunning = false;
 
     //deltatime
-    float m_deltaTime;
+    double m_deltaTime;
 
     //scene
     SceneManager m_sceneManager;

@@ -19,7 +19,7 @@ void ComponentManager::ClearAllEntityComponents()
     {
         storage.second.Clear();
     }
-    //m_components.clear();     // ==> PAS necessaire puisque EntityManager réutilise les ID des entités supprimées, donc ne pas clear() le tableau fait gagner du temps de non-réallocation des cases mémoire
+    //m_components.clear();     // ==> PAS necessaire puisque EntityManager reutilise les ID des entites supprimees, donc ne pas clear() le tableau fait gagner du temps de non-reallocation des cases memoire
 }
 
 const std::vector<Component*>& ComponentManager::GetComponents(Entity entity) const

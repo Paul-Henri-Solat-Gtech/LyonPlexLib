@@ -10,21 +10,26 @@ void SampleScene2::Start()
     GetComponent<TransformComponent>("camera")->position = { 0, 0.5, -1 };
 
     CreateEntity("cube");
+    AddComponent<Type_3D>("cube", new Type_3D());
     AddComponent<MeshComponent>("cube", new MeshComponent(2, 0));
     GetComponent<TransformComponent>("cube")->position = { 0, 0, -1 };
     GetComponent<TransformComponent>("cube")->dirty = true;
 
     CreateEntity("cube2");
+    AddComponent<Type_3D>("cube2", new Type_3D());
     AddComponent<MeshComponent>("cube2", new MeshComponent(2, 1));
     GetComponent<TransformComponent>("cube2")->position = { 1, 0, -1 };
     GetComponent<TransformComponent>("cube2")->dirty = true;
 
     CreateEntity("cube3");
-    AddComponent<MeshComponent>("cube3", new MeshComponent(2, 2));
-    GetComponent<TransformComponent>("cube3")->position = { -1, 0, 0 };
+    AddComponent<Type_2D>("cube3", new Type_2D());
+    AddComponent<MeshComponent>("cube3", new MeshComponent(1, 0));
+    GetComponent<TransformComponent>("cube3")->position = { 400, 400, 0 };
+    GetComponent<TransformComponent>("cube3")->scale = { 100, 100, 0 };
     GetComponent<TransformComponent>("cube3")->dirty = true;
 
     CreateEntity("cube4");
+    AddComponent<Type_3D>("cube4", new Type_3D());
     AddComponent<MeshComponent>("cube4", new MeshComponent(2, 0));
     GetComponent<TransformComponent>("cube4")->position = { 1, 0, 3 };
     GetComponent<TransformComponent>("cube4")->dirty = true;

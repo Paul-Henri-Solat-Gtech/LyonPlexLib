@@ -17,9 +17,12 @@
 
 //Lib DX12
 #pragma comment(lib, "d3d12.lib")
+#include <d3d12.h>
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "d3dcompiler.lib")
+#include <dxgi1_4.h>
+#include <dxgidebug.h>  
 
 //Namespace to shortcut variables
 using namespace Microsoft::WRL;
@@ -31,4 +34,5 @@ using namespace DirectX;
 //CLASS OF LYONPLEX
 #include "WindowPlex.h"
 #include "GameManager.h"
+
 
