@@ -14,6 +14,7 @@
 #include <stdexcept>
 #include <vector>
 #include <unordered_map>
+#include <Audio.h>
 
 //Lib DX12
 #pragma comment(lib, "d3d12.lib")

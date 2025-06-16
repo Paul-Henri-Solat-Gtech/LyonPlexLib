@@ -146,21 +146,18 @@ void Render2D::RecordCommands()
 	//cmdList->OMSetRenderTargets(1, &rtvHandle, FALSE, nullptr);
 
 
-	RECT rc;
-	FLOAT width = 0;
-	FLOAT height = 0;
-	if (GetClientRect(mp_graphicsDevice->GetWindow(), &rc))
-	{
-		width = static_cast<FLOAT>(rc.right - rc.left);   // largeur de la zone client
-		height = static_cast<FLOAT>(rc.bottom - rc.top);    // hauteur de la zone client
-	}
+
+	RECT renderZone;
+	GetClientRect(mp_graphicsDevice->GetWindow(), &renderZone);
+	UINT renderWidth = renderZone.right - renderZone.left;
+	UINT renderHeight = renderZone.bottom - renderZone.top;
 	D3D12_VIEWPORT vp = {
 	0.0f, 0.0f,
-	width,
-	height,
+	renderWidth,
+	renderHeight,
 	0.0f, 1.0f
 	};
-	CD3DX12_RECT sc = CD3DX12_RECT(0, 0, width, height);
+	CD3DX12_RECT sc = CD3DX12_RECT(0, 0, renderWidth, renderHeight);
 	cmdList->RSSetViewports(1, &vp);
 	cmdList->RSSetScissorRects(1, &sc);
 

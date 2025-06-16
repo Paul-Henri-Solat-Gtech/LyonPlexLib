@@ -85,27 +85,22 @@ void Render3D::RecordCommands()
 
 
 	// Get la width et height du client (fenetre)
-	RECT rc;
-	FLOAT width = 0;
-	FLOAT height = 0;
-	if (GetClientRect(mp_graphicsDevice->GetWindow(), &rc))
-	{
-		width = static_cast<FLOAT>(rc.right - rc.left);   // largeur de la zone client
-		height = static_cast<FLOAT>(rc.bottom - rc.top);    // hauteur de la zone client
-	}
-
+	RECT renderZone;
+	GetClientRect(mp_graphicsDevice->GetWindow(), &renderZone);
+	UINT renderWidth = renderZone.right - renderZone.left;
+	UINT renderHeight = renderZone.bottom - renderZone.top;
 	// Definir le viewport et le scissor  (peuvent servir a "fenetrer" de l'affichage, par exemple pour minimap) : PEUT ETRE GENERAL OU VARIABLE
 	// Le viewport represente la zone de la fenetre dans laquelle on va dessiner
 	D3D12_VIEWPORT viewport = {};
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
-	viewport.Width = width;  // window width
-	viewport.Height = height;  // window height
+	viewport.Width = renderWidth;  // window width
+	viewport.Height = renderHeight;  // window height
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 
 	// Le scissor defini un rectangle de pixels a dessiner dans la zone de dessin (viewport). Tous les pixels en dehors de cette zone ne sont pas dessines.
-	D3D12_RECT scissorRect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
+	D3D12_RECT scissorRect = { 0, 0, static_cast<LONG>(renderWidth), static_cast<LONG>(renderHeight) };
 	// Actualisation du rectangle dans lequel on dessine, dans la fenetre
 	mp_commandManager->GetCommandList()->RSSetViewports(1, &viewport);
 	mp_commandManager->GetCommandList()->RSSetScissorRects(1, &scissorRect);
