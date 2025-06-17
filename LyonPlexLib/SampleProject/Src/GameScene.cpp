@@ -10,10 +10,19 @@ void GameScene::Start()
     CreateEntity("cube");
     AddComponent<MeshComponent>("cube", new MeshComponent(2, 0));
     GetComponent<TransformComponent>("cube")->position = { 0, 0, -1 };
-    GetComponent<TransformComponent>("cube")->dirty = true;
+
+    CreateEntity("cube4");
+    AddComponent<Type_3D>("cube4", new Type_3D());
+    AddComponent<MeshComponent>("cube4", new MeshComponent(2, 0));
+    GetComponent<TransformComponent>("cube4")->position = { 1, 0, 3 };
+
+    //CreateGameObject("testGm");
+    //GetGameObjectByName("testGm").GetComponent<TransformComponent>()->position = { 1, 1, 4 };
+
+    CreateGameObject("testGm");
+    GetGameObjectByName("testGm").SetPosition({ 2, 1, 3 });
 
     GetComponent<TransformComponent>("camera")->parent = { GetEntity("cube")->id };
-    GetComponent<TransformComponent>("camera")->dirty = true;
 }
 
 void GameScene::Update(float deltatime)

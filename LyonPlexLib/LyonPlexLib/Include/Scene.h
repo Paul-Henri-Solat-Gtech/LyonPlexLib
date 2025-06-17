@@ -1,5 +1,7 @@
 #pragma once
 
+#include "GameObject.h"
+
 class SceneManager;
 
 struct SceneEntity 
@@ -19,13 +21,19 @@ public:
 
 	void ChangeScene(std::string sceneName);
 
-	void SetEcsManager(ECSManager* ecsManager) { mp_EcsManager = ecsManager; };
+	void SetEcsManager(ECSManager* ecsManager) { mp_ecsManager = ecsManager; };
 
 	void AddEntityToScene(Entity entity, const std::string& entityName); // Only entities who need to get update like player or camera, not background or trees ..
 	
 	SceneEntity CreateEntity(const std::string& entityName);
 
 	Entity* GetEntity(const std::string& entityName);
+
+	GameObject& CreateGameObject(const std::string& gameObjectName);
+	GameObject& CreateGameObject(const std::string& gameObjectName, DimensionalType type);
+
+	GameObject& GetGameObjectByName(const std::string& gameObjectName);
+	GameObject& GetGameObjectByTag(Tag gameObjectTag);
 
 	// Component Entity
 	template<typename T>
@@ -35,7 +43,7 @@ public:
 		{
 			if (entity.name == entityName)
 			{
-				mp_EcsManager->AddComponent<T>(entity.entity, comp);
+				mp_ecsManager->AddComponent<T>(entity.entity, comp);
 			}
 		}
 	}
@@ -46,16 +54,18 @@ public:
 		{
 			if (entity.name == entityName)
 			{
-				return mp_EcsManager->GetComponent<T>(entity.entity);
+				return mp_ecsManager->GetComponent<T>(entity.entity);
 			}
 		}
 	}
 
 protected:
 
-	ECSManager* mp_EcsManager;
+	ECSManager* mp_ecsManager;
 	SceneManager* mp_sceneManager;
 
-	std::vector<SceneEntity> m_sceneEntities;
+	std::vector<SceneEntity> m_sceneEntities; // old
+	std::vector<GameObject> m_sceneGameObjects; // new
+
 };
 
