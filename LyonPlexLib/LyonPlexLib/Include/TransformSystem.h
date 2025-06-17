@@ -2,9 +2,6 @@
 #include <unordered_map>
 #include "ECSManager.h"
 #include "ISystem.h"
-//#include "ComponentManager.h"
-//#include "TransformComponent.h"
-//#include <DirectXMath.h>
 
 class TransformSystem : public ISystem
 {

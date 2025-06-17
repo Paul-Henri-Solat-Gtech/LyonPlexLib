@@ -1,11 +1,10 @@
 #include "pch.h"
 //#include "CameraSystem.h"
 
-void CameraSystem::InitRenderVariables(GraphicsDevice* device, CommandManager* cmdMgr/*, Render3D* r3d*/)
+void CameraSystem::InitRenderVariables(GraphicsDevice* device, CommandManager* cmdMgr)
 {
 	mp_graphicsDevice = device;
 	mp_commandManager = cmdMgr;
-	//mp_render3d = r3d;
 }
 
 void CameraSystem::Init(ECSManager& ecs)
@@ -127,102 +126,3 @@ void CameraSystem::RecomputeProjectionMatrix(CameraComponent* cam)
 	XMStoreFloat4x4(&cam->projectionMatrix, proj);
 }
 
-void CameraSystem::HandleInputAndMove(CameraComponent* cam, float dt)
-{
-    //// Exemples de touches (Z,S,D,Q,Espace/Ctrl) pour avancer/reculer/droite/gauche/haut/bas
-    //if (GetAsyncKeyState('Z') & 0x8000) {
-    //    XMVECTOR p = XMLoadFloat3(&cam->position);
-    //    XMVECTOR f = XMLoadFloat3(&cam->forward);
-    //    p = XMVectorAdd(p, XMVectorScale(f, cam->cameraSpeed * dt));
-    //    XMStoreFloat3(&cam->position, p);
-    //    cam->viewDirty = true;
-    //}
-    //if (GetAsyncKeyState('S') & 0x8000) {
-    //    XMVECTOR p = XMLoadFloat3(&cam->position);
-    //    XMVECTOR f = XMLoadFloat3(&cam->forward);
-    //    p = XMVectorSubtract(p, XMVectorScale(f, cam->cameraSpeed * dt));
-    //    XMStoreFloat3(&cam->position, p);
-    //    cam->viewDirty = true;
-    //}
-    //if (GetAsyncKeyState('D') & 0x8000) {
-    //    XMVECTOR p = XMLoadFloat3(&cam->position);
-    //    XMVECTOR r = XMLoadFloat3(&cam->right);
-    //    p = XMVectorAdd(p, XMVectorScale(r, cam->cameraSpeed * dt));
-    //    XMStoreFloat3(&cam->position, p);
-    //    cam->viewDirty = true;
-    //}
-    //if (GetAsyncKeyState('Q') & 0x8000) {
-    //    XMVECTOR p = XMLoadFloat3(&cam->position);
-    //    XMVECTOR r = XMLoadFloat3(&cam->right);
-    //    p = XMVectorSubtract(p, XMVectorScale(r, cam->cameraSpeed * dt));
-    //    XMStoreFloat3(&cam->position, p);
-    //    cam->viewDirty = true;
-    //}
-    //if (GetAsyncKeyState(VK_SPACE) & 0x8000) {
-    //    XMVECTOR p = XMLoadFloat3(&cam->position);
-    //    XMVECTOR u = XMLoadFloat3(&cam->up);
-    //    p = XMVectorAdd(p, XMVectorScale(u, cam->cameraSpeed * dt));
-    //    XMStoreFloat3(&cam->position, p);
-    //    cam->viewDirty = true;
-    //}
-    //if (GetAsyncKeyState(VK_CONTROL) & 0x8000) {
-    //    XMVECTOR p = XMLoadFloat3(&cam->position);
-    //    XMVECTOR u = XMLoadFloat3(&cam->up);
-    //    p = XMVectorSubtract(p, XMVectorScale(u, cam->cameraSpeed * dt));
-    //    XMStoreFloat3(&cam->position, p);
-    //    cam->viewDirty = true;
-    //}
-
-    //// Gestion de la souris pour Yaw/Pitch
-    //if (GetAsyncKeyState(VK_RBUTTON) & 0x8000) {
-    //    if (!cam->rotating) {
-    //        // On commence a faire tourner
-    //        cam->rotating = true;
-    //        POINT cursor;
-    //        GetCursorPos(&cursor);
-    //        ScreenToClient(GetActiveWindow(), &cursor);
-    //        cam->prevMousePos = cursor;
-    //    }
-    //    else {
-    //        // On calcule le deplacement depuis la frame precedente
-    //        POINT cursor;
-    //        GetCursorPos(&cursor);
-    //        ScreenToClient(GetActiveWindow(), &cursor);
-    //        int dx = cursor.x - cam->prevMousePos.x;
-    //        int dy = cursor.y - cam->prevMousePos.y;
-
-    //        float yawAngle = dx * cam->mouseSensitivity;
-    //        float pitchAngle = dy * cam->mouseSensitivity;
-
-    //        // Yaw : tourner autour de l’axe Y global
-    //        {
-    //            XMMATRIX R = XMMatrixRotationY(yawAngle);
-    //            XMVECTOR f = XMVector3TransformNormal(XMLoadFloat3(&cam->forward), R);
-    //            XMVECTOR r = XMVector3TransformNormal(XMLoadFloat3(&cam->right), R);
-    //            XMStoreFloat3(&cam->forward, XMVector3Normalize(f));
-    //            XMStoreFloat3(&cam->right, XMVector3Normalize(r));
-    //            // Recalcule l’up pour rester orthogonal
-    //            XMVECTOR u = XMVector3Cross(XMLoadFloat3(&cam->up), XMLoadFloat3(&cam->right));
-    //            XMStoreFloat3(&cam->up, u);
-    //        }
-
-    //        // Pitch : tourner autour de l’axe “right” local
-    //        {
-    //            XMMATRIX R = XMMatrixRotationAxis(XMLoadFloat3(&cam->right), pitchAngle);
-    //            XMVECTOR f = XMVector3TransformNormal(XMLoadFloat3(&cam->forward), R);
-    //            XMVECTOR u = XMVector3TransformNormal(XMLoadFloat3(&cam->up), R);
-    //            XMStoreFloat3(&cam->forward, XMVector3Normalize(f));
-    //            XMStoreFloat3(&cam->up, XMVector3Normalize(u));
-    //            // Recalcule “right” pour rester orthogonal
-    //            XMVECTOR rNew = XMVector3Cross(XMLoadFloat3(&cam->up), XMLoadFloat3(&cam->forward));
-    //            XMStoreFloat3(&cam->right, XMVector3Normalize(rNew));
-    //        }
-
-    //        cam->prevMousePos = cursor;
-    //        cam->viewDirty = true;
-    //    }
-    //}
-    //else {
-    //    cam->rotating = false;
-    //}
-}

@@ -1,15 +1,10 @@
 #pragma once
 #include "ECSManager.h"
-//#include "ComponentManager.h"
-//#include "CommandManager.h" // pour recuperer le command list
-//#include "Render3D.h"      // pour acceder au root signature / pipeline state
-//#include "GraphicsDevice.h"
 
 #include <Windows.h>
 
 class GraphicsDevice;
 class CommandManager;
-//class Render3D;
 
 
 struct CBPerCamera {
@@ -21,7 +16,7 @@ class CameraSystem : public ISystem {
 public:
     CameraSystem() {}
 
-    void InitRenderVariables(GraphicsDevice* device, CommandManager* cmdMgr/*, Render3D* r3d*/);
+    void InitRenderVariables(GraphicsDevice* device, CommandManager* cmdMgr);
 
     // Appele une seule fois apres avoir ajoute le composant a ECS
     virtual void Init(ECSManager& ecs) override;
@@ -38,7 +33,6 @@ public:
 private:
     GraphicsDevice* mp_graphicsDevice = nullptr;
     CommandManager* mp_commandManager = nullptr;
-    //Render3D* mp_render3d = nullptr;
 
     ComPtr<ID3D12Resource> m_cameraConstantBuffer;
     void* m_mappedCBData = nullptr;
@@ -49,7 +43,5 @@ private:
     // Remplit cam->projectionMatrix en fonction de cam->fov / aspectRatio / near / far
     void RecomputeProjectionMatrix(CameraComponent* cam);
 
-    // Gere l’input clavier/souris et met a jour position/forward/right/up, puis marque viewDirty
-    void HandleInputAndMove(CameraComponent* cam, float dt);
     
 };
