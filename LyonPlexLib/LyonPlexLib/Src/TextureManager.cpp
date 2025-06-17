@@ -66,6 +66,15 @@ TextureID TextureManager::LoadTexture(const std::string& key)
         nullptr,
         srvCpu
     );
+    //// Create SRV descriptor in CPU heap
+    //D3D12_CPU_DESCRIPTOR_HANDLE srvCpu = m_descMgr->AllocateSrvCPU();
+    //D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+    //srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+    //srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; // Force le format pour de gammaiser (gamam rend la couleur plus sombre)
+    //srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+    //srvDesc.Texture2D.MipLevels = 1;
+    //m_graphicsDevice->GetDevice()->CreateShaderResourceView(tex.resource.Get(), &srvDesc, srvCpu);
+    
     tex.descriptorIndex = m_descMgr->GetSrvNextOffset() - 1;
 
     // Execute the upload commands on the GPU queue

@@ -44,7 +44,7 @@ void GraphicsDevice::CreateSwapChain()
     UINT renderHeight = renderZone.bottom - renderZone.top;
     DXGI_SWAP_CHAIN_DESC1 scDesc = {};
     scDesc.BufferCount = FRAMECOUNT;
-    scDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    scDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // Changer pour DXGI_FORMAT_R8G8B8A8_UNORM_SRGB 
     scDesc.Width = renderWidth;  // 800 ou la taille de ta fenetre
     scDesc.Height = renderHeight; // 600
     scDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
