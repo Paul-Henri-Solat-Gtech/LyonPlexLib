@@ -20,7 +20,8 @@ void Scene::Update(float deltatime)
 void Scene::Release()
 {
 	m_sceneEntities.clear();
-	mp_EcsManager->ClearAllEntities();
+	m_sceneGameObjects.clear();
+	mp_ecsManager->ClearAllEntities();
 }
 
 void Scene::ChangeScene(std::string sceneName)
@@ -39,7 +40,7 @@ void Scene::AddEntityToScene(Entity entity, const std::string& entityName)
 
 SceneEntity Scene::CreateEntity(const std::string& entityName)
 {
-	Entity newEntity = mp_EcsManager->CreateEntity();
+	Entity newEntity = mp_ecsManager->CreateEntity();
 
 	AddEntityToScene(newEntity, entityName);
 
@@ -57,10 +58,51 @@ Entity* Scene::GetEntity(const std::string& entityName)
 {
 	for (auto& entity : m_sceneEntities)
 	{
-		if (entity.name == entityName) 
+		if (entity.name == entityName)
 		{
 			return &entity.entity;
 		}
 	}
 	return nullptr;
+}
+
+GameObject& Scene::CreateGameObject(const std::string& gameObjectName)
+{
+	GameObject newGameObject;
+	newGameObject.Init(gameObjectName, mp_ecsManager);
+
+	m_sceneGameObjects.push_back(newGameObject);
+
+	return newGameObject;
+}
+GameObject& Scene::CreateGameObject(const std::string& gameObjectName, DimensionalType type)
+{
+	GameObject newGameObject;
+	newGameObject.Init(gameObjectName, mp_ecsManager, type);
+	
+	m_sceneGameObjects.push_back(newGameObject);
+
+	return newGameObject;
+}
+
+GameObject& Scene::GetGameObjectByName(const std::string& gameObjectName)
+{
+	for (auto& gameObject : m_sceneGameObjects) 
+	{
+		if (gameObject.GetName() == gameObjectName) 
+		{
+			return gameObject;
+		}
+	}
+}
+
+GameObject& Scene::GetGameObjectByTag(Tag gameObjectTag)
+{
+	for (auto& gameObject : m_sceneGameObjects)
+	{
+		if (gameObject.GetTag() == gameObjectTag)
+		{
+			return gameObject;
+		}
+	}
 }

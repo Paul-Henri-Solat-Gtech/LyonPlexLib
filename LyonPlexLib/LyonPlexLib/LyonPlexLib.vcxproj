@@ -29,6 +29,7 @@
     <ClInclude Include="Include\ECSManager.h" />
     <ClInclude Include="Include\EntityManager.h" />
     <ClInclude Include="Include\GameManager.h" />
+    <ClInclude Include="Include\GameObject.h" />
     <ClInclude Include="Include\GraphicsDevice.h" />
     <ClInclude Include="Include\GraphicsPipeline.h" />
     <ClInclude Include="Include\InputManager.h" />
@@ -64,6 +65,7 @@
     <ClCompile Include="Src\ECSManager.cpp" />
     <ClCompile Include="Src\EntityManager.cpp" />
     <ClCompile Include="Src\GameManager.cpp" />
+    <ClCompile Include="Src\GameObject.cpp" />
     <ClCompile Include="Src\GraphicsDevice.cpp" />
     <ClCompile Include="Src\GraphicsPipeline.cpp" />
     <ClCompile Include="Src\InputManager.cpp" />
