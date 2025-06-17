@@ -32,6 +32,7 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
 	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
 	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test.png");
+	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
 
 	return true;
 }

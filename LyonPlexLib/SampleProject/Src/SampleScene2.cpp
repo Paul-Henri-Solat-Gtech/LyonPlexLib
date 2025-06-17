@@ -21,9 +21,10 @@ void SampleScene2::Start()
 
     CreateEntity("cube3");
     AddComponent<Type_2D>("cube3", new Type_2D());
-    AddComponent<MeshComponent>("cube3", new MeshComponent(0, 0));
-    GetComponent<TransformComponent>("cube3")->position = { 400, 400, 0 };
-    GetComponent<TransformComponent>("cube3")->scale = { 100, 100, 0 };
+    AddComponent<MeshComponent>("cube3", new MeshComponent(2, 2));
+    GetComponent<TransformComponent>("cube3")->position = { 300, 300, 0 };
+    GetComponent<TransformComponent>("cube3")->scale = { 300, 300, 0 };
+    GetComponent<TransformComponent>("cube3")->dirty = true;
 
     CreateEntity("cube4");
     AddComponent<Type_3D>("cube4", new Type_3D());

@@ -46,13 +46,13 @@ MeshData MeshManager::CreateMesh_Square()
 	m.vertices =
 	{
 		// coin haut-gauche
-		{{ -0.25f, 0.25f, 0.0f},{5,1,0,1}},
+		{{ -1, 1, 0.0f},{5,1,0,1}},
 		// coin bas-gauche
-		{{ -0.25f, -0.25f, 0.0f},{0,0,0,1}},
+		{{ -1, -1, 0.0f},{0,0,0,1}},
 		// coin bas-droit
-		{{ 0.25f, -0.25f, 0.0f},{0,0,0,1}},
+		{{ 1, -1, 0.0f},{0,0,0,1}},
 		// coin haut-droit
-		{{ 0.25f, 0.25f, 0.0f},{0,0,0,1}},
+		{{ 1, 1, 0.0f},{0,0,0,1}},
 	};
 
 	// Definition des indices pour dessiner 2 triangles

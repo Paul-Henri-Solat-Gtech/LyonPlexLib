@@ -244,7 +244,7 @@ void GraphicsPipeline::CreateRootSignature2D()
 		0, 0,
 		D3D12_DESCRIPTOR_RANGE_FLAG_NONE,
 		0);
-	
+
 	// 2. Definit un descriptor range pour Sampler (optionnel)
 	CD3DX12_DESCRIPTOR_RANGE1 samplerRanges[1];
 	samplerRanges[0].Init(
@@ -252,7 +252,7 @@ void GraphicsPipeline::CreateRootSignature2D()
 		1,      // un sampler "linear wrap" par defaut
 		0,      // s0
 		0
-	);         
+	);
 
 
 
@@ -338,12 +338,21 @@ void GraphicsPipeline::CreatePipelineStateObject2D()
 	{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,       0, 28, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	};
 
-	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {}; 
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
 	psoDesc.InputLayout = { inputLayout, _countof(inputLayout) };
 	psoDesc.pRootSignature = m_rootSignature.Get();
 	psoDesc.VS = CD3DX12_SHADER_BYTECODE(m_vsBlob.Get());
 	psoDesc.PS = CD3DX12_SHADER_BYTECODE(m_psBlob.Get());
-	psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+
+	D3D12_RASTERIZER_DESC rasterDesc = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+	rasterDesc.CullMode = D3D12_CULL_MODE_BACK;          // On elimine les faces arriere (celles qu'on ne veut pas voir)
+	rasterDesc.FrontCounterClockwise = TRUE;             // CCW = face avant, CW = face arriere 
+	rasterDesc.FillMode = D3D12_FILL_MODE_SOLID;         // Remplir normalement
+	rasterDesc.DepthClipEnable = TRUE;
+
+	psoDesc.RasterizerState = rasterDesc;
+	//psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+
 	psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
 	// enable alpha blending
 	psoDesc.BlendState.RenderTarget[0].BlendEnable = TRUE;
@@ -364,7 +373,7 @@ void GraphicsPipeline::CreatePipelineStateObject2D()
 	psoDesc.SampleDesc.Quality = 0;
 
 	HRESULT hr = mp_graphicsDevice->GetDevice()->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&m_pipelineState));
-	
+
 
 	if (FAILED(hr))
 	{
@@ -406,7 +415,7 @@ void GraphicsPipeline::CreatePipelineStateObject2D()
 	}
 	else
 	{
-		OutputDebugStringA("✅ PSO 2D créé avec succès.\n");
+		OutputDebugStringA("PSO 2D cree avec succes.\n");
 	}
 
 
