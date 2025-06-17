@@ -379,7 +379,7 @@ void GraphicsPipeline::CreatePipelineStateObject2D()
 	{
 		// 1) Loguez l’HRESULT en hexadécimal
 		char buffer[256];
-		sprintf_s(buffer, "❌ CreateGraphicsPipelineState failed: hr = 0x%08X\n", static_cast<unsigned>(hr));
+		sprintf_s(buffer, "CreateGraphicsPipelineState failed: hr = 0x%08X\n", static_cast<unsigned>(hr));
 		OutputDebugStringA(buffer);
 
 		// 2) Dump quelques paramètres du PSO
