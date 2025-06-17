@@ -5,6 +5,12 @@ void SampleScene2::Start()
 {
 	//OutputDebugStringA("\nHI ! I am sample scene. \n");
 
+	auto& TxtMngr = mp_sceneManager->GetGameManager()->GetTextureManager();
+
+	TxtMngr.LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
+	TxtMngr.LoadTexture("../LyonPlexLib/Ressources/Test.png");
+	TxtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
+
 	CreateEntity("camera");
 	AddComponent<CameraComponent>("camera", new CameraComponent());
 	GetComponent<TransformComponent>("camera")->position = { 0, 0.5, -1 };
@@ -31,7 +37,7 @@ void SampleScene2::Start()
 	//AddComponent<Type_2D>("cube2D", new Type_2D());
 	//AddComponent<MeshComponent>("cube2D", new MeshComponent(2, 0));
 	//GetComponent<TransformComponent>("cube2D")->position = { 400, 300, 0 };
-	//GetComponent<TransformComponent>("cube2D")->scale = { 600, 600, 0 };
+	//GetComponent<TransformComponent>("cube2D")->scale = { 300, 300, 0 };
 	////GetComponent<TransformComponent>("cube2D")->SetRotation(0 ,0, 0);
 	//GetComponent<TransformComponent>("cube2D")->dirty = true;
 

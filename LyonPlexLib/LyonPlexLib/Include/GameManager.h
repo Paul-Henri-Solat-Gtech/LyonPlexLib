@@ -21,6 +21,8 @@ public:
 
     void Release();
 
+    TextureManager& GetTextureManager() { return m_renderer.GetTextureManager(); }
+
     SceneManager* GetSceneManager() { return &m_sceneManager; };
     double& GetDeltaTime() { return m_deltaTime; };
 
@@ -29,14 +31,20 @@ private:
 
     HINSTANCE m_hInstance;
     WindowPlex m_window;
+
+    // Entity & Component
+    ECSManager m_ECS; // DOIT ETRE RESEPARE en EntityManager (avec components) & Systems separes
+
+    // Systems
     RenderingManager m_renderer;
-    ECSManager m_ECS;
+
+
     bool m_isRunning = false;
 
-    //deltatime
+    // Deltatime
     double m_deltaTime;
 
-    //scene
+    // Scene
     SceneManager m_sceneManager;
 };
 

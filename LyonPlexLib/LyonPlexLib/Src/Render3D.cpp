@@ -5,9 +5,9 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 {
 	m_ECS = ECS;
 
-	m_textureManager = new TextureManager;
+	//m_textureManager = new TextureManager;
 
-	m_textureManager->Init(graphicsDevice, descriptorManager);
+	
 
 	mp_graphicsDevice = graphicsDevice;
 	mp_descriptorManager = descriptorManager;
@@ -29,10 +29,10 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 	GetFullPathNameW(L"..\\LyonPlexLib\\Ressources\\PixelShader.hlsl", len, fullpath.data(), nullptr);
 	MessageBoxW(nullptr, fullpath.c_str(), L"Full path", MB_OK);*/
 
-	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
-	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
-	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test.png");
-	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
+	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
+	////m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
+	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test.png");
+	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
 
 	return true;
 }

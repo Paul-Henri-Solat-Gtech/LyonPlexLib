@@ -9,6 +9,7 @@
 #include "DescriptorManager.h"
 #include "CommandManager.h"
 #include "CameraManager.h"
+#include "TextureManager.h"
 #include "Render3D.h"
 #include "Render2D.h"
 
@@ -33,9 +34,11 @@ public:
 
 	GraphicsDevice* GetGraphicsDevice() { return &m_graphicsDevice; }
 	CommandManager* GetCommandManager() { return &m_commandManager; }
+
+	TextureManager& GetTextureManager() { return m_textureManager; }
+
 	Render3D* GetRender3D() { return &m_render3D; }
 	Render2D* GetRender2D() { return &m_render2D; }
-
 
 	void Release();
 
@@ -48,12 +51,15 @@ private:
 	HWND m_windowWP;		// The created base window (pour le swapchain)
 
 	//ECS Manager
-	ECSManager* mp_ECS;
+	ECSManager* mp_ECS;		// INUTILE
 
-	// Instance de class de directX
+	// Instance des class qui encapsulent directX (devide, cmd, descHeaps)
 	GraphicsDevice m_graphicsDevice;
 	DescriptorManager m_descriptorManager;
 	CommandManager m_commandManager;
+
+	TextureManager m_textureManager;
+
 	Render3D m_render3D;
 	Render2D m_render2D;
 	//CameraManager m_cameraManager;
