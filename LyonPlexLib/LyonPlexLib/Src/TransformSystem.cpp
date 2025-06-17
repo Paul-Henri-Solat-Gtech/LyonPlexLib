@@ -3,7 +3,7 @@
 
 void TransformSystem::Update(ECSManager& ecs, float dt)
 {
-	worldMatrices.clear();
+	//worldMatrices.clear();
 	ComponentMask mask = (1ULL << TransformComponent::StaticTypeID);
 	ecs.ForEach(mask, [&](Entity entity)
 		{
