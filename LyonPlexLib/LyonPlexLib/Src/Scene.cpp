@@ -47,7 +47,7 @@ SceneEntity Scene::CreateEntity(const std::string& entityName)
 	//	TRANSFORM
 	AddComponent<TransformComponent>(entityName, new TransformComponent());
 	GetComponent<TransformComponent>(entityName)->position = { 0, 0, 0 };
-	GetComponent<TransformComponent>(entityName)->dirty = true;
+	//GetComponent<TransformComponent>(entityName)->dirty = true;
 	//	... Add other component here if needed
 
 	return SceneEntity();

@@ -13,29 +13,29 @@ void SampleScene2::Start()
     AddComponent<Type_3D>("cube", new Type_3D());
     AddComponent<MeshComponent>("cube", new MeshComponent(2, 0));
     GetComponent<TransformComponent>("cube")->position = { 0, 0, -1 };
-    GetComponent<TransformComponent>("cube")->dirty = true;
+    //GetComponent<TransformComponent>("cube")->dirty = true;
 
     CreateEntity("cube2");
     AddComponent<Type_3D>("cube2", new Type_3D());
     AddComponent<MeshComponent>("cube2", new MeshComponent(2, 1));
     GetComponent<TransformComponent>("cube2")->position = { 1, 0, -1 };
-    GetComponent<TransformComponent>("cube2")->dirty = true;
+    //GetComponent<TransformComponent>("cube2")->dirty = true;
 
     CreateEntity("cube3");
     AddComponent<Type_2D>("cube3", new Type_2D());
     AddComponent<MeshComponent>("cube3", new MeshComponent(1, 0));
     GetComponent<TransformComponent>("cube3")->position = { 400, 400, 0 };
     GetComponent<TransformComponent>("cube3")->scale = { 100, 100, 0 };
-    GetComponent<TransformComponent>("cube3")->dirty = true;
+    //GetComponent<TransformComponent>("cube3")->dirty = true;
 
     CreateEntity("cube4");
     AddComponent<Type_3D>("cube4", new Type_3D());
     AddComponent<MeshComponent>("cube4", new MeshComponent(2, 0));
     GetComponent<TransformComponent>("cube4")->position = { 1, 0, 3 };
-    GetComponent<TransformComponent>("cube4")->dirty = true;
+    //GetComponent<TransformComponent>("cube4")->dirty = true;
 
     GetComponent<TransformComponent>("camera")->parent = { GetEntity("cube")->id };
-    GetComponent<TransformComponent>("camera")->dirty = true;
+    //GetComponent<TransformComponent>("camera")->dirty = true;
 }
 
 void SampleScene2::Update(float deltatime)
@@ -45,38 +45,38 @@ void SampleScene2::Update(float deltatime)
     {
         //OutputDebugStringA("\nZ is pressed ! \n");
         GetComponent<TransformComponent>("cube")->position.z += 1.f * deltatime;
-        GetComponent<TransformComponent>("cube")->dirty = true;
-        GetComponent<TransformComponent>("camera")->dirty = true;
+        //GetComponent<TransformComponent>("cube")->dirty = true;
+        //GetComponent<TransformComponent>("camera")->dirty = true;
     }
     if (InputManager::GetKeyIsPressed('S'))
     {
         GetComponent<TransformComponent>("cube")->position.z -= 1.f * deltatime;
-        GetComponent<TransformComponent>("cube")->dirty = true;
-        GetComponent<TransformComponent>("camera")->dirty = true;
+        //GetComponent<TransformComponent>("cube")->dirty = true;
+        //GetComponent<TransformComponent>("camera")->dirty = true;
     }
     if (InputManager::GetKeyIsPressed('Q'))
     {
         GetComponent<TransformComponent>("cube")->position.x -= 1.f * deltatime;
-        GetComponent<TransformComponent>("cube")->dirty = true;
-        GetComponent<TransformComponent>("camera")->dirty = true;
+        //GetComponent<TransformComponent>("cube")->dirty = true;
+        //GetComponent<TransformComponent>("camera")->dirty = true;
     }
     if (InputManager::GetKeyIsPressed('D'))
     {
         GetComponent<TransformComponent>("cube")->position.x += 1.f * deltatime;
-        GetComponent<TransformComponent>("cube")->dirty = true;
-        GetComponent<TransformComponent>("camera")->dirty = true;
+        //GetComponent<TransformComponent>("cube")->dirty = true;
+        //GetComponent<TransformComponent>("camera")->dirty = true;
     }
     if (InputManager::GetKeyIsPressed(VK_SPACE))
     {
         GetComponent<TransformComponent>("cube")->position.y += 1.f * deltatime;
-        GetComponent<TransformComponent>("cube")->dirty = true;
-        GetComponent<TransformComponent>("camera")->dirty = true;
+        //GetComponent<TransformComponent>("cube")->dirty = true;
+        //GetComponent<TransformComponent>("camera")->dirty = true;
     }
     if (InputManager::GetKeyIsPressed(VK_CONTROL))
     {
         GetComponent<TransformComponent>("cube")->position.y -= 1.f * deltatime;
-        GetComponent<TransformComponent>("cube")->dirty = true;
-        GetComponent<TransformComponent>("camera")->dirty = true;
+        //GetComponent<TransformComponent>("cube")->dirty = true;
+        //GetComponent<TransformComponent>("camera")->dirty = true;
         
     }
     if (InputManager::GetKeyIsReleased('A'))
