@@ -45,6 +45,7 @@ public:
 	bool IsColidingWith();
 	//..
 
+	Entity* GetEntity() { return &m_entity; };
 	template<typename T>
 	void AddComponent(T* comp) { mp_ecsManager->AddComponent<T>(m_entity, comp); }
 	template<typename T>
