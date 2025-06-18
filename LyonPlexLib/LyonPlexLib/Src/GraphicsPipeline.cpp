@@ -42,19 +42,19 @@ void GraphicsPipeline::CreateRootSignature()
 		0                                  // offset in descriptors (auto) -> autre possibilite : D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND
 	);
 
-	// 2. Definit un descriptor range pour Sampler (optionnel)
-	CD3DX12_DESCRIPTOR_RANGE1 samplerRanges[1];
-	samplerRanges[0].Init(
-		D3D12_DESCRIPTOR_RANGE_TYPE_SAMPLER,
-		1,      // un sampler "linear wrap" par defaut
-		0,      // s0
-		0
-	);          // A REVOIR
+	//// 2. Definit un descriptor range pour Sampler (optionnel)
+	//CD3DX12_DESCRIPTOR_RANGE1 samplerRanges[1];
+	//samplerRanges[0].Init(
+	//	D3D12_DESCRIPTOR_RANGE_TYPE_SAMPLER,
+	//	1,      // un sampler "linear wrap" par defaut
+	//	0,      // s0
+	//	0
+	//);          // A REVOIR
 
 
 	// 0) shader with camera
 	// 1) Definition des deux root parameters (slot b0 et b1)
-	CD3DX12_ROOT_PARAMETER1 rootParams[4];
+	CD3DX12_ROOT_PARAMETER1 rootParams[3];
 	// Slot 0 : Camera View & Proj
 	rootParams[0].InitAsConstantBufferView(0); // <- b0 côte shader pour camera (view & proj)
 
@@ -67,22 +67,31 @@ void GraphicsPipeline::CreateRootSignature()
 		&ranges[0], // pointeur sur notre range SRV
 		D3D12_SHADER_VISIBILITY_PIXEL
 	);
-	// Slot 3 : Sampler descriptor table
-	rootParams[3].InitAsDescriptorTable(
-		1,
-		&samplerRanges[0],
-		D3D12_SHADER_VISIBILITY_PIXEL
-	);
+	//// Slot 3 : Sampler descriptor table
+	//rootParams[3].InitAsDescriptorTable(
+	//	1,
+	//	&samplerRanges[0],
+	//	D3D12_SHADER_VISIBILITY_PIXEL
+	//);
 	/* rootParams supplementaires   */
 
+	// Static sampler (s0)
+	D3D12_STATIC_SAMPLER_DESC samplerDesc = {};
+	samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	samplerDesc.ShaderRegister = 0;
+	samplerDesc.RegisterSpace = 0;
+	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 
 	//// 2) Construire la root signature
 	D3D12_VERSIONED_ROOT_SIGNATURE_DESC rootSigDesc = {};
 	rootSigDesc.Version = D3D_ROOT_SIGNATURE_VERSION_1_1;
 	rootSigDesc.Desc_1_1.NumParameters = _countof(rootParams);
 	rootSigDesc.Desc_1_1.pParameters = rootParams;
-	rootSigDesc.Desc_1_1.NumStaticSamplers = 0;         // A REVOIR
-	rootSigDesc.Desc_1_1.pStaticSamplers = nullptr;     // A REVOIR
+	rootSigDesc.Desc_1_1.NumStaticSamplers = 1;         // A REVOIR
+	rootSigDesc.Desc_1_1.pStaticSamplers = &samplerDesc;     // A REVOIR
 	rootSigDesc.Desc_1_1.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	// 3) Serialiser et creer
@@ -331,7 +340,7 @@ void GraphicsPipeline::CreateRootSignature2D()
 	// Build versioned root-signature
 	D3D12_VERSIONED_ROOT_SIGNATURE_DESC rsDesc = {};
 	rsDesc.Version = D3D_ROOT_SIGNATURE_VERSION_1_1;
-	rsDesc.Desc_1_1.NumParameters = 3;
+	rsDesc.Desc_1_1.NumParameters = _countof(rootParams);
 	rsDesc.Desc_1_1.pParameters = rootParams;
 	rsDesc.Desc_1_1.NumStaticSamplers = 1;
 	rsDesc.Desc_1_1.pStaticSamplers = &samplerDesc;
