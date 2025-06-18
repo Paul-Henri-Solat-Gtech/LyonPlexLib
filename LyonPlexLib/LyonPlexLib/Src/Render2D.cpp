@@ -122,9 +122,9 @@ void Render2D::RecordCommands()
 	D3D12_GPU_DESCRIPTOR_HANDLE srvBase = mp_descriptorManager->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart();
 	cmdList->SetGraphicsRootDescriptorTable(2, srvBase);
 
-	auto samplerBase = mp_descriptorManager->GetSamplerHeap()
+	/*auto samplerBase = mp_descriptorManager->GetSamplerHeap()
 		->GetGPUDescriptorHandleForHeapStart();
-	cmdList->SetGraphicsRootDescriptorTable(3, samplerBase);
+	cmdList->SetGraphicsRootDescriptorTable(3, samplerBase);*/
 
 	// 5) IA setup (quad global)
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
