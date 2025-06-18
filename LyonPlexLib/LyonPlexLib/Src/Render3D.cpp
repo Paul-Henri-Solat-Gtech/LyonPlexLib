@@ -76,11 +76,9 @@ void Render3D::RecordCommands()
 	//);
 	//const float clearColor[] = { 0.1f, 0.2f, 0.3f, 1.0f };
 	//mp_commandManager->GetCommandList()->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
-
 	//// Clear DSV
 	//CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle(mp_descriptorManager->GetDsvHeap()->GetCPUDescriptorHandleForHeapStart(), frameIdx, mp_descriptorManager->GetDsvDescriptorSize());
 	//mp_commandManager->GetCommandList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH,  1.0f, 0, 0, nullptr);
-
 	//// F) OMSetRenderTargets (RTV + DSV)
 	//mp_commandManager->GetCommandList()->OMSetRenderTargets(1, &rtvHandle, FALSE, &dsvHandle);
 
@@ -158,7 +156,9 @@ bool Render3D::InitConstantBuffer()
 	CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_UPLOAD);
 
 	// Decrire un buffer de m_cbSize octets
-	CD3DX12_RESOURCE_DESC bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(m_cbSize/* * mp_graphicsDevice->GetFrameCount() * m_ECS->GetEntityCount()*/);
+	//int mawEntityCount = mp_graphicsDevice->GetFrameCount() * m_ECS->GetEntityCount();
+
+	CD3DX12_RESOURCE_DESC bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(m_cbSize);
 
 	// Creer le buffer upload
 	HRESULT hr = mp_graphicsDevice->GetDevice()->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE, &bufferDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&m_cbTransformUpload));
@@ -168,8 +168,9 @@ bool Render3D::InitConstantBuffer()
 	}
 
 	// 5) Mapper une seule fois pour recuperer l’adresse CPU
-	CD3DX12_RANGE readRange(0, 0); // on ne lit jamais CPU→GPU
-	hr = m_cbTransformUpload->Map(0, &readRange, reinterpret_cast<void**>(&m_mappedCBData));
+	//CD3DX12_RANGE readRange(0, 0); // on ne lit jamais CPU -> GPU
+	//hr = m_cbTransformUpload->Map(0, &readRange, reinterpret_cast<void**>(&m_mappedCBData));
+	hr = m_cbTransformUpload->Map(0, nullptr, &m_mappedCBData);
 	if (FAILED(hr))
 	{
 		return false;
@@ -202,13 +203,15 @@ void Render3D::UpdateAndBindCB(Entity ent)
 	cbData.materialIndex = meshComp->materialID;
 
 	UpdateCbParams();
-	UINT entityOffset = ent.id * m_cbSize;
-	UINT frameOffset = mp_graphicsDevice->GetFrameIndex() * m_entityCount * m_cbSize;
-	UINT finalOffset = frameOffset + entityOffset;
+	//UINT entityOffset = ent.id * m_cbSize;
+	//UINT frameOffset = mp_graphicsDevice->GetFrameIndex() * m_entityCount * m_cbSize;
+	//UINT finalOffset = frameOffset + entityOffset;
 
 	//// 4) Copier les donnees dans le buffer upload mappe
-	memcpy((BYTE*)m_mappedCBData + finalOffset, &cbData, sizeof(ConstantBuffData));
+	//memcpy((BYTE*)m_mappedCBData + finalOffset, &cbData, sizeof(ConstantBuffData));
+	memcpy(m_mappedCBData, &cbData, sizeof(cbData));
 
 	// 5) Binder le constant buffer au root slot 1 (register b1) avec offset
-	mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(/*rootParameterIndex=*/ 1, m_cbTransformUpload->GetGPUVirtualAddress() + finalOffset);
+	//mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(/*rootParameterIndex=*/ 1, m_cbTransformUpload->GetGPUVirtualAddress() + finalOffset);
+	mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(/*rootParameterIndex=*/ 1, m_cbTransformUpload->GetGPUVirtualAddress());
 }

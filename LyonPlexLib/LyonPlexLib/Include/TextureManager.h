@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "GraphicsDevice.h"
 #include "DescriptorManager.h"
+#include "CommandManager.h"
 
 //#include <d3d12.h>
 #include <filesystem>
@@ -43,7 +44,7 @@ public:
     using TextureID = ResourceManager<TextureData, std::string>::ResourceID;
 
 
-    void Init(GraphicsDevice* graphicsDevice, DescriptorManager* descriptorManager);
+    void Init(GraphicsDevice* graphicsDevice, DescriptorManager* descriptorManager, CommandManager* commandManager);
 
     // Load or retrieve existing texture
     TextureID LoadTexture(const std::string& key);
@@ -53,6 +54,7 @@ public:
 
 private:
     ResourceManager<TextureData, std::string> m_textures;
-    GraphicsDevice* m_graphicsDevice;
-    DescriptorManager* m_descMgr;
+    GraphicsDevice* mp_graphicsDevice;
+    CommandManager* mp_commandManager;
+    DescriptorManager* mp_descMgr;
 };

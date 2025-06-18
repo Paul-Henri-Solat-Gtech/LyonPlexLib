@@ -10,9 +10,6 @@ bool Render2D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* gd, Desc
 	mp_descriptorManager = dm;
 	mp_commandManager = cm;
 
-	m_textureManager = new TextureManager;
-	m_textureManager->Init(gd, dm);
-
 	m_graphicsPipeline.Init(mp_graphicsDevice, mp_descriptorManager, mp_commandManager);
 	m_meshManager.Init(mp_graphicsDevice);
 
@@ -20,11 +17,6 @@ bool Render2D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* gd, Desc
 	{
 		return false;
 	}
-
-
-	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
-	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
-	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test.png");
 
 	CreatePipeline();
 	Resize(800, 600);
@@ -57,7 +49,8 @@ bool Render2D::InitConstantBuffer()
 	else
 		totalSize = m_cbSize * m_ECS->GetEntityCount();
 	//CD3DX12_RESOURCE_DESC   desc = CD3DX12_RESOURCE_DESC::Buffer(totalSize);
-	CD3DX12_RESOURCE_DESC   desc = CD3DX12_RESOURCE_DESC::Buffer(m_cbSize/* * mp_graphicsDevice->GetFrameCount() * m_ECS->GetEntityCount()*/);
+	//CD3DX12_RESOURCE_DESC   desc = CD3DX12_RESOURCE_DESC::Buffer(m_cbSize/* * mp_graphicsDevice->GetFrameCount() * m_ECS->GetEntityCount()*/);
+	CD3DX12_RESOURCE_DESC   desc = CD3DX12_RESOURCE_DESC::Buffer(sizeof(CB2D_World));
 	if (FAILED(mp_graphicsDevice->GetDevice()->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&m_cbUpload))))
 		return false;
 
@@ -181,10 +174,12 @@ void Render2D::RecordCommands()
 		UINT finalOffset = frameOffset + entityOffset;
 
 		// 7d) Copier dans le CB upload
-		memcpy((BYTE*)m_mappedCB +/*entityOffset*/ finalOffset, &cbData, sizeof(CB2D_World /*cbData*/));
+		//memcpy((BYTE*)m_mappedCB +/*entityOffset*/ finalOffset, &cbData, sizeof(CB2D_World /*cbData*/));
+		memcpy((BYTE*)m_mappedCB, &cbData, sizeof(CB2D_World));
 
 		// 7e) Bind CB world (slot b1)
-		cmdList->SetGraphicsRootConstantBufferView(1, m_cbUpload->GetGPUVirtualAddress() + /*entityOffset*/ finalOffset);
+		//cmdList->SetGraphicsRootConstantBufferView(1, m_cbUpload->GetGPUVirtualAddress() + /*entityOffset*/ finalOffset);
+		cmdList->SetGraphicsRootConstantBufferView(1, m_cbUpload->GetGPUVirtualAddress());
 		
 		// 7f) Draw
 		const MeshData& quad = m_meshManager.GetMeshLib().Get(mc->meshID);
@@ -250,6 +245,4 @@ void Render2D::CreatePipeline()
 
 void Render2D::Release()
 {
-	delete m_textureManager;
-	m_textureManager = nullptr;
 }

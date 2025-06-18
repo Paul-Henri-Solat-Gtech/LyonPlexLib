@@ -5,11 +5,11 @@ void SampleScene2::Start()
 {
 	//OutputDebugStringA("\nHI ! I am sample scene. \n");
 
-	auto& TxtMngr = mp_sceneManager->GetGameManager()->GetTextureManager();
+	/*auto& TxtMngr = mp_sceneManager->GetGameManager()->GetTextureManager();
 
 	TxtMngr.LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
 	TxtMngr.LoadTexture("../LyonPlexLib/Ressources/Test.png");
-	TxtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
+	TxtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");*/
 
 	CreateEntity("camera");
 	AddComponent<CameraComponent>("camera", new CameraComponent());

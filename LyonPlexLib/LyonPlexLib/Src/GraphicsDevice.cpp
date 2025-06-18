@@ -19,6 +19,9 @@ void GraphicsDevice::CreateGraphicsDevice()
 
 void GraphicsDevice::CreateDevice()
 {
+    ComPtr<ID3D12Debug> debug;
+    if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debug))))
+        debug->EnableDebugLayer();
     // Creer le device
     //ComPtr<IDXGIFactory6> factory;
     CreateDXGIFactory1(IID_PPV_ARGS(&m_factory));
@@ -44,7 +47,8 @@ void GraphicsDevice::CreateSwapChain()
     UINT renderHeight = renderZone.bottom - renderZone.top;
     DXGI_SWAP_CHAIN_DESC1 scDesc = {};
     scDesc.BufferCount = FRAMECOUNT;
-    scDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // Changer pour DXGI_FORMAT_R8G8B8A8_UNORM_SRGB 
+    scDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // Changer pour DXGI_FORMAT_R8G8B8A8_UNORM_SRGB ?
+    //scDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB; 
     scDesc.Width = renderWidth;  // 800 ou la taille de ta fenetre
     scDesc.Height = renderHeight; // 600
     scDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;

@@ -42,7 +42,7 @@ bool RenderingManager::Init(ECSManager* ECS)
     }
     //m_render2D.CreatePipeline();
 
-    m_textureManager.Init(&m_graphicsDevice, &m_descriptorManager);
+    m_textureManager.Init(&m_graphicsDevice, &m_descriptorManager, &m_commandManager);
 
     return true;
 }

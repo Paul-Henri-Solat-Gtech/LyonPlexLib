@@ -48,7 +48,6 @@ private:
 
     // managers 2D
     MeshManager			m_meshManager;
-    TextureManager*     m_textureManager = nullptr;
 
     // constant buffer view ortho
     ComPtr<ID3D12Resource>   m_cbProjUpload = nullptr;   // pour la matrice ortho
