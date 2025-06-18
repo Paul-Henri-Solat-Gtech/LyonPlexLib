@@ -112,7 +112,7 @@ void Render2D::RecordCommands()
 	cmdList->SetPipelineState(m_graphicsPipeline.GetPipelineState().Get());
 
 	// 2) Heaps SRV + Sampler
-	ID3D12DescriptorHeap* heaps[] = { mp_descriptorManager->GetSrvHeap(), mp_descriptorManager->GetSamplerHeap() };
+	ID3D12DescriptorHeap* heaps[] = { mp_descriptorManager->GetSrvHeap()/*, mp_descriptorManager->GetSamplerHeap()*/ };
 	cmdList->SetDescriptorHeaps(_countof(heaps), heaps);
 
 	// 3) CB projection (slot b0)
