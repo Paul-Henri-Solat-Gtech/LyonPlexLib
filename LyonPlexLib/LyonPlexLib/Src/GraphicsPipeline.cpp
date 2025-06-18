@@ -310,10 +310,10 @@ void GraphicsPipeline::CreateRootSignature2D()
 	// Only three root parameters: b0 (proj), b1 (world), t0 (SRV table)
 	CD3DX12_ROOT_PARAMETER1 rootParams[3];
 	rootParams[0].InitAsConstantBufferView(0, 0);
-	rootParams[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+	//rootParams[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
 
 	rootParams[1].InitAsConstantBufferView(1, 0);
-	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	//rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 
 	rootParams[2].InitAsDescriptorTable(
 		1, &srvRange, D3D12_SHADER_VISIBILITY_PIXEL);
@@ -406,9 +406,11 @@ void GraphicsPipeline::CreatePipelineStateObject2D()
 	psoDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
 	// No depth-test for 2D
+	psoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT); // Init a default
 	psoDesc.DepthStencilState.DepthEnable = FALSE;
 	psoDesc.DepthStencilState.StencilEnable = FALSE;
 
+	// (une méthode à ajouter pour récupérer la description)
 	psoDesc.SampleMask = UINT_MAX;
 	psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 	psoDesc.NumRenderTargets = 1;
