@@ -18,12 +18,12 @@ void SampleScene2::Start()
 	CreateEntity("cube");
 	AddComponent<Type_3D>("cube", new Type_3D());
 	AddComponent<MeshComponent>("cube", new MeshComponent(2, 0));
-	GetComponent<TransformComponent>("cube")->position = { 0, 0, -1 };
+	GetComponent<TransformComponent>("cube")->position = { 0, 0, 1 };
 
 	CreateEntity("cube2");
 	AddComponent<Type_3D>("cube2", new Type_3D());
 	AddComponent<MeshComponent>("cube2", new MeshComponent(2, 1));
-	GetComponent<TransformComponent>("cube2")->position = { 1, 0, -1 };
+	GetComponent<TransformComponent>("cube2")->position = { 1, 0, 1 };
 
 	CreateEntity("bras");
 	AddComponent<Type_2D>("bras", new Type_2D());
