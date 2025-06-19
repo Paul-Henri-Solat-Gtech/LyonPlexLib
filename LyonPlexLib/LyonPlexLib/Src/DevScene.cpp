@@ -12,9 +12,15 @@ void DevScene::Start()
 
     SetParent("camera", "cube2");
 
-	newIdGM = 0;
+	CreateGameObject("placementCube");
+	GetGameObjectByName("placementCube").SetPosition({ 0, 1, 0 });
+
+	SetParent("placementCube", "camera");
+
+	m_newIdGM = 0;
 	
 	// Test
+
 }
 
 void DevScene::Update(float deltatime)
@@ -60,7 +66,7 @@ void DevScene::Update(float deltatime)
 	if (InputManager::GetKeyIsReleased(VK_LBUTTON))
 	{
 		XMFLOAT3 posCamera = GetGameObjectByName("cube2").GetPosition();
-		std::string gmName = "GM" + std::to_string(newIdGM);
+		std::string gmName = "GM" + std::to_string(m_newIdGM);
 
 		CreateGameObject(gmName);
 		GetGameObjectByName(gmName).SetPosition({ posCamera });
@@ -69,7 +75,7 @@ void DevScene::Update(float deltatime)
 		std::string msg = "\nAdded " + gmName + " At[ X: " + std::to_string(GetGameObjectByName(gmName).GetPosition().x) + " Y: " + std::to_string(GetGameObjectByName(gmName).GetPosition().y) + " Z: " + std::to_string(GetGameObjectByName(gmName).GetPosition().z);
 		OutputDebugStringA(msg.c_str());
 
-		newIdGM++;
+		m_newIdGM++;
 	}
 
 	// Generating scene outpout
@@ -88,6 +94,11 @@ void DevScene::Update(float deltatime)
 			}
 		}
 		OutputDebugStringA("\n----------- --------------------- -----------\n");
+	}
+
+	if (InputManager::GetKeyIsReleased(VK_F2))
+	{
+		OutputDebugStringA("\nUNDO\n");
 	}
 }
 

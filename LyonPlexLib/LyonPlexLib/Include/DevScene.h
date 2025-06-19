@@ -7,7 +7,7 @@ public:
 	void Release() override;
 
 private:
-
-	int newIdGM;
+	GameObject m_lastPlacedGm;
+	int m_newIdGM;
 };
 
