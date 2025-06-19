@@ -26,6 +26,7 @@
     <ClInclude Include="Include\ComponentManager.h" />
     <ClInclude Include="Include\Components.h" />
     <ClInclude Include="Include\DescriptorManager.h" />
+    <ClInclude Include="Include\DevScene.h" />
     <ClInclude Include="Include\ECSManager.h" />
     <ClInclude Include="Include\EntityManager.h" />
     <ClInclude Include="Include\GameManager.h" />
@@ -62,6 +63,7 @@
     <ClCompile Include="Src\CommandManager.cpp" />
     <ClCompile Include="Src\ComponentManager.cpp" />
     <ClCompile Include="Src\DescriptorManager.cpp" />
+    <ClCompile Include="Src\DevScene.cpp" />
     <ClCompile Include="Src\ECSManager.cpp" />
     <ClCompile Include="Src\EntityManager.cpp" />
     <ClCompile Include="Src\GameManager.cpp" />
@@ -98,6 +100,9 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
       <FileType>Document</FileType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Ressources\TestBRAS.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

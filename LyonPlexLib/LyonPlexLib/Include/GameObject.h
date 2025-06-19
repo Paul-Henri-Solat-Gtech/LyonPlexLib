@@ -39,10 +39,13 @@ public:
 	void SetScale(XMFLOAT3 scl) { GetComponent<TransformComponent>()->scale = scl; };
 	XMFLOAT3 GetScale() { return GetComponent<TransformComponent>()->scale; };
 
+	//void SetTexture() { GetComponent<MeshComponent>(new MeshComponent(2, 0); };
+
 	bool IsColiding();
 	bool IsColidingWith();
 	//..
 
+	Entity* GetEntity() { return &m_entity; };
 	template<typename T>
 	void AddComponent(T* comp) { mp_ecsManager->AddComponent<T>(m_entity, comp); }
 	template<typename T>

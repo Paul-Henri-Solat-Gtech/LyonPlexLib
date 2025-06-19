@@ -35,6 +35,8 @@ public:
 	GameObject& GetGameObjectByName(const std::string& gameObjectName);
 	GameObject& GetGameObjectByTag(Tag gameObjectTag);
 
+	void SetParent(const std::string& gameObjectNameChild, const std::string& gameObjectNameParent);
+
 	// Component Entity
 	template<typename T>
 	void AddComponent(const std::string& entityName, T* comp)

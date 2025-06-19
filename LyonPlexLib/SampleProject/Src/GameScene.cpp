@@ -3,30 +3,53 @@
 
 void GameScene::Start()
 {
-    CreateEntity("camera");
-    AddComponent<CameraComponent>("camera", new CameraComponent());
-    GetComponent<TransformComponent>("camera")->position = { 0, 0, -1 };
-
-    CreateEntity("cube");
-    AddComponent<MeshComponent>("cube", new MeshComponent(2, 0));
-    GetComponent<TransformComponent>("cube")->position = { 0, 0, -1 };
-
-    CreateEntity("cube4");
-    AddComponent<Type_3D>("cube4", new Type_3D());
-    AddComponent<MeshComponent>("cube4", new MeshComponent(2, 0));
-    GetComponent<TransformComponent>("cube4")->position = { 1, 0, 3 };
-
-    //CreateGameObject("testGm");
-    //GetGameObjectByName("testGm").GetComponent<TransformComponent>()->position = { 1, 1, 4 };
+    CreateGameObject("camera2");
+    GetGameObjectByName("camera2").AddComponent<CameraComponent>(new CameraComponent());
+    GetGameObjectByName("camera2").SetPosition({ 0, 0.5, -1 });
+    
+    CreateGameObject("cube2");
+    GetGameObjectByName("cube2").SetPosition({ 0, 0, -1 });
 
     CreateGameObject("testGm");
     GetGameObjectByName("testGm").SetPosition({ 2, 1, 3 });
 
-    GetComponent<TransformComponent>("camera")->parent = { GetEntity("cube")->id };
+    SetParent("camera2", "cube2");
 }
 
 void GameScene::Update(float deltatime)
 {
+	//Input
+	if (InputManager::GetKeyIsPressed('Z'))
+	{
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.z += 1.f * deltatime;
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed('S'))
+	{
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.z -= 1.f * deltatime;
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed('Q'))
+	{
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.x -= 1.f * deltatime;
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed('D'))
+	{
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.x += 1.f * deltatime;
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed(VK_SPACE))
+	{
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.y += 1.f * deltatime;
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed(VK_CONTROL))
+	{
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.y -= 1.f * deltatime;
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->dirty = true;
+	}
+
     if (InputManager::GetKeyIsReleased('A'))
     {
         ChangeScene("SampleScene2");

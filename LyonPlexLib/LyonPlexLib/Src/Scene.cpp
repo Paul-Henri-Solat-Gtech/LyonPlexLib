@@ -106,3 +106,13 @@ GameObject& Scene::GetGameObjectByTag(Tag gameObjectTag)
 		}
 	}
 }
+
+void Scene::SetParent(const std::string& gameObjectNameChild, const std::string& gameObjectNameParent)
+{
+	GameObject& objChild = GetGameObjectByName(gameObjectNameChild);
+	GameObject& objParent = GetGameObjectByName(gameObjectNameParent);
+
+	//objChild.GetComponent<TransformComponent>()->parent = { objParent.GetEntity()->id };
+	GetGameObjectByName(gameObjectNameChild).GetComponent<TransformComponent>()->parent = { GetGameObjectByName(gameObjectNameParent).GetEntity()->id };
+
+}
