@@ -200,6 +200,12 @@ void GraphicsPipeline::CreatePipelineStateObject()
 	psoDesc.RasterizerState = rasterDesc;
 
 	psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+	// enable alpha blending
+	psoDesc.BlendState.RenderTarget[0].BlendEnable = TRUE;
+	psoDesc.BlendState.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	psoDesc.BlendState.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+	psoDesc.BlendState.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+	psoDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
 	// 5) Depth-Stencil State : ON et test LESS pour un cube « normal »
 	D3D12_DEPTH_STENCIL_DESC depthDesc = {};

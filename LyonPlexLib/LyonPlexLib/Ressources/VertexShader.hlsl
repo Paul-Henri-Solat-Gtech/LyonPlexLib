@@ -63,6 +63,9 @@ float4 PSMain(PSInput input) : SV_Target
 {
     // On echantillonne la bonne texture
     return textures[materialIndex].Sample(linearClamp, input.uv);
+    //float4 c = textures[materialIndex].Sample(linearClamp, input.uv);
+    //c.rgb = pow(c.rgb, 1.0 / 2.2); // format lineraire a RGB
+    //return c;
     //return textures[idx].Sample(linearClamp[idx], uv);
     
 }
