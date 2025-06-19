@@ -54,7 +54,7 @@ void Render3D::RecordCommands()
 
 	// Bind des Heaps SRV + Sampler
 	// 1. Rassemble tous tes descriptor heaps (SRV + Sampler)
-	ID3D12DescriptorHeap* heaps[] = {mp_descriptorManager->GetSrvHeap(), mp_descriptorManager->GetSamplerHeap()}; //  SRV heap (contenant toutes les textures) et Sampler heap
+	ID3D12DescriptorHeap* heaps[] = {mp_descriptorManager->GetSrvHeap()/*, mp_descriptorManager->GetSamplerHeap()*/}; //  SRV heap (contenant toutes les textures) et Sampler heap ATTENTION SAMPLERS ONT CASSE LA PORTABILITE
 	mp_commandManager->GetCommandList()->SetDescriptorHeaps(_countof(heaps), heaps);
 
 	// 2. Bind UNE SEULE FOIS l’integralite de ton heap SRV au slot t0 (rootParameter index = 2)
