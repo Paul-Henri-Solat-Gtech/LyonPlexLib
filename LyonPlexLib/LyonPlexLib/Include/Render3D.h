@@ -19,7 +19,7 @@ struct ConstantBuffData
 class Render3D : public IRender
 {
 public:
-	bool Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphicsDevice, DescriptorManager* descriptorManager, CommandManager* commandManager) override;
+	bool Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphicsDevice, DescriptorManager* descriptorManager, CommandManager* commandManager, MeshManager* meshManager) override;
 
 
 	void Resize(int w, int h) override;
@@ -43,7 +43,7 @@ private:
 	CommandManager* mp_commandManager;
 
 	GraphicsPipeline	m_graphicsPipeline;
-	MeshManager			m_meshManager;
+	MeshManager*		m_meshManager;
 	//TextureManager* m_textureManager = nullptr;
 
 	//ECS Manager

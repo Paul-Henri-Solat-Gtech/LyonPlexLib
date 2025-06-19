@@ -1,45 +1,172 @@
 ﻿#pragma once
 
+//#include "GraphicsDevice.h"
+//#include "ResourceManager.h"
+//
+//struct VertexParam
+//{
+//	XMFLOAT3 Position;		// Position des points
+//	XMFLOAT4 Color;			// Couleur des points
+//	XMFLOAT2 TexCoord;	// Coordonees du point sur la texture ?
+//	//XMFLOAT3 Normal;		// Normale ・la face visible du mesh (vecteur de direction)
+//};
+//
+//
+//struct MeshData
+//{
+//	std::vector<VertexParam> vertices;   // ici, on stocke directement les VertexParam (pas des pointeurs pcq struct legere)
+//	std::vector<uint16_t> indices;
+//	UINT vOffset = 0;   // decalage dans le buffer global
+//	UINT vSize = 0;   // nombre de sommets
+//	UINT iOffset = 0;   // decalage dans le buffer global
+//	UINT iSize = 0;   // nombre d’indices
+//
+//	bool LoadFromFile(const std::string& path)
+//	{
+//		// ici tu lis le fichier (obj, fbx, gltf, etc.),
+//		// tu fills `vertices` et `indices`,
+//		// et tu retournes true/false suivant le succes.
+//	}
+//	void Unload()
+//	{
+//		// si tu veux desallouer ou liberer toute ressource GPU associee
+//		vertices.clear();
+//		indices.clear();
+//	}
+//};
+//
+//class MeshManager
+//{
+//public:
+//	void Init(GraphicsDevice* graphicsDevice);
+
+
 #include "GraphicsDevice.h"
 #include "ResourceManager.h"
+//#include "d3dx12.h"
+//#include <DirectXMath.h>
+#include "tiny_obj_loader.h"
+//#include <unordered_map>
 
 struct VertexParam
 {
-	XMFLOAT3 Position;		// Position des points
-	XMFLOAT4 Color;			// Couleur des points
-	XMFLOAT2 TexCoord;	// Coordonees du point sur la texture ?
-	//XMFLOAT3 Normal;		// Normale ・la face visible du mesh (vecteur de direction)
+    XMFLOAT3 Position;
+    XMFLOAT4 Color;
+    XMFLOAT2 TexCoord;
+    XMFLOAT3 Normal;
+
+    bool operator==(VertexParam const& o) const {
+        return memcmp(this, &o, sizeof(VertexParam)) == 0;
+    }
 };
 
+namespace std 
+{
+    template<> 
+    struct hash<VertexParam> 
+    {
+        size_t operator()(VertexParam const& v) const noexcept 
+        {
+            // simple hash combine
+            size_t h = std::hash<float>()(v.Position.x);
+            h = h * 31 + std::hash<float>()(v.Position.y);
+            h = h * 31 + std::hash<float>()(v.Position.z);
+            h = h * 31 + std::hash<float>()(v.Normal.x);
+            h = h * 31 + std::hash<float>()(v.Normal.y);
+            h = h * 31 + std::hash<float>()(v.Normal.z);
+            h = h * 31 + std::hash<float>()(v.TexCoord.x);
+            h = h * 31 + std::hash<float>()(v.TexCoord.y);
+            return h;
+        }
+    };
+}
 
 struct MeshData
 {
-	std::vector<VertexParam> vertices;   // ici, on stocke directement les VertexParam (pas des pointeurs pcq struct legere)
-	std::vector<uint16_t> indices;
-	UINT vOffset = 0;   // decalage dans le buffer global
-	UINT vSize = 0;   // nombre de sommets
-	UINT iOffset = 0;   // decalage dans le buffer global
-	UINT iSize = 0;   // nombre d’indices
+    std::vector<VertexParam> vertices;
+    std::vector<uint16_t>    indices;
+    UINT vOffset = 0;
+    UINT vSize = 0;
+    UINT iOffset = 0;
+    UINT iSize = 0;
 
-	bool LoadFromFile(const std::string& path)
-	{
-		// ici tu lis le fichier (obj, fbx, gltf, etc.),
-		// tu fills `vertices` et `indices`,
-		// et tu retournes true/false suivant le succes.
-	}
-	void Unload()
-	{
-		// si tu veux desallouer ou liberer toute ressource GPU associee
-		vertices.clear();
-		indices.clear();
-	}
+    bool LoadFromFile(const std::string& path)
+    {
+        tinyobj::attrib_t attrib;
+        std::vector<tinyobj::shape_t> shapes;
+        std::vector<tinyobj::material_t> materials;
+        std::string warn, err;
+        if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path.c_str()))
+            return false;
+
+        std::unordered_map<VertexParam, uint16_t> uniqueVertices;
+        for (auto const& shape : shapes) {
+            for (auto const& idx : shape.mesh.indices) {
+                VertexParam vp{};
+                vp.Position = {
+                    attrib.vertices[3 * idx.vertex_index + 0],
+                    attrib.vertices[3 * idx.vertex_index + 1],
+                    attrib.vertices[3 * idx.vertex_index + 2]
+                };
+                if (idx.normal_index >= 0)
+                    vp.Normal = {
+                        attrib.normals[3 * idx.normal_index + 0],
+                        attrib.normals[3 * idx.normal_index + 1],
+                        attrib.normals[3 * idx.normal_index + 2]
+                };
+                if (idx.texcoord_index >= 0)
+                    vp.TexCoord = {
+                        attrib.texcoords[2 * idx.texcoord_index + 0],
+                        attrib.texcoords[2 * idx.texcoord_index + 1]
+                };
+                vp.Color = { 1,1,1,1 };
+
+                if (uniqueVertices.count(vp) == 0) {
+                    uniqueVertices[vp] = static_cast<uint16_t>(vertices.size());
+                    vertices.push_back(vp);
+                }
+                indices.push_back(uniqueVertices[vp]);
+            }
+        }
+        vSize = static_cast<UINT>(vertices.size());
+        iSize = static_cast<UINT>(indices.size());
+        return true;
+    }
+
+    void Unload()
+    {
+        vertices.clear();
+        indices.clear();
+    }
 };
 
 class MeshManager
 {
 public:
-	void Init(GraphicsDevice* graphicsDevice);
+    void Init(GraphicsDevice* graphicsDevice)
+    {
+        mp_graphicsDevice = graphicsDevice;
+        // Optionnel: charger shapes basiques
+        InitializeMesh_Triangle();
+        InitializeMesh_Square();
+        InitializeMesh_Cube();
+        // ...
 
+        Entity tree = { -1 };
+        LoadObjMesh("../LyonPlexLib/Ressources/ArbreTest.obj", tree.id);
+        BuildAndUploadGlobalBuffers();
+    }
+
+    bool LoadObjMesh(const std::string& path, uint32_t& outMeshID)
+    {
+        MeshData mesh;
+        if (!mesh.LoadFromFile(path))
+            return false;
+        outMeshID = m_meshLibrary.Add(mesh);
+        return true;
+    }
+
+    // ICI ET EN DESSOUS NON CHANGE
 	D3D12_VERTEX_BUFFER_VIEW& GetGlobalVBView() { return m_globalVBView; };
 	D3D12_INDEX_BUFFER_VIEW& GetGlobalIBView() { return m_globalIBView; };
 

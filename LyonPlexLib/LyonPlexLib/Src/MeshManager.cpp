@@ -1,24 +1,27 @@
 ﻿#include "pch.h"
 #include "MeshManager.h"
 
-void MeshManager::Init(GraphicsDevice* graphicsDevice)
-{
-	mp_graphicsDevice = graphicsDevice;
+#define TINYOBJLOADER_IMPLEMENTATION
+#include <tiny_obj_loader.h>
 
-	// Initialisation de tous les mesh
-	//InitializeMesh_Cube();
-	InitializeMesh_Triangle();
-	InitializeMesh_Square();
-	InitializeMesh_Cube();
-	// ...
-
-
-	// Build & upload meshs
-	BuildAndUploadGlobalBuffers();
-
-	//InitConstantBuffer();
-
-}
+//void MeshManager::Init(GraphicsDevice* graphicsDevice)
+//{
+//	mp_graphicsDevice = graphicsDevice;
+//
+//	// Initialisation de tous les mesh
+//	//InitializeMesh_Cube();
+//	InitializeMesh_Triangle();
+//	InitializeMesh_Square();
+//	InitializeMesh_Cube();
+//	// ...
+//
+//
+//	// Build & upload meshs
+//	BuildAndUploadGlobalBuffers();
+//
+//	//InitConstantBuffer();
+//
+//}
 
 
 MeshData MeshManager::CreateMesh_Triangle()
@@ -26,9 +29,9 @@ MeshData MeshManager::CreateMesh_Triangle()
 	MeshData m;
 	m.vertices =
 	{
-		{{ 0.0f,  0.25f, 0.0f},{1,1,0,1}},
-		{{ 0.25f,-0.25f, 0.0f},{0,0,0,1}},
-		{{-0.25f,-0.25f, 0.0f},{0,0,0,1}},
+		{{ 0.0f,  0.25f, 0.0f}, { 1, 1, 0, 1}, {0,1}, { 0,  0, -1}},
+		{{ 0.25f,-0.25f, 0.0f}, { 0, 0, 0, 1}, {0,1}, { 0,  0, -1}},
+		{{-0.25f,-0.25f, 0.0f}, { 0, 0, 0, 1}, {0,1}, { 0,  0, -1}},
 	};
 
 	// Definition des indices pour dessiner 2 triangles
@@ -46,13 +49,13 @@ MeshData MeshManager::CreateMesh_Square()
 	m.vertices =
 	{
 		// coin haut-gauche
-		{{ -1, 1, 0.0f},{5,1,0,1}},
+		{{ -1, 1, 0.0f},	{ 5, 1, 0, 1}, {0,1}, { 0,  0, -1}},
 		// coin bas-gauche
-		{{ -1, -1, 0.0f},{0,0,0,1}},
+		{{ -1, -1, 0.0f},	{ 0, 0, 0, 1}, {0,1}, { 0,  0, -1}},
 		// coin bas-droit
-		{{ 1, -1, 0.0f},{0,0,0,1}},
+		{{ 1, -1, 0.0f},	{ 0, 0, 0, 1}, {0,1}, { 0,  0, -1}},
 		// coin haut-droit
-		{{ 1, 1, 0.0f},{0,0,0,1}},
+		{{ 1, 1, 0.0f},		{ 0, 0, 0, 1}, {0,1}, { 0,  0, -1}},
 	};
 
 	// Definition des indices pour dessiner 2 triangles
@@ -68,77 +71,44 @@ MeshData MeshManager::CreateMesh_Square()
 }
 MeshData MeshManager::CreateMesh_Cube()
 {
-	//MeshData m;
-	//m.vertices =
-	//{
-	//	// Face avant (z = -0.25)
-	//	{{-0.25f,  0.25f, -0.25f}, {1,0,0,1}, {0,0}},   //  {position} , {couleur} , {UV}
-	//	{{-0.25f, -0.25f, -0.25f}, {0,1,0,1}, {0,1}},   
-	//	{{ 0.25f, -0.25f, -0.25f}, {0,0,1,1}, {1,1}},   
-	//	{{ 0.25f,  0.25f, -0.25f}, {1,1,0,1}, {1,0}},  
-
-	//	// Face arriere (z = +0.25)
-	//	{{-0.25f,  0.25f,  0.25f}, {1,0,1,1}, {1,0}},  
-	//	{{-0.25f, -0.25f,  0.25f}, {0,1,1,1}, {1,1}},   
-	//	{{ 0.25f, -0.25f,  0.25f}, {1,1,1,1}, {0,1}},  
-	//	{{ 0.25f,  0.25f,  0.25f}, {0,0,0,1}, {0,0}},   
-	//};
-
-	//// Definition des indices pour dessiner 2 triangles
-	//m.indices =
-	//{
-	//	// Face avant
-	//	0, 1, 2,  0, 2, 3,
-	//	// Face arriere
-	//	4, 6, 5,  4, 7, 6,
-	//	// Face gauche
-	//	4, 5, 1,  4, 1, 0,
-	//	// Face droite
-	//	3, 2, 6,  3, 6, 7,
-	//	// Face haut
-	//	4, 0, 3,  4, 3, 7,
-	//	// Face bas
-	//	1, 5, 6,  1, 6, 2
-	//};
-
 	MeshData m;
 	m.vertices =
 	{
 		// Face avant (z = -0.25)
-		{{-0.25f,  0.25f, -0.25f}, {1,0,0,1}, {0,0}},
-		{{-0.25f, -0.25f, -0.25f}, {0,1,0,1}, {0,1}},
-		{{ 0.25f, -0.25f, -0.25f}, {0,0,1,1}, {1,1}},
-		{{ 0.25f,  0.25f, -0.25f}, {1,1,0,1}, {1,0}},
+		{{-0.25f,  0.25f, -0.25f}, {1,0,0,1}, {0,0}, { 0,  0, -1}},
+		{{-0.25f, -0.25f, -0.25f}, {0,1,0,1}, {0,1}, { 0,  0, -1}},
+		{{ 0.25f, -0.25f, -0.25f}, {0,0,1,1}, {1,1}, { 0,  0, -1}},
+		{{ 0.25f,  0.25f, -0.25f}, {1,1,0,1}, {1,0}, { 0,  0, -1}},
 
 		// Face arrière (z = +0.25)
-		{{ 0.25f,  0.25f,  0.25f}, {1,0,1,1}, {0,0}},
-		{{ 0.25f, -0.25f,  0.25f}, {0,1,1,1}, {0,1}},
-		{{-0.25f, -0.25f,  0.25f}, {1,1,1,1}, {1,1}},
-		{{-0.25f,  0.25f,  0.25f}, {0,0,0,1}, {1,0}},
+		{{ 0.25f,  0.25f,  0.25f}, {1,0,1,1}, {0,0}, { 0,  0, 1}},
+		{{ 0.25f, -0.25f,  0.25f}, {0,1,1,1}, {0,1}, { 0,  0, 1}},
+		{{-0.25f, -0.25f,  0.25f}, {1,1,1,1}, {1,1}, { 0,  0, 1}},
+		{{-0.25f,  0.25f,  0.25f}, {0,0,0,1}, {1,0}, { 0,  0, 1}},
 
 		// Face gauche (x = -0.25)
-		{{-0.25f,  0.25f,  0.25f}, {1,0,1,1}, {0,0}},
-		{{-0.25f, -0.25f,  0.25f}, {0,1,1,1}, {0,1}},
-		{{-0.25f, -0.25f, -0.25f}, {0,1,0,1}, {1,1}},
-		{{-0.25f,  0.25f, -0.25f}, {1,0,0,1}, {1,0}},
+		{{-0.25f,  0.25f,  0.25f}, {1,0,1,1}, {0,0}, { -1,  0, 0}},
+		{{-0.25f, -0.25f,  0.25f}, {0,1,1,1}, {0,1}, { -1,  0, 0}},
+		{{-0.25f, -0.25f, -0.25f}, {0,1,0,1}, {1,1}, { -1,  0, 0}},
+		{{-0.25f,  0.25f, -0.25f}, {1,0,0,1}, {1,0}, { -1,  0, 0}},
 
 		// Face droite (x = +0.25)
-		{{ 0.25f,  0.25f, -0.25f}, {1,1,0,1}, {0,0}},
-		{{ 0.25f, -0.25f, -0.25f}, {0,0,1,1}, {0,1}},
-		{{ 0.25f, -0.25f,  0.25f}, {1,1,1,1}, {1,1}},
-		{{ 0.25f,  0.25f,  0.25f}, {1,0,1,1}, {1,0}},
+		{{ 0.25f,  0.25f, -0.25f}, {1,1,0,1}, {0,0}, { 1,  0, 0}},
+		{{ 0.25f, -0.25f, -0.25f}, {0,0,1,1}, {0,1}, { 1,  0, 0}},
+		{{ 0.25f, -0.25f,  0.25f}, {1,1,1,1}, {1,1}, { 1,  0, 0}},
+		{{ 0.25f,  0.25f,  0.25f}, {1,0,1,1}, {1,0}, { 1,  0, 0}},
 
 		// Face haut (y = +0.25)
-		{{-0.25f,  0.25f,  0.25f}, {1,0,1,1}, {0,0}},
-		{{-0.25f,  0.25f, -0.25f}, {1,0,0,1}, {0,1}},
-		{{ 0.25f,  0.25f, -0.25f}, {1,1,0,1}, {1,1}},
-		{{ 0.25f,  0.25f,  0.25f}, {0,0,0,1}, {1,0}},
+		{{-0.25f,  0.25f,  0.25f}, {1,0,1,1}, {0,0}, { 0,  1, 0}},
+		{{-0.25f,  0.25f, -0.25f}, {1,0,0,1}, {0,1}, { 0,  1, 0}},
+		{{ 0.25f,  0.25f, -0.25f}, {1,1,0,1}, {1,1}, { 0,  1, 0}},
+		{{ 0.25f,  0.25f,  0.25f}, {0,0,0,1}, {1,0}, { 0,  1, 0}},
 
 		// Face bas (y = -0.25)
-		{{-0.25f, -0.25f, -0.25f}, {0,1,0,1}, {0,0}},
-		{{-0.25f, -0.25f,  0.25f}, {0,1,1,1}, {0,1}},
-		{{ 0.25f, -0.25f,  0.25f}, {1,1,1,1}, {1,1}},
-		{{ 0.25f, -0.25f, -0.25f}, {0,0,1,1}, {1,0}},
+		{{-0.25f, -0.25f, -0.25f}, {0,1,0,1}, {0,0}, { 0,  -1, 0}},
+		{{-0.25f, -0.25f,  0.25f}, {0,1,1,1}, {0,1}, { 0,  -1, 0}},
+		{{ 0.25f, -0.25f,  0.25f}, {1,1,1,1}, {1,1}, { 0,  -1, 0}},
+		{{ 0.25f, -0.25f, -0.25f}, {0,0,1,1}, {1,0}, { 0,  -1, 0}},
 	};
 
 	// Indices : chaque face fait 2 triangles, on incrémente de 4 à chaque fois
@@ -165,7 +135,7 @@ HRESULT MeshManager::BuildAndUploadGlobalBuffers()
 	size_t indexCursor = 0;
 
 	// Parcours chaque MeshData enregistre (du plus petit ID au plus grand)
-	for (uint32_t id = 0; id < m_meshLibrary.Count(); ++id) 
+	for (uint32_t id = 0; id < m_meshLibrary.Count(); ++id)
 	{
 		MeshData& md = m_meshLibrary.Get(id);
 
@@ -179,7 +149,7 @@ HRESULT MeshManager::BuildAndUploadGlobalBuffers()
 		globalVerts.insert(globalVerts.end(), md.vertices.begin(), md.vertices.end());
 
 		// 3) Ajouter les indices, corriges par le decalage vOffset
-		for (auto idx : md.indices) 
+		for (auto idx : md.indices)
 		{
 			globalIdxs.push_back(static_cast<uint16_t>(idx + md.vOffset));
 		}
@@ -213,7 +183,7 @@ HRESULT MeshManager::BuildAndUploadGlobalBuffers()
 	// Index Buffer
 	{
 		auto ibDesc = CD3DX12_RESOURCE_DESC::Buffer(iByteSize);
-		mp_graphicsDevice->GetDevice()->CreateCommittedResource( &heapProps, D3D12_HEAP_FLAG_NONE, &ibDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&m_globalIndexBuffer));
+		mp_graphicsDevice->GetDevice()->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE, &ibDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&m_globalIndexBuffer));
 
 		void* pData = nullptr;
 		CD3DX12_RANGE readRange(0, 0);
@@ -252,4 +222,5 @@ void MeshManager::InitializeMesh_Cube()
 	auto cubeID = m_meshLibrary.Add(cube);
 
 }
+
 

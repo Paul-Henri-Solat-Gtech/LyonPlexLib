@@ -3,18 +3,19 @@
 //#include "../../ExternalLib/DirectXTK12-main/Src/d3dx12.h"
 //#include <DirectXMath.h>
 
-bool Render2D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* gd, DescriptorManager* dm, CommandManager* cm)
+bool Render2D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* gd, DescriptorManager* dm, CommandManager* cm, MeshManager* meshManager)
 {
 	m_ECS = ECS;
 	mp_graphicsDevice = gd;
 	mp_descriptorManager = dm;
 	mp_commandManager = cm;
+	m_meshManager = meshManager;
 
 	m_textureManager = new TextureManager;
 	m_textureManager->Init(gd, dm);
 
 	m_graphicsPipeline.Init(mp_graphicsDevice, mp_descriptorManager, mp_commandManager);
-	m_meshManager.Init(mp_graphicsDevice);
+	//m_meshManager.Init(mp_graphicsDevice);
 
 	if (!InitConstantBuffer())
 	{
@@ -135,8 +136,8 @@ void Render2D::RecordCommands()
 
 	// 5) IA setup (quad global)
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	cmdList->IASetVertexBuffers(0, 1, &m_meshManager.GetGlobalVBView());
-	cmdList->IASetIndexBuffer(&m_meshManager.GetGlobalIBView());
+	cmdList->IASetVertexBuffers(0, 1, &m_meshManager->GetGlobalVBView());
+	cmdList->IASetIndexBuffer(&m_meshManager->GetGlobalIBView());
 
 
 
@@ -187,7 +188,7 @@ void Render2D::RecordCommands()
 		cmdList->SetGraphicsRootConstantBufferView(1, m_cbUpload->GetGPUVirtualAddress() + /*entityOffset*/ finalOffset);
 		
 		// 7f) Draw
-		const MeshData& quad = m_meshManager.GetMeshLib().Get(mc->meshID);
+		const MeshData& quad = m_meshManager->GetMeshLib().Get(mc->meshID);
 		cmdList->DrawIndexedInstanced(quad.iSize, 1, quad.iOffset, /*quad.vOffset*/0, 0);
 		});
 

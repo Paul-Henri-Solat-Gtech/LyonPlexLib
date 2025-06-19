@@ -7,7 +7,7 @@ public:
 
 	void CreatePipeline();
 
-	void CreatePipeline3D();
+	//void CreatePipeline3D();
 	void CreatePipeline2D();
 
 	ComPtr<ID3D12RootSignature>& GetRootSignature() { return m_rootSignature; };

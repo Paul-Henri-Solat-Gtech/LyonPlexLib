@@ -4,7 +4,6 @@
 #include "RenderingManager.h"
 #include "ECSManager.h"
 #include "SceneManager.h"
-//#include "WICTextureLoader.h"
 #include "chrono"
 
 class GameManager 
@@ -22,6 +21,7 @@ public:
     void Release();
 
     TextureManager& GetTextureManager() { return m_renderer.GetTextureManager(); }
+    MeshManager& GetMeshManager() { return m_renderer.GetMeshManager(); }
 
     SceneManager* GetSceneManager() { return &m_sceneManager; };
     double& GetDeltaTime() { return m_deltaTime; };

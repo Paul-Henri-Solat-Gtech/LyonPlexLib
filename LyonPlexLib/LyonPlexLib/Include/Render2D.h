@@ -23,7 +23,7 @@ struct CB2D_World
 class Render2D : public IRender
 {
 public:
-    bool Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphicsDevice, DescriptorManager* descriptorManager, CommandManager* commandManager) override;
+    bool Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphicsDevice, DescriptorManager* descriptorManager, CommandManager* commandManager, MeshManager* meshManager) override;
 
 
     void Resize(int w, int h) override;
@@ -47,7 +47,7 @@ private:
     GraphicsPipeline    m_graphicsPipeline;
 
     // managers 2D
-    MeshManager			m_meshManager;
+    MeshManager*		m_meshManager;
     TextureManager*     m_textureManager = nullptr;
 
     // constant buffer view ortho

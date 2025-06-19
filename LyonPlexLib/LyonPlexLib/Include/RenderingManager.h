@@ -10,6 +10,7 @@
 #include "CommandManager.h"
 #include "CameraManager.h"
 #include "TextureManager.h"
+#include "MeshManager.h"
 #include "Render3D.h"
 #include "Render2D.h"
 
@@ -36,6 +37,7 @@ public:
 	CommandManager* GetCommandManager() { return &m_commandManager; }
 
 	TextureManager& GetTextureManager() { return m_textureManager; }
+	MeshManager& GetMeshManager() { return m_meshManager; }
 
 	Render3D* GetRender3D() { return &m_render3D; }
 	Render2D* GetRender2D() { return &m_render2D; }
@@ -58,7 +60,8 @@ private:
 	DescriptorManager m_descriptorManager;
 	CommandManager m_commandManager;
 
-	TextureManager m_textureManager;
+	TextureManager	m_textureManager;
+	MeshManager		m_meshManager;
 
 	Render3D m_render3D;
 	Render2D m_render2D;

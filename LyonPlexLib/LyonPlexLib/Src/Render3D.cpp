@@ -1,7 +1,7 @@
 ﻿#include "pch.h"
 #include "Render3D.h"
 
-bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphicsDevice, DescriptorManager* descriptorManager, CommandManager* commandManager)
+bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphicsDevice, DescriptorManager* descriptorManager, CommandManager* commandManager, MeshManager* meshManager)
 {
 	m_ECS = ECS;
 
@@ -13,10 +13,10 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 	mp_descriptorManager = descriptorManager;
 	mp_commandManager = commandManager;
 	m_windowWP = windowHandle;
-
+	m_meshManager = meshManager;
 
 	m_graphicsPipeline.Init(mp_graphicsDevice, mp_descriptorManager, mp_commandManager);
-	m_meshManager.Init(mp_graphicsDevice);
+	//m_meshManager.Init(mp_graphicsDevice);
 
 	InitConstantBuffer();
 	UpdateCbParams();
@@ -64,8 +64,8 @@ void Render3D::RecordCommands()
 
 	//Draw vertices and index (mesh)
 	mp_commandManager->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	mp_commandManager->GetCommandList()->IASetVertexBuffers(0, 1, &m_meshManager.GetGlobalVBView());
-	mp_commandManager->GetCommandList()->IASetIndexBuffer(&m_meshManager.GetGlobalIBView());
+	mp_commandManager->GetCommandList()->IASetVertexBuffers(0, 1, &m_meshManager->GetGlobalVBView());
+	mp_commandManager->GetCommandList()->IASetIndexBuffer(&m_meshManager->GetGlobalIBView());
 
 	//UINT frameIdx = mp_graphicsDevice->GetFrameIndex();
 	//// Clear RTV
@@ -119,7 +119,7 @@ void Render3D::RecordCommands()
 			uint32_t matID = meshComp->materialID;
 
 
-			const MeshData& data = m_meshManager.GetMeshLib().Get(meshComp->meshID);
+			const MeshData& data = m_meshManager->GetMeshLib().Get(meshComp->meshID);
 			mp_commandManager->GetCommandList()->DrawIndexedInstanced(
 				data.iSize,      // nombre d’indices
 				1,
@@ -222,7 +222,7 @@ void Render3D::RecordCommands()
 			m_cbTransformUpload->GetGPUVirtualAddress() + finalOffset);
 
 		// 4) Draw
-		auto& data = m_meshManager.GetMeshLib().Get(
+		auto& data = m_meshManager->GetMeshLib().Get(
 			m_ECS->GetComponent<MeshComponent>(ent)->meshID);
 		mp_commandManager->GetCommandList()->DrawIndexedInstanced(data.iSize, 1, data.iOffset, 0, 0);
 
