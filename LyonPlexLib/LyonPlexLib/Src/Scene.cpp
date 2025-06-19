@@ -75,10 +75,10 @@ GameObject& Scene::CreateGameObject(const std::string& gameObjectName)
 
 	return newGameObject;
 }
-GameObject& Scene::CreateGameObject(const std::string& gameObjectName, DimensionalType type)
+GameObject& Scene::CreateGameObject(const std::string& gameObjectName, DimensionalType type, bool useMesh)
 {
 	GameObject newGameObject;
-	newGameObject.Init(gameObjectName, mp_ecsManager, type);
+	newGameObject.Init(gameObjectName, mp_ecsManager, type, useMesh);
 	
 	m_sceneGameObjects.push_back(newGameObject);
 

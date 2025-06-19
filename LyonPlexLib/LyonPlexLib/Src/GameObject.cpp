@@ -20,7 +20,7 @@ void GameObject::Init(const std::string& name, ECSManager* ecsManager)
 	AddComponent<TransformComponent>(new TransformComponent());
 	GetComponent<TransformComponent>()->position = { 0, 0, 0 };
 }
-void GameObject::Init(const std::string& name, ECSManager* ecsManager, DimensionalType type)
+void GameObject::Init(const std::string& name, ECSManager* ecsManager, DimensionalType type, bool useMesh)
 {
 	SetName(name);
 	SetTag(TAG_None);
@@ -30,13 +30,12 @@ void GameObject::Init(const std::string& name, ECSManager* ecsManager, Dimension
 	//	Adding basics component(s) for any entity in scene & default parameters :
 
 	// MESH
-	AddComponent<MeshComponent>(new MeshComponent(2, 0));
+	if (useMesh) 
+	{
+		AddComponent<MeshComponent>(new MeshComponent(2, 0));
+	}
 
 	// TYPE
-	if (type == TYPE_3D)
-	{
-		AddComponent<Type_3D>(new Type_3D());
-	}
 	if (type == TYPE_2D)
 	{
 		AddComponent<Type_2D>(new Type_2D());

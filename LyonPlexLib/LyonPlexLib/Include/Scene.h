@@ -30,10 +30,12 @@ public:
 	Entity* GetEntity(const std::string& entityName);
 
 	GameObject& CreateGameObject(const std::string& gameObjectName);
-	GameObject& CreateGameObject(const std::string& gameObjectName, DimensionalType type);
+	GameObject& CreateGameObject(const std::string& gameObjectName, DimensionalType type, bool useMesh);
 
 	GameObject& GetGameObjectByName(const std::string& gameObjectName);
 	GameObject& GetGameObjectByTag(Tag gameObjectTag);
+
+	std::vector<GameObject>& GetSceneGameObjects() { return m_sceneGameObjects; };
 
 	void SetParent(const std::string& gameObjectNameChild, const std::string& gameObjectNameParent);
 
