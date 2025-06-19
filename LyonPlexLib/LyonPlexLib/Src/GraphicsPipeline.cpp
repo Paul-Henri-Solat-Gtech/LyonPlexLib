@@ -193,6 +193,7 @@ void GraphicsPipeline::CreatePipelineStateObject()
 	// ) Rasterizer State : on veut afficher la face exterieure, winding CCW = front
 	D3D12_RASTERIZER_DESC rasterDesc = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
 	rasterDesc.CullMode = D3D12_CULL_MODE_BACK;          // On elimine les faces arriere (celles qu'on ne veut pas voir)
+	//rasterDesc.CullMode = D3D12_CULL_MODE_NONE;          // On elimine laucune face
 	rasterDesc.FrontCounterClockwise = TRUE;             // CCW = face avant, CW = face arriere 
 	rasterDesc.FillMode = D3D12_FILL_MODE_SOLID;         // Remplir normalement
 	rasterDesc.DepthClipEnable = TRUE;

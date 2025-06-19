@@ -18,6 +18,7 @@ enum ComponentID
 
     // Types (3D, 2D, UI)
     Type_3D_ID,
+    Type_2D5_ID,
     Type_2D_ID,
     Type_UI_ID,
 
@@ -176,6 +177,14 @@ struct Type_3D : public Component
     }
 };
 
+struct Type_2D5 : public Component {
+    static constexpr uint32_t StaticTypeID = Type_2D5_ID;
+    Type_2D5() {
+        mask = 1ULL << StaticTypeID;
+        typeID = StaticTypeID;
+    }
+};
+
 struct Type_2D : public Component
 {
     static constexpr uint32_t StaticTypeID = Type_2D_ID;
@@ -186,4 +195,3 @@ struct Type_2D : public Component
         typeID = StaticTypeID;
     }
 };
-

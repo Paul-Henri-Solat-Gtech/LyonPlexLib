@@ -21,7 +21,7 @@ void SampleScene2::Start()
 	GetComponent<TransformComponent>("cube")->position = { 0, 0, -1 };
 
 	CreateEntity("cube2");
-	AddComponent<Type_3D>("cube2", new Type_3D());
+	AddComponent<Type_2D5>("cube2", new Type_2D5());
 	AddComponent<MeshComponent>("cube2", new MeshComponent(2, 1));
 	GetComponent<TransformComponent>("cube2")->position = { 1, 0, -1 };
 
@@ -33,13 +33,13 @@ void SampleScene2::Start()
 	GetComponent<TransformComponent>("bras")->SetRotation(0, 0, 180);
 	GetComponent<TransformComponent>("bras")->dirty = true;
 
-	//CreateEntity("cube2D");
-	//AddComponent<Type_2D>("cube2D", new Type_2D());
-	//AddComponent<MeshComponent>("cube2D", new MeshComponent(2, 0));
-	//GetComponent<TransformComponent>("cube2D")->position = { 400, 300, 0 };
-	//GetComponent<TransformComponent>("cube2D")->scale = { 300, 300, 0 };
-	////GetComponent<TransformComponent>("cube2D")->SetRotation(0 ,0, 0);
-	//GetComponent<TransformComponent>("cube2D")->dirty = true;
+	CreateEntity("cube2D");
+	AddComponent<Type_2D5>("cube2D", new Type_2D5());
+	AddComponent<MeshComponent>("cube2D", new MeshComponent(2, 0));
+	GetComponent<TransformComponent>("cube2D")->position = { 2, 0, 0 };
+	GetComponent<TransformComponent>("cube2D")->scale = { 2, 2, 0 };
+	//GetComponent<TransformComponent>("cube2D")->SetRotation(0 ,0, 0);
+	GetComponent<TransformComponent>("cube2D")->dirty = true;
 
 	CreateEntity("cube4");
 	AddComponent<Type_3D>("cube4", new Type_3D());
@@ -51,7 +51,8 @@ void SampleScene2::Start()
 
 void SampleScene2::Update(float deltatime)
 {
-	//GetComponent<TransformComponent>("cube2D")->AddRotation(0 ,1, 0);
+	GetComponent<TransformComponent>("cube2D")->AddRotation(0 ,0.5, 0);
+	GetComponent<TransformComponent>("cube2")->AddRotation(0 ,0.5, 0);
 
 	//Input
 	if (InputManager::GetKeyIsPressed('Z'))

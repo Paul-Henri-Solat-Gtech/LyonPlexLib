@@ -7,7 +7,7 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 
 	//m_textureManager = new TextureManager;
 
-	
+
 
 	mp_graphicsDevice = graphicsDevice;
 	mp_descriptorManager = descriptorManager;
@@ -24,7 +24,7 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 	CreatePipeline();
 
 	// Ce bloc permet de verifier si un chemin/fichier existe
-    /*DWORD len = GetFullPathNameW(L"..\\LyonPlexLib\\Ressources\\PixelShader.hlsl", 0, nullptr, nullptr);
+	/*DWORD len = GetFullPathNameW(L"..\\LyonPlexLib\\Ressources\\PixelShader.hlsl", 0, nullptr, nullptr);
 	std::wstring fullpath(len, L'\0');
 	GetFullPathNameW(L"..\\LyonPlexLib\\Ressources\\PixelShader.hlsl", len, fullpath.data(), nullptr);
 	MessageBoxW(nullptr, fullpath.c_str(), L"Full path", MB_OK);*/
@@ -54,7 +54,7 @@ void Render3D::RecordCommands()
 
 	// Bind des Heaps SRV + Sampler
 	// 1. Rassemble tous tes descriptor heaps (SRV + Sampler)
-	ID3D12DescriptorHeap* heaps[] = {mp_descriptorManager->GetSrvHeap()/*, mp_descriptorManager->GetSamplerHeap()*/}; //  SRV heap (contenant toutes les textures) et Sampler heap ATTENTION SAMPLERS ONT CASSE LA PORTABILITE
+	ID3D12DescriptorHeap* heaps[] = { mp_descriptorManager->GetSrvHeap()/*, mp_descriptorManager->GetSamplerHeap()*/ }; //  SRV heap (contenant toutes les textures) et Sampler heap ATTENTION SAMPLERS ONT CASSE LA PORTABILITE
 	mp_commandManager->GetCommandList()->SetDescriptorHeaps(_countof(heaps), heaps);
 
 	// 2. Bind UNE SEULE FOIS l’integralite de ton heap SRV au slot t0 (rootParameter index = 2)
@@ -113,7 +113,7 @@ void Render3D::RecordCommands()
 		{
 			//const Material& mat = materialLib.Get(m->materialID);
 
-			UpdateAndBindCB(ent); 
+			UpdateAndBindCB(ent);
 
 			MeshComponent* meshComp = m_ECS->GetComponent<MeshComponent>(ent);
 			uint32_t matID = meshComp->materialID;
@@ -127,6 +127,106 @@ void Render3D::RecordCommands()
 				0,				// BaseVertexLocation toujours = 0 ?
 				0
 			);
+		});
+
+
+	// ** passe 2.5D **
+	// on réutilise la même PSO3D, même view+proj, même depth‑test…
+	ComponentMask mask2_5 = (1ULL << MeshComponent::StaticTypeID)
+		| (1ULL << Type_2D5::StaticTypeID);
+	m_ECS->ForEach(mask2_5, [&](Entity ent) {
+		// 1) Calculer world « 2.5D » : écrasez la partie view de votre TransformSystem
+		//    pour que l’objet reste “fixe” par rapport à l’écran.
+		//    Par exemple, on veut un billboard centré :
+		auto* tc = m_ECS->GetComponent<TransformComponent>(ent);
+		if (!tc) return;
+		// 1) Charger position écran et profondeur
+		float px = tc->position.x;
+		float py = tc->position.y;
+		//float depth = tc->position.z; // distance fixe ou stockée par entité
+		float depth = 2; // distance fixe ou stockée par entité
+
+		// 2) Convertir (px,py,depth) → position view‑space
+		float ndcX = 2.0f * px / 800 - 1.0f;
+		float ndcY = 1.0f - 2.0f * py / 600;
+
+		float fovY = XMConvertToRadians(75.0f); // compris entre : 0 < Fov < PI
+
+		float tanH = tanf(fovY * 0.5f);
+		float aspect = float(renderWidth) / float(renderHeight);
+
+
+		/*XMVECTOR posView = XMVectorSet(
+			ndcX * depth * tanH * aspect,
+			ndcY * depth * tanH,
+			depth,
+			1.0f
+		);*/
+
+		XMVECTOR offsetView = XMVectorSet(
+			ndcX * depth * tanH * aspect,
+			ndcY * depth * tanH,
+			0.0f, // pas besoin de z ici
+			0.0f
+		);
+
+		XMVECTOR baseView = XMVectorSet(0.0f, 0.0f, depth, 1.0f);
+		XMVECTOR posView = XMVectorAdd(baseView, offsetView);
+
+		CameraComponent* camC = nullptr;
+
+		ComponentMask camMask = (1ULL << CameraComponent::StaticTypeID | 1ULL << TransformComponent::StaticTypeID);
+		m_ECS->ForEach(camMask, [&](Entity e)
+			{
+				camC = m_ECS->GetComponent<CameraComponent>(e);
+				if (!camC) return;
+			});
+
+
+		XMMATRIX viewMatrix = XMLoadFloat4x4(&camC->viewMatrix);
+		// 3) Ramener en espace monde
+		XMMATRIX invView = XMMatrixInverse(nullptr, viewMatrix);
+		XMVECTOR posWorld = XMVector4Transform(posView, invView);
+
+		// 4) Charger rotation et échelle depuis votre TransformComponent
+		XMVECTOR quat = XMLoadFloat4(&tc->rotation);       // votre quaternion
+		XMMATRIX R = XMMatrixRotationQuaternion(quat);
+		XMMATRIX S = XMMatrixScaling(tc->scale.x,
+			tc->scale.y,
+			tc->scale.z);
+
+		// 5) Construire la matrice world complète
+		XMMATRIX T = XMMatrixTranslationFromVector(posWorld);
+		XMMATRIX world = S * R * T;
+
+
+
+
+		// 2) Appliquer rotation billboarding si besoin
+		//    (ex: XMMatrixRotationY(cameraYaw) pour un billboard Y‑aligné)
+		//    On transposera pour le CB :
+		ConstantBuffData cb;
+		XMStoreFloat4x4(&cb.World, XMMatrixTranspose(world));
+		cb.materialIndex = m_ECS
+			->GetComponent<MeshComponent>(ent)->materialID;
+
+		// 3) Copier et binder comme en 3D
+		UpdateCbParams();
+		UINT entityOffset = ent.id * m_cbSize;
+		UINT frameOffset = mp_graphicsDevice->GetFrameIndex()
+			* m_entityCount * m_cbSize;
+		UINT finalOffset = frameOffset + entityOffset;
+		memcpy((BYTE*)m_mappedCBData + finalOffset, &cb, sizeof(cb));
+		mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(
+			/*slot b1*/ 1,
+			m_cbTransformUpload->GetGPUVirtualAddress() + finalOffset);
+
+		// 4) Draw
+		auto& data = m_meshManager.GetMeshLib().Get(
+			m_ECS->GetComponent<MeshComponent>(ent)->meshID);
+		mp_commandManager->GetCommandList()->DrawIndexedInstanced(data.iSize, 1, data.iOffset, 0, 0);
+
+
 		});
 }
 
