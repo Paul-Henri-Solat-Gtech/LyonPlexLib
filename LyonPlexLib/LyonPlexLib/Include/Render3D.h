@@ -44,7 +44,7 @@ private:
 
 	GraphicsPipeline	m_graphicsPipeline;
 	MeshManager			m_meshManager;
-	TextureManager* m_textureManager = nullptr;
+	//TextureManager* m_textureManager = nullptr;
 
 	//ECS Manager
 	ECSManager* m_ECS;

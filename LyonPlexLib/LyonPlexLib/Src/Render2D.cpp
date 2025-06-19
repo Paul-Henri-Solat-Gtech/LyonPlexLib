@@ -119,7 +119,7 @@ void Render2D::RecordCommands()
 	cmdList->SetPipelineState(m_graphicsPipeline.GetPipelineState().Get());
 
 	// 2) Heaps SRV + Sampler
-	ID3D12DescriptorHeap* heaps[] = { mp_descriptorManager->GetSrvHeap(), mp_descriptorManager->GetSamplerHeap() };
+	ID3D12DescriptorHeap* heaps[] = { mp_descriptorManager->GetSrvHeap()/*, mp_descriptorManager->GetSamplerHeap()*/ };
 	cmdList->SetDescriptorHeaps(_countof(heaps), heaps);
 
 	// 3) CB projection (slot b0)
@@ -129,9 +129,9 @@ void Render2D::RecordCommands()
 	D3D12_GPU_DESCRIPTOR_HANDLE srvBase = mp_descriptorManager->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart();
 	cmdList->SetGraphicsRootDescriptorTable(2, srvBase);
 
-	auto samplerBase = mp_descriptorManager->GetSamplerHeap()
+	/*auto samplerBase = mp_descriptorManager->GetSamplerHeap()
 		->GetGPUDescriptorHandleForHeapStart();
-	cmdList->SetGraphicsRootDescriptorTable(3, samplerBase);
+	cmdList->SetGraphicsRootDescriptorTable(3, samplerBase);*/
 
 	// 5) IA setup (quad global)
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);

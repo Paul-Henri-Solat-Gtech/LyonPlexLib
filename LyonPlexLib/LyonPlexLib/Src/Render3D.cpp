@@ -5,9 +5,9 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 {
 	m_ECS = ECS;
 
-	m_textureManager = new TextureManager;
+	//m_textureManager = new TextureManager;
 
-	m_textureManager->Init(graphicsDevice, descriptorManager);
+	
 
 	mp_graphicsDevice = graphicsDevice;
 	mp_descriptorManager = descriptorManager;
@@ -29,10 +29,10 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 	GetFullPathNameW(L"..\\LyonPlexLib\\Ressources\\PixelShader.hlsl", len, fullpath.data(), nullptr);
 	MessageBoxW(nullptr, fullpath.c_str(), L"Full path", MB_OK);*/
 
-	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
-	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
-	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test.png");
-	m_textureManager->LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
+	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
+	////m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
+	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test.png");
+	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
 
 	return true;
 }
@@ -54,7 +54,7 @@ void Render3D::RecordCommands()
 
 	// Bind des Heaps SRV + Sampler
 	// 1. Rassemble tous tes descriptor heaps (SRV + Sampler)
-	ID3D12DescriptorHeap* heaps[] = {mp_descriptorManager->GetSrvHeap(), mp_descriptorManager->GetSamplerHeap()}; //  SRV heap (contenant toutes les textures) et Sampler heap
+	ID3D12DescriptorHeap* heaps[] = {mp_descriptorManager->GetSrvHeap()/*, mp_descriptorManager->GetSamplerHeap()*/}; //  SRV heap (contenant toutes les textures) et Sampler heap ATTENTION SAMPLERS ONT CASSE LA PORTABILITE
 	mp_commandManager->GetCommandList()->SetDescriptorHeaps(_countof(heaps), heaps);
 
 	// 2. Bind UNE SEULE FOIS l’integralite de ton heap SRV au slot t0 (rootParameter index = 2)
