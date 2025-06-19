@@ -24,7 +24,7 @@ class GameObject
 {
 public:
 	void Init(const std::string& name, ECSManager* ecsManager);
-	void Init(const std::string& name, ECSManager* ecsManager, DimensionalType type);
+	void Init(const std::string& name, ECSManager* ecsManager, DimensionalType type, bool useMesh);
 
 	void SetName(const std::string& name) { m_name = name; };
 	const std::string& GetName() { return m_name; };
@@ -33,11 +33,11 @@ public:
 
 	// Components
 	void SetPosition(XMFLOAT3 pos) { GetComponent<TransformComponent>()->position = pos; };
-	XMFLOAT3 GetPosition() { return GetComponent<TransformComponent>()->position; };
+	XMFLOAT3& GetPosition() { return GetComponent<TransformComponent>()->position; };
 	void SetRotation(XMFLOAT4 rot) { GetComponent<TransformComponent>()->rotation = rot; };
-	XMFLOAT4 GetRotation() { return GetComponent<TransformComponent>()->rotation; };
+	XMFLOAT4& GetRotation() { return GetComponent<TransformComponent>()->rotation; };
 	void SetScale(XMFLOAT3 scl) { GetComponent<TransformComponent>()->scale = scl; };
-	XMFLOAT3 GetScale() { return GetComponent<TransformComponent>()->scale; };
+	XMFLOAT3& GetScale() { return GetComponent<TransformComponent>()->scale; };
 
 	//void SetTexture() { GetComponent<MeshComponent>(new MeshComponent(2, 0); };
 

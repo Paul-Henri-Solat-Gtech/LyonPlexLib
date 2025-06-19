@@ -4,6 +4,7 @@
 
 // Scenes
 #include "SampleScene.h"
+#include "DevScene.h"
 
 GameManager::GameManager(HINSTANCE hInstance) : m_hInstance(hInstance)
 {
@@ -36,6 +37,7 @@ bool GameManager::Init()
     
     // 4) Create new scene (OPTIONAL IN LIB)
     // mp_gameManager->GetSceneManager()->RegisterScene("SampleScene", []() { return new SampleScene(); });
+    m_sceneManager.RegisterScene("DevScene", []() { return new DevScene(); });
 
     return true;
 }
