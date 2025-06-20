@@ -83,7 +83,7 @@ void DevScene::Update(float deltatime)
 	{
 		if (!GetSceneGameObjects().empty())
 		{
-			DestroyGameObject(GetSceneGameObjects().back().GetName());
+			DestroyGameObject(GetSceneGameObjects().back());
 		}
 		
 		

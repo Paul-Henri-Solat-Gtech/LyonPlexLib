@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "Scene.h"
 
 void Scene::Init(SceneManager* sceneManager)
@@ -107,9 +107,21 @@ GameObject& Scene::GetGameObjectByTag(Tag gameObjectTag)
 	}
 }
 
-void Scene::DestroyGameObject(const std::string& gameObjectName)
+void Scene::DestroyGameObject(GameObject& gameObject)
 {
-	mp_ecsManager->DestroyEntity(*GetGameObjectByName(gameObjectName).GetEntity());
+	// 1) DestroyEntity
+	mp_ecsManager->DestroyEntity(*gameObject.GetEntity());
+
+	// 2) Remove Gameobject
+	const std::string& gmName = gameObject.GetName();
+	m_sceneGameObjects.erase
+	(
+		std::remove_if(
+			m_sceneGameObjects.begin(),
+			m_sceneGameObjects.end(),
+			[&](GameObject& gm) { return gm.GetName() == gmName; }),
+		m_sceneGameObjects.end()
+	);
 }
 
 void Scene::SetParent(const std::string& gameObjectNameChild, const std::string& gameObjectNameParent)
