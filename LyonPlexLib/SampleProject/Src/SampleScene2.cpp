@@ -59,7 +59,7 @@ void SampleScene2::Start()
 void SampleScene2::Update(float deltatime)
 {
 	//GetComponent<TransformComponent>("cube2D")->AddRotation(0 ,0.5, 0);
-	GetComponent<TransformComponent>("cube2")->AddRotation(0 ,0.5, 0);
+	GetComponent<TransformComponent>("cube2")->AddRotation(0 , 30 * deltatime, 0);
 
 	//Input
 	if (InputManager::GetKeyIsPressed('Z'))
