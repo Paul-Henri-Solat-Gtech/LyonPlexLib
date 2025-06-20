@@ -107,6 +107,11 @@ GameObject& Scene::GetGameObjectByTag(Tag gameObjectTag)
 	}
 }
 
+void Scene::DestroyGameObject(const std::string& gameObjectName)
+{
+	mp_ecsManager->DestroyEntity(*GetGameObjectByName(gameObjectName).GetEntity());
+}
+
 void Scene::SetParent(const std::string& gameObjectNameChild, const std::string& gameObjectNameParent)
 {
 	GameObject& objChild = GetGameObjectByName(gameObjectNameChild);

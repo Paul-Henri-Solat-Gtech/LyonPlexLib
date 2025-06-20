@@ -75,7 +75,25 @@ void DevScene::Update(float deltatime)
 		std::string msg = "\nAdded " + gmName + " At[ X: " + std::to_string(GetGameObjectByName(gmName).GetPosition().x) + " Y: " + std::to_string(GetGameObjectByName(gmName).GetPosition().y) + " Z: " + std::to_string(GetGameObjectByName(gmName).GetPosition().z);
 		OutputDebugStringA(msg.c_str());
 
+		m_lastPlacedGmName = gmName;
 		m_newIdGM++;
+	}
+	// Undo
+	if (InputManager::GetKeyIsReleased(VK_F2))
+	{
+		if (!GetSceneGameObjects().empty())
+		{
+			DestroyGameObject(m_lastPlacedGmName);
+			//m_lastPlacedGmName = GetSceneGameObjects()[GetSceneGameObjects().size].GetName();
+		}
+		
+		
+		for (auto gm : GetSceneGameObjects())
+		{
+			if (gm.GetTag() == TAG_Object)
+			{
+			}
+		}
 	}
 
 	// Generating scene outpout

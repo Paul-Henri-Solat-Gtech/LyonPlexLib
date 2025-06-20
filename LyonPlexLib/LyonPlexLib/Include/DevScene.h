@@ -7,7 +7,7 @@ public:
 	void Release() override;
 
 private:
-	GameObject m_lastPlacedGm;
+	std::string m_lastPlacedGmName;
 	int m_newIdGM;
 };
 

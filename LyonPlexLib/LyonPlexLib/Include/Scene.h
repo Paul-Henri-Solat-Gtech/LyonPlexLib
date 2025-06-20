@@ -35,6 +35,8 @@ public:
 	GameObject& GetGameObjectByName(const std::string& gameObjectName);
 	GameObject& GetGameObjectByTag(Tag gameObjectTag);
 
+	void DestroyGameObject(const std::string& gameObjectName);
+
 	std::vector<GameObject>& GetSceneGameObjects() { return m_sceneGameObjects; };
 
 	void SetParent(const std::string& gameObjectNameChild, const std::string& gameObjectNameParent);
