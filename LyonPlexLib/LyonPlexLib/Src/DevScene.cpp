@@ -83,8 +83,7 @@ void DevScene::Update(float deltatime)
 	{
 		if (!GetSceneGameObjects().empty())
 		{
-			DestroyGameObject(m_lastPlacedGmName);
-			//m_lastPlacedGmName = GetSceneGameObjects()[GetSceneGameObjects().size].GetName();
+			DestroyGameObject(GetSceneGameObjects().back().GetName());
 		}
 		
 		
