@@ -133,3 +133,13 @@ void Scene::SetParent(const std::string& gameObjectNameChild, const std::string&
 	GetGameObjectByName(gameObjectNameChild).GetComponent<TransformComponent>()->parent = { GetGameObjectByName(gameObjectNameParent).GetEntity()->id };
 
 }
+
+void Scene::EnableLockCursor()
+{
+	InputManager::EnableFPSMouseLock(mp_sceneManager->GetWindow());
+}
+
+void Scene::DisableLockCursor()
+{
+	InputManager::DisableFPSMouseLock();
+}

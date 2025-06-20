@@ -62,7 +62,7 @@ void DevScene::Update(float deltatime)
         ChangeScene("SampleScene2");
     }
 
-	// Adding blocks
+	// Adding blocks (make a function in this scene)
 	if (InputManager::GetKeyIsReleased(VK_LBUTTON))
 	{
 		XMFLOAT3 posCamera = GetGameObjectByName("cube2").GetPosition();
@@ -75,23 +75,33 @@ void DevScene::Update(float deltatime)
 		std::string msg = "\nAdded " + gmName + " At[ X: " + std::to_string(GetGameObjectByName(gmName).GetPosition().x) + " Y: " + std::to_string(GetGameObjectByName(gmName).GetPosition().y) + " Z: " + std::to_string(GetGameObjectByName(gmName).GetPosition().z);
 		OutputDebugStringA(msg.c_str());
 
-		m_lastPlacedGmName = gmName;
 		m_newIdGM++;
 	}
+
 	// Undo
 	if (InputManager::GetKeyIsReleased(VK_F2))
 	{
 		if (!GetSceneGameObjects().empty())
 		{
-			DestroyGameObject(GetSceneGameObjects().back());
-		}
-		
-		
-		for (auto gm : GetSceneGameObjects())
-		{
-			if (gm.GetTag() == TAG_Object)
+			if (GetSceneGameObjects().back().GetTag() == TAG_Object)
 			{
+				m_lastPlacedGmName = GetSceneGameObjects().back().GetName();
+				m_lastPlacedGmPos = GetSceneGameObjects().back().GetPosition();
+
+				DestroyGameObject(GetSceneGameObjects().back());
 			}
+		}
+	}
+	// Redo (Prototype)
+	if (InputManager::GetKeyIsReleased(VK_F3))
+	{
+		if (m_lastPlacedGmName != "")
+		{
+			CreateGameObject(m_lastPlacedGmName);
+			GetGameObjectByName(m_lastPlacedGmName).SetPosition(m_lastPlacedGmPos);
+			GetGameObjectByName(m_lastPlacedGmName).SetTag(TAG_Object);
+
+			m_lastPlacedGmName = "";
 		}
 	}
 
@@ -113,9 +123,18 @@ void DevScene::Update(float deltatime)
 		OutputDebugStringA("\n----------- --------------------- -----------\n");
 	}
 
-	if (InputManager::GetKeyIsReleased(VK_F2))
+	// LockMouse
+	if (InputManager::GetKeyIsReleased(VK_F5))
 	{
-		OutputDebugStringA("\nUNDO\n");
+		OutputDebugStringA("\LockMouse\n");
+		if (InputManager::IsMouseLocked()) 
+		{
+			DisableLockCursor();
+		}
+		else
+		{
+			EnableLockCursor();
+		}
 	}
 }
 

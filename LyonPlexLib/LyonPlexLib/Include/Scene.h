@@ -23,11 +23,11 @@ public:
 
 	void SetEcsManager(ECSManager* ecsManager) { mp_ecsManager = ecsManager; };
 
-	void AddEntityToScene(Entity entity, const std::string& entityName); // Only entities who need to get update like player or camera, not background or trees ..
+	void AddEntityToScene(Entity entity, const std::string& entityName); //(a enlever)
 	
-	SceneEntity CreateEntity(const std::string& entityName);
+	SceneEntity CreateEntity(const std::string& entityName);//(a enlever)
 
-	Entity* GetEntity(const std::string& entityName);
+	Entity* GetEntity(const std::string& entityName);//(a enlever)
 
 	GameObject& CreateGameObject(const std::string& gameObjectName);
 	GameObject& CreateGameObject(const std::string& gameObjectName, DimensionalType type, bool useMesh);
@@ -41,7 +41,10 @@ public:
 
 	void SetParent(const std::string& gameObjectNameChild, const std::string& gameObjectNameParent);
 
-	// Component Entity
+	void EnableLockCursor();
+	void DisableLockCursor();
+
+	// Component Entity (a enelver)
 	template<typename T>
 	void AddComponent(const std::string& entityName, T* comp)
 	{

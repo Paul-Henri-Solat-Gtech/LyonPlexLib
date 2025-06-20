@@ -7,7 +7,9 @@ public:
 	void Release() override;
 
 private:
-	std::string m_lastPlacedGmName;
 	int m_newIdGM;
+
+	std::string m_lastPlacedGmName;
+	XMFLOAT3 m_lastPlacedGmPos;
 };
 

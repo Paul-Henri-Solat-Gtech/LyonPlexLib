@@ -23,6 +23,7 @@ public:
 	void RegisterScene(const std::string& sceneName, std::function<Scene*()> sceneModel);
 
 	GameManager* GetGameManager() { return mp_gameManager; };
+	HWND GetWindow() { return m_windowHandle; };
 
 private:
 	// Ressources
