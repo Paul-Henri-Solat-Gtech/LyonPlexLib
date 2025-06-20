@@ -30,7 +30,7 @@ void SampleScene2::Start()
 	AddComponent<Type_3D>("cube2", new Type_3D());
 	AddComponent<MeshComponent>("cube2", new MeshComponent(3, 0));
 	GetComponent<TransformComponent>("cube2")->position = { 0, 0, 0 };
-	GetComponent<TransformComponent>("cube2")->scale = { 2, 2, 2 };
+	GetComponent<TransformComponent>("cube2")->scale = { 0.5, 0.5, 0.5 };
 
 	CreateEntity("bras");
 	AddComponent<Type_2D>("bras", new Type_2D());
@@ -59,7 +59,7 @@ void SampleScene2::Start()
 void SampleScene2::Update(float deltatime)
 {
 	//GetComponent<TransformComponent>("cube2D")->AddRotation(0 ,0.5, 0);
-	//GetComponent<TransformComponent>("cube2")->AddRotation(0 ,0.5, 0);
+	GetComponent<TransformComponent>("cube2")->AddRotation(0 ,0.5, 0);
 
 	//Input
 	if (InputManager::GetKeyIsPressed('Z'))
