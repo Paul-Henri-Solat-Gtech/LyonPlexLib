@@ -43,6 +43,7 @@ public:
 
 	void EnableLockCursor();
 	void DisableLockCursor();
+	void CenterLockCursor();
 
 	// Component Entity (a enelver)
 	template<typename T>

@@ -31,7 +31,7 @@ bool InputManager::GetKeyIsReleased(char keyName)
 void InputManager::EnableFPSMouseLock(HWND hWnd)
 {
 	// Masque le curseur
-	while (ShowCursor(FALSE) >= 0);
+	//while (ShowCursor(FALSE) >= 0);
 
 	// Clip le curseur à l'intérieur de la fenêtre
 	RECT rc;
@@ -59,4 +59,13 @@ void InputManager::DisableFPSMouseLock()
 	ClipCursor(nullptr);
 
 	m_mouseLocked = false;
+}
+
+void InputManager::CenterLockCursor(HWND hWnd)
+{
+	RECT rc;
+	GetClientRect(hWnd, &rc);
+	POINT center = { (rc.left + rc.right) / 2, (rc.top + rc.bottom) / 2 };
+
+	SetCursorPos(center.x, center.y);
 }

@@ -136,6 +136,11 @@ void DevScene::Update(float deltatime)
 			EnableLockCursor();
 		}
 	}
+
+	if (InputManager::IsMouseLocked()) 
+	{
+		CenterLockCursor();
+	}
 }
 
 void DevScene::Release()

@@ -7,7 +7,8 @@ public:
 
 	static void EnableFPSMouseLock(HWND hWnd);
 	static void DisableFPSMouseLock();
-	
+	static void CenterLockCursor(HWND hWnd);
+
 	static bool IsMouseLocked() { return m_mouseLocked; };
 
 private:

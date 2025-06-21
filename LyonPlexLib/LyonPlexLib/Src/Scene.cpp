@@ -143,3 +143,8 @@ void Scene::DisableLockCursor()
 {
 	InputManager::DisableFPSMouseLock();
 }
+
+void Scene::CenterLockCursor()
+{
+	InputManager::CenterLockCursor(mp_sceneManager->GetWindow());
+}
