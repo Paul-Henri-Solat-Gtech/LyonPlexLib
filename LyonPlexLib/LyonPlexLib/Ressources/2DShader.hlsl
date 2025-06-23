@@ -10,7 +10,7 @@ cbuffer ObjectBuffer : register(b1)
 };
 
 // slot t0 : textures, et sampler s0
-Texture2D textures[15] : register(t0);
+Texture2D textures[150] : register(t0);
 SamplerState linearClamp : register(s0);
 
 struct VSInput // VSmain in

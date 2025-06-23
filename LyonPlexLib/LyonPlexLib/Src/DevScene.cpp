@@ -8,17 +8,14 @@ void DevScene::Start()
     GetGameObjectByName("camera").SetPosition({ 0, 0.5, -1 });
 
     CreateGameObject("cube2");
-    GetGameObjectByName("cube2").SetPosition({ 0, 0, -1 });
+    GetGameObjectByName("cube2").SetPosition({ 0, 0, 1 });
 
     SetParent("camera", "cube2");
 
-	CreateGameObject("placementCube");
-	GetGameObjectByName("placementCube").SetPosition({ 0, 1, 0 });
-
-	SetParent("placementCube", "camera");
-
 	m_newIdGM = 0;
-	
+	m_camWalkSpeed = 1.f;
+	m_camRunSpeed = 5.f;
+	m_camSpeed = m_camWalkSpeed;
 	// Test
 
 }
@@ -26,37 +23,72 @@ void DevScene::Start()
 void DevScene::Update(float deltatime)
 {
 	//Input
+
+	//Movements
+	if (InputManager::GetKeyIsPressed(VK_SHIFT)) 
+	{
+		m_camSpeed = m_camRunSpeed;
+	}
+	else
+	{
+		m_camSpeed = m_camWalkSpeed;
+	}
+
+	//Move
 	if (InputManager::GetKeyIsPressed('Z'))
 	{
-		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.z += 1.f * deltatime;
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.z += m_camSpeed * deltatime;
 		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed('S'))
 	{
-		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.z -= 1.f * deltatime;
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.z -= m_camSpeed * deltatime;
 		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed('Q'))
 	{
-		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.x -= 1.f * deltatime;
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.x -= m_camSpeed * deltatime;
 		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed('D'))
 	{
-		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.x += 1.f * deltatime;
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.x += m_camSpeed * deltatime;
 		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed(VK_SPACE))
 	{
-		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.y += 1.f * deltatime;
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.y += m_camSpeed * deltatime;
 		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed(VK_CONTROL))
 	{
-		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.y -= 1.f * deltatime;
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->position.y -= m_camSpeed * deltatime;
 		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->dirty = true;
 	}
 
+	// Rotate
+	if (InputManager::GetKeyIsPressed(VK_RIGHT))
+	{
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->AddRotation(0.f,-100.f * deltatime,0.f);
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed(VK_LEFT))
+	{
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->AddRotation(0.f, 100.f * deltatime, 0.f);
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed(VK_UP))
+	{
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->AddRotation(100.f * deltatime, 0.f, 0.f);
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed(VK_DOWN))
+	{
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->AddRotation(-100.f * deltatime, 0.f , 0.f);
+		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->dirty = true;
+	}
+
+	// ChangeScene
     if (InputManager::GetKeyIsReleased('A'))
     {
         ChangeScene("SampleScene2");
@@ -66,10 +98,12 @@ void DevScene::Update(float deltatime)
 	if (InputManager::GetKeyIsReleased(VK_LBUTTON))
 	{
 		XMFLOAT3 posCamera = GetGameObjectByName("cube2").GetPosition();
+		XMFLOAT4 rotCamera = GetGameObjectByName("cube2").GetRotation();
 		std::string gmName = "GM" + std::to_string(m_newIdGM);
 
 		CreateGameObject(gmName);
 		GetGameObjectByName(gmName).SetPosition({ posCamera });
+		GetGameObjectByName(gmName).SetRotation({ rotCamera });
 		GetGameObjectByName(gmName).SetTag(TAG_Object);
 
 		std::string msg = "\nAdded " + gmName + " At[ X: " + std::to_string(GetGameObjectByName(gmName).GetPosition().x) + " Y: " + std::to_string(GetGameObjectByName(gmName).GetPosition().y) + " Z: " + std::to_string(GetGameObjectByName(gmName).GetPosition().z);
@@ -115,9 +149,11 @@ void DevScene::Update(float deltatime)
 			{
 				std::string cm_create = std::string("\nCreateGameObject(\"") + gm.GetName() + "\");";
 				std::string cm_position = std::string("\nGetGameObjectByName(\"") + gm.GetName() + "\").SetPosition({ " + std::to_string(gm.GetPosition().x) + "," + std::to_string(gm.GetPosition().y) + "," + std::to_string(gm.GetPosition().z) + " });";
+				std::string cm_rotation = std::string("\nGetGameObjectByName(\"") + gm.GetName() + "\").SetRotation({ " + std::to_string(gm.GetRotation().w) + "," + std::to_string(gm.GetRotation().x) + "," + std::to_string(gm.GetRotation().y) + "," + std::to_string(gm.GetRotation().z) + " });";
 
 				OutputDebugStringA(cm_create.c_str());
 				OutputDebugStringA(cm_position.c_str());
+				OutputDebugStringA(cm_rotation.c_str());
 			}
 		}
 		OutputDebugStringA("\n----------- --------------------- -----------\n");

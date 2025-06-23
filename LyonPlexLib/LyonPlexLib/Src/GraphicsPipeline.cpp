@@ -34,7 +34,7 @@ void GraphicsPipeline::CreateRootSignature()
 	// Table 0 : textures 2D
 	ranges[0].Init(
 		D3D12_DESCRIPTOR_RANGE_TYPE_SRV,   // type
-		15,                              // NumDescriptors
+		150,                              // NumDescriptors
 		0,                                 // BaseShaderRegister (t0)
 		0,                                 // register space
 		D3D12_DESCRIPTOR_RANGE_FLAG_NONE,
@@ -256,7 +256,7 @@ void GraphicsPipeline::CreateRootSignature2D()
 	CD3DX12_DESCRIPTOR_RANGE1 ranges[1];
 	ranges[0].Init(
 		D3D12_DESCRIPTOR_RANGE_TYPE_SRV,
-		15, // we'll bind all SRVs in one heap
+		150, // we'll bind all SRVs in one heap
 		0, 0,
 		D3D12_DESCRIPTOR_RANGE_FLAG_NONE,
 		0);
