@@ -52,12 +52,8 @@ void GameScene::Update(float deltatime)
 
     if (InputManager::GetKeyIsReleased('A'))
     {
-        ChangeScene("SampleScene2");
+        ChangeScene("DevScene");
     }
-	if (InputManager::GetKeyIsReleased(VK_F1))
-	{
-		ChangeScene("DevScene");
-	}
 }
 
 void GameScene::Release()

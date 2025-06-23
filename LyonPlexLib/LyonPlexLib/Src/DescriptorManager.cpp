@@ -31,7 +31,7 @@ void DescriptorManager::CreateDescriptors()
 	*/
 
 
-	CreateSrvHeap(15); // Valeur max de textures a charger
+	CreateSrvHeap(150); // Valeur max de textures a charger
 	/*
 	numSRVdescriptors = total des :
 									- Textures visibles dans les shaders (1 par entite si chaque entite a une texture)

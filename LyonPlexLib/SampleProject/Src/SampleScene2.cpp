@@ -16,6 +16,15 @@ void SampleScene2::Start()
 
 	//meshMngr.LoadObjMesh("../LyonPlexLib/Ressources/ArbreTest.obj", tree.id);
 
+	//for (int i = 0; i < 5; i++) 
+	//{
+	//	Entity newEntity = mp_ecsManager->CreateEntity();
+	//	mp_ecsManager->AddComponent<TransformComponent>(newEntity, new TransformComponent());
+	//	mp_ecsManager->GetComponent<TransformComponent>(newEntity)->position = { i * 1.5f, 0, 0 };
+	//	mp_ecsManager->AddComponent<Type_3D>(newEntity, new Type_3D());
+	//	mp_ecsManager->AddComponent<MeshComponent>(newEntity, new MeshComponent(2, 0));
+	//}
+
 	CreateEntity("camera");
 	AddComponent<CameraComponent>("camera", new CameraComponent());
 	GetComponent<TransformComponent>("camera")->position = { 0, 0.5, -1 };
@@ -53,13 +62,13 @@ void SampleScene2::Start()
 	AddComponent<MeshComponent>("cube4", new MeshComponent(2, 0));
 	GetComponent<TransformComponent>("cube4")->position = { 0, 0, 0 };
 
-	//GetComponent<TransformComponent>("camera")->parent = { GetEntity("cube")->id };
+	GetComponent<TransformComponent>("camera")->parent = { GetEntity("cube")->id };
 }
 
 void SampleScene2::Update(float deltatime)
 {
-	//GetComponent<TransformComponent>("cube2D")->AddRotation(0 ,0.5, 0);
-	GetComponent<TransformComponent>("cube2")->AddRotation(0 , 35 * deltatime, 0);
+	GetComponent<TransformComponent>("cube2D")->AddRotation(0 ,-20 * deltatime, 0);
+	GetComponent<TransformComponent>("cube2")->AddRotation(0 ,15 * deltatime, 0);
 
 	//Input
 	if (InputManager::GetKeyIsPressed('Z'))

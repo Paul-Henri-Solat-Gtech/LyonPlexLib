@@ -19,6 +19,7 @@ void GameObject::Init(const std::string& name, ECSManager* ecsManager)
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());
 	GetComponent<TransformComponent>()->position = { 0, 0, 0 };
+	GetComponent<TransformComponent>()->dirty = true;
 }
 void GameObject::Init(const std::string& name, ECSManager* ecsManager, DimensionalType type, bool useMesh)
 {
@@ -48,4 +49,5 @@ void GameObject::Init(const std::string& name, ECSManager* ecsManager, Dimension
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());
 	GetComponent<TransformComponent>()->position = { 0, 0, 0 };
+	GetComponent<TransformComponent>()->dirty = true;
 }

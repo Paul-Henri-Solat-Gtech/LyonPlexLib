@@ -15,7 +15,7 @@ cbuffer ObjectBuffer : register(b1)
 };
 
 // slot t0 : table SRV textures
-Texture2D textures[15] : register(t0);
+Texture2D textures[150] : register(t0);
 //Texture2D textures[] : register(t0);
 
 // slot s0 : sampler lineaire

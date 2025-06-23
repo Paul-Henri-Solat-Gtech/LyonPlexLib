@@ -36,8 +36,30 @@ bool GameManager::Init()
     m_sceneManager.Init(&m_ECS,this,hwnd);
     
     // 4) Create new scene (OPTIONAL IN LIB)
-    // mp_gameManager->GetSceneManager()->RegisterScene("SampleScene", []() { return new SampleScene(); });
+    m_sceneManager.RegisterScene("SampleScene", []() { return new SampleScene(); });
     m_sceneManager.RegisterScene("DevScene", []() { return new DevScene(); });
+
+    /*auto& TxtMngr = GetTextureManager();
+
+    TxtMngr.LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
+    TxtMngr.LoadTexture("../LyonPlexLib/Ressources/Test.png");
+    TxtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
+
+    Entity cam = m_ECS.CreateEntity();
+    m_ECS.AddComponent<TransformComponent>(cam, new TransformComponent());
+    m_ECS.GetComponent<TransformComponent>(cam)->position = { 0, 0, -1 };
+    m_ECS.AddComponent<CameraComponent>(cam, new CameraComponent());
+
+    for (int i = 0; i < 700; i++)
+    {
+        Entity newEntity = m_ECS.CreateEntity();
+        m_ECS.AddComponent<TransformComponent>(newEntity, new TransformComponent());
+        m_ECS.GetComponent<TransformComponent>(newEntity)->position = { i * 50.f, 100, 0 };
+        m_ECS.GetComponent<TransformComponent>(newEntity)->scale = { 50, 50, 0 };
+        m_ECS.AddComponent<Type_2D>(newEntity, new Type_2D());
+        m_ECS.AddComponent<MeshComponent>(newEntity, new MeshComponent(2, 0));
+    }*/
+
 
     return true;
 }

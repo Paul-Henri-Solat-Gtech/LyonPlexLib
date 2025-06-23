@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "Scene.h"
 
 void Scene::Init(SceneManager* sceneManager)
@@ -107,6 +107,23 @@ GameObject& Scene::GetGameObjectByTag(Tag gameObjectTag)
 	}
 }
 
+void Scene::DestroyGameObject(GameObject& gameObject)
+{
+	// 1) DestroyEntity
+	mp_ecsManager->DestroyEntity(*gameObject.GetEntity());
+
+	// 2) Remove Gameobject
+	const std::string& gmName = gameObject.GetName();
+	m_sceneGameObjects.erase
+	(
+		std::remove_if(
+			m_sceneGameObjects.begin(),
+			m_sceneGameObjects.end(),
+			[&](GameObject& gm) { return gm.GetName() == gmName; }),
+		m_sceneGameObjects.end()
+	);
+}
+
 void Scene::SetParent(const std::string& gameObjectNameChild, const std::string& gameObjectNameParent)
 {
 	GameObject& objChild = GetGameObjectByName(gameObjectNameChild);
@@ -115,4 +132,19 @@ void Scene::SetParent(const std::string& gameObjectNameChild, const std::string&
 	//objChild.GetComponent<TransformComponent>()->parent = { objParent.GetEntity()->id };
 	GetGameObjectByName(gameObjectNameChild).GetComponent<TransformComponent>()->parent = { GetGameObjectByName(gameObjectNameParent).GetEntity()->id };
 
+}
+
+void Scene::EnableLockCursor()
+{
+	InputManager::EnableFPSMouseLock(mp_sceneManager->GetWindow());
+}
+
+void Scene::DisableLockCursor()
+{
+	InputManager::DisableFPSMouseLock();
+}
+
+void Scene::CenterLockCursor()
+{
+	InputManager::CenterLockCursor(mp_sceneManager->GetWindow());
 }
