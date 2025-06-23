@@ -5,7 +5,7 @@ void DevScene::Start()
 {
     CreateGameObject("camera", TYPE_3D, false);
     GetGameObjectByName("camera").AddComponent<CameraComponent>(new CameraComponent());
-    GetGameObjectByName("camera").SetPosition({ 0, 0.5, -1 });
+    GetGameObjectByName("camera").SetPosition({ 0, 0.5, -2 });
 
     CreateGameObject("placingModule");
     GetGameObjectByName("placingModule").SetPosition({ 0, 0, 1 });
