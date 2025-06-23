@@ -11,6 +11,7 @@ void SampleScene2::Start()
 	txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
 	txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test.png");
 	txtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
+	txtMngr.LoadTexture("../LyonPlexLib/Ressources/grid.png");
 
 	Entity tree = { -1 };
 

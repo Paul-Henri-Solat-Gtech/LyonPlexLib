@@ -12,6 +12,10 @@ void DevScene::Start()
 
     SetParent("camera", "placingModule");
 
+	CreateGameObject("ground");
+	GetGameObjectByName("ground").SetPosition({ 0, -2, 0 });
+	GetGameObjectByName("ground").SetScale({ 50, 1, 50 });
+
 	m_newIdGM = 0;
 	m_camWalkSpeed = 1.f;
 	m_camRunSpeed = 5.f;
