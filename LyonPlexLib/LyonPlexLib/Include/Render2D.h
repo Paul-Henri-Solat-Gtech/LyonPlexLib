@@ -2,7 +2,6 @@
 
 #include "IRender.h"
 #include "GraphicsPipeline.h"
-#include "TextureManager.h"
 #include "MeshManager.h"
 
 // Constant buffer for projection (ortho) - slot b0
@@ -35,7 +34,10 @@ public:
 
 private:
     bool InitConstantBuffer();
-    void UpdateCbParams();
+    void AllocateCBUpload();
+    void EnsureCapacity(UINT requiredEntityCount);
+    //void UpdateAndBindCB(Entity ent);
+
 
     // memes dependances
     GraphicsDevice* mp_graphicsDevice = nullptr;
@@ -48,7 +50,6 @@ private:
 
     // managers 2D
     MeshManager*		m_meshManager;
-    TextureManager*     m_textureManager = nullptr;
 
     // constant buffer view ortho
     ComPtr<ID3D12Resource>   m_cbProjUpload = nullptr;   // pour la matrice ortho
@@ -61,9 +62,11 @@ private:
 
 
 
+    UINT                m_allocatedEntityCount = 0;  // capacité courante
+    UINT                m_frameCount = 0;            // nombre de frames en vol
 
-    // Temporary upload buffer for triangle test
-    ComPtr<ID3D12Resource> m_tempUploadBuffer;
-    void* m_mappedTemp = nullptr;
+    //// Temporary upload buffer for triangle test
+    //ComPtr<ID3D12Resource> m_tempUploadBuffer;
+    //void* m_mappedTemp = nullptr;
 
 };
