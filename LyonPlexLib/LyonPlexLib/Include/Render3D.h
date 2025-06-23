@@ -3,7 +3,6 @@
 #include "IRender.h"
 #include "GraphicsPipeline.h"
 #include "MeshManager.h"
-#include "TextureManager.h"
 
 class ECSManager;
 
@@ -19,7 +18,7 @@ struct ConstantBuffData
 class Render3D : public IRender
 {
 public:
-	bool Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphicsDevice, DescriptorManager* descriptorManager, CommandManager* commandManager) override;
+	bool Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphicsDevice, DescriptorManager* descriptorManager, CommandManager* commandManager, MeshManager* meshManager) override;
 
 
 	void Resize(int w, int h) override;
@@ -29,13 +28,16 @@ public:
 	GraphicsPipeline& GetGraphicsPipeline() { return m_graphicsPipeline; };
 
 
-	bool InitConstantBuffer();
-	void UpdateCbParams();
-	void UpdateAndBindCB(Entity ent);
-
 	void Release();
 
 private:
+
+	bool InitConstantBuffer();
+	void AllocateCBUpload();
+	void EnsureCapacity(UINT requiredEntityCount);
+	void UpdateAndBindCB(Entity ent);
+
+
 	HWND				m_windowWP;
 
 	GraphicsDevice* mp_graphicsDevice;
@@ -43,21 +45,18 @@ private:
 	CommandManager* mp_commandManager;
 
 	GraphicsPipeline	m_graphicsPipeline;
-	MeshManager			m_meshManager;
-	//TextureManager* m_textureManager = nullptr;
+	MeshManager*		m_meshManager;
 
 	//ECS Manager
 	ECSManager* m_ECS;
 
 	// Data linked to cBuffer VertexParam
 	ComPtr<ID3D12Resource>	m_cbTransformUpload = nullptr;
-	void* m_mappedCBData = nullptr;
+	void* m_mappedCBData	= nullptr;
 	UINT					m_cbSize = Align256(sizeof(ConstantBuffData)); // taille alignee a 256
 
-	// TEST
-	UINT m_entityCount = 0;
-	UINT m_frameCount = 0;
-	UINT totalSize = 0;
+	UINT                m_allocatedEntityCount = 0;  // capacité courante
+	UINT                m_frameCount = 0;            // nombre de frames en vol
 
 };
 

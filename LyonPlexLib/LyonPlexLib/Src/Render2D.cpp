@@ -3,32 +3,31 @@
 //#include "../../ExternalLib/DirectXTK12-main/Src/d3dx12.h"
 //#include <DirectXMath.h>
 
-bool Render2D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* gd, DescriptorManager* dm, CommandManager* cm)
+bool Render2D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* gd, DescriptorManager* dm, CommandManager* cm, MeshManager* meshManager)
 {
 	m_ECS = ECS;
 	mp_graphicsDevice = gd;
 	mp_descriptorManager = dm;
 	mp_commandManager = cm;
+	m_meshManager = meshManager;
 
-	m_textureManager = new TextureManager;
-	m_textureManager->Init(gd, dm);
 
 	m_graphicsPipeline.Init(mp_graphicsDevice, mp_descriptorManager, mp_commandManager);
-	m_meshManager.Init(mp_graphicsDevice);
 
 	if (!InitConstantBuffer())
 	{
 		return false;
 	}
 
-
-	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
-	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
-	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test.png");
-
 	CreatePipeline();
-	Resize(800, 600);
-	//UpdateCbParams();
+
+	// Get la width et height du client (fenetre)
+	RECT renderZone;
+	GetClientRect(mp_graphicsDevice->GetWindow(), &renderZone);
+	UINT renderWidth = renderZone.right - renderZone.left;
+	UINT renderHeight = renderZone.bottom - renderZone.top;
+
+	Resize(renderWidth, renderHeight);
 
 
 	return true;
@@ -49,46 +48,75 @@ bool Render2D::InitConstantBuffer()
 			return false;
 	}
 
-	// init du World constant buffer (object)
-	CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_UPLOAD);
-	UINT totalSize;
-	if (m_ECS->GetEntityCount() == 0)
-		totalSize = m_cbSize;
-	else
-		totalSize = m_cbSize * m_ECS->GetEntityCount();
-	//CD3DX12_RESOURCE_DESC   desc = CD3DX12_RESOURCE_DESC::Buffer(totalSize);
-	CD3DX12_RESOURCE_DESC   desc = CD3DX12_RESOURCE_DESC::Buffer(m_cbSize/* * mp_graphicsDevice->GetFrameCount() * m_ECS->GetEntityCount()*/);
-	if (FAILED(mp_graphicsDevice->GetDevice()->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&m_cbUpload))))
-		return false;
+	//// init du World constant buffer (object)
+	//CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_UPLOAD);
+	//UINT totalSize;
+	//if (m_ECS->GetEntityCount() == 0)
+	//	totalSize = m_cbSize;
+	//else
+	//	totalSize = m_cbSize * m_ECS->GetEntityCount();
+	////CD3DX12_RESOURCE_DESC   desc = CD3DX12_RESOURCE_DESC::Buffer(totalSize);
+	//CD3DX12_RESOURCE_DESC   desc = CD3DX12_RESOURCE_DESC::Buffer(m_cbSize/* * mp_graphicsDevice->GetFrameCount() * m_ECS->GetEntityCount()*/);
+	//if (FAILED(mp_graphicsDevice->GetDevice()->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&m_cbUpload))))
+	//	return false;
 
-	CD3DX12_RANGE readRange(0, 0);
-	if (FAILED(m_cbUpload->Map(0, &readRange, &m_mappedCB)))
-		return false;
+	//CD3DX12_RANGE readRange(0, 0);
+	//if (FAILED(m_cbUpload->Map(0, &readRange, &m_mappedCB)))
+	//	return false;
 
-
-
-	// Temporary upload buffer for triangle test (vertices + indices)
-	{
-		struct Vertex {
-			DirectX::XMFLOAT3 pos;
-			DirectX::XMFLOAT4 color;
-			DirectX::XMFLOAT2 uv;
-		};
-
-		const UINT vertsSize = 3 * sizeof(Vertex);
-		const UINT idxsSize = 3 * sizeof(uint16_t);
-		CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_UPLOAD);
-		CD3DX12_RESOURCE_DESC desc = CD3DX12_RESOURCE_DESC::Buffer(vertsSize + idxsSize);
-		mp_graphicsDevice->GetDevice()->CreateCommittedResource(
-			&heapProps, D3D12_HEAP_FLAG_NONE, &desc,
-			D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
-			IID_PPV_ARGS(&m_tempUploadBuffer));
-		CD3DX12_RANGE readRange(0, 0);
-		m_tempUploadBuffer->Map(0, &readRange, &m_mappedTemp);
-	}
+	// Appele lors de l'Init global de la classe
+	m_frameCount = mp_graphicsDevice->GetFrameCount();
+	// Demarre avec au moins 1 entite pour eviter taille zero
+	m_allocatedEntityCount = std::max<UINT>(1, static_cast<UINT>(m_ECS->GetEntityCount()));
+	AllocateCBUpload();
 
 	return true;
 }
+
+
+void Render2D::AllocateCBUpload()
+{
+	// Calcule la taille totale
+	UINT64 totalSize = UINT64(m_cbSize) * UINT64(m_allocatedEntityCount) * UINT64(m_frameCount);
+
+	// Libere l'ancien buffer si present
+	if (m_cbUpload)
+	{
+		m_cbUpload->Unmap(0, nullptr);
+		m_cbUpload.Reset();
+		m_mappedCB = nullptr;
+	}
+
+	// Proprietes et description
+	CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_UPLOAD);
+	CD3DX12_RESOURCE_DESC   bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(totalSize);
+
+	// Creation
+	HRESULT hr = mp_graphicsDevice->GetDevice()->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE, &bufferDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&m_cbUpload));
+	if (FAILED(hr))
+	{
+		throw std::runtime_error("Échec création constant buffer");
+	}
+
+	// Mapping CPU -> GPU
+	CD3DX12_RANGE readRange(0, 0);
+	hr = m_cbUpload->Map(0, &readRange, reinterpret_cast<void**>(&m_mappedCB));
+	if (FAILED(hr))
+	{
+		throw std::runtime_error("Échec mapping constant buffer");
+	}
+}
+
+void Render2D::EnsureCapacity(UINT requiredEntityCount)
+{
+	if (requiredEntityCount <= m_allocatedEntityCount)
+		return;
+	// Double la capacite jusqu'a couvrir
+	while (requiredEntityCount > m_allocatedEntityCount)
+		m_allocatedEntityCount = std::max<UINT>(1, m_allocatedEntityCount * 2);
+	AllocateCBUpload();
+}
+
 
 void Render2D::Resize(int width, int height)
 {
@@ -103,15 +131,12 @@ void Render2D::Resize(int width, int height)
 	memcpy(m_mappedProj, &projBuffer, sizeof(projBuffer));
 }
 
-void Render2D::UpdateCbParams()
-{
-	//UINT m_entityCount = m_ECS->GetEntityCount();
-	//UINT m_frameCount = mp_graphicsDevice->GetFrameCount();
-	//UINT m_totalSize = m_cbSize * m_entityCount * m_frameCount;
-}
-
 void Render2D::RecordCommands()
 {
+	// Ensure size of global buffer
+	UINT currentCount = static_cast<UINT>(m_ECS->GetEntityCount());
+	EnsureCapacity(currentCount);
+
 	auto cmdList = mp_commandManager->GetCommandList();
 
 	// 1) Pipeline 2D
@@ -135,8 +160,8 @@ void Render2D::RecordCommands()
 
 	// 5) IA setup (quad global)
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	cmdList->IASetVertexBuffers(0, 1, &m_meshManager.GetGlobalVBView());
-	cmdList->IASetIndexBuffer(&m_meshManager.GetGlobalIBView());
+	cmdList->IASetVertexBuffers(0, 1, &m_meshManager->GetGlobalVBView());
+	cmdList->IASetIndexBuffer(&m_meshManager->GetGlobalIBView());
 
 
 
@@ -177,7 +202,7 @@ void Render2D::RecordCommands()
 
 		// 7c) Calcul des offsets identique au 3D
 		UINT entityOffset = ent.id * m_cbSize;
-		UINT frameOffset = mp_graphicsDevice->GetFrameIndex() * m_ECS->GetEntityCount() * m_cbSize;
+		UINT frameOffset = mp_graphicsDevice->GetFrameIndex() * INT64(m_allocatedEntityCount) * m_cbSize;
 		UINT finalOffset = frameOffset + entityOffset;
 
 		// 7d) Copier dans le CB upload
@@ -187,60 +212,9 @@ void Render2D::RecordCommands()
 		cmdList->SetGraphicsRootConstantBufferView(1, m_cbUpload->GetGPUVirtualAddress() + /*entityOffset*/ finalOffset);
 		
 		// 7f) Draw
-		const MeshData& quad = m_meshManager.GetMeshLib().Get(mc->meshID);
+		const MeshData& quad = m_meshManager->GetMeshLib().Get(mc->meshID);
 		cmdList->DrawIndexedInstanced(quad.iSize, 1, quad.iOffset, /*quad.vOffset*/0, 0);
 		});
-
-
-
-
-
-
-
-
-
-
-
-	//// TEST : draw a hard?coded triangle, bypass MeshManager
-	//struct Vertex { DirectX::XMFLOAT3 pos; DirectX::XMFLOAT4 color; DirectX::XMFLOAT2 uv; };
-	//Vertex triVerts[3] = {
-	//	{{0,  0, 0.0f}, {1, 0, 0, 1}, {0, 0}},
-	//	{{ 200,  0, 0.0f}, {0, 1, 0, 1}, {1, 0}},
-	//	{{ 100.0f, 200, 0.0f}, {0, 0, 1, 1}, {0.5f, 1}}
-	//};
-
-	//uint16_t triIdxs[3] = { 0, 1, 2 };
-
-	//// Copy into temp upload buffer (created & mapped in InitConstantBuffers)
-	//memcpy(m_mappedTemp, triVerts, sizeof(triVerts));
-	//memcpy((BYTE*)m_mappedTemp + sizeof(triVerts), triIdxs, sizeof(triIdxs));
-
-	//// Build VB + IB views
-	//D3D12_VERTEX_BUFFER_VIEW vbView = {};
-	//vbView.BufferLocation = m_tempUploadBuffer->GetGPUVirtualAddress();
-	//vbView.StrideInBytes = sizeof(Vertex);
-	//vbView.SizeInBytes = sizeof(triVerts);
-	//cmdList->IASetVertexBuffers(0, 1, &vbView);
-
-	//D3D12_INDEX_BUFFER_VIEW ibView = {};
-	//ibView.BufferLocation = m_tempUploadBuffer->GetGPUVirtualAddress() + sizeof(triVerts);
-	//ibView.Format = DXGI_FORMAT_R16_UINT;
-	//ibView.SizeInBytes = sizeof(triIdxs);
-	//cmdList->IASetIndexBuffer(&ibView);
-
-	//// Upload a default world matrix (identity) + first texture
-	//CB2D_World cbw;
-	//XMStoreFloat4x4(&cbw.world, XMMatrixTranspose(XMMatrixIdentity()));
-	//cbw.materialIndex = 0;
-	//memcpy(m_mappedCB, &cbw, sizeof(cbw));
-	//cmdList->SetGraphicsRootConstantBufferView(1, m_cbUpload->GetGPUVirtualAddress());
-
-	//// Finally draw the triangle
-	//cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	//cmdList->DrawIndexedInstanced(3, 1, 0, 0, 0);
-
-
-
 }
 
 void Render2D::CreatePipeline()
@@ -250,6 +224,4 @@ void Render2D::CreatePipeline()
 
 void Render2D::Release()
 {
-	delete m_textureManager;
-	m_textureManager = nullptr;
 }

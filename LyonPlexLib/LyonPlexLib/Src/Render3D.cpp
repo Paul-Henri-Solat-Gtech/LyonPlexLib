@@ -1,26 +1,19 @@
 ﻿#include "pch.h"
 #include "Render3D.h"
 
-bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphicsDevice, DescriptorManager* descriptorManager, CommandManager* commandManager)
+bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphicsDevice, DescriptorManager* descriptorManager, CommandManager* commandManager, MeshManager* meshManager)
 {
 	m_ECS = ECS;
-
-	//m_textureManager = new TextureManager;
-
-
 
 	mp_graphicsDevice = graphicsDevice;
 	mp_descriptorManager = descriptorManager;
 	mp_commandManager = commandManager;
 	m_windowWP = windowHandle;
-
+	m_meshManager = meshManager;
 
 	m_graphicsPipeline.Init(mp_graphicsDevice, mp_descriptorManager, mp_commandManager);
-	m_meshManager.Init(mp_graphicsDevice);
 
 	InitConstantBuffer();
-	UpdateCbParams();
-
 	CreatePipeline();
 
 	// Ce bloc permet de verifier si un chemin/fichier existe
@@ -29,10 +22,6 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 	GetFullPathNameW(L"..\\LyonPlexLib\\Ressources\\PixelShader.hlsl", len, fullpath.data(), nullptr);
 	MessageBoxW(nullptr, fullpath.c_str(), L"Full path", MB_OK);*/
 
-	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
-	////m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test2.avif");
-	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/Test.png");
-	//m_textureManager->LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
 
 	return true;
 }
@@ -44,6 +33,9 @@ void Render3D::Resize(int w, int h)
 
 void Render3D::RecordCommands()
 {
+	// Ensure size of global buffer
+	UINT currentCount = static_cast<UINT>(m_ECS->GetEntityCount());
+	EnsureCapacity(currentCount);
 
 	// On definie la pipeline et la rootSignature
 	mp_commandManager->GetCommandList()->SetGraphicsRootSignature(m_graphicsPipeline.GetRootSignature().Get());
@@ -64,26 +56,8 @@ void Render3D::RecordCommands()
 
 	//Draw vertices and index (mesh)
 	mp_commandManager->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	mp_commandManager->GetCommandList()->IASetVertexBuffers(0, 1, &m_meshManager.GetGlobalVBView());
-	mp_commandManager->GetCommandList()->IASetIndexBuffer(&m_meshManager.GetGlobalIBView());
-
-	//UINT frameIdx = mp_graphicsDevice->GetFrameIndex();
-	//// Clear RTV
-	//CD3DX12_CPU_DESCRIPTOR_HANDLE rtvHandle(
-	//	mp_descriptorManager->GetRtvHeap()->GetCPUDescriptorHandleForHeapStart(),
-	//	frameIdx,
-	//	mp_descriptorManager->GetRtvDescriptorSize()
-	//);
-	//const float clearColor[] = { 0.1f, 0.2f, 0.3f, 1.0f };
-	//mp_commandManager->GetCommandList()->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
-
-	//// Clear DSV
-	//CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle(mp_descriptorManager->GetDsvHeap()->GetCPUDescriptorHandleForHeapStart(), frameIdx, mp_descriptorManager->GetDsvDescriptorSize());
-	//mp_commandManager->GetCommandList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH,  1.0f, 0, 0, nullptr);
-
-	//// F) OMSetRenderTargets (RTV + DSV)
-	//mp_commandManager->GetCommandList()->OMSetRenderTargets(1, &rtvHandle, FALSE, &dsvHandle);
-
+	mp_commandManager->GetCommandList()->IASetVertexBuffers(0, 1, &m_meshManager->GetGlobalVBView());
+	mp_commandManager->GetCommandList()->IASetIndexBuffer(&m_meshManager->GetGlobalIBView());
 
 	// Get la width et height du client (fenetre)
 	RECT renderZone;
@@ -119,7 +93,7 @@ void Render3D::RecordCommands()
 			uint32_t matID = meshComp->materialID;
 
 
-			const MeshData& data = m_meshManager.GetMeshLib().Get(meshComp->meshID);
+			const MeshData& data = m_meshManager->GetMeshLib().Get(meshComp->meshID);
 			mp_commandManager->GetCommandList()->DrawIndexedInstanced(
 				data.iSize,      // nombre d’indices
 				1,
@@ -146,22 +120,16 @@ void Render3D::RecordCommands()
 		//float depth = tc->position.z; // distance fixe ou stockée par entité
 		float depth = 2; // distance fixe ou stockée par entité
 
-		// 2) Convertir (px,py,depth) → position view‑space
-		float ndcX = 2.0f * px / 800 - 1.0f;
-		float ndcY = 1.0f - 2.0f * py / 600;
+
+		// 2) Convertir (px,py,depth) -> position view‑space
+		float ndcX = 2.0f * px / renderWidth - 1.0f;
+		float ndcY = 1.0f - 2.0f * py / renderHeight;
 
 		float fovY = XMConvertToRadians(75.0f); // compris entre : 0 < Fov < PI
 
 		float tanH = tanf(fovY * 0.5f);
 		float aspect = float(renderWidth) / float(renderHeight);
 
-
-		/*XMVECTOR posView = XMVectorSet(
-			ndcX * depth * tanH * aspect,
-			ndcY * depth * tanH,
-			depth,
-			1.0f
-		);*/
 
 		XMVECTOR offsetView = XMVectorSet(
 			ndcX * depth * tanH * aspect,
@@ -211,18 +179,17 @@ void Render3D::RecordCommands()
 			->GetComponent<MeshComponent>(ent)->materialID;
 
 		// 3) Copier et binder comme en 3D
-		UpdateCbParams();
 		UINT entityOffset = ent.id * m_cbSize;
-		UINT frameOffset = mp_graphicsDevice->GetFrameIndex()
-			* m_entityCount * m_cbSize;
+		UINT frameOffset = mp_graphicsDevice->GetFrameIndex() * INT64(m_allocatedEntityCount) * m_cbSize;
 		UINT finalOffset = frameOffset + entityOffset;
-		memcpy((BYTE*)m_mappedCBData + finalOffset, &cb, sizeof(cb));
+		memcpy((BYTE*)m_mappedCBData + finalOffset, &cb, sizeof(ConstantBuffData));
+
 		mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(
 			/*slot b1*/ 1,
 			m_cbTransformUpload->GetGPUVirtualAddress() + finalOffset);
 
 		// 4) Draw
-		auto& data = m_meshManager.GetMeshLib().Get(
+		auto& data = m_meshManager->GetMeshLib().Get(
 			m_ECS->GetComponent<MeshComponent>(ent)->meshID);
 		mp_commandManager->GetCommandList()->DrawIndexedInstanced(data.iSize, 1, data.iOffset, 0, 0);
 
@@ -254,34 +221,55 @@ void Render3D::Release()
 
 bool Render3D::InitConstantBuffer()
 {
-	// Definir les proprietes du heap « upload »
-	CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_UPLOAD);
-
-	// Decrire un buffer de m_cbSize octets
-	CD3DX12_RESOURCE_DESC bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(m_cbSize/* * mp_graphicsDevice->GetFrameCount() * m_ECS->GetEntityCount()*/);
-
-	// Creer le buffer upload
-	HRESULT hr = mp_graphicsDevice->GetDevice()->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE, &bufferDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&m_cbTransformUpload));
-	if (FAILED(hr))
-	{
-		return false;
-	}
-
-	// 5) Mapper une seule fois pour recuperer l’adresse CPU
-	CD3DX12_RANGE readRange(0, 0); // on ne lit jamais CPU→GPU
-	hr = m_cbTransformUpload->Map(0, &readRange, reinterpret_cast<void**>(&m_mappedCBData));
-	if (FAILED(hr))
-	{
-		return false;
-	}
+	// Appelé lors de l'Init global de la classe
+	m_frameCount = mp_graphicsDevice->GetFrameCount();
+	// Démarre avec au moins 1 entité pour éviter taille zero
+	m_allocatedEntityCount = std::max<UINT>(1, static_cast<UINT>(m_ECS->GetEntityCount()));
+	AllocateCBUpload();
 	return true;
 }
 
-void Render3D::UpdateCbParams()
+void Render3D::AllocateCBUpload()
 {
-	UINT m_entityCount = static_cast<UINT>(m_ECS->GetEntityCount());
-	UINT m_frameCount = mp_graphicsDevice->GetFrameCount();
-	UINT totalSize = m_cbSize * m_entityCount * m_frameCount;
+	// Calcule la taille totale
+	UINT64 totalSize = UINT64(m_cbSize) * UINT64(m_allocatedEntityCount) * UINT64(m_frameCount);
+
+	// Libère l'ancien buffer si présent
+	if (m_cbTransformUpload) 
+	{
+		m_cbTransformUpload->Unmap(0, nullptr);
+		m_cbTransformUpload.Reset();
+		m_mappedCBData = nullptr;
+	}
+
+	// Propriétés et description
+	CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_UPLOAD);
+	CD3DX12_RESOURCE_DESC   bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(totalSize);
+
+	// Création
+	HRESULT hr = mp_graphicsDevice->GetDevice()->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE, &bufferDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&m_cbTransformUpload) );
+	if (FAILED(hr)) 
+	{
+		throw std::runtime_error("Échec création constant buffer");
+	}
+
+	// Mapping CPU → GPU
+	CD3DX12_RANGE readRange(0, 0);
+	hr = m_cbTransformUpload->Map(0, &readRange, reinterpret_cast<void**>(&m_mappedCBData));
+	if (FAILED(hr)) 
+	{
+		throw std::runtime_error("Échec mapping constant buffer");
+	}
+}
+
+void Render3D::EnsureCapacity(UINT requiredEntityCount)
+{
+	if (requiredEntityCount <= m_allocatedEntityCount)
+		return;
+	// Double la capacité jusqu'à couvrir
+	while (requiredEntityCount > m_allocatedEntityCount)
+		m_allocatedEntityCount = std::max<UINT>(1, m_allocatedEntityCount * 2);
+	AllocateCBUpload();
 }
 
 void Render3D::UpdateAndBindCB(Entity ent)
@@ -298,13 +286,12 @@ void Render3D::UpdateAndBindCB(Entity ent)
 	ConstantBuffData cbData;
 	XMStoreFloat4x4(&cbData.World, XMMatrixTranspose(world));
 
-	MeshComponent* meshComp = m_ECS->GetComponent<MeshComponent>(ent);
-	cbData.materialIndex = meshComp->materialID;
+	cbData.materialIndex = m_ECS->GetComponent<MeshComponent>(ent)->materialID;
 
-	UpdateCbParams();
-	UINT entityOffset = ent.id * m_cbSize;
-	UINT frameOffset = mp_graphicsDevice->GetFrameIndex() * m_entityCount * m_cbSize;
-	UINT finalOffset = frameOffset + entityOffset;
+	// Calcul des offsets en utilisant m_allocatedEntityCount
+	UINT64 entityOffset = UINT64(ent.id) * m_cbSize;
+	UINT64 frameOffset = UINT64(mp_graphicsDevice->GetFrameIndex())	* UINT64(m_allocatedEntityCount) * m_cbSize;
+	UINT64 finalOffset = frameOffset + entityOffset;
 
 	//// 4) Copier les donnees dans le buffer upload mappe
 	memcpy((BYTE*)m_mappedCBData + finalOffset, &cbData, sizeof(ConstantBuffData));

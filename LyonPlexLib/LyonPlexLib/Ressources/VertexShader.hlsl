@@ -31,14 +31,16 @@ struct VSInput // VSmain in
 {
     float3 position : POSITION;
     float4 color    : COLOR;
-    float2 uv       : TEXCOORD0;
+    float2 uv : TEXCOORD0;
+    float3 normal : NORMAL; // ajouté
     //uint   material : TEXCOORD1;
 };
 struct PSInput // VSmain out
 {
     float4 positionH : SV_POSITION; 
     float4 color     : COLOR; 
-    float2 uv        : TEXCOORD0;
+    float2 uv : TEXCOORD0;
+    //float3 normal : NORMAL; // Pas besoin car on utilise directement input.normal dans VSMain
     //uint   material  : TEXCOORD1; 
 };
 
@@ -62,6 +64,8 @@ PSInput VSMain(VSInput input)
 float4 PSMain(PSInput input) : SV_Target
 {
     // On echantillonne la bonne texture
+    if (materialIndex == -1)
+        return input, input.color;
     return textures[materialIndex].Sample(linearClamp, input.uv);
     //float4 c = textures[materialIndex].Sample(linearClamp, input.uv);
     //c.rgb = pow(c.rgb, 1.0 / 2.2); // format lineraire a RGB

@@ -177,9 +177,10 @@ void GraphicsPipeline::CompileShader()
 void GraphicsPipeline::CreatePipelineStateObject()
 {
 	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
-  { "POSITION",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0,   D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-  { "COLOR",     0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-  { "TEXCOORD",  0, DXGI_FORMAT_R32G32_FLOAT,    0, 28,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+	{ "POSITION",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0,   D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+	{ "COLOR",     0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+	{ "TEXCOORD",  0, DXGI_FORMAT_R32G32_FLOAT,    0, 28,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+	{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT,    0, 36,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
   /*{ "TEXCOORD",  1, DXGI_FORMAT_R32_UINT,        0, 36,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, Si textures differentes sur chaque pixel */
 	};
 
@@ -192,8 +193,8 @@ void GraphicsPipeline::CreatePipelineStateObject()
 
 	// ) Rasterizer State : on veut afficher la face exterieure, winding CCW = front
 	D3D12_RASTERIZER_DESC rasterDesc = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-	rasterDesc.CullMode = D3D12_CULL_MODE_BACK;          // On elimine les faces arriere (celles qu'on ne veut pas voir)
-	//rasterDesc.CullMode = D3D12_CULL_MODE_NONE;          // On elimine laucune face
+	//rasterDesc.CullMode = D3D12_CULL_MODE_BACK;          // On elimine les faces arriere (celles qu'on ne veut pas voir)	/!\/!\/!\	A REMETTRE SI PB DE PERFS /!\/!\/!\/
+	rasterDesc.CullMode = D3D12_CULL_MODE_NONE;          // On elimine laucune face
 	rasterDesc.FrontCounterClockwise = TRUE;             // CCW = face avant, CW = face arriere 
 	rasterDesc.FillMode = D3D12_FILL_MODE_SOLID;         // Remplir normalement
 	rasterDesc.DepthClipEnable = TRUE;
@@ -352,6 +353,7 @@ void GraphicsPipeline::CreatePipelineStateObject2D()
 	{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	{ "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,       0, 28, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+	{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT,    0, 36,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	};
 
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
@@ -371,23 +373,23 @@ void GraphicsPipeline::CreatePipelineStateObject2D()
 
 	psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
 	// enable alpha blending
-	psoDesc.BlendState.RenderTarget[0].BlendEnable				= TRUE;
-	psoDesc.BlendState.RenderTarget[0].SrcBlend					= D3D12_BLEND_SRC_ALPHA;
-	psoDesc.BlendState.RenderTarget[0].DestBlend				= D3D12_BLEND_INV_SRC_ALPHA;
-	psoDesc.BlendState.RenderTarget[0].BlendOp					= D3D12_BLEND_OP_ADD;
-	psoDesc.BlendState.RenderTarget[0].RenderTargetWriteMask	= D3D12_COLOR_WRITE_ENABLE_ALL;
+	psoDesc.BlendState.RenderTarget[0].BlendEnable = TRUE;
+	psoDesc.BlendState.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	psoDesc.BlendState.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+	psoDesc.BlendState.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+	psoDesc.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
 	// No depth-test for 2D
-	psoDesc.DepthStencilState				= CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT); // Init a default
-	psoDesc.DepthStencilState.DepthEnable	= FALSE;
+	psoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT); // Init a default
+	psoDesc.DepthStencilState.DepthEnable = FALSE;
 	psoDesc.DepthStencilState.StencilEnable = FALSE;
 
 	psoDesc.SampleMask = UINT_MAX;
 	psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 	psoDesc.NumRenderTargets = 1;
 	psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
-	psoDesc.SampleDesc.Count	= 1;
-	psoDesc.SampleDesc.Quality	= 0;
+	psoDesc.SampleDesc.Count = 1;
+	psoDesc.SampleDesc.Quality = 0;
 
 	HRESULT hr = mp_graphicsDevice->GetDevice()->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&m_pipelineState));
 

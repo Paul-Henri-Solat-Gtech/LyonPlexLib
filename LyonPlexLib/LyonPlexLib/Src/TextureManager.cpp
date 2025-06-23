@@ -2,6 +2,8 @@
 #include "TextureManager.h"
 #include <comdef.h>
 
+#include "tiny_obj_loader.h"
+
 using TextureID = ResourceManager<TextureData, std::string>::ResourceID;
 
 void TextureManager::Init(GraphicsDevice* graphicsDevice, DescriptorManager* descriptorManager)
