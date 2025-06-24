@@ -7,9 +7,11 @@ public:
 	void Release() override;
 
 private:
+	GameObject m_placingModule;
+
 	int m_newIdGM;
 	int m_camSpeed, m_camWalkSpeed, m_camRunSpeed;
-	//GameObject& player; 
+ 
 	std::string m_lastPlacedGmName;
 	XMFLOAT3 m_lastPlacedGmPos;
 };

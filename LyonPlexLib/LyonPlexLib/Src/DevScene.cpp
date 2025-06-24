@@ -8,7 +8,8 @@ void DevScene::Start()
     GetGameObjectByName("camera").SetPosition({ 0, 0.5, -2 });
 
     CreateGameObject("placingModule");
-    GetGameObjectByName("placingModule").SetPosition({ 0, 0, 1 });
+	m_placingModule = GetGameObjectByName("placingModule");
+    m_placingModule.SetPosition({ 0, 0, 1 });
 
     SetParent("camera", "placingModule");
 
@@ -21,8 +22,7 @@ void DevScene::Start()
 	m_camRunSpeed = 5.f;
 	m_camSpeed = m_camWalkSpeed;
 	// Test
-	//player = GetGameObjectByName("placingModule");
-
+	//player = m_placingModule;
 
 }
 
@@ -43,71 +43,71 @@ void DevScene::Update(float deltatime)
 	//Move
 	if (InputManager::GetKeyIsPressed('Z'))
 	{
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->position.z += m_camSpeed * deltatime;
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+		m_placingModule.GetComponent<TransformComponent>()->position.z += m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed('S'))
 	{
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->position.z -= m_camSpeed * deltatime;
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+		m_placingModule.GetComponent<TransformComponent>()->position.z -= m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed('Q'))
 	{
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->position.x -= m_camSpeed * deltatime;
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+		m_placingModule.GetComponent<TransformComponent>()->position.x -= m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed('D'))
 	{
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->position.x += m_camSpeed * deltatime;
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+		m_placingModule.GetComponent<TransformComponent>()->position.x += m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed(VK_SPACE))
 	{
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->position.y += m_camSpeed * deltatime;
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+		m_placingModule.GetComponent<TransformComponent>()->position.y += m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed(VK_CONTROL))
 	{
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->position.y -= m_camSpeed * deltatime;
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+		m_placingModule.GetComponent<TransformComponent>()->position.y -= m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 
 	// Rotate
 	if (InputManager::GetKeyIsPressed(VK_RIGHT))
 	{
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->AddRotation(0.f,-100.f * deltatime,0.f);
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+		m_placingModule.GetComponent<TransformComponent>()->AddRotation(0.f,-100.f * deltatime,0.f);
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed(VK_LEFT))
 	{
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->AddRotation(0.f, 100.f * deltatime, 0.f);
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+		m_placingModule.GetComponent<TransformComponent>()->AddRotation(0.f, 100.f * deltatime, 0.f);
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed(VK_UP))
 	{
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->AddRotation(100.f * deltatime, 0.f, 0.f);
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+		m_placingModule.GetComponent<TransformComponent>()->AddRotation(100.f * deltatime, 0.f, 0.f);
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed(VK_DOWN))
 	{
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->AddRotation(-100.f * deltatime, 0.f , 0.f);
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+		m_placingModule.GetComponent<TransformComponent>()->AddRotation(-100.f * deltatime, 0.f , 0.f);
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 
 	// Scale
 	if (InputManager::GetKeyIsPressed(VK_ADD))
 	{
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->scale.x += m_camSpeed * deltatime;
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->scale.y += m_camSpeed * deltatime;
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->scale.z += m_camSpeed * deltatime;
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+		m_placingModule.GetComponent<TransformComponent>()->scale.x += m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.y += m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.z += m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed(VK_SUBTRACT))
 	{
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->scale.x -= m_camSpeed * deltatime;
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->scale.y -= m_camSpeed * deltatime;
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->scale.z -= m_camSpeed * deltatime;
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+		m_placingModule.GetComponent<TransformComponent>()->scale.x -= m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.y -= m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.z -= m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 
 	// ChangeScene
@@ -119,11 +119,11 @@ void DevScene::Update(float deltatime)
 	// Adding blocks (make a function in this scene)
 	if (InputManager::GetKeyIsReleased(VK_LBUTTON))
 	{
-		XMFLOAT3 posCamera = GetGameObjectByName("placingModule").GetPosition();
-		XMFLOAT4 rotCamera = GetGameObjectByName("placingModule").GetRotation();
-		XMFLOAT3 scaleCamera = GetGameObjectByName("placingModule").GetScale();
-		uint32_t meshID = GetGameObjectByName("placingModule").GetMesh();
-		uint32_t textureID = GetGameObjectByName("placingModule").GetTexture();
+		XMFLOAT3 posCamera = m_placingModule.GetPosition();
+		XMFLOAT4 rotCamera = m_placingModule.GetRotation();
+		XMFLOAT3 scaleCamera = m_placingModule.GetScale();
+		uint32_t meshID = m_placingModule.GetMesh();
+		uint32_t textureID = m_placingModule.GetTexture();
 
 		std::string gmName = "GM" + std::to_string(m_newIdGM);
 
@@ -144,9 +144,9 @@ void DevScene::Update(float deltatime)
 	// Reset placing Module
 	if (InputManager::GetKeyIsReleased(VK_F1))
 	{
-		GetGameObjectByName("placingModule").SetScale({ 1.f, 1.f, 1.f });
-		GetGameObjectByName("placingModule").SetRotation({ 0.f, 0.f, 0.f,0.f });
-		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+		m_placingModule.SetScale({ 1.f, 1.f, 1.f });
+		m_placingModule.SetRotation({ 0.f, 0.f, 0.f,0.f });
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 
 	// Undo
@@ -222,15 +222,15 @@ void DevScene::Update(float deltatime)
 	// Change type of gameobject (prototype)
 	if (InputManager::GetKeyIsReleased('1'))
 	{
-		GetGameObjectByName("placingModule").SetTexture(4);
+		m_placingModule.SetTexture(4);
 	}
 	if (InputManager::GetKeyIsReleased('2'))
 	{
-		GetGameObjectByName("placingModule").SetTexture(1);
+		m_placingModule.SetTexture(1);
 	}
 	if (InputManager::GetKeyIsReleased('3'))
 	{
-		GetGameObjectByName("placingModule").SetTexture(3);
+		m_placingModule.SetTexture(3);
 	}
 }
 
