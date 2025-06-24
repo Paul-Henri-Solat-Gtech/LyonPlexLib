@@ -5,13 +5,7 @@ void SampleScene2::Start()
 {
 	//OutputDebugStringA("\nHI ! I am sample scene. \n");
 
-	auto& txtMngr = mp_sceneManager->GetGameManager()->GetTextureManager();
-	auto& meshMngr = mp_sceneManager->GetGameManager()->GetMeshManager();
 
-	txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
-	txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test.png");
-	txtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
-	txtMngr.LoadTexture("../LyonPlexLib/Ressources/grid.png");
 
 	Entity tree = { -1 };
 

@@ -24,6 +24,7 @@ class GameObject
 {
 public:
 	void Init(const std::string& name, ECSManager* ecsManager);
+	void Init(const std::string& name, ECSManager* ecsManager, uint32_t meshId, uint32_t textureId);
 	void Init(const std::string& name, ECSManager* ecsManager, DimensionalType type, bool useMesh);
 
 	void SetName(const std::string& name) { m_name = name; };
@@ -38,8 +39,10 @@ public:
 	XMFLOAT4& GetRotation() { return GetComponent<TransformComponent>()->rotation; };
 	void SetScale(XMFLOAT3 scl) { GetComponent<TransformComponent>()->scale = scl; };
 	XMFLOAT3& GetScale() { return GetComponent<TransformComponent>()->scale; };
-
-	//void SetTexture() { GetComponent<MeshComponent>(new MeshComponent(2, 0); };
+	void SetTexture(uint32_t textureId) { GetComponent<MeshComponent>()->materialID = textureId; };
+	uint32_t& GetTexture() { return GetComponent<MeshComponent>()->materialID; };
+	void SetMesh(uint32_t meshId) { GetComponent<MeshComponent>()->meshID = meshId; };
+	uint32_t& GetMesh() { return GetComponent<MeshComponent>()->meshID; };
 
 	bool IsColiding();
 	bool IsColidingWith();

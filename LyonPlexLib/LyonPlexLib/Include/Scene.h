@@ -30,6 +30,7 @@ public:
 	Entity* GetEntity(const std::string& entityName);//(a enlever)
 
 	GameObject& CreateGameObject(const std::string& gameObjectName);
+	GameObject& CreateGameObject(const std::string& gameObjectName, uint32_t meshId, uint32_t textureId);
 	GameObject& CreateGameObject(const std::string& gameObjectName, DimensionalType type, bool useMesh);
 
 	GameObject& GetGameObjectByName(const std::string& gameObjectName);

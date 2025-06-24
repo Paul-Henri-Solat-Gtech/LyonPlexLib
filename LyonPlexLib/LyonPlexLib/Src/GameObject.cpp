@@ -14,7 +14,27 @@ void GameObject::Init(const std::string& name, ECSManager* ecsManager)
 	AddComponent<Type_3D>(new Type_3D());
 
 	// MESH
-	AddComponent<MeshComponent>(new MeshComponent(2, 0));
+	AddComponent<MeshComponent>(new MeshComponent(2, 4));
+
+	//	TRANSFORM
+	AddComponent<TransformComponent>(new TransformComponent());
+	GetComponent<TransformComponent>()->position = { 0, 0, 0 };
+	GetComponent<TransformComponent>()->dirty = true;
+}
+void GameObject::Init(const std::string& name, ECSManager* ecsManager, uint32_t meshId, uint32_t textureId)
+{
+	SetName(name);
+	SetTag(TAG_None);
+	mp_ecsManager = ecsManager;
+	m_entity = mp_ecsManager->CreateEntity();
+
+	//	Adding basics component(s) for any entity in scene & default parameters :
+
+	// TYPE
+	AddComponent<Type_3D>(new Type_3D());
+
+	// MESH
+	AddComponent<MeshComponent>(new MeshComponent(meshId, textureId));
 
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());
@@ -33,7 +53,7 @@ void GameObject::Init(const std::string& name, ECSManager* ecsManager, Dimension
 	// MESH
 	if (useMesh) 
 	{
-		AddComponent<MeshComponent>(new MeshComponent(2, 0));
+		AddComponent<MeshComponent>(new MeshComponent(2, 4));
 	}
 
 	// TYPE

@@ -10,6 +10,11 @@
 void AllScenes::Init(GameManager* gameManager)
 {
     mp_gameManager = gameManager;
+
+    // Create all textures
+    CreateAllTextures();
+
+    // Create all scenes
     CreateAllScenes();
 
     // START SCENE
@@ -36,4 +41,16 @@ void AllScenes::StartScene(std::string sceneName)
 {
     // Set & Start scene
     mp_gameManager->GetSceneManager()->SetScene(sceneName);
+}
+
+void AllScenes::CreateAllTextures()
+{
+    auto& txtMngr = mp_gameManager->GetTextureManager();
+    auto& meshMngr = mp_gameManager->GetMeshManager();
+
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");//0
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/grid.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/NoTexture.png");//4
 }

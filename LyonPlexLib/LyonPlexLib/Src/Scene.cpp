@@ -75,6 +75,15 @@ GameObject& Scene::CreateGameObject(const std::string& gameObjectName)
 
 	return newGameObject;
 }
+GameObject& Scene::CreateGameObject(const std::string& gameObjectName, uint32_t meshId, uint32_t textureId)
+{
+	GameObject newGameObject;
+	newGameObject.Init(gameObjectName, mp_ecsManager, meshId, textureId);
+
+	m_sceneGameObjects.push_back(newGameObject);
+
+	return newGameObject;
+}
 GameObject& Scene::CreateGameObject(const std::string& gameObjectName, DimensionalType type, bool useMesh)
 {
 	GameObject newGameObject;
