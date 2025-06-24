@@ -5,7 +5,7 @@ void DevScene::Start()
 {
     CreateGameObject("camera", TYPE_3D, false);
     GetGameObjectByName("camera").AddComponent<CameraComponent>(new CameraComponent());
-    GetGameObjectByName("camera").SetPosition({ 0, 0.5, -1 });
+    GetGameObjectByName("camera").SetPosition({ 0, 0.5, -2 });
 
     CreateGameObject("cube2");
     GetGameObjectByName("cube2").SetPosition({ 0, 0, -1 });
@@ -51,6 +51,49 @@ void DevScene::Update(float deltatime)
 		GetGameObjectByName("cube2").GetComponent<TransformComponent>()->dirty = true;
 	}
 
+
+
+	// Rotate
+	if (InputManager::GetKeyIsPressed(VK_RIGHT))
+	{
+		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->AddRotation(0.f,-100.f * deltatime,0.f);
+		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed(VK_LEFT))
+	{
+		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->AddRotation(0.f, 100.f * deltatime, 0.f);
+		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed(VK_UP))
+	{
+		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->AddRotation(100.f * deltatime, 0.f, 0.f);
+		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed(VK_DOWN))
+	{
+		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->AddRotation(-100.f * deltatime, 0.f , 0.f);
+		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+	}
+
+	// Scale
+	if (InputManager::GetKeyIsPressed(VK_ADD))
+	{
+		auto* a = GetGameObjectByName("placingModule").GetComponent<TransformComponent>();
+		a->scale.x += 1.f * deltatime;
+		a->scale.y += 1.f * deltatime;
+		a->scale.z += 1.f * deltatime;
+		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed(VK_SUBTRACT))
+	{
+		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->scale.x -= 1.f * deltatime;
+		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->scale.y -= 1.f * deltatime;
+		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->scale.z -= 1.f * deltatime;
+		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+	}
+
+	// ChangeScene
+
     if (InputManager::GetKeyIsReleased('A'))
     {
         ChangeScene("SampleScene2");
@@ -69,7 +112,50 @@ void DevScene::Update(float deltatime)
 		std::string msg = "\nAdded " + gmName + " At[ X: " + std::to_string(GetGameObjectByName(gmName).GetPosition().x) + " Y: " + std::to_string(GetGameObjectByName(gmName).GetPosition().y) + " Z: " + std::to_string(GetGameObjectByName(gmName).GetPosition().z);
 		OutputDebugStringA(msg.c_str());
 
+
 		newIdGM++;
+	}
+
+
+	// Reset placing Module
+	if (InputManager::GetKeyIsReleased(VK_F1))
+	{
+		GetGameObjectByName("placingModule").SetScale({ 1.f, 1.f, 1.f });
+		GetGameObjectByName("placingModule").SetRotation({ 0.f, 0.f, 0.f,0.f });
+		GetGameObjectByName("placingModule").GetComponent<TransformComponent>()->dirty = true;
+	}
+
+	// Undo
+	if (InputManager::GetKeyIsReleased(VK_F2))
+	{
+		if (!GetSceneGameObjects().empty())
+		{
+			if (GetSceneGameObjects().back().GetTag() == TAG_Object)
+			{
+				auto& gameObj = GetSceneGameObjects().back();
+				m_lastPlacedGmName = gameObj.GetName();
+				m_lastPlacedGmPos = gameObj.GetPosition();
+
+				std::string msg = "\nRemoved " + m_lastPlacedGmName + " At[ X: " + std::to_string(m_lastPlacedGmPos.x) + " Y: " + std::to_string(m_lastPlacedGmPos.y) + " Z: " + std::to_string(m_lastPlacedGmPos.z);
+				OutputDebugStringA(msg.c_str());
+
+				DestroyGameObject(GetSceneGameObjects().back());
+			}
+		}
+	}
+
+	// Redo (Prototype)
+	if (InputManager::GetKeyIsReleased(VK_F3))
+	{
+		if (m_lastPlacedGmName != "")
+		{
+			CreateGameObject(m_lastPlacedGmName);
+			GetGameObjectByName(m_lastPlacedGmName).SetPosition(m_lastPlacedGmPos);
+			GetGameObjectByName(m_lastPlacedGmName).SetTag(TAG_Object);
+
+			m_lastPlacedGmName = "";
+		}
+>>>>>>> Stashed changes
 	}
 
 	// Generating scene outpout
