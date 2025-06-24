@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\AllScenes.cpp" />
+    <ClCompile Include="Src\BlockTutoScene.cpp" />
     <ClCompile Include="Src\GameScene.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\pch.cpp">
@@ -30,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\AllScenes.h" />
+    <ClInclude Include="Include\BlockTutoScene.h" />
     <ClInclude Include="Include\GameScene.h" />
     <ClInclude Include="Include\main.h" />
     <ClInclude Include="Include\pch.h" />

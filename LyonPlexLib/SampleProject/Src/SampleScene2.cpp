@@ -114,6 +114,10 @@ void SampleScene2::Update(float deltatime)
 	{
 		ChangeScene("GameScene");
 	}
+	if (InputManager::GetKeyIsReleased('B'))
+	{
+		ChangeScene("BlockTutoScene");
+	}
 }
 
 void SampleScene2::Release()

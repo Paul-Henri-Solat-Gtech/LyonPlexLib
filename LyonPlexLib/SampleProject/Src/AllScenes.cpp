@@ -4,6 +4,7 @@
 // Includes scenes here :
 #include "SampleScene2.h"
 #include "GameScene.h"
+#include "BlockTutoScene.h"
 
 // ..
 
@@ -31,6 +32,7 @@ void AllScenes::CreateAllScenes()
     //mp_gameManager->GetSceneManager()->CreateScene(newGameScene, "GameScene");
 
     mp_gameManager->GetSceneManager()->RegisterScene("SampleScene2", []() { return new SampleScene2(); });
+    mp_gameManager->GetSceneManager()->RegisterScene("BlockTutoScene", []() { return new BlockTutoScene(); });
     mp_gameManager->GetSceneManager()->RegisterScene("GameScene", []() { return new GameScene(); });
 
     // Demarrer la scene de depart
