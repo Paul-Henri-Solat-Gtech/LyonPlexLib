@@ -4,6 +4,8 @@
 void Scene::Init(SceneManager* sceneManager)
 {
 	mp_sceneManager = sceneManager;
+	m_mouseRotating = false;
+	m_lastMousePos = { 0,0 };
 	Start();
 }
 
@@ -143,6 +145,11 @@ void Scene::SetParent(const std::string& gameObjectNameChild, const std::string&
 
 }
 
+void Scene::SetParent(GameObject& gameObjectChild, GameObject& gameObjectParent)
+{
+	gameObjectChild.GetComponent<TransformComponent>()->parent = { gameObjectParent.GetEntity()->id };
+}
+
 void Scene::EnableLockCursor()
 {
 	InputManager::EnableFPSMouseLock(mp_sceneManager->GetWindow());
@@ -156,4 +163,52 @@ void Scene::DisableLockCursor()
 void Scene::CenterLockCursor()
 {
 	InputManager::CenterLockCursor(mp_sceneManager->GetWindow());
+}
+
+void Scene::EnableMouseRotationFor(GameObject& target, float sensitivity)
+{
+	if (!mp_sceneManager->GetWindow()) return;
+
+	// Détecter état du clic droit
+	SHORT state = GetAsyncKeyState(VK_MBUTTON);
+	bool pressed = (state & 0x8000) != 0;
+
+	// Démarrage de la rotation (front montant)
+	if (pressed && !m_mouseRotating) {
+		m_mouseRotating = true;
+		SetCapture(mp_sceneManager->GetWindow());
+		ShowCursor(FALSE);
+		GetCursorPos(&m_lastMousePos);
+	}
+	// Fin de la rotation (front descendant)
+	else if (!pressed && m_mouseRotating) {
+		m_mouseRotating = false;
+		ReleaseCapture();
+		ShowCursor(TRUE);
+		return;
+	}
+
+	// Si en rotation active, appliquer sur 'target'
+	if (m_mouseRotating) {
+		POINT cur;
+		GetCursorPos(&cur);
+		int dx = cur.x - m_lastMousePos.x;
+		int dy = cur.y - m_lastMousePos.y;
+
+		// Conversion pixel→angle (sans deltaTime en général)
+		float deltaYaw = dx * sensitivity;
+		float deltaPitch = -dy * sensitivity;
+
+		// Si vous vouliez malgré tout moduler par deltaTime (souvent inutile pour la souris) :
+		// deltaYaw   *= deltaTime;
+		// deltaPitch *= deltaTime;
+
+		if (auto t = target.GetComponent<TransformComponent>()) {
+			t->AddRotation(deltaPitch, deltaYaw, 0.0f);
+			t->dirty = true;
+		}
+
+		// Recentrer pour éviter bords d’écran
+		SetCursorPos(m_lastMousePos.x, m_lastMousePos.y);
+	}
 }

@@ -69,3 +69,4 @@ void InputManager::CenterLockCursor(HWND hWnd)
 
 	SetCursorPos(center.x, center.y);
 }
+
