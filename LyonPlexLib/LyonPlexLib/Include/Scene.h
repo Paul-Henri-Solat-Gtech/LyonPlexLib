@@ -41,10 +41,13 @@ public:
 	std::vector<GameObject>& GetSceneGameObjects() { return m_sceneGameObjects; };
 
 	void SetParent(const std::string& gameObjectNameChild, const std::string& gameObjectNameParent);
+	void SetParent(GameObject& gameObjectChild, GameObject& gameObjectParent);
 
 	void EnableLockCursor();
 	void DisableLockCursor();
 	void CenterLockCursor();
+
+	void EnableMouseRotationFor(GameObject& target, float sensitivity);
 
 	// Component Entity (a enelver)
 	template<typename T>
@@ -78,5 +81,8 @@ protected:
 	std::vector<SceneEntity> m_sceneEntities; // old
 	std::vector<GameObject> m_sceneGameObjects; // new
 
+	// Mouse
+	bool m_mouseRotating;
+	POINT m_lastMousePos;
 };
 
