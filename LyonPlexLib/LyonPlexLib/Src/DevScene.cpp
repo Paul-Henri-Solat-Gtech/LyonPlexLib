@@ -1,8 +1,10 @@
 ﻿#include "pch.h"
 #include "DevScene.h"
+
 #undef max
 #undef min
 #include <algorithm>
+
 void DevScene::Start()
 {
 	//   CreateGameObject("camera", TYPE_3D, false);
@@ -142,16 +144,44 @@ void DevScene::Update(float deltatime)
 		m_placingModule.GetComponent<TransformComponent>()->scale.y += m_camSpeed * deltatime;
 		m_placingModule.GetComponent<TransformComponent>()->scale.z += m_camSpeed * deltatime;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
-
-		/*XMFLOAT3 newCamPos;
-		newCamPos = { m_camera.GetPosition().x, m_camera.GetPosition().y - m_placingModule.GetScale().y / 2, m_camera.GetPosition().z };
-		m_camera.SetPosition(newCamPos);
-		m_camera.GetComponent<TransformComponent>()->dirty = true;*/
 	}
 	if (InputManager::GetKeyIsPressed(VK_SUBTRACT))
 	{
 		m_placingModule.GetComponent<TransformComponent>()->scale.x -= m_camSpeed * deltatime;
 		m_placingModule.GetComponent<TransformComponent>()->scale.y -= m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.z -= m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+	}
+
+	if (InputManager::GetKeyIsPressed('R'))
+	{
+		m_placingModule.GetComponent<TransformComponent>()->scale.x += m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed('T'))
+	{
+		m_placingModule.GetComponent<TransformComponent>()->scale.x -= m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+	}
+
+	if (InputManager::GetKeyIsPressed('Y'))
+	{
+		m_placingModule.GetComponent<TransformComponent>()->scale.y += m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed('U'))
+	{
+		m_placingModule.GetComponent<TransformComponent>()->scale.y -= m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+	}
+
+	if (InputManager::GetKeyIsPressed('I'))
+	{
+		m_placingModule.GetComponent<TransformComponent>()->scale.z += m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed('O'))
+	{
 		m_placingModule.GetComponent<TransformComponent>()->scale.z -= m_camSpeed * deltatime;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
@@ -187,8 +217,8 @@ void DevScene::Update(float deltatime)
 	}
 
 
-	// Reset placing Module
-	if (InputManager::GetKeyIsReleased(VK_F1))
+	// Reset placing Module (cannot rotate after for some reason..)
+	if (InputManager::GetKeyIsPressed(VK_F1))
 	{
 		m_placingModule.SetScale({ 1.f, 1.f, 1.f });
 		m_placingModule.SetRotation({ 0.f, 0.f, 0.f,0.f });
