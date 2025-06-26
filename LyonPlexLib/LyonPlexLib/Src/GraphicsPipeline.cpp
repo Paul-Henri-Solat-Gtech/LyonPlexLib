@@ -34,7 +34,7 @@ void GraphicsPipeline::CreateRootSignature()
 	// Table 0 : textures 2D
 	ranges[0].Init(
 		D3D12_DESCRIPTOR_RANGE_TYPE_SRV,   // type
-		150,                              // NumDescriptors
+		1,                              // NumDescriptors
 		0,                                 // BaseShaderRegister (t0)
 		0,                                 // register space
 		D3D12_DESCRIPTOR_RANGE_FLAG_NONE,
@@ -78,8 +78,11 @@ void GraphicsPipeline::CreateRootSignature()
 	D3D12_STATIC_SAMPLER_DESC samplerDesc = {};
 	samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
 	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	//samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
 	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	//samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
 	samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	//samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
 	samplerDesc.ShaderRegister = 0;
 	samplerDesc.RegisterSpace = 0;
 	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;

@@ -56,9 +56,9 @@ private:
 	ECSManager* mp_ECS;		// INUTILE
 
 	// Instance des class qui encapsulent directX (devide, cmd, descHeaps)
-	GraphicsDevice m_graphicsDevice;
-	DescriptorManager m_descriptorManager;
-	CommandManager m_commandManager;
+	GraphicsDevice		m_graphicsDevice;
+	DescriptorManager	m_descriptorManager;
+	CommandManager		m_commandManager;
 
 	TextureManager	m_textureManager;
 	MeshManager		m_meshManager;
