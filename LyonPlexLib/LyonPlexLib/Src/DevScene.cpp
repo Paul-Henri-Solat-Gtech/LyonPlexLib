@@ -1,30 +1,34 @@
-#include "pch.h"
+Ôªø#include "pch.h"
 #include "DevScene.h"
+
+#undef max
+#undef min
+#include <algorithm>
 
 void DevScene::Start()
 {
- //   CreateGameObject("camera", TYPE_3D, false);
-	//m_camera = GetGameObjectByName("camera");
- //   m_camera.AddComponent<CameraComponent>(new CameraComponent());
- //   m_camera.SetPosition({ 0, 0.5, -2 });
+	//   CreateGameObject("camera", TYPE_3D, false);
+	   //m_camera = GetGameObjectByName("camera");
+	//   m_camera.AddComponent<CameraComponent>(new CameraComponent());
+	//   m_camera.SetPosition({ 0, 0.5, -2 });
 
- //   CreateGameObject("placingModule");
-	//m_placingModule = GetGameObjectByName("placingModule");
- //   m_placingModule.SetPosition({ 0, 0, 1 });
+	//   CreateGameObject("placingModule");
+	   //m_placingModule = GetGameObjectByName("placingModule");
+	//   m_placingModule.SetPosition({ 0, 0, 1 });
 
-	////SetParent("camera", "placingModule");
-	//SetParent(m_camera, m_placingModule);
-	////SetParent(m_placingModule, m_camera);
+	   ////SetParent("camera", "placingModule");
+	   //SetParent(m_camera, m_placingModule);
+	   ////SetParent(m_placingModule, m_camera);
 
-		// RÈcupÈrer le HWND depuis votre SceneManager ou engine
-	m_hWnd = mp_sceneManager->GetWindow(); // ou líÈquivalent
+		   // RÈ¶óupÈßªer le HWND depuis votre SceneManager ou engine
+	m_hWnd = mp_sceneManager->GetWindow(); // ou lÂ∏ùquivalent
 
-	// CrÈer le cube (placingModule)
+	// CrÈ¶•r le cube (placingModule)
 	CreateGameObject("placingModule");
 	m_placingModule = GetGameObjectByName("placingModule");
 	m_placingModule.SetPosition({ 0, 0, 0 }); // par exemple au centre
 
-	// CrÈer la camÈra
+	// CrÈ¶•r la camÈßªa
 	CreateGameObject("camera", TYPE_3D, false);
 	m_camera = GetGameObjectByName("camera");
 	m_camera.AddComponent<CameraComponent>(new CameraComponent());
@@ -42,12 +46,12 @@ void DevScene::Start()
 		m_orbitPitch = std::clamp(m_orbitPitch, -89.0f, +89.0f);
 	}
 
-	// CrÈer le ground, etc.
+	// CrÈ¶•r le ground, etc.
 	CreateGameObject("ground", 2, 3);
 	GetGameObjectByName("ground").SetPosition({ 0, -2, 0 });
 	GetGameObjectByName("ground").SetScale({ 50, 1, 50 });
 
-	CreateGameObject("ground",2,3);
+	CreateGameObject("ground", 2, 3);
 	GetGameObjectByName("ground").SetPosition({ 0, -2, 0 });
 	GetGameObjectByName("ground").SetScale({ 50, 1, 50 });
 
@@ -57,80 +61,11 @@ void DevScene::Start()
 	m_camSpeed = m_camWalkSpeed;
 	// Test
 	//player = m_placingModule;
-
 }
 
 void DevScene::Update(float deltatime)
 {
-	// 1) DÈbut/fin orbite (inchangÈ)
-	SHORT state = GetAsyncKeyState(VK_RBUTTON);
-	bool pressed = (state & 0x8000) != 0;
-	if (pressed && !m_orbiting) {
-		m_orbiting = true;
-		SetCapture(m_hWnd);
-		ShowCursor(FALSE);
-		GetCursorPos(&m_lastMousePos);
-	}
-	else if (!pressed && m_orbiting) {
-		m_orbiting = false;
-		ReleaseCapture();
-		ShowCursor(TRUE);
-	}
-
-	// 2) Si orbite active, lire dx/dy et ajuster yaw+pitch
-	if (m_orbiting) {
-		POINT cur; GetCursorPos(&cur);
-		int dx = cur.x - m_lastMousePos.x;
-		int dy = cur.y - m_lastMousePos.y;
-		m_orbitYaw += dx * m_sensitivity;
-		m_orbitPitch += -dy * m_sensitivity; // inverser si nÈcessaire selon sens
-		m_orbitPitch = std::clamp(m_orbitPitch, -89.0f, +89.0f);
-		if (m_orbitYaw >= 360.0f) m_orbitYaw -= 360.0f;
-		else if (m_orbitYaw < 0.0f) m_orbitYaw += 360.0f;
-		SetCursorPos(m_lastMousePos.x, m_lastMousePos.y);
-	}
-
-	// 3) Recalcule de la position camÈra selon angle et radius, et oriente la camÈra vers le cube
-	{
-		XMFLOAT3 center = m_placingModule.GetPosition();
-		float yawRad = XMConvertToRadians(m_orbitYaw);
-		float pitchRad = XMConvertToRadians(m_orbitPitch);
-		float cosP = cosf(pitchRad);
-		XMFLOAT3 camPos;
-		camPos.x = center.x + m_orbitRadius * cosP * sinf(yawRad);
-		camPos.y = center.y + m_orbitRadius * sinf(pitchRad);
-		camPos.z = center.z + m_orbitRadius * cosP * cosf(yawRad);
-		m_camera.SetPosition(camPos);
-		if (auto tCam = m_camera.GetComponent<TransformComponent>()) tCam->dirty = true;
-
-		// LookAt
-		XMVECTOR eye = XMLoadFloat3(&camPos);
-		XMVECTOR at = XMLoadFloat3(&center);
-		XMVECTOR up = XMVectorSet(0, 1, 0, 0);
-		XMMATRIX view = XMMatrixLookAtLH(eye, at, up);
-		XMMATRIX camWorld = XMMatrixInverse(nullptr, view);
-		XMVECTOR quat = XMQuaternionRotationMatrix(camWorld);
-		XMFLOAT4 qf; XMStoreFloat4(&qf, quat);
-		m_camera.SetRotation(qf);
-		if (auto tCam2 = m_camera.GetComponent<TransformComponent>()) tCam2->dirty = true;
-	}
-
-	//Input
-
-	//Movements
-	if (InputManager::GetKeyIsPressed(VK_SHIFT)) 
-	{
-		m_camSpeed = m_camRunSpeed;
-	}
-	else
-	{
-		m_camSpeed = m_camWalkSpeed;
-	}
-
-	// cam rotate(prototype)
-	EnableMouseRotationFor(m_placingModule,0.2f);
-
-	//Move
+	// Move (OLD)
 	{
 		/*if (InputManager::GetKeyIsPressed('Z'))
 		{
@@ -164,55 +99,26 @@ void DevScene::Update(float deltatime)
 		}*/
 	}
 
-	// 2. DÈplacement relatif ‡ la camÈra
-	// RÈcupÈrer positions
-	XMFLOAT3 camPosF = m_camera.GetPosition();
-	XMFLOAT3 objPosF = m_placingModule.GetPosition();
-	XMVECTOR camPos = XMLoadFloat3(&camPosF);
-	XMVECTOR objPos = XMLoadFloat3(&objPosF);
+	// Camera
+	CameraDevSystem(deltatime);
 
-	// Calculer forward et right ‡ partir de la rotation de la camÈra
-	XMFLOAT4 camQuatF = m_camera.GetRotation();
-	XMVECTOR camQuat = XMLoadFloat4(&camQuatF);
-	XMMATRIX camRotMat = XMMatrixRotationQuaternion(camQuat);
-	// Avant local de la camÈra : +Z
-	XMVECTOR forwardV = XMVector3Normalize(XMVector3TransformNormal(XMVectorSet(0, 0, 1, 0), camRotMat));
-	// On ne veut que la composante horizontale pour avancer/reculer sur le sol :
-	forwardV = XMVectorSetY(forwardV, 0.0f);
-	if (!XMVector3Equal(forwardV, XMVectorZero()))
-		forwardV = XMVector3Normalize(forwardV);
-	// Right comme cross(up, forward)
-	XMVECTOR upV = XMVectorSet(0, 1, 0, 0);
-	XMVECTOR rightV = XMVector3Normalize(XMVector3Cross(upV, forwardV));
-
-	// Construire moveV global
-	XMVECTOR moveV = XMVectorZero();
-	if (InputManager::GetKeyIsPressed('Z')) moveV += forwardV;
-	if (InputManager::GetKeyIsPressed('S')) moveV -= forwardV;
-	if (InputManager::GetKeyIsPressed('D')) moveV += rightV;
-	if (InputManager::GetKeyIsPressed('Q')) moveV -= rightV;
-	// Composante verticale
-	if (InputManager::GetKeyIsPressed(VK_SPACE))   moveV += upV;
-	if (InputManager::GetKeyIsPressed(VK_CONTROL)) moveV -= upV;
-
-	// Appliquer shift/run
-	float speed = InputManager::GetKeyIsPressed(VK_SHIFT) ? m_camRunSpeed : m_camWalkSpeed;
-
-	// Si vecteur non nul, normaliser puis scale
-	if (!XMVector3Equal(moveV, XMVectorZero())) {
-		moveV = XMVector3Normalize(moveV);
-		XMVECTOR offset = moveV * (speed * deltatime);
-		XMVECTOR newPos = objPos + offset;
-		XMFLOAT3 newPosF; XMStoreFloat3(&newPosF, newPos);
-		m_placingModule.SetPosition(newPosF);
-		if (auto t = m_placingModule.GetComponent<TransformComponent>())
-			t->dirty = true;
+	// Movements
+	if (InputManager::GetKeyIsPressed(VK_SHIFT))
+	{
+		m_camSpeed = m_camRunSpeed;
 	}
+	else
+	{
+		m_camSpeed = m_camWalkSpeed;
+	}
+
+	// cam rotate(prototype)
+	EnableMouseRotationFor(m_placingModule, 0.2f);
 
 	// Rotate
 	if (InputManager::GetKeyIsPressed(VK_RIGHT))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->AddRotation(0.f,-100.f * deltatime,0.f);
+		m_placingModule.GetComponent<TransformComponent>()->AddRotation(0.f, -100.f * deltatime, 0.f);
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed(VK_LEFT))
@@ -227,7 +133,7 @@ void DevScene::Update(float deltatime)
 	}
 	if (InputManager::GetKeyIsPressed(VK_DOWN))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->AddRotation(-100.f * deltatime, 0.f , 0.f);
+		m_placingModule.GetComponent<TransformComponent>()->AddRotation(-100.f * deltatime, 0.f, 0.f);
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 
@@ -247,11 +153,44 @@ void DevScene::Update(float deltatime)
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 
+	if (InputManager::GetKeyIsPressed('R'))
+	{
+		m_placingModule.GetComponent<TransformComponent>()->scale.x += m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed('T'))
+	{
+		m_placingModule.GetComponent<TransformComponent>()->scale.x -= m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+	}
+
+	if (InputManager::GetKeyIsPressed('Y'))
+	{
+		m_placingModule.GetComponent<TransformComponent>()->scale.y += m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed('U'))
+	{
+		m_placingModule.GetComponent<TransformComponent>()->scale.y -= m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+	}
+
+	if (InputManager::GetKeyIsPressed('I'))
+	{
+		m_placingModule.GetComponent<TransformComponent>()->scale.z += m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+	}
+	if (InputManager::GetKeyIsPressed('O'))
+	{
+		m_placingModule.GetComponent<TransformComponent>()->scale.z -= m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+	}
+
 	// ChangeScene
-    if (InputManager::GetKeyIsReleased('A'))
-    {
-        ChangeScene("SampleScene2");
-    }
+	if (InputManager::GetKeyIsReleased('A'))
+	{
+		ChangeScene("SampleScene2");
+	}
 
 	// Adding blocks (make a function in this scene)
 	if (InputManager::GetKeyIsReleased(VK_LBUTTON))
@@ -273,13 +212,13 @@ void DevScene::Update(float deltatime)
 
 		std::string msg = "\nAdded " + gmName + " At[ X: " + std::to_string(GetGameObjectByName(gmName).GetPosition().x) + " Y: " + std::to_string(GetGameObjectByName(gmName).GetPosition().y) + " Z: " + std::to_string(GetGameObjectByName(gmName).GetPosition().z);
 		OutputDebugStringA(msg.c_str());
-		
+
 		m_newIdGM++;
 	}
 
 
-	// Reset placing Module
-	if (InputManager::GetKeyIsReleased(VK_F1))
+	// Reset placing Module (cannot rotate after for some reason..)
+	if (InputManager::GetKeyIsPressed(VK_F1))
 	{
 		m_placingModule.SetScale({ 1.f, 1.f, 1.f });
 		m_placingModule.SetRotation({ 0.f, 0.f, 0.f,0.f });
@@ -315,12 +254,14 @@ void DevScene::Update(float deltatime)
 	}
 
 	// Generating scene outpout
-	if (InputManager::GetKeyIsReleased(VK_RETURN)) 
+	if (InputManager::GetKeyIsReleased(VK_RETURN))
 	{
 		OutputDebugStringA("\n\n----------- GENERATING SCENE CM's -----------");
-		for (auto gm : GetSceneGameObjects()) 
+		OutputDebugStringA("\n//COPY HERE");
+		OutputDebugStringA("\n{");
+		for (auto gm : GetSceneGameObjects())
 		{
-			if (gm.GetTag() == TAG_Object) 
+			if (gm.GetTag() == TAG_Object)
 			{
 				//std::string cm_create = std::string("\nCreateGameObject(\"") + gm.GetName() + "\");";
 				std::string cm_create = std::string("\nCreateGameObject(\"") + gm.GetName() + "\"" + "," + std::to_string(gm.GetMesh()) + "," + std::to_string(gm.GetTexture()) + ");";
@@ -334,6 +275,7 @@ void DevScene::Update(float deltatime)
 				OutputDebugStringA(cm_scale.c_str());
 			}
 		}
+		OutputDebugStringA("\n}");
 		OutputDebugStringA("\n----------- --------------------- -----------\n");
 	}
 
@@ -341,7 +283,7 @@ void DevScene::Update(float deltatime)
 	if (InputManager::GetKeyIsReleased(VK_F5))
 	{
 		OutputDebugStringA("\LockMouse\n");
-		if (InputManager::IsMouseLocked()) 
+		if (InputManager::IsMouseLocked())
 		{
 			DisableLockCursor();
 		}
@@ -351,7 +293,7 @@ void DevScene::Update(float deltatime)
 		}
 	}
 
-	if (InputManager::IsMouseLocked()) 
+	if (InputManager::IsMouseLocked())
 	{
 		CenterLockCursor();
 	}
@@ -374,4 +316,128 @@ void DevScene::Update(float deltatime)
 void DevScene::Release()
 {
 
+}
+
+void DevScene::CameraDevSystem(float deltatime)
+{
+	// 1) Debut/fin orbite
+	SHORT state = GetAsyncKeyState(VK_RBUTTON);
+	bool pressed = (state & 0x8000) != 0;
+	if (pressed && !m_orbiting)
+	{
+		m_orbiting = true;
+		SetCapture(m_hWnd);
+		ShowCursor(FALSE);
+		GetCursorPos(&m_lastMousePos);
+	}
+	else if (!pressed && m_orbiting)
+	{
+		m_orbiting = false;
+		ReleaseCapture();
+		ShowCursor(TRUE);
+	}
+
+	// 2) Si orbite active, lire dx/dy et ajuster yaw+pitch
+	if (m_orbiting)
+	{
+		POINT cur; GetCursorPos(&cur);
+		int dx = cur.x - m_lastMousePos.x;
+		int dy = cur.y - m_lastMousePos.y;
+		m_orbitYaw += dx * m_sensitivity;
+		m_orbitPitch += -dy * m_sensitivity; // inverser si necessaire selon sens
+		m_orbitPitch = std::clamp(m_orbitPitch, -89.0f, +89.0f);
+		if (m_orbitYaw >= 360.0f) m_orbitYaw -= 360.0f;
+		else if (m_orbitYaw < 0.0f) m_orbitYaw += 360.0f;
+		SetCursorPos(m_lastMousePos.x, m_lastMousePos.y);
+	}
+
+	// 3) Recalcule de la position camera selon angle et radius, et oriente la camera vers le cube
+	{
+		// Centre de l‚Äôorbite = position du cube
+		XMFLOAT3 center = m_placingModule.GetPosition();
+
+		// 3.1) Calculer un radius dynamique en fonction de la taille du cube
+		XMFLOAT3 scale = m_placingModule.GetScale();
+		// Trouver le plus grand des trois composantes
+		float maxScale = std::max(scale.x, std::max(scale.y, scale.z));
+		// Rayon minimal et marge autour de l‚Äôobjet
+		float radiusMin = 3.0f;
+		float radiusMargin = 1.5f;
+		float dynamicRadius = std::max(radiusMin, maxScale * radiusMargin);
+
+		// 3.2) Convertir yaw/pitch en radians
+		float yawRad = XMConvertToRadians(m_orbitYaw);
+		float pitchRad = XMConvertToRadians(m_orbitPitch);
+		float cosP = cosf(pitchRad);
+
+		// 3.3) Calculer la position sph√©rique
+		XMFLOAT3 camPos;
+		camPos.x = center.x + dynamicRadius * cosP * sinf(yawRad);
+		camPos.y = center.y + dynamicRadius * sinf(pitchRad);
+		camPos.z = center.z + dynamicRadius * cosP * cosf(yawRad);
+
+		m_camera.SetPosition(camPos);
+		if (auto tCam = m_camera.GetComponent<TransformComponent>()) tCam->dirty = true;
+
+		// 3.4) Orienter la cam√©ra pour qu‚Äôelle regarde le centre
+		XMVECTOR eye = XMLoadFloat3(&camPos);
+		XMVECTOR at = XMLoadFloat3(&center);
+		XMVECTOR up = XMVectorSet(0, 1, 0, 0);
+		XMMATRIX view = XMMatrixLookAtLH(eye, at, up);
+		XMMATRIX camWorld = XMMatrixInverse(nullptr, view);
+		XMVECTOR quat = XMQuaternionRotationMatrix(camWorld);
+		XMFLOAT4 qf; XMStoreFloat4(&qf, quat);
+		m_camera.SetRotation(qf);
+		if (auto tCam2 = m_camera.GetComponent<TransformComponent>()) tCam2->dirty = true;
+	}
+
+	// 2. Deplacement relatif ala camera
+	// Recuperer positions
+	XMFLOAT3 camPosF = m_camera.GetPosition();
+	XMFLOAT3 objPosF = m_placingModule.GetPosition();
+	XMVECTOR camPos = XMLoadFloat3(&camPosF);
+	XMVECTOR objPos = XMLoadFloat3(&objPosF);
+
+	// Calculer forward et right „Éªpartir de la rotation de la camÈßªa
+	XMFLOAT4 camQuatF = m_camera.GetRotation();
+	XMVECTOR camQuat = XMLoadFloat4(&camQuatF);
+	XMMATRIX camRotMat = XMMatrixRotationQuaternion(camQuat);
+	// Avant local de la camera : +Z
+	XMVECTOR forwardV = XMVector3Normalize(XMVector3TransformNormal(XMVectorSet(0, 0, 1, 0), camRotMat));
+	// On ne veut que la composante horizontale pour avancer/reculer sur le sol :
+	forwardV = XMVectorSetY(forwardV, 0.0f);
+	if (!XMVector3Equal(forwardV, XMVectorZero()))
+	{
+		forwardV = XMVector3Normalize(forwardV);
+	}
+
+	// Right comme cross(up, forward)
+	XMVECTOR upV = XMVectorSet(0, 1, 0, 0);
+	XMVECTOR rightV = XMVector3Normalize(XMVector3Cross(upV, forwardV));
+
+	// Construire moveV global
+	XMVECTOR moveV = XMVectorZero();
+	if (InputManager::GetKeyIsPressed('Z')) moveV += forwardV;
+	if (InputManager::GetKeyIsPressed('S')) moveV -= forwardV;
+	if (InputManager::GetKeyIsPressed('D')) moveV += rightV;
+	if (InputManager::GetKeyIsPressed('Q')) moveV -= rightV;
+	// Composante verticale
+	if (InputManager::GetKeyIsPressed(VK_SPACE))   moveV += upV;
+	if (InputManager::GetKeyIsPressed(VK_CONTROL)) moveV -= upV;
+
+	// Appliquer shift/run
+	float speed = InputManager::GetKeyIsPressed(VK_SHIFT) ? m_camRunSpeed : m_camWalkSpeed;
+
+	// Si vecteur non nul, normaliser puis scale
+	if (!XMVector3Equal(moveV, XMVectorZero())) {
+		moveV = XMVector3Normalize(moveV);
+		XMVECTOR offset = moveV * (speed * deltatime);
+		XMVECTOR newPos = objPos + offset;
+		XMFLOAT3 newPosF; XMStoreFloat3(&newPosF, newPos);
+		m_placingModule.SetPosition(newPosF);
+		if (auto t = m_placingModule.GetComponent<TransformComponent>())
+		{
+			t->dirty = true;
+		}
+	}
 }
