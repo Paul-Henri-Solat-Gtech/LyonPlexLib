@@ -221,7 +221,7 @@ void DevScene::Update(float deltatime)
 	if (InputManager::GetKeyIsPressed(VK_F1))
 	{
 		m_placingModule.SetScale({ 1.f, 1.f, 1.f });
-		m_placingModule.SetRotation({ 0.f, 0.f, 0.f,0.f });
+		m_placingModule.SetRotation({ 0.f, 0.f, 0.f, 1.f });
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 

@@ -19,12 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\Action.h" />
+    <ClInclude Include="Include\Behaviour.h" />
     <ClInclude Include="Include\CameraManager.h" />
     <ClInclude Include="Include\CameraSystem.h" />
     <ClInclude Include="Include\CommandManager.h" />
     <ClInclude Include="Include\CommonInclude.h" />
     <ClInclude Include="Include\ComponentManager.h" />
     <ClInclude Include="Include\Components.h" />
+    <ClInclude Include="Include\Condition.h" />
     <ClInclude Include="Include\DescriptorManager.h" />
     <ClInclude Include="Include\DevScene.h" />
     <ClInclude Include="Include\ECSManager.h" />
@@ -46,13 +49,18 @@
     <ClInclude Include="Include\Scene.h" />
     <ClInclude Include="Include\SceneManager.h" />
     <ClInclude Include="Include\SoundManager.h" />
+    <ClInclude Include="Include\StateMachine.h" />
     <ClInclude Include="Include\SystemManager.h" />
     <ClInclude Include="Include\TextureManager.h" />
     <ClInclude Include="Include\TransformSystem.h" />
+    <ClInclude Include="Include\Transition.h" />
     <ClInclude Include="Include\Utils.h" />
     <ClInclude Include="Include\WindowPlex.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Include\Behaviour.inl" />
+    <None Include="Include\Condition.inl" />
+    <None Include="Include\Transition.inl" />
     <None Include="Ressources\VertexShader.hlsl">
       <FileType>Document</FileType>
     </None>
