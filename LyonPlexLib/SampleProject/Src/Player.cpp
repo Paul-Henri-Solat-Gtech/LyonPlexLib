@@ -1,65 +1,43 @@
 #include "pch.h"
 #include "Player.h"
 
+#include "playerAction.h"
+#include "playerCondition.h"
+
 Player::Player() : m_stateMachine(this, State::Count)
 {
-	// IDLE
-	//{
-	//	Behaviour<Plant>*pIdle = mStateMachine.CreateBehaviour(State::Idle);
-	//	pIdle->AddAction(new PlantAction_Idle());
+    // --- IDLE ---
+    {
+        auto* b = m_stateMachine.CreateBehaviour(State::Idle);
+        b->AddAction(new PlayerAction_Idle());
+        // si vous avez des transitions, ajoutez-les ici :
+        // auto* t = b->CreateTransition(State::Move);
+        // t->AddCondition<PlayerCondition_Some>();
+    }
 
-	//	//-> SHOOTING
-	//	{
-	//		auto transition = pIdle->CreateTransition(State::Shooting);
+    // --- MOVE ---
+    {
+        auto* b = m_stateMachine.CreateBehaviour(State::Move);
+        b->AddAction(new PlayerAction_Move());
+        // c
+    }
 
-	//		auto condition = transition->AddCondition<PlantCondition_ZombieOnLane>();
-	//	}
+    // --- JUMP ---
+    {
+        auto* b = m_stateMachine.CreateBehaviour(State::Jump);
+        b->AddAction(new PlayerAction_Jump());
+        // c
+    }
 
-	//	//-> RELOADING
-	//	{
-	//		auto transition = pIdle->CreateTransition(State::Reloading);
+    // Vous pouvez maintenant faire :
+    m_stateMachine.SetState(State::Idle);
+}
 
-	//		auto condition1 = transition->AddCondition<PlantCondition_FullAmmo>();
-	//		condition1->expected = false;
+void Player::Init(GameObject gameObject)
+{
+	m_playerGameObject = gameObject;
 
-	//		auto condition2 = transition->AddCondition<PlantCondition_ZombieOnLane>();
-	//		condition2->expected = false;
-	//	}
-	//}
-
-	//	//SHOOTING
-	//{
-	//	Behaviour<Plant>* pShooting = mStateMachine.CreateBehaviour(State::Shooting);
-	//	pShooting->AddAction(new PlantAction_Shooting());
-
-	//	//-> IDLE
-	//	{
-	//		auto transition = pShooting->CreateTransition(State::Idle);
-
-	//		auto condition = transition->AddCondition<PlantCondition_ZombieOnLane>();
-	//		condition->expected = false;
-	//	}
-
-	//	//-> RELOADING
-	//	{
-	//		auto transition = pShooting->CreateTransition(State::Reloading);
-
-	//		transition->AddCondition<PlantCondition_NoAmmo>();
-	//	}
-	//}
-
-	////RELOADING
-	//{
-	//	Behaviour<Plant>* pShooting = mStateMachine.CreateBehaviour(State::Reloading);
-	//	pShooting->AddAction(new PlantAction_Reloading());
-
-	//	//-> IDLE
-	//	{
-	//		auto transition = pShooting->CreateTransition(State::Idle);
-
-	//		auto condition = transition->AddCondition<PlantCondition_FullAmmo>();
-	//	}
-	//}
+	OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
 
 	//m_stateMachine.SetState(State::Idle);
 }

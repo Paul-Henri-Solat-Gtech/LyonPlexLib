@@ -20,8 +20,8 @@ void DevScene::Start()
 	   //SetParent(m_camera, m_placingModule);
 	   ////SetParent(m_placingModule, m_camera);
 
-		   // R馗up駻er le HWND depuis votre SceneManager ou engine
-	m_hWnd = mp_sceneManager->GetWindow(); // ou l帝quivalent
+    // R馗up駻er le HWND depuis SceneManager
+	m_hWnd = mp_sceneManager->GetWindow();
 
 	// Cr馥r le cube (placingModule)
 	CreateGameObject("placingModule");

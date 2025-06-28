@@ -19,10 +19,13 @@ class Player
 
 public:
 	Player();
+	void Init(GameObject gameObject);
 	
 	void OnUdpdate();
 
 	const char* GetStateName(State state) const;
+
+	GameObject m_playerGameObject;
 
 protected:
 
