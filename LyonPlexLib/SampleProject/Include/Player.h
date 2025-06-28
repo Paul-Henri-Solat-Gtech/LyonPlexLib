@@ -3,7 +3,7 @@
 
 class Player
 {
-	StateMachine<Player> m_StateMachine;
+	StateMachine<Player> m_stateMachine;
 
 	enum State
 	{
@@ -14,17 +14,13 @@ class Player
 		Count
 	};
 
-	int mAmmo;
-	int mMaxAmmo = 6;
-
-	float mShootCadence = 1.0f;
-
-	float mReloadDuration = 2.0f;
-
-	int mAreaIndex;
+	float m_moveSpeed = 2.0f;
+	float m_jumpPower = 5.0f;
 
 public:
 	Player();
+	
+	void OnUdpdate();
 
 	const char* GetStateName(State state) const;
 

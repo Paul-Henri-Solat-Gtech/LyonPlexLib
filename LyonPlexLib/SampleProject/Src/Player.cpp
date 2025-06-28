@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Player.h"
 
-Player::Player() : m_StateMachine(this, State::Count)
+Player::Player() : m_stateMachine(this, State::Count)
 {
 	// IDLE
 	//{
@@ -61,7 +61,7 @@ Player::Player() : m_StateMachine(this, State::Count)
 	//	}
 	//}
 
-	//m_StateMachine.SetState(State::Idle);
+	//m_stateMachine.SetState(State::Idle);
 }
 
 const char* Player::GetStateName(State state) const
@@ -73,4 +73,9 @@ const char* Player::GetStateName(State state) const
 	case Jump: return "Jump";
 	default: return "Unknown";
 	}
+}
+
+void Player::OnUdpdate()
+{
+	//m_stateMachine.Update();
 }
