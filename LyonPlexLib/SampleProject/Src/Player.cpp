@@ -10,6 +10,27 @@ Player::Player() : m_stateMachine(this, State::Count)
     {
         auto* b = m_stateMachine.CreateBehaviour(State::Idle);
         b->AddAction(new PlayerAction_Idle());
+        //-> MOVE TRANSITION
+        {
+            //auto transition = pIdle->CreateTransition(State::Shooting);
+        }
+        ////-> SHOOTING
+        //{
+        //    auto transition = pIdle->CreateTransition(State::Shooting);
+
+        //    auto condition = transition->AddCondition<PlantCondition_ZombieOnLane>();
+        //}
+
+        ////-> RELOADING
+        //{
+        //    auto transition = pIdle->CreateTransition(State::Reloading);
+
+        //    auto condition1 = transition->AddCondition<PlantCondition_FullAmmo>();
+        //    condition1->expected = false;
+
+        //    auto condition2 = transition->AddCondition<PlantCondition_ZombieOnLane>();
+        //    condition2->expected = false;
+        //}
         // si vous avez des transitions, ajoutez-les ici :
         // auto* t = b->CreateTransition(State::Move);
         // t->AddCondition<PlayerCondition_Some>();
@@ -36,6 +57,7 @@ Player::Player() : m_stateMachine(this, State::Count)
 void Player::Init(GameObject gameObject)
 {
 	m_playerGameObject = gameObject;
+    m_moveSpeed = m_walkSpeed;
 
 	OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
 
@@ -53,7 +75,13 @@ const char* Player::GetStateName(State state) const
 	}
 }
 
+const char* Player::GetCurrentStateName() const
+{
+    int state = m_stateMachine.GetCurrentState();
+    return GetStateName(static_cast<State>(state));
+}
+
 void Player::OnUdpdate()
 {
-	//m_stateMachine.Update();
+	m_stateMachine.Update();
 }

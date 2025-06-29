@@ -14,7 +14,9 @@ class Player
 		Count
 	};
 
-	float m_moveSpeed = 2.0f;
+	float m_walkSpeed = 2.0f;
+	float m_runSpeed = 5.0f;
+	float m_moveSpeed;
 	float m_jumpPower = 5.0f;
 
 public:
@@ -24,6 +26,7 @@ public:
 	void OnUdpdate();
 
 	const char* GetStateName(State state) const;
+	const char* GetCurrentStateName() const;
 
 	GameObject m_playerGameObject;
 

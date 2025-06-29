@@ -80,9 +80,10 @@ void GameScene::Update(float deltatime)
 	}
 
 	// PlayerState
-	if (InputManager::GetKeyIsPressed('T'))
+	m_playerTest.OnUdpdate();
+	if (InputManager::GetKeyIsReleased('T'))
 	{
-
+		OutputDebugStringA(("\nPlayer State : " + std::string(m_playerTest.GetCurrentStateName())).c_str());
 	}
 
 	// Change scene [ALLWAYS AT THE END SO THERE IS NO OTHER CODE RUNNING AFTER IN THIS SCENE]
