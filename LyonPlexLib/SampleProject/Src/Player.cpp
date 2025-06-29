@@ -8,39 +8,24 @@ Player::Player() : m_stateMachine(this, State::Count)
 {
     // --- IDLE ---
     {
-        auto* b = m_stateMachine.CreateBehaviour(State::Idle);
-        b->AddAction(new PlayerAction_Idle());
+        auto* sIdle = m_stateMachine.CreateBehaviour(State::Idle);
+        sIdle->AddAction(new PlayerAction_Idle());
         //-> MOVE TRANSITION
         {
-            //auto transition = pIdle->CreateTransition(State::Shooting);
+            auto transition = sIdle->CreateTransition(State::Move);
+            auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
         }
-        ////-> SHOOTING
-        //{
-        //    auto transition = pIdle->CreateTransition(State::Shooting);
-
-        //    auto condition = transition->AddCondition<PlantCondition_ZombieOnLane>();
-        //}
-
-        ////-> RELOADING
-        //{
-        //    auto transition = pIdle->CreateTransition(State::Reloading);
-
-        //    auto condition1 = transition->AddCondition<PlantCondition_FullAmmo>();
-        //    condition1->expected = false;
-
-        //    auto condition2 = transition->AddCondition<PlantCondition_ZombieOnLane>();
-        //    condition2->expected = false;
-        //}
-        // si vous avez des transitions, ajoutez-les ici :
-        // auto* t = b->CreateTransition(State::Move);
-        // t->AddCondition<PlayerCondition_Some>();
     }
 
     // --- MOVE ---
     {
-        auto* b = m_stateMachine.CreateBehaviour(State::Move);
-        b->AddAction(new PlayerAction_Move());
-        // c
+        auto* sMove = m_stateMachine.CreateBehaviour(State::Move);
+        sMove->AddAction(new PlayerAction_Move());
+        //-> IDLE TRANSITION
+        {
+            auto transition = sMove->CreateTransition(State::Idle);
+            auto condition = transition->AddCondition<PlayerCondition_IsNotMoving>();
+        }
     }
 
     // --- JUMP ---
@@ -58,6 +43,8 @@ void Player::Init(GameObject gameObject)
 {
 	m_playerGameObject = gameObject;
     m_moveSpeed = m_walkSpeed;
+
+    m_deltatime = 0;
 
 	OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
 
@@ -81,7 +68,8 @@ const char* Player::GetCurrentStateName() const
     return GetStateName(static_cast<State>(state));
 }
 
-void Player::OnUdpdate()
+void Player::OnUdpdate(float deltatime)
 {
 	m_stateMachine.Update();
+    m_deltatime = deltatime;
 }

@@ -18,18 +18,27 @@ class Player
 	float m_runSpeed = 5.0f;
 	float m_moveSpeed;
 	float m_jumpPower = 5.0f;
-
+	
+	float m_deltatime;
 public:
 	Player();
 	void Init(GameObject gameObject);
 	
-	void OnUdpdate();
+	void OnUdpdate(float deltatime);
 
 	const char* GetStateName(State state) const;
 	const char* GetCurrentStateName() const;
 
 	GameObject m_playerGameObject;
 
+	GameObject& GetGameObject() { return m_playerGameObject; };
+
+	void SetMoveSpeed(float speedValue) { m_moveSpeed = speedValue; };
+	float GetRunSpeed() { return m_runSpeed; };
+	float GetWalkSpeed() { return m_walkSpeed; };
+	float GetMoveSpeed() { return m_moveSpeed; };
+
+	float GetDeltatime() { return m_deltatime; };
 protected:
 
 	friend class PlayerAction_Idle;

@@ -15,6 +15,18 @@ public:
 	bool OnTest(Player* owner) override;
 };
 
+class PlayerCondition_IsMoving : public Condition<Player>
+{
+public:
+	bool OnTest(Player* owner) override;
+};
+
+class PlayerCondition_IsNotMoving : public Condition<Player>
+{
+public:
+	bool OnTest(Player* owner) override;
+};
+
 //class PlantCondition_FullAmmo : public Condition<Player>
 //{
 //public:
