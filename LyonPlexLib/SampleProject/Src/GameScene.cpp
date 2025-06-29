@@ -33,6 +33,9 @@ void GameScene::Start()
 void GameScene::Update(float deltatime)
 {
 	//Input
+	// 
+	// !!! STATE MACHINE MANAGE THE PLAYER !!!
+	// 
 	//if (InputManager::GetKeyIsPressed('Z'))
 	//{
 	//	GetGameObjectByName("player").GetComponent<TransformComponent>()->position.z += m_playerSpeed * deltatime;
