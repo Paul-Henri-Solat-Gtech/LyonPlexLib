@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers sources\Player">
+      <UniqueIdentifier>{9b895419-4bd1-4b3f-bf79-3469841fa6d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Player">
+      <UniqueIdentifier>{2e6d9c94-f43d-46c5-8ed9-5f8fe1fb6393}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\AllScenes.cpp">
@@ -32,6 +38,14 @@
     </ClCompile>
     <ClCompile Include="Src\BlockTutoScene.cpp">
       <Filter>Fichiers sources</Filter>
+    <ClCompile Include="Src\Player.cpp">
+      <Filter>Fichiers sources\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\PlayerCondition.cpp">
+      <Filter>Fichiers sources\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\PlayerAction.cpp">
+      <Filter>Fichiers sources\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +69,14 @@
     </ClInclude>
     <ClInclude Include="Include\BlockTutoScene.h">
       <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="Include\Player.h">
+      <Filter>Fichiers d%27en-tête\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\PlayerCondition.h">
+      <Filter>Fichiers d%27en-tête\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\PlayerAction.h">
+      <Filter>Fichiers d%27en-tête\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

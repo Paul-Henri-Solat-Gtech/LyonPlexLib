@@ -27,6 +27,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Src\Player.cpp" />
+    <ClCompile Include="Src\PlayerAction.cpp" />
+    <ClCompile Include="Src\PlayerCondition.cpp" />
     <ClCompile Include="Src\SampleScene2.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -35,6 +38,9 @@
     <ClInclude Include="Include\GameScene.h" />
     <ClInclude Include="Include\main.h" />
     <ClInclude Include="Include\pch.h" />
+    <ClInclude Include="Include\Player.h" />
+    <ClInclude Include="Include\PlayerAction.h" />
+    <ClInclude Include="Include\PlayerCondition.h" />
     <ClInclude Include="Include\resource.h" />
     <ClInclude Include="Include\SampleScene2.h" />
   </ItemGroup>

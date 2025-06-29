@@ -20,8 +20,8 @@ void DevScene::Start()
 	   //SetParent(m_camera, m_placingModule);
 	   ////SetParent(m_placingModule, m_camera);
 
-		   // R馗up駻er le HWND depuis votre SceneManager ou engine
-	m_hWnd = mp_sceneManager->GetWindow(); // ou l帝quivalent
+    // R馗up駻er le HWND depuis SceneManager
+	m_hWnd = mp_sceneManager->GetWindow();
 
 	// Cr馥r le cube (placingModule)
 	CreateGameObject("placingModule");
@@ -221,7 +221,7 @@ void DevScene::Update(float deltatime)
 	if (InputManager::GetKeyIsPressed(VK_F1))
 	{
 		m_placingModule.SetScale({ 1.f, 1.f, 1.f });
-		m_placingModule.SetRotation({ 0.f, 0.f, 0.f,0.f });
+		m_placingModule.SetRotation({ 0.f, 0.f, 0.f, 1.f });
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 

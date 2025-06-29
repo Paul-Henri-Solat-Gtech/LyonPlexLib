@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers d%27en-tête\StateMachine">
+      <UniqueIdentifier>{61cb7d10-9ae9-460a-9f64-1bfce798dd51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\CameraManager.h">
@@ -111,6 +114,21 @@
     <ClInclude Include="Include\DevScene.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Transition.h">
+      <Filter>Fichiers d%27en-tête\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Behaviour.h">
+      <Filter>Fichiers d%27en-tête\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\StateMachine.h">
+      <Filter>Fichiers d%27en-tête\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Condition.h">
+      <Filter>Fichiers d%27en-tête\StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Action.h">
+      <Filter>Fichiers d%27en-tête\StateMachine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\CameraManager.cpp">
@@ -201,6 +219,15 @@
     </None>
     <None Include="Ressources\VertexShader.hlsl">
       <Filter>Fichiers de ressources</Filter>
+    </None>
+    <None Include="Include\Behaviour.inl">
+      <Filter>Fichiers d%27en-tête\StateMachine</Filter>
+    </None>
+    <None Include="Include\Condition.inl">
+      <Filter>Fichiers d%27en-tête\StateMachine</Filter>
+    </None>
+    <None Include="Include\Transition.inl">
+      <Filter>Fichiers d%27en-tête\StateMachine</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
