@@ -10,6 +10,8 @@ void TextureManager::Init(GraphicsDevice* graphicsDevice, DescriptorManager* des
 {
 	m_graphicsDevice = graphicsDevice;
 	m_descMgr = descriptorManager;
+
+    LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");//0
 }
 
 TextureID TextureManager::LoadTexture(const std::string& key)

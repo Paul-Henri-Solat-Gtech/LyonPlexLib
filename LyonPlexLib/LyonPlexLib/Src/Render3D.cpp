@@ -80,28 +80,26 @@ void Render3D::RecordCommands()
 	mp_commandManager->GetCommandList()->RSSetViewports(1, &viewport);
 	mp_commandManager->GetCommandList()->RSSetScissorRects(1, &scissorRect);
 
-	//ComponentMask local3DMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D_LOC::StaticTypeID);
-	//m_ECS->ForEach(local3DMask, [&](Entity ent)
-	//	{
-	//		//const Material& mat = materialLib.Get(m->materialID);
+	ComponentMask local3DMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D_LOC::StaticTypeID);
+	m_ECS->ForEach(local3DMask, [&](Entity ent)
+		{
+			//const Material& mat = materialLib.Get(m->materialID);
 
-	//		UpdateAndBindCB(ent);
+			UpdateAndBindCB(ent);
 
-	//		MeshComponent* meshComp = m_ECS->GetComponent<MeshComponent>(ent);
-	//		uint32_t matID = meshComp->materialID;
-
-
-	//		const MeshData& data = m_meshManager->GetMeshLib().Get(meshComp->meshID);
-	//		mp_commandManager->GetCommandList()->DrawIndexedInstanced(
-	//			data.iSize,      // nombre d’indices
-	//			1,
-	//			data.iOffset,    // offset dans le buffer d’indices
-	//			0,				// BaseVertexLocation toujours = 0 ?
-	//			0
-	//		);
-	//	});
+			MeshComponent* meshComp = m_ECS->GetComponent<MeshComponent>(ent);
+			uint32_t matID = meshComp->materialID;
 
 
+			const MeshData& data = m_meshManager->GetMeshLib().Get(meshComp->meshID);
+			mp_commandManager->GetCommandList()->DrawIndexedInstanced(
+				data.iSize,      // nombre d’indices
+				1,
+				data.iOffset,    // offset dans le buffer d’indices
+				0,				// BaseVertexLocation toujours = 0 ?
+				0
+			);
+		});
 
 
 	ComponentMask loaded3DMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D_EXT::StaticTypeID);
@@ -134,11 +132,19 @@ void Render3D::RecordCommands()
 					handle.ptr += texId * descSize;
 
 					// DEBUG
-					char buf[128];
+					/*char buf[128];
 					sprintf_s(buf, sizeof(buf),
-						"Binding texId=%u for submesh matID=%u\n",
-						texId, sub.MaterialID);
-					OutputDebugStringA(buf);
+						"Binding texId=%u for Entity = %u ; submesh matID=%u\n",
+						texId, ent, sub.MaterialID);
+					OutputDebugStringA(buf);*/
+					char bufDraw[128];
+					sprintf_s(bufDraw, sizeof(bufDraw),
+						"[Draw] Entity %u – mesh %u – subMat %u → texId = %u\n",
+						ent.id,
+						meshComp->meshID,
+						sub.MaterialID,
+						texId);
+					OutputDebugStringA(bufDraw);
 
 					// 3) binder **uniquement** ce handle sur rootParam 2 :
 					mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/ 2, handle);

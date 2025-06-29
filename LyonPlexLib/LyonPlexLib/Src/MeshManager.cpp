@@ -321,15 +321,39 @@ bool MeshData::LoadFromFile(const std::string& path)
 	//	OutputDebugStringA(buf);
 	//}
 
+	  // ──────────────────────────────────────────────────────────────
+    // 1) Passage RH -> LH : inverser Z des positions et normales
+    for (size_t i = 0; i < attrib.vertices.size(); i += 3)
+        attrib.vertices[i + 2] = -attrib.vertices[i + 2];
+    
+	if (!attrib.normals.empty())
+    {
+        for (size_t i = 0; i < attrib.normals.size(); i += 3)
+            attrib.normals[i + 2] = -attrib.normals[i + 2];
+    }
 
+    //// 2) Inverser le winding de chaque face (swap i0/i1)
+    //for (auto &shape : shapes)
+    //{
+    //    auto &idxs = shape.mesh.indices;
+    //    for (size_t f = 0; f + 2 < idxs.size(); f += 3)
+    //        std::swap(idxs[f + 0], idxs[f + 1]);
+    //}
 
-	// store material names
+    // 3) Corriger le V de l’UV (optionnel mais souvent nécessaire)
+    for (size_t i = 0; i < attrib.texcoords.size(); i += 2)
+        attrib.texcoords[i + 1] = 1.0f - attrib.texcoords[i + 1];
+    // ──────────────────────────────────────────────────────────────
+
+    // store material names
 	materialNames.clear();
 	for (auto& m : materials)
 		materialNames.push_back(m.diffuse_texname);
 	
 	// dedupe and build global vertex list
-	vertices.clear(); indices.clear(); subMeshes.clear();
+	vertices.clear(); 
+	indices.clear(); 
+	subMeshes.clear();
 	std::unordered_map<VertexParam, uint32_t> uniqueVertices;
 	uint32_t indexCursor = 0;
 	for (size_t s = 0; s < shapes.size(); ++s)
@@ -351,15 +375,16 @@ bool MeshData::LoadFromFile(const std::string& path)
 			if (!attrib.texcoords.empty()) {
 				size_t ti = 2 * idx.texcoord_index;
 				v.TexCoord = { attrib.texcoords[ti], attrib.texcoords[ti + 1] };
-				//{
-				//	// DEBUG
-				//	char buf[128];
-				//	sprintf_s(buf, sizeof(buf),
-				//		"  build vert[%zu]  UV=(%.3f, %.3f)\n",
-				//		vertices.size(),
-				//		v.TexCoord.x, v.TexCoord.y);
-				//	OutputDebugStringA(buf);
-				//}
+				
+				//// DEBUG
+				{					
+					char buf[128];
+					sprintf_s(buf, sizeof(buf),
+						"  build vert[%zu]  UV=(%.3f, %.3f)\n",
+						vertices.size(),
+						v.TexCoord.x, v.TexCoord.y);
+					OutputDebugStringA(buf);
+				}
 			}
 			auto it = uniqueVertices.find(v);
 			if (it == uniqueVertices.end())
@@ -403,8 +428,10 @@ void MeshManager::Init(GraphicsDevice* graphicsDevice, TextureManager* textureMa
 	cb.materialTextureIDs = { 0 };
 	m_meshLibrary.Add(cb);
 
+
 	LoadMeshFromFile("../LyonPlexLib/Ressources/ArbreTest.obj");
 	LoadMeshFromFile("../LyonPlexLib/Ressources/Cepha1.obj");
+	LoadMeshFromFile("../LyonPlexLib/Ressources/Cube.obj");
 	BuildAndUploadGlobalBuffers();
 }
 
@@ -421,7 +448,23 @@ void MeshManager::LoadMeshFromFile(const std::string& path)
         const auto& name = mesh.materialNames[i];
         // assume relative to path's folder
         std::string baseDir = std::filesystem::path(path).remove_filename().string();
-        mesh.materialTextureIDs[i] = mp_textureManager->LoadTexture(baseDir + name);
+
+		// DEBUG
+		std::string texPath = baseDir + name;
+		char buf[256];
+		sprintf_s(buf, sizeof(buf),
+			"[LoadMeshFromFile] Loading texture `%s`\n", texPath.c_str());
+		OutputDebugStringA(buf);
+
+		TextureManager::TextureID tid = mp_textureManager->LoadTexture(texPath);
+
+		sprintf_s(buf, sizeof(buf),
+			"[LoadMeshFromFile] -> LoadTexture returned ID = %u\n", tid);
+		OutputDebugStringA(buf);
+
+		mesh.materialTextureIDs[i] = tid;
+        //mesh.materialTextureIDs[i] = mp_textureManager->LoadTexture(baseDir + name);
+
     }
 	// DEBUG
 	for (size_t i = 0; i < std::min<size_t>(mesh.vertices.size(), 6); ++i)

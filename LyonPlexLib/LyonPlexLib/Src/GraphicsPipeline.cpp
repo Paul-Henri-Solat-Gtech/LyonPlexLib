@@ -77,6 +77,7 @@ void GraphicsPipeline::CreateRootSignature()
 	// Static sampler (s0)
 	D3D12_STATIC_SAMPLER_DESC samplerDesc = {};
 	samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+	//samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;
 	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
 	//samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
 	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
@@ -196,8 +197,8 @@ void GraphicsPipeline::CreatePipelineStateObject()
 
 	// ) Rasterizer State : on veut afficher la face exterieure, winding CCW = front
 	D3D12_RASTERIZER_DESC rasterDesc = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-	//rasterDesc.CullMode = D3D12_CULL_MODE_BACK;          // On elimine les faces arriere (celles qu'on ne veut pas voir)	/!\/!\/!\	A REMETTRE SI PB DE PERFS /!\/!\/!\/
-	rasterDesc.CullMode = D3D12_CULL_MODE_NONE;          // On elimine laucune face
+	rasterDesc.CullMode = D3D12_CULL_MODE_BACK;          // On elimine les faces arriere (celles qu'on ne veut pas voir)	/!\/!\/!\	A REMETTRE SI PB DE PERFS /!\/!\/!\/
+	//rasterDesc.CullMode = D3D12_CULL_MODE_NONE;          // On elimine laucune face
 	rasterDesc.FrontCounterClockwise = TRUE;             // CCW = face avant, CW = face arriere 
 	rasterDesc.FillMode = D3D12_FILL_MODE_SOLID;         // Remplir normalement
 	rasterDesc.DepthClipEnable = TRUE;

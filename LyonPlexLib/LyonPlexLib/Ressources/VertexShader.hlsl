@@ -70,7 +70,13 @@ float4 PSMain(PSInput input) : SV_Target
     //          0.0f, // G = 0
     //          input.uv.y, // B = V
     //          1.0f);
+    
+    //return float4(input.uv.x, input.uv.y, 0, 1);
+    
     return textures.Sample(linearClamp, input.uv);
+    
+    //float2 planUV = input.positionH.xz * (1 / 2) + float2(0.5, 0.5);
+    //return textures.Sample(linearClamp, planUV);
     
     //return textures[materialIndex].Sample(linearClamp, input.uv);
     //float4 c = textures[materialIndex].Sample(linearClamp, input.uv);
