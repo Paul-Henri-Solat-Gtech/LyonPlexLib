@@ -10,16 +10,22 @@ class Player
 		Idle,
 		Move,
 		Jump,
+		Attack,
+		Fall,
 
 		Count
 	};
+
+	int m_hp = 10;
 
 	float m_walkSpeed = 2.0f;
 	float m_runSpeed = 5.0f;
 	float m_moveSpeed;
 	float m_jumpPower = 5.0f;
-	
+	float m_invicibilityCooldown = 2.0f;
+
 	float m_deltatime;
+
 public:
 	Player();
 	void Init(GameObject gameObject);
@@ -39,10 +45,11 @@ public:
 	float GetMoveSpeed() { return m_moveSpeed; };
 
 	float GetDeltatime() { return m_deltatime; };
-protected:
 
+protected:
 	friend class PlayerAction_Idle;
 	friend class PlayerAction_Move;
 	friend class PlayerAction_Jump;
+	friend class PlayerAction_Attack;
 };
 

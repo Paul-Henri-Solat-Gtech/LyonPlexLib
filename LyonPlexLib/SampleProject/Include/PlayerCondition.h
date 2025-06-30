@@ -27,8 +27,8 @@ public:
 	bool OnTest(Player* owner) override;
 };
 
-//class PlantCondition_FullAmmo : public Condition<Player>
-//{
-//public:
-//	bool OnTest(Plant* owner) override;
-//};
+class PlayerCondition_IsAttacking : public Condition<Player>
+{
+public:
+	bool OnTest(Player* owner) override;
+};

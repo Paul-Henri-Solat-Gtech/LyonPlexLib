@@ -14,6 +14,17 @@ Player::Player() : m_stateMachine(this, State::Count)
         {
             auto transition = sIdle->CreateTransition(State::Move);
             auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
+            //transition->AddCondition<PlayerCondition_IsAttacking>();
+        }
+        //-> ATTACK TRANSITION
+        {
+            auto transition = sIdle->CreateTransition(State::Attack);
+            auto condition = transition->AddCondition<PlayerCondition_IsAttacking>();
+        }
+        //-> FALL TRANSITION
+        {
+            auto transition = sIdle->CreateTransition(State::Fall);
+            auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
         }
     }
 
@@ -26,16 +37,63 @@ Player::Player() : m_stateMachine(this, State::Count)
             auto transition = sMove->CreateTransition(State::Idle);
             auto condition = transition->AddCondition<PlayerCondition_IsNotMoving>();
         }
+        //-> ATTACK TRANSITION
+        {
+            auto transition = sMove->CreateTransition(State::Attack);
+            auto condition = transition->AddCondition<PlayerCondition_IsAttacking>();
+        }
+        //-> FALL TRANSITION
+        {
+            auto transition = sMove->CreateTransition(State::Fall);
+            auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
+        }
     }
 
     // --- JUMP ---
     {
-        auto* b = m_stateMachine.CreateBehaviour(State::Jump);
-        b->AddAction(new PlayerAction_Jump());
-        // c
+        auto* sJump = m_stateMachine.CreateBehaviour(State::Jump);
+        sJump->AddAction(new PlayerAction_Jump());
+    }
+    
+    // --- FALL ---
+    {
+        auto* sFall = m_stateMachine.CreateBehaviour(State::Fall);
+        sFall->AddAction(new PlayerAction_Fall());
+        //-> IDLE TRANSITION
+        {
+            auto transition = sFall->CreateTransition(State::Idle);
+            auto condition = transition->AddCondition<PlayerCondition_IsNotMoving>();
+        }
+        //-> MOVE TRANSITION
+        {
+            auto transition = sFall->CreateTransition(State::Move);
+            auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
+        }
     }
 
-    // Vous pouvez maintenant faire :
+    // --- Attack ---
+    {
+        auto* sAttack = m_stateMachine.CreateBehaviour(State::Attack);
+        sAttack->AddAction(new PlayerAction_Attack());
+        //-> IDLE TRANSITION
+        {
+            auto transition = sAttack->CreateTransition(State::Idle);
+            auto condition = transition->AddCondition<PlayerCondition_IsNotMoving>();
+        }
+        //-> MOVE TRANSITION
+        {
+            auto transition = sAttack->CreateTransition(State::Move);
+            auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
+        }
+        //-> FALL TRANSITION
+        {
+            auto transition = sAttack->CreateTransition(State::Fall);
+            auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
+        }
+    }
+
+
+    // Base State
     m_stateMachine.SetState(State::Idle);
 }
 
@@ -57,7 +115,9 @@ const char* Player::GetStateName(State state) const
 	{
 	case Idle: return "Idle";
 	case Move: return "Move";
-	case Jump: return "Jump";
+    case Jump: return "Jump";
+    case Attack: return "Attack";
+    case Fall: return "Fall";
 	default: return "Unknown";
 	}
 }
