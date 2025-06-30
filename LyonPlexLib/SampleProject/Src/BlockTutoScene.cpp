@@ -12,79 +12,55 @@ void BlockTutoScene::Start()
 
 
 
+	////////////////////////////////////////////////////////////champ////////////////////////////
+
+	CreateGameObject("champ");
+	GetGameObjectByName("champ").SetPosition({ 44.292843, -1.952915, -60.895660 });
+	GetGameObjectByName("champ").SetScale({ 30, 1, 43 });
 	CreateGameObject("parcelle1", 2, 0);
 	GetGameObjectByName("parcelle1").SetPosition({ 51.792843, -1.916459, -76.895660 });
 	GetGameObjectByName("parcelle1").SetScale({ 10, 1, 5 });
-
 	CreateGameObject("parcelle2", 2, 1);
 	GetGameObjectByName("parcelle2").SetPosition({ 51.792843, -1.916459, -68.895660 });
 	GetGameObjectByName("parcelle2").SetScale({ 10, 1, 5 });
-
 	CreateGameObject("parcelle3", 2, 2);
 	GetGameObjectByName("parcelle3").SetPosition({ 51.792843, -1.916459, -60.895660 });
 	GetGameObjectByName("parcelle3").SetScale({ 10, 1, 5 });
-
 	CreateGameObject("parcelle4", 2, 3);
 	GetGameObjectByName("parcelle4").SetPosition({ 51.792843, -1.916459, -54.895660 });
 	GetGameObjectByName("parcelle4").SetScale({ 10, 1, 5 });
-
 	CreateGameObject("parcelle5", 2, 4);
 	GetGameObjectByName("parcelle5").SetPosition({ 51.792843, -1.916459, -46.895660 });
 	GetGameObjectByName("parcelle5").SetScale({ 10, 1, 5 });
-
-
-
 	CreateGameObject("parcelle6", 2, 4);
 	GetGameObjectByName("parcelle6").SetPosition({ 36.792843, -1.916459, -60.895660 });
 	GetGameObjectByName("parcelle6").SetScale({ 10, 1, 5 });
-
 	CreateGameObject("parcelle7", 2, 4);
 	GetGameObjectByName("parcelle7").SetPosition({ 36.792843, -1.916459, -54.895660 });
 	GetGameObjectByName("parcelle7").SetScale({ 10, 1, 5 });
-
 	CreateGameObject("parcelle8", 2, 4);
 	GetGameObjectByName("parcelle8").SetPosition({ 36.792843, -1.916459, -46.895660 });
 	GetGameObjectByName("parcelle8").SetScale({ 10, 1, 5 });
-
-
-
 	CreateGameObject("maison", 2, 1);
 	GetGameObjectByName("maison").SetPosition({ 36.792843, 1.916459, -71.895660 });
 	GetGameObjectByName("maison").SetScale({ 10, 10, 10 });
 
 
-
-	CreateGameObject("champ");
-	GetGameObjectByName("champ").SetPosition({ 44.292843, -1.952915, -60.895660 });
-	GetGameObjectByName("champ").SetScale({ 30, 1, 43 });
-
-
-
-	CreateGameObject("chemin1", 2, 4);
-	GetGameObjectByName("chemin1").SetPosition({ -8.714675,-1.933910,-61.310471 });
-	GetGameObjectByName("chemin1").SetRotation({ 1.000000,0.000000,0.000000,0.000000 });
-	GetGameObjectByName("chemin1").SetScale({ 75.578575,1.258187,17.168396 });
-
-
-	CreateGameObject("chemin2", 2, 4);
-	GetGameObjectByName("chemin2").SetPosition({ -106.625977,-1.933910,-61.581860 });
-	GetGameObjectByName("chemin2").SetRotation({ 1.000000,0.000000,0.000000,0.000000 });
-	GetGameObjectByName("chemin2").SetScale({ 75.578575,1.258187,17.168396 });
-
-
-
-
+	////////////////////////////////////////////////////////////////////pont//////////////////////////////////////////////////////////////////////////
 	CreateGameObject("pont", 2, 1);
 	GetGameObjectByName("pont").SetPosition({ -57.737553,-0.460670,-61.557228 });
 	GetGameObjectByName("pont").SetRotation({ 1.000000,0.000000,0.000000,0.000000 });
 	GetGameObjectByName("pont").SetScale({ 22.520617,4.305717,17.147631 });
 
-
-
-
-
-
-
+	////////////////////////////////////////////////////////////////////chemin//////////////////////////////////////////////////////////////////////////
+	CreateGameObject("chemin1", 2, 4);
+	GetGameObjectByName("chemin1").SetPosition({ -8.714675,-1.933910,-61.310471 });
+	GetGameObjectByName("chemin1").SetRotation({ 1.000000,0.000000,0.000000,0.000000 });
+	GetGameObjectByName("chemin1").SetScale({ 75.578575,1.258187,17.168396 });
+	CreateGameObject("chemin2", 2, 4);
+	GetGameObjectByName("chemin2").SetPosition({ -106.625977,-1.933910,-61.581860 });
+	GetGameObjectByName("chemin2").SetRotation({ 1.000000,0.000000,0.000000,0.000000 });
+	GetGameObjectByName("chemin2").SetScale({ 75.578575,1.258187,17.168396 });
 	CreateGameObject("chemin3", 2, 4);
 	GetGameObjectByName("chemin3").SetPosition({ -147.232193,-1.791602,-60.108562 });
 	GetGameObjectByName("chemin3").SetRotation({ 0.000000,0.159008,0.000000,0.987277 });
@@ -105,10 +81,18 @@ void BlockTutoScene::Start()
 	GetGameObjectByName("chemin7").SetPosition({ -163.920303,-1.791602,-11.829290 });
 	GetGameObjectByName("chemin7").SetRotation({ 0.000000,0.714181,0.000000,0.699961 });
 	GetGameObjectByName("chemin7").SetScale({ 48.603138,1.000000,17.289970 });
+
+
+
+
+	///////////////////////////////////////////temple///////////////////////////////////
 	CreateGameObject("temple", 2, 1);
 	GetGameObjectByName("temple").SetPosition({ -163.533112,12.042871,30.696255 });
 	GetGameObjectByName("temple").SetRotation({ 0.000000,0.714181,0.000000,0.699961 });
 	GetGameObjectByName("temple").SetScale({ 43.701939,28.993061,46.056992 });
+
+
+	///////////////////////////////////////////////////////////////////falaise////////////////////////
 	CreateGameObject("sol_falaise1", 2, 4);
 	GetGameObjectByName("sol_falaise1").SetPosition({ -154.179062,-1.289247,85.766991 });
 	GetGameObjectByName("sol_falaise1").SetRotation({ 0.000000,0.714181,0.000000,0.699961 });
@@ -125,11 +109,6 @@ void BlockTutoScene::Start()
 	GetGameObjectByName("sol_falaise4").SetPosition({ -29.228916,14.561965,82.698311 });
 	GetGameObjectByName("sol_falaise4").SetRotation({ -0.063842,0.711203,0.065139,0.697044 });
 	GetGameObjectByName("sol_falaise4").SetScale({ 65.667862,2.552095,44.344215 });
-
-
-
-
-
 	CreateGameObject("falaise_arriere1", 2, 4);
 	GetGameObjectByName("falaise_arriere1").SetPosition({ -64.860374,6.561852,56.778175 });
 	GetGameObjectByName("falaise_arriere1").SetRotation({ -0.177998,0.000000,0.000000,0.984031 });
@@ -138,14 +117,6 @@ void BlockTutoScene::Start()
 	GetGameObjectByName("falaise_arriere2").SetPosition({ -129.324753,4.646706,52.411228 });
 	GetGameObjectByName("falaise_arriere2").SetRotation({ -0.202433,-0.220042,0.033374,0.953671 });
 	GetGameObjectByName("falaise_arriere2").SetScale({ 24.185171,-31.579859,-3.461195 });
-
-
-
-
-
-
-
-
 	CreateGameObject("falaise1", 2, 4);
 	GetGameObjectByName("falaise1").SetPosition({ -94.317947,6.153999,21.011206 });
 	GetGameObjectByName("falaise1").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
@@ -154,11 +125,6 @@ void BlockTutoScene::Start()
 	GetGameObjectByName("falaise2").SetPosition({ -13.134092,5.834605,14.712330 });
 	GetGameObjectByName("falaise2").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
 	GetGameObjectByName("falaise2").SetScale({ 62.403419,32.509892,44.804203 });
-
-
-
-
-
 	CreateGameObject("bordure_falaise1", 2, 4);
 	GetGameObjectByName("bordure_falaise1").SetPosition({ -13.350974,6.254149,-10.135196 });
 	GetGameObjectByName("bordure_falaise1").SetRotation({ 0.089634,0.000000,0.000000,0.995975 });
@@ -171,9 +137,6 @@ void BlockTutoScene::Start()
 	GetGameObjectByName("bordure_falaise3").SetPosition({ -122.394119,5.190633,19.562407 });
 	GetGameObjectByName("bordure_falaise3").SetRotation({ -0.073755,-0.697653,-0.084566,0.707593 });
 	GetGameObjectByName("bordure_falaise3").SetScale({ 59.848358,31.739275,1.324951 });
-
-
-
 	CreateGameObject("falaise3", 2, 4);
 	GetGameObjectByName("falaise3").SetPosition({ 42.889305,5.337893,14.250040 });
 	GetGameObjectByName("falaise3").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
@@ -182,8 +145,14 @@ void BlockTutoScene::Start()
 	GetGameObjectByName("bordure_falaise3").SetPosition({ 41.174099,6.563345,-10.066566 });
 	GetGameObjectByName("bordure_falaise3").SetRotation({ 0.087515,0.000000,0.000000,0.996163 });
 	GetGameObjectByName("bordure_falaise3").SetScale({ 52.795601,30.974133,2.223085 });
+	CreateGameObject("arriere_falaise_bloc", 2, 4);
+	GetGameObjectByName("arriere_falaise_bloc").SetPosition({ 30.165237,4.227498,83.066872 });
+	GetGameObjectByName("arriere_falaise_bloc").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("arriere_falaise_bloc").SetScale({ 74.294655,35.368317,68.698074 });
 
 
+
+	///////////////////////////////////////////////////////////////////rivierre///////////////////////////////////////
 	CreateGameObject("riviere1", 2, 0);
 	GetGameObjectByName("riviere1").SetPosition({ -56.037834,4.738580,14.733049 });
 	GetGameObjectByName("riviere1").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
@@ -204,19 +173,7 @@ void BlockTutoScene::Start()
 
 
 
-
-	CreateGameObject("arriere_falaise_bloc", 2, 4);
-	GetGameObjectByName("arriere_falaise_bloc").SetPosition({ 30.165237,4.227498,83.066872 });
-	GetGameObjectByName("arriere_falaise_bloc").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
-	GetGameObjectByName("arriere_falaise_bloc").SetScale({ 74.294655,35.368317,68.698074 });
-
-
-
-
-
-
-
-
+	///////////////////////////////////////////////////////////////////portail///////////////////////////////////////
 	CreateGameObject("portail1", 2, 1);
 	GetGameObjectByName("portail1").SetPosition({ 31.354195,-0.285649,-51.624794 });
 	GetGameObjectByName("portail1").SetRotation({ 0.000000,-0.368621,0.000000,0.929580 });
@@ -257,9 +214,6 @@ void BlockTutoScene::Start()
 	GetGameObjectByName("portail10").SetPosition({ -96.947891,-0.008475,-62.094643 });
 	GetGameObjectByName("portail10").SetRotation({ 0.000000,-0.812726,0.000000,0.582646 });
 	GetGameObjectByName("portail10").SetScale({ 2.016572,2.301725,0.206735 });
-
-
-
 	CreateGameObject("portail11", 2, 1);
 	GetGameObjectByName("portail11").SetPosition({ -93.510628,-0.008475,-69.074837 });
 	GetGameObjectByName("portail11").SetRotation({ 0.000000,-0.954874,0.000000,0.297012 });
@@ -300,16 +254,6 @@ void BlockTutoScene::Start()
 	GetGameObjectByName("portail20").SetPosition({ -129.306961,-0.153457,-68.862694 });
 	GetGameObjectByName("portail20").SetRotation({ 0.000000,-0.559556,0.000000,-0.828792 });
 	GetGameObjectByName("portail20").SetScale({ 2.016572,2.301725,0.206735 });
-
-
-
-
-
-
-
-
-
-
 	CreateGameObject("portail21", 2, 1);
 	GetGameObjectByName("portail21").SetPosition({ -111.968147,-0.153457,-53.794167 });
 	GetGameObjectByName("portail21").SetRotation({ 0.000000,-0.922935,0.000000,-0.384957 });
@@ -346,16 +290,6 @@ void BlockTutoScene::Start()
 	GetGameObjectByName("portail29").SetPosition({ -97.835655,3.060955,64.000000 });
 	GetGameObjectByName("portail29").SetRotation({ 0.000000,0.463518,0.000000,-0.886088 });
 	GetGameObjectByName("portail29").SetScale({ 2.016572,2.301725,0.206735 });
-
-
-
-
-
-
-
-
-
-
 	CreateGameObject("portail30", 2, 1);
 	GetGameObjectByName("portail30").SetPosition({ -66.968536,8.432238,98.118645 });
 	GetGameObjectByName("portail30").SetRotation({ 0.000000,-0.460211,0.000000,-0.887809 });
@@ -376,13 +310,6 @@ void BlockTutoScene::Start()
 	GetGameObjectByName("portail34").SetPosition({ 21.334286,23.482193,30.095440 });
 	GetGameObjectByName("portail34").SetRotation({ 0.000000,0.866910,0.000000,-0.498464 });
 	GetGameObjectByName("portail34").SetScale({ 2.016572,2.301725,0.206735 });
-
-
-
-
-
-
-
 	CreateGameObject("portail35", 2, 1);
 	GetGameObjectByName("portail35").SetPosition({ 18.244694,23.482193,30.344078 });
 	GetGameObjectByName("portail35").SetRotation({ 0.000000,0.928734,0.000000,0.370748 });
@@ -403,9 +330,6 @@ void BlockTutoScene::Start()
 	GetGameObjectByName("portail39").SetPosition({ -10.678999,23.466204,22.391043 });
 	GetGameObjectByName("portail39").SetRotation({ 0.000000,-0.397329,0.000000,0.917676 });
 	GetGameObjectByName("portail39").SetScale({ 2.016572,2.301725,0.206735 });
-
-
-
 	CreateGameObject("portail40", 2, 1);
 	GetGameObjectByName("portail40").SetPosition({ -17.422312,23.466204,8.073474 });
 	GetGameObjectByName("portail40").SetRotation({ 0.000000,0.368081,0.000000,0.929794 });
@@ -451,64 +375,7 @@ void BlockTutoScene::Start()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	///////////////////////////////////////////////////////////////////baton///////////////////////////////////////
 	CreateGameObject("GM0", 2, 0);
 	GetGameObjectByName("GM0").SetPosition({ 26.994171,-1.253251,-58.261108 });
 	GetGameObjectByName("GM0").SetRotation({ 0.000000,0.255560,0.000000,0.966793 });
@@ -1621,6 +1488,388 @@ void BlockTutoScene::Start()
 	GetGameObjectByName("GM277").SetPosition({ -100.927216,22.407290,26.883959 });
 	GetGameObjectByName("GM277").SetRotation({ 0.010694,0.067013,0.117398,-0.990764 });
 	GetGameObjectByName("GM277").SetScale({ 0.662869,0.123173,0.110450 });
+
+
+
+
+
+	///////////////////////////////////////////////////////////////////caillou///////////////////////////////////////
+	CreateGameObject("GM278", 2, 4);
+	GetGameObjectByName("GM278").SetPosition({ 20.711649,-1.326709,-59.307930 });
+	GetGameObjectByName("GM278").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM278").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM279", 2, 4);
+	GetGameObjectByName("GM279").SetPosition({ 15.355615,-1.326709,-63.487144 });
+	GetGameObjectByName("GM279").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM279").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM280", 2, 4);
+	GetGameObjectByName("GM280").SetPosition({ 5.323413,-1.326709,-59.987602 });
+	GetGameObjectByName("GM280").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM280").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM281", 2, 4);
+	GetGameObjectByName("GM281").SetPosition({ -2.491693,-1.326709,-65.648979 });
+	GetGameObjectByName("GM281").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM281").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM282", 2, 4);
+	GetGameObjectByName("GM282").SetPosition({ -9.106123,-1.326709,-58.286652 });
+	GetGameObjectByName("GM282").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM282").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM283", 2, 4);
+	GetGameObjectByName("GM283").SetPosition({ -17.488647,-1.326709,-63.474735 });
+	GetGameObjectByName("GM283").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM283").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM284", 2, 4);
+	GetGameObjectByName("GM284").SetPosition({ -24.985899,-1.326709,-60.483097 });
+	GetGameObjectByName("GM284").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM284").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM285", 2, 4);
+	GetGameObjectByName("GM285").SetPosition({ -29.855232,-1.326709,-53.988739 });
+	GetGameObjectByName("GM285").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM285").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM286", 2, 4);
+	GetGameObjectByName("GM286").SetPosition({ -38.271137,-1.326709,-63.191662 });
+	GetGameObjectByName("GM286").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM286").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM287", 2, 4);
+	GetGameObjectByName("GM287").SetPosition({ -43.579788,-1.326709,-61.192085 });
+	GetGameObjectByName("GM287").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM287").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM288", 2, 4);
+	GetGameObjectByName("GM288").SetPosition({ -73.458542,-1.225547,-64.377968 });
+	GetGameObjectByName("GM288").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM288").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM289", 2, 4);
+	GetGameObjectByName("GM289").SetPosition({ -78.903992,-1.225547,-58.043545 });
+	GetGameObjectByName("GM289").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM289").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM290", 2, 4);
+	GetGameObjectByName("GM290").SetPosition({ -91.525658,-1.225547,-67.417656 });
+	GetGameObjectByName("GM290").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM290").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM291", 2, 4);
+	GetGameObjectByName("GM291").SetPosition({ -98.518509,-1.225547,-68.064491 });
+	GetGameObjectByName("GM291").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM291").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM292", 2, 4);
+	GetGameObjectByName("GM292").SetPosition({ -106.161270,-1.225547,-58.895512 });
+	GetGameObjectByName("GM292").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM292").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM293", 2, 4);
+	GetGameObjectByName("GM293").SetPosition({ -116.418182,-1.225547,-65.850395 });
+	GetGameObjectByName("GM293").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM293").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM294", 2, 4);
+	GetGameObjectByName("GM294").SetPosition({ -124.177200,-1.225547,-61.810303 });
+	GetGameObjectByName("GM294").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM294").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM295", 2, 4);
+	GetGameObjectByName("GM295").SetPosition({ -131.032913,-1.225547,-55.403328 });
+	GetGameObjectByName("GM295").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM295").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM296", 2, 4);
+	GetGameObjectByName("GM296").SetPosition({ -143.736252,-1.225547,-66.048477 });
+	GetGameObjectByName("GM296").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM296").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM297", 2, 4);
+	GetGameObjectByName("GM297").SetPosition({ -151.470657,-1.315302,-61.397221 });
+	GetGameObjectByName("GM297").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM297").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM298", 2, 4);
+	GetGameObjectByName("GM298").SetPosition({ -153.242416,-1.315302,-54.872406 });
+	GetGameObjectByName("GM298").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM298").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM299", 2, 4);
+	GetGameObjectByName("GM299").SetPosition({ -161.468658,-1.315302,-52.337055 });
+	GetGameObjectByName("GM299").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM299").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM300", 2, 4);
+	GetGameObjectByName("GM300").SetPosition({ -158.663467,-1.315302,-45.653160 });
+	GetGameObjectByName("GM300").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM300").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM301", 2, 4);
+	GetGameObjectByName("GM301").SetPosition({ -165.133041,-1.315302,-37.327770 });
+	GetGameObjectByName("GM301").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM301").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM302", 2, 4);
+	GetGameObjectByName("GM302").SetPosition({ -161.164551,-1.315302,-28.750130 });
+	GetGameObjectByName("GM302").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM302").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM303", 2, 4);
+	GetGameObjectByName("GM303").SetPosition({ -163.116821,-1.315302,-17.998693 });
+	GetGameObjectByName("GM303").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM303").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM304", 2, 4);
+	GetGameObjectByName("GM304").SetPosition({ -168.034058,-1.315302,-8.055528 });
+	GetGameObjectByName("GM304").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM304").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM305", 2, 4);
+	GetGameObjectByName("GM305").SetPosition({ -163.740982,-1.315302,-4.325438 });
+	GetGameObjectByName("GM305").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM305").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM306", 2, 4);
+	GetGameObjectByName("GM306").SetPosition({ -169.500519,0.184716,73.428467 });
+	GetGameObjectByName("GM306").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM306").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM307", 2, 4);
+	GetGameObjectByName("GM307").SetPosition({ -162.411362,0.184716,81.329903 });
+	GetGameObjectByName("GM307").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM307").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM308", 2, 4);
+	GetGameObjectByName("GM308").SetPosition({ -179.904892,0.022105,80.617729 });
+	GetGameObjectByName("GM308").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM308").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM309", 2, 4);
+	GetGameObjectByName("GM309").SetPosition({ -181.148438,0.022105,88.004974 });
+	GetGameObjectByName("GM309").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM309").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM310", 2, 4);
+	GetGameObjectByName("GM310").SetPosition({ -185.060806,0.022105,92.801163 });
+	GetGameObjectByName("GM310").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM310").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM311", 2, 4);
+	GetGameObjectByName("GM311").SetPosition({ -186.408966,0.022105,70.552368 });
+	GetGameObjectByName("GM311").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM311").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM312", 2, 4);
+	GetGameObjectByName("GM312").SetPosition({ -160.375046,0.022105,93.814804 });
+	GetGameObjectByName("GM312").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM312").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM313", 2, 4);
+	GetGameObjectByName("GM313").SetPosition({ -148.590958,0.022105,97.583092 });
+	GetGameObjectByName("GM313").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM313").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM314", 2, 4);
+	GetGameObjectByName("GM314").SetPosition({ -143.616806,0.022105,91.237549 });
+	GetGameObjectByName("GM314").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM314").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM315", 2, 4);
+	GetGameObjectByName("GM315").SetPosition({ -126.418411,0.022105,77.866898 });
+	GetGameObjectByName("GM315").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM315").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM316", 2, 4);
+	GetGameObjectByName("GM316").SetPosition({ -112.492386,0.022105,84.467995 });
+	GetGameObjectByName("GM316").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM316").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM317", 2, 4);
+	GetGameObjectByName("GM317").SetPosition({ -108.923210,0.534899,91.626358 });
+	GetGameObjectByName("GM317").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM317").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM318", 2, 4);
+	GetGameObjectByName("GM318").SetPosition({ -92.070015,2.425289,73.889824 });
+	GetGameObjectByName("GM318").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM318").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM319", 2, 4);
+	GetGameObjectByName("GM319").SetPosition({ -78.108940,3.943502,83.488625 });
+	GetGameObjectByName("GM319").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM319").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM320", 2, 4);
+	GetGameObjectByName("GM320").SetPosition({ -45.636543,12.857355,64.004234 });
+	GetGameObjectByName("GM320").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM320").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM321", 2, 4);
+	GetGameObjectByName("GM321").SetPosition({ -23.508711,16.900780,88.573509 });
+	GetGameObjectByName("GM321").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM321").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM322", 2, 4);
+	GetGameObjectByName("GM322").SetPosition({ 1.478544,21.977211,82.160789 });
+	GetGameObjectByName("GM322").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM322").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM323", 2, 4);
+	GetGameObjectByName("GM323").SetPosition({ 7.445142,21.977211,87.494339 });
+	GetGameObjectByName("GM323").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM323").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM324", 2, 4);
+	GetGameObjectByName("GM324").SetPosition({ 15.302622,22.153851,70.813332 });
+	GetGameObjectByName("GM324").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM324").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM325", 2, 4);
+	GetGameObjectByName("GM325").SetPosition({ 27.627045,22.153851,64.278175 });
+	GetGameObjectByName("GM325").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM325").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM326", 2, 4);
+	GetGameObjectByName("GM326").SetPosition({ 46.159214,22.153851,68.902176 });
+	GetGameObjectByName("GM326").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM326").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM327", 2, 4);
+	GetGameObjectByName("GM327").SetPosition({ 53.797234,22.153851,84.604378 });
+	GetGameObjectByName("GM327").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM327").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM328", 2, 4);
+	GetGameObjectByName("GM328").SetPosition({ 43.141594,21.888264,97.822395 });
+	GetGameObjectByName("GM328").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM328").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM329", 2, 4);
+	GetGameObjectByName("GM329").SetPosition({ 36.388042,21.888264,100.165054 });
+	GetGameObjectByName("GM329").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM329").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM330", 2, 4);
+	GetGameObjectByName("GM330").SetPosition({ 23.690666,21.888264,101.063431 });
+	GetGameObjectByName("GM330").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM330").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM331", 2, 4);
+	GetGameObjectByName("GM331").SetPosition({ 24.033834,22.277517,26.860321 });
+	GetGameObjectByName("GM331").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM331").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM332", 2, 4);
+	GetGameObjectByName("GM332").SetPosition({ 30.313633,22.277517,19.279705 });
+	GetGameObjectByName("GM332").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM332").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM333", 2, 4);
+	GetGameObjectByName("GM333").SetPosition({ 42.581039,22.277517,29.071255 });
+	GetGameObjectByName("GM333").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM333").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM334", 2, 4);
+	GetGameObjectByName("GM334").SetPosition({ 48.186634,22.277517,19.355089 });
+	GetGameObjectByName("GM334").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM334").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM335", 2, 4);
+	GetGameObjectByName("GM335").SetPosition({ 57.594341,22.277517,19.184822 });
+	GetGameObjectByName("GM335").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM335").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM336", 2, 4);
+	GetGameObjectByName("GM336").SetPosition({ 60.371552,22.277517,11.143920 });
+	GetGameObjectByName("GM336").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM336").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM337", 2, 4);
+	GetGameObjectByName("GM337").SetPosition({ 49.205421,22.277517,1.638217 });
+	GetGameObjectByName("GM337").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM337").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM338", 2, 4);
+	GetGameObjectByName("GM338").SetPosition({ 38.225193,22.277517,7.797908 });
+	GetGameObjectByName("GM338").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM338").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM339", 2, 4);
+	GetGameObjectByName("GM339").SetPosition({ 28.315533,22.277517,-1.588595 });
+	GetGameObjectByName("GM339").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM339").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM340", 2, 4);
+	GetGameObjectByName("GM340").SetPosition({ 22.804901,22.277517,12.359489 });
+	GetGameObjectByName("GM340").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM340").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM341", 2, 4);
+	GetGameObjectByName("GM341").SetPosition({ 10.022880,22.127947,22.848003 });
+	GetGameObjectByName("GM341").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM341").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM342", 2, 4);
+	GetGameObjectByName("GM342").SetPosition({ -0.825077,22.127947,29.276983 });
+	GetGameObjectByName("GM342").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM342").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM343", 2, 4);
+	GetGameObjectByName("GM343").SetPosition({ -0.265725,22.127947,16.773232 });
+	GetGameObjectByName("GM343").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM343").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM344", 2, 4);
+	GetGameObjectByName("GM344").SetPosition({ 6.499522,22.127947,9.284608 });
+	GetGameObjectByName("GM344").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM344").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM345", 2, 4);
+	GetGameObjectByName("GM345").SetPosition({ -5.414634,22.127947,3.019469 });
+	GetGameObjectByName("GM345").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM345").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM346", 2, 4);
+	GetGameObjectByName("GM346").SetPosition({ -19.094872,22.127947,6.001386 });
+	GetGameObjectByName("GM346").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM346").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM347", 2, 4);
+	GetGameObjectByName("GM347").SetPosition({ -20.028101,22.127947,14.604960 });
+	GetGameObjectByName("GM347").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM347").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM348", 2, 4);
+	GetGameObjectByName("GM348").SetPosition({ -14.174350,22.127947,27.594336 });
+	GetGameObjectByName("GM348").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM348").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM349", 2, 4);
+	GetGameObjectByName("GM349").SetPosition({ -25.147064,22.127947,32.803204 });
+	GetGameObjectByName("GM349").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM349").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM350", 2, 4);
+	GetGameObjectByName("GM350").SetPosition({ -31.784283,22.127947,24.065536 });
+	GetGameObjectByName("GM350").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM350").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM351", 2, 4);
+	GetGameObjectByName("GM351").SetPosition({ -34.104103,22.127947,12.767016 });
+	GetGameObjectByName("GM351").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM351").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM352", 2, 4);
+	GetGameObjectByName("GM352").SetPosition({ -32.482460,22.127947,5.212659 });
+	GetGameObjectByName("GM352").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM352").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM353", 2, 4);
+	GetGameObjectByName("GM353").SetPosition({ -27.480602,22.127947,-2.081064 });
+	GetGameObjectByName("GM353").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM353").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM354", 2, 4);
+	GetGameObjectByName("GM354").SetPosition({ -82.617676,22.439951,3.487809 });
+	GetGameObjectByName("GM354").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM354").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM355", 2, 4);
+	GetGameObjectByName("GM355").SetPosition({ -79.920166,22.439951,-1.962784 });
+	GetGameObjectByName("GM355").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM355").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM356", 2, 4);
+	GetGameObjectByName("GM356").SetPosition({ -89.863693,22.439951,-4.637211 });
+	GetGameObjectByName("GM356").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM356").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM357", 2, 4);
+	GetGameObjectByName("GM357").SetPosition({ -91.040932,22.439951,7.933167 });
+	GetGameObjectByName("GM357").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM357").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM358", 2, 4);
+	GetGameObjectByName("GM358").SetPosition({ -81.964935,22.439951,16.960384 });
+	GetGameObjectByName("GM358").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM358").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM359", 2, 4);
+	GetGameObjectByName("GM359").SetPosition({ -75.844635,22.439951,23.981668 });
+	GetGameObjectByName("GM359").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM359").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM360", 2, 4);
+	GetGameObjectByName("GM360").SetPosition({ -84.875771,22.439951,31.759125 });
+	GetGameObjectByName("GM360").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM360").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM361", 2, 4);
+	GetGameObjectByName("GM361").SetPosition({ -77.240540,22.439951,39.484375 });
+	GetGameObjectByName("GM361").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM361").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM362", 2, 4);
+	GetGameObjectByName("GM362").SetPosition({ -83.397400,22.439951,48.139885 });
+	GetGameObjectByName("GM362").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM362").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM363", 2, 4);
+	GetGameObjectByName("GM363").SetPosition({ -95.914116,22.439951,45.385090 });
+	GetGameObjectByName("GM363").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM363").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM364", 2, 4);
+	GetGameObjectByName("GM364").SetPosition({ -101.270798,22.439951,32.887581 });
+	GetGameObjectByName("GM364").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM364").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM365", 2, 4);
+	GetGameObjectByName("GM365").SetPosition({ -107.598045,22.439951,27.827538 });
+	GetGameObjectByName("GM365").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM365").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM366", 2, 4);
+	GetGameObjectByName("GM366").SetPosition({ -110.688805,22.439951,40.463741 });
+	GetGameObjectByName("GM366").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM366").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM367", 2, 4);
+	GetGameObjectByName("GM367").SetPosition({ -114.528854,22.439951,47.548817 });
+	GetGameObjectByName("GM367").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM367").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM368", 2, 4);
+	GetGameObjectByName("GM368").SetPosition({ -115.059372,22.439951,19.838305 });
+	GetGameObjectByName("GM368").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM368").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM369", 2, 4);
+	GetGameObjectByName("GM369").SetPosition({ -110.838196,22.439951,14.617625 });
+	GetGameObjectByName("GM369").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM369").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM370", 2, 4);
+	GetGameObjectByName("GM370").SetPosition({ -111.627045,22.439951,7.217094 });
+	GetGameObjectByName("GM370").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM370").SetScale({ 0.225165,0.118928,0.207880 });
+	CreateGameObject("GM371", 2, 4);
+	GetGameObjectByName("GM371").SetPosition({ -104.205872,22.439951,1.605468 });
+	GetGameObjectByName("GM371").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
+	GetGameObjectByName("GM371").SetScale({ 0.225165,0.118928,0.207880 });
 
 
 

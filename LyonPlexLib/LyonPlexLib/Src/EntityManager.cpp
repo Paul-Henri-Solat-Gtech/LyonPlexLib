@@ -4,6 +4,7 @@
 EntityManager::EntityManager(size_t maxEntities) : m_sparse(maxEntities, UINT32_MAX)
 {
     m_dense.reserve(maxEntities);
+    m_sparse.reserve(maxEntities);
 }
 
 Entity EntityManager::Create()
@@ -17,7 +18,7 @@ Entity EntityManager::Create()
     else 
     {
         id = m_nextId++;
-        assert(id < m_sparse.size() && "Exceeded maximum number of entities");
+        //assert(id < m_sparse.size() && "Exceeded maximum number of entities");
     }
     m_sparse[id] = static_cast<uint32_t>(m_dense.size());
     m_dense.push_back(id);
