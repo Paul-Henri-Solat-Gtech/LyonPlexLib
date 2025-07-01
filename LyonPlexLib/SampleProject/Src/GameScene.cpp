@@ -5,7 +5,7 @@ void GameScene::Start()
 {
     CreateGameObject("camera2",TYPE_3D, false);
     GetGameObjectByName("camera2").AddComponent<CameraComponent>(new CameraComponent());
-    GetGameObjectByName("camera2").SetPosition({ 0, 0.5, -2 });
+    GetGameObjectByName("camera2").SetPosition({ 0, 0, 0.5f });
     
     CreateGameObject("player");
 	GetGameObjectByName("player").SetPosition({ 0, 3, -1 });
@@ -22,6 +22,14 @@ void GameScene::Start()
 
 	// Test player + stateMachine
 	m_playerTest.Init(m_player);
+	CreateEntity("bras");
+	AddComponent<Type_2D>("bras", new Type_2D());
+	AddComponent<MeshComponent>("bras", new MeshComponent(2, 2));
+	GetComponent<TransformComponent>("bras")->position = { 400, 500, 0 };
+	GetComponent<TransformComponent>("bras")->scale = { 800, 500, 0 };
+	GetComponent<TransformComponent>("bras")->SetRotation(0, 0, 180);
+	GetComponent<TransformComponent>("bras")->dirty = true;
+
 
 	// scene
 	CreateGameObject("GM0", 2, 4);
@@ -33,54 +41,24 @@ void GameScene::Start()
 void GameScene::Update(float deltatime)
 {
 	//Input
-	if (InputManager::GetKeyIsPressed('Z'))
-	{
-		GetGameObjectByName("player").GetComponent<TransformComponent>()->position.z += m_playerSpeed * deltatime;
-		GetGameObjectByName("player").GetComponent<TransformComponent>()->dirty = true;
-	}
-	if (InputManager::GetKeyIsPressed('S'))
-	{
-		GetGameObjectByName("player").GetComponent<TransformComponent>()->position.z -= m_playerSpeed * deltatime;
-		GetGameObjectByName("player").GetComponent<TransformComponent>()->dirty = true;
-	}
-	if (InputManager::GetKeyIsPressed('Q'))
-	{
-		GetGameObjectByName("player").GetComponent<TransformComponent>()->position.x -= m_playerSpeed * deltatime;
-		GetGameObjectByName("player").GetComponent<TransformComponent>()->dirty = true;
-	}
-	if (InputManager::GetKeyIsPressed('D'))
-	{
-		GetGameObjectByName("player").GetComponent<TransformComponent>()->position.x += m_playerSpeed * deltatime;
-		GetGameObjectByName("player").GetComponent<TransformComponent>()->dirty = true;
-	}
-	if (InputManager::GetKeyIsPressed(VK_SPACE))
-	{
-		GetGameObjectByName("player").GetComponent<TransformComponent>()->position.y += m_playerSpeed * deltatime;
-		GetGameObjectByName("player").GetComponent<TransformComponent>()->dirty = true;
-	}
-	if (InputManager::GetKeyIsPressed(VK_CONTROL))
-	{
-		GetGameObjectByName("player").GetComponent<TransformComponent>()->position.y -= m_playerSpeed * deltatime;
-		GetGameObjectByName("player").GetComponent<TransformComponent>()->dirty = true;
-	}
-	if (InputManager::GetKeyIsPressed(VK_SHIFT))
-	{
-		m_playerSpeed = m_playerRunSpeed;
-	}
-	else
-	{
-		m_playerSpeed = m_playerWalkSpeed;
-	}
-
+	// 
+	// !!! STATE MACHINE MANAGE THE PLAYER !!!
+	// 
+	//if (InputManager::GetKeyIsPressed('Z'))
+	//{
+	//	GetGameObjectByName("player").GetComponent<TransformComponent>()->position.z += m_playerSpeed * deltatime;
+	//	GetGameObjectByName("player").GetComponent<TransformComponent>()->dirty = true;
+	//}....
+	
 	// Gravity
 	if (m_player.GetPosition().y > 1.f)
 	{
-		m_player.GetComponent<TransformComponent>()->position.y -= 1.f * deltatime;
+		m_player.GetComponent<TransformComponent>()->position.y -= 9.81f * deltatime;
 		m_player.GetComponent<TransformComponent>()->dirty = true;
 	}
 
 	// PlayerState
-	m_playerTest.OnUdpdate();
+	m_playerTest.OnUdpdate(deltatime);
 	if (InputManager::GetKeyIsReleased('T'))
 	{
 		OutputDebugStringA(("\nPlayer State : " + std::string(m_playerTest.GetCurrentStateName())).c_str());
