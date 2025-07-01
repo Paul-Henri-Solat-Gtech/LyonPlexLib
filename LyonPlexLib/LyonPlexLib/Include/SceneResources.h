@@ -7,6 +7,7 @@ namespace TEXTURES
 		tex0,
 
 		// A REMPLIR
+		TotalTextureCount
 	};
 }
 
@@ -20,6 +21,7 @@ namespace MESHES
 		Mesh0,
 
 		// A REMPLIR
+		TotalMeshCount
 	};
 }
 
