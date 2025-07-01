@@ -116,14 +116,14 @@ void Render3D::RecordCommands()
 						"Binding texId=%u for Entity = %u ; submesh matID=%u\n",
 						texId, ent, sub.MaterialID);
 					OutputDebugStringA(buf);*/
-					char bufDraw[128];
+					/*char bufDraw[128];
 					sprintf_s(bufDraw, sizeof(bufDraw),
 						"[Draw] Entity %u – mesh %u – subMat %u → texId = %u\n",
 						ent.id,
 						meshComp->meshID,
 						sub.MaterialID,
 						texId);
-					OutputDebugStringA(bufDraw);
+					OutputDebugStringA(bufDraw);*/
 
 					// 3) binder **uniquement** ce handle sur rootParam 2 :
 					mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/ 2, handle);
@@ -177,14 +177,14 @@ void Render3D::RecordCommands()
 						"Binding texId=%u for Entity = %u ; submesh matID=%u\n",
 						texId, ent, sub.MaterialID);
 					OutputDebugStringA(buf);*/
-					char bufDraw[128];
+					/*char bufDraw[128];
 					sprintf_s(bufDraw, sizeof(bufDraw),
 						"[Draw] Entity %u – mesh %u – subMat %u → texId = %u\n",
 						ent.id,
 						meshComp->meshID,
 						sub.MaterialID,
 						texId);
-					OutputDebugStringA(bufDraw);
+					OutputDebugStringA(bufDraw);*/
 
 					// 3) binder **uniquement** ce handle sur rootParam 2 :
 					mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/ 2, handle);

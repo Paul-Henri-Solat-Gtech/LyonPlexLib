@@ -263,12 +263,7 @@ bool MeshData::LoadFromFile(const std::string& path)
 	std::vector<tinyobj::shape_t>		shapes;
 	std::vector<tinyobj::material_t>	materials;
 	std::string warn, err;
-	/*if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path.c_str(), nullptr, true, true)) 
-	{
-		OutputDebugStringA(warn.c_str());
-		OutputDebugStringA(err.c_str());
-		return false;
-	}*/
+
 	std::string baseDir = std::filesystem::path(path).remove_filename().string();
 
 	bool ok = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err,
@@ -376,15 +371,15 @@ bool MeshData::LoadFromFile(const std::string& path)
 				size_t ti = 2 * idx.texcoord_index;
 				v.TexCoord = { attrib.texcoords[ti], attrib.texcoords[ti + 1] };
 				
-				//// DEBUG
-				{					
-					char buf[128];
-					sprintf_s(buf, sizeof(buf),
-						"  build vert[%zu]  UV=(%.3f, %.3f)\n",
-						vertices.size(),
-						v.TexCoord.x, v.TexCoord.y);
-					OutputDebugStringA(buf);
-				}
+				////// DEBUG
+				//{					
+				//	char buf[128];
+				//	sprintf_s(buf, sizeof(buf),
+				//		"  build vert[%zu]  UV=(%.3f, %.3f)\n",
+				//		vertices.size(),
+				//		v.TexCoord.x, v.TexCoord.y);
+				//	OutputDebugStringA(buf);
+				//}
 			}
 			auto it = uniqueVertices.find(v);
 			if (it == uniqueVertices.end())
@@ -450,33 +445,33 @@ void MeshManager::LoadMeshFromFile(const std::string& path)
         // assume relative to path's folder
         std::string baseDir = std::filesystem::path(path).remove_filename().string();
 
-		// DEBUG
-		std::string texPath = baseDir + name;
-		char buf[256];
-		sprintf_s(buf, sizeof(buf),
-			"[LoadMeshFromFile] Loading texture `%s`\n", texPath.c_str());
-		OutputDebugStringA(buf);
+		//// DEBUG
+		//char buf[256];
+		//sprintf_s(buf, sizeof(buf),
+		//	"[LoadMeshFromFile] Loading texture `%s`\n", texPath.c_str());
+		//OutputDebugStringA(buf);
 
+		std::string texPath = baseDir + name;
 		TextureManager::TextureID tid = mp_textureManager->LoadTexture(texPath);
 
-		sprintf_s(buf, sizeof(buf),
-			"[LoadMeshFromFile] -> LoadTexture returned ID = %u\n", tid);
-		OutputDebugStringA(buf);
+		//sprintf_s(buf, sizeof(buf),
+		//	"[LoadMeshFromFile] -> LoadTexture returned ID = %u\n", tid);
+		//OutputDebugStringA(buf);
 
 		mesh.materialTextureIDs[i] = tid;
         //mesh.materialTextureIDs[i] = mp_textureManager->LoadTexture(baseDir + name);
 
     }
-	// DEBUG
-	for (size_t i = 0; i < std::min<size_t>(mesh.vertices.size(), 6); ++i)
-	{
-		auto& vp = mesh.vertices[i];
-		char buf[128];
-		sprintf_s(buf, sizeof(buf),
-			"Final Vertex[%zu]: UV=(%.3f, %.3f)\n",
-			i, vp.TexCoord.x, vp.TexCoord.y);
-		OutputDebugStringA(buf);
-	}
+	//// DEBUG
+	//for (size_t i = 0; i < std::min<size_t>(mesh.vertices.size(), 6); ++i)
+	//{
+	//	auto& vp = mesh.vertices[i];
+	//	char buf[128];
+	//	sprintf_s(buf, sizeof(buf),
+	//		"Final Vertex[%zu]: UV=(%.3f, %.3f)\n",
+	//		i, vp.TexCoord.x, vp.TexCoord.y);
+	//	OutputDebugStringA(buf);
+	//}
     m_meshLibrary.Add(mesh);
 }
 
