@@ -10,7 +10,7 @@ class SceneManager
 public:
 	~SceneManager();
 
-	void Init(ECSManager* ecsManager,GameManager* gameManager , HWND windowHandle);
+	void Init(ECSManager* ecsManager, GameManager* gameManager, HWND windowHandle);
 
 	//void StartScene();
 	void UpdateScene(float deltatime);
@@ -20,7 +20,7 @@ public:
 	void SetScene(const std::string& sceneName);
 
 	// Save a scene model
-	void RegisterScene(const std::string& sceneName, std::function<Scene*()> sceneModel);
+	void RegisterScene(const std::string& sceneName, std::function<Scene* ()> sceneModel);
 
 	GameManager* GetGameManager() { return mp_gameManager; };
 	HWND GetWindow() { return m_windowHandle; };

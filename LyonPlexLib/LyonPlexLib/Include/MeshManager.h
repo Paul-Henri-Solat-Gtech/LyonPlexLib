@@ -246,6 +246,9 @@ class MeshManager
 {
 public:
 	void Init(GraphicsDevice* graphicsDevice, TextureManager* textureManager);
+	void InitTriangle();
+	void InitSquare();
+	void InitCube();
 	// load custom mesh
 	void LoadMeshFromFile(const std::string& path);
 
@@ -253,13 +256,13 @@ public:
 	D3D12_INDEX_BUFFER_VIEW& GetGlobalIBView() { return m_globalIBView; }
 	ResourceManager<MeshData>& GetMeshLib() { return m_meshLibrary; }
 
+	HRESULT BuildAndUploadGlobalBuffers();
 private:
 
 	MeshData CreateMesh_Triangle();
 	MeshData CreateMesh_Square();
 	MeshData CreateMesh_Cube();
 
-	HRESULT BuildAndUploadGlobalBuffers();
 
 	GraphicsDevice* mp_graphicsDevice = nullptr;
 	TextureManager* mp_textureManager = nullptr;

@@ -45,6 +45,7 @@
     <ClInclude Include="Include\SampleScene.h" />
     <ClInclude Include="Include\Scene.h" />
     <ClInclude Include="Include\SceneManager.h" />
+    <ClInclude Include="Include\SceneResources.h" />
     <ClInclude Include="Include\SoundManager.h" />
     <ClInclude Include="Include\SystemManager.h" />
     <ClInclude Include="Include\TextureManager.h" />
@@ -82,6 +83,7 @@
     <ClCompile Include="Src\SampleScene.cpp" />
     <ClCompile Include="Src\Scene.cpp" />
     <ClCompile Include="Src\SceneManager.cpp" />
+    <ClCompile Include="Src\SceneResources.cpp" />
     <ClCompile Include="Src\SoundManager.cpp" />
     <ClCompile Include="Src\SystemManager.cpp" />
     <ClCompile Include="Src\TextureManager.cpp" />

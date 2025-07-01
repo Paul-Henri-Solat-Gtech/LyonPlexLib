@@ -410,29 +410,30 @@ void MeshManager::Init(GraphicsDevice* graphicsDevice, TextureManager* textureMa
 {
 	mp_graphicsDevice = graphicsDevice;
 	mp_textureManager = textureManager;
+}
 
-	// basic shapes
-	MeshData tri	= CreateMesh_Triangle(); 
+void MeshManager::InitTriangle()
+{
+	MeshData tri = CreateMesh_Triangle();
 	tri.materialNames = { "" };               // pas de nom de texture
 	tri.materialTextureIDs = { 0 };
 	m_meshLibrary.Add(tri);
+}
 
-	MeshData sq		= CreateMesh_Square();
+void MeshManager::InitSquare()
+{
+	MeshData sq = CreateMesh_Square();
 	sq.materialNames = { "" };               // pas de nom de texture
 	sq.materialTextureIDs = { 0 };
-	
 	m_meshLibrary.Add(sq);
+}
 
-	MeshData cb		= CreateMesh_Cube();
+void MeshManager::InitCube()
+{
+	MeshData cb = CreateMesh_Cube();
 	cb.materialNames = { "" };               // pas de nom de texture
 	cb.materialTextureIDs = { 0 };
 	m_meshLibrary.Add(cb);
-
-
-	LoadMeshFromFile("../LyonPlexLib/Ressources/ArbreTest.obj");
-	LoadMeshFromFile("../LyonPlexLib/Ressources/Cepha1.obj");
-	LoadMeshFromFile("../LyonPlexLib/Ressources/Cube.obj");
-	BuildAndUploadGlobalBuffers();
 }
 
 void MeshManager::LoadMeshFromFile(const std::string& path)
