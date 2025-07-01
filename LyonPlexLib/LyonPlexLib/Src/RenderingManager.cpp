@@ -29,7 +29,7 @@ bool RenderingManager::Init(ECSManager* ECS)
     m_commandManager.CreateCommandManager();
 
     m_textureManager.Init(&m_graphicsDevice, &m_descriptorManager);
-    m_meshManager.Init(&m_graphicsDevice);
+    m_meshManager.Init(&m_graphicsDevice, &m_textureManager);
 
     // Render 3D
     if (!m_render3D.Init(m_windowWP, ECS, &m_graphicsDevice, &m_descriptorManager, &m_commandManager, &m_meshManager))

@@ -34,7 +34,7 @@ void GraphicsPipeline::CreateRootSignature()
 	// Table 0 : textures 2D
 	ranges[0].Init(
 		D3D12_DESCRIPTOR_RANGE_TYPE_SRV,   // type
-		150,                              // NumDescriptors
+		1,                              // NumDescriptors
 		0,                                 // BaseShaderRegister (t0)
 		0,                                 // register space
 		D3D12_DESCRIPTOR_RANGE_FLAG_NONE,
@@ -77,9 +77,13 @@ void GraphicsPipeline::CreateRootSignature()
 	// Static sampler (s0)
 	D3D12_STATIC_SAMPLER_DESC samplerDesc = {};
 	samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+	//samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_POINT;
 	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	//samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
 	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	//samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
 	samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+	//samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
 	samplerDesc.ShaderRegister = 0;
 	samplerDesc.RegisterSpace = 0;
 	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
@@ -193,8 +197,8 @@ void GraphicsPipeline::CreatePipelineStateObject()
 
 	// ) Rasterizer State : on veut afficher la face exterieure, winding CCW = front
 	D3D12_RASTERIZER_DESC rasterDesc = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-	//rasterDesc.CullMode = D3D12_CULL_MODE_BACK;          // On elimine les faces arriere (celles qu'on ne veut pas voir)	/!\/!\/!\	A REMETTRE SI PB DE PERFS /!\/!\/!\/
-	rasterDesc.CullMode = D3D12_CULL_MODE_NONE;          // On elimine laucune face
+	rasterDesc.CullMode = D3D12_CULL_MODE_BACK;          // On elimine les faces arriere (celles qu'on ne veut pas voir)	/!\/!\/!\	A REMETTRE SI PB DE PERFS /!\/!\/!\/
+	//rasterDesc.CullMode = D3D12_CULL_MODE_NONE;          // On elimine laucune face
 	rasterDesc.FrontCounterClockwise = TRUE;             // CCW = face avant, CW = face arriere 
 	rasterDesc.FillMode = D3D12_FILL_MODE_SOLID;         // Remplir normalement
 	rasterDesc.DepthClipEnable = TRUE;

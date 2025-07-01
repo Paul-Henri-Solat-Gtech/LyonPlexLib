@@ -128,6 +128,8 @@
     </ClInclude>
     <ClInclude Include="Include\Action.h">
       <Filter>Fichiers d%27en-tête\StateMachine</Filter>
+    <ClInclude Include="Include\SceneResources.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -210,6 +212,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Src\DevScene.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SceneResources.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

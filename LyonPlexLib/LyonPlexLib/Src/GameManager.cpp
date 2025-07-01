@@ -10,123 +10,101 @@ GameManager::GameManager(HINSTANCE hInstance) : m_hInstance(hInstance)
 {
 }
 
-GameManager::~GameManager() 
+GameManager::~GameManager()
 {
-    // Nettoyage si besoin
+	// Nettoyage si besoin
 }
 
-bool GameManager::Init() 
+bool GameManager::Init()
 {
-    CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
+	CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
 
-    // 1) Creer la fenetre
-    if (!m_window.Init(m_hInstance, L"MonJeuDX12", 800, 600))
-        return false;
+	// 1) Creer la fenetre
+	if (!m_window.Init(m_hInstance, L"MonJeuDX12", 800, 600))
+		return false;
 
-    // 2) Configurer le renderer avec le handle de la fenetre
-    HWND hwnd = m_window.GetWindowHandle();
-    m_renderer.SetWindowHandle(hwnd);
-    m_renderer.Init(&m_ECS); // A VOIR MODIFIER ET METTRE HWND COMME ARGUMENT EN POINTEUR (et mettre le init en bool)
+	// 2) Configurer le renderer avec le handle de la fenetre
+	HWND hwnd = m_window.GetWindowHandle();
+	m_renderer.SetWindowHandle(hwnd);
+	m_renderer.Init(&m_ECS); // A VOIR MODIFIER ET METTRE HWND COMME ARGUMENT EN POINTEUR (et mettre le init en bool)
 
-    m_ECS.Init(m_renderer.GetGraphicsDevice(), m_renderer.GetCommandManager(), m_renderer.GetRender3D()); // A MODIFIER AUSSI => ne doit pas avoir besoin de renderer
+	m_ECS.Init(m_renderer.GetGraphicsDevice(), m_renderer.GetCommandManager(), m_renderer.GetRender3D()); // A MODIFIER AUSSI => ne doit pas avoir besoin de renderer
 
-    m_isRunning = true;
+	m_isRunning = true;
 
-    // 3) Init sceneManager
-    m_sceneManager.Init(&m_ECS,this,hwnd);
-    
-    // 4) Create new scene (OPTIONAL IN LIB)
-    m_sceneManager.RegisterScene("SampleScene", []() { return new SampleScene(); });
-    m_sceneManager.RegisterScene("DevScene", []() { return new DevScene(); });
+	// 3) Init sceneManager
+	m_sceneManager.Init(&m_ECS, this, hwnd);
 
-    /*auto& TxtMngr = GetTextureManager();
+	// 4) Create new scene (OPTIONAL IN LIB)
+	m_sceneManager.RegisterScene("SampleScene", []() { return new SampleScene(); });
+	m_sceneManager.RegisterScene("DevScene", []() { return new DevScene(); });
 
-    TxtMngr.LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");
-    TxtMngr.LoadTexture("../LyonPlexLib/Ressources/Test.png");
-    TxtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
+	// 5) Init Textures & Meshes Resources
+	m_sceneResources.Init(this);
 
-    Entity cam = m_ECS.CreateEntity();
-    m_ECS.AddComponent<TransformComponent>(cam, new TransformComponent());
-    m_ECS.GetComponent<TransformComponent>(cam)->position = { 0, 0, -1 };
-    m_ECS.AddComponent<CameraComponent>(cam, new CameraComponent());
-
-    for (int i = 0; i < 700; i++)
-    {
-        Entity newEntity = m_ECS.CreateEntity();
-        m_ECS.AddComponent<TransformComponent>(newEntity, new TransformComponent());
-        m_ECS.GetComponent<TransformComponent>(newEntity)->position = { i * 50.f, 100, 0 };
-        m_ECS.GetComponent<TransformComponent>(newEntity)->scale = { 50, 50, 0 };
-        m_ECS.AddComponent<Type_2D>(newEntity, new Type_2D());
-        m_ECS.AddComponent<MeshComponent>(newEntity, new MeshComponent(2, 0));
-    }*/
-
-
-    return true;
+	return true;
 }
 
-int GameManager::Run() 
+int GameManager::Run()
 {
-   
-    //float i = 0;
-    // Message et boucle de rendu
-    MSG msg = {};
 
-    // Delatime
-    double t = Utils::getTimeSeconds();
+	// Message et boucle de rendu
+	MSG msg = {};
 
-    while (m_isRunning) 
-    {
-        // Delatime
-        m_deltaTime = Utils::getTimeSeconds() - t;
-        t = Utils::getTimeSeconds();
+	// Delatime
+	double t = Utils::getTimeSeconds();
+
+	while (m_isRunning)
+	{
+		// Delatime
+		m_deltaTime = Utils::getTimeSeconds() - t;
+		t = Utils::getTimeSeconds();
 
 
-        // 1) Gestion des messages Windows
-        ProcessMessage();
-        //float j = i * 0.1;
-        //m_ECS.GetComponent<TransformComponent>(eCube)->position = { 0, 0, j };
-        //i++;
-        // 2) Traitement manuel des messages restants
-        while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
-            if (msg.message == WM_QUIT) 
-            {
-                // Si on recoit WM_QUIT, on sort de la boucle
-                m_isRunning = false;
-            }
-            TranslateMessage(&msg); // Prepare le message (gestion du clavier, etc.)
-            DispatchMessage(&msg); // Appelle la WindowProcedure correspondante
-        }
-        // UPDATE
-        m_renderer.Update();
-        m_ECS.m_systemMgr.UpdateAll(0);
-        m_sceneManager.UpdateScene(m_deltaTime);
+		// 1) Gestion des messages Windows
+		ProcessMessage();
 
-        // Enregistrement et envoi des commandes
-        
-        // 3) Enregistrement des commandes de rendu dans la CommandList
-        m_renderer.RecordCommands();
-        
-        // 4) Soumission des commandes au GPU pour execution
-        m_renderer.ExecuteCommands();
-        
-        // 5) Presentation du back buffer a l’ecran (swap buffers)
-        m_renderer.Present();
+		// 2) Traitement manuel des messages restants
+		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+			if (msg.message == WM_QUIT)
+			{
+				// Si on recoit WM_QUIT, on sort de la boucle
+				m_isRunning = false;
+			}
+			TranslateMessage(&msg); // Prepare le message (gestion du clavier, etc.)
+			DispatchMessage(&msg); // Appelle la WindowProcedure correspondante
+		}
+		// UPDATE
+		m_renderer.Update();
+		m_ECS.m_systemMgr.UpdateAll(0);
+		m_sceneManager.UpdateScene(m_deltaTime);
 
-        // Synchronisation CPU/GPU (on attend que le GPU ait fini)
-        m_renderer.SynchroGPUCPU();
+		// Enregistrement et envoi des commandes
 
-        m_ECS.EndFrame();
-    }
+		// 3) Enregistrement des commandes de rendu dans la CommandList
+		m_renderer.RecordCommands();
 
-    Release();
+		// 4) Soumission des commandes au GPU pour execution
+		m_renderer.ExecuteCommands();
 
-    return static_cast<int>(msg.wParam);
+		// 5) Presentation du back buffer a l’ecran (swap buffers)
+		m_renderer.Present();
+
+		// Synchronisation CPU/GPU (on attend que le GPU ait fini)
+		m_renderer.SynchroGPUCPU();
+
+		m_ECS.EndFrame();
+	}
+
+	Release();
+
+	return static_cast<int>(msg.wParam);
 }
 
 void GameManager::Release()
 {
-    m_renderer.Release();
-    m_sceneManager.ReleaseScene();
+	m_renderer.Release();
+	m_sceneManager.ReleaseScene();
 }
 
 
