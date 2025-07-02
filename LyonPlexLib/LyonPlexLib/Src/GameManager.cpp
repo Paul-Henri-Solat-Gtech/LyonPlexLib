@@ -42,6 +42,10 @@ bool GameManager::Init()
 	// 5) Init Textures & Meshes Resources
 	m_sceneResources.Init(this);
 
+	// 6) Init sounds
+	m_soundManager.Init();
+	m_soundManager.CreateSound("pop", L"../LyonPlexLib/Ressources/pop.wav");
+
 	return true;
 }
 
@@ -105,10 +109,30 @@ void GameManager::Release()
 {
 	m_renderer.Release();
 	m_sceneManager.ReleaseScene();
+	m_soundManager.Release();
 }
 
+void GameManager::OnResize(UINT newW, UINT newH)
+{
+}
 
 void GameManager::ProcessMessage()
 {
+	MSG msg;
+	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+	{
+		if (msg.message == WM_SIZE && msg.wParam != SIZE_MINIMIZED)
+		{
+			UINT newW = LOWORD(msg.lParam);
+			UINT newH = HIWORD(msg.lParam);
+			OnResize(newW, newH);
+		}
 
+		// gérer le Quit traditionnel
+		if (msg.message == WM_QUIT)
+			m_isRunning = false;
+
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
 }

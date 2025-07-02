@@ -44,11 +44,10 @@ void GameScene::Update(float deltatime)
 	// 
 	// !!! STATE MACHINE MANAGE THE PLAYER !!!
 	// 
-	//if (InputManager::GetKeyIsPressed('Z'))
-	//{
-	//	GetGameObjectByName("player").GetComponent<TransformComponent>()->position.z += m_playerSpeed * deltatime;
-	//	GetGameObjectByName("player").GetComponent<TransformComponent>()->dirty = true;
-	//}....
+	if (InputManager::GetKeyIsPressed('K'))
+	{
+		mp_sceneManager->GetGameManager()->GetSoundManager()->PlaySoundPlex("pop"); // creer encapsulation pour : create sound/music et Play depuis la scene
+	}
 	
 	// Gravity
 	if (m_player.GetPosition().y > 1.f)

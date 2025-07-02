@@ -29,6 +29,9 @@ bool WindowPlex::Init(HINSTANCE appInstance, const std::wstring& windowName, flo
 		nullptr, nullptr, appInstance, nullptr
 	);
 
+	// Instance moteur
+	SetWindowLongPtr(m_windowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+
 	if (!m_windowHandle)
 	{
 		// Error window creation
@@ -60,7 +63,7 @@ LRESULT CALLBACK WindowPlex::WindowProcedure(HWND hWnd, UINT message, WPARAM wPa
 			// appeler votre gestionnaire pour redimensionner :
 			// par exemple :
 			auto app = reinterpret_cast<RenderingManager*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
-			if (app) app->OnResize(newW, newH);
+			//if (app) app->OnResize(newW, newH);
 		}
 		return 0;
 	default:

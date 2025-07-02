@@ -5,6 +5,7 @@
 #include "ECSManager.h"
 #include "SceneManager.h"
 #include "SceneResources.h"
+#include "SoundManager.h"
 #include "chrono"
 
 class GameManager 
@@ -20,11 +21,13 @@ public:
     int Run();
 
     void Release();
+    void OnResize(UINT newW, UINT newH);
 
     TextureManager& GetTextureManager() { return m_renderer.GetTextureManager(); }
     MeshManager& GetMeshManager() { return m_renderer.GetMeshManager(); }
 
     SceneManager* GetSceneManager() { return &m_sceneManager; };
+    SoundManager* GetSoundManager() { return &m_soundManager; };
     double& GetDeltaTime() { return m_deltaTime; };
 
 private:
@@ -39,7 +42,6 @@ private:
     // Systems
     RenderingManager m_renderer;
 
-
     bool m_isRunning = false;
 
     // Deltatime
@@ -48,5 +50,8 @@ private:
     // Scene
     SceneManager m_sceneManager;
     SceneResources m_sceneResources;
+
+    // Sound
+    SoundManager m_soundManager;
 };
 

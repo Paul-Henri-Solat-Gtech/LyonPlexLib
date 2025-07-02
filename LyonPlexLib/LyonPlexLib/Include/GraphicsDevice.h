@@ -31,6 +31,8 @@ public:
 
 	void Release();
 
+	void ResizeBuffers(UINT newW, UINT newH, DescriptorManager* descMgr);
+
 private:
 
 	void CreateDevice();

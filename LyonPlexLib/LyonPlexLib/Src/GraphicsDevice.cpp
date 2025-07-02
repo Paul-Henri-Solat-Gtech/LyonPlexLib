@@ -85,3 +85,28 @@ void GraphicsDevice::Release()
 {
 
 }
+
+void GraphicsDevice::ResizeBuffers(UINT newW, UINT newH, DescriptorManager* descMgr)
+{
+    // 1) libère les anciennes cibles
+    for (auto& rt : m_renderTargets)
+        rt.Reset();
+
+    // 2) redimensionne le swap‑chain
+    DXGI_SWAP_CHAIN_DESC desc = {};
+    ThrowIfFailed(m_swapChain->GetDesc(&desc));
+    ThrowIfFailed(m_swapChain->ResizeBuffers(
+        FRAMECOUNT,
+        newW, newH,
+        desc.BufferDesc.Format,
+        desc.Flags));
+
+    // 3) réinitialise ton allocation RTV
+    descMgr->ResetRtv();
+
+    // 4) re-crée les RTV sur les nouveaux buffers
+    SetRenderTargets(descMgr);
+
+    // 5) mets à jour ton index courant de back buffer
+    m_frameIndex = m_swapChain->GetCurrentBackBufferIndex();
+}
