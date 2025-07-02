@@ -31,7 +31,7 @@ void SampleScene2::Start()
 
 	CreateEntity("tree1");
 	AddComponent<Type_3D_EXT>("tree1", new Type_3D_EXT());
-	AddComponent<MeshComponent>("tree1", new MeshComponent(MESHES::EXT_MAISON, TEXTURES::NOTEXTURE));
+	AddComponent<MeshComponent>("tree1", new MeshComponent(MESHES::EXT_TEMPLE, TEXTURES::NOTEXTURE));
 	GetComponent<TransformComponent>("tree1")->position = { 0, 0, 0 };
 	GetComponent<TransformComponent>("tree1")->scale = { 1, 1, 1 };
 
