@@ -11,7 +11,7 @@
 class ECSManager 
 {
 public:
-    ECSManager(size_t maxEntities = 1024) : m_entityMgr(maxEntities)  { }
+    ECSManager(size_t maxEntities = 4096) : m_entityMgr(maxEntities)  { }
 
     void Init(GraphicsDevice* device, CommandManager* cmdMgr, Render3D* r3d);
 

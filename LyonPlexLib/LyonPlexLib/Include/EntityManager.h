@@ -15,7 +15,7 @@ struct Entity
 class EntityManager 
 {
 public:
-    EntityManager(size_t maxEntities = 1024);
+    EntityManager(size_t maxEntities = 4096);//nombre max d'entité par scene
 
     Entity Create();
 
