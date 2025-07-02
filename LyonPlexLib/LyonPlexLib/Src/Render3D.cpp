@@ -198,6 +198,26 @@ void Render3D::RecordCommands()
 						0,
 						0);
 				}
+				else{
+					uint32_t texId = 0;
+					// 2) calculer le handle précis dans le heap (offset en descriptors) :
+					UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
+					D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
+					handle.ptr += texId * descSize;
+
+					// 3) binder uniquement ce handle sur rootParam 2 :
+					mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/2, handle);
+
+					UINT globalIndexStart = mesh.iOffset + sub.IndexOffset;
+					// 4) dessiner ce submesh :
+					mp_commandManager->GetCommandList()->DrawIndexedInstanced(
+						sub.IndexCount,
+						1,
+						globalIndexStart,
+						0,
+						0);
+
+				}
 			}
 		});
 
