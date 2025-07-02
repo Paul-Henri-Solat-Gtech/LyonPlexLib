@@ -22,11 +22,6 @@ void AllScenes::Init(GameManager* gameManager)
 void AllScenes::CreateAllScenes()
 {
     // Create new scenes
-    //SampleScene2* newSampleScene2 = new SampleScene2();
-    //mp_gameManager->GetSceneManager()->CreateScene(newSampleScene2, "SampleScene2");
-    //GameScene* newGameScene = new GameScene();
-    //mp_gameManager->GetSceneManager()->CreateScene(newGameScene, "GameScene");
-
     mp_gameManager->GetSceneManager()->RegisterScene("SampleScene2", []() { return new SampleScene2(); });
     mp_gameManager->GetSceneManager()->RegisterScene("GameScene", []() { return new GameScene(); });
 

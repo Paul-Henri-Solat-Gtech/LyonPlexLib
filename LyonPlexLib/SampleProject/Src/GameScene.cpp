@@ -30,6 +30,9 @@ void GameScene::Start()
 	GetComponent<TransformComponent>("bras")->SetRotation(0, 0, 180);
 	GetComponent<TransformComponent>("bras")->dirty = true;
 
+	// Audio
+	CreateSoundPlex("slash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
+	PlayMusicPlex("pop");
 
 	// scene
 	CreateGameObject("GM0", 2, 4);
@@ -44,9 +47,17 @@ void GameScene::Update(float deltatime)
 	// 
 	// !!! STATE MACHINE MANAGE THE PLAYER !!!
 	// 
-	if (InputManager::GetKeyIsPressed('K'))
+	if (InputManager::GetKeyIsReleased('K'))
 	{
-		mp_sceneManager->GetGameManager()->GetSoundManager()->PlaySoundPlex("pop"); // creer encapsulation pour : create sound/music et Play depuis la scene
+		PlaySoundPlex("pop");
+	}
+	if (InputManager::GetKeyIsReleased('N'))
+	{
+		StopMusicPlex();
+	}
+	if (InputManager::GetKeyIsReleased(VK_LBUTTON))
+	{
+		PlaySoundPlex("slash1");
 	}
 	
 	// Gravity

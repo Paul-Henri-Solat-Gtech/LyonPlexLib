@@ -212,3 +212,20 @@ void Scene::EnableMouseRotationFor(GameObject& target, float sensitivity)
 		SetCursorPos(m_lastMousePos.x, m_lastMousePos.y);
 	}
 }
+
+void Scene::CreateSoundPlex(const std::string& soundName, const std::wstring& soundPath)
+{
+	mp_sceneManager->GetGameManager()->GetSoundManager()->CreateSound(soundName, soundPath);
+}
+void Scene::PlaySoundPlex(const std::string& soundName)
+{
+	mp_sceneManager->GetGameManager()->GetSoundManager()->PlaySoundPlex(soundName);
+}
+void Scene::PlayMusicPlex(const std::string& musicName) 
+{
+	mp_sceneManager->GetGameManager()->GetSoundManager()->PlayMusicPlex(musicName);
+}
+void Scene::StopMusicPlex()
+{
+	mp_sceneManager->GetGameManager()->GetSoundManager()->StopMusic();
+}

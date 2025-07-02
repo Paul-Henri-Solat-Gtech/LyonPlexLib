@@ -16,9 +16,11 @@ bool SoundManager::Init()
 void SoundManager::CreateSound(const std::string& soundName, const std::wstring& soundPath)
 {
     // 1) Vérifier que le fichier existe
-    if (!std::filesystem::exists(soundPath))
+    if (!std::filesystem::exists(soundPath)) 
+    {
         throw std::runtime_error("Sound file not found: " + std::string(soundPath.begin(), soundPath.end()));
-
+    }
+       
     // 2) Convertir en chemin pleinement qualifié (optionnel mais utile pour debug)
     DWORD len = GetFullPathNameW(soundPath.c_str(), 0, nullptr, nullptr);
     std::wstring fullPath(len, L'\0');
@@ -29,16 +31,13 @@ void SoundManager::CreateSound(const std::string& soundName, const std::wstring&
     {
         SavedSound newSound;
         newSound.soundName = soundName;
-        newSound.sound = std::make_unique<DirectX::SoundEffect>(
-            m_audioEngine.get(),
-            fullPath.c_str()
-        );
+        newSound.sound = std::make_unique<DirectX::SoundEffect>(m_audioEngine.get(),fullPath.c_str());
         m_soundsList.push_back(std::move(newSound));
     }
-    catch (const std::exception& e)
+    catch (const std::exception& ex)
     {
-        // Récupérer l’erreur de DirectXTK et la remonter
-        throw std::runtime_error("Failed to load sound '" + soundName + "': " + e.what());
+        // Recupere l’erreur DirectXTK
+        throw std::runtime_error("Failed to load sound '" + soundName + "': " + ex.what());
     }
 }
 
@@ -51,23 +50,60 @@ void SoundManager::PlaySoundPlex(std::string soundName)
             // Cree une instance et la joue immediatement
             auto newSoundInstance = savedSound.sound->CreateInstance();
             newSoundInstance->Play();
-
-            // Si tu veux conserver la derniere instance
-            m_soundInst = std::move(newSoundInstance);
+            m_activeSoundInstances.push_back(std::move(newSoundInstance));
 
             break;
         }
     }
 }
 
+void SoundManager::PlayMusicPlex(std::string musicName)
+{
+    // Stop la musique en cours
+    if (m_musicInstance)
+    {
+        m_musicInstance->Stop();
+        m_musicInstance.reset();
+    }
+
+    for (auto& snd : m_soundsList)
+    {
+        if (snd.soundName == musicName)
+        {
+            auto inst = snd.sound->CreateInstance();
+            inst->Play(true); // true = loop
+            m_musicInstance = std::move(inst);
+            break;
+        }
+    }
+}
+
+void SoundManager::StopMusic()
+{
+    if (m_musicInstance)
+    {
+        m_musicInstance->Stop();
+        m_musicInstance.reset();
+    }
+}
+
+
 void SoundManager::Release()
 {
     // 1) Arrêter et libérer l'instance de lecture courante
-    if (m_soundInst)
+    // Stoppe tous les effets
+    for (auto& inst : m_activeSoundInstances) 
     {
-        m_soundInst->Stop();
-        m_soundInst.reset();
+        inst->Stop();
     }
+    m_activeSoundInstances.clear();
+
+    // Stoppe la musique
+    if (m_musicInstance) 
+    {
+        m_musicInstance->Stop();
+    }
+    m_musicInstance.reset();
 
     // 2) Vider la liste des SoundEffect
     m_soundsList.clear();  // détruit tous les SoundEffect

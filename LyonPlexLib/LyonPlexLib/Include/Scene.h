@@ -49,6 +49,12 @@ public:
 
 	void EnableMouseRotationFor(GameObject& target, float sensitivity);
 
+	// Audio
+	void CreateSoundPlex(const std::string& soundName, const std::wstring& soundPath);
+	void PlaySoundPlex(const std::string& soundName);
+	void PlayMusicPlex(const std::string& musicName);
+	void StopMusicPlex();
+
 	// Component Entity (a enelver)
 	template<typename T>
 	void AddComponent(const std::string& entityName, T* comp)

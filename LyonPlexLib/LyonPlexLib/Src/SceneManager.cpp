@@ -42,6 +42,9 @@ void SceneManager::ReleaseScene()
 
 void SceneManager::SetScene(const std::string& sceneName) {
 	
+	// 0) Stop les musiques
+	mp_gameManager->GetSoundManager()->StopMusic();
+
 	// 1) Release et delete scene active
 	ReleaseScene();
 
