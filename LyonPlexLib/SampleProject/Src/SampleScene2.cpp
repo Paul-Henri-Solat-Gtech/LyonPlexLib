@@ -31,9 +31,9 @@ void SampleScene2::Start()
 
 	CreateEntity("tree1");
 	AddComponent<Type_3D_EXT>("tree1", new Type_3D_EXT());
-	AddComponent<MeshComponent>("tree1", new MeshComponent(MESHES::EXT_TEMPLE, TEXTURES::NOTEXTURE));
+	AddComponent<MeshComponent>("tree1", new MeshComponent(MESHES::EXT_MAISON, TEXTURES::NOTEXTURE));
 	GetComponent<TransformComponent>("tree1")->position = { 0, 0, 0 };
-	GetComponent<TransformComponent>("tree1")->scale = { 10, 10, 10 };
+	GetComponent<TransformComponent>("tree1")->scale = { 1, 1, 1 };
 
 	CreateEntity("tree2");
 	AddComponent<Type_3D_EXT>("tree2", new Type_3D_EXT());
@@ -55,13 +55,13 @@ void SampleScene2::Start()
 	GetComponent<TransformComponent>("bras")->SetRotation(0, 0, 180);
 	GetComponent<TransformComponent>("bras")->dirty = true;
 
-	CreateEntity("cube2D");
-	AddComponent<Type_2D>("cube2D", new Type_2D());
-	AddComponent<MeshComponent>("cube2D", new MeshComponent(MESHES::LOCAL_SQUARE, 0));
-	GetComponent<TransformComponent>("cube2D")->position = { 400, 300, 0 };
-	GetComponent<TransformComponent>("cube2D")->scale = { 80, 60, 0 };
-	//GetComponent<TransformComponent>("cube2D")->SetRotation(0 ,0, 0);
-	GetComponent<TransformComponent>("cube2D")->dirty = true;
+	//CreateEntity("cube2D");
+	//AddComponent<Type_2D>("cube2D", new Type_2D());
+	//AddComponent<MeshComponent>("cube2D", new MeshComponent(MESHES::LOCAL_SQUARE, 0));
+	//GetComponent<TransformComponent>("cube2D")->position = { 400, 300, 0 };
+	//GetComponent<TransformComponent>("cube2D")->scale = { 80, 60, 0 };
+	////GetComponent<TransformComponent>("cube2D")->SetRotation(0 ,0, 0);
+	//GetComponent<TransformComponent>("cube2D")->dirty = true;
 
 	CreateEntity("cube4");
 	AddComponent<Type_3D_LOC>("cube4", new Type_3D_LOC());
@@ -74,7 +74,7 @@ void SampleScene2::Start()
 void SampleScene2::Update(float deltatime)
 {
 	//GetComponent<TransformComponent>("cube2D")->AddRotation(0 ,-20 * deltatime, 0);
-	GetComponent<TransformComponent>("tree1")->AddRotation(0 ,15 * deltatime, 0);
+	//GetComponent<TransformComponent>("tree1")->AddRotation(0 ,15 * deltatime, 0);
 	GetComponent<TransformComponent>("tree2")->AddRotation(0 ,50 * deltatime, 0);
 	GetComponent<TransformComponent>("cubeEXT")->AddRotation(0 ,25 * deltatime, 0);
 

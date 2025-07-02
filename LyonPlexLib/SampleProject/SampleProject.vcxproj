@@ -136,6 +136,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)Include;$(SolutionDir)LyonPlexLib\Include;$(SolutionDir)ExternalLib\DirectXTK12-main\Inc;$(SolutionDir)ExternalLib\3DObjectLoader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
