@@ -61,6 +61,7 @@ void DevScene::Start()
 	m_camSpeed = m_camWalkSpeed;
 	// Test
 	//player = m_placingModule;
+
 }
 
 void DevScene::Update(float deltatime)

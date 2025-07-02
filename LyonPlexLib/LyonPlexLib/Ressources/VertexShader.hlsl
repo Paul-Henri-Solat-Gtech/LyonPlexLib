@@ -15,12 +15,11 @@ cbuffer ObjectBuffer : register(b1)
 };
 
 // slot t0 : table SRV textures
-Texture2D textures[150] : register(t0);
-//Texture2D textures[] : register(t0);
+//Texture2D textures[150] : register(t0);
+Texture2D textures : register(t0);
 
 // slot s0 : sampler lineaire
 SamplerState linearClamp : register(s0);
-//SamplerState linearClamp[1] : register(s0);
 
 
 //-----------------------------------------------------------------------------//
@@ -64,9 +63,22 @@ PSInput VSMain(VSInput input)
 float4 PSMain(PSInput input) : SV_Target
 {
     // On echantillonne la bonne texture
-    if (materialIndex == -1)
-        return input, input.color;
-    return textures[materialIndex].Sample(linearClamp, input.uv);
+    //if (materialIndex == -1)
+    //    return input, input.color;
+    
+    //return float4(input.uv.x, // R = U
+    //          0.0f, // G = 0
+    //          input.uv.y, // B = V
+    //          1.0f);
+    
+    //return float4(input.uv.x, input.uv.y, 0, 1);
+    
+    return textures.Sample(linearClamp, input.uv);
+    
+    //float2 planUV = input.positionH.xz * (1 / 2) + float2(0.5, 0.5);
+    //return textures.Sample(linearClamp, planUV);
+    
+    //return textures[materialIndex].Sample(linearClamp, input.uv);
     //float4 c = textures[materialIndex].Sample(linearClamp, input.uv);
     //c.rgb = pow(c.rgb, 1.0 / 2.2); // format lineraire a RGB
     //return c;

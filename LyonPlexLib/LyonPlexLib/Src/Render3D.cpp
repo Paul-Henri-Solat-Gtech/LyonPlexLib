@@ -80,27 +80,125 @@ void Render3D::RecordCommands()
 	mp_commandManager->GetCommandList()->RSSetViewports(1, &viewport);
 	mp_commandManager->GetCommandList()->RSSetScissorRects(1, &scissorRect);
 
-	ComponentMask renderMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D::StaticTypeID);
-	//ComponentMask renderMask = (1ULL << MeshComponent::StaticTypeID) ;
-	// Boucle sur toutes les entity a dessiner (componentMask MeshComponent)
-	m_ECS->ForEach(renderMask, [&](Entity ent)
+	ComponentMask local3DMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D_LOC::StaticTypeID);
+	m_ECS->ForEach(local3DMask, [&](Entity ent)
 		{
 			//const Material& mat = materialLib.Get(m->materialID);
 
 			UpdateAndBindCB(ent);
+			MeshComponent* meshComp = m_ECS->GetComponent<MeshComponent>(ent);
+			uint32_t texId = meshComp->materialID;
+			const MeshData& mesh = m_meshManager->GetMeshLib().Get(meshComp->meshID);
+
+			// pour chaque sub‐mesh dans ce mesh
+			for (auto const& sub : mesh.subMeshes)
+			{
+				if (sub.MaterialID < mesh.materialTextureIDs.size()) // BUG SI CETTE LIGNE EST ENLEVEE
+				{
+					
+
+					//if (meshComp->materialID == 0)
+					//{
+					//	// 1) prendre le TextureID associé :
+					//	texId = mesh.materialTextureIDs[sub.MaterialID];
+					//}
+					//else
+					//	texId = meshComp->materialID;
+
+					// 2) calculer le handle précis dans le heap (offset en descriptors) :
+					UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
+					D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
+					handle.ptr += texId * descSize;
+
+					// DEBUG
+					/*char buf[128];
+					sprintf_s(buf, sizeof(buf),
+						"Binding texId=%u for Entity = %u ; submesh matID=%u\n",
+						texId, ent, sub.MaterialID);
+					OutputDebugStringA(buf);*/
+					/*char bufDraw[128];
+					sprintf_s(bufDraw, sizeof(bufDraw),
+						"[Draw] Entity %u – mesh %u – subMat %u → texId = %u\n",
+						ent.id,
+						meshComp->meshID,
+						sub.MaterialID,
+						texId);
+					OutputDebugStringA(bufDraw);*/
+
+					// 3) binder **uniquement** ce handle sur rootParam 2 :
+					mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/ 2, handle);
+
+					UINT globalIndexStart = mesh.iOffset + sub.IndexOffset;
+					// 4) dessiner ce submesh :
+					mp_commandManager->GetCommandList()->DrawIndexedInstanced(
+						sub.IndexCount,
+						1,
+						globalIndexStart,
+						0,
+						0);
+				}
+			}
+			
+		});
+
+
+	ComponentMask loaded3DMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D_EXT::StaticTypeID);
+	m_ECS->ForEach(loaded3DMask, [&](Entity ent)
+		{
+
+			UpdateAndBindCB(ent);
 
 			MeshComponent* meshComp = m_ECS->GetComponent<MeshComponent>(ent);
-			uint32_t matID = meshComp->materialID;
+			const MeshData& mesh = m_meshManager->GetMeshLib().Get(meshComp->meshID);
 
+			// pour chaque sub‐mesh dans ce mesh
+			for (auto const& sub : mesh.subMeshes)
+			{
+				if (sub.MaterialID < mesh.materialTextureIDs.size()) // BUG SI CETTE LIGNE EST ENLEVEE
+				{
+					uint32_t texId = mesh.materialTextureIDs[sub.MaterialID];
 
-			const MeshData& data = m_meshManager->GetMeshLib().Get(meshComp->meshID);
-			mp_commandManager->GetCommandList()->DrawIndexedInstanced(
-				data.iSize,      // nombre d’indices
-				1,
-				data.iOffset,    // offset dans le buffer d’indices
-				0,				// BaseVertexLocation toujours = 0 ?
-				0
-			);
+					//if (meshComp->materialID == 0)
+					//{
+					//	// 1) prendre le TextureID associé :
+					//	texId = mesh.materialTextureIDs[sub.MaterialID];
+					//}
+					//else
+					//	texId = meshComp->materialID;
+
+					// 2) calculer le handle précis dans le heap (offset en descriptors) :
+					UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
+					D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
+					handle.ptr += texId * descSize;
+
+					// DEBUG
+					/*char buf[128];
+					sprintf_s(buf, sizeof(buf),
+						"Binding texId=%u for Entity = %u ; submesh matID=%u\n",
+						texId, ent, sub.MaterialID);
+					OutputDebugStringA(buf);*/
+					/*char bufDraw[128];
+					sprintf_s(bufDraw, sizeof(bufDraw),
+						"[Draw] Entity %u – mesh %u – subMat %u → texId = %u\n",
+						ent.id,
+						meshComp->meshID,
+						sub.MaterialID,
+						texId);
+					OutputDebugStringA(bufDraw);*/
+
+					// 3) binder **uniquement** ce handle sur rootParam 2 :
+					mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/ 2, handle);
+
+					UINT globalIndexStart = mesh.iOffset + sub.IndexOffset;
+					// 4) dessiner ce submesh :
+					mp_commandManager->GetCommandList()->DrawIndexedInstanced(
+						sub.IndexCount,
+						1,
+						globalIndexStart,
+						0,
+						0);
+				}
+			}
 		});
 
 
@@ -235,7 +333,7 @@ void Render3D::AllocateCBUpload()
 	UINT64 totalSize = UINT64(m_cbSize) * UINT64(m_allocatedEntityCount) * UINT64(m_frameCount);
 
 	// Libère l'ancien buffer si présent
-	if (m_cbTransformUpload) 
+	if (m_cbTransformUpload)
 	{
 		m_cbTransformUpload->Unmap(0, nullptr);
 		m_cbTransformUpload.Reset();
@@ -247,8 +345,8 @@ void Render3D::AllocateCBUpload()
 	CD3DX12_RESOURCE_DESC   bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(totalSize);
 
 	// Création
-	HRESULT hr = mp_graphicsDevice->GetDevice()->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE, &bufferDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&m_cbTransformUpload) );
-	if (FAILED(hr)) 
+	HRESULT hr = mp_graphicsDevice->GetDevice()->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE, &bufferDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&m_cbTransformUpload));
+	if (FAILED(hr))
 	{
 		throw std::runtime_error("Échec création constant buffer");
 	}
@@ -256,7 +354,7 @@ void Render3D::AllocateCBUpload()
 	// Mapping CPU → GPU
 	CD3DX12_RANGE readRange(0, 0);
 	hr = m_cbTransformUpload->Map(0, &readRange, reinterpret_cast<void**>(&m_mappedCBData));
-	if (FAILED(hr)) 
+	if (FAILED(hr))
 	{
 		throw std::runtime_error("Échec mapping constant buffer");
 	}
@@ -290,7 +388,7 @@ void Render3D::UpdateAndBindCB(Entity ent)
 
 	// Calcul des offsets en utilisant m_allocatedEntityCount
 	UINT64 entityOffset = UINT64(ent.id) * m_cbSize;
-	UINT64 frameOffset = UINT64(mp_graphicsDevice->GetFrameIndex())	* UINT64(m_allocatedEntityCount) * m_cbSize;
+	UINT64 frameOffset = UINT64(mp_graphicsDevice->GetFrameIndex()) * UINT64(m_allocatedEntityCount) * m_cbSize;
 	UINT64 finalOffset = frameOffset + entityOffset;
 
 	//// 4) Copier les donnees dans le buffer upload mappe

@@ -4,6 +4,7 @@
 #include "RenderingManager.h"
 #include "ECSManager.h"
 #include "SceneManager.h"
+#include "SceneResources.h"
 #include "chrono"
 
 class GameManager 
@@ -46,5 +47,6 @@ private:
 
     // Scene
     SceneManager m_sceneManager;
+    SceneResources m_sceneResources;
 };
 
