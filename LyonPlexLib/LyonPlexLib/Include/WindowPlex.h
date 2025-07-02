@@ -16,6 +16,7 @@ public:
 	float GetWindowHeight() { return m_winHeight; }
 
 	void SetGameManager(GameManager* gameManager) { m_gameManager = gameManager; };
+	GameManager* GetGameManager() const { return m_gameManager; }
 
 private:
 	static LRESULT CALLBACK WindowProcedure(HWND, UINT, WPARAM, LPARAM);
