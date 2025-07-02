@@ -42,6 +42,4 @@ private:
 
     // Remplit cam->projectionMatrix en fonction de cam->fov / aspectRatio / near / far
     void RecomputeProjectionMatrix(CameraComponent* cam);
-
-    
 };

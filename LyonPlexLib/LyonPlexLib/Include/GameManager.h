@@ -30,9 +30,10 @@ public:
     SoundManager* GetSoundManager() { return &m_soundManager; };
     double& GetDeltaTime() { return m_deltaTime; };
 
+
 private:
     void ProcessMessage(); // Gestion messages windows
-
+    
     HINSTANCE m_hInstance;
     WindowPlex m_window;
 

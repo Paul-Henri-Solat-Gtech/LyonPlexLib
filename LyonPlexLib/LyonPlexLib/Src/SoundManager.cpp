@@ -5,6 +5,7 @@ bool SoundManager::Init()
 {
     //verifie engine->IsAudioDevicePresent() ou Reset si necessaire
     m_audioEngine = std::make_unique<AudioEngine>();
+
     if (!m_audioEngine->IsAudioDevicePresent()) 
     {
         return false;
@@ -26,7 +27,7 @@ void SoundManager::CreateSound(const std::string& soundName, const std::wstring&
     std::wstring fullPath(len, L'\0');
     GetFullPathNameW(soundPath.c_str(), len, fullPath.data(), nullptr);
 
-    // 3) Charger l’effet sonore
+    // 3) Charger le sond
     try
     {
         SavedSound newSound;
@@ -60,11 +61,7 @@ void SoundManager::PlaySoundPlex(std::string soundName)
 void SoundManager::PlayMusicPlex(std::string musicName)
 {
     // Stop la musique en cours
-    if (m_musicInstance)
-    {
-        m_musicInstance->Stop();
-        m_musicInstance.reset();
-    }
+    StopMusic();
 
     for (auto& snd : m_soundsList)
     {

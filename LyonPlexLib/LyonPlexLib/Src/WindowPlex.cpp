@@ -50,23 +50,23 @@ LRESULT CALLBACK WindowPlex::WindowProcedure(HWND hWnd, UINT message, WPARAM wPa
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
-
-		// case WM_PAINT:
-		//     // BeginPaint/EndPaint si tu veux dessiner
-		//     break;
-		// autres messages...
 	case WM_SIZE:
-		// RESIZE
 		if (wParam != SIZE_MINIMIZED) {
 			UINT newW = LOWORD(lParam);
 			UINT newH = HIWORD(lParam);
-			// appeler votre gestionnaire pour redimensionner :
-			// par exemple :
-			auto app = reinterpret_cast<RenderingManager*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
-			//if (app) app->OnResize(newW, newH);
+			auto window = reinterpret_cast<WindowPlex*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+			if (window && window->m_gameManager) {
+				window->m_gameManager->OnResize(newW, newH);
+			}
 		}
 		return 0;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
+}
+
+void WindowPlex::OnResize(UINT newW, UINT newH)
+{
+	m_winWidth = static_cast<float>(newW);
+	m_winHeight = static_cast<float>(newH);
 }

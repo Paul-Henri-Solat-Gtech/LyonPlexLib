@@ -46,6 +46,8 @@ bool GameManager::Init()
 	m_soundManager.Init();
 	m_soundManager.CreateSound("pop", L"../LyonPlexLib/Ressources/pop.wav");
 
+	m_window.SetGameManager(this);
+
 	return true;
 }
 
@@ -66,7 +68,7 @@ int GameManager::Run()
 
 
 		// 1) Gestion des messages Windows
-		ProcessMessage();
+		//ProcessMessage();
 
 		// 2) Traitement manuel des messages restants
 		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
@@ -114,6 +116,30 @@ void GameManager::Release()
 
 void GameManager::OnResize(UINT newW, UINT newH)
 {
+	// 1) Mets d’abord à jour ta classe fenêtre
+	m_window.OnResize(newW, newH);
+
+	// 2) Resize du swap‑chain et des render targets
+	m_renderer.GetGraphicsDevice()->ResizeBuffers(newW, newH, &m_renderer.GetDescriptorManager());
+
+	// 3) Mettre à jour l’aspect ratio de la caméra
+	{
+		// Récupère le système caméra
+		auto& camSys = m_ECS.m_systemMgr.GetCameraSystem();
+		// Parcours de toutes les entités caméra (ici on suppose une seule)
+		ComponentMask camMask = (1ULL << CameraComponent::StaticTypeID) | (1ULL << TransformComponent::StaticTypeID);
+		m_ECS.ForEach(camMask, [&](Entity e) 
+		{
+			auto* cam = m_ECS.GetComponent<CameraComponent>(e);
+			if (!cam) return;
+			cam->aspectRatio = float(newW) / float(newH);
+			cam->projectionDirty = true;    // forcera le recalcule lors du prochain Update()
+		});
+	}
+
+	// 4) Resize des passes 3D et 2D
+	m_renderer.GetRender3D()->Resize(newW, newH);
+	m_renderer.GetRender2D()->Resize(newW, newH);
 }
 
 void GameManager::ProcessMessage()
@@ -128,7 +154,6 @@ void GameManager::ProcessMessage()
 			OnResize(newW, newH);
 		}
 
-		// gérer le Quit traditionnel
 		if (msg.message == WM_QUIT)
 			m_isRunning = false;
 

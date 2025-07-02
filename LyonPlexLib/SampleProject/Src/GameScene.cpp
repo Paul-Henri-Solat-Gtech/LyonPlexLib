@@ -32,7 +32,8 @@ void GameScene::Start()
 
 	// Audio
 	CreateSoundPlex("slash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
-	PlayMusicPlex("pop");
+	CreateSoundPlex("Corrosion", L"../LyonPlexLib/Ressources/Corrosion.wav");
+	PlayMusicPlex("Corrosion");
 
 	// scene
 	CreateGameObject("GM0", 2, 4);
