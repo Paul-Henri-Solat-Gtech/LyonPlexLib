@@ -52,11 +52,32 @@ bool SceneResources::InitImportedMeshResources(MeshManager& meshMngr)
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/ArbreTest.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/Cepha1.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/Cube.obj");
-    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/Temple.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/TEMPLE.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/Maison.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/RockBig.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/RockLM1.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/RockLM2.obj");
+
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/maison2.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cepha_gros.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cepha_petit.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cypress_gros.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cypress_petit.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/masitics.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/olivier.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/buisson_fleur.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/buisson_gros_fleur.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/buisson_gros.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/buisson_moyen_fleur.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/buisson_moyen.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/buisson_petit.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux_sol1.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux_sol2.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux_sol3.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux1.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux2.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux3.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux4.obj");
 
 
     return true;
