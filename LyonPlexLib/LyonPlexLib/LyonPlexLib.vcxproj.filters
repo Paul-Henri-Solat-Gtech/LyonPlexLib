@@ -85,7 +85,9 @@
     <ClCompile Include="Src\WindowPlex.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\CollisionSystem.cpp" />
+    <ClCompile Include="Src\CollisionSystem.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Action.h">
@@ -208,8 +210,10 @@
     <ClInclude Include="Include\EventBus.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Include\CollisionSystem.h" />
     <ClInclude Include="Include\Colliders.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CollisionSystem.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

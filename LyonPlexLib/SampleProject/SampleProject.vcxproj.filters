@@ -1,26 +1,75 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Src\AllScenes.cpp" />
-    <ClCompile Include="Src\BlockTutoScene.cpp" />
-    <ClCompile Include="Src\GameScene.cpp" />
-    <ClCompile Include="Src\main.cpp" />
-    <ClCompile Include="Src\pch.cpp" />
-    <ClCompile Include="Src\Player.cpp" />
-    <ClCompile Include="Src\PlayerAction.cpp" />
-    <ClCompile Include="Src\PlayerCondition.cpp" />
-    <ClCompile Include="Src\SampleScene2.cpp" />
+    <ClCompile Include="Src\Player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\PlayerAction.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\PlayerCondition.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\AllScenes.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\BlockTutoScene.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GameScene.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\main.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SampleScene2.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\pch.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\AllScenes.h" />
-    <ClInclude Include="Include\BlockTutoScene.h" />
-    <ClInclude Include="Include\GameScene.h" />
-    <ClInclude Include="Include\main.h" />
-    <ClInclude Include="Include\pch.h" />
-    <ClInclude Include="Include\Player.h" />
-    <ClInclude Include="Include\PlayerAction.h" />
-    <ClInclude Include="Include\PlayerCondition.h" />
-    <ClInclude Include="Include\resource.h" />
-    <ClInclude Include="Include\SampleScene2.h" />
+    <ClInclude Include="Include\AllScenes.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\BlockTutoScene.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SampleScene2.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\resource.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Player.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\PlayerAction.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\PlayerCondition.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\GameScene.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\pch.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\main.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{bc220a4d-3b6f-447f-adfd-360105c3a952}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources">
+      <UniqueIdentifier>{66c103f3-4b4c-45f8-bb9c-cfd3c6a15ea1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{f737ae5c-80e4-427b-bea2-c6fa1513c21a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

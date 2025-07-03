@@ -167,31 +167,6 @@ struct MeshComponent : public Component
 	}
 };
 
-//
-//struct CollisionComponent : public Component
-//{
-//    static constexpr uint32_t StaticTypeID = Collision_ID;
-//
-//    DirectX::XMFLOAT3     center;   // position du centre
-//    DirectX::XMFLOAT3     halfSize; // demi‐largeurs sur X/Y/Z
-//
-//    CollisionComponent(float centerX, float centerY, float centerZ, float halfSizeX, float halfSizeY, float halfSizeZ)
-//    {
-//        mask = 1ULL << StaticTypeID;
-//        typeID = StaticTypeID;
-//
-//        center = { centerX, centerY, centerZ };
-//        halfSize = { halfSizeX, halfSizeY, halfSizeZ };
-//    }
-//    /*CollisionComponent(Utils::Vector3 a, Utils::Vector3 b)
-//    {
-//        mask = 1ULL << StaticTypeID;
-//        typeID = StaticTypeID;
-//
-//        center = { a.x, a.y, a.z };
-//        halfSize = { b.x, b.y, b.z };
-//    }*/
-//};
 
 struct CollisionComponent : public Component
 {
