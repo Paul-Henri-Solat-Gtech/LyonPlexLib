@@ -3,18 +3,22 @@
 
 void GameScene::Start()
 {
-    CreateGameObject("camera2",TYPE_3D, false);
-    GetGameObjectByName("camera2").AddComponent<CameraComponent>(new CameraComponent());
-    GetGameObjectByName("camera2").SetPosition({ 0, 0, 0.5f });
-    
-    CreateGameObject("player");
+	CreateGameObject("camera2", TYPE_3D, false);
+	GetGameObjectByName("camera2").AddComponent<CameraComponent>(new CameraComponent());
+	GetGameObjectByName("camera2").SetPosition({ 0, 0, 0.5f });
+
+	CreateGameObject("player");
 	GetGameObjectByName("player").SetPosition({ 0, 3, -1 });
 	m_player = GetGameObjectByName("player");
 
-    CreateGameObject("testGm");
-    GetGameObjectByName("testGm").SetPosition({ 0, 1, 3 });
+	CreateGameObject("testGm");
+	GetGameObjectByName("testGm").SetPosition({ 0, 1, 3 });
 
-    SetParent("camera2", "player");
+	auto& a = GetGameObjectByName("testGm").GetScale();
+	GetGameObjectByName("testGm").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2,a.y / 2,a.z / 2 })));
+
+
+	SetParent("camera2", "player");
 
 	m_playerWalkSpeed = 3.f;
 	m_playerRunSpeed = 6.f;
@@ -60,7 +64,7 @@ void GameScene::Update(float deltatime)
 	{
 		PlaySoundPlex("slash1");
 	}
-	
+
 	// Gravity
 	if (m_player.GetPosition().y > 1.f)
 	{
@@ -76,10 +80,10 @@ void GameScene::Update(float deltatime)
 	}
 
 	// Change scene [ALLWAYS AT THE END SO THERE IS NO OTHER CODE RUNNING AFTER IN THIS SCENE]
-    if (InputManager::GetKeyIsReleased('A'))
-    {
-        ChangeScene("DevScene");
-    }
+	if (InputManager::GetKeyIsReleased('A'))
+	{
+		ChangeScene("DevScene");
+	}
 }
 
 void GameScene::Release()

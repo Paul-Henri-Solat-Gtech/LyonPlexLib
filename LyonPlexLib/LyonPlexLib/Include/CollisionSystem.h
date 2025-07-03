@@ -27,10 +27,11 @@ class ECSManager;
 
 class CollisionSystem {
 public:
-    CollisionSystem(ECSManager* ecs) : mECS(ecs) {}
+    //CollisionSystem();
+    bool Init(ECSManager* ecs);
     void Update();
 private:
-    ECSManager* mECS;
+    ECSManager* m_ECS;
 
     void TryPair(Entity a, Entity b);
 

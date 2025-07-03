@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CollisionSystem.h"
+#include "ECSManager.h"
 
 #undef max
 #undef min
@@ -43,12 +44,18 @@
 //        std::abs(A.center.z - B.center.z) <= (A.halfSize.z + B.halfSize.z);
 //}
 
+bool CollisionSystem::Init(ECSManager* ecs)
+{
+    m_ECS = ecs;
+    return false;
+}
+
 void CollisionSystem::Update()
 {
     // collecte entities avec Transform + Collision
     auto mask = (1ULL << Transform_ID) | (1ULL << Collision_ID);
     std::vector<Entity> ents;
-    mECS->ForEach(mask, [&](Entity e) { ents.push_back(e); });
+    m_ECS->ForEach(mask, [&](Entity e) { ents.push_back(e); });
 
     for (size_t i = 0; i < ents.size(); ++i) for (size_t j = i + 1; j < ents.size(); ++j)
         TryPair(ents[i], ents[j]);
@@ -56,10 +63,10 @@ void CollisionSystem::Update()
 
 void CollisionSystem::TryPair(Entity a, Entity b)
 {
-    auto* ta = mECS->GetComponent<TransformComponent>(a);
-    auto* tb = mECS->GetComponent<TransformComponent>(b);
-    auto* ca = mECS->GetComponent<CollisionComponent>(a);
-    auto* cb = mECS->GetComponent<CollisionComponent>(b);
+    auto* ta = m_ECS->GetComponent<TransformComponent>(a);
+    auto* tb = m_ECS->GetComponent<TransformComponent>(b);
+    auto* ca = m_ECS->GetComponent<CollisionComponent>(a);
+    auto* cb = m_ECS->GetComponent<CollisionComponent>(b);
 
     XMFLOAT3 pa{ ta->position.x, ta->position.y, ta->position.z };
     XMFLOAT3 pb{ tb->position.x, tb->position.y, tb->position.z };
