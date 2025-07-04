@@ -41,9 +41,15 @@ void BlockTutoScene::Start()
 	CreateGameObject("parcelle8", MESHES::LOCAL_CUBE,TEXTURES::PARCELLE4);
 	GetGameObjectByName("parcelle8").SetPosition({ 36.792843, -1.916459, -46.895660 });
 	GetGameObjectByName("parcelle8").SetScale({ 10, 1, 5 });
-	CreateGameObject("maison", MESHES::LOCAL_CUBE,TEXTURES::MAISON);
+	/*CreateGameObject("maison", MESHES::LOCAL_CUBE, TEXTURES::MAISON);
 	GetGameObjectByName("maison").SetPosition({ 36.792843, 1.916459, -71.895660 });
-	GetGameObjectByName("maison").SetScale({ 10, 10, 10 });
+	GetGameObjectByName("maison").SetScale({ 10, 10, 10 });*/
+	CreateEntity("maison");
+	AddComponent<Type_3D_EXT>("maison", new Type_3D_EXT());
+	AddComponent<MeshComponent>("maison", new MeshComponent(MESHES::MAISON, TEXTURES::NOTEXTURE));
+	GetComponent<TransformComponent>("maison")->position = { 36.792843, -1.250000, -71.895660 };
+	GetComponent<TransformComponent>("maison")->SetRotation(0, 90, 0);
+	GetComponent<TransformComponent>("maison")->scale = { 1.8, 1.8, 1.8 };
 
 
 	////////////////////////////////////////////////////////////////////pont//////////////////////////////////////////////////////////////////////////
@@ -86,10 +92,17 @@ void BlockTutoScene::Start()
 
 
 	///////////////////////////////////////////temple///////////////////////////////////
-	CreateGameObject("temple", MESHES::LOCAL_CUBE,TEXTURES::TEMPLE);
+	/*CreateGameObject("temple");
+	AddComponent<Type_3D_EXT>("tree2", new Type_3D_EXT());
+	AddComponent<MeshComponent>("tree2", new MeshComponent(MESHES::TEMPLE, TEXTURES::NOTEXTURE));
 	GetGameObjectByName("temple").SetPosition({ -163.533112,12.042871,30.696255 });
-	GetGameObjectByName("temple").SetRotation({ 0.000000,0.714181,0.000000,0.699961 });
-	GetGameObjectByName("temple").SetScale({ 43.701939,28.993061,46.056992 });
+	GetGameObjectByName("temple").SetRotation({ 0.000000,0.000000,0.000000,0.000000 });
+	GetGameObjectByName("temple").SetScale({ 1,1,1 });*/
+	CreateEntity("temple");
+	AddComponent<Type_3D_EXT>("temple", new Type_3D_EXT());
+	AddComponent<MeshComponent>("temple", new MeshComponent(MESHES::TEMPLE, TEXTURES::NOTEXTURE));
+	GetComponent<TransformComponent>("temple")->position = { -163.533112, -1.1500000, 20.696255 };
+	GetComponent<TransformComponent>("temple")->scale = { 0.8, 0.8, 0.8 };
 
 
 	///////////////////////////////////////////////////////////////////falaise////////////////////////
