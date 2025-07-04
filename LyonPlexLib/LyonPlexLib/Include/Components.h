@@ -18,6 +18,7 @@ enum ComponentID
 
 	// Types (3D, 2D, UI)
 	Type_3D_ID,
+	Type_3D_Transparent_ID,
 	Type_2D5_ID,
 	Type_2D_ID,
 	Type_UI_ID,
@@ -156,6 +157,7 @@ struct MeshComponent : public Component
 	static constexpr uint32_t StaticTypeID = Mesh_ID;
 	uint32_t meshID;
 	uint32_t materialID;
+	float alpha = 1;
 
 	MeshComponent(uint32_t meshID_, uint32_t materialID_ = -1)
 	{
@@ -216,6 +218,17 @@ struct Type_3D : public Component
 	static constexpr uint32_t StaticTypeID = Type_3D_ID;
 
 	Type_3D()
+	{
+		mask = 1ULL << StaticTypeID;
+		typeID = StaticTypeID;
+	}
+};
+
+struct Type_3D_Transparent : public Component
+{
+	static constexpr uint32_t StaticTypeID = Type_3D_Transparent_ID;
+
+	Type_3D_Transparent()
 	{
 		mask = 1ULL << StaticTypeID;
 		typeID = StaticTypeID;

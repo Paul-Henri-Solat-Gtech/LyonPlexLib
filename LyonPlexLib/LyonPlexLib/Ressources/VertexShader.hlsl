@@ -12,10 +12,11 @@ cbuffer ObjectBuffer : register(b1)
 {
     float4x4 worldMatrix;
     uint materialIndex;
+    float alpha;
+    //float2 _pad; // padding 16?bytes
 };
 
 // slot t0 : table SRV textures
-//Texture2D textures[150] : register(t0);
 Texture2D textures : register(t0);
 
 // slot s0 : sampler lineaire
@@ -72,8 +73,9 @@ float4 PSMain(PSInput input) : SV_Target
     //          1.0f);
     
     //return float4(input.uv.x, input.uv.y, 0, 1);
-    
-    return textures.Sample(linearClamp, input.uv);
+    float4 c = textures.Sample(linearClamp, input.uv);
+    c.a *= alpha;
+    return c;
     
     //float2 planUV = input.positionH.xz * (1 / 2) + float2(0.5, 0.5);
     //return textures.Sample(linearClamp, planUV);

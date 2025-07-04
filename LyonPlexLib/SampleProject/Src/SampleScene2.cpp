@@ -26,10 +26,16 @@ void SampleScene2::Start()
 
 
 	CreateEntity("tree1");
+	AddComponent<Type_3D_Transparent>("tree1", new Type_3D_Transparent());
+	AddComponent<MeshComponent>("tree1", new MeshComponent(MESHES::TEMPLE, TEXTURES::NOTEXTURE));
+	GetComponent<MeshComponent>("tree1")->alpha = 0.5;
+	GetComponent<TransformComponent>("tree1")->position = { 0, 0, 0 };
+	GetComponent<TransformComponent>("tree1")->scale = { 1, 1, 1 };/*
+	CreateEntity("tree1");
 	AddComponent<Type_3D>("tree1", new Type_3D());
 	AddComponent<MeshComponent>("tree1", new MeshComponent(MESHES::TEMPLE, TEXTURES::NOTEXTURE));
 	GetComponent<TransformComponent>("tree1")->position = { 0, 0, 0 };
-	GetComponent<TransformComponent>("tree1")->scale = { 1, 1, 1 };
+	GetComponent<TransformComponent>("tree1")->scale = { 1, 1, 1 };*/
 
 	CreateEntity("tree2");
 	AddComponent<Type_3D>("tree2", new Type_3D());

@@ -5,7 +5,7 @@ class GraphicsPipeline
 public:
 	void Init(GraphicsDevice* graphicsDevice, DescriptorManager* descriptorManager, CommandManager* commandManager);
 
-	void CreatePipeline();
+	void CreatePipeline(bool seeThrough = false);
 
 	//void CreatePipeline3D();
 	void CreatePipeline2D();
@@ -17,6 +17,8 @@ private:
 	void CreateRootSignature();
 	void CompileShader();
 	void CreatePipelineStateObject();
+
+	void CreatePipelineStateObject_SeeThrough();
 
 	/*void CreateRootSignature3D();
 	void CompileShaders3D();

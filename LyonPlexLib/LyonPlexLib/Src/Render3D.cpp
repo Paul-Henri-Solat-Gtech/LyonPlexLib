@@ -12,6 +12,7 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 	m_meshManager = meshManager;
 
 	m_graphicsPipeline.Init(mp_graphicsDevice, mp_descriptorManager, mp_commandManager);
+	m_graphicsPipelineSeeThrough.Init(mp_graphicsDevice, mp_descriptorManager, mp_commandManager);
 
 	InitConstantBuffer();
 	CreatePipeline();
@@ -136,7 +137,7 @@ void Render3D::RecordCommands()
 			for (auto const& sub : mesh.subMeshes)
 			{
 				uint32_t texId = 0;
-				if (sub.MaterialID < mesh.materialTextureIDs.size() && meshComp->materialID == -1)
+				if (sub.MaterialID < mesh.materialTextureIDs.size() || meshComp->materialID == -1)
 				{
 					texId = mesh.materialTextureIDs[sub.MaterialID];
 				}
@@ -179,6 +180,48 @@ void Render3D::RecordCommands()
 					0);
 			}
 		});
+
+
+	ComponentMask mask3D = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D_Transparent::StaticTypeID);
+	m_ECS->ForEach(mask3D, [&](Entity ent)
+		{
+			UpdateAndBindCB(ent);
+
+			MeshComponent* meshComp = m_ECS->GetComponent<MeshComponent>(ent);
+			const MeshData& mesh = m_meshManager->GetMeshLib().Get(meshComp->meshID);
+
+			// pour chaque sub‐mesh dans ce mesh
+			for (auto const& sub : mesh.subMeshes)
+			{
+				uint32_t texId = 0;
+				if (sub.MaterialID < mesh.materialTextureIDs.size() && meshComp->materialID == -1)
+				{
+					texId = mesh.materialTextureIDs[sub.MaterialID];
+				}
+				else
+				{
+					texId = meshComp->materialID;
+				}
+				// 2) calculer le handle précis dans le heap (offset en descriptors) :
+				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
+				D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
+				handle.ptr += texId * descSize;
+
+				// 3) binder uniquement ce handle sur rootParam 2 :
+				cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/2, handle);
+
+				UINT globalIndexStart = mesh.iOffset + sub.IndexOffset;
+				// 4) dessiner ce submesh :
+				cmdList->DrawIndexedInstanced(
+					sub.IndexCount,
+					1,
+					globalIndexStart,
+					0,
+					0);
+			}
+		});
+
+
 
 
 	// ** passe 2.5D **		/!\/!\/!\/!\/!\   ____  A REVOIR !!!  ____   /!\/!\/!\/!\/!\/
@@ -279,6 +322,7 @@ void Render3D::RecordCommands()
 void Render3D::CreatePipeline()
 {
 	m_graphicsPipeline.CreatePipeline();
+	m_graphicsPipelineSeeThrough.CreatePipeline(true);
 }
 
 void Render3D::Release()
@@ -366,6 +410,7 @@ void Render3D::UpdateAndBindCB(Entity ent)
 	XMStoreFloat4x4(&cbData.World, XMMatrixTranspose(world));
 
 	cbData.materialIndex = m_ECS->GetComponent<MeshComponent>(ent)->materialID;
+	cbData.alpha = m_ECS->GetComponent<MeshComponent>(ent)->alpha;
 
 	// Calcul des offsets en utilisant m_allocatedEntityCount
 	UINT64 entityOffset = UINT64(ent.id) * m_cbSize;
