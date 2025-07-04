@@ -139,12 +139,7 @@ void GraphicsPipeline::CompileShader()
 	ComPtr<ID3DBlob>  psErrorBlob;*/
 
 	// 1) VS
-	HRESULT hr = D3DCompileFromFile(
-		L"../LyonPlexLib/Ressources/VertexShader.hlsl",
-		nullptr, nullptr,
-		"VSMain", "vs_5_1",
-		D3DCOMPILE_ENABLE_STRICTNESS, 0,
-		&m_vsBlob, &m_errorBlob);
+	HRESULT hr = D3DCompileFromFile(L"../LyonPlexLib/Ressources/VertexShader.hlsl", nullptr, nullptr, "VSMain", "vs_5_1", D3DCOMPILE_ENABLE_STRICTNESS, 0, &m_vsBlob, &m_errorBlob);
 
 	if (FAILED(hr)) {
 		if (m_errorBlob) {
@@ -257,11 +252,19 @@ void GraphicsPipeline::CreatePipeline2D()
 
 void GraphicsPipeline::CreateRootSignature2D()
 {
+	//// Descriptor ranges
+	//CD3DX12_DESCRIPTOR_RANGE1 ranges[1];
+	//ranges[0].Init(
+	//	D3D12_DESCRIPTOR_RANGE_TYPE_SRV,
+	//	150, // we'll bind all SRVs in one heap
+	//	0, 0,
+	//	D3D12_DESCRIPTOR_RANGE_FLAG_NONE,
+	//	0);
 	// Descriptor ranges
 	CD3DX12_DESCRIPTOR_RANGE1 ranges[1];
 	ranges[0].Init(
 		D3D12_DESCRIPTOR_RANGE_TYPE_SRV,
-		150, // we'll bind all SRVs in one heap
+		1, 
 		0, 0,
 		D3D12_DESCRIPTOR_RANGE_FLAG_NONE,
 		0);

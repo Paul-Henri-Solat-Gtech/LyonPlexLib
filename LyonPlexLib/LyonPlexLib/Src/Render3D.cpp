@@ -41,27 +41,29 @@ void Render3D::RecordCommands()
 	UINT currentCount = static_cast<UINT>(m_ECS->GetEntityCount());
 	EnsureCapacity(currentCount);
 
+	auto& cmdList = mp_commandManager->GetCommandList();
+
 	// On definie la pipeline et la rootSignature
-	mp_commandManager->GetCommandList()->SetGraphicsRootSignature(m_graphicsPipeline.GetRootSignature().Get());
-	mp_commandManager->GetCommandList()->SetPipelineState(m_graphicsPipeline.GetPipelineState().Get());
+	cmdList->SetGraphicsRootSignature(m_graphicsPipeline.GetRootSignature().Get());
+	cmdList->SetPipelineState(m_graphicsPipeline.GetPipelineState().Get());
 
 	// Bind du buffer ViewProj de la Camera au slot b0
-	mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(/*rootParameterIndex = slot b0*/ 0, m_ECS->m_systemMgr.GetCameraSystem().GetCBbuffer()->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(/*rootParameterIndex = slot b0*/ 0, m_ECS->m_systemMgr.GetCameraSystem().GetCBbuffer()->GetGPUVirtualAddress());
 
 	// Bind des Heaps SRV + Sampler
 	// 1. Rassemble tous tes descriptor heaps (SRV + Sampler)
 	ID3D12DescriptorHeap* heaps[] = { mp_descriptorManager->GetSrvHeap()/*, mp_descriptorManager->GetSamplerHeap()*/ }; //  SRV heap (contenant toutes les textures) et Sampler heap ATTENTION SAMPLERS ONT CASSE LA PORTABILITE
-	mp_commandManager->GetCommandList()->SetDescriptorHeaps(_countof(heaps), heaps);
+	cmdList->SetDescriptorHeaps(_countof(heaps), heaps);
 
 	// 2. Bind UNE SEULE FOIS l’integralite de ton heap SRV au slot t0 (rootParameter index = 2)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvBase = mp_descriptorManager->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart();
-	mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*rootParameterIndex=*/2, srvBase);
+	cmdList->SetGraphicsRootDescriptorTable(/*rootParameterIndex=*/2, srvBase);
 
 
 	//Draw vertices and index (mesh)
-	mp_commandManager->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	mp_commandManager->GetCommandList()->IASetVertexBuffers(0, 1, &m_meshManager->GetGlobalVBView());
-	mp_commandManager->GetCommandList()->IASetIndexBuffer(&m_meshManager->GetGlobalIBView());
+	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	cmdList->IASetVertexBuffers(0, 1, &m_meshManager->GetGlobalVBView());
+	cmdList->IASetIndexBuffer(&m_meshManager->GetGlobalIBView());
 
 	// Get la width et height du client (fenetre)
 	RECT renderZone;
@@ -81,47 +83,47 @@ void Render3D::RecordCommands()
 	// Le scissor defini un rectangle de pixels a dessiner dans la zone de dessin (viewport). Tous les pixels en dehors de cette zone ne sont pas dessines.
 	D3D12_RECT scissorRect = { 0, 0, static_cast<LONG>(renderWidth), static_cast<LONG>(renderHeight) };
 	// Actualisation du rectangle dans lequel on dessine, dans la fenetre
-	mp_commandManager->GetCommandList()->RSSetViewports(1, &viewport);
-	mp_commandManager->GetCommandList()->RSSetScissorRects(1, &scissorRect);
+	cmdList->RSSetViewports(1, &viewport);
+	cmdList->RSSetScissorRects(1, &scissorRect);
 
-	ComponentMask local3DMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D_LOC::StaticTypeID);
-	m_ECS->ForEach(local3DMask, [&](Entity ent)
-		{
-			//const Material& mat = materialLib.Get(m->materialID);
+	//ComponentMask local3DMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D::StaticTypeID);
+	//m_ECS->ForEach(local3DMask, [&](Entity ent)
+	//	{
+	//		//const Material& mat = materialLib.Get(m->materialID);
 
-			UpdateAndBindCB(ent);
-			MeshComponent* meshComp = m_ECS->GetComponent<MeshComponent>(ent);
-			uint32_t texId = meshComp->materialID;
-			const MeshData& mesh = m_meshManager->GetMeshLib().Get(meshComp->meshID);
+	//		UpdateAndBindCB(ent);
+	//		MeshComponent* meshComp = m_ECS->GetComponent<MeshComponent>(ent);
+	//		uint32_t texId = meshComp->materialID;
+	//		const MeshData& mesh = m_meshManager->GetMeshLib().Get(meshComp->meshID);
 
-			// pour chaque sub‐mesh dans ce mesh
-			for (auto const& sub : mesh.subMeshes)
-			{
-				if (sub.MaterialID < mesh.materialTextureIDs.size()) // BUG SI CETTE LIGNE EST ENLEVEE
-				{
-					// 2) calculer le handle précis dans le heap (offset en descriptors) :
-					UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
-					D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
-					handle.ptr += texId * descSize;
+	//		// pour chaque sub‐mesh dans ce mesh
+	//		for (auto const& sub : mesh.subMeshes)
+	//		{
+	//			if (sub.MaterialID < mesh.materialTextureIDs.size()) // BUG SI CETTE LIGNE EST ENLEVEE
+	//			{
+	//				// 2) calculer le handle précis dans le heap (offset en descriptors) :
+	//				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
+	//				D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
+	//				handle.ptr += texId * descSize;
 
-					// 3) binder **uniquement** ce handle sur rootParam 2 :
-					mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/ 2, handle);
+	//				// 3) binder **uniquement** ce handle sur rootParam 2 :
+	//				cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/ 2, handle);
 
-					UINT globalIndexStart = mesh.iOffset + sub.IndexOffset;
-					// 4) dessiner ce submesh :
-					mp_commandManager->GetCommandList()->DrawIndexedInstanced(
-						sub.IndexCount,
-						1,
-						globalIndexStart,
-						0,
-						0);
-				}
-			}
+	//				UINT globalIndexStart = mesh.iOffset + sub.IndexOffset;
+	//				// 4) dessiner ce submesh :
+	//				cmdList->DrawIndexedInstanced(
+	//					sub.IndexCount,
+	//					1,
+	//					globalIndexStart,
+	//					0,
+	//					0);
+	//			}
+	//		}
 
-		});
+	//	});
 
 
-	ComponentMask loaded3DMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D_EXT::StaticTypeID);
+	ComponentMask loaded3DMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D::StaticTypeID);
 	m_ECS->ForEach(loaded3DMask, [&](Entity ent)
 		{
 
@@ -134,7 +136,7 @@ void Render3D::RecordCommands()
 			for (auto const& sub : mesh.subMeshes)
 			{
 				uint32_t texId = 0;
-				if (sub.MaterialID < mesh.materialTextureIDs.size()) 
+				if (sub.MaterialID < mesh.materialTextureIDs.size() && meshComp->materialID == -1)
 				{
 					texId = mesh.materialTextureIDs[sub.MaterialID];
 				}
@@ -165,11 +167,11 @@ void Render3D::RecordCommands()
 				}
 
 				// 3) binder uniquement ce handle sur rootParam 2 :
-				mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/2, handle);
+				cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/2, handle);
 
 				UINT globalIndexStart = mesh.iOffset + sub.IndexOffset;
 				// 4) dessiner ce submesh :
-				mp_commandManager->GetCommandList()->DrawIndexedInstanced(
+				cmdList->DrawIndexedInstanced(
 					sub.IndexCount,
 					1,
 					globalIndexStart,
@@ -260,14 +262,14 @@ void Render3D::RecordCommands()
 			UINT finalOffset = frameOffset + entityOffset;
 			memcpy((BYTE*)m_mappedCBData + finalOffset, &cb, sizeof(ConstantBuffData));
 
-			mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(
+			cmdList->SetGraphicsRootConstantBufferView(
 				/*slot b1*/ 1,
 				m_cbTransformUpload->GetGPUVirtualAddress() + finalOffset);
 
 			// 4) Draw
 			auto& data = m_meshManager->GetMeshLib().Get(
 				m_ECS->GetComponent<MeshComponent>(ent)->meshID);
-			mp_commandManager->GetCommandList()->DrawIndexedInstanced(data.iSize, 1, data.iOffset, 0, 0);
+			cmdList->DrawIndexedInstanced(data.iSize, 1, data.iOffset, 0, 0);
 
 
 			});

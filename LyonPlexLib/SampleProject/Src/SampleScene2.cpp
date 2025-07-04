@@ -26,19 +26,19 @@ void SampleScene2::Start()
 
 
 	CreateEntity("tree1");
-	AddComponent<Type_3D_EXT>("tree1", new Type_3D_EXT());
+	AddComponent<Type_3D>("tree1", new Type_3D());
 	AddComponent<MeshComponent>("tree1", new MeshComponent(MESHES::TEMPLE, TEXTURES::NOTEXTURE));
 	GetComponent<TransformComponent>("tree1")->position = { 0, 0, 0 };
 	GetComponent<TransformComponent>("tree1")->scale = { 1, 1, 1 };
 
 	CreateEntity("tree2");
-	AddComponent<Type_3D_EXT>("tree2", new Type_3D_EXT());
+	AddComponent<Type_3D>("tree2", new Type_3D());
 	AddComponent<MeshComponent>("tree2", new MeshComponent(MESHES::CEPHA1, TEXTURES::NOTEXTURE));
 	GetComponent<TransformComponent>("tree2")->position = { -2, 0, 0 };
 	GetComponent<TransformComponent>("tree2")->scale = { 0.5, 0.5, 0.5 };
 
 	CreateEntity("cubeEXT");
-	AddComponent<Type_3D_EXT>("cubeEXT", new Type_3D_EXT());
+	AddComponent<Type_3D>("cubeEXT", new Type_3D());
 	AddComponent<MeshComponent>("cubeEXT", new MeshComponent(5, 5));
 	GetComponent<TransformComponent>("cubeEXT")->position = { 2, 0, 0 };
 	GetComponent<TransformComponent>("cubeEXT")->scale = { 0.5, 0.5, 0.5 };
@@ -60,7 +60,7 @@ void SampleScene2::Start()
 	//GetComponent<TransformComponent>("cube2D")->dirty = true;
 
 	CreateEntity("cube4");
-	AddComponent<Type_3D_LOC>("cube4", new Type_3D_LOC());
+	AddComponent<Type_3D>("cube4", new Type_3D());
 	AddComponent<MeshComponent>("cube4", new MeshComponent(2, 0));
 	GetComponent<TransformComponent>("cube4")->position = { 0, 0, 0 };
 }
