@@ -5,6 +5,8 @@ namespace TEXTURES
 	enum TEXTURES
 	{
 		tex0,
+		test,
+		bras,
 
 		// A REMPLIR
 		TotalTextureCount

@@ -36,8 +36,10 @@ public:
 	const char* GetCurrentStateName() const;
 
 	GameObject m_playerGameObject;
+	GameObject m_playerArm;
 
 	GameObject& GetGameObject() { return m_playerGameObject; };
+	void SetPlayerArm(GameObject& armGm) { m_playerArm = armGm; };
 
 	void SetMoveSpeed(float speedValue) { m_moveSpeed = speedValue; };
 	float GetRunSpeed() { return m_runSpeed; };
@@ -45,6 +47,9 @@ public:
 	float GetMoveSpeed() { return m_moveSpeed; };
 
 	float GetDeltatime() { return m_deltatime; };
+
+	//Test Animation
+	AnimationManager m_testAnimation;
 
 protected:
 	friend class PlayerAction_Idle;

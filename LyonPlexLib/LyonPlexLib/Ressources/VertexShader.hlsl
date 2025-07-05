@@ -31,7 +31,7 @@ struct VSInput // VSmain in
     float3 position : POSITION;
     float4 color    : COLOR;
     float2 uv : TEXCOORD0;
-    float3 normal : NORMAL; // ajoutÈ
+    float3 normal : NORMAL; // ajoutÅE
     //uint   material : TEXCOORD1;
 };
 struct PSInput // VSmain out

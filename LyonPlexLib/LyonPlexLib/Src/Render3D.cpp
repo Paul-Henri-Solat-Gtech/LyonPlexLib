@@ -28,11 +28,11 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 
 void Render3D::Resize(int w, int h)
 {
-	D3D12_VIEWPORT vp{ 0, 0, float(w), float(h), 0.f, 1.f };
-	D3D12_RECT     sc{ 0, 0, w, h };
-	auto cmd = mp_commandManager->GetCommandList();
-	cmd->RSSetViewports(1, &vp);
-	cmd->RSSetScissorRects(1, &sc);
+	//D3D12_VIEWPORT vp{ 0, 0, float(w), float(h), 0.f, 1.f };
+	//D3D12_RECT     sc{ 0, 0, w, h };
+	//auto cmd = mp_commandManager->GetCommandList();
+	//cmd->RSSetViewports(1, &vp);
+	//cmd->RSSetScissorRects(1, &sc);
 }
 
 void Render3D::RecordCommands()

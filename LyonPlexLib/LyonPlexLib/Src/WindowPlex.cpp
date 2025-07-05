@@ -21,7 +21,8 @@ bool WindowPlex::Init(HINSTANCE appInstance, const std::wstring& windowName, flo
 		// Error register new class
 		return false;
 	}
-
+	RECT wr = { 0, 0, LONG(800), LONG(600) };
+	AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
 	m_windowHandle = CreateWindowEx(
 		0, className, windowName.c_str(),
 		WS_OVERLAPPEDWINDOW,

@@ -27,6 +27,7 @@ bool GameManager::Init()
 	HWND hwnd = m_window.GetWindowHandle();
 	m_renderer.SetWindowHandle(hwnd);
 	m_renderer.Init(&m_ECS); // A VOIR MODIFIER ET METTRE HWND COMME ARGUMENT EN POINTEUR (et mettre le init en bool)
+	//m_renderer.OnWindowResize(800, 600);
 
 	m_ECS.Init(m_renderer.GetGraphicsDevice(), m_renderer.GetCommandManager(), m_renderer.GetRender3D()); // A MODIFIER AUSSI => ne doit pas avoir besoin de renderer
 
@@ -118,9 +119,10 @@ void GameManager::OnResize(UINT newW, UINT newH)
 {
 	// 1) Mets d’abord à jour ta classe fenêtre
 	m_window.OnResize(newW, newH);
-
+	m_renderer.OnWindowResize(newW, newH);
+	OutputDebugStringA(("GameManager::OnResize: " + std::to_string(newW) + "×" + std::to_string(newH) + "\n").c_str());
 	// 2) Resize du swap‑chain et des render targets
-	m_renderer.GetGraphicsDevice()->ResizeBuffers(newW, newH, &m_renderer.GetDescriptorManager());
+	//m_renderer.GetGraphicsDevice()->ResizeBuffers(newW, newH, &m_renderer.GetDescriptorManager());
 
 	// 3) Mettre à jour l’aspect ratio de la caméra
 	{
@@ -136,10 +138,11 @@ void GameManager::OnResize(UINT newW, UINT newH)
 			cam->projectionDirty = true;    // forcera le recalcule lors du prochain Update()
 		});
 	}
+	m_ECS.m_systemMgr.UpdateAll(0.0f);
 
 	// 4) Resize des passes 3D et 2D
-	m_renderer.GetRender3D()->Resize(newW, newH);
-	m_renderer.GetRender2D()->Resize(newW, newH);
+	/*m_renderer.GetRender3D()->Resize(newW, newH);
+	m_renderer.GetRender2D()->Resize(newW, newH);*/
 }
 
 void GameManager::ProcessMessage()

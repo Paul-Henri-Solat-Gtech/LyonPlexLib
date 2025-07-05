@@ -33,9 +33,10 @@ void CameraSystem::Init(ECSManager& ecs)
 void CameraSystem::Update(ECSManager& ecs, float dt)
 {
 	// 1) On recherche l'entite qui a un CameraComponent.
-	//    (On suppose quíil níy a quíune seule entite ìcameraî active.)
+	//    (On suppose quíil níy a quíune seule entite ìcameraÅEactive.)
 	ComponentMask camMask = (1ULL << CameraComponent::StaticTypeID | 1ULL << TransformComponent::StaticTypeID);
-	ecs.ForEach(camMask, [&](Entity e) {
+	ecs.ForEach(camMask, [&](Entity e) 
+	{
 		auto* cam = ecs.GetComponent<CameraComponent>(e);
 		auto* tComp = ecs.GetComponent<TransformComponent>(e);
 		if (!cam) return;
@@ -99,7 +100,7 @@ void CameraSystem::Update(ECSManager& ecs, float dt)
 		cbData.projection = cam->projectionMatrix;  // deja transposee
 		memcpy(m_mappedCBData, &cbData, sizeof(cbData));
 
-		});
+	});
 }
 
 void CameraSystem::RecomputeViewMatrix(CameraComponent* cam)

@@ -72,15 +72,23 @@ void RenderingManager::RecordCommands()
     CD3DX12_CPU_DESCRIPTOR_HANDLE dsvHandle(m_descriptorManager.GetDsvHeap()->GetCPUDescriptorHandleForHeapStart(), frameIdx, m_descriptorManager.GetDsvDescriptorSize());
     m_commandManager.GetCommandList()->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
-    // F) OMSetRenderTargets (RTV + DSV)
+    // 3) OMSetRenderTargets (RTV + DSV)
     m_commandManager.GetCommandList()->OMSetRenderTargets(1, &rtvHandle, FALSE, &dsvHandle);
-
+    
+    //-
+    // 4) Update du viewport et du scissor pour toute la surface de la fenêtre
+    D3D12_VIEWPORT vp{ 0.0f, 0.0f, m_windowWidth, m_windowHeight,0.0f, 1.0f };
+    D3D12_RECT sc{ 0, 0,static_cast<LONG>(m_windowWidth), static_cast<LONG>(m_windowHeight)};
+    m_commandManager.GetCommandList()->RSSetViewports(1, &vp);
+    m_commandManager.GetCommandList()->RSSetScissorRects(1, &sc);
+    //-
+    
     // Classes Render
-    // 4) Dessine la scene 3D (Render3D, PSO, viewports, etc.)
+    // 5) Dessine la scene 3D (Render3D, PSO, viewports, etc.)
     m_render3D.RecordCommands();
     m_render2D.RecordCommands();
 
-    // 5) Transition render target : present -> fin d’enregistrement
+    // 6) Transition render target : present -> fin d’enregistrement
     SetBarrierToPresent(barrier);   
     m_commandManager.End();
 }
@@ -133,4 +141,18 @@ void RenderingManager::Release()
 
 void RenderingManager::Update()
 {
+}
+
+void RenderingManager::OnWindowResize(UINT newW, UINT newH)
+{
+    // 1) mémoriser la taille pour le viewport
+    m_windowWidth = float(newW);
+    m_windowHeight = float(newH);
+
+    // 2) redimensionner la swap‑chain / RTV / DSV
+    m_graphicsDevice.ResizeBuffers(newW, newH, &m_descriptorManager);
+
+    // 3) informer les passes 3D & 2D
+    m_render3D.Resize(newW, newH);
+    m_render2D.Resize(newW, newH);
 }

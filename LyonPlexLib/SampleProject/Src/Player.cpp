@@ -106,7 +106,13 @@ void Player::Init(GameObject gameObject)
 
 	OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
 
-	//m_stateMachine.SetState(State::Idle);
+    //AnimationManager newAnim;
+
+    m_testAnimation.Init(2.f, &m_playerArm);
+    m_testAnimation.AddFrame(TEXTURES::bras);
+    m_testAnimation.AddFrame(TEXTURES::test);
+    m_testAnimation.AddFrame(TEXTURES::tex0);
+
 }
 
 const char* Player::GetStateName(State state) const
@@ -132,4 +138,5 @@ void Player::OnUdpdate(float deltatime)
 {
 	m_stateMachine.Update();
     m_deltatime = deltatime;
+    m_testAnimation.Update(deltatime);
 }

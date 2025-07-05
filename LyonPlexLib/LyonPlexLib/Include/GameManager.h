@@ -6,6 +6,7 @@
 #include "SceneManager.h"
 #include "SceneResources.h"
 #include "SoundManager.h"
+#include "AnimationManager.h"
 #include "chrono"
 
 class GameManager 

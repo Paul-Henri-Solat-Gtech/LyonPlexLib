@@ -46,9 +46,13 @@ public:
 
 	void Update();
 
+	void OnWindowResize(UINT newW, UINT newH);
+
 private:
 	
 	HWND m_windowWP;		// The created base window (pour le swapchain)
+	float m_windowWidth = 800.f;
+	float m_windowHeight = 600.f;
 
 	//ECS Manager
 	ECSManager* mp_ECS;		// INUTILE

@@ -22,13 +22,21 @@ void GameScene::Start()
 
 	// Test player + stateMachine
 	m_playerTest.Init(m_player);
-	CreateEntity("bras");
-	AddComponent<Type_2D>("bras", new Type_2D());
-	AddComponent<MeshComponent>("bras", new MeshComponent(2, 2));
-	GetComponent<TransformComponent>("bras")->position = { 400, 500, 0 };
-	GetComponent<TransformComponent>("bras")->scale = { 800, 500, 0 };
-	GetComponent<TransformComponent>("bras")->SetRotation(0, 0, 180);
-	GetComponent<TransformComponent>("bras")->dirty = true;
+	
+	CreateGameObject("bras", TYPE_2D, true);
+	GetGameObjectByName("bras").SetTexture(TEXTURES::bras);
+	GetGameObjectByName("bras").SetPosition({ 400, 500, 0 });
+	GetGameObjectByName("bras").SetScale({ 800, 500, 0 });
+	GetGameObjectByName("bras").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+	m_playerTest.SetPlayerArm(GetGameObjectByName("bras"));
+
+	//CreateEntity("bras");
+	//AddComponent<Type_2D>("bras", new Type_2D());
+	//AddComponent<MeshComponent>("bras", new MeshComponent(2, TEXTURES::bras));
+	//GetComponent<TransformComponent>("bras")->position = { 400, 500, 0 };
+	//GetComponent<TransformComponent>("bras")->scale = { 800, 500, 0 };
+	//GetComponent<TransformComponent>("bras")->SetRotation(0, 0, 180);
+	//GetComponent<TransformComponent>("bras")->dirty = true;
 
 	// Audio
 	CreateSoundPlex("slash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
