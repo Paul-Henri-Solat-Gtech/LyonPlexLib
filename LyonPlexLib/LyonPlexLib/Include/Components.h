@@ -14,6 +14,7 @@ enum ComponentID
 	Mesh_ID,
 	Texture_ID,
 	Collision_ID,
+	Light_ID,
 
 
 	// Types (3D, 2D, UI)
@@ -200,7 +201,29 @@ struct CollisionComponent : public Component
 };
 
 
+struct LightComponent : public Component
+{
+	static constexpr uint32_t StaticTypeID = Light_ID;
 
+
+	DirectX::XMFLOAT3		color = { 1,1,1 };
+	float					intensity = 1.0f;
+
+	// Directional light only : //
+	DirectX::XMFLOAT3		direction = { 0,-1,0 };
+
+	// Point light only :		//
+	DirectX::XMFLOAT3		position = { 0,0,0 };
+	float					range = 10.0f;
+
+	enum Type : uint32_t { Directional = 0, Point = 1 } type = Directional;
+
+	LightComponent()
+	{
+		mask = 1ULL << StaticTypeID;
+		typeID = StaticTypeID;
+	}
+};
 
 
 

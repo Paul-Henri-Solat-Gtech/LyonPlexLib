@@ -1,5 +1,5 @@
 #include "pch.h"
-//#include "CameraSystem.h"
+#include "CameraSystem.h"
 
 void CameraSystem::InitRenderVariables(GraphicsDevice* device, CommandManager* cmdMgr)
 {
@@ -97,6 +97,7 @@ void CameraSystem::Update(ECSManager& ecs, float dt)
 		CBPerCamera cbData;
 		cbData.view = cam->viewMatrix;       // deja transposee
 		cbData.projection = cam->projectionMatrix;  // deja transposee
+		cbData.camPos = cam->position;      
 		memcpy(m_mappedCBData, &cbData, sizeof(cbData));
 
 		});

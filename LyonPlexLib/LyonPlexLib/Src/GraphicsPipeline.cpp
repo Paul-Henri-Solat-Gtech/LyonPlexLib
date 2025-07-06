@@ -56,15 +56,17 @@ void GraphicsPipeline::CreateRootSignature()
 
 	// 0) shader with camera
 	// 1) Definition des deux root parameters (slot b0 et b1)
-	CD3DX12_ROOT_PARAMETER1 rootParams[3];
+	CD3DX12_ROOT_PARAMETER1 rootParams[4];
 	// Slot 0 : Camera View & Proj
 	rootParams[0].InitAsConstantBufferView(0); // <- b0 côte shader pour camera (view & proj)
 
 	// Slot 1 : Object world matrix
 	rootParams[1].InitAsConstantBufferView(1); // <- b1 côte shader pour transform (world)
+	// Slot 1 : Object world matrix
+	rootParams[2].InitAsConstantBufferView(2); // <- b2 côte shader pour LightBuffer
 
 	// Slot 2 : SRV descriptor table (textures)
-	rootParams[2].InitAsDescriptorTable(
+	rootParams[3].InitAsDescriptorTable(
 		1,          // RangeCount
 		&ranges[0], // pointeur sur notre range SRV
 		D3D12_SHADER_VISIBILITY_PIXEL

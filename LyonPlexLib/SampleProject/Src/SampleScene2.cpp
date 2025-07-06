@@ -25,23 +25,23 @@ void SampleScene2::Start()
 	GetComponent<TransformComponent>("camera")->position = { 0, 0.5, -1 };
 
 
-	CreateEntity("tree1");
-	AddComponent<Type_3D_Transparent>("tree1", new Type_3D_Transparent());
-	AddComponent<MeshComponent>("tree1", new MeshComponent(MESHES::TEMPLE, TEXTURES::NOTEXTURE));
-	GetComponent<MeshComponent>("tree1")->alpha = 0.5;
-	GetComponent<TransformComponent>("tree1")->position = { 0, 0, 0 };
-	GetComponent<TransformComponent>("tree1")->scale = { 1, 1, 1 };/*
-	CreateEntity("tree1");
-	AddComponent<Type_3D>("tree1", new Type_3D());
-	AddComponent<MeshComponent>("tree1", new MeshComponent(MESHES::TEMPLE, TEXTURES::NOTEXTURE));
-	GetComponent<TransformComponent>("tree1")->position = { 0, 0, 0 };
-	GetComponent<TransformComponent>("tree1")->scale = { 1, 1, 1 };*/
+	CreateEntity("temple");
+	AddComponent<Type_3D_Transparent>("temple", new Type_3D_Transparent());
+	AddComponent<MeshComponent>("temple", new MeshComponent(MESHES::TEMPLE, TEXTURES::NOTEXTURE));
+	GetComponent<MeshComponent>("temple")->alpha = 0.5;
+	GetComponent<TransformComponent>("temple")->position = { 0, 0, 0 };
+	GetComponent<TransformComponent>("temple")->scale = { 1, 1, 1 };/*
+	CreateEntity("temple");
+	AddComponent<Type_3D>("temple", new Type_3D());
+	AddComponent<MeshComponent>("temple", new MeshComponent(MESHES::TEMPLE, TEXTURES::NOTEXTURE));
+	GetComponent<TransformComponent>("temple")->position = { 0, 0, 0 };
+	GetComponent<TransformComponent>("temple")->scale = { 1, 1, 1 };*/
 
-	CreateEntity("tree2");
-	AddComponent<Type_3D>("tree2", new Type_3D());
-	AddComponent<MeshComponent>("tree2", new MeshComponent(MESHES::CEPHA1, TEXTURES::NOTEXTURE));
-	GetComponent<TransformComponent>("tree2")->position = { -2, 0, 0 };
-	GetComponent<TransformComponent>("tree2")->scale = { 0.5, 0.5, 0.5 };
+	CreateEntity("cephaTree");
+	AddComponent<Type_3D>("cephaTree", new Type_3D());
+	AddComponent<MeshComponent>("cephaTree", new MeshComponent(MESHES::CEPHA1, TEXTURES::NOTEXTURE));
+	GetComponent<TransformComponent>("cephaTree")->position = { -2, 0, 0 };
+	GetComponent<TransformComponent>("cephaTree")->scale = { 0.5, 0.5, 0.5 };
 
 	CreateEntity("TEST");
 	AddComponent<Type_3D>("TEST", new Type_3D());
@@ -73,16 +73,18 @@ void SampleScene2::Start()
 
 	CreateEntity("cube4");
 	AddComponent<Type_3D>("cube4", new Type_3D());
-	AddComponent<MeshComponent>("cube4", new MeshComponent(2, 0));
+	AddComponent<MeshComponent>("cube4", new MeshComponent(MESHES::LOCAL_CUBE, 0));
 	GetComponent<TransformComponent>("cube4")->position = { 0, 0, 0 };
+	GetComponent<TransformComponent>("cube4")->scale = { 1, 1, 0 };
 }
 
 void SampleScene2::Update(float deltatime)
 {
 	//GetComponent<TransformComponent>("cube2D")->AddRotation(0 ,-20 * deltatime, 0);
-	//GetComponent<TransformComponent>("tree1")->AddRotation(0 ,15 * deltatime, 0);
-	GetComponent<TransformComponent>("tree2")->AddRotation(0 ,50 * deltatime, 0);
+	//GetComponent<TransformComponent>("temple")->AddRotation(0 ,15 * deltatime, 0);
+	GetComponent<TransformComponent>("cephaTree")->AddRotation(0 ,50 * deltatime, 0);
 	GetComponent<TransformComponent>("cubeEXT")->AddRotation(0 ,25 * deltatime, 0);
+	GetComponent<TransformComponent>("cube4")->AddRotation(0 ,25 * deltatime, 0);
 
 	//Input
 	if (InputManager::GetKeyIsPressed('Z'))

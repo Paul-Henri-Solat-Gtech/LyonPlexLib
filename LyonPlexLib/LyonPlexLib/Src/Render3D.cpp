@@ -58,7 +58,7 @@ void Render3D::RecordCommands()
 
 	// 2. Bind UNE SEULE FOIS l’integralite de ton heap SRV au slot t0 (rootParameter index = 2)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvBase = mp_descriptorManager->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart();
-	cmdList->SetGraphicsRootDescriptorTable(/*rootParameterIndex=*/2, srvBase);
+	cmdList->SetGraphicsRootDescriptorTable(/*rootParameterIndex=*/3, srvBase);
 
 
 	//Draw vertices and index (mesh)
@@ -87,42 +87,7 @@ void Render3D::RecordCommands()
 	cmdList->RSSetViewports(1, &viewport);
 	cmdList->RSSetScissorRects(1, &scissorRect);
 
-	//ComponentMask local3DMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D::StaticTypeID);
-	//m_ECS->ForEach(local3DMask, [&](Entity ent)
-	//	{
-	//		//const Material& mat = materialLib.Get(m->materialID);
-
-	//		UpdateAndBindCB(ent);
-	//		MeshComponent* meshComp = m_ECS->GetComponent<MeshComponent>(ent);
-	//		uint32_t texId = meshComp->materialID;
-	//		const MeshData& mesh = m_meshManager->GetMeshLib().Get(meshComp->meshID);
-
-	//		// pour chaque sub‐mesh dans ce mesh
-	//		for (auto const& sub : mesh.subMeshes)
-	//		{
-	//			if (sub.MaterialID < mesh.materialTextureIDs.size()) // BUG SI CETTE LIGNE EST ENLEVEE
-	//			{
-	//				// 2) calculer le handle précis dans le heap (offset en descriptors) :
-	//				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
-	//				D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
-	//				handle.ptr += texId * descSize;
-
-	//				// 3) binder **uniquement** ce handle sur rootParam 2 :
-	//				cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/ 2, handle);
-
-	//				UINT globalIndexStart = mesh.iOffset + sub.IndexOffset;
-	//				// 4) dessiner ce submesh :
-	//				cmdList->DrawIndexedInstanced(
-	//					sub.IndexCount,
-	//					1,
-	//					globalIndexStart,
-	//					0,
-	//					0);
-	//			}
-	//		}
-
-	//	});
-
+	m_ECS->m_systemMgr.GetLightSystem().BindAndUpload();
 
 	ComponentMask loaded3DMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D::StaticTypeID);
 	m_ECS->ForEach(loaded3DMask, [&](Entity ent)
@@ -145,7 +110,7 @@ void Render3D::RecordCommands()
 				{
 					texId = meshComp->materialID;
 				}
-				// 2) calculer le handle précis dans le heap (offset en descriptors) :
+				// 2) calculer le handle précis dans le SRV heap (offset en descriptors) :
 				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
 				D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
 				handle.ptr += texId * descSize;
@@ -167,8 +132,8 @@ void Render3D::RecordCommands()
 					OutputDebugStringA(bufDraw);*/
 				}
 
-				// 3) binder uniquement ce handle sur rootParam 2 :
-				cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/2, handle);
+				// 3) binder uniquement ce handle sur le rootParam de SRV :
+				cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/3, handle);
 
 				UINT globalIndexStart = mesh.iOffset + sub.IndexOffset;
 				// 4) dessiner ce submesh :
@@ -202,13 +167,13 @@ void Render3D::RecordCommands()
 				{
 					texId = meshComp->materialID;
 				}
-				// 2) calculer le handle précis dans le heap (offset en descriptors) :
+				// 2) calculer le handle précis dans le SRV heap (offset en descriptors) :
 				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
 				D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
 				handle.ptr += texId * descSize;
 
-				// 3) binder uniquement ce handle sur rootParam 2 :
-				cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/2, handle);
+				// 3) binder uniquement ce handle sur le rootParam de SRV :
+				cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/3, handle);
 
 				UINT globalIndexStart = mesh.iOffset + sub.IndexOffset;
 				// 4) dessiner ce submesh :

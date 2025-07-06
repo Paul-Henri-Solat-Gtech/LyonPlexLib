@@ -9,6 +9,7 @@ void SystemManager::InitManager(ECSManager* ecs, GraphicsDevice* device, Command
 
     m_cameraSys = std::make_unique<CameraSystem>();
     m_transformSys = std::make_unique<TransformSystem>();
+    m_lightSys = std::make_unique<LightSystem>();
    
     m_cameraSys->InitRenderVariables(device, cmdMgr/*, r3d*/);
     //, m_physicsSys(std::make_unique<PhysicsSystem>()), m_renderSys(std::make_unique<RenderSystem>())
@@ -18,6 +19,7 @@ void SystemManager::InitManager(ECSManager* ecs, GraphicsDevice* device, Command
     m_systems.push_back(m_cameraSys.get());
     //m_systems.push_back(m_physicsSys.get());
     //m_systems.push_back(m_renderSys.get());
+    m_systems.push_back(m_lightSys.get());
 
     InitAll();
 }

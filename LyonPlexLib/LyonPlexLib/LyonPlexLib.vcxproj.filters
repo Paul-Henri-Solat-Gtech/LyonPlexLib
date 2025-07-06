@@ -88,6 +88,7 @@
     <ClCompile Include="Src\CollisionSystem.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Include\LightSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Action.h">
@@ -216,6 +217,7 @@
     <ClInclude Include="Include\CollisionSystem.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Include\LightSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Include\Behaviour.inl">

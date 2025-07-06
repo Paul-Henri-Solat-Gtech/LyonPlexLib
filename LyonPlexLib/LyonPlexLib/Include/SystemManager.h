@@ -3,7 +3,8 @@
 //#include "ISystem.h"
 #include "TransformSystem.h"
 #include "CameraSystem.h"
-//#include "ECSManager.h"
+#include "LightSystem.h"
+//#include "CollisionSystem.h"
 
 class Render3D;
 
@@ -20,6 +21,7 @@ public:
     CameraSystem& GetCameraSystem() { return *m_cameraSys; }
     //PhysicsSystem& GetPhysicsSystem() { return *m_physicsSys; }
     //RenderSystem& GetRenderSystem() { return *m_renderSys; }
+    LightSystem& GetLightSystem() { return *m_lightSys; }
 
     void InitAll();
 
@@ -38,5 +40,6 @@ private:
     std::unique_ptr<CameraSystem>      m_cameraSys;
     //std::unique_ptr<PhysicsSystem>   m_physicsSys;
     //std::unique_ptr<RenderSystem>    m_renderSys;
+    std::unique_ptr<LightSystem>    m_lightSys;
 };
 
