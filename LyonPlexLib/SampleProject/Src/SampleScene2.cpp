@@ -43,11 +43,17 @@ void SampleScene2::Start()
 	GetComponent<TransformComponent>("tree2")->position = { -2, 0, 0 };
 	GetComponent<TransformComponent>("tree2")->scale = { 0.5, 0.5, 0.5 };
 
+	CreateEntity("TEST");
+	AddComponent<Type_3D>("TEST", new Type_3D());
+	AddComponent<MeshComponent>("TEST", new MeshComponent(MESHES::LOCAL_SQUARE, TEXTURES::NOTEXTURE));
+	GetComponent<TransformComponent>("TEST")->position = { -1, 3, -3 };
+	GetComponent<TransformComponent>("TEST")->scale = { 1, 1, 1 };
+
 	CreateEntity("cubeEXT");
 	AddComponent<Type_3D>("cubeEXT", new Type_3D());
 	AddComponent<MeshComponent>("cubeEXT", new MeshComponent(5, 5));
 	GetComponent<TransformComponent>("cubeEXT")->position = { 2, 0, 0 };
-	GetComponent<TransformComponent>("cubeEXT")->scale = { 0.5, 0.5, 0.5 };
+	GetComponent<TransformComponent>("cubeEXT")->scale = { 0.5, 0.5, 0 };
 
 	CreateEntity("bras");
 	AddComponent<Type_2D>("bras", new Type_2D());
