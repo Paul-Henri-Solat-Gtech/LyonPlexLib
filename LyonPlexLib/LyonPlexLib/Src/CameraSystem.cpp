@@ -98,7 +98,8 @@ void CameraSystem::Update(ECSManager& ecs, float dt)
 		cbData.view = cam->viewMatrix;       // deja transposee
 		cbData.projection = cam->projectionMatrix;  // deja transposee
 		cbData.camPos = cam->position;      
-		memcpy(m_mappedCBData, &cbData, sizeof(cbData));
+		memcpy(m_mappedCBData, &cbData, sizeof(CBPerCamera));
+		//memcpy(m_mappedCBData, &cbData, sizeof(cbData));
 
 		});
 }

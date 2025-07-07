@@ -27,10 +27,12 @@ bool GameManager::Init()
 	HWND hwnd = m_window.GetWindowHandle();
 	m_renderer.SetWindowHandle(hwnd);
 	m_renderer.Init(&m_ECS); // A VOIR MODIFIER ET METTRE HWND COMME ARGUMENT EN POINTEUR (et mettre le init en bool)
-	
-	m_collisionSystem.Init(&m_ECS);
 
 	m_ECS.Init(m_renderer.GetGraphicsDevice(), m_renderer.GetCommandManager(), m_renderer.GetRender3D()); // A MODIFIER AUSSI => ne doit pas avoir besoin de renderer
+
+	m_collisionSystem.Init(&m_ECS);
+
+	//m_lightSystem.Init(m_ECS, m_renderer.GetGraphicsDevice(), m_renderer.GetCommandManager());
 
 	m_isRunning = true;
 
@@ -89,6 +91,8 @@ int GameManager::Run()
 
 		m_collisionSystem.Update();
 
+		//m_lightSystem.Update(m_ECS, m_deltaTime);
+
 		// Enregistrement et envoi des commandes
 
 		// 3) Enregistrement des commandes de rendu dans la CommandList
@@ -132,13 +136,13 @@ void GameManager::OnResize(UINT newW, UINT newH)
 		auto& camSys = m_ECS.m_systemMgr.GetCameraSystem();
 		// Parcours de toutes les entités caméra (ici on suppose une seule)
 		ComponentMask camMask = (1ULL << CameraComponent::StaticTypeID) | (1ULL << TransformComponent::StaticTypeID);
-		m_ECS.ForEach(camMask, [&](Entity e) 
-		{
-			auto* cam = m_ECS.GetComponent<CameraComponent>(e);
-			if (!cam) return;
-			cam->aspectRatio = float(newW) / float(newH);
-			cam->projectionDirty = true;    // forcera le recalcule lors du prochain Update()
-		});
+		m_ECS.ForEach(camMask, [&](Entity e)
+			{
+				auto* cam = m_ECS.GetComponent<CameraComponent>(e);
+				if (!cam) return;
+				cam->aspectRatio = float(newW) / float(newH);
+				cam->projectionDirty = true;    // forcera le recalcule lors du prochain Update()
+			});
 	}
 
 	// 4) Resize des passes 3D et 2D

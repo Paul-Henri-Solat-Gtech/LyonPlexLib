@@ -50,7 +50,7 @@ private:
 	MeshManager*		m_meshManager;
 
 	//ECS Manager
-	ECSManager* m_ECS;
+	ECSManager*			m_ECS;
 
 	// Data linked to cBuffer VertexParam
 	ComPtr<ID3D12Resource>	m_cbTransformUpload = nullptr;

@@ -28,7 +28,7 @@ void SampleScene2::Start()
 	CreateEntity("temple");
 	AddComponent<Type_3D_Transparent>("temple", new Type_3D_Transparent());
 	AddComponent<MeshComponent>("temple", new MeshComponent(MESHES::TEMPLE, TEXTURES::NOTEXTURE));
-	GetComponent<MeshComponent>("temple")->alpha = 0.5;
+	//GetComponent<MeshComponent>("temple")->alpha = 0.5;
 	GetComponent<TransformComponent>("temple")->position = { 0, 0, 0 };
 	GetComponent<TransformComponent>("temple")->scale = { 1, 1, 1 };/*
 	CreateEntity("temple");
@@ -74,8 +74,12 @@ void SampleScene2::Start()
 	CreateEntity("cube4");
 	AddComponent<Type_3D>("cube4", new Type_3D());
 	AddComponent<MeshComponent>("cube4", new MeshComponent(MESHES::LOCAL_CUBE, 0));
-	GetComponent<TransformComponent>("cube4")->position = { 0, 0, 0 };
-	GetComponent<TransformComponent>("cube4")->scale = { 1, 1, 0 };
+	AddComponent<LightComponent>("cube4", new LightComponent(0));
+	GetComponent<TransformComponent>("cube4")->position = { 0, 3, 0 };
+	GetComponent<TransformComponent>("cube4")->scale = { 1, 1, 1 };
+	GetComponent<LightComponent>("cube4")->color = { 1,1,1 };
+	GetComponent<LightComponent>("cube4")->intensity = 1.0f;
+	GetComponent<LightComponent>("cube4")->direction = { 1, 1, 1 };
 }
 
 void SampleScene2::Update(float deltatime)
@@ -84,7 +88,7 @@ void SampleScene2::Update(float deltatime)
 	//GetComponent<TransformComponent>("temple")->AddRotation(0 ,15 * deltatime, 0);
 	GetComponent<TransformComponent>("cephaTree")->AddRotation(0 ,50 * deltatime, 0);
 	GetComponent<TransformComponent>("cubeEXT")->AddRotation(0 ,25 * deltatime, 0);
-	GetComponent<TransformComponent>("cube4")->AddRotation(0 ,25 * deltatime, 0);
+	//GetComponent<TransformComponent>("cube4")->AddRotation(0 ,25 * deltatime, 0);
 
 	//Input
 	if (InputManager::GetKeyIsPressed('Z'))

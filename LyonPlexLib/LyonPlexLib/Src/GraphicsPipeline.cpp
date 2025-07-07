@@ -64,6 +64,8 @@ void GraphicsPipeline::CreateRootSignature()
 	rootParams[1].InitAsConstantBufferView(1); // <- b1 côte shader pour transform (world)
 	// Slot 1 : Object world matrix
 	rootParams[2].InitAsConstantBufferView(2); // <- b2 côte shader pour LightBuffer
+	//rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
+	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 
 	// Slot 2 : SRV descriptor table (textures)
 	rootParams[3].InitAsDescriptorTable(
@@ -71,14 +73,6 @@ void GraphicsPipeline::CreateRootSignature()
 		&ranges[0], // pointeur sur notre range SRV
 		D3D12_SHADER_VISIBILITY_PIXEL
 	);
-	//// Slot 3 : Sampler descriptor table
-	//rootParams[3].InitAsDescriptorTable(
-	//	1,
-	//	&samplerRanges[0],
-	//	D3D12_SHADER_VISIBILITY_PIXEL
-	//);
-	/* rootParams supplementaires   */
-
 	// Static sampler (s0)
 	D3D12_STATIC_SAMPLER_DESC samplerDesc = {};
 	samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;

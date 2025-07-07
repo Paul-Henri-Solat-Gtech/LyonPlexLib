@@ -18,7 +18,7 @@ cbuffer ObjectBuffer : register(b1)
     float4x4 worldMatrix;
     uint     materialIndex;
     float    alpha;
-    float   _objectCBpad; // padding 16 bytes
+    float    _objectCBpad; // padding 16 bytes
 };
 
 struct Light
@@ -34,10 +34,11 @@ cbuffer LightBuffer : register(b2)
 {
     Light   lights[MAX_LIGHTS];
     uint    lightCount;
+    float   _pad0, _pad1, _pad2;
 };
 
 // slot t0 : table SRV textures
-Texture2D textures : register(t0);
+Texture2D   textures : register(t0);
 
 // slot s0 : sampler lineaire
 SamplerState linearClamp : register(s0);
@@ -107,52 +108,57 @@ float4 PSMain(PSInput input) : SV_Target
     //float4 c = textures.Sample(linearClamp, input.uv);
     //c.a *= alpha;
     //return c;
+    //float r = lightCount / float(MAX_LIGHTS);
+    //return float4(r, 0, 0, 1);
     
     // sample albedo
     float3 baseColor = textures.Sample(linearClamp, input.uv).rgb;
 
-    //float3 camPos = mul(float4(0, 0, 0, 1), invViewMatrix).xyz;
+    //if (lightCount == 0)
+        
+    return float4(lightCount, 0, 0, 1);
+    ////float3 camPos = mul(float4(0, 0, 0, 1), invViewMatrix).xyz;
 
-    float3 N = normalize(input.worldN);
-    float3 V = normalize(camPos - input.worldPos);
+    //float3 N = normalize(input.worldN);
+    //float3 V = normalize(camPos - input.worldPos);
 
-    float3 accum = float3(0, 0, 0);
+    //float3 accum = float3(0.3, 0.3, 0.3);
 
-    [unroll]
-    for (int i = 0; i < lightCount; ++i)
-    {
-        Light L = lights[i];
+    //[unroll]
+    //for (int i = 0; i < lightCount; ++i)
+    //{
+    //    Light L = lights[i];
 
-        float3 Ldir;
-        float att = 1.0;
+    //    float3 Ldir;
+    //    float att = 1.0;
 
-        if (L.type == 0) // directionnelle
-        {
-            Ldir = normalize(-L.direction);
-        }
-        else // ponctuelle
-        {
-            float3 toL = L.direction - input.worldPos;
-            float dist = length(toL);
-            if (dist > L.range)
-                continue;
-            Ldir = toL / dist;
-            att = saturate(1 - dist / L.range);
-        }
+    //    if (L.type == 0) // directionnelle
+    //    {
+    //        Ldir = normalize(-L.direction);
+    //    }
+    //    else // ponctuelle
+    //    {
+    //        float3 toL = L.direction - input.worldPos;
+    //        float dist = length(toL);
+    //        if (dist > L.range)
+    //            continue;
+    //        Ldir = toL / dist;
+    //        att = saturate(1 - dist / L.range);
+    //    }
 
-        // Lambert
-        float NdotL = saturate(dot(N, Ldir));
-        float3 diff = L.color * L.intensity * NdotL * att;
+    //    // Lambert
+    //    float NdotL = saturate(dot(N, Ldir));
+    //    float3 diff = L.color * L.intensity * NdotL * att;
 
-        // Blinn?Phong
-        float3 H = normalize(Ldir + V);
-        float NdotH = saturate(dot(N, H));
-        float shininess = 32; // ou a tex­turer plus tard
-        float3 spec = L.color * L.intensity * pow(NdotH, shininess) * att;
+    //    // Blinn Phong
+    //    float3 H = normalize(Ldir + V);
+    //    float NdotH = saturate(dot(N, H));
+    //    float shininess = 32; // ou a tex­turer plus tard
+    //    float3 spec = L.color * L.intensity * pow(NdotH, shininess) * att;
 
-        accum += diff + spec;
-    }
+    //    accum += diff + spec;
+    //}
 
-    float3 litColor = baseColor * accum;
-    return float4(litColor, alpha);
+    //float3 litColor = baseColor * accum;
+    //return float4(litColor, alpha);
 }

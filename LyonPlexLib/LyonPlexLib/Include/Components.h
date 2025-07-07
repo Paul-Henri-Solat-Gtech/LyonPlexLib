@@ -218,10 +218,12 @@ struct LightComponent : public Component
 
 	enum Type : uint32_t { Directional = 0, Point = 1 } type = Directional;
 
-	LightComponent()
+	LightComponent(uint32_t _type)
 	{
 		mask = 1ULL << StaticTypeID;
 		typeID = StaticTypeID;
+
+		(_type == 0) ? type = Type::Directional : type = Type::Point;
 	}
 };
 

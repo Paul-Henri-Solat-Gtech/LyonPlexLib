@@ -51,6 +51,12 @@ void Render3D::RecordCommands()
 	// Bind du buffer ViewProj de la Camera au slot b0
 	cmdList->SetGraphicsRootConstantBufferView(/*rootParameterIndex = slot b0*/ 0, m_ECS->m_systemMgr.GetCameraSystem().GetCBbuffer()->GetGPUVirtualAddress());
 
+	m_ECS->m_systemMgr.GetLightSystem().BindAndUpload(mp_commandManager);
+	UINT testCount = m_ECS->m_systemMgr.GetLightSystem().GetMappedBuffer()->lightCount;
+	char buf[128];
+	sprintf_s(buf, ">> LightCount (CPU) = %u\n", testCount);
+	OutputDebugStringA(buf);
+
 	// Bind des Heaps SRV + Sampler
 	// 1. Rassemble tous tes descriptor heaps (SRV + Sampler)
 	ID3D12DescriptorHeap* heaps[] = { mp_descriptorManager->GetSrvHeap()/*, mp_descriptorManager->GetSamplerHeap()*/ }; //  SRV heap (contenant toutes les textures) et Sampler heap ATTENTION SAMPLERS ONT CASSE LA PORTABILITE
@@ -87,7 +93,6 @@ void Render3D::RecordCommands()
 	cmdList->RSSetViewports(1, &viewport);
 	cmdList->RSSetScissorRects(1, &scissorRect);
 
-	m_ECS->m_systemMgr.GetLightSystem().BindAndUpload();
 
 	ComponentMask loaded3DMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D::StaticTypeID);
 	m_ECS->ForEach(loaded3DMask, [&](Entity ent)
