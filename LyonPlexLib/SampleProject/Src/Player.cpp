@@ -150,7 +150,7 @@ void Player::OnUdpdate(float deltatime)
 
 	if (m_hasCollided)
 	{
-		OutputDebugStringA("\PLAYER COLLIDINGGIGIGIGIGIGIIGIGGIGI !\n");
+		OutputDebugStringA("\nPLAYER COLLIDINGGIGIGIGIGIGIIGIGGIGI !\n");
 	}
 
 }
