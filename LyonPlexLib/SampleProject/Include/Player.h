@@ -40,6 +40,7 @@ public:
 
 	GameObject& GetGameObject() { return m_playerGameObject; };
 	void SetPlayerArm(GameObject& armGm) { m_playerArm = armGm; };
+	GameObject& GetPlayerArm() { return m_playerArm; };
 
 	void SetMoveSpeed(float speedValue) { m_moveSpeed = speedValue; };
 	float GetRunSpeed() { return m_runSpeed; };
@@ -50,7 +51,7 @@ public:
 
 	//Test Animation
 	AnimationManager m_testAnimation;
-
+	bool m_attackFinished;
 protected:
 	friend class PlayerAction_Idle;
 	friend class PlayerAction_Move;

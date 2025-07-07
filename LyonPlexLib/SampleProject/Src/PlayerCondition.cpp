@@ -3,26 +3,17 @@
 
 bool PlayerCondition_IsInTheAir::OnTest(Player* owner)
 {
-    if (owner->GetGameObject().GetPosition().y > 1) 
-    {
-        return true;
-    }
+    return owner->GetGameObject().GetPosition().y > 1;
 }
 //BOTH NEED CHANGES ONLY WORK ON FLAT MAP
 bool PlayerCondition_IsOnGround::OnTest(Player* owner)
 {
-    if (owner->GetGameObject().GetPosition().y <= 1)
-    {
-        return true;
-    }
+    return owner->GetGameObject().GetPosition().y <= 1;
 }
 
 bool PlayerCondition_IsMoving::OnTest(Player* owner)
 {
-    if (InputManager::GetKeyIsPressed('Z') || InputManager::GetKeyIsPressed('Q') || InputManager::GetKeyIsPressed('S') || InputManager::GetKeyIsPressed('D'))
-    {
-        return true;
-    }
+    return InputManager::GetKeyIsPressed('Z') || InputManager::GetKeyIsPressed('Q') || InputManager::GetKeyIsPressed('S') || InputManager::GetKeyIsPressed('D');
 }
 
 bool PlayerCondition_IsNotMoving::OnTest(Player* owner)
@@ -32,8 +23,10 @@ bool PlayerCondition_IsNotMoving::OnTest(Player* owner)
 
 bool PlayerCondition_IsAttacking::OnTest(Player* owner)
 {
-    if (InputManager::GetKeyIsReleased(VK_LBUTTON))
-    {
-        return true;
-    }
+    return InputManager::GetKeyIsPressed(VK_LBUTTON);
 }
+
+bool PlayerCondition_AttackFinished::OnTest(Player* owner)
+{
+    return owner->m_attackFinished;
+};

@@ -6,6 +6,7 @@
 // MOVE
 void PlayerAction_Move::Start(Player* player)
 {
+	OutputDebugStringA("Slash");
 }
 void PlayerAction_Move::Update(Player* player)
 {
@@ -66,12 +67,22 @@ void PlayerAction_Jump::End(Player* player)
 // ATTACK
 void PlayerAction_Attack::Start(Player* player)
 {
+	player->m_attackFinished = false;
+	OutputDebugStringA("Slash1");
+	m_atkAnimation.Init(1.f, &player->GetPlayerArm());
+	m_atkAnimation.AddFrame(TEXTURES::bras);
+	m_atkAnimation.AddFrame(TEXTURES::test);
+	m_atkAnimation.AddFrame(TEXTURES::tex0);
+	//m_atkAnimation.Start(player->GetDeltatime());
 }
 void PlayerAction_Attack::Update(Player* player)
 {
+	m_atkAnimation.AnimationSequence(player->GetDeltatime());
+	OutputDebugStringA("Slash2");
 }
 void PlayerAction_Attack::End(Player* player)
 {
+	OutputDebugStringA("Slash3");
 }
 
 // FALL

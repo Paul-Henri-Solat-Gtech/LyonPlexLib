@@ -38,6 +38,8 @@ public:
 	void Start(Player* player) override;
 	void Update(Player* player) override;
 	void End(Player* player) override;
+
+	AnimationManager m_atkAnimation;
 };
 
 class PlayerAction_Fall : public Action<Player>

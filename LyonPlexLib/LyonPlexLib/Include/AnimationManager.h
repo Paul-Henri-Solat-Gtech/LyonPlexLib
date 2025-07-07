@@ -4,9 +4,10 @@ class AnimationManager
 public:
 	AnimationManager();
 	void Init(float animationSpeed, GameObject* gmToAnimate);
-	void Update(float deltatime);
+	void Start(float deltatime);
+	void Loop(float deltatime);
 
-	void CreateAnimation();
+	void AnimationSequence(float deltatime);
 	void AnimationSystem();
 	
 	void AddFrame(TEXTURES::TEXTURES newFrameTexture) { m_textureList.push_back(newFrameTexture); };
@@ -21,5 +22,6 @@ private:
 
 	float m_frameCooldown, m_frameOriginalCooldown;
 	int m_nextIdFrame;
+	bool m_attackHisFinished;
 };
 

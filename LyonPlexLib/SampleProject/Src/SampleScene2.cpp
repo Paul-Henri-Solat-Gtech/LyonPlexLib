@@ -3,22 +3,7 @@
 
 void SampleScene2::Start()
 {
-	//OutputDebugStringA("\nHI ! I am sample scene. \n");
-
-
-
 	Entity tree = { -1 };
-
-	//meshMngr.LoadObjMesh("../LyonPlexLib/Ressources/ArbreTest.obj", tree.id);
-
-	//for (int i = 0; i < 5; i++) 
-	//{
-	//	Entity newEntity = mp_ecsManager->CreateEntity();
-	//	mp_ecsManager->AddComponent<TransformComponent>(newEntity, new TransformComponent());
-	//	mp_ecsManager->GetComponent<TransformComponent>(newEntity)->position = { i * 1.5f, 0, 0 };
-	//	mp_ecsManager->AddComponent<Type_3D>(newEntity, new Type_3D());
-	//	mp_ecsManager->AddComponent<MeshComponent>(newEntity, new MeshComponent(2, 0));
-	//}
 
 	CreateEntity("camera");
 	AddComponent<CameraComponent>("camera", new CameraComponent());

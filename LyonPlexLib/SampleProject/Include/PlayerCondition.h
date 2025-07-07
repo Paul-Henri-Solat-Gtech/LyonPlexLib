@@ -32,3 +32,9 @@ class PlayerCondition_IsAttacking : public Condition<Player>
 public:
 	bool OnTest(Player* owner) override;
 };
+
+class PlayerCondition_AttackFinished : public Condition<Player>
+{
+public:
+	bool OnTest(Player* owner) override;
+};

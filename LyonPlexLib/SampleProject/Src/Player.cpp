@@ -79,16 +79,24 @@ Player::Player() : m_stateMachine(this, State::Count)
         {
             auto transition = sAttack->CreateTransition(State::Idle);
             auto condition = transition->AddCondition<PlayerCondition_IsNotMoving>();
+            transition->AddCondition<PlayerCondition_AttackFinished>();
         }
         //-> MOVE TRANSITION
         {
             auto transition = sAttack->CreateTransition(State::Move);
             auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
+            transition->AddCondition<PlayerCondition_AttackFinished>();
         }
         //-> FALL TRANSITION
         {
             auto transition = sAttack->CreateTransition(State::Fall);
             auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
+            transition->AddCondition<PlayerCondition_AttackFinished>();
+        }
+        //-> ATTACK TRANSITION
+        {
+            auto transition = sAttack->CreateTransition(State::Attack);
+            auto condition = transition->AddCondition<PlayerCondition_AttackFinished>();
         }
     }
 
@@ -101,7 +109,7 @@ void Player::Init(GameObject gameObject)
 {
 	m_playerGameObject = gameObject;
     m_moveSpeed = m_walkSpeed;
-
+    m_attackFinished = true;
     m_deltatime = 0;
 
 	OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
@@ -138,5 +146,5 @@ void Player::OnUdpdate(float deltatime)
 {
 	m_stateMachine.Update();
     m_deltatime = deltatime;
-    m_testAnimation.Update(deltatime);
+    //m_testAnimation.Loop(deltatime);
 }
