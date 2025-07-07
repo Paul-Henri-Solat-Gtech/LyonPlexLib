@@ -190,7 +190,7 @@ void DevScene::Update(float deltatime)
 	// ChangeScene
 	if (InputManager::GetKeyIsReleased('A'))
 	{
-		ChangeScene("SampleScene2");
+		ChangeScene("MainMenuScene");
 	}
 
 	// Adding blocks (make a function in this scene)

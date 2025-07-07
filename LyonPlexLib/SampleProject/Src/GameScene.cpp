@@ -21,26 +21,15 @@ void GameScene::Start()
 	m_playerSpeed = m_playerWalkSpeed;
 
 	// Test player + stateMachine
-	m_playerTest.Init(m_player);
+	m_playerTest.Init(m_player, mp_sceneManager->GetGameManager());
 	
 	CreateGameObject("bras", TYPE_2D, true);
 	GetGameObjectByName("bras").SetTexture(TEXTURES::bras);
 	GetGameObjectByName("bras").SetPosition({ 400, 500, 0 });
 	GetGameObjectByName("bras").SetScale({ 800, 500, 0 });
 	GetGameObjectByName("bras").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
-	//GetGameObjectByName("bras").SetPosition({ 400, 300, 0 });
-	//GetGameObjectByName("bras").GetComponent<TransformComponent>()->position.y -= 200.f;
-	//GetGameObjectByName("bras").GetComponent<TransformComponent>()->dirty = true;
 
 	m_playerTest.SetPlayerArm(GetGameObjectByName("bras"));
-
-	//CreateEntity("bras");
-	//AddComponent<Type_2D>("bras", new Type_2D());
-	//AddComponent<MeshComponent>("bras", new MeshComponent(2, TEXTURES::bras));
-	//GetComponent<TransformComponent>("bras")->position = { 400, 500, 0 };
-	//GetComponent<TransformComponent>("bras")->scale = { 800, 500, 0 };
-	//GetComponent<TransformComponent>("bras")->SetRotation(0, 0, 180);
-	//GetComponent<TransformComponent>("bras")->dirty = true;
 
 	// Audio
 	CreateSoundPlex("slash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
@@ -70,7 +59,7 @@ void GameScene::Update(float deltatime)
 	}
 	if (InputManager::GetKeyIsReleased(VK_LBUTTON))
 	{
-		PlaySoundPlex("slash1");
+		//PlaySoundPlex("slash1");
 	}
 	
 	// Gravity

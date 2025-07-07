@@ -28,7 +28,7 @@ class Player
 
 public:
 	Player();
-	void Init(GameObject gameObject);
+	void Init(GameObject gameObject, GameManager* gameManager);
 	
 	void OnUdpdate(float deltatime);
 
@@ -52,6 +52,10 @@ public:
 	//Test Animation
 	AnimationManager m_testAnimation;
 	bool m_attackFinished;
+
+private:
+	GameManager* mp_gameManager;
+
 protected:
 	friend class PlayerAction_Idle;
 	friend class PlayerAction_Move;

@@ -10,6 +10,7 @@ namespace TEXTURES
 		grid,
 		noTexture,
 		iceCream,
+		start,
 
 		idleArm1,
 		idleArm2,

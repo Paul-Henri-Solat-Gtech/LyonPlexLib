@@ -105,9 +105,10 @@ Player::Player() : m_stateMachine(this, State::Count)
     m_stateMachine.SetState(State::Idle);
 }
 
-void Player::Init(GameObject gameObject)
+void Player::Init(GameObject gameObject, GameManager* gameManager)
 {
 	m_playerGameObject = gameObject;
+    mp_gameManager = gameManager;
     m_moveSpeed = m_walkSpeed;
     m_attackFinished = true;
     m_deltatime = 0;

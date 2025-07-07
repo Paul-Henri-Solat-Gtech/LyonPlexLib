@@ -23,17 +23,19 @@ bool SceneResources::Init(GameManager* gameManager)
 
 bool SceneResources::InitTextureResources(TextureManager& txtMngr)
 {
+    // WARNING : Dont forget to change the .h accordingly
 
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");//0
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/grid.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/NoTexture.png");
-    txtMngr.LoadTexture("../SampleProject/Ressources/icecream.png");//5
+    txtMngr.LoadTexture("../SampleProject/Ressources/icecream.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/start.png");//6
 
-    // IDLE ARM (24 frame
+    // IDLE ARM (24 frames)
     {
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/1.png"); //6
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/1.png"); //7
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/2.png");
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/3.png");
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/4.png");
@@ -56,7 +58,7 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/21.png");
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/22.png");
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/23.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/24.png"); //30
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/24.png"); //31
     }
 
 

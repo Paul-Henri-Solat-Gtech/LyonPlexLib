@@ -22,6 +22,7 @@
     <ClCompile Include="Src\AllScenes.cpp" />
     <ClCompile Include="Src\GameScene.cpp" />
     <ClCompile Include="Src\main.cpp" />
+    <ClCompile Include="Src\MainMenuScene.cpp" />
     <ClCompile Include="Src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -35,6 +36,7 @@
     <ClInclude Include="Include\AllScenes.h" />
     <ClInclude Include="Include\GameScene.h" />
     <ClInclude Include="Include\main.h" />
+    <ClInclude Include="Include\MainMenuScene.h" />
     <ClInclude Include="Include\pch.h" />
     <ClInclude Include="Include\Player.h" />
     <ClInclude Include="Include\PlayerAction.h" />

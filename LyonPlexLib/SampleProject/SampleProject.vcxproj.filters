@@ -45,6 +45,9 @@
     <ClCompile Include="Src\PlayerAction.cpp">
       <Filter>Fichiers sources\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Src\MainMenuScene.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\AllScenes.h">
@@ -73,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="Include\PlayerAction.h">
       <Filter>Fichiers d%27en-tête\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\MainMenuScene.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

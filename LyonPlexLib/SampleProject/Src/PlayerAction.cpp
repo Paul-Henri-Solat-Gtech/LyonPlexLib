@@ -102,17 +102,14 @@ void PlayerAction_Move::Update(Player* player)
 	// Arm anim
 	if (m_canMoveArm && !m_armIsUp) 
 	{
-		OutputDebugStringA("UP");
-		//player->GetPlayerArm().SetPosition({ 400,400,0 });
-		//player->GetPlayerArm().GetComponent<TransformComponent>()->AddRotation(0, 15, 0);
+		//OutputDebugStringA("UP");
 		player->GetPlayerArm().GetComponent<TransformComponent>()->SetRotation(0, 0, 180 + 5);
 		m_armIsUp = true;
 		m_canMoveArm = false;
 	}
 	if(m_canMoveArm && m_armIsUp)
 	{
-		OutputDebugStringA("DOWN");
-		//player->GetPlayerArm().SetPosition({ 400,500,0 });
+		//OutputDebugStringA("DOWN");
 		player->GetPlayerArm().GetComponent<TransformComponent>()->SetRotation(0, 0, 180 -5);
 		m_armIsUp = false;
 		m_canMoveArm = false;
@@ -150,6 +147,7 @@ void PlayerAction_Jump::End(Player* player)
 // ATTACK
 void PlayerAction_Attack::Start(Player* player)
 {
+	//anim
 	OutputDebugStringA("StartSlash-");
 	player->m_attackFinished = false;
 	m_attackAnim.Init(1.f, &player->GetPlayerArm());
@@ -157,6 +155,10 @@ void PlayerAction_Attack::Start(Player* player)
 	m_attackAnim.AddFrame(TEXTURES::test);
 	m_attackAnim.AddFrame(TEXTURES::tex0);
 	m_attackAnim.AddFrame(TEXTURES::bras);
+
+	//sound
+	player->mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
+	player->mp_gameManager->GetSoundManager()->PlaySoundPlex("swordSlash1");
 }
 void PlayerAction_Attack::Update(Player* player)
 {

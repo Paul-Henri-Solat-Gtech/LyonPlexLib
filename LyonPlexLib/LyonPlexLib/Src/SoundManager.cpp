@@ -52,7 +52,9 @@ void SoundManager::PlaySoundPlex(std::string soundName)
             auto newSoundInstance = savedSound.sound->CreateInstance();
             newSoundInstance->Play();
             m_activeSoundInstances.push_back(std::move(newSoundInstance));
-
+            
+            std::string msg = std::string("PlayingSound: ") + soundName;
+            OutputDebugStringA(msg.c_str());
             break;
         }
     }

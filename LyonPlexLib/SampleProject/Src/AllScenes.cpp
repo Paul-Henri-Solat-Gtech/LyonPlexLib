@@ -4,6 +4,7 @@
 // Includes scenes here :
 #include "SampleScene2.h"
 #include "GameScene.h"
+#include "MainMenuScene.h"
 
 // ..
 
@@ -23,6 +24,7 @@ void AllScenes::CreateAllScenes()
     // Create new scenes
     mp_gameManager->GetSceneManager()->RegisterScene("SampleScene2", []() { return new SampleScene2(); });
     mp_gameManager->GetSceneManager()->RegisterScene("GameScene", []() { return new GameScene(); });
+    mp_gameManager->GetSceneManager()->RegisterScene("MainMenuScene", []() { return new MainMenuScene(); });
 
 }
 

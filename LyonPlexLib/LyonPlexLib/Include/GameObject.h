@@ -35,9 +35,9 @@ public:
 	// Components
 	void SetPosition(XMFLOAT3 pos) { GetComponent<TransformComponent>()->position = pos; GetComponent<TransformComponent>()->dirty = true; };
 	XMFLOAT3& GetPosition() { return GetComponent<TransformComponent>()->position; };
-	void SetRotation(XMFLOAT4 rot) { GetComponent<TransformComponent>()->rotation = rot; };
+	void SetRotation(XMFLOAT4 rot) { GetComponent<TransformComponent>()->rotation = rot; GetComponent<TransformComponent>()->dirty = true;};
 	XMFLOAT4& GetRotation() { return GetComponent<TransformComponent>()->rotation; };
-	void SetScale(XMFLOAT3 scl) { GetComponent<TransformComponent>()->scale = scl; };
+	void SetScale(XMFLOAT3 scl) { GetComponent<TransformComponent>()->scale = scl; GetComponent<TransformComponent>()->dirty = true;};
 	XMFLOAT3& GetScale() { return GetComponent<TransformComponent>()->scale; };
 	void SetTexture(uint32_t textureId) { GetComponent<MeshComponent>()->materialID = textureId; };
 	uint32_t& GetTexture() { return GetComponent<MeshComponent>()->materialID; };
