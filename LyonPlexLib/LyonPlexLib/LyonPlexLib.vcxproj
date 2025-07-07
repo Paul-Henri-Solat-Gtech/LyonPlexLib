@@ -24,6 +24,8 @@
     <ClInclude Include="Include\Behaviour.h" />
     <ClInclude Include="Include\CameraManager.h" />
     <ClInclude Include="Include\CameraSystem.h" />
+    <ClInclude Include="Include\Colliders.h" />
+    <ClInclude Include="Include\CollisionSystem.h" />
     <ClInclude Include="Include\CommandManager.h" />
     <ClInclude Include="Include\CommonInclude.h" />
     <ClInclude Include="Include\ComponentManager.h" />
@@ -33,6 +35,8 @@
     <ClInclude Include="Include\DevScene.h" />
     <ClInclude Include="Include\ECSManager.h" />
     <ClInclude Include="Include\EntityManager.h" />
+    <ClInclude Include="Include\EventBus.h" />
+    <ClInclude Include="Include\Events.h" />
     <ClInclude Include="Include\GameManager.h" />
     <ClInclude Include="Include\GameObject.h" />
     <ClInclude Include="Include\GraphicsDevice.h" />
@@ -71,6 +75,7 @@
     <ClCompile Include="Src\AnimationManager.cpp" />
     <ClCompile Include="Src\CameraManager.cpp" />
     <ClCompile Include="Src\CameraSystem.cpp" />
+    <ClCompile Include="Src\CollisionSystem.cpp" />
     <ClCompile Include="Src\CommandManager.cpp" />
     <ClCompile Include="Src\ComponentManager.cpp" />
     <ClCompile Include="Src\DescriptorManager.cpp" />

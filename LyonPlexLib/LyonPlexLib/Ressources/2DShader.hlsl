@@ -10,7 +10,7 @@ cbuffer ObjectBuffer : register(b1)
 };
 
 // slot t0 : textures, et sampler s0
-Texture2D textures[150] : register(t0);
+Texture2D textures : register(t0);
 SamplerState linearClamp : register(s0);
 
 struct VSInput // VSmain in
@@ -42,7 +42,7 @@ float4 PSMain2D(PSInput input) : SV_TARGET
 {
     //return input.color;
     //return textures[materialIndex].Sample(linearClamp, input.uv);
-    float4 c = textures[materialIndex].Sample(linearClamp, input.uv);
+    float4 c = textures.Sample(linearClamp, input.uv);
     c.rgb = pow(c.rgb, 1.0 / 2.2); // format lineraire a RGB
     return c;
 }

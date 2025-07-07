@@ -11,7 +11,7 @@ void GameObject::Init(const std::string& name, ECSManager* ecsManager)
 	//	Adding basics component(s) for any entity in scene & default parameters :
 	
 	// TYPE
-	AddComponent<Type_3D_LOC>(new Type_3D_LOC());
+	AddComponent<Type_3D>(new Type_3D());
 
 	// MESH
 	AddComponent<MeshComponent>(new MeshComponent(2, 4));
@@ -31,7 +31,7 @@ void GameObject::Init(const std::string& name, ECSManager* ecsManager, uint32_t 
 	//	Adding basics component(s) for any entity in scene & default parameters :
 
 	// TYPE
-	AddComponent<Type_3D_LOC>(new Type_3D_LOC());
+	AddComponent<Type_3D>(new Type_3D());
 
 	// MESH
 	AddComponent<MeshComponent>(new MeshComponent(meshId, textureId));
@@ -63,7 +63,7 @@ void GameObject::Init(const std::string& name, ECSManager* ecsManager, Dimension
 	}
 	else
 	{
-		AddComponent<Type_3D_LOC>(new Type_3D_LOC());
+		AddComponent<Type_3D>(new Type_3D());
 	}
 
 	//	TRANSFORM

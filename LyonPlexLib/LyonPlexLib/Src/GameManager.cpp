@@ -28,6 +28,8 @@ bool GameManager::Init()
 	m_renderer.SetWindowHandle(hwnd);
 	m_renderer.Init(&m_ECS); // A VOIR MODIFIER ET METTRE HWND COMME ARGUMENT EN POINTEUR (et mettre le init en bool)
 	//m_renderer.OnWindowResize(800, 600);
+	
+	m_collisionSystem.Init(&m_ECS);
 
 	m_ECS.Init(m_renderer.GetGraphicsDevice(), m_renderer.GetCommandManager(), m_renderer.GetRender3D()); // A MODIFIER AUSSI => ne doit pas avoir besoin de renderer
 
@@ -85,6 +87,8 @@ int GameManager::Run()
 		m_renderer.Update();
 		m_ECS.m_systemMgr.UpdateAll(0);
 		m_sceneManager.UpdateScene(m_deltaTime);
+
+		m_collisionSystem.Update();
 
 		// Enregistrement et envoi des commandes
 

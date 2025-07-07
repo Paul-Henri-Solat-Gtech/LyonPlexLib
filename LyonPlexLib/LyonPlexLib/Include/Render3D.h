@@ -12,7 +12,8 @@ struct ConstantBuffData
 {
 	DirectX::XMFLOAT4X4 World;		// Pos objet
 	uint32_t            materialIndex = 0; // 4 bytes, occupe le premier float du slot suivant
-	float               padding[3];    // 12 bytes de « rembourrage » pour remplir le slot 16 bytes
+	float				alpha;
+	float               padding[2];    // 8 bytes de « rembourrage » pour remplir le slot 16 bytes
 };
 
 class Render3D : public IRender
@@ -45,6 +46,7 @@ private:
 	CommandManager* mp_commandManager;
 
 	GraphicsPipeline	m_graphicsPipeline;
+	GraphicsPipeline	m_graphicsPipelineSeeThrough;
 	MeshManager*		m_meshManager;
 
 	//ECS Manager

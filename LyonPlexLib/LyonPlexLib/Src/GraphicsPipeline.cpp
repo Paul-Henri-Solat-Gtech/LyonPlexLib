@@ -18,11 +18,14 @@ void GraphicsPipeline::Init(GraphicsDevice* graphicsDevice, DescriptorManager* d
 // Graphics Pipeline 3D
 //-----------------------------------------------------------------------------//
 
-void GraphicsPipeline::CreatePipeline()
+void GraphicsPipeline::CreatePipeline(bool seeThrough)
 {
 	CreateRootSignature();
 	CompileShader();
-	CreatePipelineStateObject();
+	if (seeThrough == false)
+		CreatePipelineStateObject();
+	else
+		CreatePipelineStateObject_SeeThrough();
 }
 
 void GraphicsPipeline::CreateRootSignature()
@@ -139,12 +142,7 @@ void GraphicsPipeline::CompileShader()
 	ComPtr<ID3DBlob>  psErrorBlob;*/
 
 	// 1) VS
-	HRESULT hr = D3DCompileFromFile(
-		L"../LyonPlexLib/Ressources/VertexShader.hlsl",
-		nullptr, nullptr,
-		"VSMain", "vs_5_1",
-		D3DCOMPILE_ENABLE_STRICTNESS, 0,
-		&m_vsBlob, &m_errorBlob);
+	HRESULT hr = D3DCompileFromFile(L"../LyonPlexLib/Ressources/VertexShader.hlsl", nullptr, nullptr, "VSMain", "vs_5_1", D3DCOMPILE_ENABLE_STRICTNESS, 0, &m_vsBlob, &m_errorBlob);
 
 	if (FAILED(hr)) {
 		if (m_errorBlob) {
@@ -185,7 +183,6 @@ void GraphicsPipeline::CreatePipelineStateObject()
 	{ "COLOR",     0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	{ "TEXCOORD",  0, DXGI_FORMAT_R32G32_FLOAT,    0, 28,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 	{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT,    0, 36,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-  /*{ "TEXCOORD",  1, DXGI_FORMAT_R32_UINT,        0, 36,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }, Si textures differentes sur chaque pixel */
 	};
 
 	// 4) PSO
@@ -235,6 +232,64 @@ void GraphicsPipeline::CreatePipelineStateObject()
 	mp_graphicsDevice->GetDevice()->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&m_pipelineState));
 }
 
+void GraphicsPipeline::CreatePipelineStateObject_SeeThrough()
+{
+	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
+	{ "POSITION",  0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0,   D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+	{ "COLOR",     0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+	{ "TEXCOORD",  0, DXGI_FORMAT_R32G32_FLOAT,    0, 28,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+	{ "NORMAL",   0, DXGI_FORMAT_R32G32B32_FLOAT,    0, 36,  D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+	};
+
+	// 4) PSO
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
+	psoDesc.InputLayout = { inputLayout, _countof(inputLayout) };
+	psoDesc.pRootSignature = m_rootSignature.Get();
+	psoDesc.VS = CD3DX12_SHADER_BYTECODE(m_vsBlob.Get());
+	psoDesc.PS = CD3DX12_SHADER_BYTECODE(m_psBlob.Get());
+
+	// ) Rasterizer State : on veut afficher la face exterieure, winding CCW = front
+	D3D12_RASTERIZER_DESC rasterDesc = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+	rasterDesc.CullMode = D3D12_CULL_MODE_BACK;          // On elimine les faces arriere (celles qu'on ne veut pas voir)	/!\/!\/!\	A REMETTRE SI PB DE PERFS /!\/!\/!\/
+	//rasterDesc.CullMode = D3D12_CULL_MODE_NONE;          // On elimine laucune face
+	rasterDesc.FrontCounterClockwise = TRUE;             // CCW = face avant, CW = face arriere 
+	rasterDesc.FillMode = D3D12_FILL_MODE_SOLID;         // Remplir normalement
+	rasterDesc.DepthClipEnable = TRUE;
+
+	psoDesc.RasterizerState = rasterDesc;
+
+	// BlendState pour alpha
+	auto blend = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+	blend.RenderTarget[0].BlendEnable = TRUE;
+	blend.RenderTarget[0].SrcBlend = D3D12_BLEND_SRC_ALPHA;
+	blend.RenderTarget[0].DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+	blend.RenderTarget[0].BlendOp = D3D12_BLEND_OP_ADD;
+	blend.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
+	blend.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;
+	blend.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
+	psoDesc.BlendState = blend;
+
+	// DepthStencilState pour ne **pas** écrire dans le Z‑buffer
+	D3D12_DEPTH_STENCIL_DESC depthStencilDesc = {};
+	depthStencilDesc.DepthEnable = TRUE;
+	depthStencilDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	depthStencilDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+	psoDesc.DepthStencilState = depthStencilDesc;
+
+
+	// Render Target & Sample
+	psoDesc.SampleMask = UINT_MAX;
+	psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+	psoDesc.NumRenderTargets = 1;
+	psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+	psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
+	psoDesc.SampleDesc.Count = 1;
+
+	// Ajouter params supplementaires
+
+	mp_graphicsDevice->GetDevice()->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&m_pipelineState));
+}
+
 
 
 
@@ -257,11 +312,11 @@ void GraphicsPipeline::CreatePipeline2D()
 
 void GraphicsPipeline::CreateRootSignature2D()
 {
-	// Descriptor ranges
+	//// Descriptor ranges
 	CD3DX12_DESCRIPTOR_RANGE1 ranges[1];
 	ranges[0].Init(
 		D3D12_DESCRIPTOR_RANGE_TYPE_SRV,
-		150, // we'll bind all SRVs in one heap
+		1, 
 		0, 0,
 		D3D12_DESCRIPTOR_RANGE_FLAG_NONE,
 		0);
@@ -274,7 +329,6 @@ void GraphicsPipeline::CreateRootSignature2D()
 	//	0,      // s0
 	//	0
 	//);
-
 
 
 	CD3DX12_ROOT_PARAMETER1 rootParams[3];

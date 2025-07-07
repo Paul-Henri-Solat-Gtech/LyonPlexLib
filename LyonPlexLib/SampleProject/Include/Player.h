@@ -24,6 +24,8 @@ class Player
 	float m_jumpPower = 5.0f;
 	float m_invicibilityCooldown = 2.0f;
 
+	bool m_hasCollided = false;
+
 	float m_deltatime;
 
 public:
@@ -41,6 +43,7 @@ public:
 	GameObject& GetGameObject() { return m_playerGameObject; };
 	void SetPlayerArm(GameObject& armGm) { m_playerArm = armGm; };
 	GameObject& GetPlayerArm() { return m_playerArm; };
+	bool GetHasCollided() { return m_hasCollided; };
 
 	void SetMoveSpeed(float speedValue) { m_moveSpeed = speedValue; };
 	float GetRunSpeed() { return m_runSpeed; };

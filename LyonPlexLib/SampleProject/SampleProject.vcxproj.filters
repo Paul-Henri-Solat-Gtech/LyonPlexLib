@@ -1,27 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Fichiers sources">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Fichiers d%27en-tête">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Fichiers de ressources">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Fichiers sources\Player">
-      <UniqueIdentifier>{9b895419-4bd1-4b3f-bf79-3469841fa6d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Fichiers d%27en-tête\Player">
-      <UniqueIdentifier>{2e6d9c94-f43d-46c5-8ed9-5f8fe1fb6393}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="Src\Player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\PlayerAction.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\PlayerCondition.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
     <ClCompile Include="Src\AllScenes.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\BlockTutoScene.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Src\GameScene.cpp">
@@ -53,32 +45,46 @@
     <ClInclude Include="Include\AllScenes.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Include\GameScene.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\main.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\pch.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\resource.h">
+    <ClInclude Include="Include\BlockTutoScene.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Include\SampleScene2.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Player.h">
-      <Filter>Fichiers d%27en-tête\Player</Filter>
+    <ClInclude Include="Include\resource.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Include\PlayerCondition.h">
-      <Filter>Fichiers d%27en-tête\Player</Filter>
+    <ClInclude Include="Include\Player.h">
+      <Filter>Player</Filter>
     </ClInclude>
     <ClInclude Include="Include\PlayerAction.h">
-      <Filter>Fichiers d%27en-tête\Player</Filter>
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\PlayerCondition.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\GameScene.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\pch.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\main.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Include\MainMenuScene.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{bc220a4d-3b6f-447f-adfd-360105c3a952}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources">
+      <UniqueIdentifier>{66c103f3-4b4c-45f8-bb9c-cfd3c6a15ea1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{f737ae5c-80e4-427b-bea2-c6fa1513c21a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

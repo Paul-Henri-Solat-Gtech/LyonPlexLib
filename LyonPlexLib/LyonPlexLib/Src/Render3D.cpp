@@ -12,6 +12,7 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 	m_meshManager = meshManager;
 
 	m_graphicsPipeline.Init(mp_graphicsDevice, mp_descriptorManager, mp_commandManager);
+	m_graphicsPipelineSeeThrough.Init(mp_graphicsDevice, mp_descriptorManager, mp_commandManager);
 
 	InitConstantBuffer();
 	CreatePipeline();
@@ -41,27 +42,29 @@ void Render3D::RecordCommands()
 	UINT currentCount = static_cast<UINT>(m_ECS->GetEntityCount());
 	EnsureCapacity(currentCount);
 
+	auto& cmdList = mp_commandManager->GetCommandList();
+
 	// On definie la pipeline et la rootSignature
-	mp_commandManager->GetCommandList()->SetGraphicsRootSignature(m_graphicsPipeline.GetRootSignature().Get());
-	mp_commandManager->GetCommandList()->SetPipelineState(m_graphicsPipeline.GetPipelineState().Get());
+	cmdList->SetGraphicsRootSignature(m_graphicsPipeline.GetRootSignature().Get());
+	cmdList->SetPipelineState(m_graphicsPipeline.GetPipelineState().Get());
 
 	// Bind du buffer ViewProj de la Camera au slot b0
-	mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(/*rootParameterIndex = slot b0*/ 0, m_ECS->m_systemMgr.GetCameraSystem().GetCBbuffer()->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(/*rootParameterIndex = slot b0*/ 0, m_ECS->m_systemMgr.GetCameraSystem().GetCBbuffer()->GetGPUVirtualAddress());
 
 	// Bind des Heaps SRV + Sampler
 	// 1. Rassemble tous tes descriptor heaps (SRV + Sampler)
 	ID3D12DescriptorHeap* heaps[] = { mp_descriptorManager->GetSrvHeap()/*, mp_descriptorManager->GetSamplerHeap()*/ }; //  SRV heap (contenant toutes les textures) et Sampler heap ATTENTION SAMPLERS ONT CASSE LA PORTABILITE
-	mp_commandManager->GetCommandList()->SetDescriptorHeaps(_countof(heaps), heaps);
+	cmdList->SetDescriptorHeaps(_countof(heaps), heaps);
 
 	// 2. Bind UNE SEULE FOIS l’integralite de ton heap SRV au slot t0 (rootParameter index = 2)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvBase = mp_descriptorManager->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart();
-	mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*rootParameterIndex=*/2, srvBase);
+	cmdList->SetGraphicsRootDescriptorTable(/*rootParameterIndex=*/2, srvBase);
 
 
 	//Draw vertices and index (mesh)
-	mp_commandManager->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	mp_commandManager->GetCommandList()->IASetVertexBuffers(0, 1, &m_meshManager->GetGlobalVBView());
-	mp_commandManager->GetCommandList()->IASetIndexBuffer(&m_meshManager->GetGlobalIBView());
+	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	cmdList->IASetVertexBuffers(0, 1, &m_meshManager->GetGlobalVBView());
+	cmdList->IASetIndexBuffer(&m_meshManager->GetGlobalIBView());
 
 	// Get la width et height du client (fenetre)
 	RECT renderZone;
@@ -81,72 +84,47 @@ void Render3D::RecordCommands()
 	// Le scissor defini un rectangle de pixels a dessiner dans la zone de dessin (viewport). Tous les pixels en dehors de cette zone ne sont pas dessines.
 	D3D12_RECT scissorRect = { 0, 0, static_cast<LONG>(renderWidth), static_cast<LONG>(renderHeight) };
 	// Actualisation du rectangle dans lequel on dessine, dans la fenetre
-	mp_commandManager->GetCommandList()->RSSetViewports(1, &viewport);
-	mp_commandManager->GetCommandList()->RSSetScissorRects(1, &scissorRect);
+	cmdList->RSSetViewports(1, &viewport);
+	cmdList->RSSetScissorRects(1, &scissorRect);
 
-	ComponentMask local3DMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D_LOC::StaticTypeID);
-	m_ECS->ForEach(local3DMask, [&](Entity ent)
-		{
-			//const Material& mat = materialLib.Get(m->materialID);
+	//ComponentMask local3DMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D::StaticTypeID);
+	//m_ECS->ForEach(local3DMask, [&](Entity ent)
+	//	{
+	//		//const Material& mat = materialLib.Get(m->materialID);
 
-			UpdateAndBindCB(ent);
-			MeshComponent* meshComp = m_ECS->GetComponent<MeshComponent>(ent);
-			uint32_t texId = meshComp->materialID;
-			const MeshData& mesh = m_meshManager->GetMeshLib().Get(meshComp->meshID);
+	//		UpdateAndBindCB(ent);
+	//		MeshComponent* meshComp = m_ECS->GetComponent<MeshComponent>(ent);
+	//		uint32_t texId = meshComp->materialID;
+	//		const MeshData& mesh = m_meshManager->GetMeshLib().Get(meshComp->meshID);
 
-			// pour chaque sub‐mesh dans ce mesh
-			for (auto const& sub : mesh.subMeshes)
-			{
-				if (sub.MaterialID < mesh.materialTextureIDs.size()) // BUG SI CETTE LIGNE EST ENLEVEE
-				{
-					
+	//		// pour chaque sub‐mesh dans ce mesh
+	//		for (auto const& sub : mesh.subMeshes)
+	//		{
+	//			if (sub.MaterialID < mesh.materialTextureIDs.size()) // BUG SI CETTE LIGNE EST ENLEVEE
+	//			{
+	//				// 2) calculer le handle précis dans le heap (offset en descriptors) :
+	//				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
+	//				D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
+	//				handle.ptr += texId * descSize;
 
-					//if (meshComp->materialID == 0)
-					//{
-					//	// 1) prendre le TextureID associé :
-					//	texId = mesh.materialTextureIDs[sub.MaterialID];
-					//}
-					//else
-					//	texId = meshComp->materialID;
+	//				// 3) binder **uniquement** ce handle sur rootParam 2 :
+	//				cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/ 2, handle);
 
-					// 2) calculer le handle précis dans le heap (offset en descriptors) :
-					UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
-					D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
-					handle.ptr += texId * descSize;
+	//				UINT globalIndexStart = mesh.iOffset + sub.IndexOffset;
+	//				// 4) dessiner ce submesh :
+	//				cmdList->DrawIndexedInstanced(
+	//					sub.IndexCount,
+	//					1,
+	//					globalIndexStart,
+	//					0,
+	//					0);
+	//			}
+	//		}
 
-					// DEBUG
-					/*char buf[128];
-					sprintf_s(buf, sizeof(buf),
-						"Binding texId=%u for Entity = %u ; submesh matID=%u\n",
-						texId, ent, sub.MaterialID);
-					OutputDebugStringA(buf);*/
-					/*char bufDraw[128];
-					sprintf_s(bufDraw, sizeof(bufDraw),
-						"[Draw] Entity %u – mesh %u – subMat %u → texId = %u\n",
-						ent.id,
-						meshComp->meshID,
-						sub.MaterialID,
-						texId);
-					OutputDebugStringA(bufDraw);*/
-
-					// 3) binder **uniquement** ce handle sur rootParam 2 :
-					mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/ 2, handle);
-
-					UINT globalIndexStart = mesh.iOffset + sub.IndexOffset;
-					// 4) dessiner ce submesh :
-					mp_commandManager->GetCommandList()->DrawIndexedInstanced(
-						sub.IndexCount,
-						1,
-						globalIndexStart,
-						0,
-						0);
-				}
-			}
-			
-		});
+	//	});
 
 
-	ComponentMask loaded3DMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D_EXT::StaticTypeID);
+	ComponentMask loaded3DMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D::StaticTypeID);
 	m_ECS->ForEach(loaded3DMask, [&](Entity ent)
 		{
 
@@ -158,24 +136,22 @@ void Render3D::RecordCommands()
 			// pour chaque sub‐mesh dans ce mesh
 			for (auto const& sub : mesh.subMeshes)
 			{
-				if (sub.MaterialID < mesh.materialTextureIDs.size()) // BUG SI CETTE LIGNE EST ENLEVEE
+				uint32_t texId = 0;
+				if (sub.MaterialID < mesh.materialTextureIDs.size() || meshComp->materialID == -1)
 				{
-					uint32_t texId = mesh.materialTextureIDs[sub.MaterialID];
+					texId = mesh.materialTextureIDs[sub.MaterialID];
+				}
+				else
+				{
+					texId = meshComp->materialID;
+				}
+				// 2) calculer le handle précis dans le heap (offset en descriptors) :
+				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
+				D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
+				handle.ptr += texId * descSize;
 
-					//if (meshComp->materialID == 0)
-					//{
-					//	// 1) prendre le TextureID associé :
-					//	texId = mesh.materialTextureIDs[sub.MaterialID];
-					//}
-					//else
-					//	texId = meshComp->materialID;
-
-					// 2) calculer le handle précis dans le heap (offset en descriptors) :
-					UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
-					D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
-					handle.ptr += texId * descSize;
-
-					// DEBUG
+				// DEBUG
+				{
 					/*char buf[128];
 					sprintf_s(buf, sizeof(buf),
 						"Binding texId=%u for Entity = %u ; submesh matID=%u\n",
@@ -189,119 +165,164 @@ void Render3D::RecordCommands()
 						sub.MaterialID,
 						texId);
 					OutputDebugStringA(bufDraw);*/
-
-					// 3) binder **uniquement** ce handle sur rootParam 2 :
-					mp_commandManager->GetCommandList()->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/ 2, handle);
-
-					UINT globalIndexStart = mesh.iOffset + sub.IndexOffset;
-					// 4) dessiner ce submesh :
-					mp_commandManager->GetCommandList()->DrawIndexedInstanced(
-						sub.IndexCount,
-						1,
-						globalIndexStart,
-						0,
-						0);
 				}
+
+				// 3) binder uniquement ce handle sur rootParam 2 :
+				cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/2, handle);
+
+				UINT globalIndexStart = mesh.iOffset + sub.IndexOffset;
+				// 4) dessiner ce submesh :
+				cmdList->DrawIndexedInstanced(
+					sub.IndexCount,
+					1,
+					globalIndexStart,
+					0,
+					0);
 			}
 		});
 
 
-	// ** passe 2.5D **
-	// on réutilise la même PSO3D, même view+proj, même depth‑test…
-	ComponentMask mask2_5 = (1ULL << MeshComponent::StaticTypeID)
-		| (1ULL << Type_2D5::StaticTypeID);
-	m_ECS->ForEach(mask2_5, [&](Entity ent) {
-		// 1) Calculer world « 2.5D » : écrasez la partie view de votre TransformSystem
-		//    pour que l’objet reste “fixe” par rapport à l’écran.
-		//    Par exemple, on veut un billboard centré :
-		auto* tc = m_ECS->GetComponent<TransformComponent>(ent);
-		if (!tc) return;
-		// 1) Charger position écran et profondeur
-		float px = tc->position.x;
-		float py = tc->position.y;
-		//float depth = tc->position.z; // distance fixe ou stockée par entité
-		float depth = 2; // distance fixe ou stockée par entité
+	ComponentMask mask3D = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D_Transparent::StaticTypeID);
+	m_ECS->ForEach(mask3D, [&](Entity ent)
+		{
+			UpdateAndBindCB(ent);
 
+			MeshComponent* meshComp = m_ECS->GetComponent<MeshComponent>(ent);
+			const MeshData& mesh = m_meshManager->GetMeshLib().Get(meshComp->meshID);
 
-		// 2) Convertir (px,py,depth) -> position view‑space
-		float ndcX = 2.0f * px / renderWidth - 1.0f;
-		float ndcY = 1.0f - 2.0f * py / renderHeight;
-
-		float fovY = XMConvertToRadians(75.0f); // compris entre : 0 < Fov < PI
-
-		float tanH = tanf(fovY * 0.5f);
-		float aspect = float(renderWidth) / float(renderHeight);
-
-
-		XMVECTOR offsetView = XMVectorSet(
-			ndcX * depth * tanH * aspect,
-			ndcY * depth * tanH,
-			0.0f, // pas besoin de z ici
-			0.0f
-		);
-
-		XMVECTOR baseView = XMVectorSet(0.0f, 0.0f, depth, 1.0f);
-		XMVECTOR posView = XMVectorAdd(baseView, offsetView);
-
-		CameraComponent* camC = nullptr;
-
-		ComponentMask camMask = (1ULL << CameraComponent::StaticTypeID | 1ULL << TransformComponent::StaticTypeID);
-		m_ECS->ForEach(camMask, [&](Entity e)
+			// pour chaque sub‐mesh dans ce mesh
+			for (auto const& sub : mesh.subMeshes)
 			{
-				camC = m_ECS->GetComponent<CameraComponent>(e);
-				if (!camC) return;
-			});
+				uint32_t texId = 0;
+				if (sub.MaterialID < mesh.materialTextureIDs.size() || meshComp->materialID == -1)
+				{
+					texId = mesh.materialTextureIDs[sub.MaterialID];
+				}
+				else
+				{
+					texId = meshComp->materialID;
+				}
+				// 2) calculer le handle précis dans le heap (offset en descriptors) :
+				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
+				D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
+				handle.ptr += texId * descSize;
 
+				// 3) binder uniquement ce handle sur rootParam 2 :
+				cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/2, handle);
 
-		XMMATRIX viewMatrix = XMLoadFloat4x4(&camC->viewMatrix);
-		// 3) Ramener en espace monde
-		XMMATRIX invView = XMMatrixInverse(nullptr, viewMatrix);
-		XMVECTOR posWorld = XMVector4Transform(posView, invView);
-
-		// 4) Charger rotation et échelle depuis votre TransformComponent
-		XMVECTOR quat = XMLoadFloat4(&tc->rotation);       // votre quaternion
-		XMMATRIX R = XMMatrixRotationQuaternion(quat);
-		XMMATRIX S = XMMatrixScaling(tc->scale.x,
-			tc->scale.y,
-			tc->scale.z);
-
-		// 5) Construire la matrice world complète
-		XMMATRIX T = XMMatrixTranslationFromVector(posWorld);
-		XMMATRIX world = S * R * T;
-
-
-
-
-		// 2) Appliquer rotation billboarding si besoin
-		//    (ex: XMMatrixRotationY(cameraYaw) pour un billboard Y‑aligné)
-		//    On transposera pour le CB :
-		ConstantBuffData cb;
-		XMStoreFloat4x4(&cb.World, XMMatrixTranspose(world));
-		cb.materialIndex = m_ECS
-			->GetComponent<MeshComponent>(ent)->materialID;
-
-		// 3) Copier et binder comme en 3D
-		UINT entityOffset = ent.id * m_cbSize;
-		UINT frameOffset = mp_graphicsDevice->GetFrameIndex() * INT64(m_allocatedEntityCount) * m_cbSize;
-		UINT finalOffset = frameOffset + entityOffset;
-		memcpy((BYTE*)m_mappedCBData + finalOffset, &cb, sizeof(ConstantBuffData));
-
-		mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(
-			/*slot b1*/ 1,
-			m_cbTransformUpload->GetGPUVirtualAddress() + finalOffset);
-
-		// 4) Draw
-		auto& data = m_meshManager->GetMeshLib().Get(
-			m_ECS->GetComponent<MeshComponent>(ent)->meshID);
-		mp_commandManager->GetCommandList()->DrawIndexedInstanced(data.iSize, 1, data.iOffset, 0, 0);
-
-
+				UINT globalIndexStart = mesh.iOffset + sub.IndexOffset;
+				// 4) dessiner ce submesh :
+				cmdList->DrawIndexedInstanced(
+					sub.IndexCount,
+					1,
+					globalIndexStart,
+					0,
+					0);
+			}
 		});
+
+
+
+
+	// ** passe 2.5D **		/!\/!\/!\/!\/!\   ____  A REVOIR !!!  ____   /!\/!\/!\/!\/!\/
+	{
+		// on réutilise la même PSO3D, même view+proj, même depth‑test…
+		ComponentMask mask2_5 = (1ULL << MeshComponent::StaticTypeID)
+			| (1ULL << Type_2D5::StaticTypeID);
+		m_ECS->ForEach(mask2_5, [&](Entity ent) {
+			// 1) Calculer world « 2.5D » : écrasez la partie view de votre TransformSystem
+			//    pour que l’objet reste “fixe” par rapport à l’écran.
+			//    Par exemple, on veut un billboard centré :
+			auto* tc = m_ECS->GetComponent<TransformComponent>(ent);
+			if (!tc) return;
+			// 1) Charger position écran et profondeur
+			float px = tc->position.x;
+			float py = tc->position.y;
+			//float depth = tc->position.z; // distance fixe ou stockée par entité
+			float depth = 2; // distance fixe ou stockée par entité
+
+
+			// 2) Convertir (px,py,depth) -> position view‑space
+			float ndcX = 2.0f * px / renderWidth - 1.0f;
+			float ndcY = 1.0f - 2.0f * py / renderHeight;
+
+			float fovY = XMConvertToRadians(75.0f); // compris entre : 0 < Fov < PI
+
+			float tanH = tanf(fovY * 0.5f);
+			float aspect = float(renderWidth) / float(renderHeight);
+
+
+			XMVECTOR offsetView = XMVectorSet(
+				ndcX * depth * tanH * aspect,
+				ndcY * depth * tanH,
+				0.0f, // pas besoin de z ici
+				0.0f
+			);
+
+			XMVECTOR baseView = XMVectorSet(0.0f, 0.0f, depth, 1.0f);
+			XMVECTOR posView = XMVectorAdd(baseView, offsetView);
+
+			CameraComponent* camC = nullptr;
+
+			ComponentMask camMask = (1ULL << CameraComponent::StaticTypeID | 1ULL << TransformComponent::StaticTypeID);
+			m_ECS->ForEach(camMask, [&](Entity e)
+				{
+					camC = m_ECS->GetComponent<CameraComponent>(e);
+					if (!camC) return;
+				});
+
+
+			XMMATRIX viewMatrix = XMLoadFloat4x4(&camC->viewMatrix);
+			// 3) Ramener en espace monde
+			XMMATRIX invView = XMMatrixInverse(nullptr, viewMatrix);
+			XMVECTOR posWorld = XMVector4Transform(posView, invView);
+
+			// 4) Charger rotation et échelle depuis votre TransformComponent
+			XMVECTOR quat = XMLoadFloat4(&tc->rotation);       // votre quaternion
+			XMMATRIX R = XMMatrixRotationQuaternion(quat);
+			XMMATRIX S = XMMatrixScaling(tc->scale.x,
+				tc->scale.y,
+				tc->scale.z);
+
+			// 5) Construire la matrice world complète
+			XMMATRIX T = XMMatrixTranslationFromVector(posWorld);
+			XMMATRIX world = S * R * T;
+
+
+
+
+			// 2) Appliquer rotation billboarding si besoin
+			//    (ex: XMMatrixRotationY(cameraYaw) pour un billboard Y‑aligné)
+			//    On transposera pour le CB :
+			ConstantBuffData cb;
+			XMStoreFloat4x4(&cb.World, XMMatrixTranspose(world));
+			cb.materialIndex = m_ECS
+				->GetComponent<MeshComponent>(ent)->materialID;
+
+			// 3) Copier et binder comme en 3D
+			UINT entityOffset = ent.id * m_cbSize;
+			UINT frameOffset = mp_graphicsDevice->GetFrameIndex() * INT64(m_allocatedEntityCount) * m_cbSize;
+			UINT finalOffset = frameOffset + entityOffset;
+			memcpy((BYTE*)m_mappedCBData + finalOffset, &cb, sizeof(ConstantBuffData));
+
+			cmdList->SetGraphicsRootConstantBufferView(
+				/*slot b1*/ 1,
+				m_cbTransformUpload->GetGPUVirtualAddress() + finalOffset);
+
+			// 4) Draw
+			auto& data = m_meshManager->GetMeshLib().Get(
+				m_ECS->GetComponent<MeshComponent>(ent)->meshID);
+			cmdList->DrawIndexedInstanced(data.iSize, 1, data.iOffset, 0, 0);
+
+
+			});
+	}
 }
 
 void Render3D::CreatePipeline()
 {
 	m_graphicsPipeline.CreatePipeline();
+	m_graphicsPipelineSeeThrough.CreatePipeline(true);
 }
 
 void Render3D::Release()
@@ -389,6 +410,7 @@ void Render3D::UpdateAndBindCB(Entity ent)
 	XMStoreFloat4x4(&cbData.World, XMMatrixTranspose(world));
 
 	cbData.materialIndex = m_ECS->GetComponent<MeshComponent>(ent)->materialID;
+	cbData.alpha = m_ECS->GetComponent<MeshComponent>(ent)->alpha;
 
 	// Calcul des offsets en utilisant m_allocatedEntityCount
 	UINT64 entityOffset = UINT64(ent.id) * m_cbSize;

@@ -137,18 +137,18 @@ void Render2D::RecordCommands()
 	UINT currentCount = static_cast<UINT>(m_ECS->GetEntityCount());
 	EnsureCapacity(currentCount);
 
-	auto cmdList = mp_commandManager->GetCommandList();
+	auto& cmdList = mp_commandManager->GetCommandList();
 
 	// 1) Pipeline 2D
 	cmdList->SetGraphicsRootSignature(m_graphicsPipeline.GetRootSignature().Get());
 	cmdList->SetPipelineState(m_graphicsPipeline.GetPipelineState().Get());
 
+	// 3) CB projection (slot b0)
+	cmdList->SetGraphicsRootConstantBufferView(0, m_cbProjUpload->GetGPUVirtualAddress());
+
 	// 2) Heaps SRV + Sampler
 	ID3D12DescriptorHeap* heaps[] = { mp_descriptorManager->GetSrvHeap()/*, mp_descriptorManager->GetSamplerHeap()*/ };
 	cmdList->SetDescriptorHeaps(_countof(heaps), heaps);
-
-	// 3) CB projection (slot b0)
-	cmdList->SetGraphicsRootConstantBufferView(0, m_cbProjUpload->GetGPUVirtualAddress());
 
 	// 4) SRV table (slot t2), une seule fois
 	D3D12_GPU_DESCRIPTOR_HANDLE srvBase = mp_descriptorManager->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart();
@@ -211,6 +211,12 @@ void Render2D::RecordCommands()
 		// 7e) Bind CB world (slot b1)
 		cmdList->SetGraphicsRootConstantBufferView(1, m_cbUpload->GetGPUVirtualAddress() + /*entityOffset*/ finalOffset);
 		
+		UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
+		D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
+		handle.ptr += cbData.materialIndex * descSize;
+
+		cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/2, handle);
+
 		// 7f) Draw
 		const MeshData& quad = m_meshManager->GetMeshLib().Get(mc->meshID);
 		cmdList->DrawIndexedInstanced(quad.iSize, 1, quad.iOffset, /*quad.vOffset*/0, 0);

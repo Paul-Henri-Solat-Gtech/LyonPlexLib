@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\AllScenes.cpp" />
+    <ClCompile Include="Src\BlockTutoScene.cpp" />
     <ClCompile Include="Src\GameScene.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\MainMenuScene.cpp" />
@@ -34,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\AllScenes.h" />
+    <ClInclude Include="Include\BlockTutoScene.h" />
     <ClInclude Include="Include\GameScene.h" />
     <ClInclude Include="Include\main.h" />
     <ClInclude Include="Include\MainMenuScene.h" />
@@ -136,6 +138,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)Include;$(SolutionDir)LyonPlexLib\Include;$(SolutionDir)ExternalLib\DirectXTK12-main\Inc;$(SolutionDir)ExternalLib\3DObjectLoader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
