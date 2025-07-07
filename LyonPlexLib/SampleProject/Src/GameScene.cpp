@@ -28,6 +28,10 @@ void GameScene::Start()
 	GetGameObjectByName("bras").SetPosition({ 400, 500, 0 });
 	GetGameObjectByName("bras").SetScale({ 800, 500, 0 });
 	GetGameObjectByName("bras").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+	//GetGameObjectByName("bras").SetPosition({ 400, 300, 0 });
+	//GetGameObjectByName("bras").GetComponent<TransformComponent>()->position.y -= 200.f;
+	//GetGameObjectByName("bras").GetComponent<TransformComponent>()->dirty = true;
+
 	m_playerTest.SetPlayerArm(GetGameObjectByName("bras"));
 
 	//CreateEntity("bras");

@@ -23,7 +23,7 @@ bool PlayerCondition_IsNotMoving::OnTest(Player* owner)
 
 bool PlayerCondition_IsAttacking::OnTest(Player* owner)
 {
-    return InputManager::GetKeyIsPressed(VK_LBUTTON);
+    return InputManager::GetKeyIsJustPressed(VK_LBUTTON);
 }
 
 bool PlayerCondition_AttackFinished::OnTest(Player* owner)

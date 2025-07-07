@@ -10,10 +10,11 @@
 class PlayerAction_Idle : public Action<Player>
 {
 public:
-	void Start(Player* player) override {}
-	void Update(Player* player) override {}
-	void End(Player* player) override {}
+	void Start(Player* player) override;
+	void Update(Player* player) override;
+	void End(Player* player) override;
 
+	AnimationManager m_idleAnim;
 };
 
 class PlayerAction_Move : public Action<Player>
@@ -22,6 +23,9 @@ public:
 	void Start(Player* player) override;
 	void Update(Player* player) override;
 	void End(Player* player) override;
+
+	bool m_canMoveArm,m_armIsUp;
+	float m_cooldownArmMovement, m_cooldownArmMovementActual;
 };
 
 class PlayerAction_Jump : public Action<Player>
@@ -39,7 +43,7 @@ public:
 	void Update(Player* player) override;
 	void End(Player* player) override;
 
-	AnimationManager m_atkAnimation;
+	AnimationManager m_attackAnim;
 };
 
 class PlayerAction_Fall : public Action<Player>

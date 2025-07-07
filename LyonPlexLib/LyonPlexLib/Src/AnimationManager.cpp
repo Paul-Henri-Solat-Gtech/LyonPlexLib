@@ -7,11 +7,12 @@ AnimationManager::AnimationManager() : m_gameObjectToAnimate(nullptr), m_frameCo
 
 void AnimationManager::Init(float animationSpeed, GameObject* gmToAnimate)
 {
+    m_textureList.clear();
 	m_nextIdFrame = 0;
 	m_frameOriginalCooldown = animationSpeed;
 	m_frameCooldown = m_frameOriginalCooldown;
 	m_gameObjectToAnimate = gmToAnimate;
-    m_attackHisFinished = false;
+    m_animationHisFinished = false;
 }
 
 void AnimationManager::Start(float deltatime)
@@ -34,7 +35,7 @@ void AnimationManager::Start(float deltatime)
     }
     else
     {
-        m_attackHisFinished = true;
+        m_animationHisFinished = true;
     }
 }
 
@@ -56,6 +57,11 @@ void AnimationManager::AnimationSequence(float deltatime)
         const auto& textureId = m_textureList[m_nextIdFrame];
         m_gameObjectToAnimate->SetTexture(textureId);
         OutputDebugStringA(("Frame " + std::to_string(m_nextIdFrame) + "\n").c_str());
+    }
+
+    if (m_nextIdFrame >= m_textureList.size() - 1)
+    {
+        m_animationHisFinished = true;
     }
 }
 
@@ -86,7 +92,7 @@ void AnimationManager::AnimationSystem()
     // 3) set frame
     m_actualTexture = m_textureList[m_nextIdFrame];
     m_gameObjectToAnimate->SetTexture(m_actualTexture);
-    OutputDebugStringA(("\nFrame " + std::to_string(m_nextIdFrame) + "\n").c_str());
+    //OutputDebugStringA(("\nFrame " + std::to_string(m_nextIdFrame) + "\n").c_str());
 
     // 4) set next id frame
     m_nextIdFrame++;

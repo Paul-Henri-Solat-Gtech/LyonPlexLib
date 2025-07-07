@@ -13,6 +13,8 @@ public:
 	void AddFrame(TEXTURES::TEXTURES newFrameTexture) { m_textureList.push_back(newFrameTexture); };
 	void SetGameobjectToAnimate(GameObject* gmToAnimate) { m_gameObjectToAnimate = gmToAnimate; };
 
+	bool GetAnimationHisFinished() { return m_animationHisFinished; };
+
 private:
 	TEXTURES::TEXTURES m_actualTexture;
 
@@ -22,6 +24,6 @@ private:
 
 	float m_frameCooldown, m_frameOriginalCooldown;
 	int m_nextIdFrame;
-	bool m_attackHisFinished;
+	bool m_animationHisFinished;
 };
 

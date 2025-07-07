@@ -28,6 +28,18 @@ bool InputManager::GetKeyIsReleased(char keyName)
 	return justReleased;
 }
 
+bool InputManager::GetKeyIsJustPressed(char keyName)
+{
+	// Tableau statique pour mémoriser l'état précédent de chaque touche
+	static bool prevState[256] = {};
+
+	bool isDownNow = (GetAsyncKeyState(keyName) & 0x8000) != 0;
+	bool justPressed = (!prevState[keyName] && isDownNow);
+
+	prevState[keyName] = isDownNow;
+	return justPressed;
+}
+
 void InputManager::EnableFPSMouseLock(HWND hWnd)
 {
 	// Masque le curseur

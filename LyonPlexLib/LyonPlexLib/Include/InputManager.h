@@ -4,6 +4,7 @@ class InputManager
 public:
 	static bool GetKeyIsPressed(char keyName);
 	static bool GetKeyIsReleased(char keyName);
+	static bool GetKeyIsJustPressed(char keyName);
 
 	static void EnableFPSMouseLock(HWND hWnd);
 	static void DisableFPSMouseLock();

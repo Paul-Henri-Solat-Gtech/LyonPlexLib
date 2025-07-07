@@ -33,7 +33,7 @@ public:
 	Tag GetTag() { return m_tag; };
 
 	// Components
-	void SetPosition(XMFLOAT3 pos) { GetComponent<TransformComponent>()->position = pos; };
+	void SetPosition(XMFLOAT3 pos) { GetComponent<TransformComponent>()->position = pos; GetComponent<TransformComponent>()->dirty = true; };
 	XMFLOAT3& GetPosition() { return GetComponent<TransformComponent>()->position; };
 	void SetRotation(XMFLOAT4 rot) { GetComponent<TransformComponent>()->rotation = rot; };
 	XMFLOAT4& GetRotation() { return GetComponent<TransformComponent>()->rotation; };

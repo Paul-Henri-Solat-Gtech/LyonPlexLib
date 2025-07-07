@@ -95,8 +95,8 @@ Player::Player() : m_stateMachine(this, State::Count)
         }
         //-> ATTACK TRANSITION
         {
-            auto transition = sAttack->CreateTransition(State::Attack);
-            auto condition = transition->AddCondition<PlayerCondition_AttackFinished>();
+            //auto transition = sAttack->CreateTransition(State::Attack);
+            //auto condition = transition->AddCondition<PlayerCondition_AttackFinished>();
         }
     }
 
@@ -116,10 +116,10 @@ void Player::Init(GameObject gameObject)
 
     //AnimationManager newAnim;
 
-    m_testAnimation.Init(2.f, &m_playerArm);
-    m_testAnimation.AddFrame(TEXTURES::bras);
-    m_testAnimation.AddFrame(TEXTURES::test);
-    m_testAnimation.AddFrame(TEXTURES::tex0);
+    //m_testAnimation.Init(2.f, &m_playerArm);
+    //m_testAnimation.AddFrame(TEXTURES::bras);
+    //m_testAnimation.AddFrame(TEXTURES::test);
+    //m_testAnimation.AddFrame(TEXTURES::tex0);
 
 }
 
