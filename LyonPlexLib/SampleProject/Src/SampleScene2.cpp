@@ -39,7 +39,7 @@ void SampleScene2::Start()
 
 	CreateEntity("cephaTree");
 	AddComponent<Type_3D>("cephaTree", new Type_3D());
-	AddComponent<MeshComponent>("cephaTree", new MeshComponent(MESHES::CEPHA1, TEXTURES::NOTEXTURE));
+	AddComponent<MeshComponent>("cephaTree", new MeshComponent(MESHES::CEPHA1));
 	GetComponent<TransformComponent>("cephaTree")->position = { -2, 0, 0 };
 	GetComponent<TransformComponent>("cephaTree")->scale = { 0.5, 0.5, 0.5 };
 
@@ -51,13 +51,13 @@ void SampleScene2::Start()
 
 	CreateEntity("cubeEXT");
 	AddComponent<Type_3D>("cubeEXT", new Type_3D());
-	AddComponent<MeshComponent>("cubeEXT", new MeshComponent(5, 5));
+	AddComponent<MeshComponent>("cubeEXT", new MeshComponent(5, TEXTURES::ARMS));
 	GetComponent<TransformComponent>("cubeEXT")->position = { 2, 0, 0 };
-	GetComponent<TransformComponent>("cubeEXT")->scale = { 0.5, 0.5, 0 };
+	GetComponent<TransformComponent>("cubeEXT")->scale = { 1, 1, 0 };
 
 	CreateEntity("bras");
 	AddComponent<Type_2D>("bras", new Type_2D());
-	AddComponent<MeshComponent>("bras", new MeshComponent(2, 2));
+	AddComponent<MeshComponent>("bras", new MeshComponent(2, TEXTURES::ARMS));
 	GetComponent<TransformComponent>("bras")->position = { 400, 500, 0 };
 	GetComponent<TransformComponent>("bras")->scale = { 800, 500, 0 };
 	GetComponent<TransformComponent>("bras")->SetRotation(0, 0, 180);
@@ -73,13 +73,13 @@ void SampleScene2::Start()
 
 	CreateEntity("cube4");
 	AddComponent<Type_3D>("cube4", new Type_3D());
-	AddComponent<MeshComponent>("cube4", new MeshComponent(MESHES::LOCAL_CUBE, 0));
-	AddComponent<LightComponent>("cube4", new LightComponent(0));
+	AddComponent<MeshComponent>("cube4", new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::BOIS));
 	GetComponent<TransformComponent>("cube4")->position = { 0, 3, 0 };
 	GetComponent<TransformComponent>("cube4")->scale = { 1, 1, 1 };
+	/*AddComponent<LightComponent>("cube4", new LightComponent(0));
 	GetComponent<LightComponent>("cube4")->color = { 1,1,1 };
 	GetComponent<LightComponent>("cube4")->intensity = 1.0f;
-	GetComponent<LightComponent>("cube4")->direction = { 1, 1, 1 };
+	GetComponent<LightComponent>("cube4")->direction = { 0, -1, 0 };*/
 }
 
 void SampleScene2::Update(float deltatime)
@@ -88,7 +88,7 @@ void SampleScene2::Update(float deltatime)
 	//GetComponent<TransformComponent>("temple")->AddRotation(0 ,15 * deltatime, 0);
 	GetComponent<TransformComponent>("cephaTree")->AddRotation(0 ,50 * deltatime, 0);
 	GetComponent<TransformComponent>("cubeEXT")->AddRotation(0 ,25 * deltatime, 0);
-	//GetComponent<TransformComponent>("cube4")->AddRotation(0 ,25 * deltatime, 0);
+	GetComponent<TransformComponent>("cube4")->AddRotation(0 ,25 * deltatime, 0);
 
 	//Input
 	if (InputManager::GetKeyIsPressed('Z'))

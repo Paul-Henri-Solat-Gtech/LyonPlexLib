@@ -109,7 +109,10 @@ void Render3D::RecordCommands()
 				uint32_t texId = 0;
 				if (sub.MaterialID < mesh.materialTextureIDs.size() || meshComp->materialID == -1)
 				{
-					texId = mesh.materialTextureIDs[sub.MaterialID];
+					if (meshComp->materialID >= 0)
+						texId = meshComp->materialID;
+					else
+						texId = mesh.materialTextureIDs[sub.MaterialID];
 				}
 				else
 				{

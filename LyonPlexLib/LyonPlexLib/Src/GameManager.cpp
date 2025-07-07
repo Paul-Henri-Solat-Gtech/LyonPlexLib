@@ -28,7 +28,8 @@ bool GameManager::Init()
 	m_renderer.SetWindowHandle(hwnd);
 	m_renderer.Init(&m_ECS); // A VOIR MODIFIER ET METTRE HWND COMME ARGUMENT EN POINTEUR (et mettre le init en bool)
 
-	m_ECS.Init(m_renderer.GetGraphicsDevice(), m_renderer.GetCommandManager(), m_renderer.GetRender3D()); // A MODIFIER AUSSI => ne doit pas avoir besoin de renderer
+	//m_ECS.Init(m_renderer.GetGraphicsDevice(), m_renderer.GetCommandManager(), m_renderer.GetRender3D()); // A MODIFIER AUSSI => ne doit pas avoir besoin de renderer
+	m_ECS.Init(m_renderer); // A MODIFIER AUSSI => ne doit pas avoir besoin de renderer
 
 	m_collisionSystem.Init(&m_ECS);
 
@@ -128,7 +129,7 @@ void GameManager::OnResize(UINT newW, UINT newH)
 	m_window.OnResize(newW, newH);
 
 	// 2) Resize du swap‑chain et des render targets
-	m_renderer.GetGraphicsDevice()->ResizeBuffers(newW, newH, &m_renderer.GetDescriptorManager());
+	m_renderer.GetGraphicsDevice()->ResizeBuffers(newW, newH, m_renderer.GetDescriptorManager());
 
 	// 3) Mettre à jour l’aspect ratio de la caméra
 	{

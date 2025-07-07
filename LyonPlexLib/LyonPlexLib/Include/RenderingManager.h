@@ -31,7 +31,7 @@ public:
 	void SynchroGPUCPU();	// Synchronise le CPU et la GPU en signalant la fence et en attendant sa completion
 
 
-	DescriptorManager& GetDescriptorManager() { return m_descriptorManager; }
+	DescriptorManager* GetDescriptorManager() { return &m_descriptorManager; }
 
 	GraphicsDevice* GetGraphicsDevice() { return &m_graphicsDevice; }
 	CommandManager* GetCommandManager() { return &m_commandManager; }

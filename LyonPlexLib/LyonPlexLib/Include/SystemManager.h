@@ -7,6 +7,7 @@
 //#include "CollisionSystem.h"
 
 class Render3D;
+class RenderingManager;
 
 class SystemManager
 {
@@ -14,7 +15,8 @@ class SystemManager
 public:
     SystemManager() {};
 
-    void InitManager(ECSManager* ecs, GraphicsDevice* device, CommandManager* cmdMgr, Render3D* r3d);
+    //void InitManager(ECSManager* ecs, GraphicsDevice* device, CommandManager* cmdMgr, Render3D* r3d);
+    void InitManager(ECSManager* ecs, RenderingManager* rendMngr);
 
     // Getters systems
     TransformSystem& GetTransformSystem() { return *m_transformSys; }
