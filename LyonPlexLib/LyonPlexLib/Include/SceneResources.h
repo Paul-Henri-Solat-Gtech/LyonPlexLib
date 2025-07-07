@@ -22,11 +22,6 @@ namespace TEXTURES
 		PONT,
 		MAISON,
 		TEMPLE,
-		tex0,
-		test,
-		bras,
-		grid,
-		noTexture,
 		iceCream,
 		start,
 

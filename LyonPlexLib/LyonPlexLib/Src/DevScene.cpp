@@ -7,19 +7,6 @@
 
 void DevScene::Start()
 {
-	//   CreateGameObject("camera", TYPE_3D, false);
-	   //m_camera = GetGameObjectByName("camera");
-	//   m_camera.AddComponent<CameraComponent>(new CameraComponent());
-	//   m_camera.SetPosition({ 0, 0.5, -2 });
-
-	//   CreateGameObject("placingModule");
-	   //m_placingModule = GetGameObjectByName("placingModule");
-	//   m_placingModule.SetPosition({ 0, 0, 1 });
-
-	   ////SetParent("camera", "placingModule");
-	   //SetParent(m_camera, m_placingModule);
-	   ////SetParent(m_placingModule, m_camera);
-
     // R馗up駻er le HWND depuis SceneManager
 	m_hWnd = mp_sceneManager->GetWindow();
 
@@ -27,6 +14,7 @@ void DevScene::Start()
 	CreateGameObject("placingModule");
 	m_placingModule = GetGameObjectByName("placingModule");
 	m_placingModule.SetPosition({ 0, 0, 0 }); // par exemple au centre
+	m_placingModule.SetTexture(TEXTURES::NOTEXTURE);
 
 	// Cr馥r la cam駻a
 	CreateGameObject("camera", TYPE_3D, false);
@@ -50,10 +38,7 @@ void DevScene::Start()
 	CreateGameObject("ground", 2, 3);
 	GetGameObjectByName("ground").SetPosition({ 0, -2, 0 });
 	GetGameObjectByName("ground").SetScale({ 50, 1, 50 });
-
-	CreateGameObject("ground", 2, 3);
-	GetGameObjectByName("ground").SetPosition({ 0, -2, 0 });
-	GetGameObjectByName("ground").SetScale({ 50, 1, 50 });
+	GetGameObjectByName("ground").SetTexture(TEXTURES::GRID);
 
 	m_newIdGM = 0;
 	m_camWalkSpeed = 3.f;
@@ -302,7 +287,7 @@ void DevScene::Update(float deltatime)
 	// Change type of gameobject (prototype)
 	if (InputManager::GetKeyIsReleased('1'))
 	{
-		m_placingModule.SetTexture(4);
+		m_placingModule.SetTexture(0);
 	}
 	if (InputManager::GetKeyIsReleased('2'))
 	{
@@ -310,7 +295,7 @@ void DevScene::Update(float deltatime)
 	}
 	if (InputManager::GetKeyIsReleased('3'))
 	{
-		m_placingModule.SetTexture(3);
+		m_placingModule.SetTexture(2);
 	}
 }
 

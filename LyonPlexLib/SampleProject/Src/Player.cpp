@@ -57,6 +57,22 @@ Player::Player() : m_stateMachine(this, State::Count)
 		sJump->AddAction(new PlayerAction_Jump());
 	}
 
+	// --- FALL ---
+	{
+		auto* sFall = m_stateMachine.CreateBehaviour(State::Fall);
+		sFall->AddAction(new PlayerAction_Fall());
+		//-> IDLE TRANSITION
+		{
+			auto transition = sFall->CreateTransition(State::Idle);
+			auto condition = transition->AddCondition<PlayerCondition_IsNotMoving>();
+		}
+		//-> MOVE TRANSITION
+		{
+			auto transition = sFall->CreateTransition(State::Move);
+			auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
+		}
+	}
+
     // --- Attack ---
     {
         auto* sAttack = m_stateMachine.CreateBehaviour(State::Attack);

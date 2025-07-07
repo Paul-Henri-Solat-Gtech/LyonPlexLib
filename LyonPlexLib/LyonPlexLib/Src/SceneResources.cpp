@@ -73,8 +73,6 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/24.png"); //43
     }
 
-
-
     return true;
 }
 

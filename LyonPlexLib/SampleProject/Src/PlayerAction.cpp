@@ -42,7 +42,7 @@ void PlayerAction_Idle::Update(Player* player)
 
 void PlayerAction_Idle::End(Player* player)
 {
-	player->GetPlayerArm().SetTexture(TEXTURES::bras);
+	player->GetPlayerArm().SetTexture(TEXTURES::ARMS);
 }
 
 
@@ -130,7 +130,7 @@ void PlayerAction_Move::Update(Player* player)
 void PlayerAction_Move::End(Player* player)
 {
 	player->GetPlayerArm().GetComponent<TransformComponent>()->SetRotation(0, 0, 180);
-	player->GetPlayerArm().SetTexture(TEXTURES::bras);
+	player->GetPlayerArm().SetTexture(TEXTURES::ARMS);
 }
 
 // JUMP (not needded ?)
@@ -151,10 +151,10 @@ void PlayerAction_Attack::Start(Player* player)
 	OutputDebugStringA("StartSlash-");
 	player->m_attackFinished = false;
 	m_attackAnim.Init(1.f, &player->GetPlayerArm());
-	m_attackAnim.AddFrame(TEXTURES::bras);
-	m_attackAnim.AddFrame(TEXTURES::test);
-	m_attackAnim.AddFrame(TEXTURES::tex0);
-	m_attackAnim.AddFrame(TEXTURES::bras);
+	m_attackAnim.AddFrame(TEXTURES::ARMS);
+	m_attackAnim.AddFrame(TEXTURES::TEST);
+	m_attackAnim.AddFrame(TEXTURES::iceCream);
+	m_attackAnim.AddFrame(TEXTURES::ARMS);
 
 	//sound
 	player->mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
@@ -211,7 +211,7 @@ void PlayerAction_Attack::Update(Player* player)
 }
 void PlayerAction_Attack::End(Player* player)
 {
-	player->GetPlayerArm().SetTexture(TEXTURES::bras);
+	player->GetPlayerArm().SetTexture(TEXTURES::ARMS);
 	OutputDebugStringA("-EndSlash");
 }
 
@@ -226,5 +226,5 @@ void PlayerAction_Fall::Update(Player* player)
 }
 void PlayerAction_Fall::End(Player* player)
 {
-	player->GetPlayerArm().SetTexture(TEXTURES::bras);
+	player->GetPlayerArm().SetTexture(TEXTURES::ARMS);
 }
