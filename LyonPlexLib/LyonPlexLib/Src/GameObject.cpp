@@ -14,7 +14,7 @@ void GameObject::Init(const std::string& name, ECSManager* ecsManager)
 	AddComponent<Type_3D>(new Type_3D());
 
 	// MESH
-	AddComponent<MeshComponent>(new MeshComponent(2, 4));
+	AddComponent<MeshComponent>(new MeshComponent(2, 0));
 
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());

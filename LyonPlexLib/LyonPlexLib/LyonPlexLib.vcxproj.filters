@@ -1,16 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Src\CameraManager.cpp">
+    <ClCompile Include="Src\AnimationManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Src\CameraSystem.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\ComponentManager.cpp">
+    <ClCompile Include="Src\CameraManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\CollisionSystem.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Src\CommandManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ComponentManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Src\DescriptorManager.cpp">
@@ -22,19 +28,19 @@
     <ClCompile Include="Src\ECSManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\GameManager.cpp">
+    <ClCompile Include="Src\EntityManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\EntityManager.cpp">
+    <ClCompile Include="Src\GameManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Src\GameObject.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\GraphicsPipeline.cpp">
+    <ClCompile Include="Src\GraphicsDevice.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\GraphicsDevice.cpp">
+    <ClCompile Include="Src\GraphicsPipeline.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Src\InputManager.cpp">
@@ -85,10 +91,6 @@
     <ClCompile Include="Src\WindowPlex.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\AnimationManager.cpp">
-    <ClCompile Include="Src\CollisionSystem.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Action.h">
@@ -97,19 +99,22 @@
     <ClInclude Include="Include\Behaviour.h">
       <Filter>StateMachine</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Condition.h">
-      <Filter>StateMachine</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\StateMachine.h">
-      <Filter>StateMachine</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Transition.h">
-      <Filter>StateMachine</Filter>
+    <ClInclude Include="Include\AnimationManager.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Include\CameraManager.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Include\CameraSystem.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Colliders.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Condition.h">
+      <Filter>StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CollisionSystem.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Include\CommandManager.h">
@@ -134,6 +139,12 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Include\EntityManager.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\EventBus.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Events.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Include\GameManager.h">
@@ -199,55 +210,48 @@
     <ClInclude Include="Include\TransformSystem.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Utils.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="Include\StateMachine.h">
+      <Filter>StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Transition.h">
+      <Filter>StateMachine</Filter>
     </ClInclude>
     <ClInclude Include="Include\WindowPlex.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Include\AnimationManager.h">
-    <ClInclude Include="Include\Events.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\EventBus.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Colliders.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\CollisionSystem.h">
+    <ClInclude Include="Include\Utils.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Ressources\2DShader.hlsl">
+      <Filter>Ressources</Filter>
+    </None>
     <None Include="Include\Behaviour.inl">
       <Filter>StateMachine</Filter>
     </None>
     <None Include="Include\Condition.inl">
       <Filter>StateMachine</Filter>
     </None>
-    <None Include="Include\Transition.inl">
-      <Filter>StateMachine</Filter>
-    </None>
-    <None Include="Ressources\2DShader.hlsl">
-      <Filter>Ressources</Filter>
-    </None>
     <None Include="Ressources\VertexShader.hlsl">
       <Filter>Ressources</Filter>
     </None>
+    <None Include="Include\Transition.inl">
+      <Filter>StateMachine</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="StateMachine">
-      <UniqueIdentifier>{375fec1d-bb3f-451c-8328-658a725a4ee9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Ressources">
-      <UniqueIdentifier>{56e09450-6994-4bd2-a94e-5fcdec2edf3c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Fichiers d%27en-tête">
-      <UniqueIdentifier>{c8ce1f89-8f82-4a6d-8ef8-70b2cfdc7476}</UniqueIdentifier>
+      <UniqueIdentifier>{74096536-4c1b-4818-95c3-f482d3b9d55c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Fichiers sources">
-      <UniqueIdentifier>{c3eb2b9b-17b0-4163-976a-d23ee20ad1e1}</UniqueIdentifier>
+      <UniqueIdentifier>{41c0ecdb-c0d7-4441-912c-bb92de3132c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StateMachine">
+      <UniqueIdentifier>{d1498fa8-f515-4563-b217-1b10fec2bb11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ressources">
+      <UniqueIdentifier>{ea910158-606e-4d43-8d26-64bcbc84d425}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

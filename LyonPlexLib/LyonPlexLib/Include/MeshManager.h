@@ -213,7 +213,7 @@ struct SubMesh
 {
 	uint32_t IndexOffset;
 	uint32_t IndexCount;
-	uint32_t MaterialID;
+	uint32_t MaterialID = 0;
 };
 
 struct MeshData // OK for complex shapes composed of multiple shapes

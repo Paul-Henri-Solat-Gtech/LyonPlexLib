@@ -4,11 +4,11 @@ namespace TEXTURES
 {
 	enum TEXTURES
 	{
+		NOTEXTURE,
 		TEST3,
 		TEST,
 		ARMS,
 		GRID,
-		NOTEXTURE,
 		BOIS,
 		EAU,
 		CHAMP,

@@ -25,29 +25,30 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
 {
     // WARNING : Dont forget to change the .h accordingly
 
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test.png");//1
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");//2
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/grid.png");//3
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/NoTexture.png");//4
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/bois.jpg");//5
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/eau.jpg");//6
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/champ.jpg");//7
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle1.jpg");//8
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle2.jpg");//9
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle3.jpg");//10
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle4.jpg");//11
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/chemin_terre.jpg");//12
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/pierre.jpg");//13
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/herbe.jpg");//14
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/pont.jpg");//15
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/maison.png");//16
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/temple.jpg");//17
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/NoTexture.png");//0
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");//1
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test.png");//2
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");//3
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/grid.png");//4
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/bois.jpg");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/eau.jpg");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/champ.jpg");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle1.jpg");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle2.jpg");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle3.jpg");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle4.jpg");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/chemin_terre.jpg");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/pierre.jpg");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/herbe.jpg");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/pont.jpg");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/maison.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/temple.jpg");
     txtMngr.LoadTexture("../SampleProject/Ressources/icecream.png");
-    txtMngr.LoadTexture("../SampleProject/Ressources/start.png");//19
+    txtMngr.LoadTexture("../SampleProject/Ressources/start.png");//21
 
     // IDLE ARM (24 frames)
     {
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/1.png"); //20
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/1.png"); //21
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/2.png");
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/3.png");
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/4.png");
@@ -70,7 +71,7 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/21.png");
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/22.png");
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/23.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/24.png"); //43
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/24.png"); //44
     }
 
     return true;
