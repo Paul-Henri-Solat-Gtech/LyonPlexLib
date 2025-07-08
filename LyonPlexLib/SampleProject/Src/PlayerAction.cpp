@@ -8,30 +8,30 @@ void PlayerAction_Idle::Start(Player* player)
 	m_idleAnim.Init(0.05f, &player->GetPlayerArm());
 	// idle frames
 	{
-		m_idleAnim.AddFrame(TEXTURES::idleArm1);
-		m_idleAnim.AddFrame(TEXTURES::idleArm2);
-		m_idleAnim.AddFrame(TEXTURES::idleArm3);
-		m_idleAnim.AddFrame(TEXTURES::idleArm4);
-		m_idleAnim.AddFrame(TEXTURES::idleArm5);
-		m_idleAnim.AddFrame(TEXTURES::idleArm6);
-		m_idleAnim.AddFrame(TEXTURES::idleArm7);
-		m_idleAnim.AddFrame(TEXTURES::idleArm8);
-		m_idleAnim.AddFrame(TEXTURES::idleArm9);
-		m_idleAnim.AddFrame(TEXTURES::idleArm10);
-		m_idleAnim.AddFrame(TEXTURES::idleArm11);
-		m_idleAnim.AddFrame(TEXTURES::idleArm12);
-		m_idleAnim.AddFrame(TEXTURES::idleArm13);
-		m_idleAnim.AddFrame(TEXTURES::idleArm14);
-		m_idleAnim.AddFrame(TEXTURES::idleArm15);
-		m_idleAnim.AddFrame(TEXTURES::idleArm16);
-		m_idleAnim.AddFrame(TEXTURES::idleArm17);
-		m_idleAnim.AddFrame(TEXTURES::idleArm18);
-		m_idleAnim.AddFrame(TEXTURES::idleArm19);
-		m_idleAnim.AddFrame(TEXTURES::idleArm20);
-		m_idleAnim.AddFrame(TEXTURES::idleArm21);
-		m_idleAnim.AddFrame(TEXTURES::idleArm22);
-		m_idleAnim.AddFrame(TEXTURES::idleArm23);
-		m_idleAnim.AddFrame(TEXTURES::idleArm24);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_1);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_2);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_3);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_4);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_5);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_6);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_7);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_8);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_9);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_10);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_11);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_12);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_13);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_14);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_15);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_16);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_17);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_18);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_19);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_20);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_21);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_22);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_23);
+		m_idleAnim.AddFrame(TEXTURES::IDLEARM_24);
 	}
 
 }

@@ -15,6 +15,8 @@ void MainMenuScene::Start()
 	GetGameObjectByName("btnStart").SetScale({ 400, 100, 0 });
 	
 	GetGameObjectByName("btnStart").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
+	m_buttonStart.Init(GetGameObjectByName("btnStart"), mp_sceneManager->GetWindow());
 }
 
 void MainMenuScene::Update(float deltatime)
@@ -22,6 +24,21 @@ void MainMenuScene::Update(float deltatime)
 	if (InputManager::GetKeyIsReleased('A'))
 	{
 		ChangeScene("SampleScene2");
+	}
+	if (m_buttonStart.GetMouseOnBtn()) 
+	{
+		//OutputDebugStringA("\nDont touche me !\n");
+		GetGameObjectByName("btnStart").SetScale({ 450, 150, 0 });
+	}
+	if (!m_buttonStart.GetMouseOnBtn())
+	{
+		//OutputDebugStringA("\nDont touche me !\n");
+		GetGameObjectByName("btnStart").SetScale({ 400, 100, 0 });
+	}
+	if (m_buttonStart.GetBtnIsClicked())
+	{
+		OutputDebugStringA("\nHO YOU DARE CLICK ME !?\n");
+		ChangeScene("GameScene");
 	}
 }
 

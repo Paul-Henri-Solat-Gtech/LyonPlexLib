@@ -22,6 +22,7 @@
     <ClInclude Include="Include\Action.h" />
     <ClInclude Include="Include\AnimationManager.h" />
     <ClInclude Include="Include\Behaviour.h" />
+    <ClInclude Include="Include\Button.h" />
     <ClInclude Include="Include\CameraManager.h" />
     <ClInclude Include="Include\CameraSystem.h" />
     <ClInclude Include="Include\Colliders.h" />
@@ -73,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\AnimationManager.cpp" />
+    <ClCompile Include="Src\Button.cpp" />
     <ClCompile Include="Src\CameraManager.cpp" />
     <ClCompile Include="Src\CameraSystem.cpp" />
     <ClCompile Include="Src\CollisionSystem.cpp" />

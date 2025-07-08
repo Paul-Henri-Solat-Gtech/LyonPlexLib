@@ -8,6 +8,7 @@ public:
 
 private:
 
+	Button m_buttonStart;
 
 };
 

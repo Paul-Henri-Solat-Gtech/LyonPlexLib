@@ -1,15 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Src\Player.cpp">
-      <Filter>Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\PlayerAction.cpp">
-      <Filter>Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\PlayerCondition.cpp">
-      <Filter>Player</Filter>
-    </ClCompile>
     <ClCompile Include="Src\AllScenes.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -39,6 +30,15 @@
     </ClCompile>
     <ClCompile Include="Src\MainMenuScene.cpp">
       <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\PlayerAction.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\PlayerCondition.cpp">
+      <Filter>Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

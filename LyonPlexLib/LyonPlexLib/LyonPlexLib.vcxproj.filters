@@ -91,6 +91,7 @@
     <ClCompile Include="Src\WindowPlex.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Button.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Action.h">
@@ -222,6 +223,7 @@
     <ClInclude Include="Include\Utils.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Button.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Ressources\2DShader.hlsl">

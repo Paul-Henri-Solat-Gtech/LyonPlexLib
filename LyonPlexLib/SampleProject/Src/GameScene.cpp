@@ -13,6 +13,7 @@ void GameScene::Start()
 
 	CreateGameObject("testGm");
 	GetGameObjectByName("testGm").SetPosition({ 0, 1, 3 });
+	GetGameObjectByName("testGm").SetTexture(TEXTURES::GRID);
 
 	auto& a = GetGameObjectByName("testGm").GetScale();
 	GetGameObjectByName("testGm").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2,a.y / 2,a.z / 2 })));

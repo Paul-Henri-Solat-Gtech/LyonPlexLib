@@ -136,15 +136,26 @@ void Render3D::RecordCommands()
 			// pour chaque sub‐mesh dans ce mesh
 			for (auto const& sub : mesh.subMeshes)
 			{
-				uint32_t texId = 0;
-				if (sub.MaterialID < mesh.materialTextureIDs.size() || meshComp->materialID == -1)
+				//uint32_t texId = 0;
+				//if (sub.MaterialID < mesh.materialTextureIDs.size() || meshComp->materialID == -1)
+				//{
+				//	texId = mesh.materialTextureIDs[sub.MaterialID];
+				//}
+				//else
+				//{
+				//	texId = meshComp->materialID;
+				//}
+
+				uint32_t texId;
+				if (meshComp->materialID != UINT32_MAX) 
 				{
-					texId = mesh.materialTextureIDs[sub.MaterialID];
+					texId = meshComp->materialID;                            // override explicite
 				}
-				else
+				else 
 				{
-					texId = meshComp->materialID;
+					texId = mesh.materialTextureIDs[sub.MaterialID];         // fallback sub‑mesh
 				}
+					
 				// 2) calculer le handle précis dans le heap (offset en descriptors) :
 				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
 				D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
@@ -193,14 +204,23 @@ void Render3D::RecordCommands()
 			// pour chaque sub‐mesh dans ce mesh
 			for (auto const& sub : mesh.subMeshes)
 			{
-				uint32_t texId = 0;
-				if (sub.MaterialID < mesh.materialTextureIDs.size() || meshComp->materialID == -1)
+				//uint32_t texId = 0;
+				//if (sub.MaterialID < mesh.materialTextureIDs.size() || meshComp->materialID == -1)
+				//{
+				//	texId = mesh.materialTextureIDs[sub.MaterialID];
+				//}
+				//else
+				//{
+				//	texId = meshComp->materialID;
+				//}
+				uint32_t texId;
+				if (meshComp->materialID != UINT32_MAX)
 				{
-					texId = mesh.materialTextureIDs[sub.MaterialID];
+					texId = meshComp->materialID;                            // override explicite
 				}
 				else
 				{
-					texId = meshComp->materialID;
+					texId = mesh.materialTextureIDs[sub.MaterialID];         // fallback sub‑mesh
 				}
 				// 2) calculer le handle précis dans le heap (offset en descriptors) :
 				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
