@@ -22,7 +22,7 @@ namespace TEXTURES
 		PONT,
 		MAISON,
 		TEMPLE,
-		tex0,
+		CEPHA,
 
 		// A REMPLIR
 		TotalTextureCount

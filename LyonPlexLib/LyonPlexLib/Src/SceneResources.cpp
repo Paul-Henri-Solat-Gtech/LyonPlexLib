@@ -43,6 +43,8 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/maison.png");//16
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/temple.jpg");//17
 
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Cepha1test.png");//18
+
     return true;
 }
 

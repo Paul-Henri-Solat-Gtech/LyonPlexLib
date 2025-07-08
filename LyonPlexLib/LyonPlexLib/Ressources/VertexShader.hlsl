@@ -123,7 +123,7 @@ float4 PSMain(PSInput input) : SV_Target
     float3 N = normalize(input.worldN);
     float3 V = normalize(camPos - input.worldPos);
 
-    float3 accum = float3(0.3, 0.3, 0.3);
+    float3 accum = float3(0.8, 0.8, 0.8);
 
     [unroll]
     for (int i = 0; i < lightCount; ++i)

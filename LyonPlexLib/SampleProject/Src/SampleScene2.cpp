@@ -39,7 +39,7 @@ void SampleScene2::Start()
 
 	CreateEntity("cephaTree");
 	AddComponent<Type_3D>("cephaTree", new Type_3D());
-	AddComponent<MeshComponent>("cephaTree", new MeshComponent(MESHES::CEPHA1));
+	AddComponent<MeshComponent>("cephaTree", new MeshComponent(MESHES::CEPHA1, 19));
 	GetComponent<TransformComponent>("cephaTree")->position = { -2, 0, 0 };
 	GetComponent<TransformComponent>("cephaTree")->scale = { 0.5, 0.5, 0.5 };
 

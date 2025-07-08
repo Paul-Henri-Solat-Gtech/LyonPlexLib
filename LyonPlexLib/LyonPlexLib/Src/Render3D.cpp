@@ -107,7 +107,7 @@ void Render3D::RecordCommands()
 			for (auto const& sub : mesh.subMeshes)
 			{
 				uint32_t texId = 0;
-				if (sub.MaterialID < mesh.materialTextureIDs.size() || meshComp->materialID == -1)
+				/*if (sub.MaterialID < mesh.materialTextureIDs.size() || meshComp->materialID == -1)
 				{
 					if (meshComp->materialID >= 0)
 						texId = meshComp->materialID;
@@ -117,7 +117,17 @@ void Render3D::RecordCommands()
 				else
 				{
 					texId = meshComp->materialID;
+				}*/
+				if (meshComp->materialID != UINT32_MAX)
+				{
+					texId = meshComp->materialID;                            // override explicite
 				}
+				else
+				{
+					texId = mesh.materialTextureIDs[sub.MaterialID];         // fallback sub‑mesh
+				}
+
+
 				// 2) calculer le handle précis dans le SRV heap (offset en descriptors) :
 				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
 				D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
@@ -167,13 +177,21 @@ void Render3D::RecordCommands()
 			for (auto const& sub : mesh.subMeshes)
 			{
 				uint32_t texId = 0;
-				if (sub.MaterialID < mesh.materialTextureIDs.size() || meshComp->materialID == -1)
+				/*if (sub.MaterialID < mesh.materialTextureIDs.size() || meshComp->materialID == -1)
 				{
 					texId = mesh.materialTextureIDs[sub.MaterialID];
 				}
 				else
 				{
 					texId = meshComp->materialID;
+				}*/
+				if (meshComp->materialID != UINT32_MAX)
+				{
+					texId = meshComp->materialID;                            // override explicite
+				}
+				else
+				{
+					texId = mesh.materialTextureIDs[sub.MaterialID];         // fallback sub‑mesh
 				}
 				// 2) calculer le handle précis dans le SRV heap (offset en descriptors) :
 				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
