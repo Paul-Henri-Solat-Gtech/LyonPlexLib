@@ -113,12 +113,11 @@ void Player::Init(GameObject gameObject, GameManager* gameManager)
     mp_gameManager = gameManager;
     m_moveSpeed = m_walkSpeed;
     m_attackFinished = true;
+	m_slashAttackNb = 1;
     m_deltatime = 0;
 	m_playerGameObject.AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ m_playerGameObject.GetScale().x / 2,m_playerGameObject.GetScale().y / 2,m_playerGameObject.GetScale().z / 2 })));
 
 	m_moveSpeed = m_walkSpeed;
-
-	m_deltatime = 0;
 
 	// sounds
 	mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");

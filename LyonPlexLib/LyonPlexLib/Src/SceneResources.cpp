@@ -95,6 +95,53 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/15.png");
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/16.png"); //59
     }
+    // ATTACK 2 (24 frames)
+    {
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/1.png"); //60
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/2.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/3.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/4.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/5.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/6.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/7.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/8.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/9.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/10.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/11.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/12.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/13.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/14.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/15.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/16.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/17.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/18.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/19.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/20.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/21.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/22.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/23.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/24.png"); //84
+    }
+    // ATTACK 3 (17 frames)
+    {
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/1.png"); //85
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/2.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/3.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/4.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/5.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/6.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/7.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/8.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/9.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/10.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/11.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/12.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/13.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/14.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/15.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/16.png"); //100
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/17.png"); //100
+    }
 
     return true;
 }

@@ -55,6 +55,7 @@ public:
 	//Test Animation
 	AnimationManager m_testAnimation;
 	bool m_attackFinished;
+	int m_slashAttackNb;
 
 private:
 	GameManager* mp_gameManager;

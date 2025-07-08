@@ -30,7 +30,7 @@ void GameScene::Start()
 	
 	CreateGameObject("bras", TYPE_2D, true);
 	GetGameObjectByName("bras").SetTexture(TEXTURES::ARMS);
-	GetGameObjectByName("bras").SetPosition({ 400, 500, 0 });
+	GetGameObjectByName("bras").SetPosition({ 400, 450, 0 });
 	GetGameObjectByName("bras").SetScale({ 800, 500, 0 });
 	GetGameObjectByName("bras").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
