@@ -268,9 +268,14 @@ void LightSystem::Update(ECSManager& ecs, float dt)
 void LightSystem::BindAndUpload(CommandManager* cmdMgr)
 {
 
+    //auto addr = m_constantBuffer->GetGPUVirtualAddress();
+    //cmdMgr->GetCommandList()->SetGraphicsRootConstantBufferView(
+    //    /*rootParameterIndex=*/2,
+    //    addr
+    //);
     // 2) Binder la table au paramètre racine 2
     cmdMgr->GetCommandList()->SetGraphicsRootDescriptorTable(
         2,
-        m_cbvGpuHandle
+        m_constantBuffer->GetGPUVirtualAddress()
     );
 }

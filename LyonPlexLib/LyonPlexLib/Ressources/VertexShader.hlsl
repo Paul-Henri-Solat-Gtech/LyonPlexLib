@@ -1,5 +1,5 @@
 
-static const uint MAX_LIGHTS = 8;
+static const uint MAX_LIGHTS = 2;
 
 
 //-----------------------------------------------------------------------------//
@@ -23,19 +23,25 @@ cbuffer ObjectBuffer : register(b1)
 
 struct Light
 {
-    uint    type; // 0 = dir, 1 = point
-    float3  color;
-    float   intensity;
-    float3  direction; // ou position si point
-    float   range;
-    float   _lightpad[3]; // padding 16 bytes
+    //uint    type; // 0 = dir, 1 = point
+    //float3  color;
+    //float   intensity;
+    //float3  direction; // ou position si point
+    //float   range;
+    //float   _lightpad[3]; // padding 16 bytes
+    uint type; // 0
+    float3 color; // 4?16
+    float intensity; // 16?20
+    float3 direction; // 20?32
+    float range; // 32?36
+    float _pad[3]; // 36?48
 };
 
 cbuffer LightBuffer : register(b2)
 {
-    Light   lights[MAX_LIGHTS];
     uint    lightCount;
     float   _pad[3];
+    Light   lights[MAX_LIGHTS];
 };
 
 // slot t0 : table SRV textures
@@ -123,7 +129,7 @@ float4 PSMain(PSInput input) : SV_Target
     float3 N = normalize(input.worldN);
     float3 V = normalize(camPos - input.worldPos);
 
-    float3 accum = float3(0.8, 0.8, 0.8);
+    float3 accum = float3(0.1, 0.1, 0.1);
 
     [unroll]
     for (int i = 0; i < lightCount; ++i)

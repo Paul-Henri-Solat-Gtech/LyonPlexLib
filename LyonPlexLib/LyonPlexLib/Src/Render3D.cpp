@@ -44,6 +44,11 @@ void Render3D::RecordCommands()
 
 	auto& cmdList = mp_commandManager->GetCommandList();
 
+	// Bind des Heaps SRV + Sampler
+	// 1. Rassemble tous tes descriptor heaps (SRV + Sampler)
+	ID3D12DescriptorHeap* heaps[] = { mp_descriptorManager->GetSrvHeap()/*, mp_descriptorManager->GetSamplerHeap()*/ }; //  SRV heap (contenant toutes les textures) et Sampler heap ATTENTION SAMPLERS ONT CASSE LA PORTABILITE
+	cmdList->SetDescriptorHeaps(_countof(heaps), heaps);
+
 	// On definie la pipeline et la rootSignature
 	cmdList->SetGraphicsRootSignature(m_graphicsPipeline.GetRootSignature().Get());
 	cmdList->SetPipelineState(m_graphicsPipeline.GetPipelineState().Get());
@@ -57,14 +62,9 @@ void Render3D::RecordCommands()
 	sprintf_s(buf, ">> LightCount (CPU) = %u\n", testCount);
 	OutputDebugStringA(buf);
 
-	// Bind des Heaps SRV + Sampler
-	// 1. Rassemble tous tes descriptor heaps (SRV + Sampler)
-	ID3D12DescriptorHeap* heaps[] = { mp_descriptorManager->GetSrvHeap()/*, mp_descriptorManager->GetSamplerHeap()*/ }; //  SRV heap (contenant toutes les textures) et Sampler heap ATTENTION SAMPLERS ONT CASSE LA PORTABILITE
-	cmdList->SetDescriptorHeaps(_countof(heaps), heaps);
 
 	// 2. Bind UNE SEULE FOIS l’integralite de ton heap SRV au slot t0 (rootParameter index = 2)
 	D3D12_GPU_DESCRIPTOR_HANDLE srvBase = mp_descriptorManager->GetSrvHeap()->GetGPUDescriptorHandleForHeapStart();
-	cmdList->SetGraphicsRootDescriptorTable(/*rootParameterIndex=*/3, srvBase);
 
 
 	//Draw vertices and index (mesh)
@@ -107,51 +107,30 @@ void Render3D::RecordCommands()
 			for (auto const& sub : mesh.subMeshes)
 			{
 				uint32_t texId = 0;
-				/*if (sub.MaterialID < mesh.materialTextureIDs.size() || meshComp->materialID == -1)
-				{
-					if (meshComp->materialID >= 0)
-						texId = meshComp->materialID;
-					else
-						texId = mesh.materialTextureIDs[sub.MaterialID];
-				}
-				else
-				{
-					texId = meshComp->materialID;
-				}*/
+
+				// 2) calculer le handle précis dans le SRV heap (offset en descriptors) :
+				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
+				D3D12_GPU_DESCRIPTOR_HANDLE texHandle = srvBase;
+
 				if (meshComp->materialID != UINT32_MAX)
 				{
-					texId = meshComp->materialID;                            // override explicite
+					texId = meshComp->materialID;
+
 				}
 				else
 				{
 					texId = mesh.materialTextureIDs[sub.MaterialID];         // fallback sub‑mesh
+
 				}
+				texHandle.ptr += (texId + 1) * descSize;                       // override explicite
 
 
-				// 2) calculer le handle précis dans le SRV heap (offset en descriptors) :
-				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
-				D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
-				handle.ptr += texId * descSize;
+				// 2. Bind UNE SEULE FOIS l’integralite de ton heap SRV au slot t0 (rootParameter index = 2)
+				cmdList->SetGraphicsRootDescriptorTable(/*rootParameterIndex=*/3, texHandle);
 
-				// DEBUG
-				{
-					/*char buf[128];
-					sprintf_s(buf, sizeof(buf),
-						"Binding texId=%u for Entity = %u ; submesh matID=%u\n",
-						texId, ent, sub.MaterialID);
-					OutputDebugStringA(buf);*/
-					/*char bufDraw[128];
-					sprintf_s(bufDraw, sizeof(bufDraw),
-						"[Draw] Entity %u – mesh %u – subMat %u → texId = %u\n",
-						ent.id,
-						meshComp->meshID,
-						sub.MaterialID,
-						texId);
-					OutputDebugStringA(bufDraw);*/
-				}
 
-				// 3) binder uniquement ce handle sur le rootParam de SRV :
-				cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/3, handle);
+				//// 3) binder uniquement ce handle sur le rootParam de SRV :
+				//cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/3, handle);
 
 				UINT globalIndexStart = mesh.iOffset + sub.IndexOffset;
 				// 4) dessiner ce submesh :
@@ -196,7 +175,7 @@ void Render3D::RecordCommands()
 				// 2) calculer le handle précis dans le SRV heap (offset en descriptors) :
 				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
 				D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
-				handle.ptr += texId * descSize;
+				handle.ptr += (texId + 1) * descSize;
 
 				// 3) binder uniquement ce handle sur le rootParam de SRV :
 				cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/3, handle);

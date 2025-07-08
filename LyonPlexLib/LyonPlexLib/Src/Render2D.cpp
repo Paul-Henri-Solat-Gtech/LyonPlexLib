@@ -210,10 +210,10 @@ void Render2D::RecordCommands()
 
 		// 7e) Bind CB world (slot b1)
 		cmdList->SetGraphicsRootConstantBufferView(1, m_cbUpload->GetGPUVirtualAddress() + /*entityOffset*/ finalOffset);
-		
+
 		UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
 		D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
-		handle.ptr += cbData.materialIndex * descSize;
+		handle.ptr += (cbData.materialIndex + 1) * descSize;
 
 		cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/2, handle);
 

@@ -39,7 +39,7 @@ void SampleScene2::Start()
 
 	CreateEntity("cephaTree");
 	AddComponent<Type_3D>("cephaTree", new Type_3D());
-	AddComponent<MeshComponent>("cephaTree", new MeshComponent(MESHES::CEPHA1, 19));
+	AddComponent<MeshComponent>("cephaTree", new MeshComponent(MESHES::CEPHA1));
 	GetComponent<TransformComponent>("cephaTree")->position = { -2, 0, 0 };
 	GetComponent<TransformComponent>("cephaTree")->scale = { 0.5, 0.5, 0.5 };
 
@@ -76,10 +76,10 @@ void SampleScene2::Start()
 	AddComponent<MeshComponent>("cube4", new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::BOIS));
 	GetComponent<TransformComponent>("cube4")->position = { 0, 3, 0 };
 	GetComponent<TransformComponent>("cube4")->scale = { 1, 1, 1 };
-	/*AddComponent<LightComponent>("cube4", new LightComponent(0));
+	AddComponent<LightComponent>("cube4", new LightComponent(0));
 	GetComponent<LightComponent>("cube4")->color = { 1,1,1 };
 	GetComponent<LightComponent>("cube4")->intensity = 1.0f;
-	GetComponent<LightComponent>("cube4")->direction = { 0, -1, 0 };*/
+	GetComponent<LightComponent>("cube4")->direction = { 0, -1, 0 };
 }
 
 void SampleScene2::Update(float deltatime)

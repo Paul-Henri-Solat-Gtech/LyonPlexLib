@@ -90,30 +90,6 @@ struct TransformComponent : public Component {
 	}
 };
 
-//struct SpriteComponent : public Component {
-//    static constexpr uint32_t StaticTypeID = Transform_ID;
-//
-//    XMFLOAT3 position = { 0.0f, 0.0f, 0.0f };
-//    float rotation = 0.0f; // degree
-//    XMFLOAT3 scale = { 1.0f, 1.0f, 1.0f };
-//
-//    Entity    parent = { UINT32_MAX };
-//    bool      dirty = true;
-//
-//    TransformComponent() {
-//        mask = 1ULL << StaticTypeID;
-//        typeID = StaticTypeID;
-//    }
-//
-//    inline void AddRotation(TransformComponent& t, float deltaPitchDeg, float deltaYawDeg, float deltaRollDeg)
-//    {
-//    }
-//
-//    inline void SetRotation(TransformComponent& t, float pitchDeg, float yawDeg, float rollDeg)
-//    {
-//    }
-//};
-
 // Contient tout ce dont le CameraSystem a besoin pour calculer la view/proj.
 struct CameraComponent : public Component {
 	static constexpr uint32_t StaticTypeID = Camera_ID; // Choisissez un ID libre (> 3 dans votre exemple)
@@ -160,7 +136,7 @@ struct MeshComponent : public Component
 	uint32_t materialID;
 	float alpha = 1;
 
-	MeshComponent(uint32_t meshID_, uint32_t materialID_ = -1)
+	MeshComponent(uint32_t meshID_, uint32_t materialID_ = UINT32_MAX)
 	{
 		mask = 1ULL << StaticTypeID;
 		typeID = StaticTypeID;

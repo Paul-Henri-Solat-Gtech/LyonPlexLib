@@ -86,11 +86,12 @@ int GameManager::Run()
 			DispatchMessage(&msg); // Appelle la WindowProcedure correspondante
 		}
 		// UPDATE
-		m_renderer.Update();
-		m_ECS.m_systemMgr.UpdateAll(0);
+		//m_renderer.Update();
+		m_ECS.m_systemMgr.UpdateAll(m_deltaTime);
+		m_collisionSystem.Update();
+
 		m_sceneManager.UpdateScene(m_deltaTime);
 
-		m_collisionSystem.Update();
 
 		//m_lightSystem.Update(m_ECS, m_deltaTime);
 

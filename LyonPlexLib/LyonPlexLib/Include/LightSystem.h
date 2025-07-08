@@ -78,25 +78,31 @@
 
 class RenderingManager;
 
-static const uint32_t MAX_LIGHTS = 8;
+static const uint32_t MAX_LIGHTS = 2;
 
 // chaque “Light” occupe exactement 3 × 16 bytes = 48 bytes
-struct alignas(16) Light
+struct Light
 {
-    uint32_t   type;          //  4
-    uint32_t   _pad0[3];      // 12 -> on aligne à 16
-    XMFLOAT4   color_inten;   // 16 = color.xyz + intensity dans w
-    XMFLOAT4   dir_range;     // 16 = direction.xyz + range dans w
+    //uint32_t   type;          //  4
+    //uint32_t   _pad0[3];      // 12 -> on aligne à 16
+    //XMFLOAT4   color_inten;   // 16 = color.xyz + intensity dans w
+    //XMFLOAT4   dir_range;     // 16 = direction.xyz + range dans w
+    uint32_t type;
+    float    color[3];
+    float    intensity;
+    float    direction[3];
+    float    range;
+    //float    _pad[3];
 };
 
 // on met d’abord lightCount pour être sur qu’il est dans les 256 premiers bytes,
 // puis padding pour 16?bytes, puis les lights, puis padding final pour atteindre 512 bytes
-struct alignas(16) LightBuffer
+struct LightBuffer
 {
-    Light     lights[MAX_LIGHTS];       // 8 × 48 = 384
     uint32_t  lightCount;               //  4
     uint32_t  _pad0[3];                 // 12 -> aligne à 16
-    uint8_t   _padEnd[112];             // => 4+12+384+112 = 512
+    Light     lights[MAX_LIGHTS];       // 8 × 48 = 384
+    //uint8_t   _padEnd[112];             // => 4+12+384+112 = 512
 };
 static_assert(sizeof(LightBuffer) % 256 == 0, "LightBuffer doit faire un multiple de 256 bytes");
 

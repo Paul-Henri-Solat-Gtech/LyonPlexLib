@@ -24,11 +24,11 @@ bool SceneResources::Init(GameManager* gameManager)
 bool SceneResources::InitTextureResources(TextureManager& txtMngr)
 {
 
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/NoTexture.png");//0
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");//0
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test.png");//1
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");//2
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/grid.png");//3
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/NoTexture.png");//4
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/bois.jpg");//5
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/eau.jpg");//6
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/champ.jpg");//7
