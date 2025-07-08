@@ -4,9 +4,8 @@
 // Includes scenes here :
 #include "SampleScene2.h"
 #include "GameScene.h"
-#include "MainMenuScene.h"
 #include "BlockTutoScene.h"
-
+#include "MainMenuScene.h"
 // ..
 
 void AllScenes::Init(GameManager* gameManager)

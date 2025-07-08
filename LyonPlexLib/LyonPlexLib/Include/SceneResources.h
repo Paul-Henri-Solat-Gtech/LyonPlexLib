@@ -25,6 +25,7 @@ namespace TEXTURES
 		iceCream,
 		start,
 
+		//IDLE ARM
 		IDLEARM_1,
 		IDLEARM_2,
 		IDLEARM_3,
@@ -49,7 +50,23 @@ namespace TEXTURES
 		IDLEARM_22,
 		IDLEARM_23,
 		IDLEARM_24,
-
+		//ATTACK1
+		ATTACK1_1,
+		ATTACK1_2,
+		ATTACK1_3,
+		ATTACK1_4,
+		ATTACK1_5,
+		ATTACK1_6,
+		ATTACK1_7,
+		ATTACK1_8,
+		ATTACK1_9,
+		ATTACK1_10,
+		ATTACK1_11,
+		ATTACK1_12,
+		ATTACK1_13,
+		ATTACK1_14,
+		ATTACK1_15,
+		ATTACK1_16,
 
 		// A REMPLIR
 		TotalTextureCount

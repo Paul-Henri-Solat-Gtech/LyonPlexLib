@@ -91,7 +91,9 @@
     <ClCompile Include="Src\WindowPlex.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Button.cpp" />
+    <ClCompile Include="Src\Button.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Action.h">
@@ -223,7 +225,9 @@
     <ClInclude Include="Include\Utils.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Button.h" />
+    <ClInclude Include="Include\Button.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Ressources\2DShader.hlsl">

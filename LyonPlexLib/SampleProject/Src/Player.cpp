@@ -120,6 +120,9 @@ void Player::Init(GameObject gameObject, GameManager* gameManager)
 
 	m_deltatime = 0;
 
+	// sounds
+	mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
+
 	EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p) {
 		// si c�est notre joueur qui est entr� en collision
 		if (p.a.id == m_playerGameObject.GetEntity()->id || p.b.id == m_playerGameObject.GetEntity()->id) {

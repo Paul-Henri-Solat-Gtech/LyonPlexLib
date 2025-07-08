@@ -43,8 +43,11 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/pont.jpg");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/maison.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/temple.jpg");
-    txtMngr.LoadTexture("../SampleProject/Ressources/icecream.png");
-    txtMngr.LoadTexture("../SampleProject/Ressources/start.png");//21
+    txtMngr.LoadTexture("../SampleProject/Ressources/icecream.png");//19
+    txtMngr.LoadTexture("../SampleProject/Ressources/start.png");//20
+
+    // Place single image up
+    // Down is reserved for animations frame (to avoid redoing all enum)
 
     // IDLE ARM (24 frames)
     {
@@ -71,7 +74,26 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/21.png");
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/22.png");
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/23.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/24.png"); //44
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/24.png"); //43
+    }
+    // ATTACK 1 (16 frames)
+    {
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/1.png"); //44
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/2.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/3.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/4.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/5.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/6.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/7.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/8.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/9.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/10.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/11.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/12.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/13.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/14.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/15.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/16.png"); //59
     }
 
     return true;

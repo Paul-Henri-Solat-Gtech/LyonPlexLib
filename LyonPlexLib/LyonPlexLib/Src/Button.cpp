@@ -7,8 +7,17 @@ void Button::Init(GameObject gmButton, HWND windowHandle)
     m_windowHandle = windowHandle;
 }
 
+//void Button::Release()
+//{
+//    m_gameObjectBtn = nullptr;
+//}
+
 bool Button::GetMouseOnBtn()
 {
+    // 0)
+    //if (!m_gameObjectBtn)
+    //    return false;
+
     // 1) Récupère la position souris en coordonnées client
     POINT p;
     GetCursorPos(&p);
@@ -33,6 +42,10 @@ bool Button::GetMouseOnBtn()
 
 bool Button::GetBtnIsClicked()
 {
+    // 0)
+    //if (!m_gameObjectBtn)
+    //    return false;
+
     // On saute si la souris n'est pas sur le bouton
     if (!GetMouseOnBtn())
         return false;

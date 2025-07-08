@@ -4,6 +4,8 @@ class Button
 public:
 	void Init(GameObject gmButton, HWND windowHandle);
 
+	void Release();
+
 	// use them in update
 	bool GetMouseOnBtn();
 	bool GetBtnIsClicked();

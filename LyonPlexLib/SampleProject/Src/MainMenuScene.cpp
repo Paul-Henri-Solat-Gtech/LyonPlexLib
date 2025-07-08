@@ -24,6 +24,7 @@ void MainMenuScene::Update(float deltatime)
 	if (InputManager::GetKeyIsReleased('A'))
 	{
 		ChangeScene("SampleScene2");
+		return; // ! ne pas oublier
 	}
 	if (m_buttonStart.GetMouseOnBtn()) 
 	{
@@ -44,4 +45,5 @@ void MainMenuScene::Update(float deltatime)
 
 void MainMenuScene::Release()
 {
+	//m_buttonStart.Release();
 }

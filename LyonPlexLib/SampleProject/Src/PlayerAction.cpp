@@ -150,15 +150,31 @@ void PlayerAction_Attack::Start(Player* player)
 	//anim
 	OutputDebugStringA("StartSlash-");
 	player->m_attackFinished = false;
-	m_attackAnim.Init(1.f, &player->GetPlayerArm());
-	m_attackAnim.AddFrame(TEXTURES::ARMS);
-	m_attackAnim.AddFrame(TEXTURES::TEST);
-	m_attackAnim.AddFrame(TEXTURES::iceCream);
-	m_attackAnim.AddFrame(TEXTURES::ARMS);
+	m_attackAnim.Init(0.05f, &player->GetPlayerArm());
+	// Attack1 frames
+	{
+		m_attackAnim.AddFrame(TEXTURES::ATTACK1_1);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK1_2);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK1_3);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK1_4);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK1_5);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK1_6);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK1_7);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK1_8);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK1_9);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK1_10);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK1_11);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK1_12);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK1_13);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK1_14);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK1_15);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK1_16);
+	}
+
 
 	//sound
-	player->mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
-	player->mp_gameManager->GetSoundManager()->PlaySoundPlex("swordSlash1");
+
+	player->mp_gameManager->GetSoundManager()->PlaySoundPlex("swordSlash1"); // need to adapt sound to frame (like adding pause)
 }
 void PlayerAction_Attack::Update(Player* player)
 {
