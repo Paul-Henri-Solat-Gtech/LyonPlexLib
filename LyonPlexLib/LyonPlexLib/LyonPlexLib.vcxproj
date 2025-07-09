@@ -38,6 +38,7 @@
     <ClInclude Include="Include\EntityManager.h" />
     <ClInclude Include="Include\EventBus.h" />
     <ClInclude Include="Include\Events.h" />
+    <ClInclude Include="Include\FreeCamera.h" />
     <ClInclude Include="Include\GameManager.h" />
     <ClInclude Include="Include\GameObject.h" />
     <ClInclude Include="Include\GraphicsDevice.h" />
@@ -84,6 +85,7 @@
     <ClCompile Include="Src\DevScene.cpp" />
     <ClCompile Include="Src\ECSManager.cpp" />
     <ClCompile Include="Src\EntityManager.cpp" />
+    <ClCompile Include="Src\FreeCamera.cpp" />
     <ClCompile Include="Src\GameManager.cpp" />
     <ClCompile Include="Src\GameObject.cpp" />
     <ClCompile Include="Src\GraphicsDevice.cpp" />

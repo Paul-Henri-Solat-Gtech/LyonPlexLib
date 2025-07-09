@@ -6,6 +6,7 @@ void Scene::Init(SceneManager* sceneManager)
 	mp_sceneManager = sceneManager;
 	m_mouseRotating = false;
 	m_lastMousePos = { 0,0 };
+	ShowCursor(TRUE);
 	Start();
 }
 

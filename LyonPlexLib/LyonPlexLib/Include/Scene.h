@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 #include "Button.h"
+#include "FreeCamera.h"
 
 class SceneManager;
 
