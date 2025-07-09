@@ -19,18 +19,15 @@
     <ClCompile Include="Src\pch.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Player.cpp">
-      <Filter>Fichiers sources\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\PlayerCondition.cpp">
-      <Filter>Fichiers sources\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\PlayerAction.cpp">
-      <Filter>Fichiers sources\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Src\MainMenuScene.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Player.cpp" />
+    <ClCompile Include="Src\PlayerAction.cpp" />
+    <ClCompile Include="Src\PlayerCondition.cpp" />
+    <ClCompile Include="Src\Ennemy.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
     <ClCompile Include="Src\Player.cpp">
       <Filter>Player</Filter>
     </ClCompile>
@@ -39,6 +36,12 @@
     </ClCompile>
     <ClCompile Include="Src\PlayerCondition.cpp">
       <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EnemyAction.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EnemyCondition.cpp">
+      <Filter>Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +78,15 @@
     <ClInclude Include="Include\MainMenuScene.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Include\Ennemy.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\EnemyAction.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\EnemyCondition.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Fichiers d%27en-tête">
@@ -85,6 +97,9 @@
     </Filter>
     <Filter Include="Player">
       <UniqueIdentifier>{f737ae5c-80e4-427b-bea2-c6fa1513c21a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemy">
+      <UniqueIdentifier>{bba89b8a-6c38-4895-a4d3-662cfbf61418}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

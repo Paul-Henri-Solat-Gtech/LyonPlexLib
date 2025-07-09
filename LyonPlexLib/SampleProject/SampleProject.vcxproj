@@ -21,6 +21,9 @@
   <ItemGroup>
     <ClCompile Include="Src\AllScenes.cpp" />
     <ClCompile Include="Src\BlockTutoScene.cpp" />
+    <ClCompile Include="Src\EnemyAction.cpp" />
+    <ClCompile Include="Src\EnemyCondition.cpp" />
+    <ClCompile Include="Src\Ennemy.cpp" />
     <ClCompile Include="Src\GameScene.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\MainMenuScene.cpp" />
@@ -36,6 +39,9 @@
   <ItemGroup>
     <ClInclude Include="Include\AllScenes.h" />
     <ClInclude Include="Include\BlockTutoScene.h" />
+    <ClInclude Include="Include\EnemyAction.h" />
+    <ClInclude Include="Include\EnemyCondition.h" />
+    <ClInclude Include="Include\Ennemy.h" />
     <ClInclude Include="Include\GameScene.h" />
     <ClInclude Include="Include\main.h" />
     <ClInclude Include="Include\MainMenuScene.h" />

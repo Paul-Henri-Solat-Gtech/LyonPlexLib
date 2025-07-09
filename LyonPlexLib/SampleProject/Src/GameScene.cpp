@@ -27,14 +27,17 @@ void GameScene::Start()
 
 	// Test player + stateMachine
 	m_playerTest.Init(m_player, mp_sceneManager->GetGameManager());
-	
+	m_enemyTest.Init(GetGameObjectByName("testGm"), m_player, mp_sceneManager->GetGameManager());
+
 	CreateGameObject("bras", TYPE_2D, true);
 	GetGameObjectByName("bras").SetTexture(TEXTURES::ARMS);
 	GetGameObjectByName("bras").SetPosition({ 400, 450, 0 });
 	GetGameObjectByName("bras").SetScale({ 800, 500, 0 });
 	GetGameObjectByName("bras").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
+	
 	m_playerTest.SetPlayerArm(GetGameObjectByName("bras"));
+
 
 	// Audio
 	CreateSoundPlex("slash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
@@ -76,6 +79,9 @@ void GameScene::Update(float deltatime)
 
 	// PlayerState
 	m_playerTest.OnUdpdate(deltatime);
+	m_enemyTest.OnUdpdate(deltatime);
+
+
 	if (InputManager::GetKeyIsReleased('T'))
 	{
 		OutputDebugStringA(("\nPlayer State : " + std::string(m_playerTest.GetCurrentStateName())).c_str());
