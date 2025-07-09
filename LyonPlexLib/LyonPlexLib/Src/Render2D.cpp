@@ -213,7 +213,7 @@ void Render2D::RecordCommands()
 
 		UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
 		D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
-		handle.ptr += (cbData.materialIndex + 1) * descSize;
+		handle.ptr += (cbData.materialIndex) * descSize;
 
 		cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/2, handle);
 

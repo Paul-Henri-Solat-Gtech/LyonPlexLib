@@ -23,25 +23,26 @@ cbuffer ObjectBuffer : register(b1)
 
 struct Light
 {
-    //uint    type; // 0 = dir, 1 = point
-    //float3  color;
-    //float   intensity;
-    //float3  direction; // ou position si point
-    //float   range;
-    //float   _lightpad[3]; // padding 16 bytes
-    uint type; // 0
-    float3 color; // 4?16
-    float intensity; // 16?20
-    float3 direction; // 20?32
-    float range; // 32?36
-    float _pad[3]; // 36?48
+    uint type; 
+    float3 color; 
+    float intensity; 
+    float3 direction; 
+    float range; 
+    float _pad[3]; 
 };
 
-cbuffer LightBuffer : register(b2)
+// CBV #1 : juste le count
+cbuffer LightCountCB : register(b2)
 {
-    uint    lightCount;
-    float   _pad[3];
-    Light   lights[MAX_LIGHTS];
+    uint lightCount;
+    float3 _pad; // pour aligner à 16
+};
+
+// CBV #2 : juste l’array
+cbuffer LightArrayCB : register(b3)
+{
+    Light lights[MAX_LIGHTS]; // 8×48 = 384 bytes
+    // HLSL complètera automatiquement au multiple de 16
 };
 
 // slot t0 : table SRV textures
@@ -55,20 +56,6 @@ SamplerState linearClamp : register(s0);
 // Structs hlsl
 //-----------------------------------------------------------------------------//
 
-//struct VSInput // VSmain in
-//{
-//    float3 position : POSITION;
-//    float4 color    : COLOR;
-//    float2 uv : TEXCOORD0;
-//    float3 normal : NORMAL; // ajouté
-//    //uint   material : TEXCOORD1;
-//};
-//struct PSInput // VSmain out
-//{
-//    float4 positionH : SV_POSITION; 
-//    float4 color     : COLOR; 
-//    float2 uv : TEXCOORD0;
-//};
 struct VSInput
 {
     float3 position : POSITION;
@@ -111,25 +98,14 @@ PSInput VSMain(VSInput input)
 }
 
 float4 PSMain(PSInput input) : SV_Target
-{
-    //float4 c = textures.Sample(linearClamp, input.uv);
-    //c.a *= alpha;
-    //return c;
-    //float r = lightCount / float(MAX_LIGHTS);
-    //return float4(r, 0, 0, 1);
-    
+{    
     // sample albedo
     float3 baseColor = textures.Sample(linearClamp, input.uv).rgb;
-
-    if (lightCount == 1)
-        return float4(lightCount, 0, 0, 1);
-        
-    //float3 camPos = mul(float4(0, 0, 0, 1), invViewMatrix).xyz;
 
     float3 N = normalize(input.worldN);
     float3 V = normalize(camPos - input.worldPos);
 
-    float3 accum = float3(0.1, 0.1, 0.1);
+    float3 accum = float3(0.5, 0.5, 0.5);
 
     [unroll]
     for (int i = 0; i < lightCount; ++i)

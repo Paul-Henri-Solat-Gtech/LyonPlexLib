@@ -57,10 +57,10 @@ void Render3D::RecordCommands()
 	cmdList->SetGraphicsRootConstantBufferView(/*rootParameterIndex = slot b0*/ 0, m_ECS->m_systemMgr.GetCameraSystem().GetCBbuffer()->GetGPUVirtualAddress());
 
 	m_ECS->m_systemMgr.GetLightSystem().BindAndUpload(mp_commandManager);
-	UINT testCount = m_ECS->m_systemMgr.GetLightSystem().GetMappedBuffer()->lightCount;
+	/*UINT testCount = m_ECS->m_systemMgr.GetLightSystem().GetMappedBuffer()->lightCount;
 	char buf[128];
 	sprintf_s(buf, ">> LightCount (CPU) = %u\n", testCount);
-	OutputDebugStringA(buf);
+	OutputDebugStringA(buf);*/
 
 
 	// 2. Bind UNE SEULE FOIS l’integralite de ton heap SRV au slot t0 (rootParameter index = 2)
@@ -122,11 +122,11 @@ void Render3D::RecordCommands()
 					texId = mesh.materialTextureIDs[sub.MaterialID];         // fallback sub‑mesh
 
 				}
-				texHandle.ptr += (texId + 1) * descSize;                       // override explicite
+				texHandle.ptr += (texId) * descSize;                       // override explicite
 
 
-				// 2. Bind UNE SEULE FOIS l’integralite de ton heap SRV au slot t0 (rootParameter index = 2)
-				cmdList->SetGraphicsRootDescriptorTable(/*rootParameterIndex=*/3, texHandle);
+				// 2. Bind UNE SEULE FOIS l’integralite de ton heap SRV au slot t0 (rootParameter index = 4)
+				cmdList->SetGraphicsRootDescriptorTable(/*rootParameterIndex=*/4, texHandle);
 
 
 				//// 3) binder uniquement ce handle sur le rootParam de SRV :
@@ -175,10 +175,10 @@ void Render3D::RecordCommands()
 				// 2) calculer le handle précis dans le SRV heap (offset en descriptors) :
 				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
 				D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
-				handle.ptr += (texId + 1) * descSize;
+				handle.ptr += (texId) * descSize;
 
 				// 3) binder uniquement ce handle sur le rootParam de SRV :
-				cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/3, handle);
+				cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/4, handle);
 
 				UINT globalIndexStart = mesh.iOffset + sub.IndexOffset;
 				// 4) dessiner ce submesh :

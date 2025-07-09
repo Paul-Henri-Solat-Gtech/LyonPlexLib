@@ -17,6 +17,10 @@ GameManager::~GameManager()
 
 bool GameManager::Init()
 {
+	ComPtr<ID3D12Debug> debug;
+	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debug))))
+		debug->EnableDebugLayer();
+
 	CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
 
 	// 1) Creer la fenetre

@@ -64,7 +64,7 @@ void GraphicsPipeline::CreateRootSignature()
 
 	// 0) shader with camera
 	// 1) Definition des deux root parameters (slot b0 et b1)
-	CD3DX12_ROOT_PARAMETER1 rootParams[4];
+	CD3DX12_ROOT_PARAMETER1 rootParams[5];
 	// Slot 0 : Camera View & Proj
 	rootParams[0].InitAsConstantBufferView(0); // <- b0 côte shader pour camera (view & proj)
 	//rootParams[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
@@ -73,12 +73,14 @@ void GraphicsPipeline::CreateRootSignature()
 	rootParams[1].InitAsConstantBufferView(1); // <- b1 côte shader pour transform (world)
 
 	// Slot 2 : Lights
-	rootParams[2].InitAsConstantBufferView(
-		/*shaderRegister=*/2,
-		/*registerSpace=*/0,
-		D3D12_ROOT_DESCRIPTOR_FLAG_NONE,
-		D3D12_SHADER_VISIBILITY_PIXEL
-	);
+	rootParams[2].InitAsConstantBufferView(2); // lightCount
+	rootParams[3].InitAsConstantBufferView(3); // lights[]
+	//rootParams[2].InitAsConstantBufferView(
+	//	/*shaderRegister=*/2,
+	//	/*registerSpace=*/0,
+	//	D3D12_ROOT_DESCRIPTOR_FLAG_NONE,
+	//	D3D12_SHADER_VISIBILITY_PIXEL
+	//);
 	//rootParams[2].InitAsConstantBufferView(2); // <- b2 côte shader pour LightBuffer
 	////rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 	//rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
@@ -89,7 +91,7 @@ void GraphicsPipeline::CreateRootSignature()
 	//);
 
 	// Slot 3 : SRV descriptor table (textures)
-	rootParams[3].InitAsDescriptorTable(
+	rootParams[4].InitAsDescriptorTable(
 		1,          // RangeCount
 		&ranges[0], // pointeur sur notre range SRV
 		D3D12_SHADER_VISIBILITY_PIXEL
