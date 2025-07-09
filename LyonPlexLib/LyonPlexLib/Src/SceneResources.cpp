@@ -43,6 +43,7 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/pont.jpg");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/maison.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/temple.jpg");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Cepha1test.png");
     txtMngr.LoadTexture("../SampleProject/Ressources/icecream.png");//19
     txtMngr.LoadTexture("../SampleProject/Ressources/start.png");//20
 
@@ -142,6 +143,7 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/16.png"); //100
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/17.png"); //100
     }
+
 
     return true;
 }

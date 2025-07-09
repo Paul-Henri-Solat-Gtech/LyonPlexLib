@@ -8,6 +8,7 @@
 #include "SoundManager.h"
 #include "AnimationManager.h"
 #include "CollisionSystem.h"
+#include "LightSystem.h"
 #include "chrono"
 
 class GameManager 
@@ -45,6 +46,7 @@ private:
     // Systems
     RenderingManager m_renderer;
     CollisionSystem m_collisionSystem;
+    //LightSystem m_lightSystem;
 
     bool m_isRunning = false;
 

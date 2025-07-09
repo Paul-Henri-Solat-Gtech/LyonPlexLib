@@ -10,6 +10,7 @@ void TextureManager::Init(GraphicsDevice* graphicsDevice, DescriptorManager* des
 {
 	m_graphicsDevice = graphicsDevice;
 	m_descMgr = descriptorManager;
+
 }
 
 TextureID TextureManager::LoadTexture(const std::string& key)

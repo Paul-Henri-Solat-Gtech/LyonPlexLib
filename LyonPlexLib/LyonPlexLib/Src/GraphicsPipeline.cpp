@@ -44,39 +44,25 @@ void GraphicsPipeline::CreateRootSignature()
 		0                                  // offset in descriptors (auto) -> autre possibilite : D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND
 	);
 
-	// 2. Definit un descriptor range pour Sampler (optionnel)
-	//CD3DX12_DESCRIPTOR_RANGE1 samplerRanges[1];
-	//samplerRanges[0].Init(
-	//	D3D12_DESCRIPTOR_RANGE_TYPE_SAMPLER,
-	//	1,      // un sampler "linear wrap" par defaut
-	//	0,      // s0
-	//	0
-	//);          // A REVOIR
-
-
 	// 0) shader with camera
 	// 1) Definition des deux root parameters (slot b0 et b1)
-	CD3DX12_ROOT_PARAMETER1 rootParams[3];
+	CD3DX12_ROOT_PARAMETER1 rootParams[5];
 	// Slot 0 : Camera View & Proj
 	rootParams[0].InitAsConstantBufferView(0); // <- b0 côte shader pour camera (view & proj)
 
 	// Slot 1 : Object world matrix
 	rootParams[1].InitAsConstantBufferView(1); // <- b1 côte shader pour transform (world)
 
-	// Slot 2 : SRV descriptor table (textures)
-	rootParams[2].InitAsDescriptorTable(
+	// Slot 2 : Lights
+	rootParams[2].InitAsConstantBufferView(2); // lightCount
+	rootParams[3].InitAsConstantBufferView(3); // lights[]
+
+	// Slot 3 : SRV descriptor table (textures)
+	rootParams[4].InitAsDescriptorTable(
 		1,          // RangeCount
 		&ranges[0], // pointeur sur notre range SRV
 		D3D12_SHADER_VISIBILITY_PIXEL
 	);
-	//// Slot 3 : Sampler descriptor table
-	//rootParams[3].InitAsDescriptorTable(
-	//	1,
-	//	&samplerRanges[0],
-	//	D3D12_SHADER_VISIBILITY_PIXEL
-	//);
-	/* rootParams supplementaires   */
-
 	// Static sampler (s0)
 	D3D12_STATIC_SAMPLER_DESC samplerDesc = {};
 	samplerDesc.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
@@ -316,7 +302,7 @@ void GraphicsPipeline::CreateRootSignature2D()
 	CD3DX12_DESCRIPTOR_RANGE1 ranges[1];
 	ranges[0].Init(
 		D3D12_DESCRIPTOR_RANGE_TYPE_SRV,
-		1, 
+		1,
 		0, 0,
 		D3D12_DESCRIPTOR_RANGE_FLAG_NONE,
 		0);

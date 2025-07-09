@@ -17,6 +17,10 @@ GameManager::~GameManager()
 
 bool GameManager::Init()
 {
+	ComPtr<ID3D12Debug> debug;
+	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debug))))
+		debug->EnableDebugLayer();
+
 	CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
 
 	// 1) Creer la fenetre
@@ -27,11 +31,13 @@ bool GameManager::Init()
 	HWND hwnd = m_window.GetWindowHandle();
 	m_renderer.SetWindowHandle(hwnd);
 	m_renderer.Init(&m_ECS); // A VOIR MODIFIER ET METTRE HWND COMME ARGUMENT EN POINTEUR (et mettre le init en bool)
-	//m_renderer.OnWindowResize(800, 600);
-	
+
+	//m_ECS.Init(m_renderer.GetGraphicsDevice(), m_renderer.GetCommandManager(), m_renderer.GetRender3D()); // A MODIFIER AUSSI => ne doit pas avoir besoin de renderer
+	m_ECS.Init(m_renderer); // A MODIFIER AUSSI => ne doit pas avoir besoin de renderer
+
 	m_collisionSystem.Init(&m_ECS);
 
-	m_ECS.Init(m_renderer.GetGraphicsDevice(), m_renderer.GetCommandManager(), m_renderer.GetRender3D()); // A MODIFIER AUSSI => ne doit pas avoir besoin de renderer
+	//m_lightSystem.Init(m_ECS, m_renderer.GetGraphicsDevice(), m_renderer.GetCommandManager());
 
 	m_isRunning = true;
 
@@ -84,11 +90,14 @@ int GameManager::Run()
 			DispatchMessage(&msg); // Appelle la WindowProcedure correspondante
 		}
 		// UPDATE
-		m_renderer.Update();
-		m_ECS.m_systemMgr.UpdateAll(0);
+		//m_renderer.Update();
+		m_ECS.m_systemMgr.UpdateAll(m_deltaTime);
+		m_collisionSystem.Update();
+
 		m_sceneManager.UpdateScene(m_deltaTime);
 
-		m_collisionSystem.Update();
+
+		//m_lightSystem.Update(m_ECS, m_deltaTime);
 
 		// Enregistrement et envoi des commandes
 
@@ -134,13 +143,13 @@ void GameManager::OnResize(UINT newW, UINT newH)
 		auto& camSys = m_ECS.m_systemMgr.GetCameraSystem();
 		// Parcours de toutes les entités caméra (ici on suppose une seule)
 		ComponentMask camMask = (1ULL << CameraComponent::StaticTypeID) | (1ULL << TransformComponent::StaticTypeID);
-		m_ECS.ForEach(camMask, [&](Entity e) 
-		{
-			auto* cam = m_ECS.GetComponent<CameraComponent>(e);
-			if (!cam) return;
-			cam->aspectRatio = float(newW) / float(newH);
-			cam->projectionDirty = true;    // forcera le recalcule lors du prochain Update()
-		});
+		m_ECS.ForEach(camMask, [&](Entity e)
+			{
+				auto* cam = m_ECS.GetComponent<CameraComponent>(e);
+				if (!cam) return;
+				cam->aspectRatio = float(newW) / float(newH);
+				cam->projectionDirty = true;    // forcera le recalcule lors du prochain Update()
+			});
 	}
 	m_ECS.m_systemMgr.UpdateAll(0.0f);
 

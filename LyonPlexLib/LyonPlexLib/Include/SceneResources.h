@@ -22,6 +22,7 @@ namespace TEXTURES
 		PONT,
 		MAISON,
 		TEMPLE,
+		CEPHA,
 		iceCream,
 		start,
 
