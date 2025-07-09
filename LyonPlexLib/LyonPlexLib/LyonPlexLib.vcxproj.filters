@@ -94,10 +94,10 @@
     <ClCompile Include="Src\Button.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\FreeCamera.cpp" />
+    <ClCompile Include="Src\FreeCamera.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Include\LightSystem.cpp">
+    <ClCompile Include="Src\LightSystem.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -234,7 +234,7 @@
     <ClInclude Include="Include\Button.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Include\FreeCamera.h" />
+    <ClInclude Include="Include\FreeCamera.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Include\LightSystem.h">
