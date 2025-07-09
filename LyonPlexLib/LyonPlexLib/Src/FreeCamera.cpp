@@ -43,7 +43,7 @@ void FreeCamera::Update(float deltatime)
         int dx = cur.x - m_lastMouse.x;
         int dy = cur.y - m_lastMouse.y;
         m_yaw += dx * m_sensitivity;
-        m_pitch += -dy * m_sensitivity;
+        m_pitch += dy * m_sensitivity;
         m_pitch = std::clamp(m_pitch, -89.0f, +89.0f);
         // recentre la souris
         SetCursorPos(m_lastMouse.x, m_lastMouse.y);
