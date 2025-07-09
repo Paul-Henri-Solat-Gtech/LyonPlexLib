@@ -46,6 +46,7 @@
     <ClInclude Include="Include\InputManager.h" />
     <ClInclude Include="Include\IRender.h" />
     <ClInclude Include="Include\ISystem.h" />
+    <ClInclude Include="Include\LightSystem.h" />
     <ClInclude Include="Include\MeshManager.h" />
     <ClInclude Include="Include\pch.h" />
     <ClInclude Include="Include\Render2D.h" />
@@ -76,6 +77,7 @@
   <ItemGroup>
     <ClCompile Include="Src\AnimationManager.cpp" />
     <ClCompile Include="Src\Button.cpp" />
+    <ClCompile Include="Src\LightSystem.cpp" />
     <ClCompile Include="Src\CameraManager.cpp" />
     <ClCompile Include="Src\CameraSystem.cpp" />
     <ClCompile Include="Src\CollisionSystem.cpp" />

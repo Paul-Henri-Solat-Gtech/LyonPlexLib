@@ -14,6 +14,7 @@ enum ComponentID
 	Mesh_ID,
 	Texture_ID,
 	Collision_ID,
+	Light_ID,
 
 
 	// Types (3D, 2D, UI)
@@ -89,30 +90,6 @@ struct TransformComponent : public Component {
 	}
 };
 
-//struct SpriteComponent : public Component {
-//    static constexpr uint32_t StaticTypeID = Transform_ID;
-//
-//    XMFLOAT3 position = { 0.0f, 0.0f, 0.0f };
-//    float rotation = 0.0f; // degree
-//    XMFLOAT3 scale = { 1.0f, 1.0f, 1.0f };
-//
-//    Entity    parent = { UINT32_MAX };
-//    bool      dirty = true;
-//
-//    TransformComponent() {
-//        mask = 1ULL << StaticTypeID;
-//        typeID = StaticTypeID;
-//    }
-//
-//    inline void AddRotation(TransformComponent& t, float deltaPitchDeg, float deltaYawDeg, float deltaRollDeg)
-//    {
-//    }
-//
-//    inline void SetRotation(TransformComponent& t, float pitchDeg, float yawDeg, float rollDeg)
-//    {
-//    }
-//};
-
 // Contient tout ce dont le CameraSystem a besoin pour calculer la view/proj.
 struct CameraComponent : public Component {
 	static constexpr uint32_t StaticTypeID = Camera_ID; // Choisissez un ID libre (> 3 dans votre exemple)
@@ -159,7 +136,7 @@ struct MeshComponent : public Component
 	uint32_t materialID;
 	float alpha = 1;
 
-	MeshComponent(uint32_t meshID_, uint32_t materialID_ = -1)
+	MeshComponent(uint32_t meshID_, uint32_t materialID_ = UINT32_MAX)
 	{
 		mask = 1ULL << StaticTypeID;
 		typeID = StaticTypeID;
@@ -200,7 +177,31 @@ struct CollisionComponent : public Component
 };
 
 
+struct LightComponent : public Component
+{
+	static constexpr uint32_t StaticTypeID = Light_ID;
 
+
+	DirectX::XMFLOAT3		color = { 1,1,1 };
+	float					intensity = 1.0f;
+
+	// Directional light only : //
+	DirectX::XMFLOAT3		direction = { 0,-1,0 };
+
+	// Point light only :		//
+	DirectX::XMFLOAT3		position = { 0,0,0 };
+	float					range = 10.0f;
+
+	enum Type : uint32_t { Directional = 0, Point = 1 } type = Directional;
+
+	LightComponent(uint32_t _type)
+	{
+		mask = 1ULL << StaticTypeID;
+		typeID = StaticTypeID;
+
+		(_type == 0) ? type = Type::Directional : type = Type::Point;
+	}
+};
 
 
 

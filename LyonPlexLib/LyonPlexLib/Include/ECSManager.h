@@ -4,6 +4,7 @@
 #include "ComponentManager.h"
 #include "SystemManager.h"
 
+class RenderingManager;
 
 //-----------------------------------------------------------------------------//
 // ECSManager: orchestration
@@ -13,7 +14,8 @@ class ECSManager
 public:
     ECSManager(size_t maxEntities = 4096) : m_entityMgr(maxEntities)  { }
 
-    void Init(GraphicsDevice* device, CommandManager* cmdMgr, Render3D* r3d);
+    //void Init(GraphicsDevice* device, CommandManager* cmdMgr, Render3D* r3d);
+    void Init(RenderingManager& rendMngr);
 
     Entity CreateEntity() { return m_entityMgr.Create(); }
 

@@ -1,9 +1,14 @@
 #include "pch.h"
 #include "ECSManager.h"
 
-void ECSManager::Init(GraphicsDevice* device, CommandManager* cmdMgr, Render3D* r3d)
+//void ECSManager::Init(GraphicsDevice* device, CommandManager* cmdMgr, Render3D* r3d)
+//{
+//    m_systemMgr.InitManager(this, device, cmdMgr, r3d);
+//}
+
+void ECSManager::Init(RenderingManager& rendMngr)
 {
-    m_systemMgr.InitManager(this, device, cmdMgr, r3d);
+    m_systemMgr.InitManager(this, &rendMngr);
 }
 
 void ECSManager::DestroyEntity(Entity e)
