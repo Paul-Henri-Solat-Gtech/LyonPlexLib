@@ -318,10 +318,26 @@ void PlayerAction_Fall::Start(Player* player)
 }
 void PlayerAction_Fall::Update(Player* player)
 {
-	player->GetGameObject().GetComponent<TransformComponent>()->position.y -= 9.81f * player->GetDeltatime();
+	player->GetGameObject().GetComponent<TransformComponent>()->position.y -= 9.81f * player->m_deltatime;
 	player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
 }
 void PlayerAction_Fall::End(Player* player)
 {
 	player->GetPlayerArm().SetTexture(TEXTURES::ARMS);
+}
+
+void PlayerAction_PickUp::Start(Player* player)
+{
+	OutputDebugStringA("\n-Start Pick Up\n");
+	player->m_isPickingUp = true;
+}
+
+void PlayerAction_PickUp::Update(Player* player)
+{
+	player->m_isPickingUp = false;
+}
+
+void PlayerAction_PickUp::End(Player* player)
+{
+	OutputDebugStringA("\nEnd Pick Up-\n");
 }

@@ -43,6 +43,15 @@
     <ClCompile Include="Src\EnemyCondition.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="..\LyonPlexLib\Src\Projectile.cpp">
+      <Filter>Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LyonPlexLib\Src\ProjectileAction.cpp">
+      <Filter>Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LyonPlexLib\Src\ProjectileCondition.cpp">
+      <Filter>Projectile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\AllScenes.h">
@@ -87,6 +96,15 @@
     <ClInclude Include="Include\EnemyCondition.h">
       <Filter>Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="..\LyonPlexLib\Include\Projectile.h">
+      <Filter>Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\LyonPlexLib\Include\ProjectileAction.h">
+      <Filter>Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="..\LyonPlexLib\Include\ProjectileCondition.h">
+      <Filter>Projectile</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Fichiers d%27en-tête">
@@ -100,6 +118,9 @@
     </Filter>
     <Filter Include="Enemy">
       <UniqueIdentifier>{bba89b8a-6c38-4895-a4d3-662cfbf61418}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Projectile">
+      <UniqueIdentifier>{e1c8f4c5-965e-4d55-8ead-d01b8f71d180}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

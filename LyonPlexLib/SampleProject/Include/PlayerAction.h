@@ -54,3 +54,11 @@ public:
 	void End(Player* player) override;
 };
 
+class PlayerAction_PickUp : public Action<Player>
+{
+public:
+	void Start(Player* player) override;
+	void Update(Player* player) override;
+	void End(Player* player) override;
+};
+

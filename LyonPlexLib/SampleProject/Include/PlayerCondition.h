@@ -38,3 +38,15 @@ class PlayerCondition_AttackFinished : public Condition<Player>
 public:
 	bool OnTest(Player* owner) override;
 };
+
+class PlayerCondition_IsPickingUp : public Condition<Player>
+{
+public:
+	bool OnTest(Player* owner) override;
+};
+
+class PlayerCondition_IsNotPickingUp : public Condition<Player>
+{
+public:
+	bool OnTest(Player* owner) override;
+};

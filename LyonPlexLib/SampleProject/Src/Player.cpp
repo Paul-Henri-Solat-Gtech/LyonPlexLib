@@ -28,6 +28,11 @@ Player::Player() : m_stateMachine(this, State::Count)
 			auto transition = sIdle->CreateTransition(State::Fall);
 			auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
 		}
+		//-> PICK UP TRANSITION
+		{
+			auto transition = sIdle->CreateTransition(State::PickUp);
+			auto condition = transition->AddCondition<PlayerCondition_IsPickingUp>();
+		}
 	}
 
 	// --- MOVE ---
@@ -48,6 +53,11 @@ Player::Player() : m_stateMachine(this, State::Count)
 		{
 			auto transition = sMove->CreateTransition(State::Fall);
 			auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
+		}
+		//-> PICK UP TRANSITION
+		{
+			auto transition = sMove->CreateTransition(State::PickUp);
+			auto condition = transition->AddCondition<PlayerCondition_IsPickingUp>();
 		}
 	}
 
@@ -98,6 +108,34 @@ Player::Player() : m_stateMachine(this, State::Count)
         //-> ATTACK TRANSITION
         {
             //auto transition = sAttack->CreateTransition(State::Attack);
+            //auto condition = transition->AddCondition<PlayerCondition_AttackFinished>();
+        }
+    }
+    // --- Pick Up ---
+    {
+        auto* sPickUp = m_stateMachine.CreateBehaviour(State::PickUp);
+        sPickUp->AddAction(new PlayerAction_PickUp());
+        //-> IDLE TRANSITION
+        {
+            auto transition = sPickUp->CreateTransition(State::Idle);
+            auto condition = transition->AddCondition<PlayerCondition_IsNotMoving>();
+            transition->AddCondition<PlayerCondition_IsNotPickingUp>();
+        }
+        //-> MOVE TRANSITION
+        {
+            auto transition = sPickUp->CreateTransition(State::Move);
+            auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
+            transition->AddCondition<PlayerCondition_IsNotPickingUp>();
+        }
+        //-> FALL TRANSITION
+        {
+            auto transition = sPickUp->CreateTransition(State::Fall);
+            auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
+            transition->AddCondition<PlayerCondition_IsNotPickingUp>();
+        }
+        //-> ATTACK TRANSITION
+        {
+            //auto transition = sPickUp->CreateTransition(State::Attack);
             //auto condition = transition->AddCondition<PlayerCondition_AttackFinished>();
         }
     }

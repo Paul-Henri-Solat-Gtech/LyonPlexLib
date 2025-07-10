@@ -12,21 +12,11 @@ class Player
 		Jump,
 		Attack,
 		Fall,
+		PickUp,
 
 		Count
 	};
 
-	int m_hp = 10;
-
-	float m_walkSpeed = 2.0f;
-	float m_runSpeed = 5.0f;
-	float m_moveSpeed;
-	float m_jumpPower = 5.0f;
-	float m_invicibilityCooldown = 2.0f;
-
-	bool m_hasCollided = false;
-
-	float m_deltatime;
 
 public:
 	Player();
@@ -56,6 +46,19 @@ public:
 	AnimationManager m_testAnimation;
 	bool m_attackFinished;
 	int m_slashAttackNb;
+
+	int m_hp = 10;
+
+	float m_walkSpeed = 2.0f;
+	float m_runSpeed = 5.0f;
+	float m_moveSpeed;
+	float m_jumpPower = 5.0f;
+	float m_invicibilityCooldown = 2.0f;
+
+	bool m_hasCollided = false;
+	bool m_isPickingUp = false;
+
+	float m_deltatime;
 
 private:
 	GameManager* mp_gameManager;

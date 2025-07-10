@@ -36,7 +36,7 @@ void SampleScene2::Start()
 
 	CreateEntity("bras");
 	AddComponent<Type_2D>("bras", new Type_2D());
-	AddComponent<MeshComponent>("bras", new MeshComponent(2, TEXTURES::ARMS));
+	AddComponent<MeshComponent>("bras", new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::ARMS));
 	GetComponent<TransformComponent>("bras")->position = { 400, 500, 0 };
 	GetComponent<TransformComponent>("bras")->scale = { 800, 500, 0 };
 	GetComponent<TransformComponent>("bras")->SetRotation(0, 0, 180);

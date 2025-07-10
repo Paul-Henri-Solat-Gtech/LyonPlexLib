@@ -30,3 +30,13 @@ bool PlayerCondition_AttackFinished::OnTest(Player* owner)
 {
     return owner->m_attackFinished;
 };
+
+bool PlayerCondition_IsPickingUp::OnTest(Player* owner)
+{
+    return InputManager::GetKeyIsJustPressed('F');
+}
+
+bool PlayerCondition_IsNotPickingUp::OnTest(Player* owner)
+{
+    return !owner->m_isPickingUp;
+}

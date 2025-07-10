@@ -16,7 +16,7 @@ void GameScene::Start()
 	GetGameObjectByName("testGm").SetTexture(TEXTURES::GRID);
 
 	auto& a = GetGameObjectByName("testGm").GetScale();
-	GetGameObjectByName("testGm").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2,a.y / 2,a.z / 2 })));
+	GetGameObjectByName("testGm").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
 
 
 	SetParent("camera2", "player");
@@ -35,7 +35,7 @@ void GameScene::Start()
 	GetGameObjectByName("bras").SetScale({ 800, 500, 0 });
 	GetGameObjectByName("bras").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
-	
+
 	m_playerTest.SetPlayerArm(GetGameObjectByName("bras"));
 
 
