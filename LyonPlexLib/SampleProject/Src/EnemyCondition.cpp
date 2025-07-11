@@ -2,7 +2,7 @@
 #include "EnemyCondition.h"
 #include "Utils.h"
 
-bool EnnemyCondition_PlayerIsNear::OnTest(Ennemy* owner)
+bool EnnemyCondition_PlayerIsNear::OnTest(Enemy* owner)
 {
 	Utils::Vector3 newVec;
 	newVec.x = owner->m_playerGm.GetPosition().x - owner->m_ennemyGm.GetPosition().x;
@@ -19,7 +19,7 @@ bool EnnemyCondition_PlayerIsNear::OnTest(Ennemy* owner)
 	}
 }
 
-bool EnnemyCondition_PlayerIsNotNear::OnTest(Ennemy* owner)
+bool EnnemyCondition_PlayerIsNotNear::OnTest(Enemy* owner)
 {
 	Utils::Vector3 newVec;
 	newVec.x = owner->m_playerGm.GetPosition().x - owner->m_ennemyGm.GetPosition().x;

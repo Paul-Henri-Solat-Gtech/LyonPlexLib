@@ -3,9 +3,15 @@
 
 void GameScene::Start()
 {
-	CreateGameObject("camera2", TYPE_3D, false);
-	GetGameObjectByName("camera2").AddComponent<CameraComponent>(new CameraComponent());
-	GetGameObjectByName("camera2").SetPosition({ 0, 0, 0.5f });
+	CreateGameObject("cam", TYPE_3D, false);
+	m_cam = GetGameObjectByName("cam");
+	m_cam.AddComponent<CameraComponent>(new CameraComponent());
+	
+	m_fpsCam.Init(m_cam, mp_sceneManager->GetWindow());
+
+	//CreateGameObject("camera2", TYPE_3D, false);
+	//GetGameObjectByName("camera2").AddComponent<CameraComponent>(new CameraComponent());
+	//GetGameObjectByName("camera2").SetPosition({ 0, 0, 0.5f });
 
 	CreateGameObject("player");
 	GetGameObjectByName("player").SetPosition({ 0, 3, -1 });
@@ -19,7 +25,10 @@ void GameScene::Start()
 	GetGameObjectByName("testGm").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2,a.y / 2,a.z / 2 })));
 
 
-	SetParent("camera2", "player");
+	SetParent("cam", "player");
+	m_fpsCam.SetParentGO(m_cam);
+
+	//SetParent(m_freeCam.GetCamName(), "player");
 
 	m_playerWalkSpeed = 3.f;
 	m_playerRunSpeed = 6.f;
@@ -53,10 +62,8 @@ void GameScene::Start()
 
 void GameScene::Update(float deltatime)
 {
-	//Input
-	// 
-	// !!! STATE MACHINE MANAGE THE PLAYER !!!
-	// 
+	m_fpsCam.Update(deltatime);
+
 	if (InputManager::GetKeyIsReleased('K'))
 	{
 		PlaySoundPlex("pop");

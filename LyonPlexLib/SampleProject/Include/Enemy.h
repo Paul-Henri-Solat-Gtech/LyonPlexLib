@@ -2,9 +2,9 @@
 
 #include "StateMachine.h"
 
-class Ennemy
+class Enemy
 {
-	StateMachine<Ennemy> m_stateMachine;
+	StateMachine<Enemy> m_stateMachine;
 
 	enum State
 	{
@@ -22,7 +22,7 @@ class Ennemy
 
 public:
 	
-	Ennemy();
+	Enemy();
 
 	void Init(GameObject gameObjectEnemy, GameObject gameObjectPlayer, GameManager* gameManager);
 

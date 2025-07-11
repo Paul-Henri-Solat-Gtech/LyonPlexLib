@@ -5,7 +5,8 @@ void FreeCamera::Init(ECSManager* ecsManager, HWND hWnd)
 {
 	m_hWnd = hWnd;
 
-	m_camGM.Init("FreeCamera", ecsManager, TYPE_3D, false);
+    m_camName = "FreeCamera";
+	m_camGM.Init(m_camName, ecsManager, TYPE_3D, false);
 	m_camGM.AddComponent<CameraComponent>(new CameraComponent());
 	
 	// Position initiale

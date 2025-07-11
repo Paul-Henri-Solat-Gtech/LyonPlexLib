@@ -1,15 +1,15 @@
 #pragma once
 #include "Condition.h"
-#include "Ennemy.h"
+#include "Enemy.h"
 
-class EnnemyCondition_PlayerIsNear : public Condition<Ennemy>
+class EnnemyCondition_PlayerIsNear : public Condition<Enemy>
 {
 public:
-	bool OnTest(Ennemy* owner) override;
+	bool OnTest(Enemy* owner) override;
 };
 
-class EnnemyCondition_PlayerIsNotNear : public Condition<Ennemy>
+class EnnemyCondition_PlayerIsNotNear : public Condition<Enemy>
 {
 public:
-	bool OnTest(Ennemy* owner) override;
+	bool OnTest(Enemy* owner) override;
 };

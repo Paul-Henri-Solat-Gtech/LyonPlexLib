@@ -1,9 +1,9 @@
 ﻿#include "pch.h"
-#include "Ennemy.h"
+#include "Enemy.h"
 #include "EnemyAction.h"
 #include "EnemyCondition.h"
 
-Ennemy::Ennemy() : m_stateMachine(this, State::Count)
+Enemy::Enemy() : m_stateMachine(this, State::Count)
 {
 	// --- IDLE ---
 	{
@@ -32,7 +32,7 @@ Ennemy::Ennemy() : m_stateMachine(this, State::Count)
 	m_stateMachine.SetState(State::Idle);
 }
 
-void Ennemy::Init(GameObject gameObjectEnemy, GameObject gameObjectPlayer, GameManager* gameManager)
+void Enemy::Init(GameObject gameObjectEnemy, GameObject gameObjectPlayer, GameManager* gameManager)
 {
 	m_ennemyGm = gameObjectEnemy;
 	m_playerGm = gameObjectPlayer;
@@ -64,7 +64,7 @@ void Ennemy::Init(GameObject gameObjectEnemy, GameObject gameObjectPlayer, GameM
 
 }
 
-const char* Ennemy::GetStateName(State state) const
+const char* Enemy::GetStateName(State state) const
 {
 	switch (state)
 	{
@@ -74,13 +74,13 @@ const char* Ennemy::GetStateName(State state) const
 	}
 }
 
-const char* Ennemy::GetCurrentStateName() const
+const char* Enemy::GetCurrentStateName() const
 {
 	int state = m_stateMachine.GetCurrentState();
 	return GetStateName(static_cast<State>(state));
 }
 
-void Ennemy::OnUdpdate(float deltatime)
+void Enemy::OnUdpdate(float deltatime)
 {
 	m_stateMachine.Update();
 	m_deltatime = deltatime;

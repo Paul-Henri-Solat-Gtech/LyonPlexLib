@@ -25,7 +25,7 @@
     <ClCompile Include="Src\Player.cpp" />
     <ClCompile Include="Src\PlayerAction.cpp" />
     <ClCompile Include="Src\PlayerCondition.cpp" />
-    <ClCompile Include="Src\Ennemy.cpp">
+    <ClCompile Include="Src\Enemy.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Src\Player.cpp">
@@ -42,6 +42,9 @@
     </ClCompile>
     <ClCompile Include="Src\EnemyCondition.cpp">
       <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SkillTree.cpp">
+      <Filter>Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,7 +81,7 @@
     <ClInclude Include="Include\MainMenuScene.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Ennemy.h">
+    <ClInclude Include="Include\Enemy.h">
       <Filter>Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Include\EnemyAction.h">
@@ -86,6 +89,9 @@
     </ClInclude>
     <ClInclude Include="Include\EnemyCondition.h">
       <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SkillTree.h">
+      <Filter>Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

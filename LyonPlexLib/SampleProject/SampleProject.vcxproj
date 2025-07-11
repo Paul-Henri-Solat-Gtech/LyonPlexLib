@@ -23,7 +23,7 @@
     <ClCompile Include="Src\BlockTutoScene.cpp" />
     <ClCompile Include="Src\EnemyAction.cpp" />
     <ClCompile Include="Src\EnemyCondition.cpp" />
-    <ClCompile Include="Src\Ennemy.cpp" />
+    <ClCompile Include="Src\Enemy.cpp" />
     <ClCompile Include="Src\GameScene.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\MainMenuScene.cpp" />
@@ -35,13 +35,14 @@
     <ClCompile Include="Src\PlayerAction.cpp" />
     <ClCompile Include="Src\PlayerCondition.cpp" />
     <ClCompile Include="Src\SampleScene2.cpp" />
+    <ClCompile Include="Src\SkillTree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\AllScenes.h" />
     <ClInclude Include="Include\BlockTutoScene.h" />
     <ClInclude Include="Include\EnemyAction.h" />
     <ClInclude Include="Include\EnemyCondition.h" />
-    <ClInclude Include="Include\Ennemy.h" />
+    <ClInclude Include="Include\Enemy.h" />
     <ClInclude Include="Include\GameScene.h" />
     <ClInclude Include="Include\main.h" />
     <ClInclude Include="Include\MainMenuScene.h" />
@@ -51,6 +52,7 @@
     <ClInclude Include="Include\PlayerCondition.h" />
     <ClInclude Include="Include\resource.h" />
     <ClInclude Include="Include\SampleScene2.h" />
+    <ClInclude Include="Include\SkillTree.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
