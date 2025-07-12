@@ -40,7 +40,7 @@ public:
 	void SetMoveSpeed(float speedValue) { m_moveSpeed = speedValue; };
 	
 	float GetMoveSpeed() { return m_moveSpeed; };
-
+	bool m_initialized = false;
 
 private:
 	GameManager* mp_gameManager;

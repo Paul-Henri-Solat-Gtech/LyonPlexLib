@@ -21,6 +21,8 @@ public:
 	virtual void Update(float deltatime);
 	virtual void Release();
 
+	void SceneUpdate(float deltatime);
+
 	void ChangeScene(std::string sceneName);
 
 	void SetEcsManager(ECSManager* ecsManager) { mp_ecsManager = ecsManager; };
@@ -39,6 +41,7 @@ public:
 	GameObject& GetGameObjectByTag(Tag gameObjectTag);
 
 	void DestroyGameObject(GameObject& gameObject);
+	void EndUpdate();
 
 	std::vector<GameObject>& GetSceneGameObjects() { return m_sceneGameObjects; };
 
@@ -88,6 +91,7 @@ protected:
 
 	std::vector<SceneEntity> m_sceneEntities; // old
 	std::vector<GameObject> m_sceneGameObjects; // new
+	std::vector<GameObject*> m_sceneGameObjectsToDelete;
 
 	// Mouse
 	bool m_mouseRotating;
