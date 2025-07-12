@@ -10,6 +10,9 @@ public:
 
 	std::string Float2Str(float value);
 
+	std::string RoundValueStr(float value);
+	float RoundValue(float value);
+
 private:
 	GameObject m_placingModule;
 	GameObject m_camera;
@@ -19,6 +22,9 @@ private:
 
 	std::string m_lastPlacedGmName;
 	XMFLOAT3 m_lastPlacedGmPos;
+
+	//quadrillage
+	bool m_QuadrillageModeIsOn;
 
 	// Camera
 	// Membres pour lorbite

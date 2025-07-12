@@ -27,7 +27,8 @@ void DevScene::Start()
 	float dy = camPos.y - cubePos.y;
 	float dz = camPos.z - cubePos.z;
 	float radius = sqrtf(dx * dx + dy * dy + dz * dz);
-	if (radius > 0.001f) {
+	if (radius > 0.001f) 
+	{
 		m_orbitRadius = radius;
 		m_orbitYaw = XMConvertToDegrees(atan2f(dx, dz));
 		m_orbitPitch = XMConvertToDegrees(asinf(dy / radius));
@@ -48,8 +49,9 @@ void DevScene::Start()
 	m_scaleNormalSpeed = 1;
 	m_scaleSpeed = 5;
 	m_scaleSpeed = m_scaleNormalSpeed;
-	// Test
 
+	m_QuadrillageModeIsOn = false;
+	// Test
 }
 
 void DevScene::Update(float deltatime)
@@ -109,22 +111,22 @@ void DevScene::Update(float deltatime)
 	// Rotate
 	if (InputManager::GetKeyIsPressed(VK_RIGHT))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->AddRotation(0.f, -100.f * deltatime, 0.f);
+		m_placingModule.GetComponent<TransformComponent>()->AddRotation(0.f, -100.f * 1, 0.f);
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed(VK_LEFT))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->AddRotation(0.f, 100.f * deltatime, 0.f);
+		m_placingModule.GetComponent<TransformComponent>()->AddRotation(0.f, 100.f * 1, 0.f);
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed(VK_UP))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->AddRotation(100.f * deltatime, 0.f, 0.f);
+		m_placingModule.GetComponent<TransformComponent>()->AddRotation(100.f * 1, 0.f, 0.f);
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed(VK_DOWN))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->AddRotation(-100.f * deltatime, 0.f, 0.f);
+		m_placingModule.GetComponent<TransformComponent>()->AddRotation(-100.f * 1, 0.f, 0.f);
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 
@@ -180,10 +182,25 @@ void DevScene::Update(float deltatime)
 		ChangeScene("MainMenuScene");
 	}
 
+	//Mode cadriage
+	if (InputManager::GetKeyIsReleased('W'))
+	{
+		m_QuadrillageModeIsOn = !m_QuadrillageModeIsOn;
+
+		//if (m_QuadrillageModeIsOn)
+		//{
+		//	m_QuadrillageModeIsOn = false;
+		//}
+		//else
+		//{
+		//	m_QuadrillageModeIsOn = true;
+		//}
+	}
+
 	// Adding blocks (make a function in this scene)
 	if (InputManager::GetKeyIsReleased(VK_LBUTTON))
 	{
-		XMFLOAT3 posCamera = m_placingModule.GetPosition();
+		XMFLOAT3 posCamera = { RoundValue(m_placingModule.GetPosition().x),RoundValue(m_placingModule.GetPosition().y),RoundValue(m_placingModule.GetPosition().z) };
 		XMFLOAT4 rotCamera = m_placingModule.GetRotation();
 		XMFLOAT3 scaleCamera = m_placingModule.GetScale();
 		uint32_t meshID = m_placingModule.GetMesh();
@@ -198,7 +215,7 @@ void DevScene::Update(float deltatime)
 
 		GetGameObjectByName(gmName).SetTag(TAG_Object);
 
-		std::string msg = "\nAdded " + gmName + " At[ X: " + Float2Str(GetGameObjectByName(gmName).GetPosition().x) + " Y: " + Float2Str(GetGameObjectByName(gmName).GetPosition().y) + " Z: " + Float2Str(GetGameObjectByName(gmName).GetPosition().z);
+		std::string msg = "\nAdded " + gmName + " At[ X: " + RoundValueStr(GetGameObjectByName(gmName).GetPosition().x) + " Y: " + RoundValueStr(GetGameObjectByName(gmName).GetPosition().y) + " Z: " + RoundValueStr(GetGameObjectByName(gmName).GetPosition().z);
 		OutputDebugStringA(msg.c_str());
 
 		m_newIdGM++;
@@ -251,11 +268,12 @@ void DevScene::Update(float deltatime)
 		{
 			if (gm.GetTag() == TAG_Object)
 			{
+				//auto& test = gm.GetPosition();
 				//std::string cm_create = std::string("\nCreateGameObject(\"") + gm.GetName() + "\");";
 				std::string cm_create = std::string("\nCreateGameObject(\"") + gm.GetName() + "\"" + "," + std::to_string(gm.GetMesh()) + "," + std::to_string(gm.GetTexture()) + ");";
-				std::string cm_position = std::string("\nGetGameObjectByName(\"") + gm.GetName() + "\").SetPosition({ " + Float2Str(gm.GetPosition().x) + "," + Float2Str(gm.GetPosition().y) + "," + Float2Str(gm.GetPosition().z) + " });";
-				std::string cm_rotation = std::string("\nGetGameObjectByName(\"") + gm.GetName() + "\").SetRotation({ " + Float2Str(gm.GetRotation().x) + "," + Float2Str(gm.GetRotation().y) + "," + Float2Str(gm.GetRotation().z) + "," + Float2Str(gm.GetRotation().w) + " });";
-				std::string cm_scale = std::string("\nGetGameObjectByName(\"") + gm.GetName() + "\").SetScale({ " + Float2Str(gm.GetScale().x) + "," + Float2Str(gm.GetScale().y) + "," + Float2Str(gm.GetScale().z) + " });";
+				std::string cm_position = std::string("\nGetGameObjectByName(\"") + gm.GetName() + "\").SetPosition({ " + RoundValueStr(gm.GetPosition().x) + "," + RoundValueStr(gm.GetPosition().y) + "," + RoundValueStr(gm.GetPosition().z) + " });";
+				std::string cm_rotation = std::string("\nGetGameObjectByName(\"") + gm.GetName() + "\").SetRotation({ " + RoundValueStr(gm.GetRotation().x) + "," + RoundValueStr(gm.GetRotation().y) + "," + RoundValueStr(gm.GetRotation().z) + "," + RoundValueStr(gm.GetRotation().w) + " });";
+				std::string cm_scale = std::string("\nGetGameObjectByName(\"") + gm.GetName() + "\").SetScale({ " + RoundValueStr(gm.GetScale().x) + "," + RoundValueStr(gm.GetScale().y) + "," + RoundValueStr(gm.GetScale().z) + " });";
 
 				OutputDebugStringA(cm_create.c_str());
 				OutputDebugStringA(cm_position.c_str());
@@ -430,9 +448,24 @@ void DevScene::CameraDevSystem(float deltatime)
 	}
 }
 
-std::string  DevScene::Float2Str(float value)
+std::string DevScene::Float2Str(float value)
 {
 	char buf[32];
 	std::snprintf(buf, sizeof(buf), "%.2f", value);
 	return buf;
+}
+std::string DevScene::RoundValueStr(float value)
+{
+	return std::to_string(static_cast<int>(std::round(value)));
+}
+float DevScene::RoundValue(float value)
+{
+	if (m_QuadrillageModeIsOn) 
+	{
+		return std::round(value);
+	}
+	else
+	{
+		return value;
+	}
 }
