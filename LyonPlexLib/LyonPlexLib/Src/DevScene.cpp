@@ -44,8 +44,11 @@ void DevScene::Start()
 	m_camWalkSpeed = 3.f;
 	m_camRunSpeed = 6.f;
 	m_camSpeed = m_camWalkSpeed;
+
+	m_scaleNormalSpeed = 1;
+	m_scaleSpeed = 5;
+	m_scaleSpeed = m_scaleNormalSpeed;
 	// Test
-	//player = m_placingModule;
 
 }
 
@@ -92,10 +95,12 @@ void DevScene::Update(float deltatime)
 	if (InputManager::GetKeyIsPressed(VK_SHIFT))
 	{
 		m_camSpeed = m_camRunSpeed;
+		m_scaleSpeed = m_scaleFastSpeed;
 	}
 	else
 	{
 		m_camSpeed = m_camWalkSpeed;
+		m_scaleSpeed = m_scaleNormalSpeed;
 	}
 
 	// cam rotate(prototype)
@@ -126,49 +131,46 @@ void DevScene::Update(float deltatime)
 	// Scale
 	if (InputManager::GetKeyIsPressed(VK_ADD))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.x += m_camSpeed * deltatime;
-		m_placingModule.GetComponent<TransformComponent>()->scale.y += m_camSpeed * deltatime;
-		m_placingModule.GetComponent<TransformComponent>()->scale.z += m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.x += m_scaleSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.y += m_scaleSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.z += m_scaleSpeed * deltatime;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed(VK_SUBTRACT))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.x -= m_camSpeed * deltatime;
-		m_placingModule.GetComponent<TransformComponent>()->scale.y -= m_camSpeed * deltatime;
-		m_placingModule.GetComponent<TransformComponent>()->scale.z -= m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.x -= m_scaleSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.y -= m_scaleSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.z -= m_scaleSpeed * deltatime;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
-
 	if (InputManager::GetKeyIsPressed('R'))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.x += m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.x += m_scaleSpeed * deltatime;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed('T'))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.x -= m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.x -= m_scaleSpeed * deltatime;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
-
 	if (InputManager::GetKeyIsPressed('Y'))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.y += m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.y += m_scaleSpeed * deltatime;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed('U'))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.y -= m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.y -= m_scaleSpeed * deltatime;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
-
 	if (InputManager::GetKeyIsPressed('I'))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.z += m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.z += m_scaleSpeed * deltatime;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 	if (InputManager::GetKeyIsPressed('O'))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.z -= m_camSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.z -= m_scaleSpeed * deltatime;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 
@@ -196,7 +198,7 @@ void DevScene::Update(float deltatime)
 
 		GetGameObjectByName(gmName).SetTag(TAG_Object);
 
-		std::string msg = "\nAdded " + gmName + " At[ X: " + std::to_string(GetGameObjectByName(gmName).GetPosition().x) + " Y: " + std::to_string(GetGameObjectByName(gmName).GetPosition().y) + " Z: " + std::to_string(GetGameObjectByName(gmName).GetPosition().z);
+		std::string msg = "\nAdded " + gmName + " At[ X: " + Float2Str(GetGameObjectByName(gmName).GetPosition().x) + " Y: " + Float2Str(GetGameObjectByName(gmName).GetPosition().y) + " Z: " + Float2Str(GetGameObjectByName(gmName).GetPosition().z);
 		OutputDebugStringA(msg.c_str());
 
 		m_newIdGM++;
@@ -251,9 +253,9 @@ void DevScene::Update(float deltatime)
 			{
 				//std::string cm_create = std::string("\nCreateGameObject(\"") + gm.GetName() + "\");";
 				std::string cm_create = std::string("\nCreateGameObject(\"") + gm.GetName() + "\"" + "," + std::to_string(gm.GetMesh()) + "," + std::to_string(gm.GetTexture()) + ");";
-				std::string cm_position = std::string("\nGetGameObjectByName(\"") + gm.GetName() + "\").SetPosition({ " + std::to_string(gm.GetPosition().x) + "," + std::to_string(gm.GetPosition().y) + "," + std::to_string(gm.GetPosition().z) + " });";
-				std::string cm_rotation = std::string("\nGetGameObjectByName(\"") + gm.GetName() + "\").SetRotation({ " + std::to_string(gm.GetRotation().x) + "," + std::to_string(gm.GetRotation().y) + "," + std::to_string(gm.GetRotation().z) + "," + std::to_string(gm.GetRotation().w) + " });";
-				std::string cm_scale = std::string("\nGetGameObjectByName(\"") + gm.GetName() + "\").SetScale({ " + std::to_string(gm.GetScale().x) + "," + std::to_string(gm.GetScale().y) + "," + std::to_string(gm.GetScale().z) + " });";
+				std::string cm_position = std::string("\nGetGameObjectByName(\"") + gm.GetName() + "\").SetPosition({ " + Float2Str(gm.GetPosition().x) + "," + Float2Str(gm.GetPosition().y) + "," + Float2Str(gm.GetPosition().z) + " });";
+				std::string cm_rotation = std::string("\nGetGameObjectByName(\"") + gm.GetName() + "\").SetRotation({ " + Float2Str(gm.GetRotation().x) + "," + Float2Str(gm.GetRotation().y) + "," + Float2Str(gm.GetRotation().z) + "," + Float2Str(gm.GetRotation().w) + " });";
+				std::string cm_scale = std::string("\nGetGameObjectByName(\"") + gm.GetName() + "\").SetScale({ " + Float2Str(gm.GetScale().x) + "," + Float2Str(gm.GetScale().y) + "," + Float2Str(gm.GetScale().z) + " });";
 
 				OutputDebugStringA(cm_create.c_str());
 				OutputDebugStringA(cm_position.c_str());
@@ -426,4 +428,11 @@ void DevScene::CameraDevSystem(float deltatime)
 			t->dirty = true;
 		}
 	}
+}
+
+std::string  DevScene::Float2Str(float value)
+{
+	char buf[32];
+	std::snprintf(buf, sizeof(buf), "%.2f", value);
+	return buf;
 }

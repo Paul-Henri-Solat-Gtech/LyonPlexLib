@@ -6,12 +6,10 @@ void GameScene::Start()
 	CreateGameObject("cam", TYPE_3D, false);
 	m_cam = GetGameObjectByName("cam");
 	m_cam.AddComponent<CameraComponent>(new CameraComponent());
+	GetGameObjectByName("cam").SetPosition({ 0, 0, 0.5f });
 	
+	// fps cam
 	m_fpsCam.Init(m_cam, mp_sceneManager->GetWindow());
-
-	//CreateGameObject("camera2", TYPE_3D, false);
-	//GetGameObjectByName("camera2").AddComponent<CameraComponent>(new CameraComponent());
-	//GetGameObjectByName("camera2").SetPosition({ 0, 0, 0.5f });
 
 	CreateGameObject("player");
 	GetGameObjectByName("player").SetPosition({ 0, 3, -1 });
@@ -27,8 +25,6 @@ void GameScene::Start()
 
 	SetParent("cam", "player");
 	m_fpsCam.SetParentGO(m_cam);
-
-	//SetParent(m_freeCam.GetCamName(), "player");
 
 	m_playerWalkSpeed = 3.f;
 	m_playerRunSpeed = 6.f;

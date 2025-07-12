@@ -8,12 +8,14 @@ public:
 
 	void CameraDevSystem(float deltatime);
 
+	std::string Float2Str(float value);
+
 private:
 	GameObject m_placingModule;
 	GameObject m_camera;
 
 	int m_newIdGM;
-	int m_camSpeed, m_camWalkSpeed, m_camRunSpeed;
+	int m_camSpeed, m_camWalkSpeed, m_camRunSpeed, m_scaleSpeed, m_scaleNormalSpeed, m_scaleFastSpeed;
 
 	std::string m_lastPlacedGmName;
 	XMFLOAT3 m_lastPlacedGmPos;
