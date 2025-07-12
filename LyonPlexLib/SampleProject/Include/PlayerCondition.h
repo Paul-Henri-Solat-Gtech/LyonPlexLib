@@ -45,6 +45,12 @@ public:
 	bool OnTest(Player* owner) override;
 };
 
+class PlayerCondition_IsCloseToObject : public Condition<Player>
+{
+public:
+	bool OnTest(Player* owner) override;
+};
+
 class PlayerCondition_IsNotPickingUp : public Condition<Player>
 {
 public:

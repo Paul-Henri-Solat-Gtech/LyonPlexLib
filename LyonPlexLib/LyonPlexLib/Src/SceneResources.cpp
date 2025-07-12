@@ -156,11 +156,11 @@ bool SceneResources::InitImportedMeshResources(MeshManager& meshMngr)
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/Cube.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/TEMPLE.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/Maison.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/maison2.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/RockBig.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/RockLM1.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/RockLM2.obj");
 
-    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/maison2.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cepha_gros.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cepha_petit.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cypress_gros.obj");
@@ -180,6 +180,7 @@ bool SceneResources::InitImportedMeshResources(MeshManager& meshMngr)
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux2.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux3.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux4.obj");
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/Baton.obj");
 
 
     return true;

@@ -24,6 +24,10 @@ enum ComponentID
 	Type_2D_ID,
 	Type_UI_ID,
 
+	Tag_Player_ID,
+	Tag_Enemy_ID,
+	Tag_Object_ID,
+
 	TotalComponentsCount
 };
 
@@ -250,6 +254,42 @@ struct Type_2D : public Component
 	static constexpr uint32_t StaticTypeID = Type_2D_ID;
 
 	Type_2D()
+	{
+		mask = 1ULL << StaticTypeID;
+		typeID = StaticTypeID;
+	}
+};
+
+
+struct Tag_Player : public Component
+{
+	static constexpr uint32_t StaticTypeID = Tag_Player_ID;
+
+	Tag_Player()
+	{
+		mask = 1ULL << StaticTypeID;
+		typeID = StaticTypeID;
+	}
+};
+
+
+struct Tag_Enemy : public Component
+{
+	static constexpr uint32_t StaticTypeID = Tag_Enemy_ID;
+
+	Tag_Enemy()
+	{
+		mask = 1ULL << StaticTypeID;
+		typeID = StaticTypeID;
+	}
+};
+
+
+struct Tag_Object : public Component
+{
+	static constexpr uint32_t StaticTypeID = Tag_Object_ID;
+
+	Tag_Object()
 	{
 		mask = 1ULL << StaticTypeID;
 		typeID = StaticTypeID;

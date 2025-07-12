@@ -31,7 +31,8 @@ Player::Player() : m_stateMachine(this, State::Count)
 		//-> PICK UP TRANSITION
 		{
 			auto transition = sIdle->CreateTransition(State::PickUp);
-			auto condition = transition->AddCondition<PlayerCondition_IsPickingUp>();
+			transition->AddCondition<PlayerCondition_IsPickingUp>();
+			transition->AddCondition<PlayerCondition_IsCloseToObject>();
 		}
 	}
 
@@ -57,7 +58,8 @@ Player::Player() : m_stateMachine(this, State::Count)
 		//-> PICK UP TRANSITION
 		{
 			auto transition = sMove->CreateTransition(State::PickUp);
-			auto condition = transition->AddCondition<PlayerCondition_IsPickingUp>();
+			transition->AddCondition<PlayerCondition_IsPickingUp>();
+			transition->AddCondition<PlayerCondition_IsCloseToObject>();
 		}
 	}
 
@@ -119,19 +121,16 @@ Player::Player() : m_stateMachine(this, State::Count)
         {
             auto transition = sPickUp->CreateTransition(State::Idle);
             auto condition = transition->AddCondition<PlayerCondition_IsNotMoving>();
-            transition->AddCondition<PlayerCondition_IsNotPickingUp>();
         }
         //-> MOVE TRANSITION
         {
             auto transition = sPickUp->CreateTransition(State::Move);
             auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
-            transition->AddCondition<PlayerCondition_IsNotPickingUp>();
         }
         //-> FALL TRANSITION
         {
             auto transition = sPickUp->CreateTransition(State::Fall);
             auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
-            transition->AddCondition<PlayerCondition_IsNotPickingUp>();
         }
         //-> ATTACK TRANSITION
         {
@@ -145,15 +144,18 @@ Player::Player() : m_stateMachine(this, State::Count)
 	m_stateMachine.SetState(State::Idle);
 }
 
-void Player::Init(GameObject gameObject, GameManager* gameManager)
+void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene)
 {
 	m_playerGameObject = gameObject;
     mp_gameManager = gameManager;
+	mp_scene = scene;
     m_moveSpeed = m_walkSpeed;
     m_attackFinished = true;
 	m_slashAttackNb = 1;
     m_deltatime = 0;
 	m_playerGameObject.AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ m_playerGameObject.GetScale().x / 2,m_playerGameObject.GetScale().y / 2,m_playerGameObject.GetScale().z / 2 })));
+	
+	m_playerGameObject.AddComponent<Tag_Player>(new Tag_Player());
 
 	m_moveSpeed = m_walkSpeed;
 
@@ -161,9 +163,12 @@ void Player::Init(GameObject gameObject, GameManager* gameManager)
 	mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
 
 	EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p) {
-		// si c�est notre joueur qui est entr� en collision
-		if (p.a.id == m_playerGameObject.GetEntity()->id || p.b.id == m_playerGameObject.GetEntity()->id) {
-			// on change directement d�etat
+		// si c est le joueur qui est entre en collision
+		if (p.a.id == m_playerGameObject.GetEntity().id ) {
+			// if ( TAG(p.b) == TAG_Sol) {}
+			m_hasCollided = true;
+		}
+		if (p.b.id == m_playerGameObject.GetEntity().id) {
 			m_hasCollided = true;
 		}
 		});

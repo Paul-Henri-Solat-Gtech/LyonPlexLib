@@ -22,9 +22,15 @@
     <ClCompile Include="Src\MainMenuScene.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Player.cpp" />
-    <ClCompile Include="Src\PlayerAction.cpp" />
-    <ClCompile Include="Src\PlayerCondition.cpp" />
+    <ClCompile Include="Src\Player.cpp">
+	  <Filter>Player</Filter>
+	  </ClCompile>
+    <ClCompile Include="Src\PlayerAction.cpp">
+	  <Filter>Player</Filter>
+	  </ClCompile>
+	  <ClCompile Include="Src\PlayerCondition.cpp">
+	  <Filter>Player</Filter>
+	  </ClCompile>
     <ClCompile Include="Src\Ennemy.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>

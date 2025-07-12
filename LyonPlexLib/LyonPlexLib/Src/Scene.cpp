@@ -119,10 +119,19 @@ GameObject& Scene::GetGameObjectByTag(Tag gameObjectTag)
 	}
 }
 
+GameObject& Scene::GetGameObjectByID(Entity entityID)
+{
+	for (auto& gO : m_sceneGameObjects)
+	{
+		if (gO.GetEntity().id == entityID.id)
+			return gO;
+	}
+}
+
 void Scene::DestroyGameObject(GameObject& gameObject)
 {
 	// 1) DestroyEntity
-	mp_ecsManager->DestroyEntity(*gameObject.GetEntity());
+	mp_ecsManager->DestroyEntity(gameObject.GetEntity());
 
 	// 2) Remove Gameobject
 	const std::string& gmName = gameObject.GetName();
@@ -142,13 +151,13 @@ void Scene::SetParent(const std::string& gameObjectNameChild, const std::string&
 	GameObject& objParent = GetGameObjectByName(gameObjectNameParent);
 
 	//objChild.GetComponent<TransformComponent>()->parent = { objParent.GetEntity()->id };
-	GetGameObjectByName(gameObjectNameChild).GetComponent<TransformComponent>()->parent = { GetGameObjectByName(gameObjectNameParent).GetEntity()->id };
+	GetGameObjectByName(gameObjectNameChild).GetComponent<TransformComponent>()->parent = { GetGameObjectByName(gameObjectNameParent).GetEntity().id };
 
 }
 
 void Scene::SetParent(GameObject& gameObjectChild, GameObject& gameObjectParent)
 {
-	gameObjectChild.GetComponent<TransformComponent>()->parent = { gameObjectParent.GetEntity()->id };
+	gameObjectChild.GetComponent<TransformComponent>()->parent = { gameObjectParent.GetEntity().id };
 }
 
 void Scene::EnableLockCursor()

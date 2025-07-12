@@ -61,7 +61,7 @@ void Projectile::Init(GameObject gameObjectProjectile, GameObject gameObjectPlay
 
 	EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p) {
 		// si c est notre joueur qui entre en collision
-		if (p.a.id == m_projectileGameObject.GetEntity()->id || p.b.id == m_projectileGameObject.GetEntity()->id) {
+		if (p.a.id == m_projectileGameObject.GetEntity().id || p.b.id == m_projectileGameObject.GetEntity().id) {
 			// on change directement detat
 			m_hasCollided = true;
 		}

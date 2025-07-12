@@ -18,6 +18,9 @@ void GameScene::Start()
 	auto& a = GetGameObjectByName("testGm").GetScale();
 	GetGameObjectByName("testGm").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
 
+	GetGameObjectByName("testGm").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("testGm").SetTag(TAG_Stick);
+
 
 	SetParent("camera2", "player");
 
@@ -26,7 +29,7 @@ void GameScene::Start()
 	m_playerSpeed = m_playerWalkSpeed;
 
 	// Test player + stateMachine
-	m_playerTest.Init(m_player, mp_sceneManager->GetGameManager());
+	m_playerTest.Init(m_player, mp_sceneManager->GetGameManager(), this);
 	m_enemyTest.Init(GetGameObjectByName("testGm"), m_player, mp_sceneManager->GetGameManager());
 
 	CreateGameObject("bras", TYPE_2D, true);

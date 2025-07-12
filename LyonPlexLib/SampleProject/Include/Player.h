@@ -20,7 +20,7 @@ class Player
 
 public:
 	Player();
-	void Init(GameObject gameObject, GameManager* gameManager);
+	void Init(GameObject gameObject, GameManager* gameManager, Scene* scene);
 	
 	void OnUdpdate(float deltatime);
 
@@ -29,6 +29,8 @@ public:
 
 	GameObject m_playerGameObject;
 	GameObject m_playerArm;
+
+	GameObject* m_closestObject = nullptr;
 
 	GameObject& GetGameObject() { return m_playerGameObject; };
 	void SetPlayerArm(GameObject& armGm) { m_playerArm = armGm; };
@@ -59,9 +61,10 @@ public:
 	bool m_isPickingUp = false;
 
 	float m_deltatime;
+	GameManager* mp_gameManager;
+	Scene* mp_scene;
 
 private:
-	GameManager* mp_gameManager;
 
 protected:
 	friend class PlayerAction_Idle;
