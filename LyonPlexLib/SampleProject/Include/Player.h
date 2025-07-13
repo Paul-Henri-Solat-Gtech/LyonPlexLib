@@ -59,6 +59,9 @@ public:
 
 	bool m_hasCollided = false;
 	bool m_isPickingUp = false;
+	bool m_isFalling = false;
+
+	std::vector<Entity> m_objectsCollidingWithPlayer;
 
 	float m_deltatime;
 	GameManager* mp_gameManager;

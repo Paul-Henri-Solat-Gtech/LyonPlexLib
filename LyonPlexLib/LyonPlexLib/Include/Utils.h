@@ -339,12 +339,78 @@ namespace Utils
 		t.dirty = true;
 	}
 
+	inline bool IsAbove(const TransformComponent& a, const TransformComponent& b)
+	{
+		// Calcul des bornes pour l'objet A (haut et bas en Y)
+		float aMinY = a.position.y - a.scale.y / 2;
+
+		// Calcul des bornes pour l'objet B
+		float bMaxY = b.position.y + b.scale.y / 2;
+
+		// Verification du chevauchement en X et Z (necessaire pour qu'on considere "au-dessus")
+		float aMinX = a.position.x - a.scale.x / 2;
+		float aMaxX = a.position.x + a.scale.x / 2;
+		float aMinZ = a.position.z - a.scale.z / 2;
+		float aMaxZ = a.position.z + a.scale.z / 2;
+
+		float bMinX = b.position.x - b.scale.x / 2;
+		float bMaxX = b.position.x + b.scale.x / 2;
+		float bMinZ = b.position.z - b.scale.z / 2;
+		float bMaxZ = b.position.z + b.scale.z / 2;
+
+		bool overlapX = (aMaxX > bMinX) && (aMinX < bMaxX);
+		bool overlapZ = (aMaxZ > bMinZ) && (aMinZ < bMaxZ);
+
+		if (!(overlapX && overlapZ))
+			return false;
+
+		// Calcul de la penetration verticale entre la face inferieure de A et la face superieure de B
+		float penetrationY = aMinY - bMaxY;
+
+		// Definir un seuil epsilon (ajustable en fonction de l'echelle de vos objets)
+		const float epsilon = 1.0f;
+
+		// Retourne true si la penetration est quasi nulle (touchant)
+		return (a.position.y > b.position.y && penetrationY <= 0 /*&& abs(penetrationY) < epsilon*/);
+	}
+
+
+	inline bool IsBelow(const TransformComponent& a, const TransformComponent& b)
+	{
+		// Calcul des bornes pour l'objet A (haut et bas en Y)
+		float aMaxY = a.position.y + a.scale.y / 2;
+
+		// Calcul des bornes pour l'objet B
+		float bMinY = b.position.y - b.scale.y / 2;
+
+		// Verification du chevauchement en X et Z (necessaire pour qu'on considere "au-dessus")
+		float aMinX = a.position.x - a.scale.x / 2;
+		float aMaxX = a.position.x + a.scale.x / 2;
+		float aMinZ = a.position.z - a.scale.z / 2;
+		float aMaxZ = a.position.z + a.scale.z / 2;
+	
+		float bMinX = b.position.x - b.scale.x / 2;
+		float bMaxX = b.position.x + b.scale.x / 2;
+		float bMinZ = b.position.z - b.scale.z / 2;
+		float bMaxZ = b.position.z + b.scale.z / 2;
+
+		bool overlapX = (aMaxX > bMinX) && (aMinX < bMaxX);
+		bool overlapZ = (aMaxZ > bMinZ) && (aMinZ < bMaxZ);
+
+		if (!(overlapX && overlapZ))
+			return false;
+
+		// Calcul de la penetration verticale entre la face inferieure de A et la face superieure de B
+		float penetrationY = bMinY - aMaxY;
+
+		// Definir un seuil epsilon (ajustable en fonction de l'echelle de vos objets)
+		const float epsilon = 1.0f;
+
+		// Retourne true si la penetration est quasi nulle (touchant)
+		return (a.position.y < b.position.y && penetrationY <= 0 /*&& abs(penetrationY) < epsilon*/);
+	}
 
 
 
-	// ----------------------------------------
-	// 7. (Éventuel) Extensions futuresE
-	// ----------------------------------------
-	// Vous pouvez ajouter ici : gestion des threads, alignement memoire, etc.
 }
 

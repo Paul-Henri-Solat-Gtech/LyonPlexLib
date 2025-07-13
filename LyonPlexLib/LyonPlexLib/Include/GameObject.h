@@ -17,6 +17,8 @@ enum Tag
 	TAG_Camera,
 	TAG_Button,
 
+	TAG_Floor,
+	TAG_Environment,
 	TAG_Stick,
 	TAG_Rock,
 

@@ -130,8 +130,6 @@ GameObject& Scene::GetGameObjectByID(Entity entityID)
 
 void Scene::DestroyGameObject(GameObject& gameObject)
 {
-	// 1) DestroyEntity
-	mp_ecsManager->DestroyEntity(gameObject.GetEntity());
 
 	// 2) Remove Gameobject
 	const std::string& gmName = gameObject.GetName();
@@ -143,6 +141,8 @@ void Scene::DestroyGameObject(GameObject& gameObject)
 			[&](GameObject& gm) { return gm.GetName() == gmName; }),
 		m_sceneGameObjects.end()
 	);
+	// 1) DestroyEntity
+	mp_ecsManager->DestroyEntity(gameObject.GetEntity());
 }
 
 void Scene::SetParent(const std::string& gameObjectNameChild, const std::string& gameObjectNameParent)

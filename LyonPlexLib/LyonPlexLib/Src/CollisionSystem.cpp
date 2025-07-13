@@ -57,8 +57,13 @@ void CollisionSystem::Update()
     std::vector<Entity> ents;
     m_ECS->ForEach(mask, [&](Entity e) { ents.push_back(e); });
 
-    for (size_t i = 0; i < ents.size(); ++i) for (size_t j = i + 1; j < ents.size(); ++j)
-        TryPair(ents[i], ents[j]);
+    for (size_t i = 0; i < ents.size(); ++i) 
+    {
+        for (size_t j = i + 1; j < ents.size(); ++j)
+        {
+            TryPair(ents[i], ents[j]);
+        }
+    }
 }
 
 void CollisionSystem::TryPair(Entity a, Entity b)

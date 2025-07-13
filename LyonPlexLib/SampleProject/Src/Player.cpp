@@ -4,6 +4,7 @@
 #include "playerAction.h"
 #include "playerCondition.h"
 #include "EventBus.h"
+#include "Utils.h"
 #include <Events.h>
 
 Player::Player() : m_stateMachine(this, State::Count)
@@ -76,7 +77,8 @@ Player::Player() : m_stateMachine(this, State::Count)
 		//-> IDLE TRANSITION
 		{
 			auto transition = sFall->CreateTransition(State::Idle);
-			auto condition = transition->AddCondition<PlayerCondition_IsNotMoving>();
+			auto condition = transition->AddCondition<PlayerCondition_IsOnGround>();
+			//transition->AddCondition<PlayerCondition_IsNotMoving>();
 		}
 		//-> MOVE TRANSITION
 		{
@@ -85,59 +87,59 @@ Player::Player() : m_stateMachine(this, State::Count)
 		}
 	}
 
-    // --- Attack ---
-    {
-        auto* sAttack = m_stateMachine.CreateBehaviour(State::Attack);
-        sAttack->AddAction(new PlayerAction_Attack());
-        //-> IDLE TRANSITION
-        {
-            auto transition = sAttack->CreateTransition(State::Idle);
-            auto condition = transition->AddCondition<PlayerCondition_IsNotMoving>();
-            transition->AddCondition<PlayerCondition_AttackFinished>();
-        }
-        //-> MOVE TRANSITION
-        {
-            auto transition = sAttack->CreateTransition(State::Move);
-            auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
-            transition->AddCondition<PlayerCondition_AttackFinished>();
-        }
-        //-> FALL TRANSITION
-        {
-            auto transition = sAttack->CreateTransition(State::Fall);
-            auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
-            transition->AddCondition<PlayerCondition_AttackFinished>();
-        }
-        //-> ATTACK TRANSITION
-        {
-            //auto transition = sAttack->CreateTransition(State::Attack);
-            //auto condition = transition->AddCondition<PlayerCondition_AttackFinished>();
-        }
-    }
-    // --- Pick Up ---
-    {
-        auto* sPickUp = m_stateMachine.CreateBehaviour(State::PickUp);
-        sPickUp->AddAction(new PlayerAction_PickUp());
-        //-> IDLE TRANSITION
-        {
-            auto transition = sPickUp->CreateTransition(State::Idle);
-            auto condition = transition->AddCondition<PlayerCondition_IsNotMoving>();
-        }
-        //-> MOVE TRANSITION
-        {
-            auto transition = sPickUp->CreateTransition(State::Move);
-            auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
-        }
-        //-> FALL TRANSITION
-        {
-            auto transition = sPickUp->CreateTransition(State::Fall);
-            auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
-        }
-        //-> ATTACK TRANSITION
-        {
-            //auto transition = sPickUp->CreateTransition(State::Attack);
-            //auto condition = transition->AddCondition<PlayerCondition_AttackFinished>();
-        }
-    }
+	// --- Attack ---
+	{
+		auto* sAttack = m_stateMachine.CreateBehaviour(State::Attack);
+		sAttack->AddAction(new PlayerAction_Attack());
+		//-> IDLE TRANSITION
+		{
+			auto transition = sAttack->CreateTransition(State::Idle);
+			auto condition = transition->AddCondition<PlayerCondition_IsNotMoving>();
+			transition->AddCondition<PlayerCondition_AttackFinished>();
+		}
+		//-> MOVE TRANSITION
+		{
+			auto transition = sAttack->CreateTransition(State::Move);
+			auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
+			transition->AddCondition<PlayerCondition_AttackFinished>();
+		}
+		//-> FALL TRANSITION
+		{
+			auto transition = sAttack->CreateTransition(State::Fall);
+			auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
+			transition->AddCondition<PlayerCondition_AttackFinished>();
+		}
+		//-> ATTACK TRANSITION
+		{
+			//auto transition = sAttack->CreateTransition(State::Attack);
+			//auto condition = transition->AddCondition<PlayerCondition_AttackFinished>();
+		}
+	}
+	// --- Pick Up ---
+	{
+		auto* sPickUp = m_stateMachine.CreateBehaviour(State::PickUp);
+		sPickUp->AddAction(new PlayerAction_PickUp());
+		//-> IDLE TRANSITION
+		{
+			auto transition = sPickUp->CreateTransition(State::Idle);
+			auto condition = transition->AddCondition<PlayerCondition_IsNotMoving>();
+		}
+		//-> MOVE TRANSITION
+		{
+			auto transition = sPickUp->CreateTransition(State::Move);
+			auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
+		}
+		//-> FALL TRANSITION
+		{
+			auto transition = sPickUp->CreateTransition(State::Fall);
+			auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
+		}
+		//-> ATTACK TRANSITION
+		{
+			//auto transition = sPickUp->CreateTransition(State::Attack);
+			//auto condition = transition->AddCondition<PlayerCondition_AttackFinished>();
+		}
+	}
 
 
 	// Base State
@@ -147,14 +149,14 @@ Player::Player() : m_stateMachine(this, State::Count)
 void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene)
 {
 	m_playerGameObject = gameObject;
-    mp_gameManager = gameManager;
+	mp_gameManager = gameManager;
 	mp_scene = scene;
-    m_moveSpeed = m_walkSpeed;
-    m_attackFinished = true;
+	m_moveSpeed = m_walkSpeed;
+	m_attackFinished = true;
 	m_slashAttackNb = 1;
-    m_deltatime = 0;
+	m_deltatime = 0;
 	m_playerGameObject.AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ m_playerGameObject.GetScale().x / 2,m_playerGameObject.GetScale().y / 2,m_playerGameObject.GetScale().z / 2 })));
-	
+
 	m_playerGameObject.AddComponent<Tag_Player>(new Tag_Player());
 
 	m_moveSpeed = m_walkSpeed;
@@ -164,23 +166,63 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene)
 
 	EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p) {
 		// si c est le joueur qui est entre en collision
-		if (p.a.id == m_playerGameObject.GetEntity().id ) {
-			// if ( TAG(p.b) == TAG_Sol) {}
+		
+		//OutputDebugStringA("\nCOLLISION \n");
+		if (p.a.id == m_playerGameObject.GetEntity().id) {
 			m_hasCollided = true;
+			auto tag = mp_scene->GetGameObjectByID(p.a).GetTag();
+
+			switch(tag)
+			{
+			case TAG_Floor :
+			case TAG_Environment:
+				m_objectsCollidingWithPlayer.push_back(p.b);
+				break;
+			default:
+				break;
+			}
+			//if (tag == TAG_Floor || tag == TAG_Environment)
+			//{
+			//	m_objectsCollidingWithPlayer.push_back(p.b);
+			//	/*auto& playerTransform = *mp_gameManager->GetECSManager().GetComponent<TransformComponent>(p.a);
+			//	auto& objectTransform = *mp_gameManager->GetECSManager().GetComponent<TransformComponent>(p.b);
+			//	if (Utils::IsAbove(playerTransform, objectTransform))
+			//		m_isFalling = false;*/
+			//}
 		}
-		if (p.b.id == m_playerGameObject.GetEntity().id) {
+		else if (p.b.id == m_playerGameObject.GetEntity().id) 
+		{
 			m_hasCollided = true;
+			auto tag = mp_scene->GetGameObjectByID(p.a).GetTag();
+
+			switch (tag)
+			{
+			case TAG_Floor:
+			case TAG_Environment:
+				m_objectsCollidingWithPlayer.push_back(p.a);
+				break;
+			default:
+				break;
+			}
+			//if ( tag == TAG_Floor || tag == TAG_Environment)
+			//{
+			//	m_objectsCollidingWithPlayer.push_back(p.a);
+			//	/*auto& playerTransform = *mp_gameManager->GetECSManager().GetComponent<TransformComponent>(p.a);
+			//	auto& objectTransform = *mp_gameManager->GetECSManager().GetComponent<TransformComponent>(p.b);
+			//	if (Utils::IsAbove(playerTransform, objectTransform))
+			//		m_isFalling = false;*/
+			//}
 		}
 		});
 
 	OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
 
-    //AnimationManager newAnim;
+	//AnimationManager newAnim;
 
-    //m_testAnimation.Init(2.f, &m_playerArm);
-    //m_testAnimation.AddFrame(TEXTURES::bras);
-    //m_testAnimation.AddFrame(TEXTURES::test);
-    //m_testAnimation.AddFrame(TEXTURES::tex0);
+	//m_testAnimation.Init(2.f, &m_playerArm);
+	//m_testAnimation.AddFrame(TEXTURES::bras);
+	//m_testAnimation.AddFrame(TEXTURES::test);
+	//m_testAnimation.AddFrame(TEXTURES::tex0);
 
 }
 
@@ -206,12 +248,12 @@ const char* Player::GetCurrentStateName() const
 void Player::OnUdpdate(float deltatime)
 {
 	m_stateMachine.Update();
-    m_deltatime = deltatime;
-    //m_testAnimation.Loop(deltatime);
+	m_deltatime = deltatime;
+	//m_testAnimation.Loop(deltatime);
 
 	if (m_hasCollided)
 	{
 		OutputDebugStringA("\nPLAYER COLLIDINGGIGIGIGIGIGIIGIGGIGI !\n");
 	}
-
+	m_objectsCollidingWithPlayer.clear();
 }

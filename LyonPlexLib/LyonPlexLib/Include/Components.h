@@ -161,14 +161,14 @@ struct CollisionComponent : public Component
 	{
 		CollisionComponent c;
 		c.shapeType = ColliderType::Sphere;
-		c.shape = SphereCollider{ radius,offset };
+		c.shape = SphereCollider{ radius, offset };
 		return c;
 	}
 	static CollisionComponent MakeAABB(XMFLOAT3 halfSize, XMFLOAT3 offset = { 0,0,0 })
 	{
 		CollisionComponent c;
 		c.shapeType = ColliderType::AABB;
-		c.shape = AABBCollider{ halfSize,offset };
+		c.shape = AABBCollider{ halfSize, offset };
 		return c;
 	}
 	// etc...
