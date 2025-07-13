@@ -124,7 +124,6 @@ GameObject& Scene::GetGameObjectByTag(Tag gameObjectTag)
 		}
 	}
 }
-
 GameObject& Scene::GetGameObjectByID(Entity entityID)
 {
 	for (auto& gO : m_sceneGameObjects)
@@ -133,7 +132,6 @@ GameObject& Scene::GetGameObjectByID(Entity entityID)
 			return gO;
 	}
 }
-
 void Scene::DestroyGameObject(GameObject& gameObject)
 {
 	// Vérifie si l'adresse du gameObject est bien dans la liste
