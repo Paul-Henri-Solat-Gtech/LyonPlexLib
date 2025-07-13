@@ -20,7 +20,10 @@ void GameScene::Start()
 	GetGameObjectByName("testGm").SetTexture(TEXTURES::GRID);
 
 	auto& a = GetGameObjectByName("testGm").GetScale();
-	GetGameObjectByName("testGm").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2,a.y / 2,a.z / 2 })));
+	GetGameObjectByName("testGm").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
+
+	GetGameObjectByName("testGm").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("testGm").SetTag(TAG_Stick);
 
 
 	SetParent("cam", "player");
@@ -31,7 +34,7 @@ void GameScene::Start()
 	m_playerSpeed = m_playerWalkSpeed;
 
 	// Test player + stateMachine
-	m_playerTest.Init(m_player, mp_sceneManager->GetGameManager());
+	m_playerTest.Init(m_player, mp_sceneManager->GetGameManager(), this);
 	m_enemyTest.Init(GetGameObjectByName("testGm"), m_player, mp_sceneManager->GetGameManager());
 
 	CreateGameObject("bras", TYPE_2D, true);
@@ -40,7 +43,7 @@ void GameScene::Start()
 	GetGameObjectByName("bras").SetScale({ 800, 500, 0 });
 	GetGameObjectByName("bras").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
-	
+
 	m_playerTest.SetPlayerArm(GetGameObjectByName("bras"));
 
 
@@ -51,9 +54,18 @@ void GameScene::Start()
 
 	// scene
 	CreateGameObject("GM0", 2, 4);
-	GetGameObjectByName("GM0").SetPosition({ 0.571841,-1.384057,-2.635353 });
-	GetGameObjectByName("GM0").SetRotation({ 0.000000,0.000000,0.000000,1.000000 });
-	GetGameObjectByName("GM0").SetScale({ 20.185083,0.443769,23.175503 });
+	GetGameObjectByName("GM0").SetTag(TAG_Floor);
+	GetGameObjectByName("GM0").SetPosition({ 0,-5, 0 });
+	GetGameObjectByName("GM0").SetScale({ 20, 10, 20 });
+	auto& b = GetGameObjectByName("GM0").GetScale();
+	GetGameObjectByName("GM0").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ b.x / 2, b.y / 2, b.z / 2 })));
+
+	CreateGameObject("GM1", 2, 4);
+	GetGameObjectByName("GM1").SetTag(TAG_Floor);
+	GetGameObjectByName("GM1").SetPosition({ 2,1, 0 });
+	GetGameObjectByName("GM1").SetScale({ 2, 1, 2 });
+	auto& c = GetGameObjectByName("GM1").GetScale();
+	GetGameObjectByName("GM1").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
 }
 
 void GameScene::Update(float deltatime)
@@ -68,17 +80,13 @@ void GameScene::Update(float deltatime)
 	{
 		StopMusicPlex();
 	}
-	if (InputManager::GetKeyIsReleased(VK_LBUTTON))
-	{
-		//PlaySoundPlex("slash1");
-	}
 
-	// Gravity
-	if (m_player.GetPosition().y > 1.f)
-	{
-		m_player.GetComponent<TransformComponent>()->position.y -= 9.81f * deltatime;
-		m_player.GetComponent<TransformComponent>()->dirty = true;
-	}
+	//// Gravity
+	//if (m_player.GetPosition().y > 1.f)
+	//{
+	//	m_player.GetComponent<TransformComponent>()->position.y -= 9.81f * deltatime;
+	//	m_player.GetComponent<TransformComponent>()->dirty = true;
+	//}
 
 	// PlayerState
 	m_playerTest.OnUdpdate(deltatime);

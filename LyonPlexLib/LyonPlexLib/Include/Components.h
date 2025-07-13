@@ -24,6 +24,10 @@ enum ComponentID
 	Type_2D_ID,
 	Type_UI_ID,
 
+	Tag_Player_ID,
+	Tag_Enemy_ID,
+	Tag_Object_ID,
+
 	TotalComponentsCount
 };
 
@@ -157,14 +161,14 @@ struct CollisionComponent : public Component
 	{
 		CollisionComponent c;
 		c.shapeType = ColliderType::Sphere;
-		c.shape = SphereCollider{ radius,offset };
+		c.shape = SphereCollider{ radius, offset };
 		return c;
 	}
 	static CollisionComponent MakeAABB(XMFLOAT3 halfSize, XMFLOAT3 offset = { 0,0,0 })
 	{
 		CollisionComponent c;
 		c.shapeType = ColliderType::AABB;
-		c.shape = AABBCollider{ halfSize,offset };
+		c.shape = AABBCollider{ halfSize, offset };
 		return c;
 	}
 	// etc...
@@ -250,6 +254,42 @@ struct Type_2D : public Component
 	static constexpr uint32_t StaticTypeID = Type_2D_ID;
 
 	Type_2D()
+	{
+		mask = 1ULL << StaticTypeID;
+		typeID = StaticTypeID;
+	}
+};
+
+
+struct Tag_Player : public Component
+{
+	static constexpr uint32_t StaticTypeID = Tag_Player_ID;
+
+	Tag_Player()
+	{
+		mask = 1ULL << StaticTypeID;
+		typeID = StaticTypeID;
+	}
+};
+
+
+struct Tag_Enemy : public Component
+{
+	static constexpr uint32_t StaticTypeID = Tag_Enemy_ID;
+
+	Tag_Enemy()
+	{
+		mask = 1ULL << StaticTypeID;
+		typeID = StaticTypeID;
+	}
+};
+
+
+struct Tag_Object : public Component
+{
+	static constexpr uint32_t StaticTypeID = Tag_Object_ID;
+
+	Tag_Object()
 	{
 		mask = 1ULL << StaticTypeID;
 		typeID = StaticTypeID;

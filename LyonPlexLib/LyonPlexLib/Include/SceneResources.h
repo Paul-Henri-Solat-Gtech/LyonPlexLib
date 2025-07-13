@@ -130,6 +130,7 @@ namespace MESHES
 		CUBE,
 		TEMPLE,
 		MAISON,
+		MAISON2,
 		ROCKBIG,
 		ROCKLM1,
 		ROCKLM2,
@@ -153,6 +154,7 @@ namespace MESHES
 		CAILLOUX2,
 		CAILLOUX3,
 		CAILLOUX4,
+		STICK,
 		
 
 		// A REMPLIR

@@ -37,6 +37,7 @@ public:
 
 	GameObject& GetGameObjectByName(const std::string& gameObjectName);
 	GameObject& GetGameObjectByTag(Tag gameObjectTag);
+	GameObject& GetGameObjectByID(Entity entityID);
 
 	void DestroyGameObject(GameObject& gameObject);
 

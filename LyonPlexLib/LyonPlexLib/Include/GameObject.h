@@ -17,6 +17,11 @@ enum Tag
 	TAG_Camera,
 	TAG_Button,
 
+	TAG_Floor,
+	TAG_Environment,
+	TAG_Stick,
+	TAG_Rock,
+
 	TagCount
 };
 
@@ -48,7 +53,7 @@ public:
 	bool IsColidingWith();
 	//..
 
-	Entity* GetEntity() { return &m_entity; };
+	Entity& GetEntity() { return m_entity; };
 	template<typename T>
 	void AddComponent(T* comp) { mp_ecsManager->AddComponent<T>(m_entity, comp); }
 	template<typename T>

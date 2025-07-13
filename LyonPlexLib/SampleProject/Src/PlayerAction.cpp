@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "PlayerAction.h"
+#include "Utils.h"
 
 // IDLE (dont need to be implemented normaly with override{})
 void PlayerAction_Idle::Start(Player* player)
@@ -318,10 +319,61 @@ void PlayerAction_Fall::Start(Player* player)
 }
 void PlayerAction_Fall::Update(Player* player)
 {
-	player->GetGameObject().GetComponent<TransformComponent>()->position.y -= 9.81f * player->GetDeltatime();
+	player->GetGameObject().GetComponent<TransformComponent>()->position.y -= 9.81f * player->m_deltatime / 2;
 	player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
+	if (InputManager::GetKeyIsPressed(VK_SPACE))
+	{
+		player->GetGameObject().GetComponent<TransformComponent>()->position.y += 10 * player->GetDeltatime();
+		player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
+	}
 }
 void PlayerAction_Fall::End(Player* player)
 {
 	player->GetPlayerArm().SetTexture(TEXTURES::ARMS);
+}
+
+
+
+// PICK UP OBJECT
+void PlayerAction_PickUp::Start(Player* player)
+{
+	OutputDebugStringA("\n-Start Pick Up\n");
+
+	ComponentMask mask = (1ULL << Tag_Object::StaticTypeID);
+	auto& ecs = player->mp_gameManager->GetECSManager();
+
+	float closest = 100;
+	ecs.ForEach(mask, [&](Entity e)
+		{
+			Utils::Vector3 newVec;
+			auto& playerPos = player->m_playerGameObject.GetPosition();
+			auto* tc = ecs.GetComponent<TransformComponent>(e);
+
+			newVec.x = playerPos.x - tc->position.x;
+			newVec.y = playerPos.y - tc->position.y;
+			newVec.z = playerPos.z - tc->position.z;
+
+			float length = newVec.length();
+
+			if (length < 3.0f)
+			{
+				if (length < closest)
+				{
+					closest = length;
+					player->m_closestObject = &player->mp_scene->GetGameObjectByID(e);
+				}				
+			}
+		});
+}
+
+void PlayerAction_PickUp::Update(Player* player)
+{
+	//if (player->m_closestObject.GetTag() == TAG_Stick)
+		player->GetPlayerArm().SetTexture(TEXTURES::ATTACK2_12);
+	//player->mp_scene->DestroyGameObject(*player->m_closestObject);
+}
+
+void PlayerAction_PickUp::End(Player* player)
+{
+	OutputDebugStringA("\nEnd Pick Up-\n");
 }

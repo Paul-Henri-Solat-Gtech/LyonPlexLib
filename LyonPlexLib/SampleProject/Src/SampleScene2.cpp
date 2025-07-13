@@ -9,18 +9,24 @@ void SampleScene2::Start()
 
 	m_freeCam.Init(mp_ecsManager, mp_sceneManager->GetWindow());
 
-	CreateEntity("temple");
-	AddComponent<Type_3D_Transparent>("temple", new Type_3D_Transparent());
-	AddComponent<MeshComponent>("temple", new MeshComponent(MESHES::TEMPLE, TEXTURES::NOTEXTURE));
-	//GetComponent<MeshComponent>("temple")->alpha = 0.5;
-	GetComponent<TransformComponent>("temple")->position = { 0, 0, 0 };
-	GetComponent<TransformComponent>("temple")->scale = { 1, 1, 1 };
+	//CreateEntity("temple");
+	//AddComponent<Type_3D_Transparent>("temple", new Type_3D_Transparent());
+	//AddComponent<MeshComponent>("temple", new MeshComponent(MESHES::TEMPLE, TEXTURES::NOTEXTURE));
+	////GetComponent<MeshComponent>("temple")->alpha = 0.5;
+	//GetComponent<TransformComponent>("temple")->position = { 0, 0, 0 };
+	//GetComponent<TransformComponent>("temple")->scale = { 1, 1, 1 };
 
 	CreateEntity("cephaTree");
 	AddComponent<Type_3D>("cephaTree", new Type_3D());
 	AddComponent<MeshComponent>("cephaTree", new MeshComponent(MESHES::CEPHA1));
 	GetComponent<TransformComponent>("cephaTree")->position = { -2, 0, 0 };
 	GetComponent<TransformComponent>("cephaTree")->scale = { 0.5, 0.5, 0.5 };
+
+	CreateEntity("stick");
+	AddComponent<Type_3D>("stick", new Type_3D());
+	AddComponent<MeshComponent>("stick", new MeshComponent(MESHES::STICK, TEXTURES::HERBE));
+	GetComponent<TransformComponent>("stick")->position = { 0, 0, 0 };
+	GetComponent<TransformComponent>("stick")->scale = { 1, 1, 1 };
 
 	CreateEntity("TEST");
 	AddComponent<Type_3D>("TEST", new Type_3D());
@@ -31,12 +37,12 @@ void SampleScene2::Start()
 	CreateEntity("cubeEXT");
 	AddComponent<Type_3D>("cubeEXT", new Type_3D());
 	AddComponent<MeshComponent>("cubeEXT", new MeshComponent(5, TEXTURES::ARMS));
-	GetComponent<TransformComponent>("cubeEXT")->position = { 2, 0, 0 };
+	GetComponent<TransformComponent>("cubeEXT")->position = { 0, 0, 0 };
 	GetComponent<TransformComponent>("cubeEXT")->scale = { 1, 1, 0 };
 
 	CreateEntity("bras");
 	AddComponent<Type_2D>("bras", new Type_2D());
-	AddComponent<MeshComponent>("bras", new MeshComponent(2, TEXTURES::ARMS));
+	AddComponent<MeshComponent>("bras", new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::ARMS));
 	GetComponent<TransformComponent>("bras")->position = { 400, 500, 0 };
 	GetComponent<TransformComponent>("bras")->scale = { 800, 500, 0 };
 	GetComponent<TransformComponent>("bras")->SetRotation(0, 0, 180);

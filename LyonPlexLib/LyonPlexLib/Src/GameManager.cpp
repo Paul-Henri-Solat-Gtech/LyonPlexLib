@@ -17,9 +17,9 @@ GameManager::~GameManager()
 
 bool GameManager::Init()
 {
-	ComPtr<ID3D12Debug> debug;
+	/*ComPtr<ID3D12Debug> debug;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debug))))
-		debug->EnableDebugLayer();
+		debug->EnableDebugLayer();*/
 
 	CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
 

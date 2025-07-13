@@ -12,25 +12,15 @@ class Player
 		Jump,
 		Attack,
 		Fall,
+		PickUp,
 
 		Count
 	};
 
-	int m_hp = 10;
-
-	float m_walkSpeed = 2.0f;
-	float m_runSpeed = 5.0f;
-	float m_moveSpeed;
-	float m_jumpPower = 5.0f;
-	float m_invicibilityCooldown = 2.0f;
-
-	bool m_hasCollided = false;
-
-	float m_deltatime;
 
 public:
 	Player();
-	void Init(GameObject gameObject, GameManager* gameManager);
+	void Init(GameObject gameObject, GameManager* gameManager, Scene* scene);
 	
 	void OnUdpdate(float deltatime);
 
@@ -39,6 +29,8 @@ public:
 
 	GameObject m_playerGameObject;
 	GameObject m_playerArm;
+
+	GameObject* m_closestObject = nullptr;
 
 	GameObject& GetGameObject() { return m_playerGameObject; };
 	void SetPlayerArm(GameObject& armGm) { m_playerArm = armGm; };
@@ -57,8 +49,25 @@ public:
 	bool m_attackFinished;
 	int m_slashAttackNb;
 
-private:
+	int m_hp = 10;
+
+	float m_walkSpeed = 2.0f;
+	float m_runSpeed = 5.0f;
+	float m_moveSpeed;
+	float m_jumpPower = 5.0f;
+	float m_invicibilityCooldown = 2.0f;
+
+	bool m_hasCollided = false;
+	bool m_isPickingUp = false;
+	bool m_isFalling = false;
+
+	std::vector<Entity> m_objectsCollidingWithPlayer;
+
+	float m_deltatime;
 	GameManager* mp_gameManager;
+	Scene* mp_scene;
+
+private:
 
 protected:
 	friend class PlayerAction_Idle;
