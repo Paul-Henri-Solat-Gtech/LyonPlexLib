@@ -23,7 +23,7 @@ void SceneManager::UpdateScene(float deltaTime)
 {
 	if (m_currentScene) 
 	{
-		m_currentScene->Update(deltaTime);
+		m_currentScene->SceneUpdate(deltaTime);
 	}
 }
 

@@ -15,6 +15,12 @@ void Scene::Start()
 	OutputDebugStringA("\nScene has started ! \n");
 }
 
+void Scene::SceneUpdate(float deltatime)
+{
+	Update(deltatime);
+	EndUpdate();
+}
+
 void Scene::Update(float deltatime)
 {
 
@@ -130,19 +136,40 @@ GameObject& Scene::GetGameObjectByID(Entity entityID)
 
 void Scene::DestroyGameObject(GameObject& gameObject)
 {
+	// Vérifie si l'adresse du gameObject est bien dans la liste
+	bool gmExists = std::any_of(m_sceneGameObjects.begin(),m_sceneGameObjects.end(),[&](GameObject& gm) { return &gm == &gameObject; });
 
-	// 2) Remove Gameobject
-	const std::string& gmName = gameObject.GetName();
-	m_sceneGameObjects.erase
-	(
-		std::remove_if(
-			m_sceneGameObjects.begin(),
-			m_sceneGameObjects.end(),
-			[&](GameObject& gm) { return gm.GetName() == gmName; }),
-		m_sceneGameObjects.end()
-	);
-	// 1) DestroyEntity
-	mp_ecsManager->DestroyEntity(gameObject.GetEntity());
+	if (gmExists)
+	{
+		m_sceneGameObjectsToDelete.push_back(&gameObject);
+	}
+	else
+	{
+		OutputDebugStringA(("[Scene] DestroyGameObject: '" + gameObject.GetName() +"' not found, skipping.\n").c_str());
+	}
+}
+
+void Scene::EndUpdate()
+{
+	for (auto* gm : m_sceneGameObjectsToDelete)
+	{
+		// 1) DestroyEntity
+		mp_ecsManager->DestroyEntity(*gm->GetEntity());
+
+		// 2) Remove Gameobject	
+		const std::string& gmName = gm->GetName();
+		m_sceneGameObjects.erase
+		(
+			std::remove_if(
+				m_sceneGameObjects.begin(),
+				m_sceneGameObjects.end(),
+				[&](GameObject& gm) { return gm.GetName() == gmName; }),
+			m_sceneGameObjects.end()
+		);
+	}
+
+	// 3) Vide la liste des suppressions pour la prochaine frame
+	m_sceneGameObjectsToDelete.clear();
 }
 
 void Scene::SetParent(const std::string& gameObjectNameChild, const std::string& gameObjectNameParent)

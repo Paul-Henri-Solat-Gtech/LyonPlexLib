@@ -61,6 +61,7 @@ void Enemy::Init(GameObject gameObjectEnemy, GameObject gameObjectPlayer, GameMa
 	//m_testAnimation.AddFrame(TEXTURES::bras);
 	//m_testAnimation.AddFrame(TEXTURES::test);
 	//m_testAnimation.AddFrame(TEXTURES::tex0);
+	m_initialized = true;
 
 }
 
@@ -84,6 +85,7 @@ void Enemy::OnUdpdate(float deltatime)
 {
 	m_stateMachine.Update();
 	m_deltatime = deltatime;
+
 
 	//m_testAnimation.Loop(deltatime);
 
