@@ -23,18 +23,6 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Src\Player.cpp">
-	  <Filter>Player</Filter>
-	  </ClCompile>
-    <ClCompile Include="Src\PlayerAction.cpp">
-	  <Filter>Player</Filter>
-	  </ClCompile>
-	  <ClCompile Include="Src\PlayerCondition.cpp">
-	  <Filter>Player</Filter>
-	  </ClCompile>
-    <ClCompile Include="Src\Ennemy.cpp">
-      <Filter>Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Player.cpp">
       <Filter>Player</Filter>
     </ClCompile>
     <ClCompile Include="Src\PlayerAction.cpp">
@@ -43,14 +31,14 @@
     <ClCompile Include="Src\PlayerCondition.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="Src\SkillTree.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
     <ClCompile Include="Src\EnemyAction.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Src\EnemyCondition.cpp">
       <Filter>Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\SkillTree.cpp">
-      <Filter>Player</Filter>
     </ClCompile>
     <ClCompile Include="..\LyonPlexLib\Src\Projectile.cpp">
       <Filter>Projectile</Filter>
@@ -60,6 +48,9 @@
     </ClCompile>
     <ClCompile Include="..\LyonPlexLib\Src\ProjectileCondition.cpp">
       <Filter>Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Enemy.cpp">
+      <Filter>Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +75,9 @@
     <ClInclude Include="Include\PlayerCondition.h">
       <Filter>Player</Filter>
     </ClInclude>
+    <ClInclude Include="Include\SkillTree.h">
+      <Filter>Player</Filter>
+    </ClInclude>
     <ClInclude Include="Include\GameScene.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -105,9 +99,6 @@
     <ClInclude Include="Include\EnemyCondition.h">
       <Filter>Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Include\SkillTree.h">
-      <Filter>Player</Filter>
-    </ClCompile>
     <ClInclude Include="..\LyonPlexLib\Include\Projectile.h">
       <Filter>Projectile</Filter>
     </ClInclude>
