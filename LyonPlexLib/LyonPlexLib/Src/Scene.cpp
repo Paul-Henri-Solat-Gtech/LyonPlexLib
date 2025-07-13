@@ -154,7 +154,7 @@ void Scene::EndUpdate()
 	for (auto* gm : m_sceneGameObjectsToDelete)
 	{
 		// 1) DestroyEntity
-		mp_ecsManager->DestroyEntity(*gm->GetEntity());
+		mp_ecsManager->DestroyEntity(gm->GetEntity());
 
 		// 2) Remove Gameobject	
 		const std::string& gmName = gm->GetName();
