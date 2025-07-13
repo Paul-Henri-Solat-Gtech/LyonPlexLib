@@ -38,7 +38,7 @@ void FpsCamera::Update(float deltaTime)
         int dy = cur.y - m_lastMouse.y;
 
         m_yaw += dx * m_sensitivity;
-        m_pitch -= dy * m_sensitivity;
+        m_pitch += dy * m_sensitivity;
         m_pitch = std::clamp(m_pitch, -89.f, +89.f);
 
         // Applique la rotation sur le parent

@@ -20,7 +20,7 @@ class Player
 
 public:
 	Player();
-	void Init(GameObject gameObject, GameManager* gameManager, Scene* scene);
+	void Init(GameObject gameObject, GameManager* gameManager, Scene* scene, GameObject& cameraGO);
 	
 	void OnUdpdate(float deltatime);
 
@@ -31,7 +31,7 @@ public:
 	GameObject m_playerArm;
 
 	GameObject* m_closestObject = nullptr;
-
+	GameObject* mp_cameraGO = nullptr;
 	GameObject& GetGameObject() { return m_playerGameObject; };
 	void SetPlayerArm(GameObject& armGm) { m_playerArm = armGm; };
 	GameObject& GetPlayerArm() { return m_playerArm; };

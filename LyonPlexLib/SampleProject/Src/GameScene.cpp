@@ -38,7 +38,7 @@ void GameScene::Start()
 	m_playerSpeed = m_playerWalkSpeed;
 
 	// Test player + stateMachine
-	m_playerTest.Init(m_player, mp_sceneManager->GetGameManager(), this);
+	m_playerTest.Init(m_player, mp_sceneManager->GetGameManager(), this, m_cam);
 	m_enemyTest.Init(GetGameObjectByName("testGm"), m_player, mp_sceneManager->GetGameManager());
 
 	CreateGameObject("bras", TYPE_2D, true);

@@ -146,11 +146,12 @@ Player::Player() : m_stateMachine(this, State::Count)
 	m_stateMachine.SetState(State::Idle);
 }
 
-void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene)
+void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene, GameObject& cameraGO)
 {
 	m_playerGameObject = gameObject;
 	mp_gameManager = gameManager;
 	mp_scene = scene;
+	mp_cameraGO = &cameraGO;
 	m_moveSpeed = m_walkSpeed;
 	m_attackFinished = true;
 	m_slashAttackNb = 1;

@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "PlayerAction.h"
 #include "Utils.h"
 
@@ -56,48 +56,62 @@ void PlayerAction_Move::Start(Player* player)
 }
 void PlayerAction_Move::Update(Player* player)
 {
-	// movements
+	// 1) Récupère le quaternion de la caméra
+	GameObject& camGO = *player->mp_cameraGO;
+	XMFLOAT4 camQuatF = camGO.GetRotation();
+	XMVECTOR camQuat = XMLoadFloat4(&camQuatF);
+	XMMATRIX rotMat = XMMatrixRotationQuaternion(camQuat);
+
+	// 2) Calcule forward et right dans le plan XZ
+	XMVECTOR forward = XMVector3Normalize(
+		XMVector3TransformNormal(
+			XMVectorSet(0, 0, 1, 0),  // vecteur avant local +Z
+			rotMat
+		)
+	);
+	forward = XMVectorSetY(forward, 0); // on zappe Y pour marcher au sol
+	forward = XMVector3Normalize(forward);
+
+	XMVECTOR right = XMVector3Normalize(
+		XMVector3Cross(
+			XMVectorSet(0, 1, 0, 0), // Y up
+			forward
+		)
+	);
+
+	// 3) Compose le déplacement
+	XMVECTOR move = XMVectorZero();
+	if (InputManager::GetKeyIsPressed('Z')) move += forward;
+	if (InputManager::GetKeyIsPressed('S')) move -= forward;
+	if (InputManager::GetKeyIsPressed('D')) move += right;
+	if (InputManager::GetKeyIsPressed('Q')) move -= right;
+
+	// vertical
+	if (InputManager::GetKeyIsPressed(VK_SPACE))   move += XMVectorSet(0, 1, 0, 0);
+	if (InputManager::GetKeyIsPressed(VK_CONTROL)) move -= XMVectorSet(0, 1, 0, 0);
+
+	// 4) Applique la vitesse et deltaTime
+	if (!XMVector3Equal(move, XMVectorZero()))
 	{
-		if (InputManager::GetKeyIsPressed('Z'))
-		{
-			player->GetGameObject().GetComponent<TransformComponent>()->position.z += player->GetMoveSpeed() * player->GetDeltatime();
-			player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
-		}
-		if (InputManager::GetKeyIsPressed('S'))
-		{
-			player->GetGameObject().GetComponent<TransformComponent>()->position.z -= player->GetMoveSpeed() * player->GetDeltatime();
-			player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
-		}
-		if (InputManager::GetKeyIsPressed('Q'))
-		{
-			player->GetGameObject().GetComponent<TransformComponent>()->position.x -= player->GetMoveSpeed() * player->GetDeltatime();
-			player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
-		}
-		if (InputManager::GetKeyIsPressed('D'))
-		{
-			player->GetGameObject().GetComponent<TransformComponent>()->position.x += player->GetMoveSpeed() * player->GetDeltatime();
-			player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
-		}
-		if (InputManager::GetKeyIsPressed(VK_SPACE))
-		{
-			player->GetGameObject().GetComponent<TransformComponent>()->position.y += 10 * player->GetDeltatime();
-			player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
-		}
-		if (InputManager::GetKeyIsPressed(VK_CONTROL))
-		{
-			player->GetGameObject().GetComponent<TransformComponent>()->position.y -= player->GetMoveSpeed() * player->GetDeltatime();
-			player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
-		}
-		if (InputManager::GetKeyIsPressed(VK_SHIFT))
-		{
-			player->SetMoveSpeed(player->GetRunSpeed());
-			m_cooldownArmMovement = 0.1f;
-		}
-		else
-		{
-			player->SetMoveSpeed(player->GetWalkSpeed());
-			m_cooldownArmMovement = 0.5f;
-		}
+		move = XMVector3Normalize(move)
+			* (player->GetMoveSpeed() * player->GetDeltatime());
+
+		XMFLOAT3 pos = player->GetGameObject().GetPosition();
+		XMVECTOR  p = XMLoadFloat3(&pos) + move;
+		XMStoreFloat3(&pos, p);
+
+		player->GetGameObject().SetPosition(pos);
+		player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
+	}
+
+	// Gère le sprint
+	if (InputManager::GetKeyIsPressed(VK_SHIFT))
+	{
+		player->SetMoveSpeed(player->GetRunSpeed());
+	}
+	else
+	{
+		player->SetMoveSpeed(player->GetWalkSpeed());
 	}
 	
 	// Arm anim
@@ -260,51 +274,70 @@ void PlayerAction_Attack::Start(Player* player)
 }
 void PlayerAction_Attack::Update(Player* player)
 {
+	//atack
 	m_attackAnim.AnimationSequence(player->GetDeltatime());
 	if (m_attackAnim.GetAnimationHisFinished())
 	{
 		player->m_attackFinished = true;
 	}
-	//Move
+
+	//move
+	// 1) Récupère le quaternion de la caméra
+	GameObject& camGO = *player->mp_cameraGO;
+	XMFLOAT4 camQuatF = camGO.GetRotation();
+	XMVECTOR camQuat = XMLoadFloat4(&camQuatF);
+	XMMATRIX rotMat = XMMatrixRotationQuaternion(camQuat);
+
+	// 2) Calcule forward et right dans le plan XZ
+	XMVECTOR forward = XMVector3Normalize(
+		XMVector3TransformNormal(
+			XMVectorSet(0, 0, 1, 0),  // vecteur avant local +Z
+			rotMat
+		)
+	);
+	forward = XMVectorSetY(forward, 0); // on zappe Y pour marcher au sol
+	forward = XMVector3Normalize(forward);
+
+	XMVECTOR right = XMVector3Normalize(
+		XMVector3Cross(
+			XMVectorSet(0, 1, 0, 0), // Y up
+			forward
+		)
+	);
+
+	// 3) Compose le déplacement
+	XMVECTOR move = XMVectorZero();
+	if (InputManager::GetKeyIsPressed('Z')) move += forward;
+	if (InputManager::GetKeyIsPressed('S')) move -= forward;
+	if (InputManager::GetKeyIsPressed('D')) move += right;
+	if (InputManager::GetKeyIsPressed('Q')) move -= right;
+
+	// vertical
+	if (InputManager::GetKeyIsPressed(VK_SPACE))   move += XMVectorSet(0, 1, 0, 0);
+	if (InputManager::GetKeyIsPressed(VK_CONTROL)) move -= XMVectorSet(0, 1, 0, 0);
+
+	// 4) Applique la vitesse et deltaTime
+	if (!XMVector3Equal(move, XMVectorZero()))
 	{
-		if (InputManager::GetKeyIsPressed('Z'))
-		{
-			player->GetGameObject().GetComponent<TransformComponent>()->position.z += player->GetMoveSpeed() * player->GetDeltatime();
-			player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
-		}
-		if (InputManager::GetKeyIsPressed('S'))
-		{
-			player->GetGameObject().GetComponent<TransformComponent>()->position.z -= player->GetMoveSpeed() * player->GetDeltatime();
-			player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
-		}
-		if (InputManager::GetKeyIsPressed('Q'))
-		{
-			player->GetGameObject().GetComponent<TransformComponent>()->position.x -= player->GetMoveSpeed() * player->GetDeltatime();
-			player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
-		}
-		if (InputManager::GetKeyIsPressed('D'))
-		{
-			player->GetGameObject().GetComponent<TransformComponent>()->position.x += player->GetMoveSpeed() * player->GetDeltatime();
-			player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
-		}
-		if (InputManager::GetKeyIsPressed(VK_SPACE))
-		{
-			player->GetGameObject().GetComponent<TransformComponent>()->position.y += 10 * player->GetDeltatime();
-			player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
-		}
-		if (InputManager::GetKeyIsPressed(VK_CONTROL))
-		{
-			player->GetGameObject().GetComponent<TransformComponent>()->position.y -= player->GetMoveSpeed() * player->GetDeltatime();
-			player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
-		}
-		if (InputManager::GetKeyIsPressed(VK_SHIFT))
-		{
-			player->SetMoveSpeed(player->GetRunSpeed());
-		}
-		else
-		{
-			player->SetMoveSpeed(player->GetWalkSpeed());
-		}
+		move = XMVector3Normalize(move)
+			* (player->GetMoveSpeed() * player->GetDeltatime());
+
+		XMFLOAT3 pos = player->GetGameObject().GetPosition();
+		XMVECTOR  p = XMLoadFloat3(&pos) + move;
+		XMStoreFloat3(&pos, p);
+
+		player->GetGameObject().SetPosition(pos);
+		player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
+	}
+
+	// Gère le sprint
+	if (InputManager::GetKeyIsPressed(VK_SHIFT))
+	{
+		player->SetMoveSpeed(player->GetRunSpeed());
+	}
+	else
+	{
+		player->SetMoveSpeed(player->GetWalkSpeed());
 	}
 }
 void PlayerAction_Attack::End(Player* player)
