@@ -11,7 +11,9 @@ public:
 	std::string Float2Str(float value);
 
 	std::string RoundValueStr(float value);
-	float RoundValue(float value);
+	float RoundValue(float value, int roundTo = 1);
+
+	int ComputeGridStep(float scale);
 
 private:
 	GameObject m_placingModule;
@@ -25,6 +27,7 @@ private:
 
 	//quadrillage
 	bool m_QuadrillageModeIsOn;
+	bool m_QuadrillageUnitaireIsOn;
 
 	// Camera
 	// Membres pour lorbite

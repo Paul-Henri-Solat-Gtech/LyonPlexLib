@@ -7,7 +7,7 @@
 
 void DevScene::Start()
 {
-    // R馗up駻er le HWND depuis SceneManager
+	// R馗up駻er le HWND depuis SceneManager
 	m_hWnd = mp_sceneManager->GetWindow();
 
 	// Cr馥r le cube (placingModule)
@@ -27,7 +27,7 @@ void DevScene::Start()
 	float dy = camPos.y - cubePos.y;
 	float dz = camPos.z - cubePos.z;
 	float radius = sqrtf(dx * dx + dy * dy + dz * dz);
-	if (radius > 0.001f) 
+	if (radius > 0.001f)
 	{
 		m_orbitRadius = radius;
 		m_orbitYaw = XMConvertToDegrees(atan2f(dx, dz));
@@ -51,6 +51,7 @@ void DevScene::Start()
 	m_scaleSpeed = m_scaleNormalSpeed;
 
 	m_QuadrillageModeIsOn = false;
+	m_QuadrillageUnitaireIsOn = false;
 	// Test
 }
 
@@ -97,12 +98,12 @@ void DevScene::Update(float deltatime)
 	if (InputManager::GetKeyIsPressed(VK_SHIFT))
 	{
 		m_camSpeed = m_camRunSpeed;
-		m_scaleSpeed = m_scaleFastSpeed;
+		m_scaleSpeed = 5;
 	}
 	else
 	{
 		m_camSpeed = m_camWalkSpeed;
-		m_scaleSpeed = m_scaleNormalSpeed;
+		m_scaleSpeed = 1;
 	}
 
 	// cam rotate(prototype)
@@ -131,48 +132,48 @@ void DevScene::Update(float deltatime)
 	}
 
 	// Scale
-	if (InputManager::GetKeyIsPressed(VK_ADD))
+	if (InputManager::GetKeyIsJustPressed(VK_ADD))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.x += m_scaleSpeed * deltatime;
-		m_placingModule.GetComponent<TransformComponent>()->scale.y += m_scaleSpeed * deltatime;
-		m_placingModule.GetComponent<TransformComponent>()->scale.z += m_scaleSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.x += m_scaleSpeed;
+		m_placingModule.GetComponent<TransformComponent>()->scale.y += m_scaleSpeed;
+		m_placingModule.GetComponent<TransformComponent>()->scale.z += m_scaleSpeed;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
-	if (InputManager::GetKeyIsPressed(VK_SUBTRACT))
+	if (InputManager::GetKeyIsJustPressed(VK_SUBTRACT))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.x -= m_scaleSpeed * deltatime;
-		m_placingModule.GetComponent<TransformComponent>()->scale.y -= m_scaleSpeed * deltatime;
-		m_placingModule.GetComponent<TransformComponent>()->scale.z -= m_scaleSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.x -= m_scaleSpeed;
+		m_placingModule.GetComponent<TransformComponent>()->scale.y -= m_scaleSpeed;
+		m_placingModule.GetComponent<TransformComponent>()->scale.z -= m_scaleSpeed;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
-	if (InputManager::GetKeyIsPressed('R'))
+	if (InputManager::GetKeyIsJustPressed('R'))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.x += m_scaleSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.x += m_scaleSpeed;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
-	if (InputManager::GetKeyIsPressed('T'))
+	if (InputManager::GetKeyIsJustPressed('T'))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.x -= m_scaleSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.x -= m_scaleSpeed;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
-	if (InputManager::GetKeyIsPressed('Y'))
+	if (InputManager::GetKeyIsJustPressed('Y'))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.y += m_scaleSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.y += m_scaleSpeed;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
-	if (InputManager::GetKeyIsPressed('U'))
+	if (InputManager::GetKeyIsJustPressed('U'))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.y -= m_scaleSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.y -= m_scaleSpeed;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
-	if (InputManager::GetKeyIsPressed('I'))
+	if (InputManager::GetKeyIsJustPressed('I'))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.z += m_scaleSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.z += m_scaleSpeed;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
-	if (InputManager::GetKeyIsPressed('O'))
+	if (InputManager::GetKeyIsJustPressed('O'))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.z -= m_scaleSpeed * deltatime;
+		m_placingModule.GetComponent<TransformComponent>()->scale.z -= m_scaleSpeed;
 		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
 	}
 
@@ -186,21 +187,48 @@ void DevScene::Update(float deltatime)
 	if (InputManager::GetKeyIsReleased('W'))
 	{
 		m_QuadrillageModeIsOn = !m_QuadrillageModeIsOn;
-
-		//if (m_QuadrillageModeIsOn)
-		//{
-		//	m_QuadrillageModeIsOn = false;
-		//}
-		//else
-		//{
-		//	m_QuadrillageModeIsOn = true;
-		//}
+	}
+	//Mode cadriage round force a 1
+	if (InputManager::GetKeyIsReleased('C'))
+	{
+		m_QuadrillageUnitaireIsOn = !m_QuadrillageUnitaireIsOn;		
 	}
 
 	// Adding blocks (make a function in this scene)
 	if (InputManager::GetKeyIsReleased(VK_LBUTTON))
 	{
-		XMFLOAT3 posCamera = { RoundValue(m_placingModule.GetPosition().x),RoundValue(m_placingModule.GetPosition().y),RoundValue(m_placingModule.GetPosition().z) };
+		auto& blocScale = m_placingModule.GetScale();
+		float scaleMoy = 0;
+		if (m_QuadrillageUnitaireIsOn) scaleMoy = (blocScale.x + blocScale.y + blocScale.z) / 3;
+		else scaleMoy = 1;
+
+		/*if (blocScale.x > blocScale.y)
+		{
+			if (blocScale.x > blocScale.z)
+			{
+				scaleMax = blocScale.x;
+			}
+			else
+			{
+				scaleMax = blocScale.z;
+			}
+		}
+		else if (blocScale.y > blocScale.z)
+		{
+			scaleMax = blocScale.y;
+
+		}
+		else scaleMax = blocScale.z;*/
+
+
+		int   step = ComputeGridStep(scaleMoy);
+
+		XMFLOAT3 posCamera = {
+			RoundValue(m_placingModule.GetPosition().x, step),
+			RoundValue(m_placingModule.GetPosition().y, step),
+			RoundValue(m_placingModule.GetPosition().z, step)
+		};
+
 		XMFLOAT4 rotCamera = m_placingModule.GetRotation();
 		XMFLOAT3 scaleCamera = m_placingModule.GetScale();
 		uint32_t meshID = m_placingModule.GetMesh();
@@ -458,14 +486,27 @@ std::string DevScene::RoundValueStr(float value)
 {
 	return std::to_string(static_cast<int>(std::round(value)));
 }
-float DevScene::RoundValue(float value)
+//float DevScene::RoundValue(float value)
+//{
+//	if (m_QuadrillageModeIsOn) 
+//	{
+//		return std::round(value);
+//	}
+//	else
+//	{
+//		return value;
+//	}
+//}
+float DevScene::RoundValue(float value, int roundTo)
 {
-	if (m_QuadrillageModeIsOn) 
-	{
-		return std::round(value);
-	}
+	if (m_QuadrillageModeIsOn && roundTo > 0)
+		return std::round(value / roundTo) * roundTo;
 	else
-	{
 		return value;
-	}
+}
+int DevScene::ComputeGridStep(float scale)
+{
+	if (scale < 5.0f)      return 1;  // unité
+	else if (scale < 50.0f) return 5;  // 5aine
+	else                   return 10; // dizaine
 }

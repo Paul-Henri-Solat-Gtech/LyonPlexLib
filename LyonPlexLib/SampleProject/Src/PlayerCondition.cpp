@@ -2,18 +2,9 @@
 #include "PlayerCondition.h"
 #include "Utils.h"
 
-//bool PlayerCondition_IsInTheAir::OnTest(Player* owner)
-//{
-//	return owner->GetGameObject().GetPosition().y > 1;
-//}
-////BOTH NEED CHANGES ONLY WORK ON FLAT MAP
-//bool PlayerCondition_IsOnGround::OnTest(Player* owner)
-//{
-//	return owner->GetGameObject().GetPosition().y <= 1;
-//}
-bool PlayerCondition_IsInTheAir::OnTest(Player* owner)
+bool PlayerCondition_IsAirBorne::OnTest(Player* owner)
 {
-	bool playerOnObject = false;
+	/*bool playerOnObject = false;
 	for (auto& object : owner->m_objectsCollidingWithPlayer)
 	{
 		auto& playerTransform = *owner->mp_gameManager->GetECSManager().GetComponent<TransformComponent>(owner->GetGameObject().GetEntity());
@@ -21,9 +12,10 @@ bool PlayerCondition_IsInTheAir::OnTest(Player* owner)
 		if (Utils::IsAbove(playerTransform, objectTransform))
 			playerOnObject = true;
 	}
-	return !playerOnObject;
+	return !playerOnObject;*/
+	return (owner->m_fallProgress > 0.2 || owner->m_jumpProgress > 0.2);
 }
-//BOTH NEED CHANGES ONLY WORK ON FLAT MAP
+
 bool PlayerCondition_IsOnGround::OnTest(Player* owner)
 {
 	bool playerOnObject = false;
@@ -38,6 +30,26 @@ bool PlayerCondition_IsOnGround::OnTest(Player* owner)
 		}
 	}
 	return playerOnObject;
+}
+bool PlayerCondition_IsNotOnGround::OnTest(Player* owner)
+{
+	bool playerOnObject = false;
+	for (auto& object : owner->m_objectsCollidingWithPlayer)
+	{
+		auto& playerTransform = *owner->mp_gameManager->GetECSManager().GetComponent<TransformComponent>(owner->GetGameObject().GetEntity());
+		auto& objectTransform = *owner->mp_gameManager->GetECSManager().GetComponent<TransformComponent>(object);
+		if (Utils::IsAbove(playerTransform, objectTransform))
+		{
+			playerOnObject = true;
+			break;
+		}
+	}
+	return !playerOnObject;
+}
+
+bool PlayerCondition_IsJumping::OnTest(Player* owner)
+{
+	return InputManager::GetKeyIsPressed(VK_SPACE);
 }
 
 bool PlayerCondition_IsMoving::OnTest(Player* owner)

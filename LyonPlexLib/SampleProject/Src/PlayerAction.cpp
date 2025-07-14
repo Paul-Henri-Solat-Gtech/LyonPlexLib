@@ -2,10 +2,82 @@
 #include "PlayerAction.h"
 #include "Utils.h"
 
+
+
+void PlayerMovement(Player* player)
+{
+	//move
+	// 1) Récupère le quaternion de la caméra
+	GameObject& camGO = *player->mp_cameraGO;
+	XMFLOAT4 camQuatF = camGO.GetRotation();
+	XMVECTOR camQuat = XMLoadFloat4(&camQuatF);
+	XMMATRIX rotMat = XMMatrixRotationQuaternion(camQuat);
+
+	// 2) Calcule forward et right dans le plan XZ
+	XMVECTOR forward = XMVector3Normalize(
+		XMVector3TransformNormal(
+			XMVectorSet(0, 0, 1, 0),  // vecteur avant local +Z
+			rotMat
+		)
+	);
+	forward = XMVectorSetY(forward, 0); // on zappe Y pour marcher au sol
+	forward = XMVector3Normalize(forward);
+
+	XMVECTOR right = XMVector3Normalize(
+		XMVector3Cross(
+			XMVectorSet(0, 1, 0, 0), // Y up
+			forward
+		)
+	);
+
+	// 3) Compose le déplacement
+	XMVECTOR move = XMVectorZero();
+	if (InputManager::GetKeyIsPressed('Z')) move += forward;
+	if (InputManager::GetKeyIsPressed('S')) move -= forward;
+	if (InputManager::GetKeyIsPressed('D')) move += right;
+	if (InputManager::GetKeyIsPressed('Q')) move -= right;
+
+	// vertical
+	//if (InputManager::GetKeyIsPressed(VK_SPACE))   move += XMVectorSet(0, 1, 0, 0);
+	//if (InputManager::GetKeyIsPressed(VK_CONTROL)) move -= XMVectorSet(0, 1, 0, 0);
+
+	// 4) Applique la vitesse et deltaTime
+	if (!XMVector3Equal(move, XMVectorZero()))
+	{
+		move = XMVector3Normalize(move)
+			* (player->GetMoveSpeed() * player->GetDeltatime());
+
+		XMFLOAT3 pos = player->GetGameObject().GetPosition();
+		XMVECTOR  p = XMLoadFloat3(&pos) + move;
+		XMStoreFloat3(&pos, p);
+
+		player->GetGameObject().SetPosition(pos);
+		player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
+	}
+
+	// Gère le sprint
+	if (InputManager::GetKeyIsPressed(VK_SHIFT))
+	{
+		player->SetMoveSpeed(player->GetRunSpeed());
+	}
+	else
+	{
+		player->SetMoveSpeed(player->GetWalkSpeed());
+	}
+}
+
+
+
 // IDLE (dont need to be implemented normaly with override{})
 void PlayerAction_Idle::Start(Player* player)
 {
-	OutputDebugStringA("StartIdle-");
+	OutputDebugStringA("\n- StartIdle\n");
+
+	// Reset des variables dynamiques (sauts, chute,...)
+	player->m_jumpProgress = 0.0f;
+	player->m_fallProgress = 0.0f;
+
+
 	m_idleAnim.Init(0.05f, &player->GetPlayerArm());
 	// idle frames
 	{
@@ -43,6 +115,7 @@ void PlayerAction_Idle::Update(Player* player)
 
 void PlayerAction_Idle::End(Player* player)
 {
+	OutputDebugStringA("\nEndIdle -\n");
 	player->GetPlayerArm().SetTexture(TEXTURES::ARMS);
 }
 
@@ -56,63 +129,7 @@ void PlayerAction_Move::Start(Player* player)
 }
 void PlayerAction_Move::Update(Player* player)
 {
-	// 1) Récupère le quaternion de la caméra
-	GameObject& camGO = *player->mp_cameraGO;
-	XMFLOAT4 camQuatF = camGO.GetRotation();
-	XMVECTOR camQuat = XMLoadFloat4(&camQuatF);
-	XMMATRIX rotMat = XMMatrixRotationQuaternion(camQuat);
-
-	// 2) Calcule forward et right dans le plan XZ
-	XMVECTOR forward = XMVector3Normalize(
-		XMVector3TransformNormal(
-			XMVectorSet(0, 0, 1, 0),  // vecteur avant local +Z
-			rotMat
-		)
-	);
-	forward = XMVectorSetY(forward, 0); // on zappe Y pour marcher au sol
-	forward = XMVector3Normalize(forward);
-
-	XMVECTOR right = XMVector3Normalize(
-		XMVector3Cross(
-			XMVectorSet(0, 1, 0, 0), // Y up
-			forward
-		)
-	);
-
-	// 3) Compose le déplacement
-	XMVECTOR move = XMVectorZero();
-	if (InputManager::GetKeyIsPressed('Z')) move += forward;
-	if (InputManager::GetKeyIsPressed('S')) move -= forward;
-	if (InputManager::GetKeyIsPressed('D')) move += right;
-	if (InputManager::GetKeyIsPressed('Q')) move -= right;
-
-	// vertical
-	if (InputManager::GetKeyIsPressed(VK_SPACE))   move += XMVectorSet(0, 1, 0, 0);
-	if (InputManager::GetKeyIsPressed(VK_CONTROL)) move -= XMVectorSet(0, 1, 0, 0);
-
-	// 4) Applique la vitesse et deltaTime
-	if (!XMVector3Equal(move, XMVectorZero()))
-	{
-		move = XMVector3Normalize(move)
-			* (player->GetMoveSpeed() * player->GetDeltatime());
-
-		XMFLOAT3 pos = player->GetGameObject().GetPosition();
-		XMVECTOR  p = XMLoadFloat3(&pos) + move;
-		XMStoreFloat3(&pos, p);
-
-		player->GetGameObject().SetPosition(pos);
-		player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
-	}
-
-	// Gère le sprint
-	if (InputManager::GetKeyIsPressed(VK_SHIFT))
-	{
-		player->SetMoveSpeed(player->GetRunSpeed());
-	}
-	else
-	{
-		player->SetMoveSpeed(player->GetWalkSpeed());
-	}
+	PlayerMovement(player);
 	
 	// Arm anim
 	if (m_canMoveArm && !m_armIsUp) 
@@ -148,16 +165,6 @@ void PlayerAction_Move::End(Player* player)
 	player->GetPlayerArm().SetTexture(TEXTURES::ARMS);
 }
 
-// JUMP (not needded ?)
-void PlayerAction_Jump::Start(Player* player)
-{
-}
-void PlayerAction_Jump::Update(Player* player)
-{
-}
-void PlayerAction_Jump::End(Player* player)
-{
-}
 
 // ATTACK
 void PlayerAction_Attack::Start(Player* player)
@@ -281,64 +288,8 @@ void PlayerAction_Attack::Update(Player* player)
 		player->m_attackFinished = true;
 	}
 
-	//move
-	// 1) Récupère le quaternion de la caméra
-	GameObject& camGO = *player->mp_cameraGO;
-	XMFLOAT4 camQuatF = camGO.GetRotation();
-	XMVECTOR camQuat = XMLoadFloat4(&camQuatF);
-	XMMATRIX rotMat = XMMatrixRotationQuaternion(camQuat);
 
-	// 2) Calcule forward et right dans le plan XZ
-	XMVECTOR forward = XMVector3Normalize(
-		XMVector3TransformNormal(
-			XMVectorSet(0, 0, 1, 0),  // vecteur avant local +Z
-			rotMat
-		)
-	);
-	forward = XMVectorSetY(forward, 0); // on zappe Y pour marcher au sol
-	forward = XMVector3Normalize(forward);
-
-	XMVECTOR right = XMVector3Normalize(
-		XMVector3Cross(
-			XMVectorSet(0, 1, 0, 0), // Y up
-			forward
-		)
-	);
-
-	// 3) Compose le déplacement
-	XMVECTOR move = XMVectorZero();
-	if (InputManager::GetKeyIsPressed('Z')) move += forward;
-	if (InputManager::GetKeyIsPressed('S')) move -= forward;
-	if (InputManager::GetKeyIsPressed('D')) move += right;
-	if (InputManager::GetKeyIsPressed('Q')) move -= right;
-
-	// vertical
-	if (InputManager::GetKeyIsPressed(VK_SPACE))   move += XMVectorSet(0, 1, 0, 0);
-	if (InputManager::GetKeyIsPressed(VK_CONTROL)) move -= XMVectorSet(0, 1, 0, 0);
-
-	// 4) Applique la vitesse et deltaTime
-	if (!XMVector3Equal(move, XMVectorZero()))
-	{
-		move = XMVector3Normalize(move)
-			* (player->GetMoveSpeed() * player->GetDeltatime());
-
-		XMFLOAT3 pos = player->GetGameObject().GetPosition();
-		XMVECTOR  p = XMLoadFloat3(&pos) + move;
-		XMStoreFloat3(&pos, p);
-
-		player->GetGameObject().SetPosition(pos);
-		player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
-	}
-
-	// Gère le sprint
-	if (InputManager::GetKeyIsPressed(VK_SHIFT))
-	{
-		player->SetMoveSpeed(player->GetRunSpeed());
-	}
-	else
-	{
-		player->SetMoveSpeed(player->GetWalkSpeed());
-	}
+	PlayerMovement(player);
 }
 void PlayerAction_Attack::End(Player* player)
 {
@@ -346,19 +297,57 @@ void PlayerAction_Attack::End(Player* player)
 	OutputDebugStringA("-EndSlash");
 }
 
+
+// JUMP 
+void PlayerAction_Jump::Start(Player* player)
+{
+	OutputDebugStringA("\n- StartJump\n");
+	if (player->m_jumpProgress == 0)
+	{
+		player->m_jumpPosY = player->GetGameObject().GetComponent<TransformComponent>()->position.y;
+	}
+}
+void PlayerAction_Jump::Update(Player* player)
+{
+
+
+	float gForce = 9.18 * 10; // 70 a modifier
+
+	float y = player->m_jumpPosY + (player->m_jumpPower * player->m_jumpProgress) - (0.5f * gForce * (player->m_jumpProgress * player->m_jumpProgress));
+	player->GetGameObject().GetComponent<TransformComponent>()->position.y = y;
+	player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
+	player->m_jumpProgress += player->m_deltatime * 1;
+
+
+	PlayerMovement(player);
+}
+void PlayerAction_Jump::End(Player* player)
+{
+	OutputDebugStringA("\nEndJump -\n");
+
+}
+
+
 // FALL
 void PlayerAction_Fall::Start(Player* player)
 {
+	if (player->m_fallProgress == 0)
+	{
+		player->m_jumpPosY = player->GetGameObject().GetComponent<TransformComponent>()->position.y;
+	}
 }
 void PlayerAction_Fall::Update(Player* player)
 {
-	player->GetGameObject().GetComponent<TransformComponent>()->position.y -= 9.81f * player->m_deltatime / 2;
+	//float gForce = gravity->m_gravityForce * gravity->m_weight;
+	float gForce = 9.18 * 10;
+
+	float y = player->m_jumpPosY - (0.5f * gForce * (player->m_fallProgress * player->m_fallProgress));
+	player->GetGameObject().GetComponent<TransformComponent>()->position.y = y;
 	player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
-	if (InputManager::GetKeyIsPressed(VK_SPACE))
-	{
-		player->GetGameObject().GetComponent<TransformComponent>()->position.y += 10 * player->GetDeltatime();
-		player->GetGameObject().GetComponent<TransformComponent>()->dirty = true;
-	}
+	player->m_fallProgress += player->m_deltatime * 1;
+
+
+	PlayerMovement(player);
 }
 void PlayerAction_Fall::End(Player* player)
 {

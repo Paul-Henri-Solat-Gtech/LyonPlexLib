@@ -410,7 +410,59 @@ namespace Utils
 		return (a.position.y < b.position.y && penetrationY <= 0 /*&& abs(penetrationY) < epsilon*/);
 	}
 
+	inline XMVECTOR ResolveAABBCollision(const TransformComponent& a, const TransformComponent& b)
+	{
+		// Calculer les bornes pour lobjet A
+		float aMinX = a.position.x - a.scale.x / 2;
+		float aMaxX = a.position.x + a.scale.x / 2;
+		float aMinY = a.position.y - a.scale.y / 2;
+		float aMaxY = a.position.y + a.scale.y / 2;
+		float aMinZ = a.position.z - a.scale.z / 2;
+		float aMaxZ = a.position.z + a.scale.z / 2;
 
+		// Calculer les bornes pour lobjet B
+		float bMinX = b.position.x - b.scale.x / 2;
+		float bMaxX = b.position.x + b.scale.x / 2;
+		float bMinY = b.position.y - b.scale.y / 2;
+		float bMaxY = b.position.y + b.scale.y / 2;
+		float bMinZ = b.position.z - b.scale.z / 2;
+		float bMaxZ = b.position.z + b.scale.z / 2;
+
+		// Calcul des profondeurs de penetration sur chaque axe
+		// On calcule combien lobjet B setend au dela de lobjet A sur chaque cote
+		float penX1 = bMaxX - aMinX; // penetration si B est a droite de A
+		float penX2 = aMaxX - bMinX; // penetration si A est a droite de B
+
+		float penY1 = bMaxY - aMinY;
+		float penY2 = aMaxY - bMinY;
+
+		float penZ1 = bMaxZ - aMinZ;
+		float penZ2 = aMaxZ - bMinZ;
+
+		// On prend la penetration minimale pour chaque axe
+		float penX = (penX1 < penX2) ? penX1 : penX2;
+		float penY = (penY1 < penY2) ? penY1 : penY2;
+		float penZ = (penZ1 < penZ2) ? penZ1 : penZ2;
+
+		// On trouve l'axe ou la penetration est la moins importante
+		float minPenetration = penX;
+		DirectX::XMVECTOR correction = DirectX::XMVectorSet((penX1 < penX2 ? -penX1 : penX2), 0.0f, 0.0f, 0.0f);
+
+		if (penY < minPenetration)
+		{
+			minPenetration = penY;
+			correction = DirectX::XMVectorSet(0.0f, (penY1 < penY2 ? -penY1 : penY2), 0.0f, 0.0f);
+		}
+		if (penZ < minPenetration)
+		{
+			minPenetration = penZ;
+			correction = DirectX::XMVectorSet(0.0f, 0.0f, (penZ1 < penZ2 ? -penZ1 : penZ2), 0.0f);
+		}
+
+		// On peut choisir d'appliquer la moitie de la correction a chaque objet
+		//DirectX::XMVECTOR correction = DirectX::XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
+		return DirectX::XMVectorScale(correction, 1.f);
+	}
 
 }
 

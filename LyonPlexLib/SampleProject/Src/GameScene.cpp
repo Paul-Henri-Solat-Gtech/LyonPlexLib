@@ -59,8 +59,8 @@ void GameScene::Start()
 	// scene
 	CreateGameObject("GM0", 2, 4);
 	GetGameObjectByName("GM0").SetTag(TAG_Floor);
-	GetGameObjectByName("GM0").SetPosition({ 0,-5, 0 });
-	GetGameObjectByName("GM0").SetScale({ 20, 10, 20 });
+	GetGameObjectByName("GM0").SetPosition({ 0,-50, 0 });
+	GetGameObjectByName("GM0").SetScale({ 20, 100, 20 });
 	auto& b = GetGameObjectByName("GM0").GetScale();
 	GetGameObjectByName("GM0").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ b.x / 2, b.y / 2, b.z / 2 })));
 

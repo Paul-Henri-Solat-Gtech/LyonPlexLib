@@ -54,7 +54,12 @@ public:
 	float m_walkSpeed = 2.0f;
 	float m_runSpeed = 5.0f;
 	float m_moveSpeed;
-	float m_jumpPower = 5.0f;
+
+	float m_jumpPower = 25.0f;
+	float m_jumpPosY = 0.0f;
+	float m_jumpProgress = 0.0f;
+	float m_fallProgress = 0.0f;
+
 	float m_invicibilityCooldown = 2.0f;
 
 	bool m_hasCollided = false;

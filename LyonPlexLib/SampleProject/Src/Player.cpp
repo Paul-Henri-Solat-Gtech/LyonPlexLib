@@ -17,17 +17,22 @@ Player::Player() : m_stateMachine(this, State::Count)
 		{
 			auto transition = sIdle->CreateTransition(State::Move);
 			auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
-			//transition->AddCondition<PlayerCondition_IsAttacking>();
 		}
 		//-> ATTACK TRANSITION
 		{
 			auto transition = sIdle->CreateTransition(State::Attack);
 			auto condition = transition->AddCondition<PlayerCondition_IsAttacking>();
 		}
+		//-> JUMP TRANSITION
+		{
+			auto transition = sIdle->CreateTransition(State::Jump);
+			//auto condition = transition->AddCondition<PlayerCondition_IsOnGround>();
+			transition->AddCondition<PlayerCondition_IsJumping>();
+		}
 		//-> FALL TRANSITION
 		{
 			auto transition = sIdle->CreateTransition(State::Fall);
-			auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
+			auto condition = transition->AddCondition<PlayerCondition_IsNotOnGround>();
 		}
 		//-> PICK UP TRANSITION
 		{
@@ -51,10 +56,16 @@ Player::Player() : m_stateMachine(this, State::Count)
 			auto transition = sMove->CreateTransition(State::Attack);
 			auto condition = transition->AddCondition<PlayerCondition_IsAttacking>();
 		}
+		//-> JUMP TRANSITION
+		{
+			auto transition = sMove->CreateTransition(State::Jump);
+			auto condition = transition->AddCondition<PlayerCondition_IsOnGround>();
+			transition->AddCondition<PlayerCondition_IsJumping>();
+		}
 		//-> FALL TRANSITION
 		{
 			auto transition = sMove->CreateTransition(State::Fall);
-			auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
+			auto condition = transition->AddCondition<PlayerCondition_IsNotOnGround>();
 		}
 		//-> PICK UP TRANSITION
 		{
@@ -68,6 +79,29 @@ Player::Player() : m_stateMachine(this, State::Count)
 	{
 		auto* sJump = m_stateMachine.CreateBehaviour(State::Jump);
 		sJump->AddAction(new PlayerAction_Jump());
+		//-> IDLE TRANSITION
+		{
+			auto transition = sJump->CreateTransition(State::Idle);
+			auto condition = transition->AddCondition<PlayerCondition_IsAirBorne>(); // Saut ou chute deja commencee
+			transition->AddCondition<PlayerCondition_IsOnGround>(); // Contact par le dessous
+			//transition->AddCondition<PlayerCondition_IsNotMoving>();
+		}
+		////-> ATTACK TRANSITION
+		//{
+		//	auto transition = sJump->CreateTransition(State::Attack);
+		//	auto condition = transition->AddCondition<PlayerCondition_IsAttacking>();
+		//}
+		//-> FALL TRANSITION
+		{
+			//auto transition = sJump->CreateTransition(State::Fall);
+			//auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
+		}
+		//-> PICK UP TRANSITION
+		{
+			auto transition = sJump->CreateTransition(State::PickUp);
+			transition->AddCondition<PlayerCondition_IsPickingUp>();
+			transition->AddCondition<PlayerCondition_IsCloseToObject>();
+		}
 	}
 
 	// --- FALL ---
@@ -106,7 +140,7 @@ Player::Player() : m_stateMachine(this, State::Count)
 		//-> FALL TRANSITION
 		{
 			auto transition = sAttack->CreateTransition(State::Fall);
-			auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
+			auto condition = transition->AddCondition<PlayerCondition_IsNotOnGround>();
 			transition->AddCondition<PlayerCondition_AttackFinished>();
 		}
 		//-> ATTACK TRANSITION
@@ -132,7 +166,7 @@ Player::Player() : m_stateMachine(this, State::Count)
 		//-> FALL TRANSITION
 		{
 			auto transition = sPickUp->CreateTransition(State::Fall);
-			auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
+			auto condition = transition->AddCondition<PlayerCondition_IsNotOnGround>();
 		}
 		//-> ATTACK TRANSITION
 		{
@@ -168,93 +202,163 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 	EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p) {
 		// si c est le joueur qui est entre en collision
 		
-		//OutputDebugStringA("\nCOLLISION \n");
-		if (p.a.id == m_playerGameObject.GetEntity().id) {
-			m_hasCollided = true;
-			auto tag = mp_scene->GetGameObjectByID(p.a).GetTag();
+		
+		auto playerEntity = p.a;
+		auto otherEntity = p.b;
 
-			switch(tag)
-			{
-			case TAG_Floor :
-			case TAG_Environment:
-				m_objectsCollidingWithPlayer.push_back(p.b);
-				break;
-			default:
-				break;
-			}
-			//if (tag == TAG_Floor || tag == TAG_Environment)
-			//{
-			//	m_objectsCollidingWithPlayer.push_back(p.b);
-			//	/*auto& playerTransform = *mp_gameManager->GetECSManager().GetComponent<TransformComponent>(p.a);
-			//	auto& objectTransform = *mp_gameManager->GetECSManager().GetComponent<TransformComponent>(p.b);
-			//	if (Utils::IsAbove(playerTransform, objectTransform))
-			//		m_isFalling = false;*/
-			//}
-		}
-		else if (p.b.id == m_playerGameObject.GetEntity().id) 
+		if (playerEntity.id != m_playerGameObject.GetEntity().id && otherEntity.id != m_playerGameObject.GetEntity().id)
+			return;
+		if (p.b.id == m_playerGameObject.GetEntity().id)
 		{
-			m_hasCollided = true;
-			auto tag = mp_scene->GetGameObjectByID(p.a).GetTag();
-
-			switch (tag)
-			{
-			case TAG_Floor:
-			case TAG_Environment:
-				m_objectsCollidingWithPlayer.push_back(p.a);
-				break;
-			default:
-				break;
-			}
-			//if ( tag == TAG_Floor || tag == TAG_Environment)
-			//{
-			//	m_objectsCollidingWithPlayer.push_back(p.a);
-			//	/*auto& playerTransform = *mp_gameManager->GetECSManager().GetComponent<TransformComponent>(p.a);
-			//	auto& objectTransform = *mp_gameManager->GetECSManager().GetComponent<TransformComponent>(p.b);
-			//	if (Utils::IsAbove(playerTransform, objectTransform))
-			//		m_isFalling = false;*/
-			//}
+			playerEntity = p.b;
+			otherEntity = p.a;
 		}
+
+		////OutputDebugStringA("\nCOLLISION \n");
+		//if (p.a.id == m_playerGameObject.GetEntity().id) {
+		//	m_hasCollided = true;
+		//	auto tag = mp_scene->GetGameObjectByID(p.a).GetTag();
+
+		//	switch(tag)
+		//	{
+		//	case TAG_Floor :
+		//	case TAG_Environment:
+		//		m_objectsCollidingWithPlayer.push_back(p.b);
+		//		break;
+		//	default:
+		//		break;
+		//	}
+		//}
+		//else if (p.b.id == m_playerGameObject.GetEntity().id) 
+		//{
+		//	m_hasCollided = true;
+		//	auto tag = mp_scene->GetGameObjectByID(p.a).GetTag();
+
+		//	switch (tag)
+		//	{
+		//	case TAG_Floor:
+		//	case TAG_Environment:
+		//		m_objectsCollidingWithPlayer.push_back(p.a);
+		//		break;
+		//	default:
+		//		break;
+		//	}
+		//}
+
+		m_hasCollided = true;
+		auto* object = &mp_scene->GetGameObjectByID(otherEntity);
+		auto* player = &mp_scene->GetGameObjectByID(playerEntity);
+		auto tag = object->GetTag();
+
+		m_objectsCollidingWithPlayer.push_back(otherEntity);
+
+		switch (tag)
+		{
+		case TAG_Floor:
+		case TAG_Environment:
+		{
+			// Calculer le vecteur de correction minimal
+			DirectX::XMVECTOR correction = Utils::ResolveAABBCollision(*player->GetComponent<TransformComponent>(), *object->GetComponent<TransformComponent>());
+
+			// Charger la position actuelle dans un XMVECTOR
+			DirectX::XMVECTOR newPos = DirectX::XMLoadFloat3(&player->GetComponent<TransformComponent>()->position);
+
+			// Soustraire le vecteur de correction
+			newPos = DirectX::XMVectorSubtract(newPos, correction);
+
+			// Stocker la nouvelle position dans vPosition
+			DirectX::XMStoreFloat3(&player->GetComponent<TransformComponent>()->position, newPos);
+			player->GetComponent<TransformComponent>()->dirty = true;
+			break;
+		}
+		default:
+		{
+			DirectX::XMVECTOR correction = Utils::ResolveAABBCollision(*player->GetComponent<TransformComponent>(), *object->GetComponent<TransformComponent>());
+			DirectX::XMVECTOR halfCorr = DirectX::XMVectorScale(correction, 0.5f);
+
+			// Charger la position actuelle dans un XMVECTOR
+			DirectX::XMVECTOR newPos1 = DirectX::XMLoadFloat3(&player->GetComponent<TransformComponent>()->position);
+			DirectX::XMVECTOR newPos2 = DirectX::XMLoadFloat3(&object->GetComponent<TransformComponent>()->position);
+
+			// Soustraire le vecteur de correction
+			newPos1 = DirectX::XMVectorSubtract(newPos1, halfCorr);
+			newPos2 = DirectX::XMVectorAdd(newPos2, halfCorr);
+			// Stocker la nouvelle position dans vPosition
+			DirectX::XMStoreFloat3(&player->GetComponent<TransformComponent>()->position, newPos1);
+			DirectX::XMStoreFloat3(&object->GetComponent<TransformComponent>()->position, newPos2);
+
+			player->GetComponent<TransformComponent>()->dirty = true;
+			object->GetComponent<TransformComponent>()->dirty = true;
+			break;
+		}
+		}
+
+
+
+		//else if (!mp_entityManager->HasComponent(entity1, COMPONENT_VELOCITY) && mp_entityManager->HasComponent(entity2, COMPONENT_VELOCITY))
+		//{
+		//	// Calculer le vecteur de correction minimal
+		//	DirectX::XMVECTOR correction = Utils::ResolveAABBCollision(*transform2, *transform1);
+
+		//	// Charger la position actuelle dans un XMVECTOR
+		//	DirectX::XMVECTOR newPos = DirectX::XMLoadFloat3(&transform2->m_transform.vPosition);
+
+		//	// Soustraire le vecteur de correction
+		//	newPos = DirectX::XMVectorSubtract(newPos, correction);
+
+		//	// Stocker la nouvelle position dans vPosition
+		//	DirectX::XMStoreFloat3(&transform2->m_transform.vPosition, newPos);
+		//	transform2->m_transform.UpdateMatrix();
+		//}
+
+
+
+
+
+
+
+
+
+
+
+
 		});
 
-	OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
+		OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
 
-	//AnimationManager newAnim;
+		//AnimationManager newAnim;
 
-	//m_testAnimation.Init(2.f, &m_playerArm);
-	//m_testAnimation.AddFrame(TEXTURES::bras);
-	//m_testAnimation.AddFrame(TEXTURES::test);
-	//m_testAnimation.AddFrame(TEXTURES::tex0);
+		//m_testAnimation.Init(2.f, &m_playerArm);
+		//m_testAnimation.AddFrame(TEXTURES::bras);
+		//m_testAnimation.AddFrame(TEXTURES::test);
+		//m_testAnimation.AddFrame(TEXTURES::tex0);
 
-}
+		}
 
-const char* Player::GetStateName(State state) const
-{
-	switch (state)
+		const char* Player::GetStateName(State state) const
 	{
-	case Idle: return "Idle";
-	case Move: return "Move";
-	case Jump: return "Jump";
-	case Attack: return "Attack";
-	case Fall: return "Fall";
-	default: return "Unknown";
+		switch (state)
+		{
+		case Idle: return "Idle";
+		case Move: return "Move";
+		case Jump: return "Jump";
+		case Attack: return "Attack";
+		case Fall: return "Fall";
+		default: return "Unknown";
+		}
 	}
-}
 
-const char* Player::GetCurrentStateName() const
-{
-	int state = m_stateMachine.GetCurrentState();
-	return GetStateName(static_cast<State>(state));
-}
-
-void Player::OnUdpdate(float deltatime)
-{
-	m_stateMachine.Update();
-	m_deltatime = deltatime;
-	//m_testAnimation.Loop(deltatime);
-
-	if (m_hasCollided)
+	const char* Player::GetCurrentStateName() const
 	{
-		OutputDebugStringA("\nPLAYER COLLIDINGGIGIGIGIGIGIIGIGGIGI !\n");
+		int state = m_stateMachine.GetCurrentState();
+		return GetStateName(static_cast<State>(state));
 	}
-	m_objectsCollidingWithPlayer.clear();
-}
+
+	void Player::OnUdpdate(float deltatime)
+	{
+		m_stateMachine.Update();
+		m_deltatime = deltatime;
+		//m_testAnimation.Loop(deltatime);
+
+		m_objectsCollidingWithPlayer.clear();
+	}
