@@ -50,8 +50,9 @@ void DevScene::Start()
 	m_scaleSpeed = 5;
 	m_scaleSpeed = m_scaleNormalSpeed;
 
-	m_QuadrillageModeIsOn = false;
-	m_QuadrillageUnitaireIsOn = false;
+	OutputDebugStringA("\Quadrillage : ON \n");
+	m_QuadrillageModeIsOn = true;
+	m_QuadrillageUnitaireIsOn = true;
 	// Test
 }
 
@@ -186,12 +187,22 @@ void DevScene::Update(float deltatime)
 	//Mode cadriage
 	if (InputManager::GetKeyIsReleased('W'))
 	{
+		
 		m_QuadrillageModeIsOn = !m_QuadrillageModeIsOn;
+		if (m_QuadrillageModeIsOn)
+			OutputDebugStringA("\Quadrillage : ON \n");
+		else
+			OutputDebugStringA("\Quadrillage : OFF \n");
+
 	}
 	//Mode cadriage round force a 1
 	if (InputManager::GetKeyIsReleased('C'))
 	{
-		m_QuadrillageUnitaireIsOn = !m_QuadrillageUnitaireIsOn;		
+		m_QuadrillageUnitaireIsOn = !m_QuadrillageUnitaireIsOn;
+		if (m_QuadrillageUnitaireIsOn)
+			OutputDebugStringA("\Quadrillage UNITAIRE : ON \n");
+		else
+			OutputDebugStringA("\Quadrillage UNITAIRE : OFF \n");
 	}
 
 	// Adding blocks (make a function in this scene)
@@ -199,7 +210,7 @@ void DevScene::Update(float deltatime)
 	{
 		auto& blocScale = m_placingModule.GetScale();
 		float scaleMoy = 0;
-		if (m_QuadrillageUnitaireIsOn) scaleMoy = (blocScale.x + blocScale.y + blocScale.z) / 3;
+		if (!m_QuadrillageUnitaireIsOn) scaleMoy = (blocScale.x + blocScale.y + blocScale.z) / 3;
 		else scaleMoy = 1;
 
 		/*if (blocScale.x > blocScale.y)

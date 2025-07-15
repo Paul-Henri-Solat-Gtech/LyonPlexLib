@@ -180,7 +180,10 @@ bool SceneResources::InitImportedMeshResources(MeshManager& meshMngr)
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux2.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux3.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux4.obj");
-    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/Baton.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Objets d'interaction/Baton.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/Herbe.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/RouteDroite.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/RouteTournante.obj");
 
 
     return true;

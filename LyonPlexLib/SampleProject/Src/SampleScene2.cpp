@@ -22,11 +22,6 @@ void SampleScene2::Start()
 	GetComponent<TransformComponent>("cephaTree")->position = { -2, 0, 0 };
 	GetComponent<TransformComponent>("cephaTree")->scale = { 0.5, 0.5, 0.5 };
 
-	CreateEntity("stick");
-	AddComponent<Type_3D>("stick", new Type_3D());
-	AddComponent<MeshComponent>("stick", new MeshComponent(MESHES::STICK, TEXTURES::HERBE));
-	GetComponent<TransformComponent>("stick")->position = { 0, 0, 0 };
-	GetComponent<TransformComponent>("stick")->scale = { 1, 1, 1 };
 
 	CreateEntity("TEST");
 	AddComponent<Type_3D>("TEST", new Type_3D());
@@ -38,7 +33,7 @@ void SampleScene2::Start()
 	AddComponent<Type_3D>("cubeEXT", new Type_3D());
 	AddComponent<MeshComponent>("cubeEXT", new MeshComponent(5, TEXTURES::ARMS));
 	GetComponent<TransformComponent>("cubeEXT")->position = { 0, 0, 0 };
-	GetComponent<TransformComponent>("cubeEXT")->scale = { 1, 1, 0 };
+	GetComponent<TransformComponent>("cubeEXT")->scale = { 1, 1, 0.5 };
 
 	CreateEntity("bras");
 	AddComponent<Type_2D>("bras", new Type_2D());
@@ -47,6 +42,35 @@ void SampleScene2::Start()
 	GetComponent<TransformComponent>("bras")->scale = { 800, 500, 0 };
 	GetComponent<TransformComponent>("bras")->SetRotation(0, 0, 180);
 	GetComponent<TransformComponent>("bras")->dirty = true;
+
+
+
+
+	CreateEntity("stick");
+	AddComponent<Type_3D>("stick", new Type_3D());
+	AddComponent<MeshComponent>("stick", new MeshComponent(MESHES::STICK, TEXTURES::HERBE));
+	GetComponent<TransformComponent>("stick")->position = { 0, 0, 0 };
+	GetComponent<TransformComponent>("stick")->scale = { 1, 1, 1 };
+	
+	CreateEntity("grass");
+	AddComponent<Type_3D>("grass", new Type_3D());
+	AddComponent<MeshComponent>("grass", new MeshComponent(MESHES::GRASS, TEXTURES::HERBE));
+	GetComponent<TransformComponent>("grass")->position = { 0, 0, 2 };
+	GetComponent<TransformComponent>("grass")->scale = { 1, 1, 1 };
+	
+	CreateEntity("road_straight");
+	AddComponent<Type_3D>("road_straight", new Type_3D());
+	AddComponent<MeshComponent>("road_straight", new MeshComponent(MESHES::ROAD_STRAIGHT, TEXTURES::HERBE));
+	GetComponent<TransformComponent>("road_straight")->position = { 0, 5, -10 };
+	GetComponent<TransformComponent>("road_straight")->scale = { 1, 1, 1 };
+	
+	CreateEntity("road_turn");
+	AddComponent<Type_3D>("road_turn", new Type_3D());
+	AddComponent<MeshComponent>("road_turn", new MeshComponent(MESHES::ROAD_TURN, TEXTURES::HERBE));
+	GetComponent<TransformComponent>("road_turn")->position = { 0, -5, 10 };
+	GetComponent<TransformComponent>("road_turn")->scale = { 1, 1, 1 };
+
+
 
 
 	CreateEntity("Light1");
