@@ -15,7 +15,7 @@ public:
 	bool OnTest(Player* owner) override;
 };
 
-class PlayerCondition_IsNotOnGround : public Condition<Player>	// indique s'il n'y a pas contact en dessous du joueur
+class PlayerCondition_IsNotOnGround : public Condition<Player>	// indique s'il n'y a PAS contact depuis le dessous du joueur
 {
 public:
 	bool OnTest(Player* owner) override;

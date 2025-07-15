@@ -52,96 +52,192 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
 
     // IDLE ARM (24 frames)
     {
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/1.png"); //21
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/2.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/3.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/4.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/5.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/6.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/7.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/8.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/9.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/10.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/11.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/12.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/13.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/14.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/15.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/16.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/17.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/18.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/19.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/20.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/21.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/22.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/23.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/24.png"); //43
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/1.png"); //21
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/2.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/3.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/4.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/5.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/6.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/7.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/8.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/9.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/10.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/11.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/12.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/13.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/14.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/15.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/16.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/17.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/18.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/19.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/20.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/21.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/22.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/23.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/24.png"); //43
     }
     // ATTACK 1 (16 frames)
     {
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/1.png"); //44
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/2.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/3.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/4.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/5.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/6.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/7.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/8.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/9.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/10.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/11.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/12.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/13.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/14.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/15.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/16.png"); //59
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0000.png"); //44
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0001.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0002.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0003.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0004.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0005.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0006.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0007.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0008.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0009.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0010.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0011.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0012.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0013.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0014.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0015.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0016.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0017.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0018.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0019.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0020.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0021.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0022.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0023.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0024.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0025.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0026.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0027.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0028.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0029.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0030.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0031.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0032.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0033.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0034.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0035.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0036.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0037.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0038.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0039.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0040.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0041.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0042.png"); 
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack1/LightWeapon/Lightweapon_attack1_0043.png"); //87
     }
     // ATTACK 2 (24 frames)
     {
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/1.png"); //60
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/2.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/3.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/4.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/5.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/6.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/7.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/8.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/9.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/10.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/11.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/12.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/13.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/14.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/15.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/16.png"); 
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/17.png"); 
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/18.png"); 
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/19.png"); 
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/20.png"); 
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/21.png"); 
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/22.png"); 
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/23.png"); 
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/24.png"); //84
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0000.png"); //88
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0001.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0002.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0003.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0004.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0005.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0006.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0007.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0008.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0009.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0010.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0011.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0012.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0013.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0014.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0015.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0016.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0017.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0018.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0019.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0020.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0021.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0022.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0023.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0024.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/LightWeapon/Lightweapon_attack2_0025.png"); // 113
+
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/1.png"); //88
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/2.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/3.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/4.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/5.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/6.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/7.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/8.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/9.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/10.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/11.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/12.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/13.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/14.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/15.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/16.png"); 
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/17.png"); 
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/18.png"); 
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/19.png"); 
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/20.png"); 
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/21.png"); 
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/22.png"); 
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/23.png"); 
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack2/24.png"); //84
     }
     // ATTACK 3 (17 frames)
     {
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/1.png"); //85
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/2.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/3.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/4.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/5.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/6.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/7.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/8.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/9.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/10.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/11.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/12.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/13.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/14.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/15.png");
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/16.png"); //100
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/17.png"); //100
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0000.png"); // 114
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0001.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0002.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0003.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0004.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0005.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0006.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0007.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0008.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0009.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0010.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0011.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0012.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0013.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0014.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0015.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0016.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0017.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0018.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0019.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0020.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0021.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0022.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0023.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0024.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0025.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0026.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0027.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0028.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0029.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0030.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0031.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0032.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0033.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0034.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0035.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0036.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0037.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0038.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/LightWeapon/Lightweapon_attack3_0039.png"); // 153
+
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/1.png"); //85
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/2.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/3.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/4.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/5.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/6.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/7.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/8.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/9.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/10.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/11.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/12.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/13.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/14.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/15.png");
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/16.png"); //100
+        //txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Attack3/17.png"); //100
     }
 
 
@@ -180,7 +276,7 @@ bool SceneResources::InitImportedMeshResources(MeshManager& meshMngr)
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux2.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux3.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux4.obj");
-    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Objets d'interaction/Baton.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Objets/Baton.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/Herbe.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/RouteDroite.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/RouteTournante.obj");
