@@ -44,6 +44,7 @@ public:
 	void End(Player* player) override;
 
 	AnimationManager m_attackAnim;
+	AnimationManager m_heavyAttackAnim;
 };
 
 class PlayerAction_Fall : public Action<Player>

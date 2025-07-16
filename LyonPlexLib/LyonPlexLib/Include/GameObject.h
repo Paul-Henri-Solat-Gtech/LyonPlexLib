@@ -53,6 +53,8 @@ public:
 	bool IsColidingWith();
 	//..
 
+	bool alive = true;
+
 	Entity& GetEntity() { return m_entity; };
 	template<typename T>
 	void AddComponent(T* comp) { mp_ecsManager->AddComponent<T>(m_entity, comp); }

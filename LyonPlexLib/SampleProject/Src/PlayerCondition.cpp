@@ -83,6 +83,7 @@ bool PlayerCondition_IsCloseToObject::OnTest(Player* owner)
 
 	bool closeToObject = false;
 
+	float closest = 100;
 	ComponentMask mask = (1ULL << Tag_Object::StaticTypeID);
 	auto& ecs = owner->mp_gameManager->GetECSManager();
 	ecs.ForEach(mask, [&](Entity e)
@@ -95,9 +96,16 @@ bool PlayerCondition_IsCloseToObject::OnTest(Player* owner)
 			newVec.y = playerPos.y - tc->position.y;
 			newVec.z = playerPos.z - tc->position.z;
 
-			if (newVec.length() < 3)
+			float length = newVec.length();
+
+			if (length < 3.0f)
 			{
-				closeToObject = true;
+				if (length < closest)
+				{
+					closest = length;
+					owner->m_closestObject = &owner->mp_scene->GetGameObjectByID(e);
+					closeToObject = true;
+				}
 			}
 		});
 
@@ -108,4 +116,39 @@ bool PlayerCondition_IsCloseToObject::OnTest(Player* owner)
 bool PlayerCondition_IsNotPickingUp::OnTest(Player* owner)
 {
 	return !owner->m_isPickingUp;
+}
+
+bool PlayerCondition_IsCloseToEnemy::OnTest(Player* owner)
+{
+
+	bool closeToEnemy = false;
+
+	ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
+	auto& ecs = owner->mp_gameManager->GetECSManager();
+	float closest = 100;
+	ecs.ForEach(mask, [&](Entity e)
+		{
+			Utils::Vector3 newVec;
+			auto& playerPos = owner->m_playerGameObject.GetPosition();
+			auto* tc = ecs.GetComponent<TransformComponent>(e);
+
+			newVec.x = playerPos.x - tc->position.x;
+			newVec.y = playerPos.y - tc->position.y;
+			newVec.z = playerPos.z - tc->position.z;
+
+			float length = newVec.length();
+
+			if (length < 3.0f)
+			{
+				if (length < closest)
+				{
+					closest = length;
+					owner->m_closestEnemy = &owner->mp_scene->GetGameObjectByID(e);
+					closeToEnemy = true;
+				}
+			}
+		});
+
+
+	return closeToEnemy;
 }

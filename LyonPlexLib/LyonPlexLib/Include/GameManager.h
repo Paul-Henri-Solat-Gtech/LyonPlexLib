@@ -29,6 +29,7 @@ public:
     TextureManager& GetTextureManager() { return m_renderer.GetTextureManager(); }
     MeshManager& GetMeshManager() { return m_renderer.GetMeshManager(); }
     ECSManager& GetECSManager() { return m_ECS; }
+    RenderingManager& GetRenderingManager() { return m_renderer; }
 
     SceneManager* GetSceneManager() { return &m_sceneManager; };
     SoundManager* GetSoundManager() { return &m_soundManager; };

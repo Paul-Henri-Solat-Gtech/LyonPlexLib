@@ -31,6 +31,7 @@ public:
 	GameObject m_playerArm;
 
 	GameObject* m_closestObject = nullptr;
+	GameObject* m_closestEnemy = nullptr;
 	GameObject* mp_cameraGO = nullptr;
 	GameObject& GetGameObject() { return m_playerGameObject; };
 	void SetPlayerArm(GameObject& armGm) { m_playerArm = armGm; };
@@ -65,6 +66,8 @@ public:
 	bool m_hasCollided = false;
 	bool m_isPickingUp = false;
 	bool m_isFalling = false;
+
+	int m_currIdleMesh = TEXTURES::ARMS;
 
 	std::vector<Entity> m_objectsCollidingWithPlayer;
 

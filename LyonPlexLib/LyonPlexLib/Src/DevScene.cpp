@@ -185,24 +185,20 @@ void DevScene::Update(float deltatime)
 	}
 
 	//Mode cadriage
-	if (InputManager::GetKeyIsReleased('W'))
+	if (InputManager::GetKeyIsReleased('W')) // Quadriage arronndi au 1, 5 ou 10 le + proche en fonction de la scale
 	{
-		
 		m_QuadrillageModeIsOn = !m_QuadrillageModeIsOn;
-		if (m_QuadrillageModeIsOn)
-			OutputDebugStringA("\Quadrillage : ON \n");
-		else
-			OutputDebugStringA("\Quadrillage : OFF \n");
+
+		m_QuadrillageModeIsOn ? OutputDebugStringA("\Quadrillage : ON \n") : OutputDebugStringA("\Quadrillage : OFF \n");
 
 	}
 	//Mode cadriage round force a 1
-	if (InputManager::GetKeyIsReleased('C'))
+	if (InputManager::GetKeyIsReleased('C')) // Force le quadrillage a arrondir a l'unite pres
 	{
 		m_QuadrillageUnitaireIsOn = !m_QuadrillageUnitaireIsOn;
-		if (m_QuadrillageUnitaireIsOn)
-			OutputDebugStringA("\Quadrillage UNITAIRE : ON \n");
-		else
-			OutputDebugStringA("\Quadrillage UNITAIRE : OFF \n");
+
+		m_QuadrillageUnitaireIsOn ? OutputDebugStringA("\Quadrillage UNITAIRE : ON \n") : OutputDebugStringA("\Quadrillage UNITAIRE : OFF \n");
+
 	}
 
 	// Adding blocks (make a function in this scene)
@@ -210,26 +206,8 @@ void DevScene::Update(float deltatime)
 	{
 		auto& blocScale = m_placingModule.GetScale();
 		float scaleMoy = 0;
-		if (!m_QuadrillageUnitaireIsOn) scaleMoy = (blocScale.x + blocScale.y + blocScale.z) / 3;
-		else scaleMoy = 1;
-
-		/*if (blocScale.x > blocScale.y)
-		{
-			if (blocScale.x > blocScale.z)
-			{
-				scaleMax = blocScale.x;
-			}
-			else
-			{
-				scaleMax = blocScale.z;
-			}
-		}
-		else if (blocScale.y > blocScale.z)
-		{
-			scaleMax = blocScale.y;
-
-		}
-		else scaleMax = blocScale.z;*/
+		
+		m_QuadrillageUnitaireIsOn ? scaleMoy = 1 : scaleMoy = (blocScale.x + blocScale.y + blocScale.z) / 3;
 
 
 		int   step = ComputeGridStep(scaleMoy);
