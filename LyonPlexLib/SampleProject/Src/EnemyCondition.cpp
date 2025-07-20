@@ -5,9 +5,9 @@
 bool EnnemyCondition_PlayerIsNear::OnTest(Enemy* owner)
 {
 	Utils::Vector3 newVec;
-	newVec.x = owner->m_playerGm.GetPosition().x - owner->m_ennemyGm.GetPosition().x;
-	newVec.y = owner->m_playerGm.GetPosition().y - owner->m_ennemyGm.GetPosition().y;
-	newVec.z = owner->m_playerGm.GetPosition().z - owner->m_ennemyGm.GetPosition().z;
+	newVec.x = owner->m_playerGm.GetPosition().x - owner->GetPosition().x;
+	newVec.y = owner->m_playerGm.GetPosition().y - owner->GetPosition().y;
+	newVec.z = owner->m_playerGm.GetPosition().z - owner->GetPosition().z;
 
 	if (newVec.length() < 3) 
 	{
@@ -22,9 +22,9 @@ bool EnnemyCondition_PlayerIsNear::OnTest(Enemy* owner)
 bool EnnemyCondition_PlayerIsNotNear::OnTest(Enemy* owner)
 {
 	Utils::Vector3 newVec;
-	newVec.x = owner->m_playerGm.GetPosition().x - owner->m_ennemyGm.GetPosition().x;
-	newVec.y = owner->m_playerGm.GetPosition().y - owner->m_ennemyGm.GetPosition().y;
-	newVec.z = owner->m_playerGm.GetPosition().z - owner->m_ennemyGm.GetPosition().z;
+	newVec.x = owner->m_playerGm.GetPosition().x - owner->GetPosition().x;
+	newVec.y = owner->m_playerGm.GetPosition().y - owner->GetPosition().y;
+	newVec.z = owner->m_playerGm.GetPosition().z - owner->GetPosition().z;
 
 	if (newVec.length() > 3)
 	{

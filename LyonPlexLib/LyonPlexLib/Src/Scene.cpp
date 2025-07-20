@@ -76,40 +76,64 @@ Entity* Scene::GetEntity(const std::string& entityName)
 }
 
 GameObject& Scene::CreateGameObject(const std::string& gameObjectName)
-{
+{/*
 	GameObject newGameObject;
 	newGameObject.Init(gameObjectName, mp_ecsManager);
 
-	m_sceneGameObjects.push_back(newGameObject);
+	m_sceneGameObjects.push_back(std::make_unique<GameObject>(newGameObject));
 
-	return newGameObject;
+	return newGameObject;*/
+
+	// 1) On construit l'objet en place dans le vector
+	m_sceneGameObjects.emplace_back(std::make_unique<GameObject>());
+	auto& obj = *m_sceneGameObjects.back();
+
+	// 2) On l'initialise
+	obj.Init(gameObjectName, mp_ecsManager);
+	return obj;
 }
 GameObject& Scene::CreateGameObject(const std::string& gameObjectName, uint32_t meshId, uint32_t textureId)
 {
-	GameObject newGameObject;
-	newGameObject.Init(gameObjectName, mp_ecsManager, meshId, textureId);
+	//GameObject newGameObject;
+	//newGameObject.Init(gameObjectName, mp_ecsManager, meshId, textureId);
 
-	m_sceneGameObjects.push_back(newGameObject);
+	//m_sceneGameObjects.push_back(std::make_unique<GameObject>(newGameObject));
 
-	return newGameObject;
+	//return newGameObject;
+
+	// 1) On construit l'objet en place dans le vector
+	m_sceneGameObjects.emplace_back(std::make_unique<GameObject>());
+	auto& obj = *m_sceneGameObjects.back();
+
+	// 2) On l'initialise
+	obj.Init(gameObjectName, mp_ecsManager, meshId, textureId);
+	return obj;
 }
-GameObject& Scene::CreateGameObject(const std::string& gameObjectName, DimensionalType type, bool useMesh)
-{
+GameObject& Scene::CreateGameObject(const std::string& gameObjectName, /*std::vector<std::unique_ptr<GameObject>>& sceneGameObjects,*/ DimensionalType type, bool useMesh)
+{/*
 	GameObject newGameObject;
-	newGameObject.Init(gameObjectName, mp_ecsManager, type, useMesh);
+	newGameObject.Init(gameObjectName, mp_ecsManager, sceneGameObjects, type, useMesh);
 	
-	m_sceneGameObjects.push_back(newGameObject);
+	m_sceneGameObjects.push_back(std::make_unique<GameObject>(newGameObject));
 
-	return newGameObject;
+	return newGameObject;*/
+
+	// 1) On construit l'objet en place dans le vector
+	m_sceneGameObjects.emplace_back(std::make_unique<GameObject>());
+	auto& obj = *m_sceneGameObjects.back();
+
+	// 2) On l'initialise
+	obj.Init(gameObjectName, mp_ecsManager,/* sceneGameObjects,*/ type, useMesh);
+	return obj;
 }
 
 GameObject& Scene::GetGameObjectByName(const std::string& gameObjectName)
 {
 	for (auto& gameObject : m_sceneGameObjects) 
 	{
-		if (gameObject.GetName() == gameObjectName) 
+		if (gameObject.get()->GetName() == gameObjectName)
 		{
-			return gameObject;
+			return *gameObject;
 		}
 	}
 }
@@ -118,9 +142,9 @@ GameObject& Scene::GetGameObjectByTag(Tag gameObjectTag)
 {
 	for (auto& gameObject : m_sceneGameObjects)
 	{
-		if (gameObject.GetTag() == gameObjectTag)
+		if (gameObject.get()->GetTag() == gameObjectTag)
 		{
-			return gameObject;
+			return *gameObject;
 		}
 	}
 }
@@ -128,18 +152,26 @@ GameObject& Scene::GetGameObjectByID(Entity entityID)
 {
 	for (auto& gO : m_sceneGameObjects)
 	{
-		if (gO.GetEntity().id == entityID.id)
-			return gO;
+		if (gO.get()->GetEntity().id == entityID.id)
+			return *gO;
 	}
 }
 void Scene::DestroyGameObject(GameObject& gameObject)
 {
 	// Vérifie si l'adresse du gameObject est bien dans la liste
-	bool gmExists = std::any_of(m_sceneGameObjects.begin(),m_sceneGameObjects.end(),[&](GameObject& gm) { return &gm == &gameObject; });
+	//bool gmExists = std::any_of(m_sceneGameObjects.begin(),m_sceneGameObjects.end(),[&](GameObject& gm) { return &gm == &gameObject; });
+
+	bool gmExists = std::any_of(
+		m_sceneGameObjects.begin(), m_sceneGameObjects.end(),
+		[&](const std::unique_ptr<GameObject>& uptr) {
+			return uptr.get() == &gameObject;
+		}
+	);
 
 	if (gmExists)
 	{
-		m_sceneGameObjectsToDelete.push_back(&gameObject);
+		//m_sceneGameObjectsToDelete.push_back(&gameObject);
+		gameObject.m_markedForDeletion = true;
 	}
 	else
 	{
@@ -149,25 +181,46 @@ void Scene::DestroyGameObject(GameObject& gameObject)
 
 void Scene::EndUpdate()
 {
-	for (auto* gm : m_sceneGameObjectsToDelete)
-	{
-		// 1) DestroyEntity
-		mp_ecsManager->DestroyEntity(gm->GetEntity());
+	//for (auto* gm : m_sceneGameObjectsToDelete)
+	//{
+	//	// 1) DestroyEntity
+	//	mp_ecsManager->DestroyEntity(gm->GetEntity());
 
-		// 2) Remove Gameobject	
-		const std::string& gmName = gm->GetName();
-		m_sceneGameObjects.erase
-		(
-			std::remove_if(
-				m_sceneGameObjects.begin(),
-				m_sceneGameObjects.end(),
-				[&](GameObject& gm) { return gm.GetName() == gmName; }),
-			m_sceneGameObjects.end()
-		);
+	//	// 2) Remove Gameobject	
+	//	const std::string& gmName = gm->GetName();
+	//	m_sceneGameObjects.erase
+	//	(
+	//		std::remove_if(
+	//			m_sceneGameObjects.begin(),
+	//			m_sceneGameObjects.end(),
+	//			[&](GameObject& gm) { return gm.GetName() == gmName; }),
+	//		m_sceneGameObjects.end()
+	//	);
+	//}
+
+	//// 3) Vide la liste des suppressions pour la prochaine frame
+	//m_sceneGameObjectsToDelete.clear();
+
+
+  // 1) Détruire les entités marquées
+	for (auto& uptr : m_sceneGameObjects) {
+		if (uptr.get()->m_markedForDeletion) {
+			mp_ecsManager->DestroyEntity(uptr->GetEntity());
+		}
 	}
 
-	// 3) Vide la liste des suppressions pour la prochaine frame
-	m_sceneGameObjectsToDelete.clear();
+	// 2) Erase–remove en un seul passage
+	m_sceneGameObjects.erase(
+		std::remove_if(
+			m_sceneGameObjects.begin(),
+			m_sceneGameObjects.end(),
+			[](const std::unique_ptr<GameObject>& uptr) {
+				return uptr.get()->m_markedForDeletion;
+			}
+		),
+		m_sceneGameObjects.end()
+	);
+
 }
 
 void Scene::SetParent(const std::string& gameObjectNameChild, const std::string& gameObjectNameParent)

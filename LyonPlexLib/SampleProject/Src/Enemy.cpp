@@ -3,8 +3,90 @@
 #include "EnemyAction.h"
 #include "EnemyCondition.h"
 
-Enemy::Enemy() : m_stateMachine(this, State::Count)
+//Enemy::Enemy() : m_stateMachine(this, State::Count)
+//{
+//	// --- IDLE ---
+//	{
+//		auto* sIdle = m_stateMachine.CreateBehaviour(State::Idle);
+//		sIdle->AddAction(new EnnemyAction_Idle());
+//		//-> MOVE TRANSITION
+//		{
+//			auto transition = sIdle->CreateTransition(State::Move);
+//			auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
+//			//transition->AddCondition<PlayerCondition_IsAttacking>();
+//		}
+//	}
+//
+//	// --- MOVE ---
+//	{
+//		auto* sMove = m_stateMachine.CreateBehaviour(State::Move);
+//		sMove->AddAction(new EnnemyAction_Move());
+//		//-> IDLE TRANSITION
+//		{
+//			auto transition = sMove->CreateTransition(State::Idle);
+//			auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNotNear>();
+//		}
+//	}
+//
+//	// Base State
+//	m_stateMachine.SetState(State::Idle);
+//}
+
+Enemy::Enemy(ECSManager* ecsManager, GameManager* gameManager, GameObject gameObjectPlayer/*, std::vector<std::unique_ptr<GameObject>>& sceneGameObjects*/) : m_stateMachine(this, State::Count), m_deltatime(0)
 {
+	InitGameObj(ecsManager/*, sceneGameObjects*/);
+	Init(gameObjectPlayer, gameManager);
+}
+
+
+
+
+//void Enemy::Init(GameObject gameObjectEnemy, GameObject gameObjectPlayer, GameManager* gameManager)
+//{
+//	//m_ennemyGm = gameObjectEnemy;
+//	m_playerGm = gameObjectPlayer;
+//
+//	mp_gameManager = gameManager;
+//	m_deltatime = 0;
+//
+//	m_moveSpeed = 2.f;
+//
+//	// sounds
+//	//mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
+//
+//	//EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p) {
+//	//	// si c�est notre joueur qui est entr� en collision
+//	//	if (p.a.id == m_playerGameObject.GetEntity()->id || p.b.id == m_playerGameObject.GetEntity()->id) {
+//	//		// on change directement d�etat
+//	//		m_hasCollided = true;
+//	//	}
+//	//	});
+//
+//	OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
+//
+//	//AnimationManager newAnim;
+//
+//	//m_testAnimation.Init(2.f, &m_playerArm);
+//	//m_testAnimation.AddFrame(TEXTURES::bras);
+//	//m_testAnimation.AddFrame(TEXTURES::test);
+//	//m_testAnimation.AddFrame(TEXTURES::tex0);
+//	m_initialized = true;
+//
+//}
+
+void Enemy::Init(GameObject gameObjectPlayer, GameManager* gameManager)
+{
+	AddComponent<Tag_Enemy>(new Tag_Enemy());
+
+	m_playerGm = gameObjectPlayer;
+
+	mp_gameManager = gameManager;
+	m_deltatime = 0;
+
+	m_moveSpeed = 2.f;
+	m_initialized = true;
+
+
 	// --- IDLE ---
 	{
 		auto* sIdle = m_stateMachine.CreateBehaviour(State::Idle);
@@ -30,38 +112,8 @@ Enemy::Enemy() : m_stateMachine(this, State::Count)
 
 	// Base State
 	m_stateMachine.SetState(State::Idle);
-}
-
-void Enemy::Init(GameObject gameObjectEnemy, GameObject gameObjectPlayer, GameManager* gameManager)
-{
-	m_ennemyGm = gameObjectEnemy;
-	m_playerGm = gameObjectPlayer;
-
-	mp_gameManager = gameManager;
-	m_deltatime = 0;
-
-	m_moveSpeed = 2.f;
-
-	// sounds
-	//mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
-
-	//EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p) {
-	//	// si c�est notre joueur qui est entr� en collision
-	//	if (p.a.id == m_playerGameObject.GetEntity()->id || p.b.id == m_playerGameObject.GetEntity()->id) {
-	//		// on change directement d�etat
-	//		m_hasCollided = true;
-	//	}
-	//	});
 
 	OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
-
-	//AnimationManager newAnim;
-
-	//m_testAnimation.Init(2.f, &m_playerArm);
-	//m_testAnimation.AddFrame(TEXTURES::bras);
-	//m_testAnimation.AddFrame(TEXTURES::test);
-	//m_testAnimation.AddFrame(TEXTURES::tex0);
-	m_initialized = true;
 
 }
 

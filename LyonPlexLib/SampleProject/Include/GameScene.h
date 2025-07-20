@@ -13,12 +13,15 @@ public:
 
 private:
 	Player m_playerTest;
-	Enemy m_enemyTest;
+	//Enemy m_enemyTest;
+
 
 	GameObject m_player;
 	GameObject m_cam;
 	FpsCamera m_fpsCam;
 
 	float m_playerWalkSpeed, m_playerRunSpeed, m_playerSpeed;
+
+	float m_spawnTimer = 0;
 };
 

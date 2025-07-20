@@ -1,6 +1,6 @@
 #pragma once
 
-enum DimensionalType 
+enum DimensionalType
 {
 	TYPE_3D,
 	TYPE_2D,
@@ -11,8 +11,8 @@ enum DimensionalType
 enum Tag
 {
 	TAG_None,
-	TAG_Enemy,
-	TAG_Player,
+	//TAG_Enemy,
+	//TAG_Player,
 	TAG_Object,
 	TAG_Camera,
 	TAG_Button,
@@ -29,8 +29,14 @@ class GameObject
 {
 public:
 	void Init(const std::string& name, ECSManager* ecsManager);
+	void InitGameObj(ECSManager* ecsManager/*, std::vector<std::unique_ptr<GameObject>>& sceneGameObjects*/);
+
 	void Init(const std::string& name, ECSManager* ecsManager, uint32_t meshId, uint32_t textureId);
-	void Init(const std::string& name, ECSManager* ecsManager, DimensionalType type, bool useMesh);
+	void Init(const std::string& name, ECSManager* ecsManager, /*std::vector<std::unique_ptr<GameObject>>& sceneGameObjects,*/ DimensionalType type, bool useMesh);
+
+	//void Init(const std::string& name, ECSManager* ecsManager, DimensionalType type, bool useMesh);
+	void Init(ECSManager* ecsManager);
+
 
 	void SetName(const std::string& name) { m_name = name; };
 	const std::string& GetName() { return m_name; };
@@ -40,20 +46,23 @@ public:
 	// Components
 	void SetPosition(XMFLOAT3 pos) { GetComponent<TransformComponent>()->position = pos; GetComponent<TransformComponent>()->dirty = true; };
 	XMFLOAT3& GetPosition() { return GetComponent<TransformComponent>()->position; };
-	void SetRotation(XMFLOAT4 rot) { GetComponent<TransformComponent>()->rotation = rot; GetComponent<TransformComponent>()->dirty = true;};
+	void SetRotation(XMFLOAT4 rot) { GetComponent<TransformComponent>()->rotation = rot; GetComponent<TransformComponent>()->dirty = true; };
 	XMFLOAT4& GetRotation() { return GetComponent<TransformComponent>()->rotation; };
-	void SetScale(XMFLOAT3 scl) { GetComponent<TransformComponent>()->scale = scl; GetComponent<TransformComponent>()->dirty = true;};
+	void SetScale(XMFLOAT3 scl) { GetComponent<TransformComponent>()->scale = scl; GetComponent<TransformComponent>()->dirty = true; };
 	XMFLOAT3& GetScale() { return GetComponent<TransformComponent>()->scale; };
 	void SetTexture(uint32_t textureId) { GetComponent<MeshComponent>()->materialID = textureId; };
 	uint32_t& GetTexture() { return GetComponent<MeshComponent>()->materialID; };
 	void SetMesh(uint32_t meshId) { GetComponent<MeshComponent>()->meshID = meshId; };
 	uint32_t& GetMesh() { return GetComponent<MeshComponent>()->meshID; };
 
+	virtual void OnUdpdate(float deltatime) {};
+
 	bool IsColiding();
 	bool IsColidingWith();
 	//..
 
 	bool alive = true;
+	bool m_markedForDeletion = false;
 
 	Entity& GetEntity() { return m_entity; };
 	template<typename T>
@@ -62,7 +71,7 @@ public:
 	T* GetComponent() const { return mp_ecsManager->GetComponent<T>(m_entity); }
 
 private:
-	ECSManager* mp_ecsManager;
+	ECSManager* mp_ecsManager = nullptr;
 	Entity m_entity;
 
 	std::string m_name;

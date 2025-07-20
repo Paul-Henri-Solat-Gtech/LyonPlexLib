@@ -581,7 +581,14 @@ void PlayerAction_Attack::End(Player* player)
 		break;
 
 	case TEXTURES::IDLEARM_W1_1:
-		player->m_closestEnemy ? player->mp_scene->DestroyGameObject(*player->m_closestEnemy) : OutputDebugStringA("\n No Enemy close enough to get hit \n");
+		if (player->m_closestEnemy)
+		{
+			player->m_closestEnemy->alive = false;
+			player->mp_scene->DestroyGameObject(*player->m_closestEnemy);
+			player->mp_gameManager->GetSoundManager()->PlaySoundPlex("deathScream"); // need to adapt sound to frame (like adding pause)
+			player->m_closestEnemy = nullptr;
+			//player->mp_scene->m_enemies.erase()
+		}
 		break;
 	case TEXTURES::IDLEARM_W2_1:
 		//player->m_closestEnemy ? player->mp_scene->DestroyGameObject(*player->m_closestEnemy) : OutputDebugStringA("\n No Enemy close enough to get hit \n");
@@ -589,6 +596,7 @@ void PlayerAction_Attack::End(Player* player)
 		{
 			player->m_closestEnemy->alive = false;
 			player->mp_scene->DestroyGameObject(*player->m_closestEnemy);
+			player->mp_gameManager->GetSoundManager()->PlaySoundPlex("deathScream"); // need to adapt sound to frame (like adding pause)
 			player->m_closestEnemy = nullptr;
 		}
 		break;

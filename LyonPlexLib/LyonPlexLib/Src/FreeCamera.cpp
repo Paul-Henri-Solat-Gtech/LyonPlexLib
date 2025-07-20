@@ -6,11 +6,11 @@ void FreeCamera::Init(ECSManager* ecsManager, HWND hWnd)
 	m_hWnd = hWnd;
 
     m_camName = "FreeCamera";
-	m_camGM.Init(m_camName, ecsManager, TYPE_3D, false);
-	m_camGM.AddComponent<CameraComponent>(new CameraComponent());
+	//m_camGM.Init(m_camName, ecsManager, TYPE_3D, false);
+	AddComponent<CameraComponent>(new CameraComponent());
 	
 	// Position initiale
-	m_camGM.SetPosition({ 0.f, 2.f, -5.f });
+	SetPosition({ 0.f, 2.f, -5.f });
 	// Orientation initiale (face vers +Z)
 	m_yaw = 0.f;
 	m_pitch = 0.f;
@@ -54,8 +54,8 @@ void FreeCamera::Update(float deltatime)
     XMVECTOR q = XMQuaternionRotationRollPitchYaw(XMConvertToRadians(m_pitch), XMConvertToRadians(m_yaw), 0.f );
     XMFLOAT4 qf;
     XMStoreFloat4(&qf, q);
-    m_camGM.SetRotation(qf);
-    m_camGM.GetComponent<TransformComponent>()->dirty = true;
+    SetRotation(qf);
+    GetComponent<TransformComponent>()->dirty = true;
 
     // --- 2) Gérer le mouvement WASD + vertical ---
     // Calcule forward/right à partir du quaternion
@@ -94,10 +94,10 @@ void FreeCamera::Update(float deltatime)
     {
         move = XMVector3Normalize(move) * (speed * deltatime);
         // applique sur la position
-        XMFLOAT3 pos = m_camGM.GetPosition();
+        XMFLOAT3 pos = GetPosition();
         XMVECTOR  p = XMLoadFloat3(&pos) + move;
         XMStoreFloat3(&pos, p);
-        m_camGM.SetPosition(pos);
-        m_camGM.GetComponent<TransformComponent>()->dirty = true;
+        SetPosition(pos);
+        GetComponent<TransformComponent>()->dirty = true;
     }
 }

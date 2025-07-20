@@ -30,9 +30,6 @@ public:
 	GameObject m_playerGameObject;
 	GameObject m_playerArm;
 
-	GameObject* m_closestObject = nullptr;
-	GameObject* m_closestEnemy = nullptr;
-	GameObject* mp_cameraGO = nullptr;
 	GameObject& GetGameObject() { return m_playerGameObject; };
 	void SetPlayerArm(GameObject& armGm) { m_playerArm = armGm; };
 	GameObject& GetPlayerArm() { return m_playerArm; };
@@ -44,6 +41,13 @@ public:
 	float GetMoveSpeed() { return m_moveSpeed; };
 
 	float GetDeltatime() { return m_deltatime; };
+
+	GameObject* m_closestObject = nullptr;
+	GameObject* m_closestEnemy = nullptr;
+	GameObject* mp_cameraGO = nullptr;
+
+	//std::vector<Enemy*>* m_enemies = nullptr;
+	//void SetEnemies(std::vector<Enemy*>* enemyList) { m_enemies = enemyList; };
 
 	//Test Animation
 	AnimationManager m_testAnimation;

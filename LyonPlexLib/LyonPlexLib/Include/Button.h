@@ -1,8 +1,10 @@
 #pragma once
-class Button
+class Button : public GameObject
 {
 public:
-	void Init(GameObject gmButton, HWND windowHandle);
+	void Init(/*GameObject gmButton,*/ HWND windowHandle);
+
+	void OnUpdate(float deltatime) {};
 
 	void Release();
 
@@ -12,7 +14,7 @@ public:
 
 private:
 
-	GameObject m_gameObjectBtn;
+	//GameObject m_gameObjectBtn;
 	HWND m_windowHandle;
 };
 

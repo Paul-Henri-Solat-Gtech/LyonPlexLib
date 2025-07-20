@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "Button.h"
 
-void Button::Init(GameObject gmButton, HWND windowHandle)
+void Button::Init(/*GameObject gmButton,*/ HWND windowHandle)
 {
-	m_gameObjectBtn = gmButton;
+	//m_gameObjectBtn = gmButton;
     m_windowHandle = windowHandle;
 }
 
@@ -24,8 +24,8 @@ bool Button::GetMouseOnBtn()
     ScreenToClient(m_windowHandle, &p);
 
     // 2) Récupère la position et la taille du GameObject
-    auto pos = m_gameObjectBtn.GetPosition(); // XMFLOAT3
-    auto scale = m_gameObjectBtn.GetScale();    // XMFLOAT3
+    auto pos = GetPosition(); // XMFLOAT3
+    auto scale = GetScale();    // XMFLOAT3
 
     // On considère que 'pos' est le centre ; on calcule les bords
     float halfW = scale.x * 0.5f;

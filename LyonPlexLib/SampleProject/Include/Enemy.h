@@ -2,7 +2,7 @@
 
 #include "StateMachine.h"
 
-class Enemy
+class Enemy : public GameObject
 {
 	StateMachine<Enemy> m_stateMachine;
 
@@ -22,28 +22,41 @@ class Enemy
 
 public:
 	
-	Enemy();
+	Enemy(ECSManager* ecsManager, GameManager* gameManager, GameObject gameObjectPlayer/*, std::vector<std::unique_ptr<GameObject>>& sceneGameObjects*/);
 
-	void Init(GameObject gameObjectEnemy, GameObject gameObjectPlayer, GameManager* gameManager);
 
-	void OnUdpdate(float deltatime);
+	//Enemy(const std::string& name, ECSManager* ecsManager);
+	//Enemy(const std::string& name, ECSManager* ecsManager, uint32_t meshId, uint32_t textureId);
+	//Enemy(const std::string& name, ECSManager* ecsManager, DimensionalType type, bool useMesh);
+
+
+	//void Init(GameObject gameObjectEnemy, GameObject gameObjectPlayer, GameManager* gameManager);
+
+	void Init(GameObject gameObjectPlayer, GameManager* gameManager);
+
+
+
+	void OnUdpdate(float deltatime) override;
 
 	const char* GetStateName(State state) const;
 	const char* GetCurrentStateName() const;
 	float GetDeltatime() { return m_deltatime; };
 
-	GameObject m_ennemyGm;
+	//GameObject m_ennemyGm;
 	GameObject m_playerGm;
 
-	GameObject& GetGameObject() { return m_ennemyGm; };
+	//GameObject& GetGameObject() { return m_ennemyGm; };
 
 	void SetMoveSpeed(float speedValue) { m_moveSpeed = speedValue; };
 	
 	float GetMoveSpeed() { return m_moveSpeed; };
 	bool m_initialized = false;
 
+	/*void SetID(int enemyID) { m_enemyID = enemyID; };
+	int m_enemyID = -1;*/
+
 private:
-	GameManager* mp_gameManager;
+	GameManager* mp_gameManager = nullptr;
 
 protected:
 	friend class EnnemyAction_Idle;

@@ -1,17 +1,17 @@
 ﻿#pragma once
-class FreeCamera
+class FreeCamera : public GameObject
 {
 public:
 
 	void Init(ECSManager* ecsManager, HWND hWnd);
 	void Update(float deltatime);
 
-    GameObject& GetCamGameObject() { return m_camGM; };
+    //GameObject& GetCamGameObject() { return m_camGM; };
     std::string GetCamName() { return m_camName; };
 
 private:
 
-	GameObject   m_camGM;
+	//GameObject   m_camGM;
     std::string  m_camName;
 
     HWND         m_hWnd = nullptr;

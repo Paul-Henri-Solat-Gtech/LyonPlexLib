@@ -16,13 +16,14 @@ void AllScenes::Init(GameManager* gameManager)
     CreateAllScenes();
 
     // START SCENE
-    StartScene("SampleScene2");
+    //StartScene("SampleScene2");
+    StartScene("GameScene");
 }
 
 void AllScenes::CreateAllScenes()
 {
     // Create new scenes
-    mp_gameManager->GetSceneManager()->RegisterScene("SampleScene2", []() { return new SampleScene2(); });
+    //mp_gameManager->GetSceneManager()->RegisterScene("SampleScene2", []() { return new SampleScene2(); });
     mp_gameManager->GetSceneManager()->RegisterScene("BlockTutoScene", []() { return new BlockTutoScene(); });
     mp_gameManager->GetSceneManager()->RegisterScene("GameScene", []() { return new GameScene(); });
     mp_gameManager->GetSceneManager()->RegisterScene("MainMenuScene", []() { return new MainMenuScene(); });

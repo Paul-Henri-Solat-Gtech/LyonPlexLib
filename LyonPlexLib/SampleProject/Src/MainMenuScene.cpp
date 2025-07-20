@@ -14,9 +14,9 @@ void MainMenuScene::Start()
 	GetGameObjectByName("btnStart").SetPosition({ 400, 500, 0 });
 	GetGameObjectByName("btnStart").SetScale({ 400, 100, 0 });
 	
-	GetGameObjectByName("btnStart").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+	//GetGameObjectByName("btnStart").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
-	m_buttonStart.Init(GetGameObjectByName("btnStart"), mp_sceneManager->GetWindow());
+	//m_buttonStart.Init(GetGameObjectByName("btnStart"), mp_sceneManager->GetWindow());
 }
 
 void MainMenuScene::Update(float deltatime)

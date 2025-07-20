@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Button.h"
 #include "FreeCamera.h"
+//#include "Enemy.h"
 
 class SceneManager;
 
@@ -35,7 +36,7 @@ public:
 
 	GameObject& CreateGameObject(const std::string& gameObjectName);
 	GameObject& CreateGameObject(const std::string& gameObjectName, uint32_t meshId, uint32_t textureId);
-	GameObject& CreateGameObject(const std::string& gameObjectName, DimensionalType type, bool useMesh);
+	GameObject& CreateGameObject(const std::string& gameObjectName, /*std::vector<std::unique_ptr<GameObject>>& sceneGameObjects,*/ DimensionalType type, bool useMesh = true);
 
 	GameObject& GetGameObjectByName(const std::string& gameObjectName);
 	GameObject& GetGameObjectByTag(Tag gameObjectTag);
@@ -44,7 +45,7 @@ public:
 	void DestroyGameObject(GameObject& gameObject);
 	void EndUpdate();
 
-	std::vector<GameObject>& GetSceneGameObjects() { return m_sceneGameObjects; };
+	std::vector<std::unique_ptr<GameObject>>& GetSceneGameObjects() { return m_sceneGameObjects; };
 
 	void SetParent(const std::string& gameObjectNameChild, const std::string& gameObjectNameParent);
 	void SetParent(GameObject& gameObjectChild, GameObject& gameObjectParent);
@@ -85,14 +86,32 @@ public:
 		}
 	}
 
+	template<typename T, typename... Args>
+	T& CreateGameObject(Args&&... ctorArgs) 
+	{
+		static_assert(std::is_base_of<GameObject, T>::value,
+			"T doit hériter de GameObject");
+		// 1) On construit un unique_ptr<T> avec les bons arguments
+		auto ptr = std::make_unique<T>(std::forward<Args>(ctorArgs)...);
+		// 2) On récupère la référence sur l'objet
+		T& ref = *ptr;
+		// 4) On l'insère dans le container (upcast automatique)
+		m_sceneGameObjects.emplace_back(std::move(ptr));
+		return ref;
+	}
+
+	/*std::vector<Enemy*> m_enemies;
+	int m_enemyCount = 0;*/
+
 protected:
 
 	ECSManager* mp_ecsManager;
 	SceneManager* mp_sceneManager;
 
 	std::vector<SceneEntity> m_sceneEntities; // old
-	std::vector<GameObject> m_sceneGameObjects; // new
-	std::vector<GameObject*> m_sceneGameObjectsToDelete;
+	//std::vector<GameObject> m_sceneGameObjects; // new
+	std::vector<std::unique_ptr<GameObject>> m_sceneGameObjects; // new
+	//std::vector<GameObject*> m_sceneGameObjectsToDelete;
 
 	// Mouse
 	bool m_mouseRotating;
