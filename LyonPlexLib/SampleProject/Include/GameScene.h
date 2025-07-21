@@ -2,6 +2,7 @@
 
 #include "Player.h"
 #include "Enemy.h"
+#include "Portals.h"
 #include "FpsCamera.h"
 
 class GameScene : public Scene
@@ -14,7 +15,7 @@ public:
 private:
 	Player m_playerTest;
 	//Enemy m_enemyTest;
-
+	Portals* portal = nullptr;
 
 	GameObject m_player;
 	GameObject m_cam;

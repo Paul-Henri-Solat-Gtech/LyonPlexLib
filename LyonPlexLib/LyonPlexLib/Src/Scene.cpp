@@ -89,7 +89,7 @@ GameObject& Scene::CreateGameObject(const std::string& gameObjectName)
 	auto& obj = *m_sceneGameObjects.back();
 
 	// 2) On l'initialise
-	obj.Init(gameObjectName, mp_ecsManager);
+	obj.Init(gameObjectName, mp_ecsManager, this);
 	return obj;
 }
 GameObject& Scene::CreateGameObject(const std::string& gameObjectName, uint32_t meshId, uint32_t textureId)
@@ -106,7 +106,7 @@ GameObject& Scene::CreateGameObject(const std::string& gameObjectName, uint32_t 
 	auto& obj = *m_sceneGameObjects.back();
 
 	// 2) On l'initialise
-	obj.Init(gameObjectName, mp_ecsManager, meshId, textureId);
+	obj.Init(gameObjectName, mp_ecsManager, this, meshId, textureId);
 	return obj;
 }
 GameObject& Scene::CreateGameObject(const std::string& gameObjectName, /*std::vector<std::unique_ptr<GameObject>>& sceneGameObjects,*/ DimensionalType type, bool useMesh)
@@ -123,7 +123,7 @@ GameObject& Scene::CreateGameObject(const std::string& gameObjectName, /*std::ve
 	auto& obj = *m_sceneGameObjects.back();
 
 	// 2) On l'initialise
-	obj.Init(gameObjectName, mp_ecsManager,/* sceneGameObjects,*/ type, useMesh);
+	obj.Init(gameObjectName, mp_ecsManager, this, type, useMesh);
 	return obj;
 }
 

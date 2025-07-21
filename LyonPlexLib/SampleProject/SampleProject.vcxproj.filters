@@ -52,6 +52,7 @@
     <ClCompile Include="Src\Enemy.cpp">
       <Filter>Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="..\LyonPlexLib\Src\Portals.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\AllScenes.h">
@@ -108,6 +109,7 @@
     <ClInclude Include="..\LyonPlexLib\Include\ProjectileCondition.h">
       <Filter>Projectile</Filter>
     </ClInclude>
+    <ClInclude Include="..\LyonPlexLib\Include\Portals.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Fichiers d%27en-tête">
@@ -124,6 +126,9 @@
     </Filter>
     <Filter Include="Projectile">
       <UniqueIdentifier>{e1c8f4c5-965e-4d55-8ead-d01b8f71d180}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Portals">
+      <UniqueIdentifier>{d30f3595-8053-4574-99ab-e17b0c07faf3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

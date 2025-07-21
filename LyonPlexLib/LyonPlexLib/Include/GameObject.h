@@ -1,5 +1,7 @@
 #pragma once
 
+class Scene;
+
 enum DimensionalType
 {
 	TYPE_3D,
@@ -28,14 +30,14 @@ enum Tag
 class GameObject
 {
 public:
-	void Init(const std::string& name, ECSManager* ecsManager);
-	void InitGameObj(ECSManager* ecsManager/*, std::vector<std::unique_ptr<GameObject>>& sceneGameObjects*/);
+	void Init(const std::string& name, ECSManager* ecsManager, Scene* scene);
+	void InitGameObj(ECSManager* ecsManager, Scene* scene);
 
-	void Init(const std::string& name, ECSManager* ecsManager, uint32_t meshId, uint32_t textureId);
-	void Init(const std::string& name, ECSManager* ecsManager, /*std::vector<std::unique_ptr<GameObject>>& sceneGameObjects,*/ DimensionalType type, bool useMesh);
+	void Init(const std::string& name, ECSManager* ecsManager, Scene* scene, uint32_t meshId, uint32_t textureId);
+	void Init(const std::string& name, ECSManager* ecsManager, Scene* scene, DimensionalType type, bool useMesh);
 
 	//void Init(const std::string& name, ECSManager* ecsManager, DimensionalType type, bool useMesh);
-	void Init(ECSManager* ecsManager);
+	void Init(ECSManager* ecsManager, Scene* scene);
 
 
 	void SetName(const std::string& name) { m_name = name; };
@@ -69,6 +71,10 @@ public:
 	void AddComponent(T* comp) { mp_ecsManager->AddComponent<T>(m_entity, comp); }
 	template<typename T>
 	T* GetComponent() const { return mp_ecsManager->GetComponent<T>(m_entity); }
+
+	Scene* mp_scene = nullptr;
+
+
 
 private:
 	ECSManager* mp_ecsManager = nullptr;

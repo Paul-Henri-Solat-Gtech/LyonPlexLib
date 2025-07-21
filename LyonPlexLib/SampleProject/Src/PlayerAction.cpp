@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "PlayerAction.h"
 #include "Utils.h"
+#include <Enemy.h>
 
 float FPS_24 = 1 / 24;
 
@@ -240,6 +241,7 @@ void PlayerAction_Attack::Start(Player* player)
 		break;
 
 	case TEXTURES::IDLEARM_W1_1:
+		player->mp_gameManager->GetSoundManager()->PlaySoundPlex("swordSlash1"); // need to adapt sound to frame (like adding pause)
 		OutputDebugStringA("\n Attaque Weapon 1\n");
 		switch (player->m_slashAttackNb)
 		{
@@ -366,6 +368,7 @@ void PlayerAction_Attack::Start(Player* player)
 		break;
 
 	case TEXTURES::IDLEARM_W2_1:
+		player->mp_gameManager->GetSoundManager()->PlaySoundPlex("swordSlash1"); // need to adapt sound to frame (like adding pause)
 		OutputDebugStringA("\n Attaque Weapon 2\n");
 		switch (player->m_slashAttackNb)
 		{
@@ -524,7 +527,16 @@ void PlayerAction_Attack::Start(Player* player)
 				if (length < closest)
 				{
 					closest = length;
-					player->m_closestEnemy = &player->mp_scene->GetGameObjectByID(e);
+					//player->m_closestEnemy = static_cast<Enemy*>(player->mp_scene->GetGameObjectByID(e));
+					GameObject& go = player->mp_scene->GetGameObjectByID(e);
+					Enemy* e = dynamic_cast<Enemy*>(&go);
+					if (e) {
+						player->m_closestEnemy = e;
+					}
+					else {
+						// pas d’ennemi valide sous cet ID
+					}
+
 				}
 			}
 		});
@@ -539,7 +551,6 @@ void PlayerAction_Attack::Start(Player* player)
 
 	//sound
 
-	player->mp_gameManager->GetSoundManager()->PlaySoundPlex("swordSlash1"); // need to adapt sound to frame (like adding pause)
 }
 void PlayerAction_Attack::Update(Player* player)
 {
@@ -547,6 +558,7 @@ void PlayerAction_Attack::Update(Player* player)
 	{
 	case TEXTURES::ARMS:
 		OutputDebugStringA("\n Attaque NO Weapon \n");
+		player->m_attackFinished = true;
 
 		break;
 
@@ -581,25 +593,17 @@ void PlayerAction_Attack::End(Player* player)
 		break;
 
 	case TEXTURES::IDLEARM_W1_1:
-		if (player->m_closestEnemy)
-		{
-			player->m_closestEnemy->alive = false;
-			player->mp_scene->DestroyGameObject(*player->m_closestEnemy);
-			player->mp_gameManager->GetSoundManager()->PlaySoundPlex("deathScream"); // need to adapt sound to frame (like adding pause)
-			player->m_closestEnemy = nullptr;
-			//player->mp_scene->m_enemies.erase()
-		}
 		break;
 	case TEXTURES::IDLEARM_W2_1:
-		//player->m_closestEnemy ? player->mp_scene->DestroyGameObject(*player->m_closestEnemy) : OutputDebugStringA("\n No Enemy close enough to get hit \n");
-		if (player->m_closestEnemy)
-		{
-			player->m_closestEnemy->alive = false;
-			player->mp_scene->DestroyGameObject(*player->m_closestEnemy);
-			player->mp_gameManager->GetSoundManager()->PlaySoundPlex("deathScream"); // need to adapt sound to frame (like adding pause)
-			player->m_closestEnemy = nullptr;
-		}
 		break;
+	}
+
+	if (player->m_closestEnemy)
+	{
+		//auto& enemy = dynamic_cast<Enemy>(player->m_closestEnemy);
+		player->m_closestEnemy->TakeDamage();
+		//player->mp_scene->DestroyGameObject(*player->m_closestEnemy);
+		player->m_closestEnemy = nullptr;
 	}
 
 	player->GetPlayerArm().SetTexture(player->m_currIdleMesh);

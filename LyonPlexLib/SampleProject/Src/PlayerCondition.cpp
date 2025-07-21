@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "PlayerCondition.h"
 #include "Utils.h"
+#include "Enemy.h"
 
 bool PlayerCondition_IsAirBorne::OnTest(Player* owner)
 {
@@ -98,7 +99,7 @@ bool PlayerCondition_IsCloseToObject::OnTest(Player* owner)
 
 			float length = newVec.length();
 
-			if (length < 3.0f)
+			if (length < 5.0f)
 			{
 				if (length < closest)
 				{
@@ -143,7 +144,16 @@ bool PlayerCondition_IsCloseToEnemy::OnTest(Player* owner)
 				if (length < closest)
 				{
 					closest = length;
-					owner->m_closestEnemy = &owner->mp_scene->GetGameObjectByID(e);
+
+					GameObject& go = owner->mp_scene->GetGameObjectByID(e);
+					Enemy* e = dynamic_cast<Enemy*>(&go);
+					if (e) {
+						owner->m_closestEnemy = e;
+					}
+					else {
+						// pas d’ennemi valide sous cet ID
+					}
+
 					closeToEnemy = true;
 				}
 			}

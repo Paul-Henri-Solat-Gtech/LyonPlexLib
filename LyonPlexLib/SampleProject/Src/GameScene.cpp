@@ -2,6 +2,9 @@
 #include "GameScene.h"
 #include "Utils.h"
 
+//Utils::Vector3 POSITION_CHAMPS = { 5, 0, 32.5 };
+XMFLOAT3 POSITION_CHAMPS = { 325, -2.5, 50 };
+
 void GameScene::Start()
 {
 	CreateGameObject("cam", TYPE_3D, false);
@@ -14,74 +17,80 @@ void GameScene::Start()
 
 	CreateGameObject("player"); //				45		-60
 	GetGameObjectByName("player").SetPosition({ 0, 3, 0 });
+	GetGameObjectByName("player").SetScale({ 1, 3, 1 });
+	XMFLOAT3 pos(POSITION_CHAMPS.x + 0, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z + 0);
+	GetGameObjectByName("player").SetPosition(pos);
 	m_player = GetGameObjectByName("player");
 
-	CreateGameObject("testGm");
-	GetGameObjectByName("testGm").SetPosition({ 5, 1, -15 });
-	GetGameObjectByName("testGm").SetTexture(TEXTURES::GRID);
-	GetGameObjectByName("testGm").AddComponent<Tag_Enemy>(new Tag_Enemy());
+	//CreateGameObject("testGm");
+	//GetGameObjectByName("testGm").SetPosition({ 5, 1, -15 });
+	//GetGameObjectByName("testGm").SetTexture(TEXTURES::GRID);
+	//GetGameObjectByName("testGm").AddComponent<Tag_Enemy>(new Tag_Enemy());
 
-	CreateGameObject("testDestory");
-	GetGameObjectByName("testDestory").SetPosition({ 0, 1, 5 });
-	GetGameObjectByName("testDestory").SetTexture(TEXTURES::EAU);
+	//CreateGameObject("testDestory");
+	//GetGameObjectByName("testDestory").SetPosition({ 0, 1, 5 });
+	//GetGameObjectByName("testDestory").SetTexture(TEXTURES::EAU);
 
 	CreateGameObject("Stick");
-	GetGameObjectByName("Stick").SetPosition({ 0, 1, 2 });
-	GetGameObjectByName("Stick").SetScale({ 0.01, 0.01, 0.01 });
+	XMFLOAT3 pos1(POSITION_CHAMPS.x + 2, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z + 2);
+	GetGameObjectByName("Stick").SetPosition(pos1);
+	//GetGameObjectByName("Stick").SetScale({ 0.01, 0.01, 0.01 });
+	GetGameObjectByName("Stick").SetScale({ 0.1, 0.1, 0.1 });
 	GetGameObjectByName("Stick").SetMesh(MESHES::STICK);
-	GetGameObjectByName("Stick").SetTexture(TEXTURES::GRID);
+	GetGameObjectByName("Stick").SetTexture(TEXTURES::HERBE);
 	auto a = GetGameObjectByName("Stick").GetScale();
 	GetGameObjectByName("Stick").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
 	GetGameObjectByName("Stick").AddComponent<Tag_Object>(new Tag_Object());
 	GetGameObjectByName("Stick").SetTag(TAG_Stick);
-	CreateGameObject("Stick2");
-	GetGameObjectByName("Stick2").SetPosition({ 2, 1, 4 });
-	GetGameObjectByName("Stick2").SetScale({ 0.01, 0.01, 0.01 });
-	GetGameObjectByName("Stick2").SetMesh(MESHES::STICK);
-	GetGameObjectByName("Stick2").SetTexture(TEXTURES::GRID);
-	a = GetGameObjectByName("Stick2").GetScale();
-	GetGameObjectByName("Stick2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
-	GetGameObjectByName("Stick2").AddComponent<Tag_Object>(new Tag_Object());
-	GetGameObjectByName("Stick2").SetTag(TAG_Stick);
-	CreateGameObject("Stick3");
-	GetGameObjectByName("Stick3").SetPosition({ -2, 1, 2 });
-	GetGameObjectByName("Stick3").SetScale({ 0.01, 0.01, 0.01 });
-	GetGameObjectByName("Stick3").SetMesh(MESHES::STICK);
-	GetGameObjectByName("Stick3").SetTexture(TEXTURES::GRID);
-	a = GetGameObjectByName("Stick3").GetScale();
-	GetGameObjectByName("Stick3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
-	GetGameObjectByName("Stick3").AddComponent<Tag_Object>(new Tag_Object());
-	GetGameObjectByName("Stick3").SetTag(TAG_Stick);
+	//CreateGameObject("Stick2");
+	//GetGameObjectByName("Stick2").SetPosition({ 2, 1, 4 });
+	//GetGameObjectByName("Stick2").SetScale({ 0.01, 0.01, 0.01 });
+	//GetGameObjectByName("Stick2").SetMesh(MESHES::STICK);
+	//GetGameObjectByName("Stick2").SetTexture(TEXTURES::GRID);
+	//a = GetGameObjectByName("Stick2").GetScale();
+	//GetGameObjectByName("Stick2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
+	//GetGameObjectByName("Stick2").AddComponent<Tag_Object>(new Tag_Object());
+	//GetGameObjectByName("Stick2").SetTag(TAG_Stick);
+	//CreateGameObject("Stick3");
+	//GetGameObjectByName("Stick3").SetPosition({ -2, 1, 2 });
+	//GetGameObjectByName("Stick3").SetScale({ 0.01, 0.01, 0.01 });
+	//GetGameObjectByName("Stick3").SetMesh(MESHES::STICK);
+	//GetGameObjectByName("Stick3").SetTexture(TEXTURES::GRID);
+	//a = GetGameObjectByName("Stick3").GetScale();
+	//GetGameObjectByName("Stick3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
+	//GetGameObjectByName("Stick3").AddComponent<Tag_Object>(new Tag_Object());
+	//GetGameObjectByName("Stick3").SetTag(TAG_Stick);
 
 	CreateGameObject("Rock");
-	GetGameObjectByName("Rock").SetPosition({ -2, 0.5, 1 });
-	GetGameObjectByName("Rock").SetScale({ 0.1, 0.1, 0.1 });
+	XMFLOAT3 pos2(POSITION_CHAMPS.x -2, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z + 1);
+	GetGameObjectByName("Rock").SetPosition(pos2);
+	GetGameObjectByName("Rock").SetScale({ 0.2, 0.2, 0.2 });
 	GetGameObjectByName("Rock").SetMesh(MESHES::CAILLOUX1);
-	GetGameObjectByName("Rock").SetTexture(TEXTURES::GRID);
+	GetGameObjectByName("Rock").SetTexture(TEXTURES::CEPHA);
 	a = GetGameObjectByName("Rock").GetScale();
 	GetGameObjectByName("Rock").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
 	GetGameObjectByName("Rock").AddComponent<Tag_Object>(new Tag_Object());
 	GetGameObjectByName("Rock").SetTag(TAG_Rock);
 
-	CreateGameObject("Rock2");
-	GetGameObjectByName("Rock2").SetPosition({ -3, 0.5, 2 });
-	GetGameObjectByName("Rock2").SetScale({ 0.1, 0.1, 0.1 });
-	GetGameObjectByName("Rock2").SetMesh(MESHES::CAILLOUX1);
-	GetGameObjectByName("Rock2").SetTexture(TEXTURES::GRID);
-	a = GetGameObjectByName("Rock2").GetScale();
-	GetGameObjectByName("Rock2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
-	GetGameObjectByName("Rock2").AddComponent<Tag_Object>(new Tag_Object());
-	GetGameObjectByName("Rock2").SetTag(TAG_Rock);
+	//CreateGameObject("Rock2");
+	//GetGameObjectByName("Rock2").SetPosition({ -3, 0.5, 2 });
+	//GetGameObjectByName("Rock2").SetScale({ 0.1, 0.1, 0.1 });
+	//GetGameObjectByName("Rock2").SetMesh(MESHES::CAILLOUX1);
+	//GetGameObjectByName("Rock2").SetTexture(TEXTURES::GRID);
+	//a = GetGameObjectByName("Rock2").GetScale();
+	//GetGameObjectByName("Rock2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
+	//GetGameObjectByName("Rock2").AddComponent<Tag_Object>(new Tag_Object());
+	//GetGameObjectByName("Rock2").SetTag(TAG_Rock);
 
-	CreateGameObject("Rock3");
-	GetGameObjectByName("Rock3").SetPosition({ 2, 0.5,-3 });
-	GetGameObjectByName("Rock3").SetScale({ 0.1, 0.1, 0.1 });
-	GetGameObjectByName("Rock3").SetMesh(MESHES::CAILLOUX1);
-	GetGameObjectByName("Rock3").SetTexture(TEXTURES::GRID);
-	a = GetGameObjectByName("Rock3").GetScale();
-	GetGameObjectByName("Rock3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
-	GetGameObjectByName("Rock3").AddComponent<Tag_Object>(new Tag_Object());
-	GetGameObjectByName("Rock3").SetTag(TAG_Rock);
+	//CreateGameObject("Rock3");
+	//GetGameObjectByName("Rock3").SetPosition({ 2, 0.5,-3 });
+	//GetGameObjectByName("Rock3").SetScale({ 0.1, 0.1, 0.1 });
+	//GetGameObjectByName("Rock3").SetMesh(MESHES::CAILLOUX1);
+	//GetGameObjectByName("Rock3").SetTexture(TEXTURES::GRID);
+	//a = GetGameObjectByName("Rock3").GetScale();
+	//GetGameObjectByName("Rock3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
+	//GetGameObjectByName("Rock3").AddComponent<Tag_Object>(new Tag_Object());
+	//GetGameObjectByName("Rock3").SetTag(TAG_Rock);
 
 
 	SetParent("cam", "player");
@@ -102,11 +111,7 @@ void GameScene::Start()
 	UINT renderHeight = renderZone.bottom - renderZone.top;
 	CreateGameObject("bras",/* m_sceneGameObjects,*/ TYPE_2D, true);
 	GetGameObjectByName("bras").SetTexture(TEXTURES::ARMS);
-	//mp_ecsManager->RemoveComponent<Type_3D>(GetGameObjectByName("bras").GetEntity());
-	//GetGameObjectByName("bras").AddComponent(new Type_2D());
-	//GetGameObjectByName("bras").SetPosition({ 400, 450, 0 });
 	GetGameObjectByName("bras").SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2 + (float)renderHeight / 4, 0 });
-	//GetGameObjectByName("bras").SetScale({ 800, 500, 0 });
 	GetGameObjectByName("bras").SetScale({ (float)renderWidth * 0.75f, (float)renderHeight * 0.75f, 0 });
 	GetGameObjectByName("bras").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
@@ -118,6 +123,7 @@ void GameScene::Start()
 	CreateSoundPlex("slash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
 	CreateSoundPlex("Corrosion", L"../LyonPlexLib/Ressources/Corrosion.wav");
 	CreateSoundPlex("deathScream", L"../SampleProject/Ressources/Sounds/deathScreamBBB3.wav");
+	CreateSoundPlex("HUGH", L"../SampleProject/Ressources/Sounds/HUGH.wav");
 	PlayMusicPlex("Corrosion");
 
 	// scene
@@ -128,12 +134,61 @@ void GameScene::Start()
 	auto& b = GetGameObjectByName("GM0").GetScale();
 	GetGameObjectByName("GM0").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ b.x / 2, b.y / 2, b.z / 2 })));*/
 
-	CreateGameObject("GM1", 2, 4);
-	GetGameObjectByName("GM1").SetTag(TAG_Floor);
-	GetGameObjectByName("GM1").SetPosition({ 2,1, 0 });
-	GetGameObjectByName("GM1").SetScale({ 2, 1, 2 });
-	auto c = GetGameObjectByName("GM1").GetScale();
-	GetGameObjectByName("GM1").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+	CreateGameObject("solGen", MESHES::LOCAL_CUBE, TEXTURES::HERBE);
+	GetGameObjectByName("solGen").SetTag(TAG_Floor);
+	//GetGameObjectByName("solGen").SetPosition(POSITION_CHAMPS);
+	GetGameObjectByName("solGen").SetPosition({ 200,-4,100 });
+	GetGameObjectByName("solGen").SetScale({ 400, 5, 200 });
+	auto c = GetGameObjectByName("solGen").GetScale();
+	GetGameObjectByName("solGen").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+
+	CreateGameObject("field", MESHES::LOCAL_CUBE, TEXTURES::GRID);
+	GetGameObjectByName("field").SetTag(TAG_Floor);
+	GetGameObjectByName("field").SetPosition(POSITION_CHAMPS);
+	GetGameObjectByName("field").SetScale({ 100, 5, 50 });
+	c = GetGameObjectByName("field").GetScale();
+	GetGameObjectByName("field").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+	
+	CreateGameObject("Temple", MESHES::TEMPLE, TEXTURES::TEMPLE);
+	GetGameObjectByName("Temple").SetTag(TAG_Floor);
+	GetGameObjectByName("Temple").SetPosition({75,0,125});
+	//GetGameObjectByName("Temple").SetScale({ 100, 5, 100 });
+	GetGameObjectByName("Temple").SetScale({ 0.75, 0.75, 0.75 });
+	c = GetGameObjectByName("Temple").GetScale();
+	GetGameObjectByName("Temple").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+	
+	CreateGameObject("Mountain", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
+	GetGameObjectByName("Mountain").SetTag(TAG_Floor);
+	GetGameObjectByName("Mountain").SetPosition({300,2.5,150});
+	GetGameObjectByName("Mountain").SetScale({ 200, 25, 100 });
+	c = GetGameObjectByName("Mountain").GetScale();
+	GetGameObjectByName("Mountain").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+	
+
+
+	CreateGameObject("Road1", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
+	GetGameObjectByName("Road1").SetTag(TAG_Floor);
+	GetGameObjectByName("Road1").SetPosition({175, -2.5, 50});
+	GetGameObjectByName("Road1").SetScale({ 200, 5, 10 });
+	c = GetGameObjectByName("Road1").GetScale();
+	GetGameObjectByName("Road1").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+	
+	CreateGameObject("Road2", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
+	GetGameObjectByName("Road2").SetTag(TAG_Floor);
+	GetGameObjectByName("Road2").SetPosition({80, -2.5, 60});
+	GetGameObjectByName("Road2").SetScale({ 10, 5, 10 });
+	c = GetGameObjectByName("Road2").GetScale();
+	GetGameObjectByName("Road2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+
+	CreateGameObject("Road3", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
+	GetGameObjectByName("Road3").SetTag(TAG_Floor);
+	GetGameObjectByName("Road3").SetPosition({75, -2.5, 80});
+	GetGameObjectByName("Road3").SetScale({ 75, 5, 30 });
+	c = GetGameObjectByName("Road3").GetScale();
+	GetGameObjectByName("Road3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+
+
+
 	/*
 	{
 		CreateGameObject("GM0", 2, 1);
@@ -548,17 +603,19 @@ void GameScene::Start()
 */
 
 
+	portal = &CreateGameObject<Portals>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player, this);
+	portal->SetPosition({ -10, 1, 10 });
+	portal->SetScale({ 1, 1, 0.5 });
+	portal->SetTexture(TEXTURES::EAU);
 
+	////////////////////////////////////////////////////////////champ////////////////////////////
 
-
-////////////////////////////////////////////////////////////champ////////////////////////////
-
-	CreateGameObject("champ", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
+	/*CreateGameObject("champ", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
 	GetGameObjectByName("champ").SetPosition({ 0, -2, -0 });
 	GetGameObjectByName("champ").SetScale({ 50, 2, 50 });
 	GetGameObjectByName("champ").SetTag(TAG_Floor);
 	auto scale = GetGameObjectByName("champ").GetScale();
-	GetGameObjectByName("champ").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ scale.x / 2, scale.y / 2, scale.z / 2 })));
+	GetGameObjectByName("champ").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ scale.x / 2, scale.y / 2, scale.z / 2 })));*/
 
 	//CreateGameObject("parcelle1", MESHES::LOCAL_CUBE, TEXTURES::PARCELLE1);
 	//GetGameObjectByName("parcelle1").SetPosition({ 51.792843, -1.916459, -76.895660 });
@@ -2433,89 +2490,35 @@ void GameScene::Update(float deltatime)
 {
 	m_fpsCam.Update(deltatime);
 
-	if (InputManager::GetKeyIsReleased('K'))
-	{
-		PlaySoundPlex("pop");
-		DestroyGameObject(GetGameObjectByName("testDestory"));
-	}
+	//if (InputManager::GetKeyIsReleased('K'))
+	//{
+	//	PlaySoundPlex("pop");
+	//	DestroyGameObject(GetGameObjectByName("testDestory"));
+	//}
 	if (InputManager::GetKeyIsReleased('N'))
 	{
 		StopMusicPlex();
 	}
 
-	//// Gravity
-	//if (m_player.GetPosition().y > 1.f)
-	//{
-	//	m_player.GetComponent<TransformComponent>()->position.y -= 9.81f * deltatime;
-	//	m_player.GetComponent<TransformComponent>()->dirty = true;
-	//}
 
-	//if (m_enemies.size() < 5)
+	//if (std::fmod(m_spawnTimer, 150.0f) == 0)
 	//{
 	//	// IL FAUT POUVOIR CREER DES ENEMY SANS GAMEOBJECT OU AU MOINS SANS NOM STD::STRING
 
-	//	GameObject newGameObject;
-	//	newGameObject.Init("newEnemy", mp_ecsManager);
+	//	//Enemy* newEnemy = new Enemy(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player);
 
-	//	m_sceneGameObjects.push_back(newGameObject);
-
-	//	//auto* gameObj = &CreateGameObject("newEnemy");
+	//	auto& newEnemy = CreateGameObject<Enemy>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player, this);
 
 	//	float posX = Utils::randomFloat(-24, 24);
 	//	float posZ = Utils::randomFloat(-24, 24);
-	//	newGameObject.SetPosition({ posX, 1, posZ });
-	//	newGameObject.SetTexture(TEXTURES::iceCream);
-	//	newGameObject.AddComponent<Tag_Enemy>(new Tag_Enemy());
-	//	/*
-	//	gameObj->SetPosition({ posX, 1, posZ });
-	//	gameObj->SetTexture(TEXTURES::iceCream);
-	//	gameObj->AddComponent<Tag_Enemy>(new Tag_Enemy());*/
-
-	//	Enemy* newEnemy = new Enemy;
-
-	//	newEnemy->Init(newGameObject, m_player, mp_sceneManager->GetGameManager());
-	//	newEnemy->SetID(m_enemyCount);
-	//	m_enemies.push_back(newEnemy);
-	//	m_enemyCount++;
-
-	//	//m_enemyTest.Init(newGameObject, m_player, mp_sceneManager->GetGameManager());
-
-	//}
-	//if (!m_enemies.empty())
-	//{
-	//	for (auto& enemy : m_enemies)
-	//	{
-	//		enemy->OnUdpdate(deltatime);
-	//	}
-
-	//	//ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
-	//	//auto& ecs = mp_ecsManager;
-	//	//float closest = 100;
-	//	//ecs->ForEach(mask, [&](Entity e)
-	//	//	{
-	//	//		GetGameObjectByID(e);
-	//	//	});
+	//	newEnemy.SetPosition({ posX, 1, posZ });
+	//	newEnemy.SetTexture(TEXTURES::iceCream);
+	//	//newEnemy.AddComponent<Tag_Enemy>(new Tag_Enemy());
 	//}
 
+	//m_spawnTimer++;
 
-	if (std::fmod(m_spawnTimer, 150.0f) == 0)
-	{
-		// IL FAUT POUVOIR CREER DES ENEMY SANS GAMEOBJECT OU AU MOINS SANS NOM STD::STRING
-
-		//Enemy* newEnemy = new Enemy(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player);
-
-		auto& newEnemy = CreateGameObject<Enemy>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player);
-
-		float posX = Utils::randomFloat(-24, 24);
-		float posZ = Utils::randomFloat(-24, 24);
-		newEnemy.SetPosition({ posX, 1, posZ });
-		newEnemy.SetTexture(TEXTURES::iceCream);
-		//newEnemy.AddComponent<Tag_Enemy>(new Tag_Enemy());
-	}
-
-	m_spawnTimer++;
-
-
+	portal->OnUdpdate(deltatime);
 
 	ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
 	auto& ecs = mp_ecsManager;

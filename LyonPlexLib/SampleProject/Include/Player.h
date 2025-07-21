@@ -1,5 +1,6 @@
 #pragma once
 #include "StateMachine.h"
+class Enemy;
 
 class Player
 {
@@ -43,8 +44,9 @@ public:
 	float GetDeltatime() { return m_deltatime; };
 
 	GameObject* m_closestObject = nullptr;
-	GameObject* m_closestEnemy = nullptr;
 	GameObject* mp_cameraGO = nullptr;
+
+	Enemy* m_closestEnemy = nullptr;
 
 	//std::vector<Enemy*>* m_enemies = nullptr;
 	//void SetEnemies(std::vector<Enemy*>* enemyList) { m_enemies = enemyList; };
@@ -56,8 +58,8 @@ public:
 
 	int m_hp = 10;
 
-	float m_walkSpeed = 5.0f;
-	float m_runSpeed = 15.0f;
+	float m_walkSpeed = 15.0f;
+	float m_runSpeed = 25.0f;
 	float m_moveSpeed;
 
 	float m_jumpPower = 35.f;
@@ -77,7 +79,7 @@ public:
 
 	float m_deltatime;
 	GameManager* mp_gameManager;
-	Scene* mp_scene;
+	Scene* mp_scene = nullptr;
 
 private:
 

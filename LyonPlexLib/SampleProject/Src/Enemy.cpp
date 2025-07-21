@@ -3,82 +3,18 @@
 #include "EnemyAction.h"
 #include "EnemyCondition.h"
 
-//Enemy::Enemy() : m_stateMachine(this, State::Count)
-//{
-//	// --- IDLE ---
-//	{
-//		auto* sIdle = m_stateMachine.CreateBehaviour(State::Idle);
-//		sIdle->AddAction(new EnnemyAction_Idle());
-//		//-> MOVE TRANSITION
-//		{
-//			auto transition = sIdle->CreateTransition(State::Move);
-//			auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
-//			//transition->AddCondition<PlayerCondition_IsAttacking>();
-//		}
-//	}
-//
-//	// --- MOVE ---
-//	{
-//		auto* sMove = m_stateMachine.CreateBehaviour(State::Move);
-//		sMove->AddAction(new EnnemyAction_Move());
-//		//-> IDLE TRANSITION
-//		{
-//			auto transition = sMove->CreateTransition(State::Idle);
-//			auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNotNear>();
-//		}
-//	}
-//
-//	// Base State
-//	m_stateMachine.SetState(State::Idle);
-//}
 
-Enemy::Enemy(ECSManager* ecsManager, GameManager* gameManager, GameObject gameObjectPlayer/*, std::vector<std::unique_ptr<GameObject>>& sceneGameObjects*/) : m_stateMachine(this, State::Count), m_deltatime(0)
+Enemy::Enemy(ECSManager* ecsManager, GameManager* gameManager, GameObject& gameObjectPlayer, Scene* scene) : m_stateMachine(this, State::Count), m_deltatime(0), m_playerGm(gameObjectPlayer)
 {
-	InitGameObj(ecsManager/*, sceneGameObjects*/);
-	Init(gameObjectPlayer, gameManager);
+	InitGameObj(ecsManager, scene);
+	Init(/*gameObjectPlayer,*/ gameManager);
 }
 
-
-
-
-//void Enemy::Init(GameObject gameObjectEnemy, GameObject gameObjectPlayer, GameManager* gameManager)
-//{
-//	//m_ennemyGm = gameObjectEnemy;
-//	m_playerGm = gameObjectPlayer;
-//
-//	mp_gameManager = gameManager;
-//	m_deltatime = 0;
-//
-//	m_moveSpeed = 2.f;
-//
-//	// sounds
-//	//mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
-//
-//	//EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p) {
-//	//	// si c�est notre joueur qui est entr� en collision
-//	//	if (p.a.id == m_playerGameObject.GetEntity()->id || p.b.id == m_playerGameObject.GetEntity()->id) {
-//	//		// on change directement d�etat
-//	//		m_hasCollided = true;
-//	//	}
-//	//	});
-//
-//	OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
-//
-//	//AnimationManager newAnim;
-//
-//	//m_testAnimation.Init(2.f, &m_playerArm);
-//	//m_testAnimation.AddFrame(TEXTURES::bras);
-//	//m_testAnimation.AddFrame(TEXTURES::test);
-//	//m_testAnimation.AddFrame(TEXTURES::tex0);
-//	m_initialized = true;
-//
-//}
-
-void Enemy::Init(GameObject gameObjectPlayer, GameManager* gameManager)
+void Enemy::Init(/*GameObject gameObjectPlayer,*/ GameManager* gameManager)
 {
 	AddComponent<Tag_Enemy>(new Tag_Enemy());
 
-	m_playerGm = gameObjectPlayer;
+	//m_playerGm = gameObjectPlayer;
 
 	mp_gameManager = gameManager;
 	m_deltatime = 0;
@@ -133,17 +69,23 @@ const char* Enemy::GetCurrentStateName() const
 	return GetStateName(static_cast<State>(state));
 }
 
+void Enemy::TakeDamage()
+{
+	m_life--;
+
+	if (m_life <= 0)
+	{
+		alive = false;
+		mp_scene->DestroyGameObject(*this);
+		mp_gameManager->GetSoundManager()->PlaySoundPlex("deathScream"); // need to adapt sound to frame (like adding pause)
+	}
+	else
+		mp_gameManager->GetSoundManager()->PlaySoundPlex("HUGH"); // need to adapt sound to frame (like adding pause)
+}
+
 void Enemy::OnUdpdate(float deltatime)
 {
 	m_stateMachine.Update();
 	m_deltatime = deltatime;
-
-
-	//m_testAnimation.Loop(deltatime);
-
-	//if (m_hasCollided)
-	//{
-	//	OutputDebugStringA("\nPLAYER COLLIDINGGIGIGIGIGIGIIGIGGIGI !\n");
-	//}
 
 }

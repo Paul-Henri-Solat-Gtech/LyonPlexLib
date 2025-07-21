@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\LyonPlexLib\Src\Portals.cpp" />
     <ClCompile Include="..\LyonPlexLib\Src\Projectile.cpp" />
     <ClCompile Include="..\LyonPlexLib\Src\ProjectileAction.cpp" />
     <ClCompile Include="..\LyonPlexLib\Src\ProjectileCondition.cpp" />
@@ -41,6 +42,7 @@
     <ClCompile Include="Src\SkillTree.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\LyonPlexLib\Include\Portals.h" />
     <ClInclude Include="..\LyonPlexLib\Include\Projectile.h" />
     <ClInclude Include="..\LyonPlexLib\Include\ProjectileAction.h" />
     <ClInclude Include="..\LyonPlexLib\Include\ProjectileCondition.h" />
