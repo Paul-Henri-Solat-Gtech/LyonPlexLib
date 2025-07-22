@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "InputManager.h"
 
 bool WindowPlex::Init(HINSTANCE appInstance, const std::wstring& windowName, float windowWidth, float windowHeight)
 {
@@ -60,6 +61,9 @@ LRESULT CALLBACK WindowPlex::WindowProcedure(HWND hWnd, UINT message, WPARAM wPa
 				window->m_gameManager->OnResize(newW, newH);
 			}
 		}
+		return 0;
+	case WM_MOUSEWHEEL:
+		InputManager::OnMouseWheel(wParam);
 		return 0;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);

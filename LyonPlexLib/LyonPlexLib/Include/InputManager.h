@@ -12,10 +12,12 @@ public:
 
 	static bool IsMouseLocked() { return m_mouseLocked; };
 
-	static int OnMouseWheel(WPARAM wParam) {return GET_WHEEL_DELTA_WPARAM(wParam);}
+	static void OnMouseWheel(WPARAM wParam);
+    static int  GetAndResetWheelDelta();
 
 private:
 	static bool m_mouseLocked;
+	inline static int  m_wheelDelta = 0;
 
 };
 

@@ -83,7 +83,7 @@ void PlayerAction_Idle::Start(Player* player)
 	{
 	case TEXTURES::ARMS:
 
-		m_idleAnim.Init(FPS_24, &player->GetPlayerArm());
+		m_idleAnim.Init(0.05, &player->GetPlayerArm());
 		// idle frames
 		{
 			m_idleAnim.AddFrame(TEXTURES::IDLEARM_1);
@@ -115,7 +115,7 @@ void PlayerAction_Idle::Start(Player* player)
 
 	case TEXTURES::IDLEARM_W1_1:
 
-		m_idleAnim.Init(FPS_24, &player->GetPlayerArm());
+		m_idleAnim.Init(FPS_24/19, &player->GetPlayerArm());
 		// idle frames
 		{
 			m_idleAnim.AddFrame(TEXTURES::IDLEARM_W1_1);
@@ -142,7 +142,7 @@ void PlayerAction_Idle::Start(Player* player)
 
 	case TEXTURES::IDLEARM_W2_1:
 
-		m_idleAnim.Init(FPS_24, &player->GetPlayerArm());
+		m_idleAnim.Init(FPS_24/12, &player->GetPlayerArm());
 		// idle frames
 		{
 			m_idleAnim.AddFrame(TEXTURES::IDLEARM_W2_1);

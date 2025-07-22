@@ -3,7 +3,7 @@
 #include "Utils.h"
 
 //Utils::Vector3 POSITION_CHAMPS = { 5, 0, 32.5 };
-XMFLOAT3 POSITION_CHAMPS = { 325, -2.5, 50 };
+XMFLOAT3 POSITION_CHAMPS = { 325, -2, 50 };
 
 void GameScene::Start()
 {
@@ -35,7 +35,8 @@ void GameScene::Start()
 	XMFLOAT3 pos1(POSITION_CHAMPS.x + 2, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z + 2);
 	GetGameObjectByName("Stick").SetPosition(pos1);
 	//GetGameObjectByName("Stick").SetScale({ 0.01, 0.01, 0.01 });
-	GetGameObjectByName("Stick").SetScale({ 0.1, 0.1, 0.1 });
+	//GetGameObjectByName("Stick").SetScale({ 0.1, 0.1, 0.1 });
+	GetGameObjectByName("Stick").SetScale({ 1, 1, 1 });
 	GetGameObjectByName("Stick").SetMesh(MESHES::STICK);
 	GetGameObjectByName("Stick").SetTexture(TEXTURES::HERBE);
 	auto a = GetGameObjectByName("Stick").GetScale();
@@ -137,7 +138,7 @@ void GameScene::Start()
 	CreateGameObject("solGen", MESHES::LOCAL_CUBE, TEXTURES::HERBE);
 	GetGameObjectByName("solGen").SetTag(TAG_Floor);
 	//GetGameObjectByName("solGen").SetPosition(POSITION_CHAMPS);
-	GetGameObjectByName("solGen").SetPosition({ 200,-4,100 });
+	GetGameObjectByName("solGen").SetPosition({ 200,-2.5,100 });
 	GetGameObjectByName("solGen").SetScale({ 400, 5, 200 });
 	auto c = GetGameObjectByName("solGen").GetScale();
 	GetGameObjectByName("solGen").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
@@ -153,39 +154,98 @@ void GameScene::Start()
 	GetGameObjectByName("Temple").SetTag(TAG_Floor);
 	GetGameObjectByName("Temple").SetPosition({75,0,125});
 	//GetGameObjectByName("Temple").SetScale({ 100, 5, 100 });
-	GetGameObjectByName("Temple").SetScale({ 0.75, 0.75, 0.75 });
+	GetGameObjectByName("Temple").SetScale({ 0.75, 1, 0.75 });
 	c = GetGameObjectByName("Temple").GetScale();
 	GetGameObjectByName("Temple").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
 	
 	CreateGameObject("Mountain", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
 	GetGameObjectByName("Mountain").SetTag(TAG_Floor);
-	GetGameObjectByName("Mountain").SetPosition({300,2.5,150});
-	GetGameObjectByName("Mountain").SetScale({ 200, 25, 100 });
+	GetGameObjectByName("Mountain").SetPosition({300,7,150});
+	GetGameObjectByName("Mountain").SetScale({ 200, 14, 100 });
 	c = GetGameObjectByName("Mountain").GetScale();
 	GetGameObjectByName("Mountain").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
 	
+	CreateGameObject("Mountain2", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
+	GetGameObjectByName("Mountain2").SetTag(TAG_Floor);
+	GetGameObjectByName("Mountain2").SetPosition({167.5, 2, 100});
+	GetGameObjectByName("Mountain2").SetScale({ 65, 25, 20 });
+	c = GetGameObjectByName("Mountain2").GetScale();
+	GetGameObjectByName("Mountain2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+
+	CreateGameObject("Mountain3", MESHES::CAILLOUX4, TEXTURES::PIERRE);
+	GetGameObjectByName("Mountain3").SetTag(TAG_Floor);
+	GetGameObjectByName("Mountain3").SetPosition({125, 2, 100});
+	GetGameObjectByName("Mountain3").SetScale({ 10, 12, 3 });
+	c = GetGameObjectByName("Mountain3").GetScale();
+	GetGameObjectByName("Mountain3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+
+	{
+		CreateGameObject("Road1", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
+		GetGameObjectByName("Road1").SetTag(TAG_Floor);
+		GetGameObjectByName("Road1").SetPosition({ 175, -2, 50 });
+		GetGameObjectByName("Road1").SetScale({ 200, 5, 10 });
+		c = GetGameObjectByName("Road1").GetScale();
+		GetGameObjectByName("Road1").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+
+		CreateGameObject("Road2", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
+		GetGameObjectByName("Road2").SetTag(TAG_Floor);
+		GetGameObjectByName("Road2").SetPosition({ 80, -2, 60 });
+		GetGameObjectByName("Road2").SetScale({ 10, 5, 10 });
+		c = GetGameObjectByName("Road2").GetScale();
+		GetGameObjectByName("Road2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+
+		CreateGameObject("Road3", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
+		GetGameObjectByName("Road3").SetTag(TAG_Floor);
+		GetGameObjectByName("Road3").SetPosition({ 75, -2, 80 });
+		GetGameObjectByName("Road3").SetScale({ 75, 5, 30 });
+		c = GetGameObjectByName("Road3").GetScale();
+		GetGameObjectByName("Road3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+	}
 
 
-	CreateGameObject("Road1", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
-	GetGameObjectByName("Road1").SetTag(TAG_Floor);
-	GetGameObjectByName("Road1").SetPosition({175, -2.5, 50});
-	GetGameObjectByName("Road1").SetScale({ 200, 5, 10 });
-	c = GetGameObjectByName("Road1").GetScale();
-	GetGameObjectByName("Road1").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
-	
-	CreateGameObject("Road2", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
-	GetGameObjectByName("Road2").SetTag(TAG_Floor);
-	GetGameObjectByName("Road2").SetPosition({80, -2.5, 60});
-	GetGameObjectByName("Road2").SetScale({ 10, 5, 10 });
-	c = GetGameObjectByName("Road2").GetScale();
-	GetGameObjectByName("Road2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
 
-	CreateGameObject("Road3", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
-	GetGameObjectByName("Road3").SetTag(TAG_Floor);
-	GetGameObjectByName("Road3").SetPosition({75, -2.5, 80});
-	GetGameObjectByName("Road3").SetScale({ 75, 5, 30 });
-	c = GetGameObjectByName("Road3").GetScale();
-	GetGameObjectByName("Road3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+	CreateGameObject("Pond", MESHES::LOCAL_CUBE, TEXTURES::EAU);
+	GetGameObjectByName("Pond").SetTag(TAG_Floor);
+	GetGameObjectByName("Pond").SetPosition({180, -2, 150});
+	GetGameObjectByName("Pond").SetScale({ 40, 5, 80 });
+	c = GetGameObjectByName("Pond").GetScale();
+	GetGameObjectByName("Pond").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+
+	CreateGameObject("DownStream", MESHES::LOCAL_CUBE, TEXTURES::EAU);
+	GetGameObjectByName("DownStream").SetTag(TAG_Floor);
+	GetGameObjectByName("DownStream").SetPosition({140, -2, 80});
+	GetGameObjectByName("DownStream").SetScale({ 20, 5, 160 });
+	c = GetGameObjectByName("DownStream").GetScale();
+	GetGameObjectByName("DownStream").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+
+	CreateGameObject("Waterfall", MESHES::LOCAL_CUBE, TEXTURES::EAU);
+	GetGameObjectByName("Waterfall").SetTag(TAG_Floor);
+	GetGameObjectByName("Waterfall").SetPosition({199.5, 7.5, 150});
+	GetGameObjectByName("Waterfall").SetScale({ 1, 15, 40 });
+	c = GetGameObjectByName("Waterfall").GetScale();
+	GetGameObjectByName("Waterfall").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+
+	CreateGameObject("UpStream", MESHES::LOCAL_CUBE, TEXTURES::EAU);
+	GetGameObjectByName("UpStream").SetTag(TAG_Floor);
+	GetGameObjectByName("UpStream").SetPosition({220, 14, 150});
+	GetGameObjectByName("UpStream").SetScale({ 40, 2, 40 });
+	c = GetGameObjectByName("UpStream").GetScale();
+	GetGameObjectByName("UpStream").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+
+	CreateGameObject("UpStream1", MESHES::LOCAL_CUBE, TEXTURES::EAU);
+	GetGameObjectByName("UpStream1").SetTag(TAG_Floor);
+	GetGameObjectByName("UpStream1").SetPosition({280, 14, 150});
+	GetGameObjectByName("UpStream1").SetScale({ 80, 2, 20 });
+	c = GetGameObjectByName("UpStream1").GetScale();
+	GetGameObjectByName("UpStream1").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+
+	CreateGameObject("UpStream2", MESHES::LOCAL_CUBE, TEXTURES::EAU);
+	GetGameObjectByName("UpStream2").SetTag(TAG_Floor);
+	GetGameObjectByName("UpStream2").SetPosition({330, 14, 180});
+	GetGameObjectByName("UpStream2").SetScale({ 20, 2, 80 });
+	c = GetGameObjectByName("UpStream2").GetScale();
+	GetGameObjectByName("UpStream2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
+
 
 
 
@@ -604,7 +664,8 @@ void GameScene::Start()
 
 
 	portal = &CreateGameObject<Portals>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player, this);
-	portal->SetPosition({ -10, 1, 10 });
+	portal->SetPosition({ 335, 2, 50 });
+	//portal->SetPosition({ -10, 1, 10 });
 	portal->SetScale({ 1, 1, 0.5 });
 	portal->SetTexture(TEXTURES::EAU);
 

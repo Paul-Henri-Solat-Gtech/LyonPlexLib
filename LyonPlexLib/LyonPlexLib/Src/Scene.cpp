@@ -201,25 +201,28 @@ void Scene::EndUpdate()
 	//// 3) Vide la liste des suppressions pour la prochaine frame
 	//m_sceneGameObjectsToDelete.clear();
 
+	if(!m_sceneGameObjects.empty())
+	{
 
-  // 1) Détruire les entités marquées
-	for (auto& uptr : m_sceneGameObjects) {
-		if (uptr.get()->m_markedForDeletion) {
-			mp_ecsManager->DestroyEntity(uptr->GetEntity());
-		}
-	}
-
-	// 2) Erase–remove en un seul passage
-	m_sceneGameObjects.erase(
-		std::remove_if(
-			m_sceneGameObjects.begin(),
-			m_sceneGameObjects.end(),
-			[](const std::unique_ptr<GameObject>& uptr) {
-				return uptr.get()->m_markedForDeletion;
+		// 1) Détruire les entités marquées
+		for (auto& uptr : m_sceneGameObjects) {
+			if (uptr.get()->m_markedForDeletion) {
+				mp_ecsManager->DestroyEntity(uptr->GetEntity());
 			}
-		),
-		m_sceneGameObjects.end()
-	);
+		}
+
+		// 2) Erase–remove en un seul passage
+		m_sceneGameObjects.erase(
+			std::remove_if(
+				m_sceneGameObjects.begin(),
+				m_sceneGameObjects.end(),
+				[](const std::unique_ptr<GameObject>& uptr) {
+					return uptr.get()->m_markedForDeletion;
+				}
+			),
+			m_sceneGameObjects.end()
+		);
+	}
 
 }
 

@@ -16,8 +16,13 @@ public:
 	int ComputeGridStep(float scale);
 
 private:
-	GameObject m_placingModule;
+	GameObject m_placingModule; int m_curMeshID = 2; int m_curTexID = 0;
 	GameObject m_camera;
+
+	float m_zoomOffset = 0.0f;            // cumulative zoom offset
+	float m_zoomSensitivity = 1.f;      // adjust zoom speed
+	float m_zoomMin = -5.0f;              // max zoom-in (negative moves closer)
+	float m_zoomMax = 1000.0f;              // max zoom-out
 
 	int m_newIdGM;
 	int m_camSpeed, m_camWalkSpeed, m_camRunSpeed, m_scaleSpeed, m_scaleNormalSpeed, m_scaleFastSpeed;

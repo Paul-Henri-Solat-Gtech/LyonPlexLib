@@ -82,3 +82,18 @@ void InputManager::CenterLockCursor(HWND hWnd)
 	SetCursorPos(center.x, center.y);
 }
 
+
+// Called from WndProc WM_MOUSEWHEEL
+void InputManager::OnMouseWheel(WPARAM wParam)
+{
+	int delta = GET_WHEEL_DELTA_WPARAM(wParam);
+	m_wheelDelta += delta;
+}
+
+// Call each frame to fetch & clear accumulated wheel
+int InputManager::GetAndResetWheelDelta()
+{
+	int d = m_wheelDelta;
+	m_wheelDelta = 0;
+	return d;
+}

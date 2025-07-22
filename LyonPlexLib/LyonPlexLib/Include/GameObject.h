@@ -59,8 +59,8 @@ public:
 
 	virtual void OnUdpdate(float deltatime) {};
 
-	bool IsColiding();
-	bool IsColidingWith();
+	bool IsColliding();
+	bool IsCollidingWith();
 	//..
 
 	bool alive = true;

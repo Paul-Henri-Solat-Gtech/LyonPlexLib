@@ -366,6 +366,7 @@ namespace MESHES
 		GRASS,
 		ROAD_STRAIGHT,
 		ROAD_TURN,
+		CLIFF,
 
 
 		// A REMPLIR
