@@ -137,6 +137,12 @@ GameObject& Scene::GetGameObjectByName(const std::string& gameObjectName)
 		}
 	}
 }
+GameObject* Scene::FindGameObjectByName(const std::string& name) {
+	for (auto& uptr : m_sceneGameObjects)
+		if (uptr->GetName() == name)
+			return uptr.get();
+	return nullptr;
+}
 
 GameObject& Scene::GetGameObjectByTag(Tag gameObjectTag)
 {

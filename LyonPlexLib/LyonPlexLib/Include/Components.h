@@ -109,7 +109,7 @@ struct CameraComponent : public Component {
 	XMFLOAT4X4 projectionMatrix = {};
 
 	// Parametres de projection
-	float fovDegrees = 90.0f;
+	float fovDegrees = 40.0f;
 	float aspectRatio = 16.0f / 9.0f;
 	float nearPlane = 0.1f;
 	float farPlane = 1000.0f;
