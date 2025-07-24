@@ -1086,6 +1086,7 @@ void DevScene::Update(float deltatime)
 			m_placingHitbox = GetGameObjectByName("placingHitbox");
 			m_placingHitbox.SetPosition(m_placingModule.GetPosition());
 			m_placingHitbox.SetScale(m_placingModule.GetScale());
+			m_placingHitbox.SetRotation(m_placingModule.GetRotation());
 			m_placingHitbox.SetTexture(TEXTURES::GRID);
 			m_placingHitbox.GetComponent<MeshComponent>()->alpha = 0.5;
 			//m_placingHitbox.GetMesh().
@@ -1409,8 +1410,9 @@ void DevScene::Update(float deltatime)
 			GetGameObjectByName(gmName).SetPosition({ posCamera });
 			GetGameObjectByName(gmName).SetRotation({ rotCamera });
 			GetGameObjectByName(gmName).SetScale({ scaleCamera });
-
 			GetGameObjectByName(gmName).SetTag(TAG_Object);
+
+			// hitbox
 			GetGameObjectByName(gmName).SetColliderX(m_placingHitbox.GetComponent<TransformComponent>()->scale.x / 2);
 			GetGameObjectByName(gmName).SetColliderY(m_placingHitbox.GetComponent<TransformComponent>()->scale.y / 2);
 			GetGameObjectByName(gmName).SetColliderZ(m_placingHitbox.GetComponent<TransformComponent>()->scale.z / 2);
