@@ -77,7 +77,8 @@ StyleCopReport.xml
 *.ilk
 *.meta
 *.obj
-!LyonPlexLib/LyonPlexLib/Ressources/*.obj
+!LyonPlexLib/LyonPlexLib/Ressources/**/*.obj
+!LyonPlexLib/LyonPlexLib/SampleProject/Ressources/**/*.obj
 *.iobj
 *.pch
 *.pdb
