@@ -6,6 +6,7 @@ enum DimensionalType
 {
 	TYPE_3D,
 	TYPE_2D,
+	TYPE_3D_TRANSPARENT,
 
 	TypeCount
 };
@@ -55,7 +56,15 @@ public:
 	void SetTexture(uint32_t textureId) { GetComponent<MeshComponent>()->materialID = textureId; };
 	uint32_t& GetTexture() { return GetComponent<MeshComponent>()->materialID; };
 	void SetMesh(uint32_t meshId) { GetComponent<MeshComponent>()->meshID = meshId; };
-	uint32_t& GetMesh() { return GetComponent<MeshComponent>()->meshID; };
+	uint32_t& GetMeshID() { return GetComponent<MeshComponent>()->meshID; };
+
+	// Collider
+	void SetColliderX(float colX) { m_colliderX = colX; };
+	float GetColliderX() { return m_colliderX; };
+	void SetColliderY(float colY) { m_colliderY = colY; };
+	float GetColliderY() { return m_colliderY; };
+	void SetColliderZ(float colZ) { m_colliderZ = colZ; };
+	float GetColliderZ() { return m_colliderZ; };
 
 	virtual void OnUdpdate(float deltatime) {};
 
@@ -82,5 +91,7 @@ private:
 
 	std::string m_name;
 	Tag m_tag;
+
+	float m_colliderX, m_colliderY, m_colliderZ;
 };
 

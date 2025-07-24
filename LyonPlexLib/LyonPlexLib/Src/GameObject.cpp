@@ -74,7 +74,9 @@ void GameObject::Init(const std::string& name, ECSManager* ecsManager, Scene* sc
 	if (type == TYPE_3D)
 		AddComponent<Type_3D>(new Type_3D());
 	if (type == TYPE_2D)
-		AddComponent<Type_2D>(new Type_2D());
+		AddComponent<Type_2D>(new Type_2D()); 
+	if (type == TYPE_3D_TRANSPARENT)
+		AddComponent<Type_3D_Transparent>(new Type_3D_Transparent());
 
 	// MESH
 	AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::NOTEXTURE));

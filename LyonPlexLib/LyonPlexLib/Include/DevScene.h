@@ -1,4 +1,14 @@
 #pragma once
+
+enum EditMode
+{
+	Build,
+	Hitbox,
+
+	ModeCount
+};
+
+
 class DevScene : public Scene
 {
 public:
@@ -15,9 +25,12 @@ public:
 
 	int ComputeGridStep(float scale);
 
+	std::string FloatToStringNoTrailingZeros(float value);
+
 private:
 	GameObject m_placingModule; int m_curMeshID = 2; int m_curTexID = 0;
 	GameObject m_camera;
+	GameObject m_placingHitbox;
 
 	float m_zoomOffset = 0.0f;            // cumulative zoom offset
 	float m_zoomSensitivity = 1.f;      // adjust zoom speed
@@ -46,5 +59,8 @@ private:
 	float  m_orbitHeight = 1.0f;   // peut rester pour initial fallback, mais on recalcule via pitch
 	float  m_sensitivity = 0.2f;   // degree par pixel horizontal
 	HWND   m_hWnd = nullptr;       // handle de la fenetre, initialiser
+
+	// edit mode
+	EditMode m_actualMode = EditMode::Build;
 };
 
