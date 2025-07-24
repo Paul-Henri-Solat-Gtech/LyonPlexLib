@@ -14,7 +14,7 @@ enum Tag
 {
 	TAG_None,
 	//TAG_Enemy,
-	//TAG_Player,
+	//TAG_Player, 
 	TAG_Object,
 	TAG_Camera,
 	TAG_Button,

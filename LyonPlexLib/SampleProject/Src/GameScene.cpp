@@ -154,7 +154,7 @@ void GameScene::Start()
 	GetGameObjectByName("Temple").SetTag(TAG_Floor);
 	GetGameObjectByName("Temple").SetPosition({75,0,125});
 	//GetGameObjectByName("Temple").SetScale({ 100, 5, 100 });
-	GetGameObjectByName("Temple").SetScale({ 0.75, 1, 0.75 });
+	GetGameObjectByName("Temple").SetScale({ 1.25, 1.5, 1.25 });
 	c = GetGameObjectByName("Temple").GetScale();
 	GetGameObjectByName("Temple").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
 	

@@ -2,7 +2,7 @@
 class Button : public GameObject
 {
 public:
-	void Init(/*GameObject gmButton,*/ HWND windowHandle);
+	void Initialize(/*GameObject gmButton,*/ HWND windowHandle, const std::string& name, ECSManager* ecsManager, Scene* scene, DimensionalType type, bool useMesh);
 
 	void OnUpdate(float deltatime) {};
 

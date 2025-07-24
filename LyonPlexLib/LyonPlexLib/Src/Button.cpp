@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "Button.h"
 
-void Button::Init(/*GameObject gmButton,*/ HWND windowHandle)
+void Button::Initialize(/*GameObject gmButton,*/ HWND windowHandle, const std::string& name, ECSManager* ecsManager, Scene* scene, DimensionalType type, bool useMesh)
 {
 	//m_gameObjectBtn = gmButton;
     m_windowHandle = windowHandle;
+    Init(name, ecsManager, scene, type, useMesh);
 }
 
 //void Button::Release()
