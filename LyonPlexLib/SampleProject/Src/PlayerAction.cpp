@@ -115,7 +115,7 @@ void PlayerAction_Idle::Start(Player* player)
 
 	case TEXTURES::IDLEARM_W1_1:
 
-		m_idleAnim.Init(FPS_24/19, &player->GetPlayerArm());
+		m_idleAnim.Init(FPS_24 / 19 * player->GetDeltatime(), &player->GetPlayerArm());
 		// idle frames
 		{
 			m_idleAnim.AddFrame(TEXTURES::IDLEARM_W1_1);
@@ -142,7 +142,7 @@ void PlayerAction_Idle::Start(Player* player)
 
 	case TEXTURES::IDLEARM_W2_1:
 
-		m_idleAnim.Init(FPS_24/12, &player->GetPlayerArm());
+		m_idleAnim.Init(FPS_24 / 12 * player->GetDeltatime(), &player->GetPlayerArm());
 		// idle frames
 		{
 			m_idleAnim.AddFrame(TEXTURES::IDLEARM_W2_1);
@@ -246,7 +246,7 @@ void PlayerAction_Attack::Start(Player* player)
 		switch (player->m_slashAttackNb)
 		{
 		case 1:
-			m_attackAnim.Init(FPS_24, &player->GetPlayerArm());
+			m_attackAnim.Init(FPS_24 * 43 * player->GetDeltatime(), &player->GetPlayerArm());
 			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_1);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_2);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_3);
@@ -292,7 +292,7 @@ void PlayerAction_Attack::Start(Player* player)
 			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_43);
 			break;
 		case 2:
-			m_attackAnim.Init(FPS_24, &player->GetPlayerArm());
+			m_attackAnim.Init(FPS_24 * 25 * player->GetDeltatime(), &player->GetPlayerArm());
 			m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_1);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_2);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_3);
