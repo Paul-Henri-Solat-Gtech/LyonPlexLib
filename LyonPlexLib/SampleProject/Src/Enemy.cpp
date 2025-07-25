@@ -79,8 +79,10 @@ void Enemy::TakeDamage()
 		mp_scene->DestroyGameObject(*this);
 		mp_gameManager->GetSoundManager()->PlaySoundPlex("deathScream"); // need to adapt sound to frame (like adding pause)
 	}
-	else
+	else 
+	{
 		mp_gameManager->GetSoundManager()->PlaySoundPlex("HUGH"); // need to adapt sound to frame (like adding pause)
+	}
 }
 
 void Enemy::OnUdpdate(float deltatime)

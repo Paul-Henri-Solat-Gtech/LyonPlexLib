@@ -1286,14 +1286,9 @@ void DevScene::Update(float deltatime)
 					//std::string cm_create = std::string("\nCreateGameObject(\"") + gm.GetName() + "\");";
 					std::string cm_create = std::string("\nCreateGameObject(\"") + gm->GetName() + "\"" + "," + std::to_string(gm->GetMeshID()) + "," + std::to_string(gm->GetTexture()) + ");";
 					std::string cm_position = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetPosition({ " + RoundValueStr(gm->GetPosition().x) + "," + RoundValueStr(gm->GetPosition().y) + "," + RoundValueStr(gm->GetPosition().z) + " });";
-					std::string cm_rotation = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetRotation({ " + std::to_string(gm->GetRotation().x) + "," + std::to_string(gm->GetRotation().y) + "," + std::to_string(gm->GetRotation().z) + "," + std::to_string(gm->GetRotation().w) + " });";
+					std::string cm_rotation = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetRotation({ " + FloatToStringNoTrailingZeros(gm->GetRotation().x) + "," + FloatToStringNoTrailingZeros(gm->GetRotation().y) + "," + FloatToStringNoTrailingZeros(gm->GetRotation().z) + "," + FloatToStringNoTrailingZeros(gm->GetRotation().w) + " });";
 					std::string cm_scale = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetScale({ " + RoundValueStr(gm->GetScale().x) + "," + RoundValueStr(gm->GetScale().y) + "," + RoundValueStr(gm->GetScale().z) + " });";
 					std::string cm_collider = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({" + FloatToStringNoTrailingZeros(gm->GetColliderX()) + ", " + FloatToStringNoTrailingZeros(gm->GetColliderY()) + ", " + FloatToStringNoTrailingZeros(gm->GetColliderZ()) + " })));";
-
-					/*	std::string cm_create = std::string("\nCreateGameObject(\"") + gm->GetName() + "\"" + "," + std::to_string(gm->GetMesh()) + "," + std::to_string(gm->GetTexture()) + ");";
-						std::string cm_position = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetPosition({ " + std::to_string(gm->GetPosition().x) + "," + std::to_string(gm->GetPosition().y) + "," + std::to_string(gm->GetPosition().z) + " });";
-						std::string cm_rotation = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetRotation({ " + std::to_string(gm->GetRotation().x) + "," + std::to_string(gm->GetRotation().y) + "," + std::to_string(gm->GetRotation().z) + "," + std::to_string(gm->GetRotation().w) + " });";
-						std::string cm_scale = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetScale({ " + std::to_string(gm->GetScale().x) + "," + std::to_string(gm->GetScale().y) + "," + std::to_string(gm->GetScale().z) + " });";*/
 
 					OutputDebugStringA(cm_create.c_str());
 					OutputDebugStringA(cm_position.c_str());

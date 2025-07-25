@@ -9,7 +9,9 @@ void EnnemyAction_Move::Start(Enemy* ennemy)
 void EnnemyAction_Move::Update(Enemy* ennemy)
 {
 	//OutputDebugStringA("ENEMY IS MOVING !");
-	//ennemy->m_ennemyGm.SetPosition({ ennemy->m_ennemyGm.GetPosition().x + 0.5f * ennemy->m_deltatime, ennemy->m_ennemyGm.GetPosition().y, ennemy->m_ennemyGm.GetPosition().z });
+	//ennemy->SetPosition({ ennemy->GetPosition().x + 0.5f * ennemy->m_deltatime, ennemy->GetPosition().y, ennemy->GetPosition().z });
+	ennemy->LookAt(ennemy->m_playerGm);
+	ennemy->MoveForward(ennemy->m_deltatime * 2);
 }
 
 void EnnemyAction_Move::End(Enemy* ennemy)

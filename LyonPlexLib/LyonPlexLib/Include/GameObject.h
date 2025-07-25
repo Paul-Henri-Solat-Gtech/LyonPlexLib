@@ -40,7 +40,6 @@ public:
 	//void Init(const std::string& name, ECSManager* ecsManager, DimensionalType type, bool useMesh);
 	void Init(ECSManager* ecsManager, Scene* scene);
 
-
 	void SetName(const std::string& name) { m_name = name; };
 	const std::string& GetName() { return m_name; };
 	void SetTag(Tag tag) { m_tag = tag; };
@@ -71,6 +70,8 @@ public:
 	bool IsColliding();
 	bool IsCollidingWith();
 	//..
+	void LookAt(GameObject gmToLookAt);
+	void MoveForward(float distance);
 
 	bool alive = true;
 	bool m_markedForDeletion = false;

@@ -9,7 +9,7 @@ bool EnnemyCondition_PlayerIsNear::OnTest(Enemy* owner)
 	newVec.y = owner->m_playerGm.GetPosition().y - owner->GetPosition().y;
 	newVec.z = owner->m_playerGm.GetPosition().z - owner->GetPosition().z;
 
-	if (newVec.length() < 3) 
+	if (newVec.length() < 30) 
 	{
 		return true;
 	}
