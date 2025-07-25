@@ -30,8 +30,13 @@ void Enemy::Init(/*GameObject gameObjectPlayer,*/ GameManager* gameManager)
 		//-> MOVE TRANSITION
 		{
 			auto transition = sIdle->CreateTransition(State::Move);
-			auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
+			auto condition = transition->AddCondition<EnnemyCondition_PlayerIsVeryNear>();
 			//transition->AddCondition<PlayerCondition_IsAttacking>();
+		}
+		//-> SHOOT TRANSITION
+		{
+			auto transition = sIdle->CreateTransition(State::Shoot);
+			auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
 		}
 	}
 
@@ -43,6 +48,27 @@ void Enemy::Init(/*GameObject gameObjectPlayer,*/ GameManager* gameManager)
 		{
 			auto transition = sMove->CreateTransition(State::Idle);
 			auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNotNear>();
+		}
+		//-> SHOOT TRANSITION
+		{
+			auto transition = sMove->CreateTransition(State::Shoot);
+			auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
+		}
+	}
+
+	// --- SHOOT ---
+	{
+		auto* sShoot = m_stateMachine.CreateBehaviour(State::Shoot);
+		sShoot->AddAction(new EnnemyAction_Shoot());
+		//-> IDLE TRANSITION
+		{
+			auto transition = sShoot->CreateTransition(State::Idle);
+			auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNotNear>();
+		}
+		//-> MOVE TRANSITION
+		{
+			auto transition = sShoot->CreateTransition(State::Move);
+			auto condition = transition->AddCondition<EnnemyCondition_PlayerIsVeryNear>();
 		}
 	}
 

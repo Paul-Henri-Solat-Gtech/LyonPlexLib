@@ -8,6 +8,12 @@ public:
 	bool OnTest(Enemy* owner) override;
 };
 
+class EnnemyCondition_PlayerIsVeryNear : public Condition<Enemy>
+{
+public:
+	bool OnTest(Enemy* owner) override;
+};
+
 class EnnemyCondition_PlayerIsNotNear : public Condition<Enemy>
 {
 public:

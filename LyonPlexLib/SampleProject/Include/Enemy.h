@@ -10,6 +10,7 @@ class Enemy : public GameObject
 	{
 		Idle,
 		Move,
+		Shoot,
 
 		Count
 	};
@@ -58,5 +59,6 @@ private:
 protected:
 	friend class EnnemyAction_Idle;
 	friend class EnnemyAction_Move;
+	friend class EnnemyAction_Shoot;
 };
 

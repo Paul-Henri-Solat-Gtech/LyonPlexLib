@@ -23,3 +23,16 @@ public:
 	void End(Enemy* ennemy) override;
 };
 
+class EnnemyAction_Shoot : public Action<Enemy>
+{
+public:
+	void Start(Enemy* ennemy) override;
+	void Update(Enemy* ennemy) override;
+	void End(Enemy* ennemy) override;
+
+	void CreateProjectile(Enemy* ennemy);
+private:
+	GameObject* m_newProj = nullptr;
+	float m_projLifetime = 3;
+	bool m_projAsSpawned = false;
+};
