@@ -115,10 +115,10 @@ void GameScene::Start()
 	UINT renderHeight = renderZone.bottom - renderZone.top;
 	CreateGameObject("bras",/* m_sceneGameObjects,*/ TYPE_2D, true);
 	GetGameObjectByName("bras").SetTexture(TEXTURES::ARMS);
-	GetGameObjectByName("bras").SetPosition({ (float)renderWidth / 8, (float)renderHeight / 8, 0 });
-	GetGameObjectByName("bras").SetScale({ (float)renderWidth * 0.15f, (float)renderHeight * 0.15f, 0 });/*
+	//GetGameObjectByName("bras").SetPosition({ (float)renderWidth / 8, (float)renderHeight / 8, 0 });
+	//GetGameObjectByName("bras").SetScale({ (float)renderWidth * 0.15f, (float)renderHeight * 0.15f, 0 });
 	GetGameObjectByName("bras").SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2 + (float)renderHeight / 4, 0 });
-	GetGameObjectByName("bras").SetScale({ (float)renderWidth * 0.75f, (float)renderHeight * 0.75f, 0 });*/
+	GetGameObjectByName("bras").SetScale({ (float)renderWidth * 0.75f, (float)renderHeight * 0.75f, 0 });
 	GetGameObjectByName("bras").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
 
