@@ -3,6 +3,9 @@
 #include "IRender.h"
 #include "GraphicsPipeline.h"
 #include "MeshManager.h"
+#include "WaveManager.h"
+#include "WaterPipeline.h"
+#include "TextureManager.h"
 
 class ECSManager;
 
@@ -13,7 +16,7 @@ struct ConstantBuffData
 	DirectX::XMFLOAT4X4 World;				// Pos objet
 	uint32_t            materialIndex = 0;	
 	float				alpha = 1;
-	float               padding[1];			// 8 bytes de « rembourrage » pour remplir le slot 16 bytes
+	float               padding[2];			// 8 bytes de « rembourrage » pour remplir le slot 16 bytes
 };
 
 class Render3D : public IRender
@@ -21,6 +24,8 @@ class Render3D : public IRender
 public:
 	bool Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphicsDevice, DescriptorManager* descriptorManager, CommandManager* commandManager, MeshManager* meshManager) override;
 
+	bool SetWaveManager(WaveManager* waveManager);
+	bool SetTextureManager(TextureManager* textureManager);
 
 	void Resize(int w, int h) override;
 	void RecordCommands() override;
@@ -45,17 +50,22 @@ private:
 	DescriptorManager*	mp_descriptorManager;
 	CommandManager*		mp_commandManager;
 
+	MeshManager*		m_meshManager;
+	TextureManager*		mp_textureManager = nullptr;
+
 	GraphicsPipeline	m_graphicsPipeline;
 	GraphicsPipeline	m_graphicsPipelineSeeThrough;
-	MeshManager*		m_meshManager;
+
+	WaterPipeline		m_waterPipeline;
+	WaveManager*		m_waveManager;
 
 	//ECS Manager
 	ECSManager*			m_ECS;
 
 	// Data linked to cBuffer VertexParam
 	ComPtr<ID3D12Resource>	m_cbTransformUpload = nullptr;
-	void* m_mappedCBData	= nullptr;
-	UINT					m_cbSize = Align256(sizeof(ConstantBuffData)); // taille alignee a 256
+	void*					m_mappedCBData		= nullptr;
+	UINT					m_cbSize			= Align256(sizeof(ConstantBuffData)); // taille alignee a 256
 
 	UINT                m_allocatedEntityCount = 0;  // capacité courante
 	UINT                m_frameCount = 0;            // nombre de frames en vol

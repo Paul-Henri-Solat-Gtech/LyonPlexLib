@@ -321,6 +321,12 @@ namespace TEXTURES
 		ATTACK3_W2_24,
 		ATTACK3_W2_25,
 
+
+		// Water Maps
+		WATER_NORMAL,
+		CUBE_MAP,
+
+
 		TotalTextureCount
 	};
 }

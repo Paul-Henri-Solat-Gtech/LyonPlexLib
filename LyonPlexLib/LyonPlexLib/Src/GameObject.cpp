@@ -60,6 +60,52 @@ void GameObject::Init(const std::string& name, ECSManager* ecsManager, Scene* sc
 	//GetComponent<TransformComponent>()->position = { 0, 0, 0 };
 	//GetComponent<TransformComponent>()->dirty = true;
 }
+void GameObject::InitWater(ECSManager* ecsManager, Scene* scene)
+{
+	SetName("");
+	SetTag(TAG_None);
+	mp_ecsManager = ecsManager;
+	mp_scene = scene;
+	m_entity = mp_ecsManager->CreateEntity();
+
+	//	Adding basics component(s) for any entity in scene & default parameters :
+
+	// TYPE
+	//AddComponent<Type_3D>(new Type_3D());
+	AddComponent<WaveComponent>(new WaveComponent());
+	//AddComponent<WaveComponent>(new WaveComponent(TEXTURES::WATER_NORMAL, TEXTURES::CUBE_MAP));
+
+	// MESH
+	//AddComponent<MeshComponent>(new MeshComponent(meshId, textureId));
+
+	//	TRANSFORM
+	AddComponent<TransformComponent>(new TransformComponent());
+	//GetComponent<TransformComponent>()->position = { 0, 0, 0 };
+	//GetComponent<TransformComponent>()->dirty = true;
+}
+void GameObject::InitWater(const std::string& gameObjectName, ECSManager* ecsManager, Scene* scene)
+{
+	SetName(gameObjectName);
+	SetTag(TAG_None);
+	mp_ecsManager = ecsManager;
+	mp_scene = scene;
+	m_entity = mp_ecsManager->CreateEntity();
+
+	//	Adding basics component(s) for any entity in scene & default parameters :
+
+	// TYPE
+	//AddComponent<Type_3D>(new Type_3D());
+	AddComponent<WaveComponent>(new WaveComponent());
+	//AddComponent<WaveComponent>(new WaveComponent(TEXTURES::WATER_NORMAL, TEXTURES::CUBE_MAP));
+
+	// MESH
+	//AddComponent<MeshComponent>(new MeshComponent(meshId, textureId));
+
+	//	TRANSFORM
+	AddComponent<TransformComponent>(new TransformComponent());
+	//GetComponent<TransformComponent>()->position = { 0, 0, 0 };
+	//GetComponent<TransformComponent>()->dirty = true;
+}
 void GameObject::Init(const std::string& name, ECSManager* ecsManager, Scene* scene, DimensionalType type, bool useMesh)
 {
 	SetName(name);

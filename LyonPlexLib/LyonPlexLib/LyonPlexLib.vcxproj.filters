@@ -103,6 +103,9 @@
     <ClCompile Include="Src\FpsCamera.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Src\WaveManager.cpp" />
+    <ClCompile Include="Src\WaterPipeline.cpp" />
+    <ClCompile Include="Src\WaterSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Action.h">
@@ -246,6 +249,9 @@
     <ClInclude Include="Include\FpsCamera.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Include\WaveManager.h" />
+    <ClInclude Include="Include\WaterPipeline.h" />
+    <ClInclude Include="Include\WaterSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Ressources\2DShader.hlsl">
@@ -262,6 +268,9 @@
     </None>
     <None Include="Include\Transition.inl">
       <Filter>StateMachine</Filter>
+    </None>
+    <None Include="Ressources\WavesShader.hlsl">
+      <Filter>Ressources</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

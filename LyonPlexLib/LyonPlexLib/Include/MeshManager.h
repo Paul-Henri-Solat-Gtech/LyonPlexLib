@@ -19,6 +19,8 @@ struct VertexParam
 	}
 };
 
+
+
 namespace std
 {
 	template<>

@@ -212,6 +212,105 @@ namespace Utils
 			a.x * b.y - a.y * b.x
 		};
 	}
+	
+		// ----------------------------------------
+	struct Vector2
+	{
+		float x;
+		float y;
+		float z;
+
+		// Constructors
+		Vector2() : x(0), y(0) {}
+		Vector2(float x, float y) : x(x), y(y) {}
+
+		// Unary minus
+		Vector2 operator-() const {
+			return Vector2(-x, -y);
+		}
+
+		// Addition
+		Vector2 operator+(const Vector2& other) const {
+			return Vector2(x + other.x, y + other.y);
+		}
+		Vector2& operator+=(const Vector2& other) {
+			x += other.x;
+			y += other.y;
+			return *this;
+		}
+
+		// Subtraction
+		Vector2 operator-(const Vector2& other) const {
+			return Vector2(x - other.x, y - other.y);
+		}
+		Vector2& operator-=(const Vector2& other) {
+			x -= other.x;
+			y -= other.y;
+			return *this;
+		}
+
+		// Scalar multiplication
+		Vector2 operator*(float scalar) const {
+			return Vector2(x * scalar, y * scalar);
+		}
+		Vector2& operator*=(float scalar) {
+			x *= scalar;
+			y *= scalar;
+			return *this;
+		}
+
+		// Scalar division
+		Vector2 operator/(float scalar) const {
+			return Vector2(x / scalar, y / scalar);
+		}
+		Vector2& operator/=(float scalar) {
+			x /= scalar;
+			y /= scalar;
+			return *this;
+		}
+
+		// Dot product
+		float dot(const Vector2& other) const {
+			return x * other.x + y * other.y ;
+		}	
+
+		// Length (magnitude)
+		float length() const {
+			return std::sqrt(x * x + y * y);
+		}
+
+		// Normalize (in-place)
+		Vector2& normalize() {
+			float len = length();
+			if (len > 0.0f) {
+				(*this) /= len;
+			}
+			return *this;
+		}
+
+		// Return normalized copy
+		Vector2 normalized() const {
+			float len = length();
+			if (len > 0.0f) {
+				return *this / len;
+			}
+			return Vector2();
+		}
+
+		// Static zero vector
+		static Vector2 zero() {
+			return Vector2(0, 0);
+		}
+
+		// Static unit vectors
+		static Vector2 unitX() { return Vector2(1, 0); }
+		static Vector2 unitY() { return Vector2(0, 1); }
+	};
+
+	inline Vector2 operator*(float scalar, const Vector2& v) {
+		return v * scalar;
+	}
+ 
 
 	// ----------------------------------------
 	// 3. Gestion de fichiers (exemple basique)

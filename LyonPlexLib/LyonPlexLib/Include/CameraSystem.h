@@ -31,6 +31,7 @@ public:
 
 	ComPtr<ID3D12Resource>& GetCBbuffer() { return m_cameraConstantBuffer; }
 
+	Entity m_camHolder;
 
 private:
 	GraphicsDevice* mp_graphicsDevice = nullptr;
@@ -38,6 +39,7 @@ private:
 
 	ComPtr<ID3D12Resource> m_cameraConstantBuffer;
 	void* m_mappedCBData = nullptr;
+
 
 	// Remplit cam->viewMatrix (XMFLOAT4X4) en fonction de cam->position / cam->forward / cam->up
 	void RecomputeViewMatrix(CameraComponent* cam);

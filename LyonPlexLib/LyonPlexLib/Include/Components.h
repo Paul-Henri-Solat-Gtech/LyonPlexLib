@@ -15,6 +15,7 @@ enum ComponentID
 	Texture_ID,
 	Collision_ID,
 	Light_ID,
+	Wave_ID,
 
 
 	// Types (3D, 2D, UI)
@@ -204,6 +205,23 @@ struct LightComponent : public Component
 		typeID = StaticTypeID;
 
 		(_type == 0) ? type = Type::Directional : type = Type::Point;
+	}
+};
+
+
+struct WaveComponent : public Component
+{
+	static constexpr uint32_t StaticTypeID = Wave_ID;
+
+	uint32_t normalMapID;
+	uint32_t cubeMapID;
+
+	WaveComponent(uint32_t _normalMapID = 0, uint32_t _cubeMapID = 0)
+	{
+		mask = 1ULL << StaticTypeID;
+		typeID = StaticTypeID;
+		normalMapID = _normalMapID;
+		cubeMapID = _cubeMapID;
 	}
 };
 

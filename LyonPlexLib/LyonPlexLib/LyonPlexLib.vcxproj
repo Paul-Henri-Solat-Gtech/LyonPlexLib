@@ -65,6 +65,9 @@
     <ClInclude Include="Include\TransformSystem.h" />
     <ClInclude Include="Include\Transition.h" />
     <ClInclude Include="Include\Utils.h" />
+    <ClInclude Include="Include\WaterPipeline.h" />
+    <ClInclude Include="Include\WaterSystem.h" />
+    <ClInclude Include="Include\WaveManager.h" />
     <ClInclude Include="Include\WindowPlex.h" />
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +114,9 @@
     <ClCompile Include="Src\SystemManager.cpp" />
     <ClCompile Include="Src\TextureManager.cpp" />
     <ClCompile Include="Src\TransformSystem.cpp" />
+    <ClCompile Include="Src\WaterPipeline.cpp" />
+    <ClCompile Include="Src\WaterSystem.cpp" />
+    <ClCompile Include="Src\WaveManager.cpp" />
     <ClCompile Include="Src\WindowPlex.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +134,13 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Ressources\TestBRAS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Ressources\WavesShader.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

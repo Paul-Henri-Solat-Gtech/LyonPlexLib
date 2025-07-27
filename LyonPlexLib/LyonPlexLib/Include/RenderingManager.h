@@ -11,6 +11,7 @@
 #include "CameraManager.h"
 #include "TextureManager.h"
 #include "MeshManager.h"
+#include "WaveManager.h"
 #include "Render3D.h"
 #include "Render2D.h"
 
@@ -64,6 +65,7 @@ private:
 
 	TextureManager	m_textureManager;
 	MeshManager		m_meshManager;
+	WaveManager		m_waveManager;
 
 	Render3D m_render3D;
 	Render2D m_render2D;

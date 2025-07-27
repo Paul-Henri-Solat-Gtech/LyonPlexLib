@@ -128,6 +128,7 @@ MeshData MeshManager::CreateMesh_Cube()
 	return m;
 }
 
+
 bool MeshData::LoadFromFile(const std::string& path)
 {
 	OutputDebugStringA(">> Entering MeshData::LoadFromFile()\n");
@@ -142,15 +143,15 @@ bool MeshData::LoadFromFile(const std::string& path)
 	bool ok = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err,
 		path.c_str(), baseDir.empty() ? nullptr : baseDir.c_str(), /*Triangulate*/true, /*FallBack*/true); // Triangulate = triangles geometry ; FB = default color
 	// Affiche warn/err même si ok==true
-	if (!warn.empty())   OutputDebugStringA(warn.c_str());
-	if (!err.empty())    OutputDebugStringA(err.c_str());
+	//if (!warn.empty())   OutputDebugStringA(warn.c_str());
+	//if (!err.empty())    OutputDebugStringA(err.c_str());
 
 	if (!ok)
 	{
 		OutputDebugStringA(">> LoadObj FAILED\n");
 		return false;
 	}
-	OutputDebugStringA(">> LoadObj SUCCEEDED\n");
+	//OutputDebugStringA(">> LoadObj SUCCEEDED\n");
 
 	//// DEBUG
 	//for (size_t mi = 0; mi < materials.size(); ++mi)
@@ -303,6 +304,7 @@ void MeshManager::InitCube()
 	cb.materialTextureIDs = { 0 };
 	m_meshLibrary.Add(cb);
 }
+
 
 void MeshManager::LoadMeshFromFile(const std::string& path)
 {

@@ -306,15 +306,6 @@ void GraphicsPipeline::CreateRootSignature2D()
 		D3D12_DESCRIPTOR_RANGE_FLAG_NONE,
 		0);
 
-	//// 2. Definit un descriptor range pour Sampler (optionnel)
-	//CD3DX12_DESCRIPTOR_RANGE1 samplerRanges[1];
-	//samplerRanges[0].Init(
-	//	D3D12_DESCRIPTOR_RANGE_TYPE_SAMPLER,
-	//	1,      // un sampler "linear wrap" par defaut
-	//	0,      // s0
-	//	0
-	//);
-
 
 	CD3DX12_ROOT_PARAMETER1 rootParams[3];
 	// b0: projection CB

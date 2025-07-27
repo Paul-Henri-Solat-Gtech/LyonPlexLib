@@ -23,7 +23,23 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 	GetFullPathNameW(L"..\\LyonPlexLib\\Ressources\\PixelShader.hlsl", len, fullpath.data(), nullptr);
 	MessageBoxW(nullptr, fullpath.c_str(), L"Full path", MB_OK);*/
 
+	m_waterPipeline.Init(graphicsDevice, descriptorManager, commandManager);
+	m_waterPipeline.CreatePipeline();
 
+
+
+	return true;
+}
+
+bool Render3D::SetWaveManager(WaveManager* waveManager)
+{
+	m_waveManager = waveManager;
+	return true;
+}
+
+bool Render3D::SetTextureManager(TextureManager* textureManager)
+{
+	mp_textureManager = textureManager;
 	return true;
 }
 
@@ -38,6 +54,7 @@ void Render3D::Resize(int w, int h)
 
 void Render3D::RecordCommands()
 {
+
 	// Ensure size of global buffer
 	UINT currentCount = static_cast<UINT>(m_ECS->GetEntityCount());
 	EnsureCapacity(currentCount);
@@ -57,10 +74,7 @@ void Render3D::RecordCommands()
 	cmdList->SetGraphicsRootConstantBufferView(/*rootParameterIndex = slot b0*/ 0, m_ECS->m_systemMgr.GetCameraSystem().GetCBbuffer()->GetGPUVirtualAddress());
 
 	m_ECS->m_systemMgr.GetLightSystem().BindAndUpload(mp_commandManager);
-	/*UINT testCount = m_ECS->m_systemMgr.GetLightSystem().GetMappedBuffer()->lightCount;
-	char buf[128];
-	sprintf_s(buf, ">> LightCount (CPU) = %u\n", testCount);
-	OutputDebugStringA(buf);*/
+
 
 
 	// 2. Bind UNE SEULE FOIS l’integralite de ton heap SRV au slot t0 (rootParameter index = 2)
@@ -117,12 +131,12 @@ void Render3D::RecordCommands()
 					texId = meshComp->materialID;
 
 				}
-				else 
+				else
 				{
 					texId = mesh.materialTextureIDs[sub.MaterialID];         // fallback sub‑mesh
 
 				}
-				texHandle.ptr += (texId) * descSize;                       // override explicite
+				texHandle.ptr += (texId)*descSize;                       // override explicite
 
 
 				// 2. Bind UNE SEULE FOIS l’integralite de ton heap SRV au slot t0 (rootParameter index = 4)
@@ -156,14 +170,6 @@ void Render3D::RecordCommands()
 			for (auto const& sub : mesh.subMeshes)
 			{
 				uint32_t texId = 0;
-				/*if (sub.MaterialID < mesh.materialTextureIDs.size() || meshComp->materialID == -1)
-				{
-					texId = meshComp->materialID;                            // override explicite
-				}
-				else
-				{
-					texId = meshComp->materialID;
-				}*/
 				if (meshComp->materialID != UINT32_MAX)
 				{
 					texId = meshComp->materialID;                            // override explicite
@@ -175,7 +181,7 @@ void Render3D::RecordCommands()
 				// 2) calculer le handle précis dans le SRV heap (offset en descriptors) :
 				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
 				D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
-				handle.ptr += (texId) * descSize;
+				handle.ptr += (texId)*descSize;
 
 				// 3) binder uniquement ce handle sur le rootParam de SRV :
 				cmdList->SetGraphicsRootDescriptorTable(/*rootParamIndex=*/4, handle);
@@ -193,100 +199,57 @@ void Render3D::RecordCommands()
 
 
 
+	cmdList->SetGraphicsRootSignature(m_waterPipeline.GetRootSignature().Get());
+	cmdList->SetPipelineState(m_waterPipeline.GetPipelineState().Get());
 
-	// ** passe 2.5D **		/!\/!\/!\/!\/!\   ____  A REVOIR !!!  ____   /!\/!\/!\/!\/!\/
-	{
-		// on réutilise la même PSO3D, même view+proj, même depth‑test…
-		ComponentMask mask2_5 = (1ULL << MeshComponent::StaticTypeID)
-			| (1ULL << Type_2D5::StaticTypeID);
-		m_ECS->ForEach(mask2_5, [&](Entity ent) {
-			// 1) Calculer world « 2.5D » : écrasez la partie view de votre TransformSystem
-			//    pour que l’objet reste “fixe” par rapport à l’écran.
-			//    Par exemple, on veut un billboard centré :
+	ComponentMask maskWave = 1ULL << WaveComponent::StaticTypeID;
+	m_ECS->ForEach(maskWave, [&](Entity ent)
+		{
+			if (!m_waveManager)
+				return;
 			auto* tc = m_ECS->GetComponent<TransformComponent>(ent);
-			if (!tc) return;
-			// 1) Charger position écran et profondeur
-			float px = tc->position.x;
-			float py = tc->position.y;
-			//float depth = tc->position.z; // distance fixe ou stockée par entité
-			float depth = 2; // distance fixe ou stockée par entité
+			auto* wavec = m_ECS->GetComponent<WaveComponent>(ent);
+			if (!tc || !wavec)
+				return;
+
+			auto* camTransComp = m_ECS->GetComponent<TransformComponent>(m_ECS->m_systemMgr.GetCameraSystem().m_camHolder);
+			float camY = camTransComp->position.y;
+			float waterY = tc->position.y;
+			if (camY - waterY < 0.2f)
+				return;
 
 
-			// 2) Convertir (px,py,depth) -> position view‑space
-			float ndcX = 2.0f * px / renderWidth - 1.0f;
-			float ndcY = 1.0f - 2.0f * py / renderHeight;
+			ID3D12DescriptorHeap* heaps[] = { mp_descriptorManager->GetSrvHeap() };
+			cmdList->SetDescriptorHeaps(_countof(heaps), heaps);
 
-			float fovY = XMConvertToRadians(75.0f); // compris entre : 0 < Fov < PI
+			cmdList->SetGraphicsRootConstantBufferView(/*rootParameterIndex = slot b0*/ 0, m_ECS->m_systemMgr.GetCameraSystem().GetCBbuffer()->GetGPUVirtualAddress());
 
-			float tanH = tanf(fovY * 0.5f);
-			float aspect = float(renderWidth) / float(renderHeight);
+			//cmdList->SetGraphicsRootConstantBufferView(0, m_waveManager->GetCBbuffer().Get()->GetGPUVirtualAddress());
+			cmdList->SetGraphicsRootConstantBufferView(1, m_waveManager->GetCBbuffer().Get()->GetGPUVirtualAddress());
 
+			//cmdList->SetGraphicsRootDescriptorTable(1, mp_textureManager->GetSrvGpuHandle(wavec->normalMapID)); // Component
+			cmdList->SetGraphicsRootDescriptorTable(2, mp_textureManager->GetSrvGpuHandle(wavec->normalMapID)); // Component
+			//cmdList->SetGraphicsRootShaderResourceView(1, mp_textureManager->GetSrvGpuHandle(wavec->normalMapID).ptr); // Component
 
-			XMVECTOR offsetView = XMVectorSet(
-				ndcX * depth * tanH * aspect,
-				ndcY * depth * tanH,
-				0.0f, // pas besoin de z ici
-				0.0f
-			);
+			//cmdList->SetGraphicsRootDescriptorTable(2, mp_textureManager->GetSrvGpuHandle(wavec->cubeMapID)); // Component
+			cmdList->SetGraphicsRootDescriptorTable(3, mp_textureManager->GetSrvGpuHandle(wavec->cubeMapID)); // Component
+			//cmdList->SetGraphicsRootShaderResourceView(2, mp_textureManager->GetSrvGpuHandle(wavec->cubeMapID).ptr); // Component
 
-			XMVECTOR baseView = XMVectorSet(0.0f, 0.0f, depth, 1.0f);
-			XMVECTOR posView = XMVectorAdd(baseView, offsetView);
-
-			CameraComponent* camC = nullptr;
-
-			ComponentMask camMask = (1ULL << CameraComponent::StaticTypeID | 1ULL << TransformComponent::StaticTypeID);
-			m_ECS->ForEach(camMask, [&](Entity e)
-				{
-					camC = m_ECS->GetComponent<CameraComponent>(e);
-					if (!camC) return;
-				});
+			cmdList->IASetVertexBuffers(0, 1, &m_waveManager->GetVBView()); // waveManager
+			cmdList->IASetIndexBuffer(&m_waveManager->GetIBView());
+			cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+			cmdList->DrawIndexedInstanced(
+				/*IndexCount=*/6,
+				/*InstanceCount=*/1,
+				/*StartIndexLocation=*/0,
+				/*BaseVertexLocation=*/0,
+				/*StartInstanceLocation=*/0);
 
 
-			XMMATRIX viewMatrix = XMLoadFloat4x4(&camC->viewMatrix);
-			// 3) Ramener en espace monde
-			XMMATRIX invView = XMMatrixInverse(nullptr, viewMatrix);
-			XMVECTOR posWorld = XMVector4Transform(posView, invView);
-
-			// 4) Charger rotation et échelle depuis votre TransformComponent
-			XMVECTOR quat = XMLoadFloat4(&tc->rotation);       // votre quaternion
-			XMMATRIX R = XMMatrixRotationQuaternion(quat);
-			XMMATRIX S = XMMatrixScaling(tc->scale.x,
-				tc->scale.y,
-				tc->scale.z);
-
-			// 5) Construire la matrice world complète
-			XMMATRIX T = XMMatrixTranslationFromVector(posWorld);
-			XMMATRIX world = S * R * T;
+		});
 
 
 
-
-			// 2) Appliquer rotation billboarding si besoin
-			//    (ex: XMMatrixRotationY(cameraYaw) pour un billboard Y‑aligné)
-			//    On transposera pour le CB :
-			ConstantBuffData cb;
-			XMStoreFloat4x4(&cb.World, XMMatrixTranspose(world));
-			cb.materialIndex = m_ECS
-				->GetComponent<MeshComponent>(ent)->materialID;
-
-			// 3) Copier et binder comme en 3D
-			UINT entityOffset = ent.id * m_cbSize;
-			UINT frameOffset = mp_graphicsDevice->GetFrameIndex() * INT64(m_allocatedEntityCount) * m_cbSize;
-			UINT finalOffset = frameOffset + entityOffset;
-			memcpy((BYTE*)m_mappedCBData + finalOffset, &cb, sizeof(ConstantBuffData));
-
-			cmdList->SetGraphicsRootConstantBufferView(
-				/*slot b1*/ 1,
-				m_cbTransformUpload->GetGPUVirtualAddress() + finalOffset);
-
-			// 4) Draw
-			auto& data = m_meshManager->GetMeshLib().Get(
-				m_ECS->GetComponent<MeshComponent>(ent)->meshID);
-			cmdList->DrawIndexedInstanced(data.iSize, 1, data.iOffset, 0, 0);
-
-
-			});
-	}
 }
 
 void Render3D::CreatePipeline()
