@@ -38,30 +38,32 @@ void WaveManager::Update(float deltaTime)
 	//memcpy(m_mappedCBData + sizeof(worldViewProj), &scrollOffset, sizeof(scrollOffset));
 	//m_constantBuffer->Unmap(0, nullptr);
 
-
+	UINT64 count = 0;
 
 	ComponentMask mask3D = 1ULL << WaveComponent::StaticTypeID;
 	m_ECS->ForEach(mask3D, [&](Entity ent)
 		{
+			count++;
+
 			auto* wavec = m_ECS->GetComponent<WaveComponent>(ent);
 			if (wavec->cubeMapID == 0 || wavec->normalMapID == 0)
 			{
 				wavec->normalMapID = mp_textureManager->LoadTexture("../SampleProject/Ressources/Environnement3D/Water/WaterNormal.dds");
 				wavec->cubeMapID = mp_textureManager->LoadCubeTexture("../SampleProject/Ressources/Environnement3D/Water/CubeMap.dds");
 			}
-			// 2) Calculer la matrice monde (XMMATRIX) depuis tc->position/rotation/scale
-			XMMATRIX world = m_ECS->m_systemMgr.GetTransformSystem().worldMatrices[ent.id];
+			//// 2) Calculer la matrice monde (XMMATRIX) depuis tc->position/rotation/scale
+			//XMMATRIX world = m_ECS->m_systemMgr.GetTransformSystem().worldMatrices[ent.id];
 
-			// 3) Construire le struct ConstantBuffData
-			CBData cbData;
-			XMStoreFloat4x4(&cbData.World, XMMatrixTranspose(world));
+			//// 3) Construire le struct ConstantBuffData
+			//CBData cbData;
+			//XMStoreFloat4x4(&cbData.World, XMMatrixTranspose(world));
 
-			cbData.scrollOffset = m_scrollOffset;
+			//cbData.scrollOffset = m_scrollOffset;
 
-			memcpy(m_mappedCBData, &cbData, sizeof(CBData));
+			//memcpy(m_mappedCBData, &cbData, sizeof(CBData));
 		});
 
-
+	m_waveCount = count;
 
 }
 
@@ -85,6 +87,11 @@ MeshData WaveManager::CreateMesh_Wave()
 	return MeshData();
 }
 
+
+void WaveManager::UploadData(void const* _Src, UINT64 offset)
+{
+	memcpy((BYTE*)m_mappedCBData + offset, _Src, sizeof(CBData));
+}
 
 HRESULT WaveManager::BuildAndUploadBuffers()
 {
@@ -137,10 +144,10 @@ HRESULT WaveManager::BuildAndUploadBuffers()
 	}
 
 
-
+	UINT64 mexWaterEntity = 100;
 
 	// Calcule la taille totale
-	UINT64 totalSize = UINT64(m_cbSize) /** UINT64(m_allocatedEntityCount)*/ * UINT64(mp_graphicsDevice->GetFrameCount());
+	UINT64 totalSize = UINT64(m_cbSize) * mexWaterEntity * UINT64(mp_graphicsDevice->GetFrameCount());
 
 	// Libère l'ancien buffer si présent
 	if (m_constantBuffer)

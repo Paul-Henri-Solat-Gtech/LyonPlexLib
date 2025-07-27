@@ -217,5 +217,5 @@ float4 PSMain(VSOutput input) : SV_TARGET
     float3 finalColor = lerp(colorNear, colorSlope, fresnel);
 
     // 4) Retourne la couleur finale
-    return float4(finalColor, 1.0);
+    return float4(finalColor, 0.8);
 }

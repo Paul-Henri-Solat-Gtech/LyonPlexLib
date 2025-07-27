@@ -28,16 +28,21 @@ public:
 
 	void LoadTexture(TextureManager::TextureID id);
 
+	void UploadData(_In_reads_bytes_(_Size) void const* _Src, UINT64 offset = 0);
+
 	D3D12_VERTEX_BUFFER_VIEW& GetVBView() { return m_VBView; }
 	D3D12_INDEX_BUFFER_VIEW& GetIBView() { return m_IBView; }
 
 	ComPtr<ID3D12Resource>& GetCBbuffer() { return m_constantBuffer; }
 
+	DirectX::XMFLOAT2& GetScrollOffSet() { return m_scrollOffset; }
+
+	UINT64 GetWaveCount() { return m_waveCount; }
+
 private:
 	HRESULT BuildAndUploadBuffers();
 	MeshData CreateMesh_Wave();
 
-	//Utils::Vector2 scrollOffset = {0,0};
 	DirectX::XMFLOAT2 m_scrollOffset = {0,0};
 
 	std::vector<WaveVertex>  m_Vertices;
@@ -57,5 +62,7 @@ private:
 	ComPtr<ID3D12Resource>	m_constantBuffer	= nullptr;
 	void*					m_mappedCBData		= nullptr;
 	UINT					m_cbSize			= Align256(sizeof(CBData)); // taille alignee a 256
+
+	UINT64 m_waveCount = 0;
 };
 

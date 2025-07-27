@@ -60,7 +60,7 @@ void GameObject::Init(const std::string& name, ECSManager* ecsManager, Scene* sc
 	//GetComponent<TransformComponent>()->position = { 0, 0, 0 };
 	//GetComponent<TransformComponent>()->dirty = true;
 }
-void GameObject::InitWater(ECSManager* ecsManager, Scene* scene)
+void GameObject::InitWater(ECSManager* ecsManager, Scene* scene, int waterNum)
 {
 	SetName("");
 	SetTag(TAG_None);
@@ -72,7 +72,7 @@ void GameObject::InitWater(ECSManager* ecsManager, Scene* scene)
 
 	// TYPE
 	//AddComponent<Type_3D>(new Type_3D());
-	AddComponent<WaveComponent>(new WaveComponent());
+	AddComponent<WaveComponent>(new WaveComponent(waterNum));
 	//AddComponent<WaveComponent>(new WaveComponent(TEXTURES::WATER_NORMAL, TEXTURES::CUBE_MAP));
 
 	// MESH
@@ -83,7 +83,7 @@ void GameObject::InitWater(ECSManager* ecsManager, Scene* scene)
 	//GetComponent<TransformComponent>()->position = { 0, 0, 0 };
 	//GetComponent<TransformComponent>()->dirty = true;
 }
-void GameObject::InitWater(const std::string& gameObjectName, ECSManager* ecsManager, Scene* scene)
+void GameObject::InitWater(const std::string& gameObjectName, ECSManager* ecsManager, Scene* scene, int waterNum)
 {
 	SetName(gameObjectName);
 	SetTag(TAG_None);
@@ -95,7 +95,7 @@ void GameObject::InitWater(const std::string& gameObjectName, ECSManager* ecsMan
 
 	// TYPE
 	//AddComponent<Type_3D>(new Type_3D());
-	AddComponent<WaveComponent>(new WaveComponent());
+	AddComponent<WaveComponent>(new WaveComponent(waterNum));
 	//AddComponent<WaveComponent>(new WaveComponent(TEXTURES::WATER_NORMAL, TEXTURES::CUBE_MAP));
 
 	// MESH

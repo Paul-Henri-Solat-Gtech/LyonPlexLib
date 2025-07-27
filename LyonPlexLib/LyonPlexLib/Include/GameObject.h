@@ -34,8 +34,8 @@ public:
 	void InitGameObj(ECSManager* ecsManager, Scene* scene);
 
 	void Init(const std::string& name, ECSManager* ecsManager, Scene* scene, uint32_t meshId, uint32_t textureId);
-	void InitWater(ECSManager* ecsManager, Scene* scene);
-	void InitWater(const std::string& gameObjectName, ECSManager* ecsManager, Scene* scene);
+	void InitWater(ECSManager* ecsManager, Scene* scene, int waterNum);
+	void InitWater(const std::string& gameObjectName, ECSManager* ecsManager, Scene* scene, int waterNum);
 	void Init(const std::string& name, ECSManager* ecsManager, Scene* scene, DimensionalType type, bool useMesh);
 
 	//void Init(const std::string& name, ECSManager* ecsManager, DimensionalType type, bool useMesh);

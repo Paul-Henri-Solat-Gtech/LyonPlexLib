@@ -140,13 +140,14 @@ void GameScene::Start()
 	auto& b = GetGameObjectByName("GM0").GetScale();
 	GetGameObjectByName("GM0").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ b.x / 2, b.y / 2, b.z / 2 })));*/
 
-	CreateWaterGameObject("water");
+	CreateWaterGameObject("water", 0);
 	GetGameObjectByName("water").SetPosition({ 320, 1 ,4 });
 	GetGameObjectByName("water").SetScale({ 5, 1, 5 });
-	/*
-	CreateWaterGameObject("water2");
-	GetGameObjectByName("water2").SetPosition({ 321, 0 ,1 });
-	CreateWaterGameObject("water3");
+
+	CreateWaterGameObject("water2", 1);
+	GetGameObjectByName("water2").SetPosition({ 340, 0.2, 4 });
+	GetGameObjectByName("water2").SetScale({ 5, 1, 5 });
+	/*CreateWaterGameObject("water3");
 	GetGameObjectByName("water3").SetPosition({ 322, 0 ,1 });
 	CreateWaterGameObject("water4");
 	GetGameObjectByName("water4").SetPosition({ 323, 0 ,1 });*/

@@ -216,12 +216,15 @@ struct WaveComponent : public Component
 	uint32_t normalMapID;
 	uint32_t cubeMapID;
 
-	WaveComponent(uint32_t _normalMapID = 0, uint32_t _cubeMapID = 0)
+	uint32_t waveNum;
+
+	WaveComponent(uint32_t _waveNum, uint32_t _normalMapID = 0, uint32_t _cubeMapID = 0)
 	{
 		mask = 1ULL << StaticTypeID;
 		typeID = StaticTypeID;
 		normalMapID = _normalMapID;
 		cubeMapID = _cubeMapID;
+		waveNum = _waveNum;
 	}
 };
 

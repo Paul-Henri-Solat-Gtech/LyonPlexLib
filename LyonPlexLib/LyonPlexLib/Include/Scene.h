@@ -36,8 +36,8 @@ public:
 
 	GameObject& CreateGameObject(const std::string& gameObjectName);
 	GameObject& CreateGameObject(const std::string& gameObjectName, uint32_t meshId, uint32_t textureId);
-	GameObject& CreateWaterGameObject();
-	GameObject& CreateWaterGameObject(const std::string& gameObjectName);
+	GameObject& CreateWaterGameObject(int waterNum);
+	GameObject& CreateWaterGameObject(const std::string& gameObjectName, int waterNum);
 	GameObject& CreateGameObject(const std::string& gameObjectName, /*std::vector<std::unique_ptr<GameObject>>& sceneGameObjects,*/ DimensionalType type, bool useMesh = true);
 
 	GameObject& GetGameObjectByName(const std::string& gameObjectName);

@@ -199,10 +199,10 @@ void WaterPipeline::CreatePipelineStateObject()
 
 	// 5) Depth-Stencil State : ON et test LESS pour un cube « normal »
 	D3D12_DEPTH_STENCIL_DESC depthDesc = {};
-	depthDesc.DepthEnable = FALSE;
-	//depthDesc.DepthEnable = TRUE;
-	//depthDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
-	//depthDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+	//depthDesc.DepthEnable = FALSE;
+	depthDesc.DepthEnable = TRUE;
+	depthDesc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+	depthDesc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 	//depthDesc.StencilEnable = FALSE; // Pas de stencil pour l'instant
 
 	psoDesc.DepthStencilState = depthDesc;

@@ -202,6 +202,17 @@ void Render3D::RecordCommands()
 	cmdList->SetGraphicsRootSignature(m_waterPipeline.GetRootSignature().Get());
 	cmdList->SetPipelineState(m_waterPipeline.GetPipelineState().Get());
 
+	//ID3D12DescriptorHeap* heaps[] = { mp_descriptorManager->GetSrvHeap() };
+	//cmdList->SetDescriptorHeaps(_countof(heaps), heaps);
+
+	cmdList->SetGraphicsRootConstantBufferView(/*rootParameterIndex = slot b0*/ 0, m_ECS->m_systemMgr.GetCameraSystem().GetCBbuffer()->GetGPUVirtualAddress());
+
+	//cmdList->SetGraphicsRootConstantBufferView(0, m_waveManager->GetCBbuffer().Get()->GetGPUVirtualAddress());
+
+	cmdList->IASetVertexBuffers(0, 1, &m_waveManager->GetVBView()); // waveManager
+	cmdList->IASetIndexBuffer(&m_waveManager->GetIBView());
+	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 	ComponentMask maskWave = 1ULL << WaveComponent::StaticTypeID;
 	m_ECS->ForEach(maskWave, [&](Entity ent)
 		{
@@ -218,14 +229,25 @@ void Render3D::RecordCommands()
 			if (camY - waterY < 0.2f)
 				return;
 
+			// 2) Calculer la matrice monde (XMMATRIX) depuis tc->position/rotation/scale
+			XMMATRIX world = m_ECS->m_systemMgr.GetTransformSystem().worldMatrices[ent.id];
 
-			ID3D12DescriptorHeap* heaps[] = { mp_descriptorManager->GetSrvHeap() };
-			cmdList->SetDescriptorHeaps(_countof(heaps), heaps);
+			// 3) Construire le struct ConstantBuffData
+			CBData cbData;
+			XMStoreFloat4x4(&cbData.World, XMMatrixTranspose(world));
 
-			cmdList->SetGraphicsRootConstantBufferView(/*rootParameterIndex = slot b0*/ 0, m_ECS->m_systemMgr.GetCameraSystem().GetCBbuffer()->GetGPUVirtualAddress());
+			cbData.scrollOffset = m_waveManager->GetScrollOffSet();
 
-			//cmdList->SetGraphicsRootConstantBufferView(0, m_waveManager->GetCBbuffer().Get()->GetGPUVirtualAddress());
-			cmdList->SetGraphicsRootConstantBufferView(1, m_waveManager->GetCBbuffer().Get()->GetGPUVirtualAddress());
+			// Calcul des offsets en utilisant m_allocatedEntityCount
+			UINT64 entityOffset = UINT64(wavec->waveNum) * m_cbSize;
+			UINT64 frameOffset = UINT64(mp_graphicsDevice->GetFrameIndex()) * 100 * m_cbSize;
+			UINT64 finalOffset = frameOffset + entityOffset;
+
+			m_waveManager->UploadData(&cbData, finalOffset);
+
+			// 5) Binder le constant buffer au root slot 1 (register b1) avec offset
+			mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(/*rootParameterIndex=*/ 1, m_waveManager->GetCBbuffer().Get()->GetGPUVirtualAddress() + finalOffset);
+			/*memcpy(m_mappedCBData, &cbData, sizeof(CBData));*/
 
 			//cmdList->SetGraphicsRootDescriptorTable(1, mp_textureManager->GetSrvGpuHandle(wavec->normalMapID)); // Component
 			cmdList->SetGraphicsRootDescriptorTable(2, mp_textureManager->GetSrvGpuHandle(wavec->normalMapID)); // Component
@@ -235,9 +257,6 @@ void Render3D::RecordCommands()
 			cmdList->SetGraphicsRootDescriptorTable(3, mp_textureManager->GetSrvGpuHandle(wavec->cubeMapID)); // Component
 			//cmdList->SetGraphicsRootShaderResourceView(2, mp_textureManager->GetSrvGpuHandle(wavec->cubeMapID).ptr); // Component
 
-			cmdList->IASetVertexBuffers(0, 1, &m_waveManager->GetVBView()); // waveManager
-			cmdList->IASetIndexBuffer(&m_waveManager->GetIBView());
-			cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 			cmdList->DrawIndexedInstanced(
 				/*IndexCount=*/6,
 				/*InstanceCount=*/1,

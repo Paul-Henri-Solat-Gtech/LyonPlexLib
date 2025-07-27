@@ -97,7 +97,7 @@ GameObject& Scene::CreateGameObject(const std::string& gameObjectName, uint32_t 
 	return obj;
 }
 
-GameObject& Scene::CreateWaterGameObject()
+GameObject& Scene::CreateWaterGameObject(int waterNum)
 {
 
 	// 1) On construit l'objet en place dans le vector
@@ -105,10 +105,10 @@ GameObject& Scene::CreateWaterGameObject()
 	auto& obj = *m_sceneGameObjects.back();
 
 	// 2) On l'initialise
-	obj.InitWater(mp_ecsManager, this);
+	obj.InitWater(mp_ecsManager, this, waterNum);
 	return obj;
 }
-GameObject& Scene::CreateWaterGameObject(const std::string& gameObjectName)
+GameObject& Scene::CreateWaterGameObject(const std::string& gameObjectName, int waterNum)
 {
 
 	// 1) On construit l'objet en place dans le vector
@@ -116,7 +116,7 @@ GameObject& Scene::CreateWaterGameObject(const std::string& gameObjectName)
 	auto& obj = *m_sceneGameObjects.back();
 
 	// 2) On l'initialise
-	obj.InitWater(gameObjectName, mp_ecsManager, this);
+	obj.InitWater(gameObjectName, mp_ecsManager, this, waterNum);
 	return obj;
 }
 GameObject& Scene::CreateGameObject(const std::string& gameObjectName, /*std::vector<std::unique_ptr<GameObject>>& sceneGameObjects,*/ DimensionalType type, bool useMesh)
