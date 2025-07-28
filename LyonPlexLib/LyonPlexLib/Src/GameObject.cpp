@@ -60,6 +60,25 @@ void GameObject::Init(const std::string& name, ECSManager* ecsManager, Scene* sc
 	//GetComponent<TransformComponent>()->position = { 0, 0, 0 };
 	//GetComponent<TransformComponent>()->dirty = true;
 }
+void GameObject::InitHitbox(const std::string& name, ECSManager* ecsManager, Scene* scene)
+{
+	SetName(name);
+	SetTag(TAG_None);
+	mp_ecsManager = ecsManager;
+	mp_scene = scene;
+	m_entity = mp_ecsManager->CreateEntity();
+
+	//	Adding basics component(s) for any entity in scene & default parameters :
+
+	// TYPE
+	AddComponent<Type_3D>(new Type_3D());
+
+	// MESH
+	//AddComponent<MeshComponent>(new MeshComponent(meshId, textureId));
+
+	//	TRANSFORM
+	AddComponent<TransformComponent>(new TransformComponent());
+}
 void GameObject::Init(const std::string& name, ECSManager* ecsManager, Scene* scene, DimensionalType type, bool useMesh)
 {
 	SetName(name);

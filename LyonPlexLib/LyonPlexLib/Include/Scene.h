@@ -37,6 +37,7 @@ public:
 	GameObject& CreateGameObject(const std::string& gameObjectName);
 	GameObject& CreateGameObject(const std::string& gameObjectName, uint32_t meshId, uint32_t textureId);
 	GameObject& CreateGameObject(const std::string& gameObjectName, /*std::vector<std::unique_ptr<GameObject>>& sceneGameObjects,*/ DimensionalType type, bool useMesh = true);
+	GameObject& CreateGameHitbox(const std::string& gameObjectName);
 
 	GameObject& GetGameObjectByName(const std::string& gameObjectName);
 	GameObject* FindGameObjectByName(const std::string& name);

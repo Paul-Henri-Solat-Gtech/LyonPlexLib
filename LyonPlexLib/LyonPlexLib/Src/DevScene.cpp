@@ -1087,7 +1087,7 @@ void DevScene::Update(float deltatime)
 			m_placingHitbox.SetPosition(m_placingModule.GetPosition());
 			m_placingHitbox.SetScale(m_placingModule.GetScale());
 			m_placingHitbox.SetRotation(m_placingModule.GetRotation());
-			m_placingHitbox.SetTexture(TEXTURES::GRID);
+			m_placingHitbox.SetTexture(TEXTURES::stop);
 			m_placingHitbox.GetComponent<MeshComponent>()->alpha = 0.5;
 			//m_placingHitbox.GetMesh().
 		}
@@ -1282,19 +1282,33 @@ void DevScene::Update(float deltatime)
 				auto* gm = gameObj.get();
 				if (gm->GetTag() == TAG_Object)
 				{
-					//auto& test = gm.GetPosition();
-					//std::string cm_create = std::string("\nCreateGameObject(\"") + gm.GetName() + "\");";
-					std::string cm_create = std::string("\nCreateGameObject(\"") + gm->GetName() + "\"" + "," + std::to_string(gm->GetMeshID()) + "," + std::to_string(gm->GetTexture()) + ");";
+					//Creer les msg de sorties
+					
+					std::string cm_create;
+
+					// Si on creer une hitbox seul ou non
+					if (gm->GetTexture() != TEXTURES::stop)
+					{
+						cm_create = std::string("\nCreateGameObject(\"") + gm->GetName() + "\"" + "," + std::to_string(gm->GetMeshID()) + "," + std::to_string(gm->GetTexture()) + ");";
+					}
+					else
+					{
+						cm_create = std::string("\CreateGameHitbox(\"") + gm->GetName() + "\"" + ");";
+						gm->SetColliderX(gm->GetComponent<TransformComponent>()->scale.x / 2);
+						gm->SetColliderY(gm->GetComponent<TransformComponent>()->scale.y / 2);
+						gm->SetColliderZ(gm->GetComponent<TransformComponent>()->scale.z / 2);
+					}
 					std::string cm_position = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetPosition({ " + RoundValueStr(gm->GetPosition().x) + "," + RoundValueStr(gm->GetPosition().y) + "," + RoundValueStr(gm->GetPosition().z) + " });";
 					std::string cm_rotation = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetRotation({ " + FloatToStringNoTrailingZeros(gm->GetRotation().x) + "," + FloatToStringNoTrailingZeros(gm->GetRotation().y) + "," + FloatToStringNoTrailingZeros(gm->GetRotation().z) + "," + FloatToStringNoTrailingZeros(gm->GetRotation().w) + " });";
 					std::string cm_scale = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetScale({ " + RoundValueStr(gm->GetScale().x) + "," + RoundValueStr(gm->GetScale().y) + "," + RoundValueStr(gm->GetScale().z) + " });";
 					std::string cm_collider = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({" + FloatToStringNoTrailingZeros(gm->GetColliderX()) + ", " + FloatToStringNoTrailingZeros(gm->GetColliderY()) + ", " + FloatToStringNoTrailingZeros(gm->GetColliderZ()) + " })));";
 
+
 					OutputDebugStringA(cm_create.c_str());
 					OutputDebugStringA(cm_position.c_str());
 					OutputDebugStringA(cm_rotation.c_str());
 					OutputDebugStringA(cm_scale.c_str());
-					if (gm->GetColliderX() > 0)
+					if (gm->GetColliderX() > 0 || gm->GetTexture() == TEXTURES::stop) //dont forget to set colliderxyz with texture stop
 					{
 						OutputDebugStringA(cm_collider.c_str());
 					}
@@ -1411,6 +1425,7 @@ void DevScene::Update(float deltatime)
 			GetGameObjectByName(gmName).SetColliderX(m_placingHitbox.GetComponent<TransformComponent>()->scale.x / 2);
 			GetGameObjectByName(gmName).SetColliderY(m_placingHitbox.GetComponent<TransformComponent>()->scale.y / 2);
 			GetGameObjectByName(gmName).SetColliderZ(m_placingHitbox.GetComponent<TransformComponent>()->scale.z / 2);
+			m_placingHitbox.SetPosition(GetGameObjectByName(gmName).GetPosition());
 
 			std::string msg = "\nAdded " + gmName + " At[ X: " + RoundValueStr(GetGameObjectByName(gmName).GetPosition().x) + " Y: " + RoundValueStr(GetGameObjectByName(gmName).GetPosition().y) + " Z: " + RoundValueStr(GetGameObjectByName(gmName).GetPosition().z);
 			OutputDebugStringA(msg.c_str());

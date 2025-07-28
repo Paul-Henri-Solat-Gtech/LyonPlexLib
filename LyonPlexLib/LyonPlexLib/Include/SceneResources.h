@@ -25,6 +25,7 @@ namespace TEXTURES
 		CEPHA,
 		iceCream,
 		start,
+		stop,
 
 		//IDLE ARM
 		IDLEARM_1,

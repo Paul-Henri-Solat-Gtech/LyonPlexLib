@@ -35,6 +35,7 @@ public:
 	void InitGameObj(ECSManager* ecsManager, Scene* scene);
 
 	void Init(const std::string& name, ECSManager* ecsManager, Scene* scene, uint32_t meshId, uint32_t textureId);
+	void InitHitbox(const std::string& name, ECSManager* ecsManager, Scene* scene);
 	void Init(const std::string& name, ECSManager* ecsManager, Scene* scene, DimensionalType type, bool useMesh);
 
 	//void Init(const std::string& name, ECSManager* ecsManager, DimensionalType type, bool useMesh);
