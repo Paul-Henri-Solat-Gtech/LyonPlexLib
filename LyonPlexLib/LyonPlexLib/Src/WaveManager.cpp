@@ -27,8 +27,8 @@ void WaveManager::InitWave()
 void WaveManager::Update(float deltaTime)
 {
 	// 1) calcul du scroll
-	m_scrollOffset.x += deltaTime * 0.05f;
-	m_scrollOffset.y += deltaTime * 0.03f;
+	m_scrollOffset.x += deltaTime * 0.4f;
+	m_scrollOffset.y += deltaTime * 0.33f;
 
 	// 2) upload du CB
 	//UINT8* pData = nullptr;

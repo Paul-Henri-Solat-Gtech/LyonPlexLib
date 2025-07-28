@@ -156,10 +156,10 @@ VSOutput VSMain(VSInput input)
     float4 viewPos = mul(worldPos, view);
 
     // Clamp z pour éviter w négatif
-    viewPos.z = max(viewPos.z, 0.001f);
+    //viewPos.z = max(viewPos.z, 0.001f);
 
     float4 projPos = mul(viewPos, projection);
-    projPos.w = max(projPos.w, 0.1f);
+    //projPos.w = max(projPos.w, 0.1f);
     output.position = projPos;
     output.worldPos = worldPos.xyz;
     output.uv = input.uv + scrollOffset;

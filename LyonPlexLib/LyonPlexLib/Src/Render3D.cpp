@@ -223,11 +223,11 @@ void Render3D::RecordCommands()
 			if (!tc || !wavec)
 				return;
 
-			auto* camTransComp = m_ECS->GetComponent<TransformComponent>(m_ECS->m_systemMgr.GetCameraSystem().m_camHolder);
+			/*auto* camTransComp = m_ECS->GetComponent<TransformComponent>(m_ECS->m_systemMgr.GetCameraSystem().m_camHolder);
 			float camY = camTransComp->position.y;
 			float waterY = tc->position.y;
 			if (camY - waterY < 0.2f)
-				return;
+				return;*/
 
 			// 2) Calculer la matrice monde (XMMATRIX) depuis tc->position/rotation/scale
 			XMMATRIX world = m_ECS->m_systemMgr.GetTransformSystem().worldMatrices[ent.id];
