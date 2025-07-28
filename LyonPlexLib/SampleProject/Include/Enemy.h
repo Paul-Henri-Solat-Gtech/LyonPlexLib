@@ -1,6 +1,7 @@
 #pragma once
 
 #include "StateMachine.h"
+#include "Utils.h"
 
 class Enemy : public GameObject
 {
@@ -47,14 +48,13 @@ public:
 	
 	float GetMoveSpeed() { return m_moveSpeed; };
 	bool m_initialized = false;
-
-
-
+	Utils::Vector3 m_distanceBetweenEnnemyPlayer;
 
 private:
 	GameManager* mp_gameManager = nullptr;
 
 	int m_life = 3;
+
 
 protected:
 	friend class EnnemyAction_Idle;

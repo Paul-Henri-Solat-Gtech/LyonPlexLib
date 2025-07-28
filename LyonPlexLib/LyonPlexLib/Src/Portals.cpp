@@ -14,6 +14,8 @@ void Portals::OnUdpdate(float deltatime)
 {
 	m_timer += deltatime;
 
+	GetComponent<TransformComponent>()->AddRotation(0.f,0.f,0.1f);
+
 	if (m_timer > 1.5 && m_capacity > 0)
 	{
 		m_timer = 0;
@@ -37,6 +39,8 @@ void Portals::OnUdpdate(float deltatime)
 		newEnemy.SetPosition({ posX, 1, posZ });
 		newEnemy.SetTexture(TEXTURES::iceCream);
 
+		XMFLOAT3 test = { GetScale().x - 0.1f, GetScale().y -0.1f, GetScale().z - 0.1f};
+		SetScale(test);
 		m_capacity--;
 	}
 }

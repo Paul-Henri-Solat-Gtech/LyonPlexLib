@@ -8,6 +8,7 @@ Enemy::Enemy(ECSManager* ecsManager, GameManager* gameManager, GameObject& gameO
 {
 	InitGameObj(ecsManager, scene);
 	Init(/*gameObjectPlayer,*/ gameManager);
+
 }
 
 void Enemy::Init(/*GameObject gameObjectPlayer,*/ GameManager* gameManager)
@@ -21,7 +22,6 @@ void Enemy::Init(/*GameObject gameObjectPlayer,*/ GameManager* gameManager)
 
 	m_moveSpeed = 2.f;
 	m_initialized = true;
-
 
 	// --- IDLE ---
 	{
@@ -116,4 +116,7 @@ void Enemy::OnUdpdate(float deltatime)
 	m_stateMachine.Update();
 	m_deltatime = deltatime;
 
+	m_distanceBetweenEnnemyPlayer.x = m_playerGm.GetPosition().x - GetPosition().x;
+	m_distanceBetweenEnnemyPlayer.y = m_playerGm.GetPosition().y - GetPosition().y;
+	m_distanceBetweenEnnemyPlayer.z = m_playerGm.GetPosition().z - GetPosition().z;
 }
