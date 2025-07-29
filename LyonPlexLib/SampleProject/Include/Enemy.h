@@ -3,6 +3,14 @@
 #include "StateMachine.h"
 #include "Utils.h"
 
+enum EnemyType
+{
+	Crabe,
+	Golem,
+
+	EnemyTypeCount
+};
+
 class Enemy : public GameObject
 {
 	StateMachine<Enemy> m_stateMachine;
@@ -16,22 +24,14 @@ class Enemy : public GameObject
 		Count
 	};
 
-	int m_hp = 10;
-	float m_moveSpeed = 2.f;
-	float m_jumpPower = 5.0f;
-
-	float m_deltatime;
-
 public:
 	
-	Enemy(ECSManager* ecsManager, GameManager* gameManager, GameObject& gameObjectPlayer, Scene* scene);
+	Enemy(ECSManager* ecsManager, GameManager* gameManager, GameObject& gameObjectPlayer, Scene* scene, EnemyType type);
 
-
-	void Init(/*GameObject gameObjectPlayer,*/ GameManager* gameManager);
-
-
-
+	void Init(GameManager* gameManager);
 	void OnUdpdate(float deltatime) override;
+
+	void SetStateMachine();
 
 	const char* GetStateName(State state) const;
 	const char* GetCurrentStateName() const;
@@ -39,22 +39,22 @@ public:
 
 	void TakeDamage();
 
-	//GameObject m_ennemyGm;
-	GameObject& m_playerGm;
-
-	//GameObject& GetGameObject() { return m_ennemyGm; };
-
 	void SetMoveSpeed(float speedValue) { m_moveSpeed = speedValue; };
 	
 	float GetMoveSpeed() { return m_moveSpeed; };
-	bool m_initialized = false;
+
 	Utils::Vector3 m_distanceBetweenEnnemyPlayer;
 
 private:
 	GameManager* mp_gameManager = nullptr;
+	GameObject& m_playerGm;
+	float m_deltatime;
 
-	int m_life = 3;
+	int m_life;
+	float m_moveSpeed = 2.f;
 
+	bool m_initialized = false;
+	EnemyType m_type;
 
 protected:
 	friend class EnnemyAction_Idle;

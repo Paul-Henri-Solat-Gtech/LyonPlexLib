@@ -21,7 +21,7 @@ void Portals::OnUdpdate(float deltatime)
 	{
 		m_timer = 0;
 
-		auto& newEnemy = mp_scene->CreateGameObject<Enemy>(mp_ecs, mp_gameManager, m_playerGm, mp_scene);
+		auto& newEnemy = mp_scene->CreateGameObject<Enemy>(mp_ecs, mp_gameManager, m_playerGm, mp_scene, EnemyType::Crabe);
 
 		float x = GetPosition().x;
 		float posX = x;
