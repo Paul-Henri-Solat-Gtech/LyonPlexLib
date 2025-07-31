@@ -13,6 +13,7 @@ public:
 private:
 	GameManager* mp_gameManager = nullptr;
 	ECSManager* mp_ecs = nullptr;
+	//GameObject& m_portalGm;
 
 	float m_timer = 0;
 	int m_capacity = 4;

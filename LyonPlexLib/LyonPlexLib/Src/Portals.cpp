@@ -44,4 +44,9 @@ void Portals::OnUdpdate(float deltatime)
 		SetScale(test);
 		m_capacity--;
 	}
+
+	if (m_capacity <= 0)
+	{
+		//mp_scene->DestroyGameObject(this);
+	}
 }
