@@ -201,7 +201,8 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 			}
 			// si aucun des deux n�est le joueur, on sort
 			if (playerE.id != m_playerGameObject.GetEntity().id) return;
-					switch (tag)
+			auto tag = mp_scene->GetGameObjectByID(p.a).GetTag();
+		switch (tag)
 		{
 		case TAG_Floor:
 		case TAG_Environment:
