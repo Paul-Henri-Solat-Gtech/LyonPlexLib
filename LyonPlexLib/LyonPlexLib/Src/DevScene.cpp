@@ -1072,83 +1072,367 @@ void DevScene::Update(float deltatime)
 
 	// cam rotate(prototype)
 	EnableMouseRotationFor(m_placingModule, 0.2f);
-
-	// Rotate
-	if (InputManager::GetKeyIsPressed(VK_RIGHT))
+	
+	// Change mode
+	if (InputManager::GetKeyIsReleased('H'))
 	{
-		m_placingModule.GetComponent<TransformComponent>()->AddRotation(0.f, -1.f, 0.f);
-		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
-	}
-	if (InputManager::GetKeyIsPressed(VK_LEFT))
-	{
-		m_placingModule.GetComponent<TransformComponent>()->AddRotation(0.f, 1.f, 0.f);
-		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
-	}
-	if (InputManager::GetKeyIsPressed(VK_UP))
-	{
-		m_placingModule.GetComponent<TransformComponent>()->AddRotation(1.f, 0.f, 0.f);
-		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
-	}
-	if (InputManager::GetKeyIsPressed(VK_DOWN))
-	{
-		m_placingModule.GetComponent<TransformComponent>()->AddRotation(-1.f, 0.f, 0.f);
-		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
-	}
-	if (InputManager::GetKeyIsPressed('L'))
-	{
-		m_placingModule.GetComponent<TransformComponent>()->AddRotation(0.f, 0.f, 1.f);
-		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
-	}
-	if (InputManager::GetKeyIsPressed('M'))
-	{
-		m_placingModule.GetComponent<TransformComponent>()->AddRotation(0.f, 0.f, -1.f);
-		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		if (m_actualMode == EditMode::Build)
+		{
+			m_actualMode = EditMode::Hitbox;
+			OutputDebugStringA("\Mode Hitbox : ON \n");
+			
+			// Creer la hitbox
+			CreateGameObject("placingHitbox", DimensionalType::TYPE_3D_TRANSPARENT);
+			m_placingHitbox = GetGameObjectByName("placingHitbox");
+			m_placingHitbox.SetPosition(m_placingModule.GetPosition());
+			m_placingHitbox.SetScale(m_placingModule.GetScale());
+			m_placingHitbox.SetRotation(m_placingModule.GetRotation());
+			m_placingHitbox.SetTexture(TEXTURES::stop);
+			m_placingHitbox.GetComponent<MeshComponent>()->alpha = 0.5;
+			//m_placingHitbox.GetMesh().
+		}
+		else
+		{
+			m_actualMode = EditMode::Build;
+			OutputDebugStringA("\Mode Build : ON \n");
+		}
 	}
 
-	// Scale
-	if (InputManager::GetKeyIsJustPressed(VK_ADD))
+	if (m_actualMode == EditMode::Build)
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.x += m_scaleSpeed;
-		m_placingModule.GetComponent<TransformComponent>()->scale.y += m_scaleSpeed;
-		m_placingModule.GetComponent<TransformComponent>()->scale.z += m_scaleSpeed;
-		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		// Rotate
+		if (InputManager::GetKeyIsPressed(VK_RIGHT))
+		{
+			m_placingModule.GetComponent<TransformComponent>()->AddRotation(0.f, -1.f, 0.f);
+			m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		}
+		if (InputManager::GetKeyIsPressed(VK_LEFT))
+		{
+			m_placingModule.GetComponent<TransformComponent>()->AddRotation(0.f, 1.f, 0.f);
+			m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		}
+		if (InputManager::GetKeyIsPressed(VK_UP))
+		{
+			m_placingModule.GetComponent<TransformComponent>()->AddRotation(1.f, 0.f, 0.f);
+			m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		}
+		if (InputManager::GetKeyIsPressed(VK_DOWN))
+		{
+			m_placingModule.GetComponent<TransformComponent>()->AddRotation(-1.f, 0.f, 0.f);
+			m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		}
+		if (InputManager::GetKeyIsPressed('L'))
+		{
+			m_placingModule.GetComponent<TransformComponent>()->AddRotation(0.f, 0.f, 1.f);
+			m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		}
+		if (InputManager::GetKeyIsPressed('M'))
+		{
+			m_placingModule.GetComponent<TransformComponent>()->AddRotation(0.f, 0.f, -1.f);
+			m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		}
+
+		// Scale
+		if (InputManager::GetKeyIsJustPressed(VK_ADD))
+		{
+			m_placingModule.GetComponent<TransformComponent>()->scale.x += m_scaleSpeed;
+			m_placingModule.GetComponent<TransformComponent>()->scale.y += m_scaleSpeed;
+			m_placingModule.GetComponent<TransformComponent>()->scale.z += m_scaleSpeed;
+			m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		}
+		if (InputManager::GetKeyIsJustPressed(VK_SUBTRACT))
+		{
+			m_placingModule.GetComponent<TransformComponent>()->scale.x -= m_scaleSpeed;
+			m_placingModule.GetComponent<TransformComponent>()->scale.y -= m_scaleSpeed;
+			m_placingModule.GetComponent<TransformComponent>()->scale.z -= m_scaleSpeed;
+			m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		}
+		if (InputManager::GetKeyIsJustPressed('R'))
+		{
+			m_placingModule.GetComponent<TransformComponent>()->scale.x += m_scaleSpeed;
+			m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		}
+		if (InputManager::GetKeyIsJustPressed('T'))
+		{
+			m_placingModule.GetComponent<TransformComponent>()->scale.x -= m_scaleSpeed;
+			m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		}
+		if (InputManager::GetKeyIsJustPressed('Y'))
+		{
+			m_placingModule.GetComponent<TransformComponent>()->scale.y += m_scaleSpeed;
+			m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		}
+		if (InputManager::GetKeyIsJustPressed('U'))
+		{
+			m_placingModule.GetComponent<TransformComponent>()->scale.y -= m_scaleSpeed;
+			m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		}
+		if (InputManager::GetKeyIsJustPressed('I'))
+		{
+			m_placingModule.GetComponent<TransformComponent>()->scale.z += m_scaleSpeed;
+			m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		}
+		if (InputManager::GetKeyIsJustPressed('O'))
+		{
+			m_placingModule.GetComponent<TransformComponent>()->scale.z -= m_scaleSpeed;
+			m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		}
+
+
+
+		//Mode cadriage
+		if (InputManager::GetKeyIsReleased('W')) // Quadriage arronndi au 1, 5 ou 10 le + proche en fonction de la scale
+		{
+			m_QuadrillageModeIsOn = !m_QuadrillageModeIsOn;
+
+			m_QuadrillageModeIsOn ? OutputDebugStringA("\Quadrillage : ON \n") : OutputDebugStringA("\Quadrillage : OFF \n");
+
+		}
+		//Mode cadriage round force a 1
+		if (InputManager::GetKeyIsReleased('C')) // Force le quadrillage a arrondir a l'unite pres
+		{
+			m_QuadrillageUnitaireIsOn = !m_QuadrillageUnitaireIsOn;
+
+			m_QuadrillageUnitaireIsOn ? OutputDebugStringA("\Quadrillage UNITAIRE : ON \n") : OutputDebugStringA("\Quadrillage UNITAIRE : OFF \n");
+
+		}
+
+		// Adding blocks (make a function in this scene)
+		if (InputManager::GetKeyIsReleased(VK_LBUTTON))
+		{
+			auto& blocScale = m_placingModule.GetScale();
+			float scaleMoy = 0;
+
+			m_QuadrillageUnitaireIsOn ? scaleMoy = 1 : scaleMoy = (blocScale.x + blocScale.y + blocScale.z) / 3;
+
+
+			int   step = ComputeGridStep(scaleMoy);
+
+			XMFLOAT3 posCamera = {
+				RoundValue(m_placingModule.GetPosition().x, step),
+				RoundValue(m_placingModule.GetPosition().y, step),
+				RoundValue(m_placingModule.GetPosition().z, step)
+			};
+
+			XMFLOAT4 rotCamera = m_placingModule.GetRotation();
+			XMFLOAT3 scaleCamera = m_placingModule.GetScale();
+			uint32_t meshID = m_placingModule.GetMeshID();
+			uint32_t textureID = m_placingModule.GetTexture();
+
+			std::string gmName = "Next " + std::to_string(m_newIdGM);
+
+			CreateGameObject(gmName, meshID, textureID);
+			GetGameObjectByName(gmName).SetPosition({ posCamera });
+			GetGameObjectByName(gmName).SetRotation({ rotCamera });
+			GetGameObjectByName(gmName).SetScale({ scaleCamera });
+
+			GetGameObjectByName(gmName).SetTag(TAG_Object);
+
+			std::string msg = "\nAdded " + gmName + " At[ X: " + RoundValueStr(GetGameObjectByName(gmName).GetPosition().x) + " Y: " + RoundValueStr(GetGameObjectByName(gmName).GetPosition().y) + " Z: " + RoundValueStr(GetGameObjectByName(gmName).GetPosition().z);
+			OutputDebugStringA(msg.c_str());
+
+			m_newIdGM++;
+		}
+
+
+		// Reset placing Module (cannot rotate after for some reason..)
+		if (InputManager::GetKeyIsPressed(VK_F1))
+		{
+			m_placingModule.SetScale({ 1.f, 1.f, 1.f });
+			m_placingModule.SetRotation({ 0.f, 0.f, 0.f, 1.f });
+			m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		}
+
+		// Undo
+		if (InputManager::GetKeyIsReleased(VK_F2))
+		{
+			if (!GetSceneGameObjects().empty())
+			{
+				if (GetSceneGameObjects().back().get()->GetTag() == TAG_Object)
+				{
+					m_lastPlacedGmName = GetSceneGameObjects().back().get()->GetName();
+					m_lastPlacedGmPos = GetSceneGameObjects().back().get()->GetPosition();
+
+					DestroyGameObject(*GetSceneGameObjects().back().get());
+				}
+			}
+		}
+
+		// Redo (Prototype)
+		if (InputManager::GetKeyIsReleased(VK_F3))
+		{
+			if (m_lastPlacedGmName != "")
+			{
+				CreateGameObject(m_lastPlacedGmName);
+				GetGameObjectByName(m_lastPlacedGmName).SetPosition(m_lastPlacedGmPos);
+				GetGameObjectByName(m_lastPlacedGmName).SetTag(TAG_Object);
+
+				m_lastPlacedGmName = "";
+			}
+		}
+
+		// Generating scene outpout
+		if (InputManager::GetKeyIsReleased(VK_RETURN))
+		{
+			OutputDebugStringA("\n\n----------- GENERATING SCENE CM's -----------");
+			OutputDebugStringA("\n//COPY HERE");
+			OutputDebugStringA("\n{");
+			for (auto& gameObj : GetSceneGameObjects())
+			{
+				auto* gm = gameObj.get();
+				if (gm->GetTag() == TAG_Object)
+				{
+					//Creer les msg de sorties
+					
+					std::string cm_create;
+
+					// Si on creer une hitbox seul ou non
+					if (gm->GetTexture() != TEXTURES::stop)
+					{
+						cm_create = std::string("\nCreateGameObject(\"") + gm->GetName() + "\"" + "," + std::to_string(gm->GetMeshID()) + "," + std::to_string(gm->GetTexture()) + ");";
+					}
+					else
+					{
+						cm_create = std::string("\CreateGameHitbox(\"") + gm->GetName() + "\"" + ");";
+						gm->SetColliderX(gm->GetComponent<TransformComponent>()->scale.x / 2);
+						gm->SetColliderY(gm->GetComponent<TransformComponent>()->scale.y / 2);
+						gm->SetColliderZ(gm->GetComponent<TransformComponent>()->scale.z / 2);
+					}
+					std::string cm_position = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetPosition({ " + RoundValueStr(gm->GetPosition().x) + "," + RoundValueStr(gm->GetPosition().y) + "," + RoundValueStr(gm->GetPosition().z) + " });";
+					std::string cm_rotation = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetRotation({ " + FloatToStringNoTrailingZeros(gm->GetRotation().x) + "," + FloatToStringNoTrailingZeros(gm->GetRotation().y) + "," + FloatToStringNoTrailingZeros(gm->GetRotation().z) + "," + FloatToStringNoTrailingZeros(gm->GetRotation().w) + " });";
+					std::string cm_scale = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetScale({ " + RoundValueStr(gm->GetScale().x) + "," + RoundValueStr(gm->GetScale().y) + "," + RoundValueStr(gm->GetScale().z) + " });";
+					std::string cm_collider = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({" + FloatToStringNoTrailingZeros(gm->GetColliderX()) + ", " + FloatToStringNoTrailingZeros(gm->GetColliderY()) + ", " + FloatToStringNoTrailingZeros(gm->GetColliderZ()) + " })));";
+
+
+					OutputDebugStringA(cm_create.c_str());
+					OutputDebugStringA(cm_position.c_str());
+					OutputDebugStringA(cm_rotation.c_str());
+					OutputDebugStringA(cm_scale.c_str());
+					if (gm->GetColliderX() > 0 || gm->GetTexture() == TEXTURES::stop) //dont forget to set colliderxyz with texture stop
+					{
+						OutputDebugStringA(cm_collider.c_str());
+					}
+				}
+			}
+			OutputDebugStringA("\n}");
+			OutputDebugStringA("\n----------- --------------------- -----------\n");
+		}
+
+		// LockMouse
+		if (InputManager::GetKeyIsReleased(VK_F5))
+		{
+			OutputDebugStringA("\LockMouse\n");
+			if (InputManager::IsMouseLocked())
+			{
+				DisableLockCursor();
+			}
+			else
+			{
+				EnableLockCursor();
+			}
+		}
+
+		if (InputManager::IsMouseLocked())
+		{
+			CenterLockCursor();
+		}
+
+		// Change type of gameobject (prototype)
+		if (InputManager::GetKeyIsReleased('1'))
+		{
+			//m_placingModule.SetTexture(0);
+
+			m_curMeshID -= 1;
+			if (m_curMeshID < 0)
+				m_curMeshID = MESHES::TotalMeshCount - 1;
+			m_placingModule.SetMesh(m_curMeshID);
+		}
+		if (InputManager::GetKeyIsReleased('2'))
+		{
+			m_curMeshID += 1;
+			if (m_curMeshID >= MESHES::TotalMeshCount)
+				m_curMeshID = 0;
+			m_placingModule.SetMesh(m_curMeshID);
+		}
+
+		// Change type of gameobject (prototype)
+		if (InputManager::GetKeyIsReleased('3'))
+		{
+			//m_placingModule.SetTexture(0);
+
+			m_curTexID -= 1;
+			if (m_curTexID < 0)
+				m_curTexID = TEXTURES::TotalTextureCount - 1;
+			m_placingModule.SetTexture(m_curTexID);
+		}
+		if (InputManager::GetKeyIsReleased('4'))
+		{
+			m_curTexID += 1;
+			if (m_curTexID >= TEXTURES::TotalTextureCount)
+				m_curTexID = 0;
+			m_placingModule.SetTexture(m_curTexID);
+		}
 	}
-	if (InputManager::GetKeyIsJustPressed(VK_SUBTRACT))
+	if (m_actualMode == EditMode::Hitbox) 
 	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.x -= m_scaleSpeed;
-		m_placingModule.GetComponent<TransformComponent>()->scale.y -= m_scaleSpeed;
-		m_placingModule.GetComponent<TransformComponent>()->scale.z -= m_scaleSpeed;
-		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
-	}
-	if (InputManager::GetKeyIsJustPressed('R'))
-	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.x += m_scaleSpeed;
-		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
-	}
-	if (InputManager::GetKeyIsJustPressed('T'))
-	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.x -= m_scaleSpeed;
-		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
-	}
-	if (InputManager::GetKeyIsJustPressed('Y'))
-	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.y += m_scaleSpeed;
-		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
-	}
-	if (InputManager::GetKeyIsJustPressed('U'))
-	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.y -= m_scaleSpeed;
-		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
-	}
-	if (InputManager::GetKeyIsJustPressed('I'))
-	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.z += m_scaleSpeed;
-		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
-	}
-	if (InputManager::GetKeyIsJustPressed('O'))
-	{
-		m_placingModule.GetComponent<TransformComponent>()->scale.z -= m_scaleSpeed;
-		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
+		// Scale
+		if (InputManager::GetKeyIsJustPressed(VK_ADD))
+		{
+			m_placingHitbox.GetComponent<TransformComponent>()->scale.x += m_scaleSpeed;
+			m_placingHitbox.GetComponent<TransformComponent>()->scale.y += m_scaleSpeed;
+			m_placingHitbox.GetComponent<TransformComponent>()->scale.z += m_scaleSpeed;
+			m_placingHitbox.GetComponent<TransformComponent>()->dirty = true;
+		}
+		if (InputManager::GetKeyIsJustPressed(VK_SUBTRACT))
+		{
+			m_placingHitbox.GetComponent<TransformComponent>()->scale.x -= m_scaleSpeed;
+			m_placingHitbox.GetComponent<TransformComponent>()->scale.y -= m_scaleSpeed;
+			m_placingHitbox.GetComponent<TransformComponent>()->scale.z -= m_scaleSpeed;
+			m_placingHitbox.GetComponent<TransformComponent>()->dirty = true;
+		}
+
+		// Placing hitbox and block
+		if (InputManager::GetKeyIsReleased(VK_LBUTTON))
+		{
+			auto& blocScale = m_placingModule.GetScale();
+			float scaleMoy = 0;
+
+			m_QuadrillageUnitaireIsOn ? scaleMoy = 1 : scaleMoy = (blocScale.x + blocScale.y + blocScale.z) / 3;
+
+
+			int   step = ComputeGridStep(scaleMoy);
+
+			XMFLOAT3 posCamera = {
+				RoundValue(m_placingModule.GetPosition().x, step),
+				RoundValue(m_placingModule.GetPosition().y, step),
+				RoundValue(m_placingModule.GetPosition().z, step)
+			};
+
+			XMFLOAT4 rotCamera = m_placingModule.GetRotation();
+			XMFLOAT3 scaleCamera = m_placingModule.GetScale();
+			uint32_t meshID = m_placingModule.GetMeshID();
+			uint32_t textureID = m_placingModule.GetTexture();
+
+			std::string gmName = "Next " + std::to_string(m_newIdGM);
+
+			CreateGameObject(gmName, meshID, textureID);
+			GetGameObjectByName(gmName).SetPosition({ posCamera });
+			GetGameObjectByName(gmName).SetRotation({ rotCamera });
+			GetGameObjectByName(gmName).SetScale({ scaleCamera });
+			GetGameObjectByName(gmName).SetTag(TAG_Object);
+
+			// hitbox
+			GetGameObjectByName(gmName).SetColliderX(m_placingHitbox.GetComponent<TransformComponent>()->scale.x / 2);
+			GetGameObjectByName(gmName).SetColliderY(m_placingHitbox.GetComponent<TransformComponent>()->scale.y / 2);
+			GetGameObjectByName(gmName).SetColliderZ(m_placingHitbox.GetComponent<TransformComponent>()->scale.z / 2);
+			m_placingHitbox.SetPosition(GetGameObjectByName(gmName).GetPosition());
+
+			std::string msg = "\nAdded " + gmName + " At[ X: " + RoundValueStr(GetGameObjectByName(gmName).GetPosition().x) + " Y: " + RoundValueStr(GetGameObjectByName(gmName).GetPosition().y) + " Z: " + RoundValueStr(GetGameObjectByName(gmName).GetPosition().z);
+			OutputDebugStringA(msg.c_str());
+
+			m_newIdGM++;
+			m_actualMode = EditMode::Build;
+		}
 	}
 
 	// ChangeScene
@@ -1157,190 +1441,6 @@ void DevScene::Update(float deltatime)
 		//ChangeScene("MainMenuScene");
 		ChangeScene("GameScene");
 	}
-
-	//Mode cadriage
-	if (InputManager::GetKeyIsReleased('W')) // Quadriage arronndi au 1, 5 ou 10 le + proche en fonction de la scale
-	{
-		m_QuadrillageModeIsOn = !m_QuadrillageModeIsOn;
-
-		m_QuadrillageModeIsOn ? OutputDebugStringA("\Quadrillage : ON \n") : OutputDebugStringA("\Quadrillage : OFF \n");
-
-	}
-	//Mode cadriage round force a 1
-	if (InputManager::GetKeyIsReleased('C')) // Force le quadrillage a arrondir a l'unite pres
-	{
-		m_QuadrillageUnitaireIsOn = !m_QuadrillageUnitaireIsOn;
-
-		m_QuadrillageUnitaireIsOn ? OutputDebugStringA("\Quadrillage UNITAIRE : ON \n") : OutputDebugStringA("\Quadrillage UNITAIRE : OFF \n");
-
-	}
-
-	// Adding blocks (make a function in this scene)
-	if (InputManager::GetKeyIsReleased(VK_LBUTTON))
-	{
-		auto& blocScale = m_placingModule.GetScale();
-		float scaleMoy = 0;
-
-		m_QuadrillageUnitaireIsOn ? scaleMoy = 1 : scaleMoy = (blocScale.x + blocScale.y + blocScale.z) / 3;
-
-
-		int   step = ComputeGridStep(scaleMoy);
-
-		XMFLOAT3 posCamera = {
-			RoundValue(m_placingModule.GetPosition().x, step),
-			RoundValue(m_placingModule.GetPosition().y, step),
-			RoundValue(m_placingModule.GetPosition().z, step)
-		};
-
-		XMFLOAT4 rotCamera = m_placingModule.GetRotation();
-		XMFLOAT3 scaleCamera = m_placingModule.GetScale();
-		uint32_t meshID = m_placingModule.GetMesh();
-		uint32_t textureID = m_placingModule.GetTexture();
-
-		std::string gmName = "Next " + std::to_string(m_newIdGM);
-
-		CreateGameObject(gmName, meshID, textureID);
-		GetGameObjectByName(gmName).SetPosition({ posCamera });
-		GetGameObjectByName(gmName).SetRotation({ rotCamera });
-		GetGameObjectByName(gmName).SetScale({ scaleCamera });
-
-		GetGameObjectByName(gmName).SetTag(TAG_Object);
-
-		std::string msg = "\nAdded " + gmName + " At[ X: " + RoundValueStr(GetGameObjectByName(gmName).GetPosition().x) + " Y: " + RoundValueStr(GetGameObjectByName(gmName).GetPosition().y) + " Z: " + RoundValueStr(GetGameObjectByName(gmName).GetPosition().z);
-		OutputDebugStringA(msg.c_str());
-
-		m_newIdGM++;
-	}
-
-
-	// Reset placing Module (cannot rotate after for some reason..)
-	if (InputManager::GetKeyIsPressed(VK_F1))
-	{
-		m_placingModule.SetScale({ 1.f, 1.f, 1.f });
-		m_placingModule.SetRotation({ 0.f, 0.f, 0.f, 1.f });
-		m_placingModule.GetComponent<TransformComponent>()->dirty = true;
-	}
-
-	// Undo
-	if (InputManager::GetKeyIsReleased(VK_F2))
-	{
-		if (!GetSceneGameObjects().empty())
-		{
-			if (GetSceneGameObjects().back().get()->GetTag() == TAG_Object)
-			{
-				m_lastPlacedGmName = GetSceneGameObjects().back().get()->GetName();
-				m_lastPlacedGmPos = GetSceneGameObjects().back().get()->GetPosition();
-
-				DestroyGameObject(*GetSceneGameObjects().back().get());
-			}
-		}
-	}
-
-	// Redo (Prototype)
-	if (InputManager::GetKeyIsReleased(VK_F3))
-	{
-		if (m_lastPlacedGmName != "")
-		{
-			CreateGameObject(m_lastPlacedGmName);
-			GetGameObjectByName(m_lastPlacedGmName).SetPosition(m_lastPlacedGmPos);
-			GetGameObjectByName(m_lastPlacedGmName).SetTag(TAG_Object);
-
-			m_lastPlacedGmName = "";
-		}
-	}
-
-	// Generating scene outpout
-	if (InputManager::GetKeyIsReleased(VK_RETURN))
-	{
-		OutputDebugStringA("\n\n----------- GENERATING SCENE CM's -----------");
-		OutputDebugStringA("\n//COPY HERE");
-		OutputDebugStringA("\n{");
-		for (auto& gameObj : GetSceneGameObjects())
-		{
-			auto* gm = gameObj.get();
-			if (gm->GetTag() == TAG_Object)
-			{
-				//auto& test = gm.GetPosition();
-				//std::string cm_create = std::string("\nCreateGameObject(\"") + gm.GetName() + "\");";
-				std::string cm_create = std::string("\nCreateGameObject(\"") + gm->GetName() + "\"" + "," + std::to_string(gm->GetMesh()) + "," + std::to_string(gm->GetTexture()) + ");";
-				std::string cm_position = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetPosition({ " + RoundValueStr(gm->GetPosition().x) + "," + RoundValueStr(gm->GetPosition().y) + "," + RoundValueStr(gm->GetPosition().z) + " });";
-				std::string cm_rotation = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetRotation({ " + std::to_string(gm->GetRotation().x) + "," + std::to_string(gm->GetRotation().y) + "," + std::to_string(gm->GetRotation().z) + "," + std::to_string(gm->GetRotation().w) + " });";
-				std::string cm_scale = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetScale({ " + RoundValueStr(gm->GetScale().x) + "," + RoundValueStr(gm->GetScale().y) + "," + RoundValueStr(gm->GetScale().z) + " });";
-
-				/*	std::string cm_create = std::string("\nCreateGameObject(\"") + gm->GetName() + "\"" + "," + std::to_string(gm->GetMesh()) + "," + std::to_string(gm->GetTexture()) + ");";
-					std::string cm_position = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetPosition({ " + std::to_string(gm->GetPosition().x) + "," + std::to_string(gm->GetPosition().y) + "," + std::to_string(gm->GetPosition().z) + " });";
-					std::string cm_rotation = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetRotation({ " + std::to_string(gm->GetRotation().x) + "," + std::to_string(gm->GetRotation().y) + "," + std::to_string(gm->GetRotation().z) + "," + std::to_string(gm->GetRotation().w) + " });";
-					std::string cm_scale = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetScale({ " + std::to_string(gm->GetScale().x) + "," + std::to_string(gm->GetScale().y) + "," + std::to_string(gm->GetScale().z) + " });";*/
-
-				OutputDebugStringA(cm_create.c_str());
-				OutputDebugStringA(cm_position.c_str());
-				OutputDebugStringA(cm_rotation.c_str());
-				OutputDebugStringA(cm_scale.c_str());
-			}
-		}
-		OutputDebugStringA("\n}");
-		OutputDebugStringA("\n----------- --------------------- -----------\n");
-	}
-
-	// LockMouse
-	if (InputManager::GetKeyIsReleased(VK_F5))
-	{
-		OutputDebugStringA("\LockMouse\n");
-		if (InputManager::IsMouseLocked())
-		{
-			DisableLockCursor();
-		}
-		else
-		{
-			EnableLockCursor();
-		}
-	}
-
-	if (InputManager::IsMouseLocked())
-	{
-		CenterLockCursor();
-	}
-
-	// Change type of gameobject (prototype)
-	if (InputManager::GetKeyIsReleased('1'))
-	{
-		//m_placingModule.SetTexture(0);
-
-		m_curMeshID -= 1;
-		if (m_curMeshID < 0)
-			m_curMeshID = MESHES::TotalMeshCount - 1;
-		m_placingModule.SetMesh(m_curMeshID);
-	}
-	if (InputManager::GetKeyIsReleased('2'))
-	{
-		m_curMeshID += 1;
-		if (m_curMeshID >= MESHES::TotalMeshCount)
-			m_curMeshID = 0;
-		m_placingModule.SetMesh(m_curMeshID);
-	}
-
-	// Change type of gameobject (prototype)
-	if (InputManager::GetKeyIsReleased('3'))
-	{
-		//m_placingModule.SetTexture(0);
-
-		m_curTexID -= 1;
-		if (m_curTexID < 0)
-			m_curTexID = TEXTURES::TotalTextureCount - 1;
-		m_placingModule.SetTexture(m_curTexID);
-	}
-	if (InputManager::GetKeyIsReleased('4'))
-	{
-		m_curTexID += 1;
-		if (m_curTexID >= TEXTURES::TotalTextureCount)
-			m_curTexID = 0;
-		m_placingModule.SetTexture(m_curTexID);
-	}
-
-	/*if (InputManager::GetKeyIsReleased('3'))
-	{
-		m_placingModule.SetTexture(2);
-	}*/
 }
 
 void DevScene::Release()
@@ -1476,13 +1576,17 @@ void DevScene::CameraDevSystem(float deltatime)
 
 	// Construire moveV global
 	XMVECTOR moveV = XMVectorZero();
-	if (InputManager::GetKeyIsPressed('Z')) moveV += forwardV;
-	if (InputManager::GetKeyIsPressed('S')) moveV -= forwardV;
-	if (InputManager::GetKeyIsPressed('D')) moveV += rightV;
-	if (InputManager::GetKeyIsPressed('Q')) moveV -= rightV;
-	// Composante verticale
-	if (InputManager::GetKeyIsPressed(VK_SPACE))   moveV += upV;
-	if (InputManager::GetKeyIsPressed(VK_CONTROL)) moveV -= upV;
+	if (m_actualMode == EditMode::Build)
+	{
+		if (InputManager::GetKeyIsPressed('Z')) moveV += forwardV;
+		if (InputManager::GetKeyIsPressed('S')) moveV -= forwardV;
+		if (InputManager::GetKeyIsPressed('D')) moveV += rightV;
+		if (InputManager::GetKeyIsPressed('Q')) moveV -= rightV;
+		// Composante verticale
+		if (InputManager::GetKeyIsPressed(VK_SPACE))   moveV += upV;
+		if (InputManager::GetKeyIsPressed(VK_CONTROL)) moveV -= upV;
+	}
+
 
 	// Appliquer shift/run
 	float speed = InputManager::GetKeyIsPressed(VK_SHIFT) ? m_camRunSpeed : m_camWalkSpeed;
@@ -1534,4 +1638,19 @@ int DevScene::ComputeGridStep(float scale)
 	if (scale < 5.0f)      return 1;  // unité
 	else if (scale < 50.0f) return 5;  // 5aine
 	else                   return 10; // dizaine
+}
+std::string DevScene::FloatToStringNoTrailingZeros(float value)
+{
+	std::ostringstream oss;
+	oss << std::fixed
+		// max_digits10 garantit qu'on ne « coupe » aucune décimale significative
+		<< std::setprecision(std::numeric_limits<float>::max_digits10)
+		<< value;
+	std::string s = oss.str();
+	// on vire les '0' superflus
+	s.erase(s.find_last_not_of('0') + 1);
+	// s'il reste un '.', on l'enlève aussi
+	if (!s.empty() && s.back() == '.')
+		s.pop_back();
+	return s;
 }

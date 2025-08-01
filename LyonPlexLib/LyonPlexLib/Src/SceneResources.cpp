@@ -46,6 +46,7 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/Cepha1test.png");
     txtMngr.LoadTexture("../SampleProject/Ressources/icecream.png");//19
     txtMngr.LoadTexture("../SampleProject/Ressources/start.png");//20
+    txtMngr.LoadTexture("../SampleProject/Ressources/stop.png");//21
 
     // Place single image up
     // Down is reserved for animations frame (to avoid redoing all enum)

@@ -14,11 +14,14 @@ void Portals::OnUdpdate(float deltatime)
 {
 	m_timer += deltatime;
 
+	GetComponent<TransformComponent>()->AddRotation(0.f,0.f,0.1f);
+	LookAt(m_playerGm);
+
 	if (m_timer > 1.5 && m_capacity > 0)
 	{
 		m_timer = 0;
 
-		auto& newEnemy = mp_scene->CreateGameObject<Enemy>(mp_ecs, mp_gameManager, m_playerGm, mp_scene);
+		auto& newEnemy = mp_scene->CreateGameObject<Enemy>(mp_ecs, mp_gameManager, m_playerGm, mp_scene, EnemyType::Crabe);
 
 		float x = GetPosition().x;
 		float posX = x;
@@ -37,6 +40,13 @@ void Portals::OnUdpdate(float deltatime)
 		newEnemy.SetPosition({ posX, 1, posZ });
 		newEnemy.SetTexture(TEXTURES::iceCream);
 
+		XMFLOAT3 test = { GetScale().x - 0.1f, GetScale().y -0.1f, GetScale().z - 0.1f};
+		SetScale(test);
 		m_capacity--;
+	}
+
+	if (m_capacity <= 0)
+	{
+		//mp_scene->DestroyGameObject(this);
 	}
 }

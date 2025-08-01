@@ -199,8 +199,34 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 			if (otherE.id == m_playerGameObject.GetEntity().id) {
 				playerE = p.b; otherE = p.a;
 			}
-			// si aucun des deux níest le joueur, on sort
+			// si aucun des deux nÔøΩest le joueur, on sort
 			if (playerE.id != m_playerGameObject.GetEntity().id) return;
+					switch (tag)
+		{
+		case TAG_Floor:
+		case TAG_Environment:
+		{
+		}
+		case TAG_Projectile: 
+		{
+			//COLLISION Proj and player
+			
+			if (m_hp > 0)
+			{
+				m_hp--;
+				OutputDebugStringA("\n -1hp \n");
+			}
+			else
+			{
+				OutputDebugStringA("\n Player is already dead ! \n");
+			}
+
+		}
+		default:
+		{
+			break;
+		}
+		}
 
 			//m_objectsCollidingWithPlayer.push_back(otherE);
 			m_hasCollided = true;
@@ -250,10 +276,10 @@ void Player::ApplyMovementAndCollisions(float dt)
 	{
 		float margin = m_moveSpeed * dt + 0.1f;
 
-		// 1) rÈcupËre center et radius du joueur
+		// 1) rÔøΩcupÔøΩre center et radius du joueur
 		XMFLOAT3 center = tP.position; float rPlayer = cP.BoundingSphereRadius();
 
-		// 2) pour chaque entitÅE
+		// 2) pour chaque entitÔøΩE
 		ComponentMask mask = (1ULL << CollisionComponent::StaticTypeID) | (1ULL << TransformComponent::StaticTypeID);
 		mp_scene->GetEcsManager()->ForEach(mask, [&](Entity e)
 			{
@@ -276,7 +302,7 @@ void Player::ApplyMovementAndCollisions(float dt)
 			});
 	}
 
-	// DÈplacement total voulu sur ce frame
+	// DÔøΩplacement total voulu sur ce frame
 	XMVECTOR totalDisp = XMLoadFloat3(&m_velocity) * dt;
 
 	// fraction restante de movement [0..1]
@@ -326,7 +352,7 @@ void Player::ApplyMovementAndCollisions(float dt)
 			lastPushNormal = XMVector3Normalize(mtv);
 			}
 			else {
-				// deux objets se repoussent ÅEmoitiÅE
+				// deux objets se repoussent ÔøΩEmoitiÔøΩE
 				XMVECTOR half = XMVectorScale(mtv, 0.5f);
 				XMVECTOR vp = XMLoadFloat3(&tP.position) - half;
 				XMVECTOR vo = XMLoadFloat3(&ot.position) + half;
@@ -346,9 +372,9 @@ void Player::ApplyMovementAndCollisions(float dt)
 	mover.halfSize.y = (((0.0f) > (mover.halfSize.y - skinWidth)) ? (0.0f) : (mover.halfSize.y - skinWidth));
 	mover.halfSize.z = (((0.0f) > (mover.halfSize.z - skinWidth)) ? (0.0f) : (mover.halfSize.z - skinWidth));
 
-	// 3) Sweep & slide en 3 itÈrations max
+	// 3) Sweep & slide en 3 itÔøΩrations max
 	for (int iter = 0; iter < 3 && remaining > 1e-3f; ++iter) {
-		// portion courante du dÈplacement
+		// portion courante du dÔøΩplacement
 		XMVECTOR dispCurr = totalDisp * remaining;
 		XMFLOAT3 dCurr; XMStoreFloat3(&dCurr, dispCurr);
 
@@ -393,14 +419,14 @@ void Player::ApplyMovementAndCollisions(float dt)
 			currentPos.z += debugVar.z * skinWidth;
 		}
 
-		// pas díimpact ? on a fini
+		// pas dÔøΩimpact ? on a fini
 		if (tMin >= 1.0f) break;
 
-		// calcule la glisse sur la face touchÈe
+		// calcule la glisse sur la face touchÔøΩe
 		XMVECTOR rem = totalDisp * remaining * (1.0f - tMin);
 		XMVECTOR slide = rem - hitN * XMVectorGetX(XMVector3Dot(rem, hitN));
 
-		// met ÅEjour la fraction restante et totalDisp pour la prochaine itÈration
+		// met ÔøΩEjour la fraction restante et totalDisp pour la prochaine itÔøΩration
 		remaining *= (1.0f - tMin);
 		totalDisp = slide;
 	}
@@ -409,7 +435,7 @@ void Player::ApplyMovementAndCollisions(float dt)
 	{
 		bool moved = !XMVector3Equal(XMLoadFloat3(&tP.position), XMLoadFloat3(&currentPos));
 
-		//  if (player tried to move but stayed in place) ? incrÈmente stuckFrames
+		//  if (player tried to move but stayed in place) ? incrÔøΩmente stuckFrames
 		if ((m_velocity.x != 0 || m_velocity.z != 0) && !moved) {
 			stuckFrames++;
 		}
@@ -417,9 +443,9 @@ void Player::ApplyMovementAndCollisions(float dt)
 			stuckFrames = 0;
 		}
 
-		// si bloquÅEtrop longtemps ? nudge
+		// si bloquÔøΩEtrop longtemps ? nudge
 		if (stuckFrames >= 3) {
-			// pousse díun petit epsilon le long de lastPushNormal
+			// pousse dÔøΩun petit epsilon le long de lastPushNormal
 			XMVECTOR n = lastPushNormal;
 			XMVECTOR nudge = XMVectorScale(n, 0.05f);  // 5 cm
 			XMStoreFloat3(&currentPos, XMLoadFloat3(&currentPos) + nudge);
@@ -442,8 +468,8 @@ void Player::ApplyMovementAndCollisions(float dt)
 		tP.position.z,
 		0);
 	XMVECTOR dir = XMVectorSet(0, -1, 0, 0);
-	//float maxDist = 1.0f;  // tolÈrance de peau
-	float maxDist = 0.2f;  // tolÈrance de peau
+	//float maxDist = 1.0f;  // tolÔøΩrance de peau
+	float maxDist = 0.2f;  // tolÔøΩrance de peau
 
 	bool onGround = false;
 	for (auto& e : candidates) {
@@ -480,7 +506,7 @@ void Player::ApplyMovementAndCollisions(float dt)
 
 void Player::Movement()
 {
-	// GËre le sprint
+	// GÔøΩre le sprint
 	if (InputManager::GetKeyIsPressed(VK_SHIFT))
 	{
 		SetMoveSpeed(GetRunSpeed());
@@ -489,7 +515,7 @@ void Player::Movement()
 	{
 		SetMoveSpeed(GetWalkSpeed());
 	}
-	// 1) RÈcupËre la rotation de la camÈra
+	// 1) RÔøΩcupÔøΩre la rotation de la camÔøΩra
 	XMFLOAT4 camQuatF = mp_cameraGO->GetRotation();
 	XMVECTOR camQuat = XMLoadFloat4(&camQuatF);
 	XMMATRIX rotMat = XMMatrixRotationQuaternion(camQuat);
@@ -501,20 +527,20 @@ void Player::Movement()
 
 	XMVECTOR right = XMVector3Normalize(XMVector3Cross(XMVectorSet(0, 1, 0, 0), forward));
 
-	// 3) Calcule la direction de dÈplacement horizontale selon líinput
+	// 3) Calcule la direction de dÔøΩplacement horizontale selon lÔøΩinput
 	XMVECTOR moveDir = XMVectorZero();
 	if (InputManager::GetKeyIsPressed('Z')) moveDir += forward;
 	if (InputManager::GetKeyIsPressed('S')) moveDir -= forward;
 	if (InputManager::GetKeyIsPressed('D')) moveDir += right;
 	if (InputManager::GetKeyIsPressed('Q')) moveDir -= right;
 
-	// 4) Normalise (pour ne pas accÈlÈrer dans les diagonales)
+	// 4) Normalise (pour ne pas accÔøΩlÔøΩrer dans les diagonales)
 	if (!XMVector3Equal(moveDir, XMVectorZero())) {
 		moveDir = XMVector3Normalize(moveDir);
 	}
 
-	// 5) …crit la vitesse horizontale dans m_velocity.x/z
-	//    (on garde m_velocity.y intact pour la gravitÅEjump)
+	// 5) ÔøΩcrit la vitesse horizontale dans m_velocity.x/z
+	//    (on garde m_velocity.y intact pour la gravitÔøΩEjump)
 	XMFLOAT3 vel = m_velocity;
 	float speed = GetMoveSpeed();      // sprint ou marche
 	vel.x = XMVectorGetX(moveDir) * speed;
@@ -526,7 +552,7 @@ void Player::Movement()
 bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2)
 {
 
-	// 3 axes locaux de chaque bo˚ëe
+	// 3 axes locaux de chaque boÔøΩÔøΩe
 	XMMATRIX R1 = XMMatrixRotationQuaternion(XMLoadFloat4(&b1.orientation));
 	XMMATRIX R2 = XMMatrixRotationQuaternion(XMLoadFloat4(&b2.orientation));
 	XMVECTOR A[3] = { R1.r[0], R1.r[1], R1.r[2] };
@@ -547,7 +573,7 @@ bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2)
 		}
 	}
 
-	// vecteur distance projetÅEsur A[]
+	// vecteur distance projetÔøΩEsur A[]
 	XMVECTOR tvec = C2 - C1;
 	float t[3] = {
 		XMVectorGetX(XMVector3Dot(tvec, A[0])),
@@ -555,7 +581,7 @@ bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2)
 		XMVectorGetX(XMVector3Dot(tvec, A[2]))
 	};
 
-	// 1ÅE : axes A0, A1, A2
+	// 1ÔøΩE : axes A0, A1, A2
 	for (int i = 0; i < 3; ++i) {
 		float ra = (&b1.halfSize.x)[i];
 		float rb = b2.halfSize.x * AbsR[i][0]
@@ -563,7 +589,7 @@ bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2)
 			+ b2.halfSize.z * AbsR[i][2];
 		if (std::abs(t[i]) > ra + rb) return false;
 	}
-	// 4ÅE : axes B0, B1, B2
+	// 4ÔøΩE : axes B0, B1, B2
 	for (int j = 0; j < 3; ++j) {
 		float ra = b1.halfSize.x * AbsR[0][j]
 			+ b1.halfSize.y * AbsR[1][j]
@@ -572,7 +598,7 @@ bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2)
 		float rb = (&b2.halfSize.x)[j];
 		if (tj > ra + rb) return false;
 	}
-	// 7ÅE5 : A_i ◊ B_j
+	// 7ÔøΩE5 : A_i ÔøΩ B_j
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
 			float ra = (&b1.halfSize.x)[(i + 1) % 3] * AbsR[(i + 2) % 3][j]
@@ -592,12 +618,12 @@ bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2)
 bool ObbVsAabb(XMFLOAT3 paabb, AABBCollider a,
 	XMFLOAT3 pobb, OBBCollider b)
 {
-	// transformer líAABB en OBB : orientation = identity, offset = a.offset
+	// transformer lÔøΩAABB en OBB : orientation = identity, offset = a.offset
 	OBBCollider boxA;
 	boxA.halfSize = a.halfSize;
 	boxA.offset = a.offset;
 	boxA.orientation = { 0, 0, 0, 1 };
-	// et appeler directement ObbVsObb avec centres ÈchangÈs si besoin
+	// et appeler directement ObbVsObb avec centres ÔøΩchangÔøΩs si besoin
 	return ObbVsObb(pobb, b, paabb, boxA);
 }
 

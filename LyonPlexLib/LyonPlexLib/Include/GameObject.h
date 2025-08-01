@@ -6,6 +6,7 @@ enum DimensionalType
 {
 	TYPE_3D,
 	TYPE_2D,
+	TYPE_3D_TRANSPARENT,
 
 	TypeCount
 };
@@ -23,6 +24,7 @@ enum Tag
 	TAG_Environment,
 	TAG_Stick,
 	TAG_Rock,
+	TAG_Projectile,
 
 	TagCount
 };
@@ -37,12 +39,12 @@ public:
 	void Init(const std::string& name, ECSManager* ecsManager, Scene* scene, uint32_t meshId, uint32_t textureId);
 	void InitWater(ECSManager* ecsManager, Scene* scene, int waterNum);
 	void InitWater(const std::string& gameObjectName, ECSManager* ecsManager, Scene* scene, int waterNum);
+	void InitHitbox(const std::string& name, ECSManager* ecsManager, Scene* scene);
 	void Init(const std::string& name, ECSManager* ecsManager, Scene* scene, DimensionalType type, bool useMesh);
 
 	//void Init(const std::string& name, ECSManager* ecsManager, DimensionalType type, bool useMesh);
 
 	void Init(ECSManager* ecsManager, Scene* scene);
-
 
 	void SetName(const std::string& name) { m_name = name; };
 	const std::string& GetName() { return m_name; };
@@ -64,13 +66,25 @@ public:
 	void SetTexture(uint32_t textureId) { GetComponent<MeshComponent>()->materialID = textureId; };
 	uint32_t& GetTexture() { return GetComponent<MeshComponent>()->materialID; };
 	void SetMesh(uint32_t meshId) { GetComponent<MeshComponent>()->meshID = meshId; };
-	uint32_t& GetMesh() { return GetComponent<MeshComponent>()->meshID; };
+	uint32_t& GetMeshID() { return GetComponent<MeshComponent>()->meshID; };
+
+	// Collider
+	void SetColliderX(float colX) { m_colliderX = colX; };
+	float GetColliderX() { return m_colliderX; };
+	void SetColliderY(float colY) { m_colliderY = colY; };
+	float GetColliderY() { return m_colliderY; };
+	void SetColliderZ(float colZ) { m_colliderZ = colZ; };
+	float GetColliderZ() { return m_colliderZ; };
 
 	virtual void OnUdpdate(float deltatime) {};
 
 	bool IsColliding();
 	bool IsCollidingWith();
 	//..
+	void LookAt(GameObject gmToLookAt);
+	void LookAt(XMFLOAT3 posToLookAt);
+	void MoveForward(float distance);
+	void MoveBackward(float distance);
 
 	bool alive = true;
 	bool m_markedForDeletion = false;
@@ -91,5 +105,7 @@ private:
 
 	std::string m_name;
 	Tag m_tag;
+
+	float m_colliderX, m_colliderY, m_colliderZ;
 };
 
