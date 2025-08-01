@@ -30,6 +30,7 @@ enum Tag
 class GameObject
 {
 public:
+
 	void Init(const std::string& name, ECSManager* ecsManager, Scene* scene);
 	void InitGameObj(ECSManager* ecsManager, Scene* scene);
 
@@ -39,6 +40,7 @@ public:
 	void Init(const std::string& name, ECSManager* ecsManager, Scene* scene, DimensionalType type, bool useMesh);
 
 	//void Init(const std::string& name, ECSManager* ecsManager, DimensionalType type, bool useMesh);
+
 	void Init(ECSManager* ecsManager, Scene* scene);
 
 
@@ -50,7 +52,12 @@ public:
 	// Components
 	void SetPosition(XMFLOAT3 pos) { GetComponent<TransformComponent>()->position = pos; GetComponent<TransformComponent>()->dirty = true; };
 	XMFLOAT3& GetPosition() { return GetComponent<TransformComponent>()->position; };
+	// --
+	// NE PAS UTILISER POUR GAMEPLAY
 	void SetRotation(XMFLOAT4 rot) { GetComponent<TransformComponent>()->rotation = rot; GetComponent<TransformComponent>()->dirty = true; };
+	// --
+	void SetTransformRotation(XMFLOAT3 rot) { GetComponent<TransformComponent>()->SetRotation(rot.x,rot.y,rot.z); };
+	void AddRotation(XMFLOAT3 rot) { GetComponent<TransformComponent>()->AddRotation(rot.x,rot.y,rot.z); };
 	XMFLOAT4& GetRotation() { return GetComponent<TransformComponent>()->rotation; };
 	void SetScale(XMFLOAT3 scl) { GetComponent<TransformComponent>()->scale = scl; GetComponent<TransformComponent>()->dirty = true; };
 	XMFLOAT3& GetScale() { return GetComponent<TransformComponent>()->scale; };

@@ -1,22 +1,3 @@
-//// CollisionSystem.h
-//#pragma once
-//#include "EventBus.h"
-//#include "ISystem.h"
-////#include "Components.h"
-//
-//class CollisionSystem : public ISystem {
-//public:
-//    CollisionSystem(EventBus& bus, ECSManager& m_ecs) : m_bus(bus), m_ecs(ecs) {}
-//    void Update(ECSManager& ecs, float dt) override;
-//private:
-//    EventBus& m_bus;
-//    //ECSManager& m_ecs;
-//};
-
-
-
-
-
 // CollisionSystem.h
 #pragma once
 #include "Components.h"
@@ -42,5 +23,11 @@ private:
     
 
     bool SphereVsAabb(XMFLOAT3 pc, SphereCollider s, XMFLOAT3 pa, AABBCollider a);
+
+    bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2);
+
+    bool SphereVsObb(XMFLOAT3 ps, SphereCollider s, XMFLOAT3 p, OBBCollider b);
+
+    bool ObbVsAabb(XMFLOAT3 paabb, AABBCollider a, XMFLOAT3 pobb, OBBCollider b);
     
 };

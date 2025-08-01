@@ -7,6 +7,14 @@
 #include "Utils.h"
 #include <Events.h>
 
+
+bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2);
+
+bool ObbVsAabb(XMFLOAT3 paabb, AABBCollider a, XMFLOAT3 pobb, OBBCollider b);
+
+bool AabbVsAabb(XMFLOAT3 p1, AABBCollider b1, XMFLOAT3 p2, AABBCollider b2);
+
+
 Player::Player() : m_stateMachine(this, State::Count)
 {
 	// --- IDLE ---
@@ -82,25 +90,20 @@ Player::Player() : m_stateMachine(this, State::Count)
 		//-> IDLE TRANSITION
 		{
 			auto transition = sJump->CreateTransition(State::Idle);
-			auto condition = transition->AddCondition<PlayerCondition_IsAirBorne>(); // Saut ou chute deja commencee
+			//auto condition = transition->AddCondition<PlayerCondition_IsAirBorne>(); // Saut ou chute deja commencee
 			transition->AddCondition<PlayerCondition_IsOnGround>(); // Contact par le dessous
 			//transition->AddCondition<PlayerCondition_IsNotMoving>();
-		}
-		////-> ATTACK TRANSITION
-		//{
-		//	auto transition = sJump->CreateTransition(State::Attack);
-		//	auto condition = transition->AddCondition<PlayerCondition_IsAttacking>();
-		//}
-		//-> FALL TRANSITION
-		{
-			//auto transition = sJump->CreateTransition(State::Fall);
-			//auto condition = transition->AddCondition<PlayerCondition_IsInTheAir>();
 		}
 		//-> PICK UP TRANSITION
 		{
 			auto transition = sJump->CreateTransition(State::PickUp);
 			transition->AddCondition<PlayerCondition_IsPickingUp>();
 			transition->AddCondition<PlayerCondition_IsCloseToObject>();
+		}
+		//-> FALL TRANSITION
+		{
+			auto transition = sJump->CreateTransition(State::Fall);
+			transition->AddCondition<PlayerCondition_JumpEnd>();
 		}
 	}
 
@@ -143,11 +146,6 @@ Player::Player() : m_stateMachine(this, State::Count)
 			auto condition = transition->AddCondition<PlayerCondition_IsNotOnGround>();
 			transition->AddCondition<PlayerCondition_AttackFinished>();
 		}
-		//-> ATTACK TRANSITION
-		{
-			//auto transition = sAttack->CreateTransition(State::Attack);
-			//auto condition = transition->AddCondition<PlayerCondition_AttackFinished>();
-		}
 	}
 	// --- Pick Up ---
 	{
@@ -167,11 +165,6 @@ Player::Player() : m_stateMachine(this, State::Count)
 		{
 			auto transition = sPickUp->CreateTransition(State::Fall);
 			auto condition = transition->AddCondition<PlayerCondition_IsNotOnGround>();
-		}
-		//-> ATTACK TRANSITION
-		{
-			//auto transition = sPickUp->CreateTransition(State::Attack);
-			//auto condition = transition->AddCondition<PlayerCondition_AttackFinished>();
 		}
 	}
 
@@ -199,166 +192,420 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 	// sounds
 	mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
 
-	EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p) {
-		// si c est le joueur qui est entre en collision
-		
-		
-		auto playerEntity = p.a;
-		auto otherEntity = p.b;
+	EventBus::instance().subscribe<CollisionEvent>(
+		[&](CollisionEvent::Payload const& p) {
+			Entity playerE = p.a, otherE = p.b;
+			// permute pour que playerE soit vraiment le joueur
+			if (otherE.id == m_playerGameObject.GetEntity().id) {
+				playerE = p.b; otherE = p.a;
+			}
+			// si aucun des deux n’est le joueur, on sort
+			if (playerE.id != m_playerGameObject.GetEntity().id) return;
 
-		if (playerEntity.id != m_playerGameObject.GetEntity().id && otherEntity.id != m_playerGameObject.GetEntity().id)
-			return;
-		if (p.b.id == m_playerGameObject.GetEntity().id)
-		{
-			playerEntity = p.b;
-			otherEntity = p.a;
-		}
-
-		////OutputDebugStringA("\nCOLLISION \n");
-		//if (p.a.id == m_playerGameObject.GetEntity().id) {
-		//	m_hasCollided = true;
-		//	auto tag = mp_scene->GetGameObjectByID(p.a).GetTag();
-
-		//	switch(tag)
-		//	{
-		//	case TAG_Floor :
-		//	case TAG_Environment:
-		//		m_objectsCollidingWithPlayer.push_back(p.b);
-		//		break;
-		//	default:
-		//		break;
-		//	}
-		//}
-		//else if (p.b.id == m_playerGameObject.GetEntity().id) 
-		//{
-		//	m_hasCollided = true;
-		//	auto tag = mp_scene->GetGameObjectByID(p.a).GetTag();
-
-		//	switch (tag)
-		//	{
-		//	case TAG_Floor:
-		//	case TAG_Environment:
-		//		m_objectsCollidingWithPlayer.push_back(p.a);
-		//		break;
-		//	default:
-		//		break;
-		//	}
-		//}
-
-		m_hasCollided = true;
-		auto* object = &mp_scene->GetGameObjectByID(otherEntity);
-		auto* player = &mp_scene->GetGameObjectByID(playerEntity);
-		auto tag = object->GetTag();
-
-		m_objectsCollidingWithPlayer.push_back(otherEntity);
-
-		switch (tag)
-		{
-		case TAG_Floor:
-		case TAG_Environment:
-		{
-			// Calculer le vecteur de correction minimal
-			DirectX::XMVECTOR correction = Utils::ResolveAABBCollision(*player->GetComponent<TransformComponent>(), *object->GetComponent<TransformComponent>());
-
-			// Charger la position actuelle dans un XMVECTOR
-			DirectX::XMVECTOR newPos = DirectX::XMLoadFloat3(&player->GetComponent<TransformComponent>()->position);
-
-			// Soustraire le vecteur de correction
-			newPos = DirectX::XMVectorSubtract(newPos, correction);
-
-			// Stocker la nouvelle position dans vPosition
-			DirectX::XMStoreFloat3(&player->GetComponent<TransformComponent>()->position, newPos);
-			player->GetComponent<TransformComponent>()->dirty = true;
-			break;
-		}
-		default:
-		{
-			DirectX::XMVECTOR correction = Utils::ResolveAABBCollision(*player->GetComponent<TransformComponent>(), *object->GetComponent<TransformComponent>());
-			DirectX::XMVECTOR halfCorr = DirectX::XMVectorScale(correction, 0.5f);
-
-			// Charger la position actuelle dans un XMVECTOR
-			DirectX::XMVECTOR newPos1 = DirectX::XMLoadFloat3(&player->GetComponent<TransformComponent>()->position);
-			DirectX::XMVECTOR newPos2 = DirectX::XMLoadFloat3(&object->GetComponent<TransformComponent>()->position);
-
-			// Soustraire le vecteur de correction
-			newPos1 = DirectX::XMVectorSubtract(newPos1, halfCorr);
-			newPos2 = DirectX::XMVectorAdd(newPos2, halfCorr);
-			// Stocker la nouvelle position dans vPosition
-			DirectX::XMStoreFloat3(&player->GetComponent<TransformComponent>()->position, newPos1);
-			DirectX::XMStoreFloat3(&object->GetComponent<TransformComponent>()->position, newPos2);
-
-			player->GetComponent<TransformComponent>()->dirty = true;
-			object->GetComponent<TransformComponent>()->dirty = true;
-			break;
-		}
-		}
-
-
-
-		//else if (!mp_entityManager->HasComponent(entity1, COMPONENT_VELOCITY) && mp_entityManager->HasComponent(entity2, COMPONENT_VELOCITY))
-		//{
-		//	// Calculer le vecteur de correction minimal
-		//	DirectX::XMVECTOR correction = Utils::ResolveAABBCollision(*transform2, *transform1);
-
-		//	// Charger la position actuelle dans un XMVECTOR
-		//	DirectX::XMVECTOR newPos = DirectX::XMLoadFloat3(&transform2->m_transform.vPosition);
-
-		//	// Soustraire le vecteur de correction
-		//	newPos = DirectX::XMVectorSubtract(newPos, correction);
-
-		//	// Stocker la nouvelle position dans vPosition
-		//	DirectX::XMStoreFloat3(&transform2->m_transform.vPosition, newPos);
-		//	transform2->m_transform.UpdateMatrix();
-		//}
-
-
-
-
-
-
-
-
-
-
-
-
+			//m_objectsCollidingWithPlayer.push_back(otherE);
+			m_hasCollided = true;
 		});
 
-		OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
+	OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
+}
 
-		//AnimationManager newAnim;
+const char* Player::GetStateName(State state) const
+{
+	switch (state)
+	{
+	case Idle: return "Idle";
+	case Move: return "Move";
+	case Jump: return "Jump";
+	case Attack: return "Attack";
+	case Fall: return "Fall";
+	default: return "Unknown";
+	}
+}
 
-		//m_testAnimation.Init(2.f, &m_playerArm);
-		//m_testAnimation.AddFrame(TEXTURES::bras);
-		//m_testAnimation.AddFrame(TEXTURES::test);
-		//m_testAnimation.AddFrame(TEXTURES::tex0);
+const char* Player::GetCurrentStateName() const
+{
+	int state = m_stateMachine.GetCurrentState();
+	return GetStateName(static_cast<State>(state));
+}
 
+void Player::OnUdpdate(float deltatime)
+{
+	m_stateMachine.Update();
+	m_deltatime = deltatime;
+	Movement();
+	ApplyMovementAndCollisions(deltatime);
+
+}
+
+void Player::ApplyMovementAndCollisions(float dt)
+{
+	auto& tP = *m_playerGameObject.GetComponent<TransformComponent>();
+	auto& cP = *m_playerGameObject.GetComponent<CollisionComponent>();
+	auto& aabb = std::get<AABBCollider>(cP.shape);
+
+	//m_isOnGround ? OutputDebugStringA("\n PLAYER ON GROUND\n") : OutputDebugStringA("\n -- GROUND ON NOT PLAYER -- \n");
+
+	// A) BROAD PHASE COLLISION DETECTION
+	std::vector<Entity> candidates;
+	{
+		float margin = m_moveSpeed * dt + 0.1f;
+
+		// 1) récupère center et radius du joueur
+		XMFLOAT3 center = tP.position; float rPlayer = cP.BoundingSphereRadius();
+
+		// 2) pour chaque entité
+		ComponentMask mask = (1ULL << CollisionComponent::StaticTypeID) | (1ULL << TransformComponent::StaticTypeID);
+		mp_scene->GetEcsManager()->ForEach(mask, [&](Entity e)
+			{
+				if (e.id == m_playerGameObject.GetEntity().id) return;
+
+				auto& otherT = *mp_scene->GetGameObjectByID(e).GetComponent<TransformComponent>();
+				auto& otherC = *mp_scene->GetGameObjectByID(e).GetComponent<CollisionComponent>();
+
+				//float rOther = otherC.GetBoundingSphereRadius();
+				float rOther = otherC.BoundingSphereRadius();
+
+				float dist2 = Utils::sqr(otherT.position.x - center.x)
+					+ Utils::sqr(otherT.position.y - center.y)
+					+ Utils::sqr(otherT.position.z - center.z);
+
+				if (dist2 <= Utils::sqr(rPlayer + rOther + margin))
+				{
+					candidates.push_back(e);
+				}
+			});
+	}
+
+	// Déplacement total voulu sur ce frame
+	XMVECTOR totalDisp = XMLoadFloat3(&m_velocity) * dt;
+
+	// fraction restante de movement [0..1]
+	float remaining = 1.0f;
+
+		// 4) Pour chaque candidate :
+	for (auto& e : candidates) {
+		auto& oc = *mp_scene->GetGameObjectByID(e).GetComponent<CollisionComponent>();
+		auto& ot = *mp_scene->GetGameObjectByID(e).GetComponent<TransformComponent>();
+		XMVECTOR mtv = XMVectorZero();
+
+		bool hit = false;
+		XMFLOAT3 pa{ tP.position.x, tP.position.y, tP.position.z };
+		XMFLOAT3 pb{ ot.position.x, ot.position.y, ot.position.z };
+
+
+		if (oc.shapeType == ColliderType::AABB) {
+			/*mtv = Utils::ResolveAABBCollision(
+				tP,
+				ot);*/
+			hit = AabbVsAabb(pa, std::get<AABBCollider>(cP.shape), pb, std::get<AABBCollider>(oc.shape));
+			if (hit)
+			{
+				mtv = Utils::ResolveAabbAabbCollider(
+					tP.position, aabb,
+					ot.position, std::get<AABBCollider>(oc.shape));
+			}
+		}
+		else { // OBB vs AABB
+			std::get<OBBCollider>(oc.shape).orientation = ot.rotation;
+			hit = ObbVsAabb(pa, std::get<AABBCollider>(cP.shape), pb, std::get<OBBCollider>(oc.shape));
+			if (hit)
+			{
+				mtv = Utils::ResolveAabbObbCollision(
+					tP.position, aabb,
+					ot.position, std::get<OBBCollider>(oc.shape));
+			}
 		}
 
-		const char* Player::GetStateName(State state) const
-	{
-		switch (state)
-		{
-		case Idle: return "Idle";
-		case Move: return "Move";
-		case Jump: return "Jump";
-		case Attack: return "Attack";
-		case Fall: return "Fall";
-		default: return "Unknown";
+		if (!XMVector3Equal(mtv, XMVectorZero())) {
+			// pour le sol et environnement on ne bouge que le joueur
+			if (mp_scene->GetGameObjectByID(e).GetTag() == TAG_Floor || mp_scene->GetGameObjectByID(e).GetTag() == TAG_Environment) {
+				XMVECTOR v = XMLoadFloat3(&tP.position);
+				v = XMVectorSubtract(v, mtv);
+				XMStoreFloat3(&tP.position, v);
+				tP.dirty = true;
+			lastPushNormal = XMVector3Normalize(mtv);
+			}
+			else {
+				// deux objets se repoussent à moitié
+				XMVECTOR half = XMVectorScale(mtv, 0.5f);
+				XMVECTOR vp = XMLoadFloat3(&tP.position) - half;
+				XMVECTOR vo = XMLoadFloat3(&ot.position) + half;
+				XMStoreFloat3(&tP.position, vp);
+				XMStoreFloat3(&ot.position, vo);
+				tP.dirty = ot.dirty = true;
+			lastPushNormal = XMVector3Normalize(half);
+			}
 		}
 	}
 
-	const char* Player::GetCurrentStateName() const
-	{
-		int state = m_stateMachine.GetCurrentState();
-		return GetStateName(static_cast<State>(state));
+	XMFLOAT3 currentPos = tP.position;
+
+	const float skinWidth = 0.01f;  // 5 cm
+	AABBCollider mover = aabb;
+	mover.halfSize.x = (((0.0f) > (mover.halfSize.x - skinWidth)) ? (0.0f) : (mover.halfSize.x - skinWidth));
+	mover.halfSize.y = (((0.0f) > (mover.halfSize.y - skinWidth)) ? (0.0f) : (mover.halfSize.y - skinWidth));
+	mover.halfSize.z = (((0.0f) > (mover.halfSize.z - skinWidth)) ? (0.0f) : (mover.halfSize.z - skinWidth));
+
+	// 3) Sweep & slide en 3 itérations max
+	for (int iter = 0; iter < 3 && remaining > 1e-3f; ++iter) {
+		// portion courante du déplacement
+		XMVECTOR dispCurr = totalDisp * remaining;
+		XMFLOAT3 dCurr; XMStoreFloat3(&dCurr, dispCurr);
+
+		// recherche du premier impact
+		float tMin = 1.0f;
+		XMVECTOR hitN = XMVectorZero();
+		for (auto& e : candidates) {
+			auto& oc = *mp_scene->GetGameObjectByID(e).GetComponent<CollisionComponent>();
+			auto& ot = *mp_scene->GetGameObjectByID(e).GetComponent<TransformComponent>();
+			float t;
+			XMVECTOR n;
+			if (oc.shapeType == ColliderType::AABB) {
+				t = Utils::SweepAabbVsAabb(currentPos, dCurr, mover,
+					ot, std::get<AABBCollider>(oc.shape), n);
+			}
+			else {
+				t = Utils::SweepAabbVsObb(currentPos, dCurr, mover,
+					ot, std::get<OBBCollider>(oc.shape), n);
+			}
+			if (t < tMin) {
+				tMin = t;
+				hitN = n;
+			}
+		}
+
+		//XMFLOAT3 debugVar; XMStoreFloat3(&debugVar, hitN);
+		//std::string a = std::to_string(tMin);
+		//std::string b = std::to_string(debugVar.x);
+		//std::string c = std::to_string(debugVar.y);
+		//std::string d = std::to_string(debugVar.z);
+		//Utils::log("\n tMin = " + a + "\n hitN : x = " + b + ", y = " + c + ", z = " + d + "\n");
+
+
+		// avancer jusqu'au contact (ou tout le chemin si tMin == 1)
+		currentPos.x += dCurr.x * tMin;
+		currentPos.y += dCurr.y * tMin;
+		currentPos.z += dCurr.z * tMin;
+
+		if (tMin < 1.0f) {
+			currentPos.x += debugVar.x * skinWidth;
+			currentPos.y += debugVar.y * skinWidth;
+			currentPos.z += debugVar.z * skinWidth;
+		}
+
+		// pas d’impact ? on a fini
+		if (tMin >= 1.0f) break;
+
+		// calcule la glisse sur la face touchée
+		XMVECTOR rem = totalDisp * remaining * (1.0f - tMin);
+		XMVECTOR slide = rem - hitN * XMVectorGetX(XMVector3Dot(rem, hitN));
+
+		// met à jour la fraction restante et totalDisp pour la prochaine itération
+		remaining *= (1.0f - tMin);
+		totalDisp = slide;
 	}
 
-	void Player::OnUdpdate(float deltatime)
+	// Si le mouvement bloque
 	{
-		m_stateMachine.Update();
-		m_deltatime = deltatime;
-		//m_testAnimation.Loop(deltatime);
+		bool moved = !XMVector3Equal(XMLoadFloat3(&tP.position), XMLoadFloat3(&currentPos));
 
-		m_objectsCollidingWithPlayer.clear();
+		//  if (player tried to move but stayed in place) ? incrémente stuckFrames
+		if ((m_velocity.x != 0 || m_velocity.z != 0) && !moved) {
+			stuckFrames++;
+		}
+		else {
+			stuckFrames = 0;
+		}
+
+		// si bloqué trop longtemps ? nudge
+		if (stuckFrames >= 3) {
+			// pousse d’un petit epsilon le long de lastPushNormal
+			XMVECTOR n = lastPushNormal;
+			XMVECTOR nudge = XMVectorScale(n, 0.05f);  // 5 cm
+			XMStoreFloat3(&currentPos, XMLoadFloat3(&currentPos) + nudge);
+			stuckFrames = 0;
+		}
 	}
+
+
+	// 4) Applique la nouvelle position
+	m_playerGameObject.SetPosition(currentPos);
+
+
+
+
+	// 5) Ground check
+	// Origine du rayon = center.xz + (pos.y - halfHeight - ?)
+	XMVECTOR origin = XMVectorSet(
+		tP.position.x,
+		tP.position.y - aabb.halfSize.y + 1e-3f,
+		tP.position.z,
+		0);
+	XMVECTOR dir = XMVectorSet(0, -1, 0, 0);
+	//float maxDist = 1.0f;  // tolérance de peau
+	float maxDist = 0.2f;  // tolérance de peau
+
+	bool onGround = false;
+	for (auto& e : candidates) {
+		auto& oc = *mp_scene->GetGameObjectByID(e).GetComponent<CollisionComponent>();
+		auto& ot = *mp_scene->GetGameObjectByID(e).GetComponent<TransformComponent>();
+
+		bool hit = false;
+		if (oc.shapeType == ColliderType::AABB) {
+			// slab?test Y only
+			float minY = ot.position.y - std::get<AABBCollider>(oc.shape).halfSize.y;
+			if (tP.position.y - aabb.halfSize.y >= minY &&
+				tP.position.y - aabb.halfSize.y - maxDist <= minY) {
+				hit = true;
+			}
+		}
+		else {
+			// IsStandingOnOBB (ray in local space)
+			hit = Utils::IsStandingOnOBB(
+				tP, aabb,
+				ot, std::get<OBBCollider>(oc.shape),
+				maxDist, 45.0f);
+		}
+		if (hit) {
+			onGround = true;
+			break;
+		}
+	}
+	m_isOnGround = onGround;
+	if (m_isOnGround) m_velocity.y = 0;
+
+
+}
+
+
+void Player::Movement()
+{
+	// Gère le sprint
+	if (InputManager::GetKeyIsPressed(VK_SHIFT))
+	{
+		SetMoveSpeed(GetRunSpeed());
+	}
+	else
+	{
+		SetMoveSpeed(GetWalkSpeed());
+	}
+	// 1) Récupère la rotation de la caméra
+	XMFLOAT4 camQuatF = mp_cameraGO->GetRotation();
+	XMVECTOR camQuat = XMLoadFloat4(&camQuatF);
+	XMMATRIX rotMat = XMMatrixRotationQuaternion(camQuat);
+
+	// 2) Construit forward & right **dans le plan XZ**
+	XMVECTOR forward = XMVector3TransformNormal(XMVectorSet(0, 0, 1, 0), rotMat);
+	forward = XMVectorSetY(forward, 0);
+	forward = XMVector3Normalize(forward);
+
+	XMVECTOR right = XMVector3Normalize(XMVector3Cross(XMVectorSet(0, 1, 0, 0), forward));
+
+	// 3) Calcule la direction de déplacement horizontale selon l’input
+	XMVECTOR moveDir = XMVectorZero();
+	if (InputManager::GetKeyIsPressed('Z')) moveDir += forward;
+	if (InputManager::GetKeyIsPressed('S')) moveDir -= forward;
+	if (InputManager::GetKeyIsPressed('D')) moveDir += right;
+	if (InputManager::GetKeyIsPressed('Q')) moveDir -= right;
+
+	// 4) Normalise (pour ne pas accélérer dans les diagonales)
+	if (!XMVector3Equal(moveDir, XMVectorZero())) {
+		moveDir = XMVector3Normalize(moveDir);
+	}
+
+	// 5) Écrit la vitesse horizontale dans m_velocity.x/z
+	//    (on garde m_velocity.y intact pour la gravité/jump)
+	XMFLOAT3 vel = m_velocity;
+	float speed = GetMoveSpeed();      // sprint ou marche
+	vel.x = XMVectorGetX(moveDir) * speed;
+	vel.z = XMVectorGetZ(moveDir) * speed;
+	m_velocity = vel;
+}
+
+
+bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2)
+{
+
+	// 3 axes locaux de chaque boîte
+	XMMATRIX R1 = XMMatrixRotationQuaternion(XMLoadFloat4(&b1.orientation));
+	XMMATRIX R2 = XMMatrixRotationQuaternion(XMLoadFloat4(&b2.orientation));
+	XMVECTOR A[3] = { R1.r[0], R1.r[1], R1.r[2] };
+	XMVECTOR B[3] = { R2.r[0], R2.r[1], R2.r[2] };
+
+	// centres en espace monde
+	XMVECTOR C1 = XMLoadFloat3(&p1) +
+		XMVector3Rotate(XMLoadFloat3(&b1.offset), XMLoadFloat4(&b1.orientation));
+	XMVECTOR C2 = XMLoadFloat3(&p2) +
+		XMVector3Rotate(XMLoadFloat3(&b2.offset), XMLoadFloat4(&b2.orientation));
+
+	// matrice des dot products et valeurs absolues (+epsilon)
+	float R_[3][3], AbsR[3][3];
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			R_[i][j] = XMVectorGetX(XMVector3Dot(A[i], B[j]));
+			AbsR[i][j] = std::abs(R_[i][j]) + 1e-6f;
+		}
+	}
+
+	// vecteur distance projeté sur A[]
+	XMVECTOR tvec = C2 - C1;
+	float t[3] = {
+		XMVectorGetX(XMVector3Dot(tvec, A[0])),
+		XMVectorGetX(XMVector3Dot(tvec, A[1])),
+		XMVectorGetX(XMVector3Dot(tvec, A[2]))
+	};
+
+	// 1–3 : axes A0, A1, A2
+	for (int i = 0; i < 3; ++i) {
+		float ra = (&b1.halfSize.x)[i];
+		float rb = b2.halfSize.x * AbsR[i][0]
+			+ b2.halfSize.y * AbsR[i][1]
+			+ b2.halfSize.z * AbsR[i][2];
+		if (std::abs(t[i]) > ra + rb) return false;
+	}
+	// 4–6 : axes B0, B1, B2
+	for (int j = 0; j < 3; ++j) {
+		float ra = b1.halfSize.x * AbsR[0][j]
+			+ b1.halfSize.y * AbsR[1][j]
+			+ b1.halfSize.z * AbsR[2][j];
+		float tj = std::abs(XMVectorGetX(XMVector3Dot(tvec, B[j])));
+		float rb = (&b2.halfSize.x)[j];
+		if (tj > ra + rb) return false;
+	}
+	// 7–15 : A_i × B_j
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			float ra = (&b1.halfSize.x)[(i + 1) % 3] * AbsR[(i + 2) % 3][j]
+				+ (&b1.halfSize.x)[(i + 2) % 3] * AbsR[(i + 1) % 3][j];
+			float rb = (&b2.halfSize.x)[(j + 1) % 3] * AbsR[i][(j + 2) % 3]
+				+ (&b2.halfSize.x)[(j + 2) % 3] * AbsR[i][(j + 1) % 3];
+			float tij = std::abs(
+				t[(i + 2) % 3] * R_[(i + 1) % 3][j] - t[(i + 1) % 3] * R_[(i + 2) % 3][j]
+			);
+			if (tij > ra + rb) return false;
+		}
+	}
+
+	return true;
+}
+
+bool ObbVsAabb(XMFLOAT3 paabb, AABBCollider a,
+	XMFLOAT3 pobb, OBBCollider b)
+{
+	// transformer l’AABB en OBB : orientation = identity, offset = a.offset
+	OBBCollider boxA;
+	boxA.halfSize = a.halfSize;
+	boxA.offset = a.offset;
+	boxA.orientation = { 0, 0, 0, 1 };
+	// et appeler directement ObbVsObb avec centres échangés si besoin
+	return ObbVsObb(pobb, b, paabb, boxA);
+}
+
+
+bool AabbVsAabb(XMFLOAT3 p1, AABBCollider b1, XMFLOAT3 p2, AABBCollider b2)
+{
+	return
+		std::abs(p1.x + b1.offset.x - (p2.x + b2.offset.x)) <= (b1.halfSize.x + b2.halfSize.x)
+		&& std::abs(p1.y + b1.offset.y - (p2.y + b2.offset.y)) <= (b1.halfSize.y + b2.halfSize.y)
+		&& std::abs(p1.z + b1.offset.z - (p2.z + b2.offset.z)) <= (b1.halfSize.z + b2.halfSize.z);
+}

@@ -19,7 +19,6 @@ void WaveManager::InitWave()
 
 	m_Indices = { 0,1,2, 0,2,3 };
 
-	//MeshData cb = CreateMesh_Wave();
 
 	BuildAndUploadBuffers();	
 }
@@ -30,13 +29,6 @@ void WaveManager::Update(float deltaTime)
 	m_scrollOffset.x += deltaTime * 0.4f;
 	m_scrollOffset.y += deltaTime * 0.33f;
 
-	// 2) upload du CB
-	//UINT8* pData = nullptr;
-	//CD3DX12_RANGE readRange(0, 0);
-	//m_constantBuffer->Map(0, &readRange, reinterpret_cast<void**>(&pData));
-	//memcpy(m_mappedCBData, &worldViewProj, sizeof(worldViewProj));
-	//memcpy(m_mappedCBData + sizeof(worldViewProj), &scrollOffset, sizeof(scrollOffset));
-	//m_constantBuffer->Unmap(0, nullptr);
 
 	UINT64 count = 0;
 
@@ -51,16 +43,6 @@ void WaveManager::Update(float deltaTime)
 				wavec->normalMapID = mp_textureManager->LoadTexture("../SampleProject/Ressources/Environnement3D/Water/WaterNormal.dds");
 				wavec->cubeMapID = mp_textureManager->LoadCubeTexture("../SampleProject/Ressources/Environnement3D/Water/CubeMap.dds");
 			}
-			//// 2) Calculer la matrice monde (XMMATRIX) depuis tc->position/rotation/scale
-			//XMMATRIX world = m_ECS->m_systemMgr.GetTransformSystem().worldMatrices[ent.id];
-
-			//// 3) Construire le struct ConstantBuffData
-			//CBData cbData;
-			//XMStoreFloat4x4(&cbData.World, XMMatrixTranspose(world));
-
-			//cbData.scrollOffset = m_scrollOffset;
-
-			//memcpy(m_mappedCBData, &cbData, sizeof(CBData));
 		});
 
 	m_waveCount = count;
@@ -72,22 +54,6 @@ void WaveManager::LoadTexture(TextureManager::TextureID id)
 
 }
 
-MeshData WaveManager::CreateMesh_Wave()
-{
-	//m_Vertices =
-	//{
-	//{{-1, 0, -1}, {0, 0}},
-	//{{ 1, 0, -1}, {1, 0}},
-	//{{ 1, 0,  1}, {1, 1}},
-	//{{-1, 0,  1}, {0, 1}}
-	//};
-
-	//m_Indices = { 0,1,2, 0,2,3 };
-
-	return MeshData();
-}
-
-
 void WaveManager::UploadData(void const* _Src, UINT64 offset)
 {
 	memcpy((BYTE*)m_mappedCBData + offset, _Src, sizeof(CBData));
@@ -97,9 +63,7 @@ HRESULT WaveManager::BuildAndUploadBuffers()
 {
 	// upload to GPU buffers
 	UINT vByteSize = static_cast<UINT>((sizeof(WaveVertex) + 255) & ~255 );
-	//UINT vByteSize = static_cast<UINT>(m_Vertices.size() * sizeof(WaveVertex));
 	UINT iByteSize = static_cast<UINT>((sizeof(uint32_t) + 255) & ~255);
-	//UINT iByteSize = static_cast<UINT>(m_Indices.size() * sizeof(uint32_t));
 
 	CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_UPLOAD);
 

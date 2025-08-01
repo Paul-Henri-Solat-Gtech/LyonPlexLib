@@ -25,6 +25,10 @@ public:
 	
 	void OnUdpdate(float deltatime);
 
+	void ApplyMovementAndCollisions(float dt);
+
+	void Movement();
+
 	const char* GetStateName(State state) const;
 	const char* GetCurrentStateName() const;
 
@@ -48,9 +52,6 @@ public:
 
 	Enemy* m_closestEnemy = nullptr;
 
-	//std::vector<Enemy*>* m_enemies = nullptr;
-	//void SetEnemies(std::vector<Enemy*>* enemyList) { m_enemies = enemyList; };
-
 	//Test Animation
 	AnimationManager m_testAnimation;
 	bool m_attackFinished;
@@ -62,16 +63,24 @@ public:
 	float m_runSpeed = 25.0f;
 	float m_moveSpeed;
 
-	float m_jumpPower = 35.f;
+	float m_jumpPower = 10.f;
+	float m_jumpTime = 0.15f;
 	float m_jumpPosY = 0.0f;
 	float m_jumpProgress = 0.0f;
 	float m_fallProgress = 0.0f;
+
+	DirectX::XMFLOAT3 m_velocity = { 0.0f, 0.0f, 0.0f };
+
+	// variables de collision
+	int   stuckFrames = 0;         // compte les frames ou le joueur est bloqu dans un objet
+	XMVECTOR lastPushNormal = {};  // normale du dernier MTV
 
 	float m_invicibilityCooldown = 2.0f;
 
 	bool m_hasCollided = false;
 	bool m_isPickingUp = false;
 	bool m_isFalling = false;
+	bool m_isOnGround = false;
 
 	int m_currIdleMesh = TEXTURES::ARMS;
 

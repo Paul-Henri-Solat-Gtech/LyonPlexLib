@@ -2,55 +2,30 @@
 #include "PlayerCondition.h"
 #include "Utils.h"
 #include "Enemy.h"
+#include "Colliders.h"
 
-bool PlayerCondition_IsAirBorne::OnTest(Player* owner)
+bool PlayerCondition_IsAirBorne::OnTest(Player* owner)			// SUPPR ?
 {
-	/*bool playerOnObject = false;
-	for (auto& object : owner->m_objectsCollidingWithPlayer)
-	{
-		auto& playerTransform = *owner->mp_gameManager->GetECSManager().GetComponent<TransformComponent>(owner->GetGameObject().GetEntity());
-		auto& objectTransform = *owner->mp_gameManager->GetECSManager().GetComponent<TransformComponent>(object);
-		if (Utils::IsAbove(playerTransform, objectTransform))
-			playerOnObject = true;
-	}
-	return !playerOnObject;*/
-	return (owner->m_fallProgress > 0.2 || owner->m_jumpProgress > 0.2);
+	return (owner->m_fallProgress > 0.1f || owner->m_jumpProgress > 0.1f);
 }
 
 bool PlayerCondition_IsOnGround::OnTest(Player* owner)
 {
-	bool playerOnObject = false;
-	for (auto& object : owner->m_objectsCollidingWithPlayer)
-	{
-		auto& playerTransform = *owner->mp_gameManager->GetECSManager().GetComponent<TransformComponent>(owner->GetGameObject().GetEntity());
-		auto& objectTransform = *owner->mp_gameManager->GetECSManager().GetComponent<TransformComponent>(object);
-		if (Utils::IsAbove(playerTransform, objectTransform))
-		{
-			playerOnObject = true;
-			break;
-		}
-	}
-	return playerOnObject;
+	return owner->m_isOnGround;
 }
 bool PlayerCondition_IsNotOnGround::OnTest(Player* owner)
 {
-	bool playerOnObject = false;
-	for (auto& object : owner->m_objectsCollidingWithPlayer)
-	{
-		auto& playerTransform = *owner->mp_gameManager->GetECSManager().GetComponent<TransformComponent>(owner->GetGameObject().GetEntity());
-		auto& objectTransform = *owner->mp_gameManager->GetECSManager().GetComponent<TransformComponent>(object);
-		if (Utils::IsAbove(playerTransform, objectTransform))
-		{
-			playerOnObject = true;
-			break;
-		}
-	}
-	return !playerOnObject;
+	return !owner->m_isOnGround;
 }
 
 bool PlayerCondition_IsJumping::OnTest(Player* owner)
 {
 	return InputManager::GetKeyIsPressed(VK_SPACE);
+}
+
+bool PlayerCondition_JumpEnd::OnTest(Player* owner)
+{
+	return owner->m_jumpProgress > owner->m_jumpTime;
 }
 
 bool PlayerCondition_IsMoving::OnTest(Player* owner)
@@ -149,12 +124,11 @@ bool PlayerCondition_IsCloseToEnemy::OnTest(Player* owner)
 					Enemy* e = dynamic_cast<Enemy*>(&go);
 					if (e) {
 						owner->m_closestEnemy = e;
+						closeToEnemy = true;
 					}
 					else {
 						// pas d’ennemi valide sous cet ID
 					}
-
-					closeToEnemy = true;
 				}
 			}
 		});

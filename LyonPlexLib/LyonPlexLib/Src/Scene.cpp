@@ -28,6 +28,7 @@ void Scene::Update(float deltatime)
 
 void Scene::Release()
 {
+	m_waveCount = 0;
 	m_sceneEntities.clear();
 	m_sceneGameObjects.clear();
 	mp_ecsManager->ClearAllEntities();
@@ -97,7 +98,7 @@ GameObject& Scene::CreateGameObject(const std::string& gameObjectName, uint32_t 
 	return obj;
 }
 
-GameObject& Scene::CreateWaterGameObject(int waterNum)
+GameObject& Scene::CreateWaterGameObject()
 {
 
 	// 1) On construit l'objet en place dans le vector
@@ -105,10 +106,11 @@ GameObject& Scene::CreateWaterGameObject(int waterNum)
 	auto& obj = *m_sceneGameObjects.back();
 
 	// 2) On l'initialise
-	obj.InitWater(mp_ecsManager, this, waterNum);
+	obj.InitWater(mp_ecsManager, this, m_waveCount);
+	m_waveCount++;
 	return obj;
 }
-GameObject& Scene::CreateWaterGameObject(const std::string& gameObjectName, int waterNum)
+GameObject& Scene::CreateWaterGameObject(const std::string& gameObjectName)
 {
 
 	// 1) On construit l'objet en place dans le vector
@@ -116,7 +118,8 @@ GameObject& Scene::CreateWaterGameObject(const std::string& gameObjectName, int 
 	auto& obj = *m_sceneGameObjects.back();
 
 	// 2) On l'initialise
-	obj.InitWater(gameObjectName, mp_ecsManager, this, waterNum);
+	obj.InitWater(gameObjectName, mp_ecsManager, this, m_waveCount);
+	m_waveCount++;
 	return obj;
 }
 GameObject& Scene::CreateGameObject(const std::string& gameObjectName, /*std::vector<std::unique_ptr<GameObject>>& sceneGameObjects,*/ DimensionalType type, bool useMesh)

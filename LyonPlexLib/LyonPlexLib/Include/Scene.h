@@ -28,6 +28,8 @@ public:
 
 	void SetEcsManager(ECSManager* ecsManager) { mp_ecsManager = ecsManager; };
 
+	ECSManager* GetEcsManager() { return mp_ecsManager; };
+
 	void AddEntityToScene(Entity entity, const std::string& entityName); //(a enlever)
 	
 	SceneEntity CreateEntity(const std::string& entityName);//(a enlever)
@@ -36,8 +38,8 @@ public:
 
 	GameObject& CreateGameObject(const std::string& gameObjectName);
 	GameObject& CreateGameObject(const std::string& gameObjectName, uint32_t meshId, uint32_t textureId);
-	GameObject& CreateWaterGameObject(int waterNum);
-	GameObject& CreateWaterGameObject(const std::string& gameObjectName, int waterNum);
+	GameObject& CreateWaterGameObject();
+	GameObject& CreateWaterGameObject(const std::string& gameObjectName);
 	GameObject& CreateGameObject(const std::string& gameObjectName, /*std::vector<std::unique_ptr<GameObject>>& sceneGameObjects,*/ DimensionalType type, bool useMesh = true);
 
 	GameObject& GetGameObjectByName(const std::string& gameObjectName);
@@ -119,5 +121,7 @@ protected:
 	// Mouse
 	bool m_mouseRotating;
 	POINT m_lastMousePos;
+
+	int m_waveCount = 0;
 };
 

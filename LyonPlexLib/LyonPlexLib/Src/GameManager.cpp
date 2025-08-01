@@ -18,9 +18,9 @@ GameManager::~GameManager()
 bool GameManager::Init()
 {
 
-		ComPtr<ID3D12Debug> debugController;
-		D3D12GetDebugInterface(IID_PPV_ARGS(&debugController));
-		debugController->EnableDebugLayer();
+	//ComPtr<ID3D12Debug> debugController;
+	//D3D12GetDebugInterface(IID_PPV_ARGS(&debugController));
+	//debugController->EnableDebugLayer();
 
 	CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
 
@@ -92,10 +92,10 @@ int GameManager::Run()
 		}
 		// UPDATE
 		//m_renderer.Update();
+		m_sceneManager.UpdateScene(m_deltaTime);
 		m_ECS.m_systemMgr.UpdateAll(m_deltaTime);
 		m_collisionSystem.Update();
 
-		m_sceneManager.UpdateScene(m_deltaTime);
 
 
 		//m_lightSystem.Update(m_ECS, m_deltaTime);

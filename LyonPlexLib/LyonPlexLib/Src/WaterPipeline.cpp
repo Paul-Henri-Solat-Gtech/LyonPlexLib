@@ -18,9 +18,6 @@ void WaterPipeline::CreatePipeline()
 
 void WaterPipeline::CreateRootSignature()
 {
-
-
-
 	// 1) Définition des descriptor ranges (un par SRV)
 	CD3DX12_DESCRIPTOR_RANGE1 ranges[2];
 	// Range pour la normal map (t0)

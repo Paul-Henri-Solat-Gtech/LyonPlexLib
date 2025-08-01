@@ -158,6 +158,12 @@ struct CollisionComponent : public Component
 	ColliderType shapeType;
 	std::variant<SphereCollider, AABBCollider, OBBCollider> shape;
 
+	CollisionComponent()
+	{
+		mask = 1ULL << StaticTypeID;
+		typeID = StaticTypeID;
+	}
+
 	static CollisionComponent MakeSphere(float radius, XMFLOAT3 offset = { 0,0,0 })
 	{
 		CollisionComponent c;
@@ -165,6 +171,7 @@ struct CollisionComponent : public Component
 		c.shape = SphereCollider{ radius, offset };
 		return c;
 	}
+
 	static CollisionComponent MakeAABB(XMFLOAT3 halfSize, XMFLOAT3 offset = { 0,0,0 })
 	{
 		CollisionComponent c;
@@ -172,13 +179,59 @@ struct CollisionComponent : public Component
 		c.shape = AABBCollider{ halfSize, offset };
 		return c;
 	}
-	// etc...
-
-	CollisionComponent()
+	
+	static CollisionComponent MakeOBB(XMFLOAT3 halfSize, XMFLOAT4 orientation = { 0, 0, 0, 1 }, XMFLOAT3 offset = { 0,0,0 })
 	{
-		mask = 1ULL << StaticTypeID;
-		typeID = StaticTypeID;
+		CollisionComponent c;
+		c.shapeType = ColliderType::OBB;
+		c.shape = OBBCollider{ halfSize, offset, orientation };
+		return c;
 	}
+
+	float BoundingSphereRadius() {
+		// Le rayon minimal qui englobe la box
+		// = norme du vecteur halfSize
+		if (shapeType == ColliderType::AABB) {
+			auto& b = std::get<AABBCollider>(shape);
+			return std::sqrt(
+				b.halfSize.x * b.halfSize.x
+				+ b.halfSize.y * b.halfSize.y
+				+ b.halfSize.z * b.halfSize.z
+			);
+		}
+		else {
+			auto& b = std::get<OBBCollider>(shape);
+			return std::sqrt(
+				b.halfSize.x * b.halfSize.x
+				+ b.halfSize.y * b.halfSize.y
+				+ b.halfSize.z * b.halfSize.z
+			);
+		}
+	}
+
+	float GetBoundingSphereRadius() const {
+		if (shapeType == ColliderType::AABB) {
+			auto& b = std::get<AABBCollider>(shape);
+			// plus long demi‑axe
+			//float maxHalfSize = b.halfSize.x > b.halfSize.y ? b.halfSize.x : b.halfSize.y;
+
+			float maxHalfSize = (b.halfSize.x > b.halfSize.y) ? (b.halfSize.x > b.halfSize.z ? b.halfSize.x : b.halfSize.z) : (b.halfSize.z > b.halfSize.y ? b.halfSize.z : b.halfSize.y);
+
+			//maxHalfSize = b.halfSize.z > b.halfSize.y ? b.halfSize.z : b.halfSize.y;
+
+			//maxHalfSize = b.halfSize.x > b.halfSize.z ? b.halfSize.x : b.halfSize.z;
+
+			//return std::max({ b.halfSize.x, b.halfSize.y, b.halfSize.z });
+			return maxHalfSize;
+		}
+		else {
+			auto& b = std::get<OBBCollider>(shape);
+			// rayon = norme de (halfSize) dans le worst‑case
+			XMVECTOR h = XMLoadFloat3(&b.halfSize);
+			return XMVectorGetX(XMVector3Length(h));
+		}
+	}
+
 };
 
 

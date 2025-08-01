@@ -48,11 +48,12 @@ void LightSystem::Init(ECSManager& ecs)
 
 void LightSystem::Update(ECSManager& ecs, float dt)
 {
-    m_currentFrame = mp_device->GetFrameIndex() % FRAME_COUNT;
+    m_currentFrame = mp_device->GetFrameIndex() /*% FRAME_COUNT*/;
 
     // Gather lights
     uint32_t count = 0;
     Light temp[MAX_LIGHTS];
+
     ComponentMask mask = (1ULL << LightComponent::StaticTypeID) | (1ULL << TransformComponent::StaticTypeID);
     ecs.ForEach(mask, [&](Entity e) {
         if (count >= MAX_LIGHTS) return;
@@ -71,7 +72,7 @@ void LightSystem::Update(ECSManager& ecs, float dt)
 
     // Copy array
     ArrayCB arrayData{};
-    memcpy(arrayData.lights, temp, sizeof(Light) * count);
+    memcpy(arrayData.lights, &temp, sizeof(Light) * count);
     uint8_t* arrayDst = m_arrayMapped + m_currentFrame * m_arraySize;
     memcpy(arrayDst, &arrayData, sizeof(ArrayCB));
 }

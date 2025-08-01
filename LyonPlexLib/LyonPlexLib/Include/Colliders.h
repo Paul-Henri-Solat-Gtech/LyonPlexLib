@@ -22,5 +22,5 @@ struct AABBCollider {
 struct OBBCollider {
     XMFLOAT3 halfSize;
     XMFLOAT3 offset = { 0,0,0 };
-    XMFLOAT4 rotationQuat; // quaternion de l’orientation
+    XMFLOAT4 orientation; // quaternion de l’orientation
 };
