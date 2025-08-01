@@ -76,6 +76,10 @@ void EnnemyAction_Flee::Update(Enemy* ennemy)
 
 void EnnemyAction_Roam::Start(Enemy* ennemy)
 {
+	m_maxX = ennemy->GetPosition().x + 100;
+	m_minX = ennemy->GetPosition().x - 100;
+	m_maxZ = ennemy->GetPosition().z + 100;
+	m_minZ = ennemy->GetPosition().z - 100;
 	SetNextLocation(ennemy);
 }
 void EnnemyAction_Roam::Update(Enemy* ennemy)
@@ -97,22 +101,30 @@ void EnnemyAction_Roam::End(Enemy* ennemy)
 
 void EnnemyAction_Roam::SetNextLocation(Enemy* ennemy)
 {
-	int randChoice = std::rand() % 3;  // 0=X, 1=Z, 2=les deux
 	int randX = 0, randZ = 0;
-	switch (randChoice)
-	{
-	case 0:
-		randX = std::rand() % 41 - 20; //entre -40 et 40
-		break;
-	case 1:
-		randZ = std::rand() % 41 - 20;
-		break;
-	case 2:
-		randX = std::rand() % 41 - 20;
-		randZ = std::rand() % 41 - 20;
-		break;
-	default:
-		break;
-	}
-	m_nextPosition = { ennemy->GetPosition().x + randX,ennemy->GetPosition().y,ennemy->GetPosition().z + randZ };
+	float currX = ennemy->GetPosition().x;
+	float currZ = ennemy->GetPosition().z;
+
+	do {
+		int randChoice = std::rand() % 3;  // on recalcule a chaque tour
+		switch (randChoice)
+		{
+		case 0: // uniquement X
+			randX = std::rand() % 41 - 20;
+			randZ = 0;
+			break;
+		case 1: // uniquement Z
+			randX = 0;
+			randZ = std::rand() % 41 - 20;
+			break;
+		case 2: // X et Z
+			randX = std::rand() % 41 - 20;
+			randZ = std::rand() % 41 - 20;
+			break;
+		}
+		// on boucle tant que la pos sort des bornes X ou Z
+	} while (currX + randX < m_minX || currX + randX > m_maxX || currZ + randZ < m_minZ || currZ + randZ > m_maxZ);
+
+	// enfin on fixe la vraie prochaine position
+	m_nextPosition = {currX + randX,ennemy->GetPosition().y,currZ + randZ};
 }

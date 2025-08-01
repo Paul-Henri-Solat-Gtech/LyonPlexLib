@@ -55,4 +55,6 @@ public:
 	void SetNextLocation(Enemy* ennemy);
 private:
 	XMFLOAT3 m_nextPosition;
+
+	float m_maxX, m_minX, m_maxZ, m_minZ;
 };
