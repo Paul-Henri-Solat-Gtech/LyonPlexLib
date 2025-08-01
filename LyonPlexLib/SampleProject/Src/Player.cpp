@@ -253,7 +253,7 @@ void Player::ApplyMovementAndCollisions(float dt)
 		// 1) rÈcupËre center et radius du joueur
 		XMFLOAT3 center = tP.position; float rPlayer = cP.BoundingSphereRadius();
 
-		// 2) pour chaque entitÈ
+		// 2) pour chaque entitÅE
 		ComponentMask mask = (1ULL << CollisionComponent::StaticTypeID) | (1ULL << TransformComponent::StaticTypeID);
 		mp_scene->GetEcsManager()->ForEach(mask, [&](Entity e)
 			{
@@ -326,7 +326,7 @@ void Player::ApplyMovementAndCollisions(float dt)
 			lastPushNormal = XMVector3Normalize(mtv);
 			}
 			else {
-				// deux objets se repoussent ‡ moitiÈ
+				// deux objets se repoussent ÅEmoitiÅE
 				XMVECTOR half = XMVectorScale(mtv, 0.5f);
 				XMVECTOR vp = XMLoadFloat3(&tP.position) - half;
 				XMVECTOR vo = XMLoadFloat3(&ot.position) + half;
@@ -374,7 +374,7 @@ void Player::ApplyMovementAndCollisions(float dt)
 			}
 		}
 
-		//XMFLOAT3 debugVar; XMStoreFloat3(&debugVar, hitN);
+		XMFLOAT3 debugVar; XMStoreFloat3(&debugVar, hitN);
 		//std::string a = std::to_string(tMin);
 		//std::string b = std::to_string(debugVar.x);
 		//std::string c = std::to_string(debugVar.y);
@@ -400,7 +400,7 @@ void Player::ApplyMovementAndCollisions(float dt)
 		XMVECTOR rem = totalDisp * remaining * (1.0f - tMin);
 		XMVECTOR slide = rem - hitN * XMVectorGetX(XMVector3Dot(rem, hitN));
 
-		// met ‡ jour la fraction restante et totalDisp pour la prochaine itÈration
+		// met ÅEjour la fraction restante et totalDisp pour la prochaine itÈration
 		remaining *= (1.0f - tMin);
 		totalDisp = slide;
 	}
@@ -417,7 +417,7 @@ void Player::ApplyMovementAndCollisions(float dt)
 			stuckFrames = 0;
 		}
 
-		// si bloquÈ trop longtemps ? nudge
+		// si bloquÅEtrop longtemps ? nudge
 		if (stuckFrames >= 3) {
 			// pousse díun petit epsilon le long de lastPushNormal
 			XMVECTOR n = lastPushNormal;
@@ -514,7 +514,7 @@ void Player::Movement()
 	}
 
 	// 5) …crit la vitesse horizontale dans m_velocity.x/z
-	//    (on garde m_velocity.y intact pour la gravitÈ/jump)
+	//    (on garde m_velocity.y intact pour la gravitÅEjump)
 	XMFLOAT3 vel = m_velocity;
 	float speed = GetMoveSpeed();      // sprint ou marche
 	vel.x = XMVectorGetX(moveDir) * speed;
@@ -526,7 +526,7 @@ void Player::Movement()
 bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2)
 {
 
-	// 3 axes locaux de chaque boÓte
+	// 3 axes locaux de chaque bo˚ëe
 	XMMATRIX R1 = XMMatrixRotationQuaternion(XMLoadFloat4(&b1.orientation));
 	XMMATRIX R2 = XMMatrixRotationQuaternion(XMLoadFloat4(&b2.orientation));
 	XMVECTOR A[3] = { R1.r[0], R1.r[1], R1.r[2] };
@@ -547,7 +547,7 @@ bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2)
 		}
 	}
 
-	// vecteur distance projetÈ sur A[]
+	// vecteur distance projetÅEsur A[]
 	XMVECTOR tvec = C2 - C1;
 	float t[3] = {
 		XMVectorGetX(XMVector3Dot(tvec, A[0])),
@@ -555,7 +555,7 @@ bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2)
 		XMVectorGetX(XMVector3Dot(tvec, A[2]))
 	};
 
-	// 1ñ3 : axes A0, A1, A2
+	// 1ÅE : axes A0, A1, A2
 	for (int i = 0; i < 3; ++i) {
 		float ra = (&b1.halfSize.x)[i];
 		float rb = b2.halfSize.x * AbsR[i][0]
@@ -563,7 +563,7 @@ bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2)
 			+ b2.halfSize.z * AbsR[i][2];
 		if (std::abs(t[i]) > ra + rb) return false;
 	}
-	// 4ñ6 : axes B0, B1, B2
+	// 4ÅE : axes B0, B1, B2
 	for (int j = 0; j < 3; ++j) {
 		float ra = b1.halfSize.x * AbsR[0][j]
 			+ b1.halfSize.y * AbsR[1][j]
@@ -572,7 +572,7 @@ bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2)
 		float rb = (&b2.halfSize.x)[j];
 		if (tj > ra + rb) return false;
 	}
-	// 7ñ15 : A_i ◊ B_j
+	// 7ÅE5 : A_i ◊ B_j
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
 			float ra = (&b1.halfSize.x)[(i + 1) % 3] * AbsR[(i + 2) % 3][j]
