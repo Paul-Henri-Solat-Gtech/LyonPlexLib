@@ -214,6 +214,7 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 			otherEntity = p.a;
 		}
 
+
 		////OutputDebugStringA("\nCOLLISION \n");
 		//if (p.a.id == m_playerGameObject.GetEntity().id) {
 		//	m_hasCollided = true;
@@ -270,6 +271,21 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 			DirectX::XMStoreFloat3(&player->GetComponent<TransformComponent>()->position, newPos);
 			player->GetComponent<TransformComponent>()->dirty = true;
 			break;
+		}
+		case TAG_Projectile: 
+		{
+			//COLLISION Proj and player
+			
+			if (m_hp > 0)
+			{
+				m_hp--;
+				OutputDebugStringA("\n -1hp \n");
+			}
+			else
+			{
+				OutputDebugStringA("\n Player is already dead ! \n");
+			}
+
 		}
 		default:
 		{

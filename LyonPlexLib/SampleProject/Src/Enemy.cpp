@@ -13,6 +13,8 @@ Enemy::Enemy(ECSManager* ecsManager, GameManager* gameManager, GameObject& gameO
 void Enemy::Init(GameManager* gameManager)
 {
 	AddComponent<Tag_Enemy>(new Tag_Enemy());
+	auto enemyScale = this->GetScale();
+	AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ enemyScale.x / 2, enemyScale.y / 2, enemyScale.z / 2 }))); //not colliding with terrain Or just not work
 
 	mp_gameManager = gameManager;
 	m_deltatime = 0;
@@ -84,9 +86,9 @@ void Enemy::SetStateMachine()
 		{
 			auto* sIdle = m_stateMachine.CreateBehaviour(State::Idle);
 			sIdle->AddAction(new EnnemyAction_Idle());
-			//-> MOVE TRANSITION
+			//-> FLEE TRANSITION
 			{
-				auto transition = sIdle->CreateTransition(State::Move);
+				auto transition = sIdle->CreateTransition(State::Flee);
 				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsVeryNear>();
 				//transition->AddCondition<PlayerCondition_IsAttacking>();
 			}
@@ -101,9 +103,9 @@ void Enemy::SetStateMachine()
 		{
 			auto* sMove = m_stateMachine.CreateBehaviour(State::Move);
 			sMove->AddAction(new EnnemyAction_Move());
-			//-> IDLE TRANSITION
+			//-> ROAM TRANSITION
 			{
-				auto transition = sMove->CreateTransition(State::Idle);
+				auto transition = sMove->CreateTransition(State::Roam);
 				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNotNear>();
 			}
 			//-> SHOOT TRANSITION
@@ -117,15 +119,38 @@ void Enemy::SetStateMachine()
 		{
 			auto* sShoot = m_stateMachine.CreateBehaviour(State::Shoot);
 			sShoot->AddAction(new EnnemyAction_Shoot());
-			//-> IDLE TRANSITION
+			//-> ROAM TRANSITION
 			{
-				auto transition = sShoot->CreateTransition(State::Idle);
+				auto transition = sShoot->CreateTransition(State::Roam);
 				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNotNear>();
 			}
-			//-> MOVE TRANSITION
+			//-> FLEE TRANSITION
 			{
-				auto transition = sShoot->CreateTransition(State::Move);
+				auto transition = sShoot->CreateTransition(State::Flee);
 				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsVeryNear>();
+			}
+		}
+
+		// --- FLEE ---
+		{
+			auto* sFlee = m_stateMachine.CreateBehaviour(State::Flee);
+			sFlee->AddAction(new EnnemyAction_Flee());
+			//-> SHOOT TRANSITION
+			{
+				auto transition = sFlee->CreateTransition(State::Shoot);
+				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
+			}
+		}
+
+		// --- ROAM ---
+		{
+			auto* sRoam = m_stateMachine.CreateBehaviour(State::Roam);
+			
+			sRoam->AddAction(new EnnemyAction_Roam());
+			//-> SHOOT TRANSITION
+			{
+				auto transition = sRoam->CreateTransition(State::Shoot);
+				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
 			}
 		}
 	}

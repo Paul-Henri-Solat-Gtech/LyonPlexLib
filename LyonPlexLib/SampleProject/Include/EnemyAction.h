@@ -36,3 +36,23 @@ private:
 	float m_projLifetime = 3;
 	bool m_projAsSpawned = false;
 };
+
+class EnnemyAction_Flee : public Action<Enemy>
+{
+public:
+	void Start(Enemy* ennemy) override {};
+	void Update(Enemy* ennemy) override;
+	void End(Enemy* ennemy) override {};
+};
+
+class EnnemyAction_Roam : public Action<Enemy>
+{
+public:
+	void Start(Enemy* ennemy) override;
+	void Update(Enemy* ennemy) override;
+	void End(Enemy* ennemy) override;
+
+	void SetNextLocation(Enemy* ennemy);
+private:
+	XMFLOAT3 m_nextPosition;
+};

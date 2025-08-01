@@ -4,7 +4,7 @@
 
 bool EnnemyCondition_PlayerIsNear::OnTest(Enemy* owner)
 {
-	if (owner->m_distanceBetweenEnnemyPlayer.length() < 20 && owner->m_distanceBetweenEnnemyPlayer.length() > 10)
+	if (owner->m_distanceBetweenEnnemyPlayer.length() < 50 && owner->m_distanceBetweenEnnemyPlayer.length() > 20)
 	{
 		return true;
 	}
@@ -16,7 +16,7 @@ bool EnnemyCondition_PlayerIsNear::OnTest(Enemy* owner)
 
 bool EnnemyCondition_PlayerIsVeryNear::OnTest(Enemy* owner)
 {
-	if (owner->m_distanceBetweenEnnemyPlayer.length() < 10)
+	if (owner->m_distanceBetweenEnnemyPlayer.length() < 20)
 	{
 		return true;
 	}
@@ -28,7 +28,7 @@ bool EnnemyCondition_PlayerIsVeryNear::OnTest(Enemy* owner)
 
 bool EnnemyCondition_PlayerIsNotNear::OnTest(Enemy* owner)
 {
-	if (owner->m_distanceBetweenEnnemyPlayer.length() > 20)
+	if (owner->m_distanceBetweenEnnemyPlayer.length() > 50)
 	{
 		return true;
 	}

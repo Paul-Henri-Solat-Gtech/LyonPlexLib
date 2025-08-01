@@ -24,6 +24,7 @@ enum Tag
 	TAG_Environment,
 	TAG_Stick,
 	TAG_Rock,
+	TAG_Projectile,
 
 	TagCount
 };
@@ -72,7 +73,9 @@ public:
 	bool IsCollidingWith();
 	//..
 	void LookAt(GameObject gmToLookAt);
+	void LookAt(XMFLOAT3 posToLookAt);
 	void MoveForward(float distance);
+	void MoveBackward(float distance);
 
 	bool alive = true;
 	bool m_markedForDeletion = false;
