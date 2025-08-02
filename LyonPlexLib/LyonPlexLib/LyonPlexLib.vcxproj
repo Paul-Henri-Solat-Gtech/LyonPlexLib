@@ -23,7 +23,6 @@
     <ClInclude Include="Include\AnimationManager.h" />
     <ClInclude Include="Include\Behaviour.h" />
     <ClInclude Include="Include\Button.h" />
-    <ClInclude Include="Include\CameraManager.h" />
     <ClInclude Include="Include\CameraSystem.h" />
     <ClInclude Include="Include\Colliders.h" />
     <ClInclude Include="Include\CollisionSystem.h" />
@@ -83,7 +82,6 @@
     <ClCompile Include="Src\FpsCamera.cpp" />
     <ClCompile Include="Src\FreeCamera.cpp" />
     <ClCompile Include="Src\LightSystem.cpp" />
-    <ClCompile Include="Src\CameraManager.cpp" />
     <ClCompile Include="Src\CameraSystem.cpp" />
     <ClCompile Include="Src\CollisionSystem.cpp" />
     <ClCompile Include="Src\CommandManager.cpp" />

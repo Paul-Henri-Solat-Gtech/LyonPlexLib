@@ -7,9 +7,6 @@
     <ClCompile Include="Src\CameraSystem.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\CameraManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Src\CollisionSystem.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -17,9 +14,6 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Src\ComponentManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\DescriptorManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Src\DevScene.cpp">
@@ -37,28 +31,10 @@
     <ClCompile Include="Src\GameObject.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\GraphicsDevice.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\GraphicsPipeline.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Src\InputManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\MeshManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Src\pch.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Render2D.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Render3D.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\RenderingManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Src\ResourceManager.cpp">
@@ -82,9 +58,6 @@
     <ClCompile Include="Src\SystemManager.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\TextureManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Src\TransformSystem.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -103,11 +76,35 @@
     <ClCompile Include="Src\FpsCamera.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\WaveManager.cpp">
-      <Filter>Fichiers sources</Filter>
+    <ClCompile Include="Src\DescriptorManager.cpp">
+      <Filter>Fichiers sources\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GraphicsDevice.cpp">
+      <Filter>Fichiers sources\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GraphicsPipeline.cpp">
+      <Filter>Fichiers sources\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MeshManager.cpp">
+      <Filter>Fichiers sources\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Render2D.cpp">
+      <Filter>Fichiers sources\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Render3D.cpp">
+      <Filter>Fichiers sources\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\RenderingManager.cpp">
+      <Filter>Fichiers sources\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TextureManager.cpp">
+      <Filter>Fichiers sources\Render</Filter>
     </ClCompile>
     <ClCompile Include="Src\WaterPipeline.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers sources\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\WaveManager.cpp">
+      <Filter>Fichiers sources\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -117,116 +114,8 @@
     <ClInclude Include="Include\Behaviour.h">
       <Filter>StateMachine</Filter>
     </ClInclude>
-    <ClInclude Include="Include\AnimationManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\CameraManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\CameraSystem.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Colliders.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Include\Condition.h">
       <Filter>StateMachine</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\CollisionSystem.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\CommandManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\CommonInclude.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ComponentManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Components.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DescriptorManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\DevScene.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ECSManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\EntityManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\EventBus.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Events.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\GameManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\GameObject.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\GraphicsDevice.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\GraphicsPipeline.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\InputManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\IRender.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ISystem.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\MeshManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\pch.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Render2D.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Render3D.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\RenderingManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\ResourceManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\SampleScene.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Scene.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\SceneManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\SceneResources.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\SoundManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\SystemManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\TextureManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\TransformSystem.h">
-      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Include\StateMachine.h">
       <Filter>StateMachine</Filter>
@@ -234,29 +123,134 @@
     <ClInclude Include="Include\Transition.h">
       <Filter>StateMachine</Filter>
     </ClInclude>
-    <ClInclude Include="Include\WindowPlex.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="Include\DescriptorManager.h">
+      <Filter>Fichiers d%27en-tête\Render</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Utils.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="Include\GraphicsDevice.h">
+      <Filter>Fichiers d%27en-tête\Render</Filter>
     </ClInclude>
-    <ClInclude Include="Include\Button.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="Include\GraphicsPipeline.h">
+      <Filter>Fichiers d%27en-tête\Render</Filter>
     </ClInclude>
-    <ClInclude Include="Include\FreeCamera.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="Include\IRender.h">
+      <Filter>Fichiers d%27en-tête\Render</Filter>
     </ClInclude>
-    <ClInclude Include="Include\LightSystem.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="Include\MeshManager.h">
+      <Filter>Fichiers d%27en-tête\Render</Filter>
     </ClInclude>
-    <ClInclude Include="Include\FpsCamera.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="Include\Render2D.h">
+      <Filter>Fichiers d%27en-tête\Render</Filter>
     </ClInclude>
-    <ClInclude Include="Include\WaveManager.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+    <ClInclude Include="Include\Render3D.h">
+      <Filter>Fichiers d%27en-tête\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\RenderingManager.h">
+      <Filter>Fichiers d%27en-tête\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\TextureManager.h">
+      <Filter>Fichiers d%27en-tête\Render</Filter>
     </ClInclude>
     <ClInclude Include="Include\WaterPipeline.h">
-      <Filter>Fichiers d%27en-tête</Filter>
+      <Filter>Fichiers d%27en-tête\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\WaveManager.h">
+      <Filter>Fichiers d%27en-tête\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CommonInclude.h">
+      <Filter>Fichiers d%27en-tête\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ComponentManager.h">
+      <Filter>Fichiers d%27en-tête\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Components.h">
+      <Filter>Fichiers d%27en-tête\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ECSManager.h">
+      <Filter>Fichiers d%27en-tête\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\EntityManager.h">
+      <Filter>Fichiers d%27en-tête\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\GameManager.h">
+      <Filter>Fichiers d%27en-tête\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\WindowPlex.h">
+      <Filter>Fichiers d%27en-tête\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Utils.h">
+      <Filter>Fichiers d%27en-tête\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SoundManager.h">
+      <Filter>Fichiers d%27en-tête\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SceneResources.h">
+      <Filter>Fichiers d%27en-tête\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ResourceManager.h">
+      <Filter>Fichiers d%27en-tête\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Events.h">
+      <Filter>Fichiers d%27en-tête\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\EventBus.h">
+      <Filter>Fichiers d%27en-tête\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Colliders.h">
+      <Filter>Fichiers d%27en-tête\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SystemManager.h">
+      <Filter>Fichiers d%27en-tête\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\AnimationManager.h">
+      <Filter>Fichiers d%27en-tête\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Button.h">
+      <Filter>Fichiers d%27en-tête\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SceneManager.h">
+      <Filter>Fichiers d%27en-tête\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Scene.h">
+      <Filter>Fichiers d%27en-tête\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SampleScene.h">
+      <Filter>Fichiers d%27en-tête\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\GameObject.h">
+      <Filter>Fichiers d%27en-tête\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\FreeCamera.h">
+      <Filter>Fichiers d%27en-tête\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\FpsCamera.h">
+      <Filter>Fichiers d%27en-tête\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\DevScene.h">
+      <Filter>Fichiers d%27en-tête\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\pch.h">
+      <Filter>Fichiers d%27en-tête\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ISystem.h">
+      <Filter>Fichiers d%27en-tête\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CameraSystem.h">
+      <Filter>Fichiers d%27en-tête\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CollisionSystem.h">
+      <Filter>Fichiers d%27en-tête\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CommandManager.h">
+      <Filter>Fichiers d%27en-tête\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\InputManager.h">
+      <Filter>Fichiers d%27en-tête\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\LightSystem.h">
+      <Filter>Fichiers d%27en-tête\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\TransformSystem.h">
+      <Filter>Fichiers d%27en-tête\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -291,6 +285,24 @@
     </Filter>
     <Filter Include="Ressources">
       <UniqueIdentifier>{ea910158-606e-4d43-8d26-64bcbc84d425}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Render">
+      <UniqueIdentifier>{3769e1e6-1be1-4a16-a961-2637f8b0971c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Render">
+      <UniqueIdentifier>{7398695f-16d7-4262-87e6-9b13bf8c5a59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Core">
+      <UniqueIdentifier>{626faee6-e624-45d3-8d62-7695ee8aa87a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Tools">
+      <UniqueIdentifier>{547e7e7e-5ed2-4666-83f0-051077567de3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Gameplay">
+      <UniqueIdentifier>{4df110dc-b79f-42ae-9349-eca0f0af171a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Systems">
+      <UniqueIdentifier>{c64846d1-a700-4f54-a421-1a4aa81935c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

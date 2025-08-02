@@ -1,18 +1,14 @@
 ﻿#pragma once
 
-// Hierarchie superieure ou egale
-//#include "ECSManager.h"
-//class ECSManager;
 
-// Hierarchie inferieure
 #include "GraphicsDevice.h"
 #include "DescriptorManager.h"
 #include "CommandManager.h"
-#include "CameraManager.h"
+#include "Render3D.h"
+#include "InputManager.h"
 #include "TextureManager.h"
 #include "MeshManager.h"
 #include "WaveManager.h"
-#include "Render3D.h"
 #include "Render2D.h"
 
 class RenderingManager
