@@ -46,14 +46,12 @@ bool RenderingManager::Init(ECSManager* ECS)
 	}
 	m_render3D.SetWaveManager(&m_waveManager);
 	m_render3D.SetTextureManager(&m_textureManager);
-	//m_render3D.CreatePipeline();
 
 	// Render 2D
 	if (!m_render2D.Init(m_windowWP, ECS, &m_graphicsDevice, &m_descriptorManager, &m_commandManager, &m_meshManager))
 	{
 		return false;
 	}
-	//m_render2D.CreatePipeline();
 
 
 	return true;
