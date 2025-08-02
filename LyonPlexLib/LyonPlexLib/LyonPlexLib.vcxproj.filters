@@ -1,81 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Src\AnimationManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\CameraSystem.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\CollisionSystem.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\CommandManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\ComponentManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\DevScene.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\ECSManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\EntityManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\GameManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\GameObject.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\InputManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\pch.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\ResourceManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\SampleScene.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Scene.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\SceneManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\SceneResources.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\SoundManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\SystemManager.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\TransformSystem.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\WindowPlex.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Button.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\LightSystem.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\FreeCamera.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\FpsCamera.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Src\DescriptorManager.cpp">
       <Filter>Fichiers sources\Render</Filter>
     </ClCompile>
@@ -105,6 +30,81 @@
     </ClCompile>
     <ClCompile Include="Src\WaveManager.cpp">
       <Filter>Fichiers sources\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\AnimationManager.cpp">
+      <Filter>Fichiers sources\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Button.cpp">
+      <Filter>Fichiers sources\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\DevScene.cpp">
+      <Filter>Fichiers sources\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\FreeCamera.cpp">
+      <Filter>Fichiers sources\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\FpsCamera.cpp">
+      <Filter>Fichiers sources\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GameObject.cpp">
+      <Filter>Fichiers sources\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Scene.cpp">
+      <Filter>Fichiers sources\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SampleScene.cpp">
+      <Filter>Fichiers sources\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SceneManager.cpp">
+      <Filter>Fichiers sources\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ComponentManager.cpp">
+      <Filter>Fichiers sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ECSManager.cpp">
+      <Filter>Fichiers sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\EntityManager.cpp">
+      <Filter>Fichiers sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GameManager.cpp">
+      <Filter>Fichiers sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\pch.cpp">
+      <Filter>Fichiers sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SystemManager.cpp">
+      <Filter>Fichiers sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\WindowPlex.cpp">
+      <Filter>Fichiers sources\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SoundManager.cpp">
+      <Filter>Fichiers sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SceneResources.cpp">
+      <Filter>Fichiers sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ResourceManager.cpp">
+      <Filter>Fichiers sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\CommandManager.cpp">
+      <Filter>Fichiers sources\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TransformSystem.cpp">
+      <Filter>Fichiers sources\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\LightSystem.cpp">
+      <Filter>Fichiers sources\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\CollisionSystem.cpp">
+      <Filter>Fichiers sources\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\CameraSystem.cpp">
+      <Filter>Fichiers sources\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\InputManager.cpp">
+      <Filter>Fichiers sources\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -240,17 +240,17 @@
     <ClInclude Include="Include\CollisionSystem.h">
       <Filter>Fichiers d%27en-tête\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Include\CommandManager.h">
-      <Filter>Fichiers d%27en-tête\Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\InputManager.h">
-      <Filter>Fichiers d%27en-tête\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Include\LightSystem.h">
       <Filter>Fichiers d%27en-tête\Systems</Filter>
     </ClInclude>
     <ClInclude Include="Include\TransformSystem.h">
       <Filter>Fichiers d%27en-tête\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\CommandManager.h">
+      <Filter>Fichiers d%27en-tête\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\InputManager.h">
+      <Filter>Fichiers d%27en-tête\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -295,14 +295,26 @@
     <Filter Include="Fichiers d%27en-tête\Core">
       <UniqueIdentifier>{626faee6-e624-45d3-8d62-7695ee8aa87a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers d%27en-tête\Tools">
-      <UniqueIdentifier>{547e7e7e-5ed2-4666-83f0-051077567de3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Fichiers d%27en-tête\Gameplay">
       <UniqueIdentifier>{4df110dc-b79f-42ae-9349-eca0f0af171a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Fichiers d%27en-tête\Systems">
       <UniqueIdentifier>{c64846d1-a700-4f54-a421-1a4aa81935c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Core">
+      <UniqueIdentifier>{23424181-2291-45d2-a0bd-7204b0359fed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Gameplay">
+      <UniqueIdentifier>{a1e1555e-5e64-4e35-8883-e4b4a802d731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Systems">
+      <UniqueIdentifier>{27f6eab3-80c7-462f-ae20-8ca35e3e376f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers sources\Tools">
+      <UniqueIdentifier>{f68975e8-e981-484f-ba8b-1f44bd13eaf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête\Tools">
+      <UniqueIdentifier>{547e7e7e-5ed2-4666-83f0-051077567de3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
