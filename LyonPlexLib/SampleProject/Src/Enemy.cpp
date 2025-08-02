@@ -59,6 +59,12 @@ void Enemy::TakeDamage()
 	}
 }
 
+void Enemy::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeTime)
+{
+	m_newProjectile.Init(mp_scene, GetPosition(), m_playerGm.GetPosition());
+	m_newProjectileGm = m_newProjectile.GetGameObject();
+}
+
 void Enemy::OnUdpdate(float deltatime)
 {
 	m_stateMachine.Update();
@@ -67,6 +73,11 @@ void Enemy::OnUdpdate(float deltatime)
 	m_distanceBetweenEnnemyPlayer.x = m_playerGm.GetPosition().x - GetPosition().x;
 	m_distanceBetweenEnnemyPlayer.y = m_playerGm.GetPosition().y - GetPosition().y;
 	m_distanceBetweenEnnemyPlayer.z = m_playerGm.GetPosition().z - GetPosition().z;
+
+	if (m_newProjectileGm != nullptr)
+	{
+		m_newProjectile.OnUdpdate(deltatime);
+	}
 }
 
 void Enemy::SetStateMachine()
@@ -78,7 +89,7 @@ void Enemy::SetStateMachine()
 		// Enemy Properties >
 
 		m_life = 3;
-		m_moveSpeed = 2.f;
+		m_moveSpeed = 5.f;
 
 		// Enemy States >
 

@@ -20,13 +20,13 @@ void EnnemyAction_Move::End(Enemy* ennemy)
 void EnnemyAction_Shoot::Start(Enemy* ennemy)
 {
 	OutputDebugStringA("-ENEMY START SHOOTING !");
-
+	ennemy->CreateProjectile(ennemy->GetPosition(), ennemy->m_playerGm.GetPosition());
 	CreateProjectile(ennemy);
 }
 void EnnemyAction_Shoot::Update(Enemy* ennemy)
 {
 	ennemy->LookAt(ennemy->m_playerGm);
-
+	
 	if (m_newProj != nullptr && m_projLifetime > 0.0f)
 	{
 		m_newProj->MoveForward(ennemy->m_deltatime * 50);

@@ -2,6 +2,7 @@
 
 #include "StateMachine.h"
 #include "Utils.h"
+#include "Projectile.h"
 
 enum EnemyType
 {
@@ -41,6 +42,8 @@ public:
 
 	void TakeDamage();
 
+	void CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeTime = 3.f);
+
 	void SetMoveSpeed(float speedValue) { m_moveSpeed = speedValue; };
 	
 	float GetMoveSpeed() { return m_moveSpeed; };
@@ -57,6 +60,9 @@ private:
 
 	bool m_initialized = false;
 	EnemyType m_type;
+
+	Projectile m_newProjectile;
+	GameObject* m_newProjectileGm = nullptr;
 
 protected:
 	friend class EnnemyAction_Idle;
