@@ -61,8 +61,10 @@ void Enemy::TakeDamage()
 
 void Enemy::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeTime)
 {
-	m_newProjectile.Init(mp_scene, GetPosition(), m_playerGm.GetPosition());
-	m_newProjectileGm = m_newProjectile.GetGameObject();
+	Projectile newProjectile;
+	newProjectile.Init(mp_scene, GetPosition(), m_playerGm.GetPosition());
+	
+	m_projectileList.push_back(newProjectile);
 }
 
 void Enemy::OnUdpdate(float deltatime)
@@ -74,9 +76,12 @@ void Enemy::OnUdpdate(float deltatime)
 	m_distanceBetweenEnnemyPlayer.y = m_playerGm.GetPosition().y - GetPosition().y;
 	m_distanceBetweenEnnemyPlayer.z = m_playerGm.GetPosition().z - GetPosition().z;
 
-	if (m_newProjectileGm != nullptr)
+	if (!m_projectileList.empty())
 	{
-		m_newProjectile.OnUdpdate(deltatime);
+		for (auto& projectile : m_projectileList) 
+		{
+			projectile.OnUdpdate(deltatime);
+		}
 	}
 }
 

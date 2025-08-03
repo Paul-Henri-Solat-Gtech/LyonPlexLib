@@ -57,12 +57,11 @@ private:
 
 	int m_life;
 	float m_moveSpeed = 2.f;
-
+	float m_reloadSpeed = 2.f;
 	bool m_initialized = false;
 	EnemyType m_type;
 
-	Projectile m_newProjectile;
-	GameObject* m_newProjectileGm = nullptr;
+	std::vector<Projectile>m_projectileList;
 
 protected:
 	friend class EnnemyAction_Idle;

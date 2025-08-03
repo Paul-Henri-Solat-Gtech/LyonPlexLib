@@ -1,5 +1,14 @@
 #pragma once
 
+
+enum ProjectileType
+{
+	Laser,
+	Rock,
+
+	projectileTypeCount
+};
+
 class Projectile
 {
 

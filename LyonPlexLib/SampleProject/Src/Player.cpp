@@ -183,6 +183,7 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 	m_attackFinished = true;
 	m_slashAttackNb = 1;
 	m_deltatime = 0;
+	m_hp = 10;
 	m_playerGameObject.AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ m_playerGameObject.GetScale().x / 2,m_playerGameObject.GetScale().y / 2,m_playerGameObject.GetScale().z / 2 })));
 
 	m_playerGameObject.AddComponent<Tag_Player>(new Tag_Player());
@@ -215,7 +216,8 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 			if (m_hp > 0)
 			{
 				m_hp--;
-				OutputDebugStringA("\n -1hp \n");
+				mp_scene->DestroyGameObject(mp_scene->GetGameObjectByID(p.a));
+				OutputDebugStringA("\n -1hp aie \n");
 			}
 			else
 			{
