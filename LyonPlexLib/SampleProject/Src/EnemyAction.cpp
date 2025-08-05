@@ -20,10 +20,20 @@ void EnnemyAction_Move::End(Enemy* ennemy)
 void EnnemyAction_Shoot::Start(Enemy* ennemy)
 {
 	OutputDebugStringA("-ENEMY START SHOOTING !");
-	ennemy->CreateProjectile(ennemy->GetPosition(), ennemy->m_playerGm.GetPosition());
+	m_nextShootTimer = 0;
+	//ennemy->CreateProjectile(ennemy->GetPosition(), ennemy->m_playerGm.GetPosition());
 }
 void EnnemyAction_Shoot::Update(Enemy* ennemy)
 {
+	if (m_nextShootTimer >= ennemy->m_reloadSpeed) 
+	{
+		ennemy->CreateProjectile(ennemy->GetPosition(), ennemy->m_playerGm.GetPosition(),ProjectileType::Rock);
+		m_nextShootTimer = 0;
+	}
+	else
+	{
+		m_nextShootTimer += 1 * ennemy->m_deltatime;
+	}
 	ennemy->LookAt(ennemy->m_playerGm);
 }
 void EnnemyAction_Shoot::End(Enemy* ennemy)

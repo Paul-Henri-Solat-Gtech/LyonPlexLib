@@ -95,6 +95,7 @@ void Enemy::SetStateMachine()
 
 		m_life = 3;
 		m_moveSpeed = 5.f;
+		m_reloadSpeed = 2.f;
 
 		// Enemy States >
 
@@ -177,6 +178,7 @@ void Enemy::SetStateMachine()
 
 		m_life = 5;
 		m_moveSpeed = 1.f;
+		m_reloadSpeed = 5.f;
 
 		// Enemy States >
 

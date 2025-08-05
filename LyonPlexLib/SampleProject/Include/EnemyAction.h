@@ -29,6 +29,10 @@ public:
 	void Start(Enemy* ennemy) override;
 	void Update(Enemy* ennemy) override;
 	void End(Enemy* ennemy) override;
+
+private:
+
+	float m_nextShootTimer;
 };
 
 class EnnemyAction_Flee : public Action<Enemy>
