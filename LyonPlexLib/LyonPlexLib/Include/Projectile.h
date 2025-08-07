@@ -1,6 +1,5 @@
 #pragma once
 
-
 enum ProjectileType
 {
 	Laser,
@@ -9,13 +8,15 @@ enum ProjectileType
 	ProjectileTypeCount
 };
 
-class Projectile
+class Projectile : public GameObject
 {
 
 public:
-	void Init(Scene* scene, XMFLOAT3 posStart, XMFLOAT3 posTarget, ProjectileType type = ProjectileType::Laser, float lifeTime = 3.f);
+	Projectile(Scene* scene, XMFLOAT3 posStart, XMFLOAT3 posTarget, ProjectileType type = ProjectileType::Laser, float lifeTime = 3.f);
 
-	void OnUdpdate(float deltatime);
+	void InitProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget);
+
+	void OnUdpdate(float deltatime) override;
 
 	void Destroy();
 

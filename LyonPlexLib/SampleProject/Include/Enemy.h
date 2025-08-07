@@ -32,6 +32,7 @@ public:
 	Enemy(ECSManager* ecsManager, GameManager* gameManager, GameObject& gameObjectPlayer, Scene* scene, EnemyType type);
 
 	void Init(GameManager* gameManager);
+
 	void OnUdpdate(float deltatime) override;
 
 	void SetStateMachine();

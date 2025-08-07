@@ -47,6 +47,14 @@ public:
 	AnimationManager m_heavyAttackAnim;
 };
 
+class PlayerAction_SpecialAttack : public Action<Player>
+{
+public:
+	void Start(Player* player) override;
+	void Update(Player* player) override;
+	void End(Player* player) override;
+};
+
 class PlayerAction_Fall : public Action<Player>
 {
 public:

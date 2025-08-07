@@ -48,6 +48,11 @@ Player::Player() : m_stateMachine(this, State::Count)
 			transition->AddCondition<PlayerCondition_IsPickingUp>();
 			transition->AddCondition<PlayerCondition_IsCloseToObject>();
 		}
+		//-> SPECIAL ATTACK TRANSITION
+		{
+			auto transition = sIdle->CreateTransition(State::SpecialAttack);
+			auto condition = transition->AddCondition<PlayerCondition_IsSpecialAttacking>();
+		}
 	}
 
 	// --- MOVE ---
@@ -80,6 +85,11 @@ Player::Player() : m_stateMachine(this, State::Count)
 			auto transition = sMove->CreateTransition(State::PickUp);
 			transition->AddCondition<PlayerCondition_IsPickingUp>();
 			transition->AddCondition<PlayerCondition_IsCloseToObject>();
+		}
+		//-> SPECIAL ATTACK TRANSITION
+		{
+			auto transition = sMove->CreateTransition(State::SpecialAttack);
+			auto condition = transition->AddCondition<PlayerCondition_IsSpecialAttacking>();
 		}
 	}
 
@@ -146,6 +156,12 @@ Player::Player() : m_stateMachine(this, State::Count)
 			auto condition = transition->AddCondition<PlayerCondition_IsNotOnGround>();
 			transition->AddCondition<PlayerCondition_AttackFinished>();
 		}
+		//-> SPECIAL ATTACK TRANSITION
+		{
+			auto transition = sAttack->CreateTransition(State::SpecialAttack);
+			auto condition = transition->AddCondition<PlayerCondition_IsSpecialAttacking>();
+			transition->AddCondition<PlayerCondition_AttackFinished>();
+		}
 	}
 	// --- Pick Up ---
 	{
@@ -164,6 +180,26 @@ Player::Player() : m_stateMachine(this, State::Count)
 		//-> FALL TRANSITION
 		{
 			auto transition = sPickUp->CreateTransition(State::Fall);
+			auto condition = transition->AddCondition<PlayerCondition_IsNotOnGround>();
+		}
+	}
+	// --- Special Attack ---
+	{
+		auto* sSpecialAttack = m_stateMachine.CreateBehaviour(State::SpecialAttack);
+		sSpecialAttack->AddAction(new PlayerAction_SpecialAttack());
+		//-> IDLE TRANSITION
+		{
+			auto transition = sSpecialAttack->CreateTransition(State::Idle);
+			auto condition = transition->AddCondition<PlayerCondition_IsNotMoving>();
+		}
+		//-> MOVE TRANSITION
+		{
+			auto transition = sSpecialAttack->CreateTransition(State::Move);
+			auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
+		}
+		//-> FALL TRANSITION
+		{
+			auto transition = sSpecialAttack->CreateTransition(State::Fall);
 			auto condition = transition->AddCondition<PlayerCondition_IsNotOnGround>();
 		}
 	}
@@ -202,7 +238,7 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 			}
 			// si aucun des deux n�est le joueur, on sort
 			if (playerE.id != m_playerGameObject.GetEntity().id) return;
-			auto tag = mp_scene->GetGameObjectByID(p.a).GetTag();
+			auto tag = mp_scene->GetGameObjectByID(p.b).GetTag();
 		switch (tag)
 		{
 		case TAG_Floor:
@@ -212,11 +248,11 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 		case TAG_Projectile: 
 		{
 			//COLLISION Proj and player
-			
+			OutputDebugStringA("\n -1hp aie \n");
 			if (m_hp > 0)
 			{
 				m_hp--;
-				mp_scene->DestroyGameObject(mp_scene->GetGameObjectByID(p.a));
+				//mp_scene->DestroyGameObject(mp_scene->GetGameObjectByID(p.b));
 				OutputDebugStringA("\n -1hp aie \n");
 			}
 			else
@@ -263,6 +299,15 @@ void Player::OnUdpdate(float deltatime)
 	m_deltatime = deltatime;
 	Movement();
 	ApplyMovementAndCollisions(deltatime);
+
+	// Projectiles
+	if (!m_projectileList.empty())
+	{
+		for (auto& projectile : m_projectileList)
+		{
+			projectile.OnUdpdate(deltatime);
+		}
+	}
 
 }
 
@@ -461,8 +506,6 @@ void Player::ApplyMovementAndCollisions(float dt)
 	m_playerGameObject.SetPosition(currentPos);
 
 
-
-
 	// 5) Ground check
 	// Origine du rayon = center.xz + (pos.y - halfHeight - ?)
 	XMVECTOR origin = XMVectorSet(
@@ -551,7 +594,6 @@ void Player::Movement()
 	m_velocity = vel;
 }
 
-
 bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2)
 {
 
@@ -618,8 +660,7 @@ bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2)
 	return true;
 }
 
-bool ObbVsAabb(XMFLOAT3 paabb, AABBCollider a,
-	XMFLOAT3 pobb, OBBCollider b)
+bool ObbVsAabb(XMFLOAT3 paabb, AABBCollider a,XMFLOAT3 pobb, OBBCollider b)
 {
 	// transformer l�AABB en OBB : orientation = identity, offset = a.offset
 	OBBCollider boxA;
@@ -630,11 +671,18 @@ bool ObbVsAabb(XMFLOAT3 paabb, AABBCollider a,
 	return ObbVsObb(pobb, b, paabb, boxA);
 }
 
-
 bool AabbVsAabb(XMFLOAT3 p1, AABBCollider b1, XMFLOAT3 p2, AABBCollider b2)
 {
 	return
 		std::abs(p1.x + b1.offset.x - (p2.x + b2.offset.x)) <= (b1.halfSize.x + b2.halfSize.x)
 		&& std::abs(p1.y + b1.offset.y - (p2.y + b2.offset.y)) <= (b1.halfSize.y + b2.halfSize.y)
 		&& std::abs(p1.z + b1.offset.z - (p2.z + b2.offset.z)) <= (b1.halfSize.z + b2.halfSize.z);
+}
+
+void Player::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeTime)
+{
+	//Projectile newProjectile;
+	//newProjectile.InitProjectile(mp_scene, m_playerGameObject.GetPosition(), m_playerGameObject.GetPosition());
+
+	//m_projectileList.push_back(newProjectile);
 }

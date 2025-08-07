@@ -1,30 +1,47 @@
 ﻿#include "pch.h"
 #include "Projectile.h"
 
-void Projectile::Init(Scene* scene, XMFLOAT3 posStart, XMFLOAT3 posTarget, ProjectileType type, float lifeTime)
+
+Projectile::Projectile(Scene* scene, XMFLOAT3 posStart, XMFLOAT3 posTarget, ProjectileType type, float lifeTime)
 {
 	mp_scene = scene;
-	m_lifetime = lifeTime;
 	m_projectileType = type;
+	m_lifetime = lifeTime;
+
+	InitGameObj(mp_scene->GetEcsManager(), mp_scene); // a corriger
+	m_projectileGameObject = this;
+	InitProjectile(posStart, posTarget);
+}
+
+void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
+{
+
 
 	std::string projName = "newProjectile" + std::to_string(mp_scene->GetSceneGameObjects().size());
-	OutputDebugStringA(projName.c_str());
-	m_projectileGameObject = &mp_scene->CreateGameObject(projName);
-	m_projectileGameObject->SetTag(Tag::TAG_Projectile);
-	m_projectileGameObject->SetPosition(posStart);
-	m_projectileGameObject->SetScale({ 0.2,0.2,0.8 });
-	auto projScale = m_projectileGameObject->GetScale();
-	m_projectileGameObject->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ projScale.x / 2, projScale.y / 2, projScale.z / 2 })));
+	//OutputDebugStringA(projName.c_str());
+	//m_projectileGameObject = &mp_scene->CreateGameObject(projName);
+	//m_projectileGameObject->SetTag(Tag::TAG_Projectile);
+	//m_projectileGameObject->SetPosition(posStart);
+	//m_projectileGameObject->SetScale({ 0.2,0.2,0.8 });
+	//auto projScale = m_projectileGameObject->GetScale();
+	//m_projectileGameObject->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x / 2, projScale.y / 2, projScale.z / 2 })));
 
-	
+	//Init(projName, mp_scene->GetEcsManager(), scene);
+
+	SetTag(Tag::TAG_Projectile);
+	SetPosition(posStart);
+	SetScale({ 0.2,0.2,0.8 });
+	auto projScale = GetScale();
+	AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x / 2, projScale.y / 2, projScale.z / 2 })));
+
 
 	switch (m_projectileType)
 	{
 	case Laser:
-		m_projectileGameObject->LookAt(posTarget);
+		LookAt(posTarget);
 		break;
 	case Rock:
-		Laube(posStart, posTarget);
+		//Laube(posStart, posTarget);
 		break;
 	case ProjectileTypeCount:
 		break;
@@ -34,6 +51,7 @@ void Projectile::Init(Scene* scene, XMFLOAT3 posStart, XMFLOAT3 posTarget, Proje
 
 	OutputDebugStringA("\nINIT PROJECTILE REUSSI !\n");
 }
+
 
 
 void Projectile::OnUdpdate(float deltatime)

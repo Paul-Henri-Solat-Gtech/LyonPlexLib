@@ -50,8 +50,8 @@ MeshData MeshManager::CreateMesh_Square()
 	// Definition des indices pour dessiner 2 triangles
 	m.indices =
 	{
-		0, 1, 2,  // triangle bas-gauche -> bas-droit
-		0, 2, 3   // triangle bas-gauche -> haut-droit
+		0, 2, 1,  // triangle bas-gauche -> bas-droit
+		0, 3, 2   // triangle bas-gauche -> haut-droit
 	};
 
 	m.subMeshes.push_back(SubMesh{

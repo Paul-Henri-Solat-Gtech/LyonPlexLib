@@ -57,6 +57,12 @@ public:
 	bool OnTest(Player* owner) override;
 };
 
+class PlayerCondition_IsSpecialAttacking : public Condition<Player>
+{
+public:
+	bool OnTest(Player* owner) override;
+};
+
 class PlayerCondition_IsPickingUp : public Condition<Player>
 {
 public:

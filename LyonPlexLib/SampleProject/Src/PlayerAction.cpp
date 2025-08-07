@@ -681,7 +681,21 @@ void PlayerAction_PickUp::Update(Player* player)
 
 }
 
+// SPECIAL ATTACK
 void PlayerAction_PickUp::End(Player* player)
 {
 	OutputDebugStringA("\nEnd Pick Up-\n");
+}
+
+void PlayerAction_SpecialAttack::Start(Player* player)
+{
+	OutputDebugStringA("\nSPECIAL ATACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-\n");
+}
+
+void PlayerAction_SpecialAttack::Update(Player* player)
+{
+}
+
+void PlayerAction_SpecialAttack::End(Player* player)
+{
 }

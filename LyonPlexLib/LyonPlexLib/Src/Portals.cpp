@@ -38,6 +38,7 @@ void Portals::OnUdpdate(float deltatime)
 		}
 
 		newEnemy.SetPosition({ posX, 1, posZ });
+		newEnemy.SetMesh(MESHES::LOCAL_SQUARE);
 		newEnemy.SetTexture(TEXTURES::iceCream);
 
 		XMFLOAT3 test = { GetScale().x - 0.1f, GetScale().y -0.1f, GetScale().z - 0.1f};

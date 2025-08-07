@@ -61,9 +61,10 @@ void Enemy::TakeDamage()
 
 void Enemy::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeTime)
 {
-	Projectile newProjectile;
-	newProjectile.Init(mp_scene, GetPosition(), m_playerGm.GetPosition());
-	
+	//Projectile newProjectile;
+	//newProjectile.InitProjectile(mp_scene, GetPosition(), m_playerGm.GetPosition());
+	auto& newProjectile = mp_scene->CreateGameObject<Projectile>(mp_scene, GetPosition(), m_playerGm.GetPosition());
+
 	m_projectileList.push_back(newProjectile);
 }
 

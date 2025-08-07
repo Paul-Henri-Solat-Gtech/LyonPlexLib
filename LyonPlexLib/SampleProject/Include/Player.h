@@ -1,5 +1,7 @@
 #pragma once
 #include "StateMachine.h"
+#include "Projectile.h"
+
 class Enemy;
 
 class Player
@@ -14,6 +16,7 @@ class Player
 		Attack,
 		Fall,
 		PickUp,
+		SpecialAttack,
 
 		Count
 	};
@@ -31,6 +34,8 @@ public:
 
 	const char* GetStateName(State state) const;
 	const char* GetCurrentStateName() const;
+
+	void CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeTime);
 
 	GameObject m_playerGameObject;
 	GameObject m_playerArm;
@@ -92,10 +97,13 @@ public:
 
 private:
 
+	std::vector<Projectile>m_projectileList;
+
 protected:
 	friend class PlayerAction_Idle;
 	friend class PlayerAction_Move;
 	friend class PlayerAction_Jump;
 	friend class PlayerAction_Attack;
+	friend class PlayerAction_SpecialAttack;
 };
 
