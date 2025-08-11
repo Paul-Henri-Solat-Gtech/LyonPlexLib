@@ -106,6 +106,7 @@
     <ClCompile Include="Src\InputManager.cpp">
       <Filter>Fichiers sources\Tools</Filter>
     </ClCompile>
+    <ClCompile Include="Src\ParticleManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Action.h">
@@ -252,6 +253,7 @@
     <ClInclude Include="Include\InputManager.h">
       <Filter>Fichiers d%27en-tête\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="Include\ParticleManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Ressources\2DShader.hlsl">
@@ -270,6 +272,9 @@
       <Filter>StateMachine</Filter>
     </None>
     <None Include="Ressources\WavesShader.hlsl">
+      <Filter>Ressources</Filter>
+    </None>
+    <None Include="Ressources\ParticlesShader.hlsl">
       <Filter>Ressources</Filter>
     </None>
   </ItemGroup>

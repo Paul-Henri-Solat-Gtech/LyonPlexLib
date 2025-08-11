@@ -629,11 +629,11 @@ void PlayerAction_Fall::Start(Player* player)
 	//{
 	//	player->m_jumpPosY = player->GetGameObject().GetComponent<TransformComponent>()->position.y;
 	//}
-	player->m_velocity.y -= 9.18 * player->m_deltatime * 2;
+	player->m_velocity.y -= 9.18 * player->m_deltatime * 2.2;
 }
 void PlayerAction_Fall::Update(Player* player)
 {
-	player->m_velocity.y -= 9.18 * player->m_deltatime * 2;
+	player->m_velocity.y -= 9.18 * player->m_deltatime * 2.2;
 
 	//float gForce = 9.18 * 10;
 

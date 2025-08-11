@@ -62,4 +62,5 @@ private:
 
     // internal helper to create SRV
     void CreateShaderResourceView(TextureID id);
+    void CreateBufferSRV(ID3D12Resource* buffer, UINT numElements, UINT stride);
 };

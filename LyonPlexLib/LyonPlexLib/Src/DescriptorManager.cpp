@@ -156,3 +156,25 @@ void DescriptorManager::Release()
 	mp_graphicsDevice = nullptr;
 	delete mp_graphicsDevice;
 }
+
+
+
+// FUNC FOR BUFFERS 
+void DescriptorManager::CreateBufferSRV(
+	ID3D12Resource* buffer,
+	UINT                   numElements,
+	UINT                   stride)
+{
+	auto cpu = AllocateSrvCPU();
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC desc = {};
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+	desc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	desc.Buffer.FirstElement = 0;
+	desc.Buffer.NumElements = numElements;
+	desc.Buffer.StructureByteStride = stride;
+	desc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+
+	mp_graphicsDevice->GetDevice()->CreateShaderResourceView(buffer, &desc, cpu);
+}

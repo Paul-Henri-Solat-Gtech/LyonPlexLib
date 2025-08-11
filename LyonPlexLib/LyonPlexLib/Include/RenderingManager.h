@@ -35,6 +35,7 @@ public:
 
 	TextureManager& GetTextureManager() { return m_textureManager; }
 	MeshManager& GetMeshManager() { return m_meshManager; }
+	ParticleManager& GetParticleManager() { return m_render3D.GetParticleManager(); };
 
 	Render3D* GetRender3D() { return &m_render3D; }
 	Render2D* GetRender2D() { return &m_render2D; }

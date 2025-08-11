@@ -18,11 +18,20 @@ GameManager::~GameManager()
 bool GameManager::Init()
 {
 
-	//ComPtr<ID3D12Debug> debugController;
-	//D3D12GetDebugInterface(IID_PPV_ARGS(&debugController));
-	//debugController->EnableDebugLayer();
+	/*ComPtr<ID3D12Debug> debugController;
+	D3D12GetDebugInterface(IID_PPV_ARGS(&debugController));
+	debugController->EnableDebugLayer();*/
+	ComPtr<ID3D12Debug> debug;
+	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debug)))) {
+		debug->EnableDebugLayer();
+		// Pour Visual Studio 2019+, tu peux aller plus loin :
+		ComPtr<ID3D12Debug5> debug5;
+		if (SUCCEEDED(debug.As(&debug5))) {
+			debug5->SetEnableGPUBasedValidation(true);
+		}
+	}
 
-	CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
+	//CoInitializeEx(nullptr, COINITBASE_MULTITHREADED);
 
 	// 1) Creer la fenetre
 	if (!m_window.Init(m_hInstance, L"MonJeuDX12", 1200, 675))
@@ -32,6 +41,12 @@ bool GameManager::Init()
 	HWND hwnd = m_window.GetWindowHandle();
 	m_renderer.SetWindowHandle(hwnd);
 	m_renderer.Init(&m_ECS); // A VOIR MODIFIER ET METTRE HWND COMME ARGUMENT EN POINTEUR (et mettre le init en bool)
+
+	// Init Textures & Meshes Resources
+	m_sceneResources.Init(this);
+
+	// Init Particles (smoke) /!\ Initialiser apres sceneResources pour ajouter la text à la fin
+	/*m_renderer.GetParticleManager().CreateParticles(&GetTextureManager());*/
 
 	//m_ECS.Init(m_renderer.GetGraphicsDevice(), m_renderer.GetCommandManager(), m_renderer.GetRender3D()); // A MODIFIER AUSSI => ne doit pas avoir besoin de renderer
 	m_ECS.Init(m_renderer); // A MODIFIER AUSSI => ne doit pas avoir besoin de renderer
@@ -49,8 +64,6 @@ bool GameManager::Init()
 	m_sceneManager.RegisterScene("SampleScene", []() { return new SampleScene(); });
 	m_sceneManager.RegisterScene("DevScene", []() { return new DevScene(); });
 
-	// 5) Init Textures & Meshes Resources
-	m_sceneResources.Init(this);
 
 	// 6) Init sounds
 	m_soundManager.Init();

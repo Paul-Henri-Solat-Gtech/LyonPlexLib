@@ -59,11 +59,11 @@ public:
 
 	int m_hp = 10;
 
-	float m_walkSpeed = 15.0f;
-	float m_runSpeed = 25.0f;
+	float m_walkSpeed = 25.0f;
+	float m_runSpeed = 35.0f;
 	float m_moveSpeed;
 
-	float m_jumpPower = 10.f;
+	float m_jumpPower = 25.f;
 	float m_jumpTime = 0.15f;
 	float m_jumpPosY = 0.0f;
 	float m_jumpProgress = 0.0f;

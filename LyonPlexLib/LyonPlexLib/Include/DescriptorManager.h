@@ -42,6 +42,8 @@ public:
 
 	void Release();
 
+    void CreateBufferSRV(ID3D12Resource* buffer, UINT numElements, UINT stride);
+
 private:
 
     // Methode generique interne

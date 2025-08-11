@@ -26,10 +26,11 @@ public:
     void Release();
     void OnResize(UINT newW, UINT newH);
 
-    TextureManager& GetTextureManager() { return m_renderer.GetTextureManager(); }
-    MeshManager& GetMeshManager() { return m_renderer.GetMeshManager(); }
     ECSManager& GetECSManager() { return m_ECS; }
     RenderingManager& GetRenderingManager() { return m_renderer; }
+    TextureManager& GetTextureManager() { return m_renderer.GetTextureManager(); }
+    MeshManager& GetMeshManager() { return m_renderer.GetMeshManager(); }
+    ParticleManager& GetParticleManager() { return m_renderer.GetParticleManager(); };
 
     SceneManager* GetSceneManager() { return &m_sceneManager; };
     SoundManager* GetSoundManager() { return &m_soundManager; };

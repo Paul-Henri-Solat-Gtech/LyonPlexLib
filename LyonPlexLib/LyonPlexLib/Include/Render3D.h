@@ -6,6 +6,7 @@
 #include "WaveManager.h"
 #include "WaterPipeline.h"
 #include "TextureManager.h"
+#include "ParticleManager.h"
 
 class ECSManager;
 
@@ -33,6 +34,7 @@ public:
 
 	GraphicsPipeline& GetGraphicsPipeline() { return m_graphicsPipeline; };
 
+	ParticleManager& GetParticleManager() { return m_smokeParticles; };
 
 	void Release();
 
@@ -58,6 +60,9 @@ private:
 
 	WaterPipeline		m_waterPipeline;
 	WaveManager*		m_waveManager;
+
+	ParticleManager		m_smokeParticles;
+	float				m_smokeTotalTime = 0;
 
 	//ECS Manager
 	ECSManager*			m_ECS;

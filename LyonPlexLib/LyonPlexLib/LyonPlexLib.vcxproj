@@ -48,6 +48,7 @@
     <ClInclude Include="Include\ISystem.h" />
     <ClInclude Include="Include\LightSystem.h" />
     <ClInclude Include="Include\MeshManager.h" />
+    <ClInclude Include="Include\ParticleManager.h" />
     <ClInclude Include="Include\pch.h" />
     <ClInclude Include="Include\Render2D.h" />
     <ClInclude Include="Include\Render3D.h" />
@@ -96,6 +97,7 @@
     <ClCompile Include="Src\GraphicsPipeline.cpp" />
     <ClCompile Include="Src\InputManager.cpp" />
     <ClCompile Include="Src\MeshManager.cpp" />
+    <ClCompile Include="Src\ParticleManager.cpp" />
     <ClCompile Include="Src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -135,6 +137,11 @@
     <None Include="Ressources\WavesShader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Ressources\ParticlesShader.hlsl">
       <FileType>Document</FileType>
     </None>
   </ItemGroup>

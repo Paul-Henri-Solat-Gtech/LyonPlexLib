@@ -46,7 +46,7 @@ bool RenderingManager::Init(ECSManager* ECS)
 	}
 	m_render3D.SetWaveManager(&m_waveManager);
 	m_render3D.SetTextureManager(&m_textureManager);
-
+	//GetParticleManager().CreateParticles(&m_textureManager);
 	// Render 2D
 	if (!m_render2D.Init(m_windowWP, ECS, &m_graphicsDevice, &m_descriptorManager, &m_commandManager, &m_meshManager))
 	{
@@ -75,7 +75,7 @@ void RenderingManager::RecordCommands()
 		frameIdx,
 		m_descriptorManager.GetRtvDescriptorSize()
 	);
-	const float clearColor[] = { 0.1f, 0.8f, 0.3f, 1.0f };
+	const float clearColor[] = { 0.1f, 0.1f, 0.3f, 1.0f };
 	m_commandManager.GetCommandList()->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 
 	// Clear DSV

@@ -105,6 +105,12 @@ Player::Player() : m_stateMachine(this, State::Count)
 			auto transition = sJump->CreateTransition(State::Fall);
 			transition->AddCondition<PlayerCondition_JumpEnd>();
 		}
+		////-> JUMP TRANSITION
+		{
+			auto transition = sJump->CreateTransition(State::Jump);
+			//auto condition = transition->AddCondition<PlayerCondition_IsOnGround>();
+			transition->AddCondition<PlayerCondition_IsJumping>();
+		}
 	}
 
 	// --- FALL ---
@@ -121,6 +127,12 @@ Player::Player() : m_stateMachine(this, State::Count)
 		{
 			auto transition = sFall->CreateTransition(State::Move);
 			auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
+		}
+		//-> JUMP TRANSITION
+		{
+			auto transition = sFall->CreateTransition(State::Fall);
+			//auto condition = transition->AddCondition<PlayerCondition_IsOnGround>();
+			transition->AddCondition<PlayerCondition_IsJumping>();
 		}
 	}
 

@@ -4,6 +4,10 @@ namespace TEXTURES
 {
 	enum TEXTURES
 	{
+		// SMOKE
+		//SMOKE_TEX,
+		//SMOKE_BUFFER,
+
 		NOTEXTURE,
 		TEST3,
 		TEST,
@@ -326,6 +330,9 @@ namespace TEXTURES
 		// Water Maps
 		WATER_NORMAL,
 		CUBE_MAP,
+
+		//SMOKE_TEX,
+		//SMOKE_BUFFER,
 
 
 		TotalTextureCount

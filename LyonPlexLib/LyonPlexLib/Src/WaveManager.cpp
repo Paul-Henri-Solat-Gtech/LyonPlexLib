@@ -40,6 +40,8 @@ void WaveManager::Update(float deltaTime)
 			auto* wavec = m_ECS->GetComponent<WaveComponent>(ent);
 			if (wavec->cubeMapID == 0 || wavec->normalMapID == 0)
 			{
+				//wavec->normalMapID = TEXTURES::WATER_NORMAL;
+				//wavec->cubeMapID = TEXTURES::CUBE_MAP;
 				wavec->normalMapID = mp_textureManager->LoadTexture("../SampleProject/Ressources/Environnement3D/Water/WaterNormal.dds");
 				wavec->cubeMapID = mp_textureManager->LoadCubeTexture("../SampleProject/Ressources/Environnement3D/Water/CubeMap.dds");
 			}

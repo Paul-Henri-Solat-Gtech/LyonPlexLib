@@ -6,16 +6,14 @@ bool SceneResources::Init(GameManager* gameManager)
     mp_gameManager = gameManager;
 
     auto& txtMngr = mp_gameManager->GetTextureManager();
-
     InitTextureResources(txtMngr);
 
-
+    //mp_gameManager->GetParticleManager().MapUploadBuffer();
+    //mp_gameManager->GetParticleManager().CreateParticles(&mp_gameManager->GetTextureManager());
 
     auto& meshMngr = mp_gameManager->GetMeshManager();
-
     InitLocalMeshResources(meshMngr);
     InitImportedMeshResources(meshMngr);
-
     meshMngr.BuildAndUploadGlobalBuffers();
 
     return true;
@@ -368,8 +366,11 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
 
 
     // Water Maps
-    txtMngr.LoadTexture("../SampleProject/Ressources/Environnement3D/Water/WaterNormal.dds");
-    txtMngr.LoadCubeTexture("../SampleProject/Ressources/Environnement3D/Water/EnvMap.dds");
+    //txtMngr.LoadTexture("../SampleProject/Ressources/Environnement3D/Water/WaterNormal.dds");
+    //txtMngr.LoadCubeTexture("../SampleProject/Ressources/Environnement3D/Water/EnvMap.dds");
+
+
+    //txtMngr.LoadTexture("../LyonPlexLib/Ressources/bois.jpg"); // TEST POUR SMOKE
 
 
     return true;

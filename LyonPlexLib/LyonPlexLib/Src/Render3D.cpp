@@ -26,7 +26,8 @@ bool Render3D::Init(HWND windowHandle, ECSManager* ECS, GraphicsDevice* graphics
 	m_waterPipeline.Init(graphicsDevice, descriptorManager, commandManager);
 	m_waterPipeline.CreatePipeline();
 
-
+	//m_smokeParticles.Init(graphicsDevice, commandManager, descriptorManager);
+	m_smokeParticles.Initialize(graphicsDevice, commandManager, descriptorManager);
 
 	return true;
 }
@@ -63,7 +64,7 @@ void Render3D::RecordCommands()
 
 	// Bind des Heaps SRV + Sampler
 	// 1. Rassemble tous tes descriptor heaps (SRV + Sampler)
-	ID3D12DescriptorHeap* heaps[] = { mp_descriptorManager->GetSrvHeap()/*, mp_descriptorManager->GetSamplerHeap()*/ }; //  SRV heap (contenant toutes les textures) et Sampler heap ATTENTION SAMPLERS ONT CASSE LA PORTABILITE
+	ID3D12DescriptorHeap* heaps[] = { mp_descriptorManager->GetSrvHeap() }; //  SRV heap (contenant toutes les textures) et Sampler heap ATTENTION SAMPLERS ONT CASSE LA PORTABILITE
 	cmdList->SetDescriptorHeaps(_countof(heaps), heaps);
 
 	// On definie la pipeline et la rootSignature
@@ -158,6 +159,7 @@ void Render3D::RecordCommands()
 		});
 
 
+	UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
 	ComponentMask mask3D = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D_Transparent::StaticTypeID);
 	m_ECS->ForEach(mask3D, [&](Entity ent)
 		{
@@ -179,7 +181,6 @@ void Render3D::RecordCommands()
 					texId = mesh.materialTextureIDs[sub.MaterialID];         // fallback sub‑mesh
 				}
 				// 2) calculer le handle précis dans le SRV heap (offset en descriptors) :
-				UINT descSize = mp_descriptorManager->GetSrvDescriptorSize();
 				D3D12_GPU_DESCRIPTOR_HANDLE handle = srvBase;
 				handle.ptr += (texId)*descSize;
 
@@ -202,12 +203,9 @@ void Render3D::RecordCommands()
 	cmdList->SetGraphicsRootSignature(m_waterPipeline.GetRootSignature().Get());
 	cmdList->SetPipelineState(m_waterPipeline.GetPipelineState().Get());
 
-	//ID3D12DescriptorHeap* heaps[] = { mp_descriptorManager->GetSrvHeap() };
-	//cmdList->SetDescriptorHeaps(_countof(heaps), heaps);
 
 	cmdList->SetGraphicsRootConstantBufferView(/*rootParameterIndex = slot b0*/ 0, m_ECS->m_systemMgr.GetCameraSystem().GetCBbuffer()->GetGPUVirtualAddress());
 
-	//cmdList->SetGraphicsRootConstantBufferView(0, m_waveManager->GetCBbuffer().Get()->GetGPUVirtualAddress());
 
 	cmdList->IASetVertexBuffers(0, 1, &m_waveManager->GetVBView()); // waveManager
 	cmdList->IASetIndexBuffer(&m_waveManager->GetIBView());
@@ -222,12 +220,6 @@ void Render3D::RecordCommands()
 			auto* wavec = m_ECS->GetComponent<WaveComponent>(ent);
 			if (!tc || !wavec)
 				return;
-
-			/*auto* camTransComp = m_ECS->GetComponent<TransformComponent>(m_ECS->m_systemMgr.GetCameraSystem().m_camHolder);
-			float camY = camTransComp->position.y;
-			float waterY = tc->position.y;
-			if (camY - waterY < 0.2f)
-				return;*/
 
 			// 2) Calculer la matrice monde (XMMATRIX) depuis tc->position/rotation/scale
 			XMMATRIX world = m_ECS->m_systemMgr.GetTransformSystem().worldMatrices[ent.id];
@@ -247,15 +239,11 @@ void Render3D::RecordCommands()
 
 			// 5) Binder le constant buffer au root slot 1 (register b1) avec offset
 			mp_commandManager->GetCommandList()->SetGraphicsRootConstantBufferView(/*rootParameterIndex=*/ 1, m_waveManager->GetCBbuffer().Get()->GetGPUVirtualAddress() + finalOffset);
-			/*memcpy(m_mappedCBData, &cbData, sizeof(CBData));*/
 
-			//cmdList->SetGraphicsRootDescriptorTable(1, mp_textureManager->GetSrvGpuHandle(wavec->normalMapID)); // Component
+
 			cmdList->SetGraphicsRootDescriptorTable(2, mp_textureManager->GetSrvGpuHandle(wavec->normalMapID)); // Component
-			//cmdList->SetGraphicsRootShaderResourceView(1, mp_textureManager->GetSrvGpuHandle(wavec->normalMapID).ptr); // Component
 
-			//cmdList->SetGraphicsRootDescriptorTable(2, mp_textureManager->GetSrvGpuHandle(wavec->cubeMapID)); // Component
 			cmdList->SetGraphicsRootDescriptorTable(3, mp_textureManager->GetSrvGpuHandle(wavec->cubeMapID)); // Component
-			//cmdList->SetGraphicsRootShaderResourceView(2, mp_textureManager->GetSrvGpuHandle(wavec->cubeMapID).ptr); // Component
 
 			cmdList->DrawIndexedInstanced(
 				/*IndexCount=*/6,
@@ -268,6 +256,36 @@ void Render3D::RecordCommands()
 		});
 
 
+
+	//float deltaTime = 0.016;
+	//m_smokeTotalTime += deltaTime;
+
+	//// Mettez à jour le système
+	////m_smokeParticles.UpdateParticles(deltaTime, m_smokeTotalTime, -0);
+
+	//// Préparez les paramètres de rendu
+	//ParticleParam params{};
+	//params.sizeMultiplier = 1.0f;
+	//params.gravity = 0.002f;
+	////params.gravity = 0.0f;
+	//params.globalColor = { 1.0f, 0.8f, 0.6f, 1.0f };
+	////params.blendMode = BlendMode::Additive;
+	//params.blendMode = BlendMode::Alpha;
+
+	//D3D12_GPU_DESCRIPTOR_HANDLE texHandle = srvBase;
+	//texHandle.ptr += TEXTURES::SMOKE_TEX * descSize;
+
+	//// Si smoke est à l’index 0 et particles à l’index 1 :
+	//D3D12_GPU_DESCRIPTOR_HANDLE tableStart = { srvBase.ptr + TEXTURES::SMOKE_TEX * descSize };
+	////cmd->SetGraphicsRootDescriptorTable(0, tableStart);
+
+	//// Enregistrez vos view/proj, viewport et scissor...
+	//m_smokeParticles.RenderParticles(viewport, scissorRect, m_ECS->m_systemMgr.GetCameraSystem().GetCBbuffer()->GetGPUVirtualAddress(), srvBase, params);
+
+	D3D12_GPU_DESCRIPTOR_HANDLE texHandle = srvBase;
+	//texHandle.ptr += TEXTURES::SMOKE_TEX * descSize;
+
+	//m_smokeParticles.Render(mp_commandManager->GetCommandList().Get(), texHandle, viewport, scissorRect, m_ECS->m_systemMgr.GetCameraSystem().GetCBbuffer()->GetGPUVirtualAddress());
 
 }
 
