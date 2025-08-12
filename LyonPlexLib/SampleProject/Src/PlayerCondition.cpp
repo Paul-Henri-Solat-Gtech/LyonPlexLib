@@ -50,7 +50,8 @@ bool PlayerCondition_AttackFinished::OnTest(Player* owner)
 
 bool PlayerCondition_IsSpecialAttacking::OnTest(Player* owner)
 {
-	return InputManager::GetKeyIsJustPressed(VK_RBUTTON);
+	//return InputManager::GetKeyIsJustPressed(VK_RBUTTON);
+	return InputManager::GetKeyIsJustPressed('L');
 }
 
 bool PlayerCondition_IsPickingUp::OnTest(Player* owner)

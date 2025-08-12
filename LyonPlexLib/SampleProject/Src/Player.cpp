@@ -14,6 +14,15 @@ bool ObbVsAabb(XMFLOAT3 paabb, AABBCollider a, XMFLOAT3 pobb, OBBCollider b);
 
 bool AabbVsAabb(XMFLOAT3 p1, AABBCollider b1, XMFLOAT3 p2, AABBCollider b2);
 
+static XMFLOAT3 GetForwardFromQuat(const XMFLOAT4& qf)
+{
+	XMVECTOR quat = XMLoadFloat4(&qf);
+	XMMATRIX rotMat = XMMatrixRotationQuaternion(quat);
+	XMVECTOR f = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), rotMat);
+	f = XMVector3Normalize(f);
+	XMFLOAT3 out; XMStoreFloat3(&out, f);
+	return out;
+}
 
 Player::Player() : m_stateMachine(this, State::Count)
 {
@@ -299,16 +308,6 @@ void Player::OnUdpdate(float deltatime)
 	m_deltatime = deltatime;
 	Movement();
 	ApplyMovementAndCollisions(deltatime);
-
-	// Projectiles
-	if (!m_projectileList.empty())
-	{
-		for (auto& projectile : m_projectileList)
-		{
-			projectile.OnUdpdate(deltatime);
-		}
-	}
-
 }
 
 void Player::ApplyMovementAndCollisions(float dt)
@@ -549,7 +548,6 @@ void Player::ApplyMovementAndCollisions(float dt)
 
 }
 
-
 void Player::Movement()
 {
 	// G�re le sprint
@@ -679,10 +677,66 @@ bool AabbVsAabb(XMFLOAT3 p1, AABBCollider b1, XMFLOAT3 p2, AABBCollider b2)
 		&& std::abs(p1.z + b1.offset.z - (p2.z + b2.offset.z)) <= (b1.halfSize.z + b2.halfSize.z);
 }
 
+XMFLOAT3 GetWorldForwardFromGO(GameObject* go)
+{
+	// local forward = +Z
+	XMVECTOR localForward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+	// recup rotation quaternion depuis le GO (XMFLOAT4)
+	XMFLOAT4 qf = go->GetRotation(); // existe d'apres ton MoveForward
+	XMVECTOR quat = XMLoadFloat4(&qf);
+
+	XMVECTOR worldF = XMVector3Rotate(localForward, quat);
+	worldF = XMVector3Normalize(worldF);
+
+	XMFLOAT3 f;
+	XMStoreFloat3(&f, worldF);
+	return f;
+}
+
 void Player::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeTime)
 {
-	//Projectile newProjectile;
-	//newProjectile.InitProjectile(mp_scene, m_playerGameObject.GetPosition(), m_playerGameObject.GetPosition());
+	// source camera si dispo sinon fallback player
+	GameObject* cam = mp_cameraGO ? mp_cameraGO : &m_playerGameObject;
 
-	//m_projectileList.push_back(newProjectile);
+	// forward monde issu de la camera (utilise ton helper existant GetWorldForwardFromGO)
+	XMFLOAT3 camFwd = GetWorldForwardFromGO(cam);
+
+	// position joueur (world) - spawn depuis la poitrine du joueur plutôt que la cam
+	XMFLOAT3 playerPos = m_playerGameObject.GetPosition();
+
+	// ajuster la hauteur du spawn (à régler selon ton player)
+	const float chestHeight = 1.3f; // essayer 1.0..1.6
+	XMFLOAT3 start = { playerPos.x, playerPos.y + chestHeight, playerPos.z };
+
+	// avance le start d'une distance devant le joueur selon la direction de la caméra
+	const float muzzleOffset = 0.6f; // augmente si le projectile spawn dans le joueur
+	start.x += camFwd.x * muzzleOffset;
+	start.y += camFwd.y * muzzleOffset;
+	start.z += camFwd.z * muzzleOffset;
+
+	// target lointain sur la même direction
+	const float range = 1000.0f;
+	XMFLOAT3 target = {
+		start.x + camFwd.x * range,
+		start.y + camFwd.y * range,
+		start.z + camFwd.z * range
+	};
+
+	// debug rapide : affiche start/target & forward
+	{
+		char buf[256];
+		sprintf_s(buf, "CreateProjectile start=(%.2f,%.2f,%.2f) target=(%.2f,%.2f,%.2f) fwd=(%.3f,%.3f,%.3f)\n",
+			start.x, start.y, start.z, target.x, target.y, target.z, camFwd.x, camFwd.y, camFwd.z);
+		OutputDebugStringA(buf);
+	}
+
+	// crée le projectile (tu utilises déjà cette signature)
+	mp_scene->CreateGameObject<Projectile>(mp_scene, start, target);
+
+	// --- Optionnel debugging : si invisible, override temporairement le mesh/texture ---
+	// si ton CreateGameObject renvoie une référence/pointer, tu peux faire :
+	// auto* p = mp_scene->CreateGameObject<Projectile>(mp_scene, start, target);
+	// if (p) { p->SetMesh(MESHES::LOCAL_SPHERE); p->SetTexture(TEXTURES::LASER); p->SetOwnerEntity(m_playerGameObject.GetEntity()); }
 }
+

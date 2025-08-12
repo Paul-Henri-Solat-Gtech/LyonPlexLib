@@ -15,35 +15,41 @@ Projectile::Projectile(Scene* scene, XMFLOAT3 posStart, XMFLOAT3 posTarget, Proj
 
 void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 {
+	//std::string projName = "newProjectile" + std::to_string(mp_scene->GetSceneGameObjects().size());
 
-
-	std::string projName = "newProjectile" + std::to_string(mp_scene->GetSceneGameObjects().size());
-	//OutputDebugStringA(projName.c_str());
-	//m_projectileGameObject = &mp_scene->CreateGameObject(projName);
-	//m_projectileGameObject->SetTag(Tag::TAG_Projectile);
-	//m_projectileGameObject->SetPosition(posStart);
-	//m_projectileGameObject->SetScale({ 0.2,0.2,0.8 });
-	//auto projScale = m_projectileGameObject->GetScale();
-	//m_projectileGameObject->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x / 2, projScale.y / 2, projScale.z / 2 })));
-
-	//Init(projName, mp_scene->GetEcsManager(), scene);
-
+	AddComponent<Tag_Projectile>(new Tag_Projectile());
 	SetTag(Tag::TAG_Projectile);
 	SetPosition(posStart);
 	SetScale({ 0.2,0.2,0.8 });
 	auto projScale = GetScale();
 	AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x / 2, projScale.y / 2, projScale.z / 2 })));
 
+	// rotation projectile
+	XMFLOAT3 dir = { posTarget.x - posStart.x, posTarget.y - posStart.y, posTarget.z - posStart.z };
+	XMVECTOR dirV = XMLoadFloat3(&dir);
+	dirV = XMVector3Normalize(dirV);
+
+	// Build a look-to matrix then invert to get a world matrix for the projectile
+	XMVECTOR eye = XMLoadFloat3(&posStart);
+	XMMATRIX view = XMMatrixLookToLH(eye, dirV, XMVectorSet(0.f, 1.f, 0.f, 0.f));
+	XMMATRIX world = XMMatrixInverse(nullptr, view);
+
+	// quaternion from world matrix
+	XMVECTOR quat = XMQuaternionRotationMatrix(world);
+	XMFLOAT4 qf; XMStoreFloat4(&qf, quat);
+	SetRotation(qf);
+	//--
 
 	switch (m_projectileType)
 	{
 	case Laser:
-		LookAt(posTarget);
+		//LookAt(posTarget);
 		break;
 	case Rock:
 		//Laube(posStart, posTarget);
 		break;
-	case ProjectileTypeCount:
+	case AirSlash:
+		//LookAt(posTarget);
 		break;
 	default:
 		break;

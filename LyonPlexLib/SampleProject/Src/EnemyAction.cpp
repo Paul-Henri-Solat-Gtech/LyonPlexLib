@@ -27,7 +27,7 @@ void EnnemyAction_Shoot::Update(Enemy* ennemy)
 {
 	if (m_nextShootTimer >= ennemy->m_reloadSpeed) 
 	{
-		ennemy->CreateProjectile(ennemy->GetPosition(), ennemy->m_playerGm.GetPosition(),ProjectileType::Rock);
+		ennemy->CreateProjectile(ennemy->GetPosition(), ennemy->m_playerGm.GetPosition(),ProjectileType::Laser);
 		m_nextShootTimer = 0;
 	}
 	else

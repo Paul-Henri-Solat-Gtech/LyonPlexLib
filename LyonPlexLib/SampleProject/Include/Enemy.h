@@ -62,8 +62,6 @@ private:
 	bool m_initialized = false;
 	EnemyType m_type;
 
-	std::vector<Projectile>m_projectileList;
-
 protected:
 	friend class EnnemyAction_Idle;
 	friend class EnnemyAction_Move;

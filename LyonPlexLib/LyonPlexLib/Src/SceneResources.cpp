@@ -25,11 +25,12 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
 {
     // WARNING : Dont forget to change the .h accordingly
 
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/NoTexture.png");//0
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");//1
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test.png");//2
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");//3
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/grid.png");//4
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Empty.png");//0
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/NoTexture.png");//1
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");//2
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test.png");//3
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/grid.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/bois.jpg");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/eau.jpg");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/champ.jpg");

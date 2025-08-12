@@ -16,8 +16,8 @@ void GameObject::Init(const std::string& name, ECSManager* ecsManager, Scene* sc
 	AddComponent<Type_3D>(new Type_3D());
 
 	// MESH
-	AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::NOTEXTURE));
-
+	//AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::NOTEXTURE));
+	AddComponent<MeshComponent>(new MeshComponent((MESHES::LOCAL_CUBE)));
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());
 }
@@ -35,7 +35,9 @@ void GameObject::InitGameObj(ECSManager* ecsManager, Scene* scene)
 	AddComponent<Type_3D>(new Type_3D());
 
 	// MESH
-	AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::NOTEXTURE));
+	//SetMesh(MESHES::LOCAL_CUBE);
+	AddComponent<MeshComponent>(new MeshComponent((MESHES::LOCAL_CUBE)));
+	//AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::NOTEXTURE));
 
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());
@@ -246,3 +248,20 @@ void GameObject::MoveBackward(float distance)
 	pos.z -= dir.z * distance;
 	SetPosition(pos);
 }
+
+//static XMFLOAT3 GetWorldForwardFromGO(GameObject* go)
+//{
+//	// local forward = +Z
+//	XMVECTOR localForward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+//
+//	// recup rotation quaternion depuis le GO (XMFLOAT4)
+//	XMFLOAT4 qf = go->GetRotation(); // existe d'apres ton MoveForward
+//	XMVECTOR quat = XMLoadFloat4(&qf);
+//
+//	XMVECTOR worldF = XMVector3Rotate(localForward, quat);
+//	worldF = XMVector3Normalize(worldF);
+//
+//	XMFLOAT3 f;
+//	XMStoreFloat3(&f, worldF);
+//	return f;
+//}

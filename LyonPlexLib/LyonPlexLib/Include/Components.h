@@ -28,6 +28,7 @@ enum ComponentID
 	Tag_Player_ID,
 	Tag_Enemy_ID,
 	Tag_Object_ID,
+	Tag_Projectile_ID,
 
 	TotalComponentsCount
 };
@@ -371,3 +372,13 @@ struct Tag_Object : public Component
 };
 
 
+struct Tag_Projectile : public Component
+{
+	static constexpr uint32_t StaticTypeID = Tag_Projectile_ID;
+
+	Tag_Projectile()
+	{
+		mask = 1ULL << StaticTypeID;
+		typeID = StaticTypeID;
+	}
+};

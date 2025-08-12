@@ -681,15 +681,16 @@ void PlayerAction_PickUp::Update(Player* player)
 
 }
 
-// SPECIAL ATTACK
 void PlayerAction_PickUp::End(Player* player)
 {
 	OutputDebugStringA("\nEnd Pick Up-\n");
 }
 
+// SPECIAL ATTACK
 void PlayerAction_SpecialAttack::Start(Player* player)
 {
 	OutputDebugStringA("\nSPECIAL ATACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-\n");
+	player->CreateProjectile(player->m_playerGameObject.GetPosition(), player->m_playerGameObject.GetPosition(), ProjectileType::Laser);
 }
 
 void PlayerAction_SpecialAttack::Update(Player* player)

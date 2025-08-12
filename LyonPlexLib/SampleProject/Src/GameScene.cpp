@@ -22,6 +22,7 @@ void GameScene::Start()
 	XMFLOAT3 pos(POSITION_CHAMPS.x + 0, POSITION_CHAMPS.y + 15, POSITION_CHAMPS.z + 0);
 	GetGameObjectByName("player").SetPosition(pos);
 	m_player = GetGameObjectByName("player");
+	//m_player.SetTexture(TEXTURES::EMPTY);
 
 	SetParent("cam", "player");
 	m_fpsCam.SetParentGO(m_cam);
@@ -40,11 +41,12 @@ void GameScene::Start()
 	UINT renderWidth = renderZone.right - renderZone.left;
 	UINT renderHeight = renderZone.bottom - renderZone.top;
 	CreateGameObject("bras", TYPE_2D, true);
+	GetGameObjectByName("bras").SetMesh(MESHES::LOCAL_SQUARE);
 	GetGameObjectByName("bras").SetTexture(TEXTURES::ARMS);
 	//GetGameObjectByName("bras").SetPosition({ (float)renderWidth / 8, (float)renderHeight / 8, 0 });
 	//GetGameObjectByName("bras").SetScale({ (float)renderWidth * 0.15f, (float)renderHeight * 0.15f, 0 });
 	GetGameObjectByName("bras").SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2 + (float)renderHeight / 4, 0 });
-	GetGameObjectByName("bras").SetScale({ (float)renderWidth * 0.75f, (float)renderHeight * 0.75f, 0 });
+	GetGameObjectByName("bras").SetScale({ (float)renderWidth * 0.45f, (float)renderHeight * 0.45f, 0 });
 	GetGameObjectByName("bras").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
 	m_playerTest.SetPlayerArm(GetGameObjectByName("bras"));
@@ -2653,6 +2655,7 @@ void GameScene::Update(float deltatime)
 
 	portal->OnUdpdate(deltatime);
 
+	// Enemies
 	ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
 	auto& ecs = mp_ecsManager;
 	float closest = 100;
@@ -2660,7 +2663,13 @@ void GameScene::Update(float deltatime)
 		{
 			GetGameObjectByID(e).OnUdpdate(deltatime);
 		});
-
+	// Projectiles
+	mask = (1ULL << Tag_Projectile::StaticTypeID);
+	ecs->ForEach(mask, [&](Entity e)
+		{
+			GetGameObjectByID(e).OnUdpdate(deltatime);
+		});
+	
 
 	// PlayerState
 	m_playerTest.OnUdpdate(deltatime);

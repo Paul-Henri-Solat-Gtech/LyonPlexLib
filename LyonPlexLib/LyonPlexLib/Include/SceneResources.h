@@ -4,6 +4,7 @@ namespace TEXTURES
 {
 	enum TEXTURES
 	{
+		EMPTY,
 		NOTEXTURE,
 		TEST3,
 		TEST,
