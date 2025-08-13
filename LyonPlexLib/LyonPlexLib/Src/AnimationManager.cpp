@@ -13,7 +13,7 @@ void AnimationManager::Init(float animationSpeed, GameObject* gmToAnimate)
 	m_frameCooldown = m_frameOriginalCooldown;
 	m_gameObjectToAnimate = gmToAnimate;
     m_animationHisFinished = false;
-    m_HalfDuration = false;
+    m_halfDuration = false;
 }
 
 void AnimationManager::Start(float deltatime)
