@@ -116,7 +116,7 @@ int GameManager::Run()
 
 		m_ECS.EndFrame();
 
-		LimitFPS(60.0);
+		//LimitFPS(120.0);
 	}
 
 	Release();
