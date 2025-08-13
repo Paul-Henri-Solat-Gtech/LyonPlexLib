@@ -50,6 +50,8 @@ public:
 	GameObject* m_closestObject = nullptr;
 	GameObject* mp_cameraGO = nullptr;
 
+	GameObject m_AOEboundingBox;
+
 	Enemy* m_closestEnemy = nullptr;
 
 	//Test Animation

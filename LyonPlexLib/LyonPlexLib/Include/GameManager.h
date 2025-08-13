@@ -38,7 +38,8 @@ public:
 
 private:
     void ProcessMessage(); // Gestion messages windows
-    
+    void LimitFPS(double targetFPS);
+
     HINSTANCE m_hInstance;
     WindowPlex m_window;
 

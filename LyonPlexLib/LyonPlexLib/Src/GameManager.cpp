@@ -115,6 +115,8 @@ int GameManager::Run()
 		m_renderer.SynchroGPUCPU();
 
 		m_ECS.EndFrame();
+
+		LimitFPS(60.0);
 	}
 
 	Release();
@@ -177,4 +179,35 @@ void GameManager::ProcessMessage()
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
+}
+
+void GameManager::LimitFPS(double targetFPS)
+{
+	static double lastFrameTime = Utils::getTimeSeconds(); // temps de la dernière frame
+
+	double targetFrameDuration = 1.0 / targetFPS; // durée visée par frame
+	double now = Utils::getTimeSeconds();
+	double elapsed = now - lastFrameTime;
+
+	// S'il reste du temps avant d'atteindre targetFrameDuration
+	if (elapsed < targetFrameDuration)
+	{
+		double remaining = targetFrameDuration - elapsed;
+
+		// Si il reste plus de 2 ms → sleep
+		if (remaining > 0.002)
+		{
+			std::this_thread::sleep_for(
+				std::chrono::duration<double>(remaining - 0.001)
+			);
+		}
+
+		// Spin pour la fin (précision)
+		while ((Utils::getTimeSeconds() - lastFrameTime) < targetFrameDuration)
+		{
+			std::this_thread::yield(); // ou _mm_pause() si dispo
+		}
+	}
+
+	lastFrameTime = Utils::getTimeSeconds();
 }

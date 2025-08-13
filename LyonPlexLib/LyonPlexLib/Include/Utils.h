@@ -521,7 +521,7 @@ namespace Utils
 		//    on prend la position Y du joueur, moins sa demi?hauteur AABB
 		XMVECTOR origin = XMVectorSet(
 			tPlayer.position.x,
-			tPlayer.position.y - playerAabb.halfSize.y,
+			tPlayer.position.y - playerAabb.halfSize.y + 1e-3f,
 			tPlayer.position.z,
 			1.0f
 		);

@@ -367,7 +367,7 @@ void Player::ApplyMovementAndCollisions(float dt)
 
 	XMFLOAT3 currentPos = tP.position;
 
-	const float skinWidth = 0.01f;  // 5 cm
+	const float skinWidth = 0.01f;  
 	AABBCollider mover = aabb;
 	mover.halfSize.x = (((0.0f) > (mover.halfSize.x - skinWidth)) ? (0.0f) : (mover.halfSize.x - skinWidth));
 	mover.halfSize.y = (((0.0f) > (mover.halfSize.y - skinWidth)) ? (0.0f) : (mover.halfSize.y - skinWidth));
@@ -463,14 +463,14 @@ void Player::ApplyMovementAndCollisions(float dt)
 
 	// 5) Ground check
 	// Origine du rayon = center.xz + (pos.y - halfHeight - ?)
-	XMVECTOR origin = XMVectorSet(
-		tP.position.x,
-		tP.position.y - aabb.halfSize.y + 1e-3f,
-		tP.position.z,
-		0);
+	//XMVECTOR origin = XMVectorSet(
+	//	tP.position.x,
+	//	tP.position.y - aabb.halfSize.y + 1e-3f,
+	//	tP.position.z,
+	//	0);
 	XMVECTOR dir = XMVectorSet(0, -1, 0, 0);
-	//float maxDist = 1.0f;  // tol�rance de peau
-	float maxDist = 0.2f;  // tol�rance de peau
+	float maxDist = 0.3;  // tol�rance de peau
+	//float maxDist = 0.2f;  // tol�rance de peau
 
 	bool onGround = false;
 	for (auto& e : candidates) {

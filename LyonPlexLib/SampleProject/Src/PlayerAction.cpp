@@ -214,7 +214,7 @@ void PlayerAction_Attack::Start(Player* player)
 	//anim
 	OutputDebugStringA("StartSlash-");
 	player->m_attackFinished = false;
-
+	m_enemyHit = false;
 
 	switch (player->m_currIdleMesh)
 	{
@@ -537,6 +537,47 @@ void PlayerAction_Attack::Start(Player* player)
 }
 void PlayerAction_Attack::Update(Player* player)
 {
+
+	auto func = [&]()
+		{
+			ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
+			auto& ecs = player->mp_gameManager->GetECSManager();
+			float closest = 10;
+			ecs.ForEach(mask, [&](Entity e)
+				{
+					Utils::Vector3 newVec;
+					auto& playerPos = player->m_playerGameObject.GetPosition();
+					auto* tc = ecs.GetComponent<TransformComponent>(e);
+
+					newVec.x = playerPos.x - tc->position.x;
+					newVec.y = playerPos.y - tc->position.y;
+					newVec.z = playerPos.z - tc->position.z;
+
+					float length = newVec.length();
+
+					//if (length < 3.0f)
+					if (length < ecs.GetComponent<CollisionComponent>(player->GetGameObject().GetEntity())->BoundingSphereRadius() * 4)
+					{
+						if (length < closest)
+						{
+							closest = length;
+
+							GameObject& go = player->mp_scene->GetGameObjectByID(e);
+							Enemy* e = dynamic_cast<Enemy*>(&go);
+							if (e) {
+								//player->m_closestEnemy = e;
+								m_enemyHit = true;
+								e->TakeDamage();
+							}
+							else {
+								// pas d’ennemi valide sous cet ID
+							}
+						}
+					}
+				});
+		};
+
+
 	switch (player->m_currIdleMesh)
 	{
 	case TEXTURES::ARMS:
@@ -547,16 +588,19 @@ void PlayerAction_Attack::Update(Player* player)
 
 	case TEXTURES::IDLEARM_W1_1:
 		m_attackAnim.AnimationSequence(player->GetDeltatime());
-		if (m_attackAnim.GetAnimationHisFinished())
+		if (m_attackAnim.GetAnimationHHalfDuration() && m_enemyHit == false)
 		{
-			player->m_attackFinished = true;
+			func();
 		}
+		if (m_attackAnim.GetAnimationHisFinished())	player->m_attackFinished = true;
+		 
 		break;
 	case TEXTURES::IDLEARM_W2_1:
 		m_heavyAttackAnim.AnimationSequence(player->GetDeltatime());
-		if (m_heavyAttackAnim.GetAnimationHisFinished())
+		if (m_heavyAttackAnim.GetAnimationHisFinished()) player->m_attackFinished = true;
+		if (m_heavyAttackAnim.GetAnimationHHalfDuration() && m_enemyHit == false)
 		{
-			player->m_attackFinished = true;
+			func();
 		}
 		break;
 	}
@@ -568,6 +612,45 @@ void PlayerAction_Attack::Update(Player* player)
 }
 void PlayerAction_Attack::End(Player* player)
 {
+	//ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
+	//auto& ecs = player->mp_gameManager->GetECSManager();
+	//float closest = 10;
+	//ecs.ForEach(mask, [&](Entity e)
+	//	{
+	//		Utils::Vector3 newVec;
+	//		auto& playerPos = player->m_playerGameObject.GetPosition();
+	//		auto* tc = ecs.GetComponent<TransformComponent>(e);
+
+	//		newVec.x = playerPos.x - tc->position.x;
+	//		newVec.y = playerPos.y - tc->position.y;
+	//		newVec.z = playerPos.z - tc->position.z;
+
+	//		float length = newVec.length();
+
+	//		//if (length < 3.0f)
+	//		if (length < ecs.GetComponent<CollisionComponent>(player->GetGameObject().GetEntity())->BoundingSphereRadius() * 4)
+	//		{
+	//			if (length < closest)
+	//			{
+	//				closest = length;
+
+	//				GameObject& go = player->mp_scene->GetGameObjectByID(e);
+	//				Enemy* e = dynamic_cast<Enemy*>(&go);
+	//				if (e) {
+	//					//player->m_closestEnemy = e;
+	//					e->TakeDamage();
+	//				}
+	//				else {
+	//					// pas d’ennemi valide sous cet ID
+	//				}
+	//			}
+	//		}
+	//	});
+
+	//player->m_closestEnemy->TakeDamage();
+
+	//player->m_closestEnemy = nullptr;
+
 
 	switch (player->m_currIdleMesh)
 	{
@@ -581,13 +664,6 @@ void PlayerAction_Attack::End(Player* player)
 		break;
 	}
 
-	if (player->m_closestEnemy)
-	{
-		//auto& enemy = dynamic_cast<Enemy>(player->m_closestEnemy);
-		player->m_closestEnemy->TakeDamage();
-		//player->mp_scene->DestroyGameObject(*player->m_closestEnemy);
-		player->m_closestEnemy = nullptr;
-	}
 
 	player->GetPlayerArm().SetTexture(player->m_currIdleMesh);
 	OutputDebugStringA("-EndSlash");

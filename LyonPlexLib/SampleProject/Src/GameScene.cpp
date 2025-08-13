@@ -53,8 +53,8 @@ void GameScene::Start()
 
 
 	CreateGameObject("Stick");
-	XMFLOAT3 pos1(POSITION_CHAMPS.x + 2, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z + 2);
-	GetGameObjectByName("Stick").SetPosition(pos1);
+	pos = { POSITION_CHAMPS.x + 2, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z + 2 };
+	GetGameObjectByName("Stick").SetPosition(pos);
 	GetGameObjectByName("Stick").SetScale({ 1, 1, 1 });
 	GetGameObjectByName("Stick").SetMesh(MESHES::STICK);
 	GetGameObjectByName("Stick").SetTexture(TEXTURES::HERBE);
@@ -62,27 +62,30 @@ void GameScene::Start()
 	//GetGameObjectByName("Stick").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
 	GetGameObjectByName("Stick").AddComponent<Tag_Object>(new Tag_Object());
 	GetGameObjectByName("Stick").SetTag(TAG_Stick);
-	//CreateGameObject("Stick2");
-	//GetGameObjectByName("Stick2").SetPosition({ 2, 1, 4 });
-	//GetGameObjectByName("Stick2").SetScale({ 0.01, 0.01, 0.01 });
-	//GetGameObjectByName("Stick2").SetMesh(MESHES::STICK);
-	//GetGameObjectByName("Stick2").SetTexture(TEXTURES::GRID);
-	//a = GetGameObjectByName("Stick2").GetScale();
+	CreateGameObject("Stick2");
+	pos = { POSITION_CHAMPS.x - 2, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z + 2 };
+	GetGameObjectByName("Stick2").SetPosition(pos);
+	GetGameObjectByName("Stick2").SetScale({ 2, 2, 2 });
+	GetGameObjectByName("Stick2").SetMesh(MESHES::STICK);
+	GetGameObjectByName("Stick2").SetTexture(TEXTURES::HERBE);
+	a = GetGameObjectByName("Stick2").GetScale();
 	//GetGameObjectByName("Stick2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
-	//GetGameObjectByName("Stick2").AddComponent<Tag_Object>(new Tag_Object());
-	//GetGameObjectByName("Stick2").SetTag(TAG_Stick);
-	//CreateGameObject("Stick3");
-	//GetGameObjectByName("Stick3").SetPosition({ -2, 1, 2 });
-	//GetGameObjectByName("Stick3").SetScale({ 0.01, 0.01, 0.01 });
-	//GetGameObjectByName("Stick3").SetMesh(MESHES::STICK);
-	//GetGameObjectByName("Stick3").SetTexture(TEXTURES::GRID);
-	//a = GetGameObjectByName("Stick3").GetScale();
+	GetGameObjectByName("Stick2").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("Stick2").SetTag(TAG_Stick);
+	CreateGameObject("Stick3");
+	pos = { POSITION_CHAMPS.x - 2, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z + 3 };
+	GetGameObjectByName("Stick3").SetPosition(pos);
+	GetGameObjectByName("Stick3").SetScale({ 2, 2, 2 });
+	GetGameObjectByName("Stick3").SetMesh(MESHES::STICK);
+	GetGameObjectByName("Stick3").SetTexture(TEXTURES::CEPHA);
+	a = GetGameObjectByName("Stick3").GetScale();
 	//GetGameObjectByName("Stick3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
-	//GetGameObjectByName("Stick3").AddComponent<Tag_Object>(new Tag_Object());
-	//GetGameObjectByName("Stick3").SetTag(TAG_Stick);
+	GetGameObjectByName("Stick3").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("Stick3").SetTag(TAG_Stick);
 
 	CreateGameObject("Rock");
-	GetGameObjectByName("Rock").SetPosition({ 320,1,55 });
+	pos = { POSITION_CHAMPS.x - 3, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z - 2 };
+	GetGameObjectByName("Rock").SetPosition(pos);
 	GetGameObjectByName("Rock").SetScale({ 0.2, 0.2, 0.2 });
 	GetGameObjectByName("Rock").SetMesh(MESHES::CAILLOUX1);
 	GetGameObjectByName("Rock").SetTexture(TEXTURES::CEPHA);
