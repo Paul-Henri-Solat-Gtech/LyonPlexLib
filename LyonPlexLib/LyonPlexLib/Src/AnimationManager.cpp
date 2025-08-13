@@ -13,6 +13,7 @@ void AnimationManager::Init(float animationSpeed, GameObject* gmToAnimate)
 	m_frameCooldown = m_frameOriginalCooldown;
 	m_gameObjectToAnimate = gmToAnimate;
     m_animationHisFinished = false;
+    m_halfDuration = false;
 }
 
 void AnimationManager::Start(float deltatime)
@@ -57,6 +58,11 @@ void AnimationManager::AnimationSequence(float deltatime)
         const auto& textureId = m_textureList[m_nextIdFrame];
         m_gameObjectToAnimate->SetTexture(textureId);
         OutputDebugStringA(("Frame " + std::to_string(m_nextIdFrame) + "\n").c_str());
+    }
+
+    if (m_nextIdFrame >= ((m_textureList.size() - 1) / 2))
+    {
+        m_halfDuration = true;
     }
 
     if (m_nextIdFrame >= m_textureList.size() - 1)

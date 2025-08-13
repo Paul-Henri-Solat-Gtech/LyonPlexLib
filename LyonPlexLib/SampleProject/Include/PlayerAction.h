@@ -45,6 +45,8 @@ public:
 
 	AnimationManager m_attackAnim;
 	AnimationManager m_heavyAttackAnim;
+
+	bool m_enemyHit = false;
 };
 
 class PlayerAction_SpecialAttack : public Action<Player>

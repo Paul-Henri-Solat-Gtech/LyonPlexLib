@@ -38,12 +38,6 @@ void DevScene::Start()
 		m_orbitPitch = std::clamp(m_orbitPitch, -89.0f, +89.0f);
 	}
 
-	//// Cr馥r le ground, etc.
-	//CreateGameObject("ground", 2, 3);
-	//GetGameObjectByName("ground").SetPosition({ 0, -2, 0 });
-	//GetGameObjectByName("ground").SetScale({ 50, 1, 50 });
-	//GetGameObjectByName("ground").SetTexture(TEXTURES::GRID);
-
 	CreateGameObject("solGen", MESHES::LOCAL_CUBE, TEXTURES::HERBE);
 	GetGameObjectByName("solGen").SetTag(TAG_Floor);
 	//GetGameObjectByName("solGen").SetPosition(POSITION_BASE);
@@ -62,31 +56,17 @@ void DevScene::Start()
 	CreateGameObject("Temple", MESHES::TEMPLE, TEXTURES::TEMPLE);
 	GetGameObjectByName("Temple").SetTag(TAG_Floor);
 	GetGameObjectByName("Temple").SetPosition({ 75,0,125 });
-	//GetGameObjectByName("Temple").SetScale({ 100, 5, 100 });
 	GetGameObjectByName("Temple").SetScale({ 0.75, 1, 0.75 });
 	c = GetGameObjectByName("Temple").GetScale();
 	GetGameObjectByName("Temple").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
 
 	CreateGameObject("Mountain", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
 	GetGameObjectByName("Mountain").SetTag(TAG_Floor);
-	GetGameObjectByName("Mountain").SetPosition({ 300,7,150 });
-	GetGameObjectByName("Mountain").SetScale({ 200, 14, 100 });
+	GetGameObjectByName("Mountain").SetPosition({ 300,7,175 }); 
+	GetGameObjectByName("Mountain").SetScale({ 200, 14, 50 }); 
 	c = GetGameObjectByName("Mountain").GetScale();
 	GetGameObjectByName("Mountain").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
 
-	//CreateGameObject("Mountain2", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
-	//GetGameObjectByName("Mountain2").SetTag(TAG_Floor);
-	//GetGameObjectByName("Mountain2").SetPosition({ 167.5, 2, 100 });
-	//GetGameObjectByName("Mountain2").SetScale({ 65, 25, 20 });
-	//c = GetGameObjectByName("Mountain2").GetScale();
-	//GetGameObjectByName("Mountain2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	//CreateGameObject("Mountain3", MESHES::CAILLOUX4, TEXTURES::PIERRE);
-	//GetGameObjectByName("Mountain3").SetTag(TAG_Floor);
-	//GetGameObjectByName("Mountain3").SetPosition({ 125, 2, 100 });
-	//GetGameObjectByName("Mountain3").SetScale({ 10, 12, 3 });
-	//c = GetGameObjectByName("Mountain3").GetScale();
-	//GetGameObjectByName("Mountain3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
 
 	{
 		CreateGameObject("Road1", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);

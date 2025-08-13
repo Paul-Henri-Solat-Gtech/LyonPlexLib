@@ -4,7 +4,7 @@
 
 class Enemy;
 
-class Player
+class Player : public GameObject
 {
 	StateMachine<Player> m_stateMachine;
 
@@ -24,7 +24,7 @@ class Player
 
 public:
 	Player();
-	void Init(GameObject gameObject, GameManager* gameManager, Scene* scene, GameObject& cameraGO);
+	void Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene, GameObject& cameraGO);
 	
 	void OnUdpdate(float deltatime);
 
@@ -59,6 +59,8 @@ public:
 
 	GameObject* m_closestObject = nullptr;
 	GameObject* mp_cameraGO = nullptr;
+
+	GameObject m_AOEboundingBox;
 
 	Enemy* m_closestEnemy = nullptr;
 
