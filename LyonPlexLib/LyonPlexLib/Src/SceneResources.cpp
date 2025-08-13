@@ -48,13 +48,17 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture("../SampleProject/Ressources/icecream.png");//19
     txtMngr.LoadTexture("../SampleProject/Ressources/start.png");//20
     txtMngr.LoadTexture("../SampleProject/Ressources/stop.png");//21
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/heart-empty.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/heart-demi.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/heart-full.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/GameOver.png");
 
     // Place single image up
     // Down is reserved for animations frame (to avoid redoing all enum)
 
     // IDLE ARM (24 frames)
     {
-        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/1.png"); //21
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/1.png");
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/2.png");
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/3.png");
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/4.png");

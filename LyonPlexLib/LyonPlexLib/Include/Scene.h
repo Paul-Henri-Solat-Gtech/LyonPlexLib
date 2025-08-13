@@ -30,6 +30,8 @@ public:
 
 	ECSManager* GetEcsManager() { return mp_ecsManager; };
 
+	SceneManager* GetSceneManager() { return mp_sceneManager; };
+
 	void AddEntityToScene(Entity entity, const std::string& entityName); //(a enlever)
 	
 	SceneEntity CreateEntity(const std::string& entityName);//(a enlever)

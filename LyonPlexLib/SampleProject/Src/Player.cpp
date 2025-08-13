@@ -228,7 +228,7 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 	m_attackFinished = true;
 	m_slashAttackNb = 1;
 	m_deltatime = 0;
-	m_hp = 10;
+	m_hp = 6;
 	m_playerGameObject.AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ m_playerGameObject.GetScale().x / 2,m_playerGameObject.GetScale().y / 2,m_playerGameObject.GetScale().z / 2 })));
 
 	m_playerGameObject.AddComponent<Tag_Player>(new Tag_Player());
@@ -238,6 +238,37 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 	// sounds
 	mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
 
+	// Hearts
+	RECT renderZone;
+	GetClientRect(mp_gameManager->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
+	UINT renderWidth = renderZone.right - renderZone.left;
+	UINT renderHeight = renderZone.bottom - renderZone.top;
+
+	mp_scene->CreateGameObject("Heart1", TYPE_2D, true);
+	m_playerHeart1 = mp_scene->GetGameObjectByName("Heart1");
+	m_playerHeart1.SetMesh(MESHES::LOCAL_SQUARE);
+	m_playerHeart1.SetTexture(TEXTURES::heart_full);
+	m_playerHeart1.SetPosition({ 120, (float)renderHeight / 6, 0 });
+	m_playerHeart1.SetScale({ (float)renderWidth * 0.07f, (float)renderHeight * 0.1f, 0 });
+	m_playerHeart1.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
+	mp_scene->CreateGameObject("Heart2", TYPE_2D, true);
+	m_playerHeart2 = mp_scene->GetGameObjectByName("Heart2");
+	m_playerHeart2.SetMesh(MESHES::LOCAL_SQUARE);
+	m_playerHeart2.SetTexture(TEXTURES::heart_full);
+	m_playerHeart2.SetPosition({ 240, (float)renderHeight / 6, 0 });
+	m_playerHeart2.SetScale({ (float)renderWidth * 0.07f, (float)renderHeight * 0.1f, 0 });
+	m_playerHeart2.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
+	mp_scene->CreateGameObject("Heart3", TYPE_2D, true);
+	m_playerHeart3 = mp_scene->GetGameObjectByName("Heart3");
+	m_playerHeart3.SetMesh(MESHES::LOCAL_SQUARE);
+	m_playerHeart3.SetTexture(TEXTURES::heart_full);
+	m_playerHeart3.SetPosition({ 360, (float)renderHeight / 6, 0 });
+	m_playerHeart3.SetScale({ (float)renderWidth * 0.07f, (float)renderHeight * 0.1f, 0 });
+	m_playerHeart3.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
+
 	EventBus::instance().subscribe<CollisionEvent>(
 		[&](CollisionEvent::Payload const& p) {
 			Entity playerE = p.a, otherE = p.b;
@@ -245,9 +276,12 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 			if (otherE.id == m_playerGameObject.GetEntity().id) {
 				playerE = p.b; otherE = p.a;
 			}
-			// si aucun des deux n�est le joueur, on sort
+			// si aucun des deux nest le joueur, on sort
 			if (playerE.id != m_playerGameObject.GetEntity().id) return;
+			
 			auto tag = mp_scene->GetGameObjectByID(p.b).GetTag();
+			GameObject& otherGO = mp_scene->GetGameObjectByID(otherE);
+
 		switch (tag)
 		{
 		case TAG_Floor:
@@ -256,13 +290,12 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 		}
 		case TAG_Projectile: 
 		{
-			//COLLISION Proj and player
-			OutputDebugStringA("\n -1hp aie \n");
 			if (m_hp > 0)
 			{
 				m_hp--;
-				//mp_scene->DestroyGameObject(mp_scene->GetGameObjectByID(p.b));
+				HpUpdate();
 				OutputDebugStringA("\n -1hp aie \n");
+				mp_scene->DestroyGameObject(otherGO);
 			}
 			else
 			{
@@ -738,5 +771,66 @@ void Player::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeT
 	// si ton CreateGameObject renvoie une référence/pointer, tu peux faire :
 	// auto* p = mp_scene->CreateGameObject<Projectile>(mp_scene, start, target);
 	// if (p) { p->SetMesh(MESHES::LOCAL_SPHERE); p->SetTexture(TEXTURES::LASER); p->SetOwnerEntity(m_playerGameObject.GetEntity()); }
+}
+
+void Player::HpUpdate()
+{
+	switch (m_hp)
+	{
+	case 0:
+		m_playerHeart1.SetTexture(TEXTURES::heart_empty);
+		m_playerHeart2.SetTexture(TEXTURES::heart_empty);
+		m_playerHeart3.SetTexture(TEXTURES::heart_empty);
+		DeathManager();
+		break;
+	case 1:
+		m_playerHeart1.SetTexture(TEXTURES::heart_demi);
+		m_playerHeart2.SetTexture(TEXTURES::heart_empty);
+		m_playerHeart3.SetTexture(TEXTURES::heart_empty);
+		break;
+	case 2:
+		m_playerHeart1.SetTexture(TEXTURES::heart_full);
+		m_playerHeart2.SetTexture(TEXTURES::heart_empty);
+		m_playerHeart3.SetTexture(TEXTURES::heart_empty);
+		break;
+	case 3:
+		m_playerHeart1.SetTexture(TEXTURES::heart_full);
+		m_playerHeart2.SetTexture(TEXTURES::heart_demi);
+		m_playerHeart3.SetTexture(TEXTURES::heart_empty);
+		break;
+	case 4:
+		m_playerHeart1.SetTexture(TEXTURES::heart_full);
+		m_playerHeart2.SetTexture(TEXTURES::heart_full);
+		m_playerHeart3.SetTexture(TEXTURES::heart_empty);
+		break;
+	case 5:
+		m_playerHeart1.SetTexture(TEXTURES::heart_full);
+		m_playerHeart2.SetTexture(TEXTURES::heart_full);
+		m_playerHeart3.SetTexture(TEXTURES::heart_demi);
+		break;
+	case 6:
+		m_playerHeart1.SetTexture(TEXTURES::heart_full);
+		m_playerHeart2.SetTexture(TEXTURES::heart_full);
+		m_playerHeart3.SetTexture(TEXTURES::heart_full);
+		break;
+	default:
+		break;
+	}
+}
+
+void Player::DeathManager()
+{
+	RECT renderZone;
+	GetClientRect(mp_gameManager->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
+	UINT renderWidth = renderZone.right - renderZone.left;
+	UINT renderHeight = renderZone.bottom - renderZone.top;
+
+	mp_scene->CreateGameObject("gameOver", TYPE_2D, true);
+	m_gameOver = mp_scene->GetGameObjectByName("gameOver");
+	m_gameOver.SetMesh(MESHES::LOCAL_SQUARE);
+	m_gameOver.SetTexture(TEXTURES::gameOver);
+	m_gameOver.SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2, 0 });
+	m_gameOver.SetScale({ (float)renderWidth * 0.4f, (float)renderHeight * 0.2f, 0 });
+	m_gameOver.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 }
 

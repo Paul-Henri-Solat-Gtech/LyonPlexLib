@@ -37,8 +37,13 @@ public:
 
 	void CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeTime);
 
+	void HpUpdate();
+	void DeathManager();
+
 	GameObject m_playerGameObject;
 	GameObject m_playerArm;
+
+	GameObject m_playerHeart1, m_playerHeart2, m_playerHeart3, m_gameOver;
 
 	GameObject& GetGameObject() { return m_playerGameObject; };
 	void SetPlayerArm(GameObject& armGm) { m_playerArm = armGm; };
@@ -62,7 +67,7 @@ public:
 	bool m_attackFinished;
 	int m_slashAttackNb;
 
-	int m_hp = 10;
+	int m_hp = 6;
 
 	float m_walkSpeed = 15.0f;
 	float m_runSpeed = 25.0f;

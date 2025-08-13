@@ -27,6 +27,10 @@ namespace TEXTURES
 		iceCream,
 		start,
 		stop,
+		heart_empty,
+		heart_demi,
+		heart_full,
+		gameOver,
 
 		//IDLE ARM
 		IDLEARM_1,
