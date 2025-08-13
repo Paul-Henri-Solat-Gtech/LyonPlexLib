@@ -222,12 +222,13 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 {
 	//m_playerGameObject = gameObject;
 
-	InitGameObj(ecsManager, scene);
+	InitPlayerGameObj(ecsManager, scene);
 	//mp_scene->CreateGameObject("player");
 	SetScale({ 1, 3, 1 });
 	XMFLOAT3 POSITION_CHAMPS = { 325, -2, 50 };
 	XMFLOAT3 pos(POSITION_CHAMPS.x + 0, POSITION_CHAMPS.y + 15, POSITION_CHAMPS.z + 0);
 	SetPosition(pos);
+	
 
 	mp_gameManager = gameManager;
 	mp_scene = scene;
@@ -286,43 +287,30 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 			}
 			// si aucun des deux nest le joueur, on sort
 			if (playerE.id != GetEntity().id) return;
-			
+
 			auto tag = mp_scene->GetGameObjectByID(otherE).GetTag();
 			GameObject& otherGO = mp_scene->GetGameObjectByID(otherE);
 
-			
 
-		switch (tag)
-		{
-		case TAG_Floor:
-		case TAG_Environment:
-		{
-		}
-		case TAG_Projectile: 
-		{
-			if (m_hp > 0)
+
+			switch (tag)
 			{
-				m_hp--;
-				HpUpdate();
-				OutputDebugStringA("\n -1hp aie \n");
-				mp_scene->DestroyGameObject(otherGO);
-			}
-			else
-			{
-			}
+			case TAG_Floor:
+			case TAG_Environment:
+				break;
 			case TAG_Projectile:
 			{
-				//COLLISION Proj and player
-
 				if (m_hp > 0)
 				{
 					m_hp--;
-					OutputDebugStringA("\n -1hp \n");
+					HpUpdate();
+					OutputDebugStringA("\n -1hp aie \n");
+					mp_scene->DestroyGameObject(otherGO);
 				}
 				else
 				{
-					OutputDebugStringA("\n Player is already dead ! \n");
 				}
+
 
 			}
 			default:
@@ -336,6 +324,7 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 		});
 
 	OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
+
 }
 
 const char* Player::GetStateName(State state) const
@@ -713,7 +702,7 @@ bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2)
 	return true;
 }
 
-bool ObbVsAabb(XMFLOAT3 paabb, AABBCollider a,XMFLOAT3 pobb, OBBCollider b)
+bool ObbVsAabb(XMFLOAT3 paabb, AABBCollider a, XMFLOAT3 pobb, OBBCollider b)
 {
 	// transformer l�AABB en OBB : orientation = identity, offset = a.offset
 	OBBCollider boxA;

@@ -1,4 +1,5 @@
 ﻿#include "GameObject.h"
+#include "GameObject.h"
 #include "pch.h"
 #include "GameObject.h"
 
@@ -35,9 +36,24 @@ void GameObject::InitGameObj(ECSManager* ecsManager, Scene* scene)
 	AddComponent<Type_3D>(new Type_3D());
 
 	// MESH
-	//SetMesh(MESHES::LOCAL_CUBE);
-	AddComponent<MeshComponent>(new MeshComponent((MESHES::LOCAL_CUBE)));
-	//AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::NOTEXTURE));
+	AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE));
+
+	//	TRANSFORM
+	AddComponent<TransformComponent>(new TransformComponent());
+}
+void GameObject::InitPlayerGameObj(ECSManager* ecsManager, Scene* scene)
+{
+	SetName("");
+	SetTag(TAG_None);
+	mp_ecsManager = ecsManager;
+	mp_scene = scene;
+	m_entity = mp_ecsManager->CreateEntity();
+
+	//	Adding basics component(s) for any entity in scene & default parameters :
+
+	// TYPE
+	AddComponent<Type_3D>(new Type_3D());
+
 
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());
