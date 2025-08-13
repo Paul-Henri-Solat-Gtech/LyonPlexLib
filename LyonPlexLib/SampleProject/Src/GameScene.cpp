@@ -17,23 +17,16 @@ void GameScene::Start()
 	// fps cam
 	m_fpsCam.Init(m_cam, mp_sceneManager->GetWindow());
 
-	CreateGameObject("player"); //				45		-60
-	GetGameObjectByName("player").SetScale({ 1, 3, 1 });
-	XMFLOAT3 pos(POSITION_CHAMPS.x + 0, POSITION_CHAMPS.y + 15, POSITION_CHAMPS.z + 0);
-	GetGameObjectByName("player").SetPosition(pos);
-	m_player = GetGameObjectByName("player");
-
-	SetParent("cam", "player");
 	m_fpsCam.SetParentGO(m_cam);
 
 	m_playerWalkSpeed = 3.f;
 	m_playerRunSpeed = 6.f;
 	m_playerSpeed = m_playerWalkSpeed;
-
+	
 	// Test player + stateMachine
-	m_playerTest.Init(m_player, mp_sceneManager->GetGameManager(), this, m_cam);
-	//m_playerTest.SetEnemies(&m_enemies);
-	//m_enemyTest.Init(GetGameObjectByName("testGm"), m_player, mp_sceneManager->GetGameManager());
+	m_playerTest.Init(mp_ecsManager, mp_sceneManager->GetGameManager(), this, m_cam);
+	SetParent(GetGameObjectByName("cam"), m_playerTest);
+	//SetParent("cam", "player");
 
 	RECT renderZone;
 	GetClientRect(mp_sceneManager->GetGameManager()->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
@@ -53,7 +46,7 @@ void GameScene::Start()
 
 
 	CreateGameObject("Stick");
-	pos = { POSITION_CHAMPS.x + 2, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z + 2 };
+	XMFLOAT3 pos = { POSITION_CHAMPS.x + 2, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z + 2 };
 	GetGameObjectByName("Stick").SetPosition(pos);
 	GetGameObjectByName("Stick").SetScale({ 1, 1, 1 });
 	GetGameObjectByName("Stick").SetMesh(MESHES::STICK);
@@ -738,7 +731,7 @@ void GameScene::Start()
 */
 
 
-	portal = &CreateGameObject<Portals>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player, this);
+	portal = &CreateGameObject<Portals>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_playerTest, this);
 	portal->SetPosition({ 335, 2, 50 });
 	//portal->SetPosition({ -10, 1, 10 });
 	portal->SetScale({ 1, 1, 0.5 });

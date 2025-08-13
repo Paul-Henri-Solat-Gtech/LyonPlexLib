@@ -173,9 +173,17 @@ Player::Player() : m_stateMachine(this, State::Count)
 	m_stateMachine.SetState(State::Idle);
 }
 
-void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene, GameObject& cameraGO)
+void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene, GameObject& cameraGO)
 {
-	m_playerGameObject = gameObject;
+	//m_playerGameObject = gameObject;
+
+	InitGameObj(ecsManager, scene);
+	//mp_scene->CreateGameObject("player");
+	SetScale({ 1, 3, 1 });
+	XMFLOAT3 POSITION_CHAMPS = { 325, -2, 50 };
+	XMFLOAT3 pos(POSITION_CHAMPS.x + 0, POSITION_CHAMPS.y + 15, POSITION_CHAMPS.z + 0);
+	SetPosition(pos);
+
 	mp_gameManager = gameManager;
 	mp_scene = scene;
 	mp_cameraGO = &cameraGO;
@@ -183,9 +191,9 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 	m_attackFinished = true;
 	m_slashAttackNb = 1;
 	m_deltatime = 0;
-	m_playerGameObject.AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ m_playerGameObject.GetScale().x / 2,m_playerGameObject.GetScale().y / 2,m_playerGameObject.GetScale().z / 2 })));
+	AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ GetScale().x / 2, GetScale().y / 2, GetScale().z / 2 })));
 
-	m_playerGameObject.AddComponent<Tag_Player>(new Tag_Player());
+	AddComponent<Tag_Player>(new Tag_Player());
 
 	m_moveSpeed = m_walkSpeed;
 
@@ -196,38 +204,38 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 		[&](CollisionEvent::Payload const& p) {
 			Entity playerE = p.a, otherE = p.b;
 			// permute pour que playerE soit vraiment le joueur
-			if (otherE.id == m_playerGameObject.GetEntity().id) {
+			if (otherE.id == GetEntity().id) {
 				playerE = p.b; otherE = p.a;
 			}
 			// si aucun des deux n�est le joueur, on sort
-			if (playerE.id != m_playerGameObject.GetEntity().id) return;
+			if (playerE.id != GetEntity().id) return;
 			auto tag = mp_scene->GetGameObjectByID(p.a).GetTag();
-		switch (tag)
-		{
-		case TAG_Floor:
-		case TAG_Environment:
-		{
-		}
-		case TAG_Projectile: 
-		{
-			//COLLISION Proj and player
-			
-			if (m_hp > 0)
+			switch (tag)
 			{
-				m_hp--;
-				OutputDebugStringA("\n -1hp \n");
-			}
-			else
+			case TAG_Floor:
+			case TAG_Environment:
 			{
-				OutputDebugStringA("\n Player is already dead ! \n");
 			}
+			case TAG_Projectile:
+			{
+				//COLLISION Proj and player
 
-		}
-		default:
-		{
-			break;
-		}
-		}
+				if (m_hp > 0)
+				{
+					m_hp--;
+					OutputDebugStringA("\n -1hp \n");
+				}
+				else
+				{
+					OutputDebugStringA("\n Player is already dead ! \n");
+				}
+
+			}
+			default:
+			{
+				break;
+			}
+			}
 
 			//m_objectsCollidingWithPlayer.push_back(otherE);
 			m_hasCollided = true;
@@ -266,8 +274,8 @@ void Player::OnUdpdate(float deltatime)
 
 void Player::ApplyMovementAndCollisions(float dt)
 {
-	auto& tP = *m_playerGameObject.GetComponent<TransformComponent>();
-	auto& cP = *m_playerGameObject.GetComponent<CollisionComponent>();
+	auto& tP = *GetComponent<TransformComponent>();
+	auto& cP = *GetComponent<CollisionComponent>();
 	auto& aabb = std::get<AABBCollider>(cP.shape);
 
 	//m_isOnGround ? OutputDebugStringA("\n PLAYER ON GROUND\n") : OutputDebugStringA("\n -- GROUND ON NOT PLAYER -- \n");
@@ -284,7 +292,7 @@ void Player::ApplyMovementAndCollisions(float dt)
 		ComponentMask mask = (1ULL << CollisionComponent::StaticTypeID) | (1ULL << TransformComponent::StaticTypeID);
 		mp_scene->GetEcsManager()->ForEach(mask, [&](Entity e)
 			{
-				if (e.id == m_playerGameObject.GetEntity().id) return;
+				if (e.id == GetEntity().id) return;
 
 				auto& otherT = *mp_scene->GetGameObjectByID(e).GetComponent<TransformComponent>();
 				auto& otherC = *mp_scene->GetGameObjectByID(e).GetComponent<CollisionComponent>();
@@ -309,7 +317,7 @@ void Player::ApplyMovementAndCollisions(float dt)
 	// fraction restante de movement [0..1]
 	float remaining = 1.0f;
 
-		// 4) Pour chaque candidate :
+	// 4) Pour chaque candidate :
 	for (auto& e : candidates) {
 		auto& oc = *mp_scene->GetGameObjectByID(e).GetComponent<CollisionComponent>();
 		auto& ot = *mp_scene->GetGameObjectByID(e).GetComponent<TransformComponent>();
@@ -350,7 +358,7 @@ void Player::ApplyMovementAndCollisions(float dt)
 				v = XMVectorSubtract(v, mtv);
 				XMStoreFloat3(&tP.position, v);
 				tP.dirty = true;
-			lastPushNormal = XMVector3Normalize(mtv);
+				lastPushNormal = XMVector3Normalize(mtv);
 			}
 			else {
 				// deux objets se repoussent �Emoiti�E
@@ -360,14 +368,14 @@ void Player::ApplyMovementAndCollisions(float dt)
 				XMStoreFloat3(&tP.position, vp);
 				XMStoreFloat3(&ot.position, vo);
 				tP.dirty = ot.dirty = true;
-			lastPushNormal = XMVector3Normalize(half);
+				lastPushNormal = XMVector3Normalize(half);
 			}
 		}
 	}
 
 	XMFLOAT3 currentPos = tP.position;
 
-	const float skinWidth = 0.01f;  
+	const float skinWidth = 0.01f;
 	AABBCollider mover = aabb;
 	mover.halfSize.x = (((0.0f) > (mover.halfSize.x - skinWidth)) ? (0.0f) : (mover.halfSize.x - skinWidth));
 	mover.halfSize.y = (((0.0f) > (mover.halfSize.y - skinWidth)) ? (0.0f) : (mover.halfSize.y - skinWidth));
@@ -456,7 +464,7 @@ void Player::ApplyMovementAndCollisions(float dt)
 
 
 	// 4) Applique la nouvelle position
-	m_playerGameObject.SetPosition(currentPos);
+	SetPosition(currentPos);
 
 
 

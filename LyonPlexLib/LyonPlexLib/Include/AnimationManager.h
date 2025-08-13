@@ -14,7 +14,7 @@ public:
 	void SetGameobjectToAnimate(GameObject* gmToAnimate)	{ m_gameObjectToAnimate = gmToAnimate; };
 
 	bool GetAnimationHisFinished()		{ return m_animationHisFinished; };
-	bool GetAnimationHHalfDuration()	{ return m_HalfDuration; };
+	bool GetAnimationHalfDuration()	{ return m_halfDuration; };
 
 private:
 	TEXTURES::TEXTURES m_actualTexture;
@@ -26,6 +26,6 @@ private:
 	float m_frameCooldown, m_frameOriginalCooldown;
 	int m_nextIdFrame;
 	bool m_animationHisFinished;
-	bool m_HalfDuration;
+	bool m_halfDuration;
 };
 

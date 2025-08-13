@@ -2,7 +2,7 @@
 #include "StateMachine.h"
 class Enemy;
 
-class Player
+class Player : public GameObject
 {
 	StateMachine<Player> m_stateMachine;
 
@@ -21,7 +21,7 @@ class Player
 
 public:
 	Player();
-	void Init(GameObject gameObject, GameManager* gameManager, Scene* scene, GameObject& cameraGO);
+	void Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene, GameObject& cameraGO);
 	
 	void OnUdpdate(float deltatime);
 
@@ -32,10 +32,8 @@ public:
 	const char* GetStateName(State state) const;
 	const char* GetCurrentStateName() const;
 
-	GameObject m_playerGameObject;
 	GameObject m_playerArm;
 
-	GameObject& GetGameObject() { return m_playerGameObject; };
 	void SetPlayerArm(GameObject& armGm) { m_playerArm = armGm; };
 	GameObject& GetPlayerArm() { return m_playerArm; };
 	bool GetHasCollided() { return m_hasCollided; };

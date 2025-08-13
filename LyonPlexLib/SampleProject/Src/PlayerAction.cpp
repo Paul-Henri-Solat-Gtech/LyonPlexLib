@@ -496,7 +496,7 @@ void PlayerAction_Attack::Start(Player* player)
 	ecs.ForEach(mask, [&](Entity e)
 		{
 			Utils::Vector3 newVec;
-			auto& playerPos = player->m_playerGameObject.GetPosition();
+			auto& playerPos = player->GetPosition();
 			auto* tc = ecs.GetComponent<TransformComponent>(e);
 
 			newVec.x = playerPos.x - tc->position.x;
@@ -546,7 +546,7 @@ void PlayerAction_Attack::Update(Player* player)
 			ecs.ForEach(mask, [&](Entity e)
 				{
 					Utils::Vector3 newVec;
-					auto& playerPos = player->m_playerGameObject.GetPosition();
+					auto& playerPos = player->GetPosition();
 					auto* tc = ecs.GetComponent<TransformComponent>(e);
 
 					newVec.x = playerPos.x - tc->position.x;
@@ -554,9 +554,8 @@ void PlayerAction_Attack::Update(Player* player)
 					newVec.z = playerPos.z - tc->position.z;
 
 					float length = newVec.length();
-
 					//if (length < 3.0f)
-					if (length < ecs.GetComponent<CollisionComponent>(player->GetGameObject().GetEntity())->BoundingSphereRadius() * 4)
+					if (length < ecs.GetComponent<CollisionComponent>(player->GetEntity())->BoundingSphereRadius() * 4)
 					{
 						if (length < closest)
 						{
@@ -588,7 +587,7 @@ void PlayerAction_Attack::Update(Player* player)
 
 	case TEXTURES::IDLEARM_W1_1:
 		m_attackAnim.AnimationSequence(player->GetDeltatime());
-		if (m_attackAnim.GetAnimationHHalfDuration() && m_enemyHit == false)
+		if (m_attackAnim.GetAnimationHalfDuration() && m_enemyHit == false)
 		{
 			func();
 		}
@@ -598,60 +597,17 @@ void PlayerAction_Attack::Update(Player* player)
 	case TEXTURES::IDLEARM_W2_1:
 		m_heavyAttackAnim.AnimationSequence(player->GetDeltatime());
 		if (m_heavyAttackAnim.GetAnimationHisFinished()) player->m_attackFinished = true;
-		if (m_heavyAttackAnim.GetAnimationHHalfDuration() && m_enemyHit == false)
+		if (m_heavyAttackAnim.GetAnimationHalfDuration() && m_enemyHit == false)
 		{
 			func();
 		}
 		break;
 	}
 
-	//atack
-
-
-	//PlayerMovement(player);
 }
 void PlayerAction_Attack::End(Player* player)
 {
-	//ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
-	//auto& ecs = player->mp_gameManager->GetECSManager();
-	//float closest = 10;
-	//ecs.ForEach(mask, [&](Entity e)
-	//	{
-	//		Utils::Vector3 newVec;
-	//		auto& playerPos = player->m_playerGameObject.GetPosition();
-	//		auto* tc = ecs.GetComponent<TransformComponent>(e);
-
-	//		newVec.x = playerPos.x - tc->position.x;
-	//		newVec.y = playerPos.y - tc->position.y;
-	//		newVec.z = playerPos.z - tc->position.z;
-
-	//		float length = newVec.length();
-
-	//		//if (length < 3.0f)
-	//		if (length < ecs.GetComponent<CollisionComponent>(player->GetGameObject().GetEntity())->BoundingSphereRadius() * 4)
-	//		{
-	//			if (length < closest)
-	//			{
-	//				closest = length;
-
-	//				GameObject& go = player->mp_scene->GetGameObjectByID(e);
-	//				Enemy* e = dynamic_cast<Enemy*>(&go);
-	//				if (e) {
-	//					//player->m_closestEnemy = e;
-	//					e->TakeDamage();
-	//				}
-	//				else {
-	//					// pas d’ennemi valide sous cet ID
-	//				}
-	//			}
-	//		}
-	//	});
-
-	//player->m_closestEnemy->TakeDamage();
-
-	//player->m_closestEnemy = nullptr;
-
-
+	
 	switch (player->m_currIdleMesh)
 	{
 	case TEXTURES::ARMS:

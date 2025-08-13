@@ -62,7 +62,7 @@ void AnimationManager::AnimationSequence(float deltatime)
 
     if (m_nextIdFrame >= ((m_textureList.size() - 1) / 2))
     {
-        m_HalfDuration = true;
+        m_halfDuration = true;
     }
 
     if (m_nextIdFrame >= m_textureList.size() - 1)

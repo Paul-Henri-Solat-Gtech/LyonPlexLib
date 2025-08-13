@@ -65,7 +65,7 @@ bool PlayerCondition_IsCloseToObject::OnTest(Player* owner)
 	ecs.ForEach(mask, [&](Entity e)
 		{
 			Utils::Vector3 newVec;
-			auto& playerPos = owner->m_playerGameObject.GetPosition();
+			auto& playerPos = owner->GetPosition();
 			auto* tc = ecs.GetComponent<TransformComponent>(e);
 
 			newVec.x = playerPos.x - tc->position.x;
@@ -75,7 +75,7 @@ bool PlayerCondition_IsCloseToObject::OnTest(Player* owner)
 			float length = newVec.length();
 
 			//if (length < 5.0f)
-			if (length < ecs.GetComponent<CollisionComponent>(owner->GetGameObject().GetEntity())->BoundingSphereRadius() * 3)
+			if (length < ecs.GetComponent<CollisionComponent>(owner->GetEntity())->BoundingSphereRadius() * 3)
 			{
 				if (length < closest)
 				{
