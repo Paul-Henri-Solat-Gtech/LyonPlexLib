@@ -18,11 +18,12 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 	//std::string projName = "newProjectile" + std::to_string(mp_scene->GetSceneGameObjects().size());
 
 	AddComponent<Tag_Projectile>(new Tag_Projectile());
-	SetTag(Tag::TAG_Projectile);
 	SetPosition(posStart);
 	SetScale({ 0.2,0.2,0.8 });
 	auto projScale = GetScale();
 	AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x / 2, projScale.y / 2, projScale.z / 2 })));
+	m_speed = 30;
+	m_damage = 1;
 
 	// rotation projectile
 	XMFLOAT3 dir = { posTarget.x - posStart.x, posTarget.y - posStart.y, posTarget.z - posStart.z };
@@ -43,13 +44,20 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 	switch (m_projectileType)
 	{
 	case Laser:
-		//LookAt(posTarget);
+		SetTag(Tag::TAG_Projectile);
+		SetTexture(TEXTURES::NOTEXTURE);
+		m_speed = 30;
+		m_damage = 1;
 		break;
 	case Rock:
-		//Laube(posStart, posTarget);
+		SetTag(Tag::TAG_Projectile);
 		break;
 	case AirSlash:
-		//LookAt(posTarget);
+		SetTag(Tag::TAG_ProjectilePlayer);
+		SetTexture(TEXTURES::WATER_NORMAL);
+		SetScale({ 0.8,0.1,0.8 });
+		m_speed = 70;
+		m_damage = 1;
 		break;
 	default:
 		break;
@@ -73,7 +81,7 @@ void Projectile::OnUdpdate(float deltatime)
 	else
 	{
 		m_lifetime -= 1 * deltatime;
-		m_projectileGameObject->MoveForward(deltatime * 30);
+		m_projectileGameObject->MoveForward(deltatime * m_speed);
 	}
 }
 

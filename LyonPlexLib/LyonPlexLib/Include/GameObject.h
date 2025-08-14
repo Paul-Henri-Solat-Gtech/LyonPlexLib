@@ -25,6 +25,7 @@ enum Tag
 	TAG_Stick,
 	TAG_Rock,
 	TAG_Projectile,
+	TAG_ProjectilePlayer,
 
 	TagCount
 };

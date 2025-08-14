@@ -2,7 +2,10 @@
 class Button : public GameObject
 {
 public:
-	void Initialize(/*GameObject gmButton,*/ HWND windowHandle, const std::string& name, ECSManager* ecsManager, Scene* scene, DimensionalType type, bool useMesh);
+	//Button() : mp_scene(nullptr), m_windowHandle(nullptr) {}
+	Button(Scene* scene, HWND windowHandle);
+
+	void Initialize(HWND windowHandle, const std::string& name, ECSManager* ecsManager, Scene* scene, DimensionalType type, bool useMesh);
 
 	void OnUpdate(float deltatime) {};
 
@@ -15,6 +18,7 @@ public:
 private:
 
 	//GameObject m_gameObjectBtn;
+	Scene* mp_scene;
 	HWND m_windowHandle;
 };
 

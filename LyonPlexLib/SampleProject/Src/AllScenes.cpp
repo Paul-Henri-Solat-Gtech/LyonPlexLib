@@ -17,7 +17,7 @@ void AllScenes::Init(GameManager* gameManager)
 
     // START SCENE
     //StartScene("SampleScene2");
-    StartScene("GameScene");
+    StartScene("MainMenuScene");
 }
 
 void AllScenes::CreateAllScenes()

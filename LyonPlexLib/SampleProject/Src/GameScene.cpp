@@ -250,6 +250,13 @@ void GameScene::Start()
 		GetGameObjectByName("Road3").SetScale({ 75, 5, 30 });
 		c = GetGameObjectByName("Road3").GetScale();
 		GetGameObjectByName("Road3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
+
+		CreateGameObject("Tree", MESHES::ARBRETEST, TEXTURES::HERBE);
+		GetGameObjectByName("Tree").SetTag(TAG_Floor);
+		GetGameObjectByName("Tree").SetPosition({ 80, -2, 50 });
+		GetGameObjectByName("Tree").SetScale({ 50, 50, 50 });
+		c = GetGameObjectByName("Tree").GetScale();
+		GetGameObjectByName("Tree").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
 	}
 
 
@@ -2625,11 +2632,7 @@ void GameScene::Update(float deltatime)
 {
 	m_fpsCam.Update(deltatime);
 
-	//if (InputManager::GetKeyIsReleased('K'))
-	//{
-	//	PlaySoundPlex("pop");
-	//	DestroyGameObject(GetGameObjectByName("testDestory"));
-	//}
+
 	if (InputManager::GetKeyIsReleased('N'))
 	{
 		StopMusicPlex();

@@ -9,34 +9,30 @@ void MainMenuScene::Start()
 	GetGameObjectByName("camera2").SetPosition({ 0, 0, 0.5f });
 
 	// Buttons
-	CreateGameObject("btnStart", TYPE_2D, true);
-	GetGameObjectByName("btnStart").SetTexture(TEXTURES::start);
-	GetGameObjectByName("btnStart").SetPosition({ 400, 500, 0 });
-	GetGameObjectByName("btnStart").SetScale({ 400, 100, 0 });
-	
-	//GetGameObjectByName("btnStart").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
-
-	//m_buttonStart.Init(GetGameObjectByName("btnStart"), mp_sceneManager->GetWindow());
+	mp_buttonStart = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow());
+	//GetGameObjectByName("btnStart").SetTexture(TEXTURES::start);
+	//GetGameObjectByName("btnStart").SetPosition({ 400, 500, 0 });
+	//GetGameObjectByName("btnStart").SetScale({ 400, 100, 0 });
 }
 
 void MainMenuScene::Update(float deltatime)
 {
-	if (InputManager::GetKeyIsReleased('A'))
-	{
-		ChangeScene("SampleScene2");
-		return; // ! ne pas oublier
-	}
-	if (m_buttonStart.GetMouseOnBtn()) 
-	{
-		//OutputDebugStringA("\nDont touche me !\n");
-		GetGameObjectByName("btnStart").SetScale({ 450, 150, 0 });
-	}
-	if (!m_buttonStart.GetMouseOnBtn())
+	//if (InputManager::GetKeyIsReleased('A'))
+	//{
+	//	ChangeScene("SampleScene2");
+	//	return; // ! ne pas oublier
+	//}
+	if (mp_buttonStart->GetMouseOnBtn())
 	{
 		//OutputDebugStringA("\nDont touche me !\n");
-		GetGameObjectByName("btnStart").SetScale({ 400, 100, 0 });
+		mp_buttonStart->SetScale({ 450, 150, 0 });
 	}
-	if (m_buttonStart.GetBtnIsClicked())
+	if (!mp_buttonStart->GetMouseOnBtn())
+	{
+		//OutputDebugStringA("\nDont touche me !\n");
+		mp_buttonStart->SetScale({ 400, 100, 0 });
+	}
+	if (mp_buttonStart->GetBtnIsClicked())
 	{
 		OutputDebugStringA("\nHO YOU DARE CLICK ME !?\n");
 		ChangeScene("GameScene");

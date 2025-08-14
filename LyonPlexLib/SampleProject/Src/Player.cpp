@@ -269,25 +269,26 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 	m_playerHeart3.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
 
-	EventBus::instance().subscribe<CollisionEvent>(
-		[&](CollisionEvent::Payload const& p) {
-			Entity playerE = p.a, otherE = p.b;
-			// permute pour que playerE soit vraiment le joueur
-			if (otherE.id == m_playerGameObject.GetEntity().id) {
-				playerE = p.b; otherE = p.a;
-			}
-			// si aucun des deux nest le joueur, on sort
-			if (playerE.id != m_playerGameObject.GetEntity().id) return;
+	EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p) 
+	{
+		Entity playerE = p.a, otherE = p.b;
+		// permute pour que playerE soit vraiment le joueur
+		if (otherE.id == m_playerGameObject.GetEntity().id) 
+		{
+			playerE = p.b; otherE = p.a;
+		}
+		// si aucun des deux nest le joueur, on sort
+		if (playerE.id != m_playerGameObject.GetEntity().id) return;
 			
-			auto tag = mp_scene->GetGameObjectByID(p.b).GetTag();
-			GameObject& otherGO = mp_scene->GetGameObjectByID(otherE);
+		auto tag = mp_scene->GetGameObjectByID(p.b).GetTag();
+		GameObject& otherGO = mp_scene->GetGameObjectByID(otherE);
 
 		switch (tag)
 		{
 		case TAG_Floor:
+			break;
 		case TAG_Environment:
-		{
-		}
+			break;
 		case TAG_Projectile: 
 		{
 			if (m_hp > 0)
@@ -304,13 +305,10 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 
 		}
 		default:
-		{
 			break;
 		}
-		}
 
-			//m_objectsCollidingWithPlayer.push_back(otherE);
-			m_hasCollided = true;
+		m_hasCollided = true;
 		});
 
 	OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
@@ -743,7 +741,7 @@ void Player::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeT
 	XMFLOAT3 start = { playerPos.x, playerPos.y + chestHeight, playerPos.z };
 
 	// avance le start d'une distance devant le joueur selon la direction de la caméra
-	const float muzzleOffset = 0.6f; // augmente si le projectile spawn dans le joueur
+	const float muzzleOffset = 0.8f; // augmente si le projectile spawn dans le joueur
 	start.x += camFwd.x * muzzleOffset;
 	start.y += camFwd.y * muzzleOffset;
 	start.z += camFwd.z * muzzleOffset;
@@ -764,13 +762,8 @@ void Player::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeT
 		OutputDebugStringA(buf);
 	}
 
-	// crée le projectile (tu utilises déjà cette signature)
-	mp_scene->CreateGameObject<Projectile>(mp_scene, start, target);
-
-	// --- Optionnel debugging : si invisible, override temporairement le mesh/texture ---
-	// si ton CreateGameObject renvoie une référence/pointer, tu peux faire :
-	// auto* p = mp_scene->CreateGameObject<Projectile>(mp_scene, start, target);
-	// if (p) { p->SetMesh(MESHES::LOCAL_SPHERE); p->SetTexture(TEXTURES::LASER); p->SetOwnerEntity(m_playerGameObject.GetEntity()); }
+	// cree le projectile (tu utilises déjà cette signature)
+	mp_scene->CreateGameObject<Projectile>(mp_scene, start, target, ProjectileType::AirSlash);
 }
 
 void Player::HpUpdate()
