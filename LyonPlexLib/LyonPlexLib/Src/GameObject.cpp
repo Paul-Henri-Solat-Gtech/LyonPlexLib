@@ -1,5 +1,6 @@
 ﻿#include "GameObject.h"
 #include "GameObject.h"
+#include "GameObject.h"
 #include "pch.h"
 #include "GameObject.h"
 
@@ -107,7 +108,7 @@ void GameObject::InitHitbox(const std::string& name, ECSManager* ecsManager, Sce
 
 	// TYPE
 	//AddComponent<Type_3D>(new Type_3D());
-    AddComponent<Type_3D>(new Type_3D());
+	AddComponent<Type_3D>(new Type_3D());
 
 	// MESH
 	//AddComponent<MeshComponent>(new MeshComponent(meshId, textureId));
@@ -154,7 +155,7 @@ void GameObject::Init(const std::string& name, ECSManager* ecsManager, Scene* sc
 	if (type == TYPE_3D)
 		AddComponent<Type_3D>(new Type_3D());
 	if (type == TYPE_2D)
-		AddComponent<Type_2D>(new Type_2D()); 
+		AddComponent<Type_2D>(new Type_2D());
 	if (type == TYPE_3D_TRANSPARENT)
 		AddComponent<Type_3D_Transparent>(new Type_3D_Transparent());
 
@@ -265,19 +266,67 @@ void GameObject::MoveBackward(float distance)
 	SetPosition(pos);
 }
 
-//static XMFLOAT3 GetWorldForwardFromGO(GameObject* go)
-//{
-//	// local forward = +Z
-//	XMVECTOR localForward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-//
-//	// recup rotation quaternion depuis le GO (XMFLOAT4)
-//	XMFLOAT4 qf = go->GetRotation(); // existe d'apres ton MoveForward
-//	XMVECTOR quat = XMLoadFloat4(&qf);
-//
-//	XMVECTOR worldF = XMVector3Rotate(localForward, quat);
-//	worldF = XMVector3Normalize(worldF);
-//
-//	XMFLOAT3 f;
-//	XMStoreFloat3(&f, worldF);
-//	return f;
-//}
+void GameObject::MoveInDirection(const XMFLOAT3& direction, float distance)
+{
+	// charge la direction
+	XMVECTOR dirV = XMLoadFloat3(&direction);
+
+	// sécurité : vecteur nul ?
+	XMVECTOR lenV = XMVector3Length(dirV);
+	float len = XMVectorGetX(lenV);
+	if (len < 1e-6f) return; // pas de mouvement si direction nulle
+
+	// Ignorer deplacement en Y
+	dirV = XMVectorSetY(dirV, 0.0f);
+	if (XMVectorGetX(XMVector3Length(dirV)) < 1e-6f) return;
+
+	// normalise
+	XMVECTOR dirNorm = XMVector3Normalize(dirV);
+
+	// si tu veux rester au sol -> ignore la composante Y avant normalisation :
+	// dirV = XMVectorSetY(dirV, 0.0f);
+	// if (XMVectorGetX(XMVector3Length(dirV)) < 1e-6f) return;
+	// dirNorm = XMVector3Normalize(dirV);
+
+	// position courante
+	XMFLOAT3 pos = GetPosition();
+	XMVECTOR posV = XMLoadFloat3(&pos);
+
+	// nouvelle position = pos + dirNorm * distance
+	posV = XMVectorAdd(posV, XMVectorScale(dirNorm, distance));
+	XMStoreFloat3(&pos, posV);
+	SetPosition(pos);
+}
+
+XMVECTOR GameObject::MoveInDirection_NextPos(const XMFLOAT3& direction, float distance)
+{
+	// charge la direction
+	XMVECTOR dirV = XMLoadFloat3(&direction);
+
+	// sécurité : vecteur nul ?
+	XMVECTOR lenV = XMVector3Length(dirV);
+	float len = XMVectorGetX(lenV);
+	if (len < 1e-6f) return { 0,0,0 }; // pas de mouvement si direction nulle
+
+	// Ignorer deplacement en Y
+	dirV = XMVectorSetY(dirV, 0.0f);
+	if (XMVectorGetX(XMVector3Length(dirV)) < 1e-6f) return{ 0,0,0 };
+
+	// normalise
+	XMVECTOR dirNorm = XMVector3Normalize(dirV);
+
+	// si tu veux rester au sol -> ignore la composante Y avant normalisation :
+	// dirV = XMVectorSetY(dirV, 0.0f);
+	// if (XMVectorGetX(XMVector3Length(dirV)) < 1e-6f) return;
+	// dirNorm = XMVector3Normalize(dirV);
+
+	// position courante
+	XMFLOAT3 pos = GetPosition();
+	XMVECTOR lastPosV = XMLoadFloat3(&pos);
+	XMVECTOR newPosV = XMLoadFloat3(&pos);
+
+	// nouvelle position = pos + dirNorm * distance
+	newPosV = XMVectorAdd(newPosV, XMVectorScale(dirNorm, distance));
+	XMVECTOR dist = newPosV - lastPosV;
+	return  newPosV;
+}

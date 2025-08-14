@@ -15,6 +15,7 @@ public:
 
 	bool GetAnimationHisFinished()		{ return m_animationHisFinished; };
 	bool GetAnimationHalfDuration()	{ return m_halfDuration; };
+	bool GetAnimationQuarterDuration()	{ return m_quarterDuration; };
 
 private:
 	TEXTURES::TEXTURES m_actualTexture;
@@ -27,5 +28,6 @@ private:
 	int m_nextIdFrame;
 	bool m_animationHisFinished;
 	bool m_halfDuration;
+	bool m_quarterDuration;
 };
 

@@ -47,6 +47,7 @@ public:
 	AnimationManager m_heavyAttackAnim;
 
 	bool m_enemyHit = false;
+	bool m_pushBoulder = false;
 };
 
 class PlayerAction_SpecialAttack : public Action<Player>

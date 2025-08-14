@@ -60,6 +60,11 @@ void AnimationManager::AnimationSequence(float deltatime)
         OutputDebugStringA(("Frame " + std::to_string(m_nextIdFrame) + "\n").c_str());
     }
 
+    if (m_nextIdFrame >= ((m_textureList.size() - 1) / 4))
+    {
+        m_quarterDuration = true;
+    }
+
     if (m_nextIdFrame >= ((m_textureList.size() - 1) / 2))
     {
         m_halfDuration = true;

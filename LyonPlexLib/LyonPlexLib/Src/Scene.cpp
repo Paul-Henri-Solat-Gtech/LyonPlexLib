@@ -1,4 +1,5 @@
-﻿#include "pch.h"
+﻿#include "Scene.h"
+#include "pch.h"
 #include "Scene.h"
 
 void Scene::Init(SceneManager* sceneManager)
@@ -122,7 +123,17 @@ GameObject& Scene::CreateWaterGameObject(const std::string& gameObjectName)
 	m_waveCount++;
 	return obj;
 }
-GameObject& Scene::CreateGameObject(const std::string& gameObjectName, /*std::vector<std::unique_ptr<GameObject>>& sceneGameObjects,*/ DimensionalType type, bool useMesh)
+GameObject& Scene::CreateGameObject(const std::string& gameObjectName, DimensionalType type, bool useMesh)
+{
+	// 1) On construit l'objet en place dans le vector
+	m_sceneGameObjects.emplace_back(std::make_unique<GameObject>());
+	auto& obj = *m_sceneGameObjects.back();
+
+	// 2) On l'initialise
+	obj.Init(gameObjectName, mp_ecsManager, this, type, useMesh);
+	return obj;
+}
+GameObject& Scene::CreateBoulder(const std::string& gameObjectName, DimensionalType type, bool useMesh)
 {
 	// 1) On construit l'objet en place dans le vector
 	m_sceneGameObjects.emplace_back(std::make_unique<GameObject>());

@@ -35,6 +35,8 @@ public:
 	const char* GetStateName(State state) const;
 	const char* GetCurrentStateName() const;
 
+	XMFLOAT3 GetWorldForwardFromGO(GameObject* go);
+
 	void CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeTime);
 
 	void HpUpdate();

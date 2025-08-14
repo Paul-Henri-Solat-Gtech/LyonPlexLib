@@ -88,6 +88,10 @@ public:
 	void MoveForward(float distance);
 	void MoveBackward(float distance);
 
+	void MoveInDirection(const XMFLOAT3& direction, float distance);
+
+	XMVECTOR MoveInDirection_NextPos(const XMFLOAT3& direction, float distance);
+
 	bool alive = true;
 	bool m_markedForDeletion = false;
 

@@ -49,6 +49,9 @@
     <ClCompile Include="..\LyonPlexLib\Src\Portals.cpp">
       <Filter>Portals</Filter>
     </ClCompile>
+    <ClCompile Include="..\LyonPlexLib\Src\Boulder.cpp">
+      <Filter>Boulder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\AllScenes.h">
@@ -102,6 +105,9 @@
     <ClInclude Include="..\LyonPlexLib\Include\Portals.h">
       <Filter>Portals</Filter>
     </ClInclude>
+    <ClInclude Include="..\LyonPlexLib\Include\Boulder.h">
+      <Filter>Boulder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Fichiers d%27en-tête">
@@ -121,6 +127,9 @@
     </Filter>
     <Filter Include="Portals">
       <UniqueIdentifier>{d30f3595-8053-4574-99ab-e17b0c07faf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Boulder">
+      <UniqueIdentifier>{410b5cd6-9456-4838-8548-ee6168cb2c5e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

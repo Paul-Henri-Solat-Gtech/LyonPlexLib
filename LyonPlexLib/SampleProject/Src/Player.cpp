@@ -228,7 +228,7 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 	XMFLOAT3 POSITION_CHAMPS = { 325, -2, 50 };
 	XMFLOAT3 pos(POSITION_CHAMPS.x + 0, POSITION_CHAMPS.y + 15, POSITION_CHAMPS.z + 0);
 	SetPosition(pos);
-	
+
 
 	mp_gameManager = gameManager;
 	mp_scene = scene;
@@ -295,28 +295,25 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 
 			switch (tag)
 			{
-			case TAG_Floor:
-			case TAG_Environment:
-				break;
-			case TAG_Projectile:
-			{
-				if (m_hp > 0)
+				case TAG_Floor:
+				case TAG_Environment:
+					break;
+				case TAG_Projectile:
 				{
-					m_hp--;
-					HpUpdate();
-					OutputDebugStringA("\n -1hp aie \n");
-					mp_scene->DestroyGameObject(otherGO);
+					if (m_hp > 0)
+					{
+						m_hp--;
+						HpUpdate();
+						OutputDebugStringA("\n -1hp aie \n");
+						mp_scene->DestroyGameObject(otherGO);
+					}
+
+					break;
 				}
-				else
+				default:
 				{
+					break;
 				}
-
-
-			}
-			default:
-			{
-				break;
-			}
 			}
 
 			//m_objectsCollidingWithPlayer.push_back(otherE);
@@ -721,7 +718,7 @@ bool AabbVsAabb(XMFLOAT3 p1, AABBCollider b1, XMFLOAT3 p2, AABBCollider b2)
 		&& std::abs(p1.z + b1.offset.z - (p2.z + b2.offset.z)) <= (b1.halfSize.z + b2.halfSize.z);
 }
 
-XMFLOAT3 GetWorldForwardFromGO(GameObject* go)
+XMFLOAT3 Player::GetWorldForwardFromGO(GameObject* go)
 {
 	// local forward = +Z
 	XMVECTOR localForward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);

@@ -29,6 +29,7 @@ enum ComponentID
 	Tag_Enemy_ID,
 	Tag_Object_ID,
 	Tag_Projectile_ID,
+	Tag_Boulder_ID,
 
 	TotalComponentsCount
 };
@@ -377,6 +378,17 @@ struct Tag_Projectile : public Component
 	static constexpr uint32_t StaticTypeID = Tag_Projectile_ID;
 
 	Tag_Projectile()
+	{
+		mask = 1ULL << StaticTypeID;
+		typeID = StaticTypeID;
+	}
+};
+
+struct Tag_Boulder : public Component
+{
+	static constexpr uint32_t StaticTypeID = Tag_Boulder_ID;
+
+	Tag_Boulder()
 	{
 		mask = 1ULL << StaticTypeID;
 		typeID = StaticTypeID;

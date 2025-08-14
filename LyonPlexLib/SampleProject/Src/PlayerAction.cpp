@@ -2,6 +2,7 @@
 #include "PlayerAction.h"
 #include "Utils.h"
 #include <Enemy.h>
+#include <Boulder.h>
 
 float FPS_24 = 1 / 24;
 
@@ -490,39 +491,39 @@ void PlayerAction_Attack::Start(Player* player)
 	}
 
 
-	ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
-	auto& ecs = player->mp_gameManager->GetECSManager();
-	float closest = 100;
-	ecs.ForEach(mask, [&](Entity e)
-		{
-			Utils::Vector3 newVec;
-			auto& playerPos = player->GetPosition();
-			auto* tc = ecs.GetComponent<TransformComponent>(e);
+	//ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
+	//auto& ecs = player->mp_gameManager->GetECSManager();
+	//float closest = 100;
+	//ecs.ForEach(mask, [&](Entity e)
+	//	{
+	//		Utils::Vector3 newVec;
+	//		auto& playerPos = player->GetPosition();
+	//		auto* tc = ecs.GetComponent<TransformComponent>(e);
 
-			newVec.x = playerPos.x - tc->position.x;
-			newVec.y = playerPos.y - tc->position.y;
-			newVec.z = playerPos.z - tc->position.z;
+	//		newVec.x = playerPos.x - tc->position.x;
+	//		newVec.y = playerPos.y - tc->position.y;
+	//		newVec.z = playerPos.z - tc->position.z;
 
-			float length = newVec.length();
+	//		float length = newVec.length();
 
-			if (length < 3.0f)
-			{
-				if (length < closest)
-				{
-					closest = length;
-					//player->m_closestEnemy = static_cast<Enemy*>(player->mp_scene->GetGameObjectByID(e));
-					GameObject& go = player->mp_scene->GetGameObjectByID(e);
-					Enemy* e = dynamic_cast<Enemy*>(&go);
-					if (e) {
-						player->m_closestEnemy = e;
-					}
-					else {
-						// pas d’ennemi valide sous cet ID
-					}
+	//		if (length < 3.0f)
+	//		{
+	//			if (length < closest)
+	//			{
+	//				closest = length;
+	//				//player->m_closestEnemy = static_cast<Enemy*>(player->mp_scene->GetGameObjectByID(e));
+	//				GameObject& go = player->mp_scene->GetGameObjectByID(e);
+	//				Enemy* e = dynamic_cast<Enemy*>(&go);
+	//				if (e) {
+	//					player->m_closestEnemy = e;
+	//				}
+	//				else {
+	//					// pas d’ennemi valide sous cet ID
+	//				}
 
-				}
-			}
-		});
+	//			}
+	//		}
+	//	});
 
 
 	player->m_slashAttackNb++;
@@ -555,7 +556,7 @@ void PlayerAction_Attack::Update(Player* player)
 
 					float length = newVec.length();
 					//if (length < 3.0f)
-					if (length < ecs.GetComponent<CollisionComponent>(player->GetEntity())->BoundingSphereRadius() * 4)
+					if (length < ecs.GetComponent<CollisionComponent>(player->GetEntity())->BoundingSphereRadius() * 5 * ((tc->scale.x + tc->scale.z) / 2))
 					{
 						if (length < closest)
 						{
@@ -587,7 +588,7 @@ void PlayerAction_Attack::Update(Player* player)
 
 	case TEXTURES::IDLEARM_W1_1:
 		m_attackAnim.AnimationSequence(player->GetDeltatime());
-		if (m_attackAnim.GetAnimationHalfDuration() && m_enemyHit == false)
+		if (m_attackAnim.GetAnimationQuarterDuration() && m_enemyHit == false)
 		{
 			func();
 		}
@@ -596,11 +597,52 @@ void PlayerAction_Attack::Update(Player* player)
 		break;
 	case TEXTURES::IDLEARM_W2_1:
 		m_heavyAttackAnim.AnimationSequence(player->GetDeltatime());
-		if (m_heavyAttackAnim.GetAnimationHisFinished()) player->m_attackFinished = true;
-		if (m_heavyAttackAnim.GetAnimationHalfDuration() && m_enemyHit == false)
+		if (m_heavyAttackAnim.GetAnimationQuarterDuration() && m_enemyHit == false)
 		{
 			func();
 		}
+		if (m_heavyAttackAnim.GetAnimationHisFinished()) player->m_attackFinished = true;
+
+		if (m_pushBoulder == false)
+		{
+			ComponentMask mask = (1ULL << Tag_Boulder::StaticTypeID);
+			auto& ecs = player->mp_gameManager->GetECSManager();
+			float closest = 10;
+			ecs.ForEach(mask, [&](Entity e)
+				{
+					Utils::Vector3 newVec;
+					auto& playerPos = player->GetPosition();
+					auto* tc = ecs.GetComponent<TransformComponent>(e);
+
+					newVec.x = tc->position.x - playerPos.x;
+					newVec.y = tc->position.y - playerPos.y;
+					newVec.z = tc->position.z - playerPos.z;
+
+					float length = newVec.length();
+					//if (length < 3.0f)
+					if (length < ecs.GetComponent<CollisionComponent>(player->GetEntity())->BoundingSphereRadius() * 4 * ((tc->scale.x + tc->scale.z) / 2))
+					{
+						if (length < closest)
+						{
+							closest = length;
+
+							GameObject& go = player->mp_scene->GetGameObjectByID(e);
+							Boulder* e = dynamic_cast<Boulder*>(&go);
+							if (e) {
+								Utils::Vector3 normVec = newVec.normalized();
+								//player->m_closestEnemy = e;
+								//m_enemyHit = true;
+								e->GetPushed(normVec);
+							}
+							else {
+								// pas d’ennemi valide sous cet ID
+							}
+						}
+					}
+				});
+			m_pushBoulder = true;
+		}
+
 		break;
 	}
 
@@ -620,6 +662,7 @@ void PlayerAction_Attack::End(Player* player)
 		break;
 	}
 
+	m_pushBoulder = false;
 
 	player->GetPlayerArm().SetTexture(player->m_currIdleMesh);
 	OutputDebugStringA("-EndSlash");

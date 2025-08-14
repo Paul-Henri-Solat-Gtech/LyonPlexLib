@@ -330,7 +330,7 @@ namespace TEXTURES
 
 		// Water Maps
 		WATER_NORMAL,
-		CUBE_MAP,
+		CUBE_MAP,		// pas utilisee
 
 
 		TotalTextureCount
