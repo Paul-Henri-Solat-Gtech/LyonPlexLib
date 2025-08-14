@@ -326,7 +326,11 @@ void GameScene::Start()
 	GetGameObjectByName("UpStream2").SetPosition({ 330, 14.5, 180 });
 	GetGameObjectByName("UpStream2").SetScale({ 10, 1, 40 });
 
-
+	portal = &CreateGameObject<Portals>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_playerTest, this);
+	portal->SetPosition({ 335, 2, 50 });
+	//portal->SetPosition({ -10, 1, 10 });
+	portal->SetScale({ 1, 1, 0.5 });
+	portal->SetTexture(TEXTURES::EAU);
 
 
 

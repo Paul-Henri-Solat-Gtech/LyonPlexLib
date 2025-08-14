@@ -15,9 +15,9 @@ Boulder::Boulder(ECSManager* ecsManager, GameManager* gameManager, GameObject& g
 void Boulder::OnUdpdate(float deltatime)
 {
 
-	float dist = Utils::lerp(0, m_slideDistLeft, 0.05);
 	if(m_slideDistLeft > 0.2)
 	{
+	float dist = Utils::lerp(0, m_slideDistLeft, 0.05);
 		MoveInDirection({ m_dir.x, m_dir.y, m_dir.z }, dist);
 
 		m_slideDistLeft -= dist;
