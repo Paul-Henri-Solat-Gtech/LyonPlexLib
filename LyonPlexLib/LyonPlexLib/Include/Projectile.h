@@ -24,13 +24,13 @@ public:
 	void Laube(XMFLOAT3 posStart, XMFLOAT3 posTarget);
 
 	//GameObject& GetPlayerGameObject() { return m_gmTarget; };
-	GameObject* GetGameObject() { return m_projectileGameObject; };
+	//GameObject* GetGameObject() { return m_projectileGameObject; };
 
 private:
 	Scene* mp_scene;
 
 	//GameObject& m_gmTarget;
-	GameObject* m_projectileGameObject = nullptr;
+	//GameObject* m_projectileGameObject = nullptr;
 
 	ProjectileType m_projectileType;
 

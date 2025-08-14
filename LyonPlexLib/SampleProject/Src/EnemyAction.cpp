@@ -3,7 +3,7 @@
 
 void EnnemyAction_Move::Start(Enemy* ennemy)
 {
-	OutputDebugStringA("-ENEMY START MOVING !");
+	//OutputDebugStringA("-ENEMY START MOVING !");
 }
 void EnnemyAction_Move::Update(Enemy* ennemy)
 {
@@ -19,7 +19,7 @@ void EnnemyAction_Move::End(Enemy* ennemy)
 
 void EnnemyAction_Shoot::Start(Enemy* ennemy)
 {
-	OutputDebugStringA("-ENEMY START SHOOTING !");
+	//OutputDebugStringA("-ENEMY START SHOOTING !");
 	m_nextShootTimer = 0;
 	//ennemy->CreateProjectile(ennemy->GetPosition(), ennemy->m_playerGm.GetPosition());
 }

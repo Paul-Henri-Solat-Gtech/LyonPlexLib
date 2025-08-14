@@ -4,7 +4,6 @@ namespace TEXTURES
 {
 	enum TEXTURES
 	{
-		EMPTY,
 		NOTEXTURE,
 		TEST3,
 		TEST,
@@ -31,6 +30,8 @@ namespace TEXTURES
 		heart_demi,
 		heart_full,
 		gameOver,
+		EMPTY,
+		Weapon_placeholder,
 
 		//IDLE ARM
 		IDLEARM_1,

@@ -9,15 +9,13 @@ Projectile::Projectile(Scene* scene, XMFLOAT3 posStart, XMFLOAT3 posTarget, Proj
 	m_lifetime = lifeTime;
 
 	InitGameObj(mp_scene->GetEcsManager(), mp_scene); // a corriger
-	m_projectileGameObject = this;
 	InitProjectile(posStart, posTarget);
 }
 
 void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 {
-	//std::string projName = "newProjectile" + std::to_string(mp_scene->GetSceneGameObjects().size());
-
 	AddComponent<Tag_Projectile>(new Tag_Projectile());
+
 	SetPosition(posStart);
 	SetScale({ 0.2,0.2,0.8 });
 	auto projScale = GetScale();
@@ -55,7 +53,7 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 	case AirSlash:
 		SetTag(Tag::TAG_ProjectilePlayer);
 		SetTexture(TEXTURES::WATER_NORMAL);
-		SetScale({ 0.8,0.1,0.8 });
+		SetScale({ 2,0.1,0.8 });
 		m_speed = 70;
 		m_damage = 1;
 		break;
@@ -63,15 +61,15 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 		break;
 	}
 
-	OutputDebugStringA("\nINIT PROJECTILE REUSSI !\n");
+	//OutputDebugStringA("\nINIT PROJECTILE REUSSI !\n");
 }
 
 
 
 void Projectile::OnUdpdate(float deltatime)
 {
-	if (!m_projectileGameObject)
-		return;
+	//if (!m_projectileGameObject)
+	//	return;
 
 	if (m_lifetime <= 0)
 	{
@@ -81,23 +79,40 @@ void Projectile::OnUdpdate(float deltatime)
 	else
 	{
 		m_lifetime -= 1 * deltatime;
-		m_projectileGameObject->MoveForward(deltatime * m_speed);
+		//m_projectileGameObject->MoveForward(deltatime * m_speed);
+		MoveForward(deltatime * m_speed);
+	}
+
+	switch (m_projectileType)
+	{
+	case Laser:
+
+		break;
+	case Rock:
+
+		break;
+	case AirSlash:
+		//AddRotation({ 0,1,0 });
+		break;
+	default:
+		break;
 	}
 }
 
 void Projectile::Destroy()
 {
-	if (m_projectileGameObject)
-	{
-		mp_scene->DestroyGameObject(*m_projectileGameObject);
-		m_projectileGameObject = nullptr;
-	}
+	//if (m_projectileGameObject)
+	//{
+
+	//	m_projectileGameObject = nullptr;
+	//}
+	mp_scene->DestroyGameObject(*this);
 }
 
 void Projectile::Laube(XMFLOAT3 posStart, XMFLOAT3 posTarget)
 {
-	if (!m_projectileGameObject)
-		return;
+	//if (!m_projectileGameObject)
+	//	return;
 
 	// Direction plate (XZ)
 	XMFLOAT3 dir = {
@@ -134,5 +149,5 @@ void Projectile::Laube(XMFLOAT3 posStart, XMFLOAT3 posTarget)
 		posStart.z + lobbedDir.z
 	};
 
-	m_projectileGameObject->LookAt(targetLookAt);
+	LookAt(targetLookAt);
 }

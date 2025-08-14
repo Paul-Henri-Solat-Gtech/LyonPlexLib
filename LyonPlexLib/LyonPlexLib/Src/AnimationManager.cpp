@@ -19,7 +19,7 @@ void AnimationManager::Start(float deltatime)
 {
     m_actualTexture = m_textureList[m_nextIdFrame];
     m_gameObjectToAnimate->SetTexture(m_actualTexture);
-    OutputDebugStringA(("\nFrame " + std::to_string(m_nextIdFrame) + "\n").c_str());
+    //OutputDebugStringA(("\nFrame " + std::to_string(m_nextIdFrame) + "\n").c_str());
 
     while (m_frameCooldown > 0)
     {
@@ -56,7 +56,7 @@ void AnimationManager::AnimationSequence(float deltatime)
         // Apply new texture
         const auto& textureId = m_textureList[m_nextIdFrame];
         m_gameObjectToAnimate->SetTexture(textureId);
-        OutputDebugStringA(("Frame " + std::to_string(m_nextIdFrame) + "\n").c_str());
+        //OutputDebugStringA(("Frame " + std::to_string(m_nextIdFrame) + "\n").c_str());
     }
 
     if (m_nextIdFrame >= m_textureList.size() - 1)

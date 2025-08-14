@@ -33,8 +33,7 @@ void GameScene::Start()
 
 	// Test player + stateMachine
 	m_playerTest.Init(m_player, mp_sceneManager->GetGameManager(), this, m_cam);
-	//m_playerTest.SetEnemies(&m_enemies);
-	//m_enemyTest.Init(GetGameObjectByName("testGm"), m_player, mp_sceneManager->GetGameManager());
+
 
 	RECT renderZone;
 	GetClientRect(mp_sceneManager->GetGameManager()->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
@@ -43,8 +42,6 @@ void GameScene::Start()
 	CreateGameObject("bras", TYPE_2D, true);
 	GetGameObjectByName("bras").SetMesh(MESHES::LOCAL_SQUARE);
 	GetGameObjectByName("bras").SetTexture(TEXTURES::ARMS);
-	//GetGameObjectByName("bras").SetPosition({ (float)renderWidth / 8, (float)renderHeight / 8, 0 });
-	//GetGameObjectByName("bras").SetScale({ (float)renderWidth * 0.15f, (float)renderHeight * 0.15f, 0 });
 	GetGameObjectByName("bras").SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2 + (float)renderHeight / 4, 0 });
 	GetGameObjectByName("bras").SetScale({ (float)renderWidth * 0.45f, (float)renderHeight * 0.45f, 0 });
 	GetGameObjectByName("bras").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
@@ -64,24 +61,6 @@ void GameScene::Start()
 	//GetGameObjectByName("Stick").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
 	GetGameObjectByName("Stick").AddComponent<Tag_Object>(new Tag_Object());
 	GetGameObjectByName("Stick").SetTag(TAG_Stick);
-	//CreateGameObject("Stick2");
-	//GetGameObjectByName("Stick2").SetPosition({ 2, 1, 4 });
-	//GetGameObjectByName("Stick2").SetScale({ 0.01, 0.01, 0.01 });
-	//GetGameObjectByName("Stick2").SetMesh(MESHES::STICK);
-	//GetGameObjectByName("Stick2").SetTexture(TEXTURES::GRID);
-	//a = GetGameObjectByName("Stick2").GetScale();
-	//GetGameObjectByName("Stick2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
-	//GetGameObjectByName("Stick2").AddComponent<Tag_Object>(new Tag_Object());
-	//GetGameObjectByName("Stick2").SetTag(TAG_Stick);
-	//CreateGameObject("Stick3");
-	//GetGameObjectByName("Stick3").SetPosition({ -2, 1, 2 });
-	//GetGameObjectByName("Stick3").SetScale({ 0.01, 0.01, 0.01 });
-	//GetGameObjectByName("Stick3").SetMesh(MESHES::STICK);
-	//GetGameObjectByName("Stick3").SetTexture(TEXTURES::GRID);
-	//a = GetGameObjectByName("Stick3").GetScale();
-	//GetGameObjectByName("Stick3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
-	//GetGameObjectByName("Stick3").AddComponent<Tag_Object>(new Tag_Object());
-	//GetGameObjectByName("Stick3").SetTag(TAG_Stick);
 
 	CreateGameObject("Rock");
 	GetGameObjectByName("Rock").SetPosition({ 320,1,55 });
@@ -93,28 +72,6 @@ void GameScene::Start()
 	GetGameObjectByName("Rock").AddComponent<Tag_Object>(new Tag_Object());
 	GetGameObjectByName("Rock").SetTag(TAG_Rock);
 
-	//CreateGameObject("Rock2");
-	//GetGameObjectByName("Rock2").SetPosition({ -3, 0.5, 2 });
-	//GetGameObjectByName("Rock2").SetScale({ 0.1, 0.1, 0.1 });
-	//GetGameObjectByName("Rock2").SetMesh(MESHES::CAILLOUX1);
-	//GetGameObjectByName("Rock2").SetTexture(TEXTURES::GRID);
-	//a = GetGameObjectByName("Rock2").GetScale();
-	//GetGameObjectByName("Rock2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
-	//GetGameObjectByName("Rock2").AddComponent<Tag_Object>(new Tag_Object());
-	//GetGameObjectByName("Rock2").SetTag(TAG_Rock);
-
-	//CreateGameObject("Rock3");
-	//GetGameObjectByName("Rock3").SetPosition({ 2, 0.5,-3 });
-	//GetGameObjectByName("Rock3").SetScale({ 0.1, 0.1, 0.1 });
-	//GetGameObjectByName("Rock3").SetMesh(MESHES::CAILLOUX1);
-	//GetGameObjectByName("Rock3").SetTexture(TEXTURES::GRID);
-	//a = GetGameObjectByName("Rock3").GetScale();
-	//GetGameObjectByName("Rock3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
-	//GetGameObjectByName("Rock3").AddComponent<Tag_Object>(new Tag_Object());
-	//GetGameObjectByName("Rock3").SetTag(TAG_Rock);
-
-
-
 
 	// Audio
 	CreateSoundPlex("slash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
@@ -124,14 +81,6 @@ void GameScene::Start()
 	PlayMusicPlex("Corrosion");
 
 	// scene
-	/*CreateGameObject("GM0", 2, 4);
-	GetGameObjectByName("GM0").SetTag(TAG_Floor);
-	GetGameObjectByName("GM0").SetPosition({ 0,-50, 0 });
-	GetGameObjectByName("GM0").SetScale({ 20, 100, 20 });
-	auto& b = GetGameObjectByName("GM0").GetScale();
-	GetGameObjectByName("GM0").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ b.x / 2, b.y / 2, b.z / 2 })));*/
-
-
 	CreateEntity("Light1");
 	AddComponent<Type_3D>("Light1", new Type_3D());
 	AddComponent<MeshComponent>("Light1", new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::BOIS));
@@ -2629,58 +2578,38 @@ void GameScene::Start()
 }
 
 void GameScene::Update(float deltatime)
-{
-	m_fpsCam.Update(deltatime);
+{	
+	if (m_playerTest.IsAlive()) 
+	{
+		// Enemies
+		ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
+		auto& ecs = mp_ecsManager;
+		float closest = 100;
+		ecs->ForEach(mask, [&](Entity e)
+			{
+				GetGameObjectByID(e).OnUdpdate(deltatime);
+			});
+		// Projectiles
+		mask = (1ULL << Tag_Projectile::StaticTypeID);
+		ecs->ForEach(mask, [&](Entity e)
+			{
+				GetGameObjectByID(e).OnUdpdate(deltatime);
+			});
 
+		// Portals
+		portal->OnUdpdate(deltatime);
+
+		// PlayerState
+		m_playerTest.OnUdpdate(deltatime);
+
+		// Camera
+		m_fpsCam.Update(deltatime);
+	}
 
 	if (InputManager::GetKeyIsReleased('N'))
 	{
 		StopMusicPlex();
 	}
-	
-
-	//if (std::fmod(m_spawnTimer, 150.0f) == 0)
-	//{
-	//	// IL FAUT POUVOIR CREER DES ENEMY SANS GAMEOBJECT OU AU MOINS SANS NOM STD::STRING
-
-	//	//Enemy* newEnemy = new Enemy(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player);
-
-	//	auto& newEnemy = CreateGameObject<Enemy>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player, this);
-
-	//	float posX = Utils::randomFloat(-24, 24);
-	//	float posZ = Utils::randomFloat(-24, 24);
-	//	newEnemy.SetPosition({ posX, 1, posZ });
-	//	newEnemy.SetTexture(TEXTURES::iceCream);
-	//	//newEnemy.AddComponent<Tag_Enemy>(new Tag_Enemy());
-	//}
-
-	//m_spawnTimer++;
-
-	portal->OnUdpdate(deltatime);
-
-	// Enemies
-	ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
-	auto& ecs = mp_ecsManager;
-	float closest = 100;
-	ecs->ForEach(mask, [&](Entity e)
-		{
-			GetGameObjectByID(e).OnUdpdate(deltatime);
-		});
-	// Projectiles
-	mask = (1ULL << Tag_Projectile::StaticTypeID);
-	ecs->ForEach(mask, [&](Entity e)
-		{
-			GetGameObjectByID(e).OnUdpdate(deltatime);
-		});
-	
-
-	// PlayerState
-	m_playerTest.OnUdpdate(deltatime);
-
-	////if (m_enemyTest.GetGameObject().alive)
-	//if (m_playerTest.m_closestEnemy)
-	//	m_enemyTest.OnUdpdate(deltatime);
-
 	if (InputManager::GetKeyIsPressed('R'))
 	{
 		GetGameObjectByName("player").SetPosition({ 45, 3, -60 });

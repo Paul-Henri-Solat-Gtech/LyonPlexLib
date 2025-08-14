@@ -141,6 +141,11 @@ Player::Player() : m_stateMachine(this, State::Count)
 			auto transition = sFall->CreateTransition(State::Move);
 			auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
 		}
+		//-> SPECIAL ATTACK TRANSITION
+		{
+			auto transition = sFall->CreateTransition(State::SpecialAttack);
+			auto condition = transition->AddCondition<PlayerCondition_IsSpecialAttacking>();
+		}
 	}
 
 	// --- Attack ---
@@ -211,6 +216,12 @@ Player::Player() : m_stateMachine(this, State::Count)
 			auto transition = sSpecialAttack->CreateTransition(State::Fall);
 			auto condition = transition->AddCondition<PlayerCondition_IsNotOnGround>();
 		}
+		//-> JUMP TRANSITION
+		{
+			auto transition = sSpecialAttack->CreateTransition(State::Jump);
+			auto condition = transition->AddCondition<PlayerCondition_IsOnGround>();
+			transition->AddCondition<PlayerCondition_IsJumping>();
+		}
 	}
 
 
@@ -237,6 +248,7 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 
 	// sounds
 	mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
+	mp_gameManager->GetSoundManager()->CreateSound("swordSpecialSlash", L"../LyonPlexLib/Ressources/swordSpecialSlash.wav");
 
 	// Hearts
 	RECT renderZone;
@@ -268,6 +280,14 @@ void Player::Init(GameObject gameObject, GameManager* gameManager, Scene* scene,
 	m_playerHeart3.SetScale({ (float)renderWidth * 0.07f, (float)renderHeight * 0.1f, 0 });
 	m_playerHeart3.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
+	// PlaceHolder weapon
+	mp_scene->CreateGameObject("WeaponPLaceholder", TYPE_2D, true);
+	m_weaponPlaceholder = mp_scene->GetGameObjectByName("WeaponPLaceholder");
+	m_weaponPlaceholder.SetMesh(MESHES::LOCAL_SQUARE);
+	m_weaponPlaceholder.SetTexture(TEXTURES::Weapon_placeholder);
+	m_weaponPlaceholder.SetPosition({ (float)renderWidth - 100, (float)renderHeight - 80, 0 });
+	m_weaponPlaceholder.SetScale({ (float)renderWidth * 0.07f, (float)renderHeight * 0.1f, 0 });
+	m_weaponPlaceholder.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
 	EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p) 
 	{
@@ -756,10 +776,10 @@ void Player::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeT
 
 	// debug rapide : affiche start/target & forward
 	{
-		char buf[256];
-		sprintf_s(buf, "CreateProjectile start=(%.2f,%.2f,%.2f) target=(%.2f,%.2f,%.2f) fwd=(%.3f,%.3f,%.3f)\n",
-			start.x, start.y, start.z, target.x, target.y, target.z, camFwd.x, camFwd.y, camFwd.z);
-		OutputDebugStringA(buf);
+		//char buf[256];
+		//sprintf_s(buf, "CreateProjectile start=(%.2f,%.2f,%.2f) target=(%.2f,%.2f,%.2f) fwd=(%.3f,%.3f,%.3f)\n",
+		//	start.x, start.y, start.z, target.x, target.y, target.z, camFwd.x, camFwd.y, camFwd.z);
+		//OutputDebugStringA(buf);
 	}
 
 	// cree le projectile (tu utilises déjà cette signature)
