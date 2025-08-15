@@ -32,6 +32,9 @@ namespace TEXTURES
 		gameOver,
 		EMPTY,
 		Weapon_placeholder,
+		PAUSEMENU,
+		BTN_QUIT,
+		BTN_MAINMENU,
 
 		//IDLE ARM
 		IDLEARM_1,

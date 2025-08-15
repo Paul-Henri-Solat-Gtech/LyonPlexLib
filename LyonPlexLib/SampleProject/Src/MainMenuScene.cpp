@@ -9,7 +9,7 @@ void MainMenuScene::Start()
 	GetGameObjectByName("camera2").SetPosition({ 0, 0, 0.5f });
 
 	// Buttons
-	mp_buttonStart = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow());
+	mp_buttonStart = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::start, "btnStart");
 	//GetGameObjectByName("btnStart").SetTexture(TEXTURES::start);
 	//GetGameObjectByName("btnStart").SetPosition({ 400, 500, 0 });
 	//GetGameObjectByName("btnStart").SetScale({ 400, 100, 0 });

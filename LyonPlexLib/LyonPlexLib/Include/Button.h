@@ -3,7 +3,7 @@ class Button : public GameObject
 {
 public:
 	//Button() : mp_scene(nullptr), m_windowHandle(nullptr) {}
-	Button(Scene* scene, HWND windowHandle);
+	Button(Scene* scene, HWND windowHandle, uint32_t texture, std::string btnName);
 
 	void Initialize(HWND windowHandle, const std::string& name, ECSManager* ecsManager, Scene* scene, DimensionalType type, bool useMesh);
 

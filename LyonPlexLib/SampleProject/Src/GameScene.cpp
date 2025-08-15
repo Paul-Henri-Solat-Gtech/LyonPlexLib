@@ -9,6 +9,8 @@ XMFLOAT3 POSITION_CHAMPS = { 325, -2, 50 };
 
 void GameScene::Start()
 {
+	m_pauseIsOpen = false;
+
 	CreateGameObject("cam", TYPE_3D, false);
 	m_cam = GetGameObjectByName("cam");
 	m_cam.AddComponent<CameraComponent>(new CameraComponent());
@@ -48,9 +50,6 @@ void GameScene::Start()
 
 	m_playerTest.SetPlayerArm(GetGameObjectByName("bras"));
 
-
-
-
 	CreateGameObject("Stick");
 	XMFLOAT3 pos1(POSITION_CHAMPS.x + 2, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z + 2);
 	GetGameObjectByName("Stick").SetPosition(pos1);
@@ -79,6 +78,7 @@ void GameScene::Start()
 	CreateSoundPlex("deathScream", L"../SampleProject/Ressources/Sounds/deathScreamBBB3.wav");
 	CreateSoundPlex("HUGH", L"../SampleProject/Ressources/Sounds/HUGH.wav");
 	PlayMusicPlex("Corrosion");
+
 
 	// scene
 	CreateEntity("Light1");
@@ -2579,7 +2579,7 @@ void GameScene::Start()
 
 void GameScene::Update(float deltatime)
 {	
-	if (m_playerTest.IsAlive()) 
+	if (m_playerTest.IsAlive() || m_pauseIsOpen) 
 	{
 		// Enemies
 		ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
@@ -2606,6 +2606,22 @@ void GameScene::Update(float deltatime)
 		m_fpsCam.Update(deltatime);
 	}
 
+	if (m_pauseIsOpen)
+	{
+		if (mp_btnMainMenu->GetMouseOnBtn())
+		{
+			mp_btnMainMenu->SetScale({ 170, 100, 0 });
+		}
+		if (!mp_btnMainMenu->GetMouseOnBtn())
+		{
+			mp_btnMainMenu->SetScale({ 120, 50, 0 });
+		}
+		if (mp_btnMainMenu->GetBtnIsClicked())
+		{
+			ChangeScene("MainMenuScene");
+		}
+	}
+
 	if (InputManager::GetKeyIsReleased('N'))
 	{
 		StopMusicPlex();
@@ -2625,8 +2641,51 @@ void GameScene::Update(float deltatime)
 	{
 		ChangeScene("DevScene");
 	}
+
+	if (InputManager::GetKeyIsReleased(VK_ESCAPE))
+	{
+		m_pauseIsOpen = !m_pauseIsOpen;
+
+		if (m_pauseIsOpen)
+		{
+			SpawnMenu();
+		}
+		else
+		{
+			RemoveMenu();
+		}
+		
+	}
 }
 
 void GameScene::Release()
 {
+}
+
+void GameScene::SpawnMenu()
+{
+	RECT renderZone;
+	GetClientRect(mp_sceneManager->GetGameManager()->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
+	UINT renderWidth = renderZone.right - renderZone.left;
+	UINT renderHeight = renderZone.bottom - renderZone.top;
+
+	// Pause menu
+	CreateGameObject("pauseMenu", TYPE_2D, true);
+	GetGameObjectByName("pauseMenu").SetMesh(MESHES::LOCAL_SQUARE);
+	GetGameObjectByName("pauseMenu").SetTexture(TEXTURES::PAUSEMENU);
+	GetGameObjectByName("pauseMenu").SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2, 0 });
+	GetGameObjectByName("pauseMenu").SetScale({ (float)renderWidth * 0.2f, (float)renderHeight * 0.4f, 0 });
+	GetGameObjectByName("pauseMenu").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
+	// Buttons
+	mp_btnMainMenu = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::BTN_MAINMENU, "btnMainMenu");
+	mp_btnMainMenu->SetScale({ 120, 50, 0 });
+	auto posPauseMenu = GetGameObjectByName("pauseMenu").GetPosition();
+	mp_btnMainMenu->SetPosition({ posPauseMenu.x,posPauseMenu.y + 140,posPauseMenu.z });
+}
+
+void GameScene::RemoveMenu() 
+{
+	DestroyGameObject(GetGameObjectByName("pauseMenu"));
+	DestroyGameObject(GetGameObjectByName("btnMainMenu"));
 }

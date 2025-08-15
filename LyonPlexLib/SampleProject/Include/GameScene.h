@@ -12,6 +12,10 @@ public:
 	void Update(float deltatime) override;
 	void Release() override;
 
+	void SpawnMenu();
+
+	void RemoveMenu();
+
 private:
 	Player m_playerTest;
 	//Enemy m_enemyTest;
@@ -24,5 +28,10 @@ private:
 	float m_playerWalkSpeed, m_playerRunSpeed, m_playerSpeed;
 
 	float m_spawnTimer = 0;
+
+	bool m_pauseIsOpen;
+	GameObject pauseMenu;
+	Button* mp_btnMainMenu;
+
 };
 

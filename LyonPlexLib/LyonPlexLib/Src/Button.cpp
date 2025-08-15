@@ -1,16 +1,16 @@
 #include "pch.h"
 #include "Button.h"
 
-Button::Button(Scene* scene, HWND windowHandle)
+Button::Button(Scene* scene, HWND windowHandle, uint32_t texture, std::string btnName)
 {
     mp_scene = scene;
     m_windowHandle = windowHandle;
 
-    Init("btStart", mp_scene->GetEcsManager(), mp_scene, TYPE_2D, true);
+    Init(btnName, mp_scene->GetEcsManager(), mp_scene, TYPE_2D, true);
     //InitGameObj(mp_scene->GetEcsManager(), mp_scene);
 
     SetMesh(MESHES::LOCAL_SQUARE);
-    SetTexture(TEXTURES::start);
+    SetTexture(texture);
 
     RECT renderZone;
     GetClientRect(mp_scene->GetSceneManager()->GetGameManager()->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
