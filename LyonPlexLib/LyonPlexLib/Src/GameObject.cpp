@@ -44,7 +44,7 @@ void GameObject::InitGameObj(ECSManager* ecsManager, Scene* scene)
 }
 void GameObject::InitPlayerGameObj(ECSManager* ecsManager, Scene* scene)
 {
-	SetName("");
+	SetName("Player");
 	SetTag(TAG_None);
 	mp_ecsManager = ecsManager;
 	mp_scene = scene;

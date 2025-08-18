@@ -309,9 +309,11 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 		// si aucun des deux nest le joueur, on sort
 		if (playerE.id != m_playerGameObject.GetEntity().id) return;
 			
-		auto tag = mp_scene->GetGameObjectByID(otherE).GetTag();
-		GameObject& otherGO = mp_scene->GetGameObjectByID(otherE);
+		//auto tag = mp_scene->GetGameObjectByID(p.b).GetTag();
 
+		GameObject& otherGO = mp_scene->GetGameObjectByID(otherE);
+		auto tag = otherGO.GetTag();
+		
 		switch (tag)
 		{
 		case TAG_Floor:
@@ -331,7 +333,7 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 			{
 				OutputDebugStringA("\n Player is already dead ! \n");
 			}
-
+			break;
 		}
 		default:
 			break;
