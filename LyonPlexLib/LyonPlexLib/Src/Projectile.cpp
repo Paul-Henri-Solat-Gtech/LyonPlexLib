@@ -101,11 +101,6 @@ void Projectile::OnUdpdate(float deltatime)
 
 void Projectile::Destroy()
 {
-	//if (m_projectileGameObject)
-	//{
-
-	//	m_projectileGameObject = nullptr;
-	//}
 	mp_scene->DestroyGameObject(*this);
 }
 

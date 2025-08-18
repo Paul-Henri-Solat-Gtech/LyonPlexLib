@@ -16,6 +16,6 @@ private:
 	//GameObject& m_portalGm;
 
 	float m_timer = 0;
-	int m_capacity = 4;
+	int m_capacity = 2;
 };
 

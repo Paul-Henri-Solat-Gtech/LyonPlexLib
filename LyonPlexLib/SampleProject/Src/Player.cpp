@@ -309,7 +309,7 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 		// si aucun des deux nest le joueur, on sort
 		if (playerE.id != m_playerGameObject.GetEntity().id) return;
 			
-		auto tag = mp_scene->GetGameObjectByID(p.b).GetTag();
+		auto tag = mp_scene->GetGameObjectByID(otherE).GetTag();
 		GameObject& otherGO = mp_scene->GetGameObjectByID(otherE);
 
 		switch (tag)

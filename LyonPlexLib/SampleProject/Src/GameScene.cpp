@@ -362,28 +362,28 @@ void GameScene::Update(float deltatime)
 
 	if (m_playerTest.IsAlive() || m_pauseIsOpen) 
 	{
-		// Enemies
-		ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
-		auto& ecs = mp_ecsManager;
-		float closest = 100;
-		ecs->ForEach(mask, [&](Entity e)
-			{
-				GetGameObjectByID(e).OnUdpdate(deltatime);
-			});
-		// Projectiles
-		mask = (1ULL << Tag_Projectile::StaticTypeID);
-		ecs->ForEach(mask, [&](Entity e)
-			{
-				GetGameObjectByID(e).OnUdpdate(deltatime);
-			});
+		//// Enemies
+		//ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
+		//auto& ecs = mp_ecsManager;
+		//float closest = 100;
+		//ecs->ForEach(mask, [&](Entity e)
+		//	{
+		//		GetGameObjectByID(e).OnUdpdate(deltatime);
+		//	});
+		//// Projectiles
+		//mask = (1ULL << Tag_Projectile::StaticTypeID);
+		//ecs->ForEach(mask, [&](Entity e)
+		//	{
+		//		GetGameObjectByID(e).OnUdpdate(deltatime);
+		//	});
 
-		// Portals
-		portal->OnUdpdate(deltatime);
+		//// Portals
+		//portal->OnUdpdate(deltatime);
 
-		// PlayerState
-		m_playerTest.OnUdpdate(deltatime);
+		//// PlayerState
+		//m_playerTest.OnUdpdate(deltatime);
 
-		// Camera
+		//// Camera
 		m_fpsCam.Update(deltatime);
 	}
 
