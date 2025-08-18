@@ -13,7 +13,7 @@ class Projectile : public GameObject
 {
 
 public:
-	Projectile(Scene* scene, XMFLOAT3 posStart, XMFLOAT3 posTarget, ProjectileType type = ProjectileType::Laser, float lifeTime = 3.f);
+	Projectile(Scene* scene, XMFLOAT3 posStart, XMFLOAT3 posTarget, ProjectileType type = ProjectileType::Laser, float lifeTime = 1.f);
 
 	void InitProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget);
 

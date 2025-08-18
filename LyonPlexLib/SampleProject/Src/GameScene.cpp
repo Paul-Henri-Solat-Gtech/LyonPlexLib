@@ -2,6 +2,9 @@
 #include "GameScene.h"
 #include "Utils.h"
 
+//debug
+#include <psapi.h>
+
 //Utils::Vector3 POSITION_CHAMPS = { 5, 0, 32.5 };
 
 // { 325, -2, 50 }
@@ -2579,6 +2582,47 @@ void GameScene::Start()
 
 void GameScene::Update(float deltatime)
 {	
+	//debug fps
+	// inside main loop, each frame
+	{
+		// debug fps (use deltatime provided by engine)
+		double dtMs = double(deltatime) * 1000.0;
+		++s_frameCount;
+		s_accumMs += dtMs;
+
+		// every 5 seconds print avg FPS and avg frame ms
+		if (s_accumMs >= 5000.0)
+		{
+			double avgMs = s_accumMs / double(s_frameCount);
+			double fps = 1000.0 / avgMs;
+			std::ostringstream ss;
+			ss << "Perf: avgMs=" << avgMs<< " ms, avgFPS=" << fps<< " DrawCalls=" << g_drawCalls << "\n";
+			OutputDebugStringA(ss.str().c_str()); // visible in VS Output
+			std::cout << ss.str();
+			s_frameCount = 0;
+			s_accumMs = 0.0;
+			g_drawCalls = 0;
+		}
+
+		// every 30 seconds log memory usage (working set)
+		// NOTE: renamed 'now' to 'now_tp' to avoid redefinition errors
+		auto now_tp = std::chrono::high_resolution_clock::now();
+		auto sinceReport = std::chrono::duration<double>(now_tp - s_lastReport).count();
+		if (sinceReport >= 30.0)
+		{
+			PROCESS_MEMORY_COUNTERS pmc{};
+			if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc)))
+			{
+				std::ostringstream m;
+				m << "ProcessMem: WorkingSet=" << pmc.WorkingSetSize
+					<< " bytes, PagefileUsage=" << pmc.PagefileUsage << "\n";
+				OutputDebugStringA(m.str().c_str());
+				std::cout << m.str();
+			}
+			s_lastReport = now_tp;
+		}
+	}
+
 	if (m_playerTest.IsAlive() || m_pauseIsOpen) 
 	{
 		// Enemies

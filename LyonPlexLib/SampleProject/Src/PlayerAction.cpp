@@ -625,7 +625,7 @@ void PlayerAction_Jump::End(Player* player)
 // FALL
 void PlayerAction_Fall::Start(Player* player)
 {
-	OutputDebugStringA("\n- Start FALLINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG\n");
+	//OutputDebugStringA("\n- Start FALLINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG\n");
 	//if (player->m_fallProgress == 0)
 	//{
 	//	player->m_jumpPosY = player->GetGameObject().GetComponent<TransformComponent>()->position.y;
@@ -646,7 +646,7 @@ void PlayerAction_Fall::Update(Player* player)
 }
 void PlayerAction_Fall::End(Player* player)
 {
-	OutputDebugStringA("\n- END ___________________ FALLINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG\n");
+	//OutputDebugStringA("\n- END ___________________ FALLINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG\n");
 	player->GetPlayerArm().SetTexture(player->m_currIdleMesh);
 }
 

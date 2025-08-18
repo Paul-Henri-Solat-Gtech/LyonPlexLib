@@ -33,5 +33,10 @@ private:
 	GameObject pauseMenu;
 	Button* mp_btnMainMenu;
 
+	//debug fps
+	std::chrono::high_resolution_clock::time_point s_lastReport = std::chrono::high_resolution_clock::now();
+	uint64_t s_frameCount = 0;
+	double s_accumMs = 0.0;
+	uint64_t g_drawCalls = 0;
 };
 
