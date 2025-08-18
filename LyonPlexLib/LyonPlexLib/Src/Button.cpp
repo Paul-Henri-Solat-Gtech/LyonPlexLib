@@ -1,17 +1,35 @@
 #include "pch.h"
 #include "Button.h"
 
-void Button::Initialize(/*GameObject gmButton,*/ HWND windowHandle, const std::string& name, ECSManager* ecsManager, Scene* scene, DimensionalType type, bool useMesh)
+Button::Button(Scene* scene, HWND windowHandle, uint32_t texture, std::string btnName)
 {
-	//m_gameObjectBtn = gmButton;
+    mp_scene = scene;
     m_windowHandle = windowHandle;
-    Init(name, ecsManager, scene, type, useMesh);
+
+    Init(btnName, mp_scene->GetEcsManager(), mp_scene, TYPE_2D, true);
+    //InitGameObj(mp_scene->GetEcsManager(), mp_scene);
+
+    SetMesh(MESHES::LOCAL_SQUARE);
+    SetTexture(texture);
+
+    RECT renderZone;
+    GetClientRect(mp_scene->GetSceneManager()->GetGameManager()->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
+    UINT renderWidth = renderZone.right - renderZone.left;
+    UINT renderHeight = renderZone.bottom - renderZone.top;
+
+    SetPosition({ (float)renderWidth * 0.5f, (float)renderHeight * 0.5f, 0.0f });
+    SetScale({ (float)renderWidth * 0.4f, (float)renderHeight * 0.15f, 0.0f });
+    GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
+    //SetPosition({ 0, 0, 0 });
+    //SetScale({ 50, 50, 0 });
 }
 
-//void Button::Release()
-//{
-//    m_gameObjectBtn = nullptr;
-//}
+void Button::Initialize(HWND windowHandle, const std::string& name, ECSManager* ecsManager, Scene* scene, DimensionalType type, bool useMesh)
+{
+    //m_windowHandle = windowHandle;
+    //Init(name, ecsManager, scene, type, useMesh);
+}
 
 bool Button::GetMouseOnBtn()
 {

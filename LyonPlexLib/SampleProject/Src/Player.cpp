@@ -141,6 +141,11 @@ Player::Player() : m_stateMachine(this, State::Count)
 			auto transition = sFall->CreateTransition(State::Move);
 			auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
 		}
+		//-> SPECIAL ATTACK TRANSITION
+		{
+			auto transition = sFall->CreateTransition(State::SpecialAttack);
+			auto condition = transition->AddCondition<PlayerCondition_IsSpecialAttacking>();
+		}
 	}
 
 	// --- Attack ---
@@ -211,6 +216,12 @@ Player::Player() : m_stateMachine(this, State::Count)
 			auto transition = sSpecialAttack->CreateTransition(State::Fall);
 			auto condition = transition->AddCondition<PlayerCondition_IsNotOnGround>();
 		}
+		//-> JUMP TRANSITION
+		{
+			auto transition = sSpecialAttack->CreateTransition(State::Jump);
+			auto condition = transition->AddCondition<PlayerCondition_IsOnGround>();
+			transition->AddCondition<PlayerCondition_IsJumping>();
+		}
 	}
 
 
@@ -246,6 +257,7 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 
 	// sounds
 	mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
+	mp_gameManager->GetSoundManager()->CreateSound("swordSpecialSlash", L"../LyonPlexLib/Ressources/swordSpecialSlash.wav");
 
 	// Hearts
 	RECT renderZone;
@@ -277,47 +289,55 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 	m_playerHeart3.SetScale({ (float)renderWidth * 0.07f, (float)renderHeight * 0.1f, 0 });
 	m_playerHeart3.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
+	// PlaceHolder weapon
+	mp_scene->CreateGameObject("WeaponPLaceholder", TYPE_2D, true);
+	m_weaponPlaceholder = mp_scene->GetGameObjectByName("WeaponPLaceholder");
+	m_weaponPlaceholder.SetMesh(MESHES::LOCAL_SQUARE);
+	m_weaponPlaceholder.SetTexture(TEXTURES::Weapon_placeholder);
+	m_weaponPlaceholder.SetPosition({ (float)renderWidth - 100, (float)renderHeight - 80, 0 });
+	m_weaponPlaceholder.SetScale({ (float)renderWidth * 0.07f, (float)renderHeight * 0.1f, 0 });
+	m_weaponPlaceholder.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
-	EventBus::instance().subscribe<CollisionEvent>(
-		[&](CollisionEvent::Payload const& p) {
-			Entity playerE = p.a, otherE = p.b;
-			// permute pour que playerE soit vraiment le joueur
-			if (otherE.id == GetEntity().id) {
-				playerE = p.b; otherE = p.a;
-			}
-			// si aucun des deux nest le joueur, on sort
-			if (playerE.id != GetEntity().id) return;
+	EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p) 
+	{
+		Entity playerE = p.a, otherE = p.b;
+		// permute pour que playerE soit vraiment le joueur
+		if (otherE.id == m_playerGameObject.GetEntity().id) 
+		{
+			playerE = p.b; otherE = p.a;
+		}
+		// si aucun des deux nest le joueur, on sort
+		if (playerE.id != m_playerGameObject.GetEntity().id) return;
+			
+		auto tag = mp_scene->GetGameObjectByID(p.b).GetTag();
+		GameObject& otherGO = mp_scene->GetGameObjectByID(otherE);
 
-			auto tag = mp_scene->GetGameObjectByID(otherE).GetTag();
-			GameObject& otherGO = mp_scene->GetGameObjectByID(otherE);
-
-
-
-			switch (tag)
+		switch (tag)
+		{
+		case TAG_Floor:
+			break;
+		case TAG_Environment:
+			break;
+		case TAG_Projectile: 
+		{
+			if (m_hp > 0)
 			{
-				case TAG_Floor:
-				case TAG_Environment:
-					break;
-				case TAG_Projectile:
-				{
-					if (m_hp > 0)
-					{
-						m_hp--;
-						HpUpdate();
-						OutputDebugStringA("\n -1hp aie \n");
-						mp_scene->DestroyGameObject(otherGO);
-					}
-
-					break;
-				}
-				default:
-				{
-					break;
-				}
+				m_hp--;
+				HpUpdate();
+				OutputDebugStringA("\n -1hp aie \n");
+				mp_scene->DestroyGameObject(otherGO);
+			}
+			else
+			{
+				OutputDebugStringA("\n Player is already dead ! \n");
 			}
 
-			//m_objectsCollidingWithPlayer.push_back(otherE);
-			m_hasCollided = true;
+		}
+		default:
+			break;
+		}
+
+		m_hasCollided = true;
 		});
 
 	OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
@@ -751,7 +771,7 @@ void Player::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeT
 	XMFLOAT3 start = { playerPos.x, playerPos.y + chestHeight, playerPos.z };
 
 	// avance le start d'une distance devant le joueur selon la direction de la caméra
-	const float muzzleOffset = 0.6f; // augmente si le projectile spawn dans le joueur
+	const float muzzleOffset = 0.8f; // augmente si le projectile spawn dans le joueur
 	start.x += camFwd.x * muzzleOffset;
 	start.y += camFwd.y * muzzleOffset;
 	start.z += camFwd.z * muzzleOffset;
@@ -766,19 +786,14 @@ void Player::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeT
 
 	// debug rapide : affiche start/target & forward
 	{
-		char buf[256];
-		sprintf_s(buf, "CreateProjectile start=(%.2f,%.2f,%.2f) target=(%.2f,%.2f,%.2f) fwd=(%.3f,%.3f,%.3f)\n",
-			start.x, start.y, start.z, target.x, target.y, target.z, camFwd.x, camFwd.y, camFwd.z);
-		OutputDebugStringA(buf);
+		//char buf[256];
+		//sprintf_s(buf, "CreateProjectile start=(%.2f,%.2f,%.2f) target=(%.2f,%.2f,%.2f) fwd=(%.3f,%.3f,%.3f)\n",
+		//	start.x, start.y, start.z, target.x, target.y, target.z, camFwd.x, camFwd.y, camFwd.z);
+		//OutputDebugStringA(buf);
 	}
 
-	// crée le projectile (tu utilises déjà cette signature)
-	mp_scene->CreateGameObject<Projectile>(mp_scene, start, target);
-
-	// --- Optionnel debugging : si invisible, override temporairement le mesh/texture ---
-	// si ton CreateGameObject renvoie une référence/pointer, tu peux faire :
-	// auto* p = mp_scene->CreateGameObject<Projectile>(mp_scene, start, target);
-	// if (p) { p->SetMesh(MESHES::LOCAL_SPHERE); p->SetTexture(TEXTURES::LASER); p->SetOwnerEntity(m_playerGameObject.GetEntity()); }
+	// cree le projectile (tu utilises déjà cette signature)
+	mp_scene->CreateGameObject<Projectile>(mp_scene, start, target, ProjectileType::AirSlash);
 }
 
 void Player::HpUpdate()

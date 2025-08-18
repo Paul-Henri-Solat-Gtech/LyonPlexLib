@@ -12,6 +12,10 @@ public:
 	void Update(float deltatime) override;
 	void Release() override;
 
+	void SpawnMenu();
+
+	void RemoveMenu();
+
 private:
 	Player m_playerTest;
 	//Enemy m_enemyTest;
@@ -24,5 +28,15 @@ private:
 	float m_playerWalkSpeed, m_playerRunSpeed, m_playerSpeed;
 
 	float m_spawnTimer = 0;
+
+	bool m_pauseIsOpen;
+	GameObject pauseMenu;
+	Button* mp_btnMainMenu;
+
+	//debug fps
+	std::chrono::high_resolution_clock::time_point s_lastReport = std::chrono::high_resolution_clock::now();
+	uint64_t s_frameCount = 0;
+	double s_accumMs = 0.0;
+	uint64_t g_drawCalls = 0;
 };
 

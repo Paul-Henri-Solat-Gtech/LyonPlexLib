@@ -61,7 +61,7 @@ void Enemy::TakeDamage()
 
 void Enemy::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeTime)
 {
-	auto& newProjectile = mp_scene->CreateGameObject<Projectile>(mp_scene, GetPosition(), m_playerGm.GetPosition());
+	auto& newProjectile = mp_scene->CreateGameObject<Projectile>(mp_scene, GetPosition(), m_playerGm.GetPosition(), ProjectileType::Laser);
 }
 
 void Enemy::OnUdpdate(float deltatime)
@@ -72,6 +72,49 @@ void Enemy::OnUdpdate(float deltatime)
 	m_distanceBetweenEnnemyPlayer.x = m_playerGm.GetPosition().x - GetPosition().x;
 	m_distanceBetweenEnnemyPlayer.y = m_playerGm.GetPosition().y - GetPosition().y;
 	m_distanceBetweenEnnemyPlayer.z = m_playerGm.GetPosition().z - GetPosition().z;
+
+	CollisionManager();
+}
+
+void Enemy::CollisionManager()
+{
+	EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p)
+		{
+			Entity enemyE = p.a, otherE = p.b;
+			// permute pour que playerE soit vraiment le joueur
+			if (otherE.id == GetEntity().id)
+			{
+				enemyE = p.b; otherE = p.a;
+			}
+			// si aucun des deux nest le joueur, on sort
+			if (enemyE.id != GetEntity().id) return;
+
+			auto tag = mp_scene->GetGameObjectByID(p.b).GetTag();
+			GameObject& otherGO = mp_scene->GetGameObjectByID(otherE);
+
+			switch (tag)
+			{
+			case TAG_Floor:
+				break;
+			case TAG_Environment:
+				break;
+			case TAG_ProjectilePlayer:
+			{
+				OutputDebugStringA("\n OUCH ! \n");
+				if (m_life > 0)
+				{
+					mp_scene->DestroyGameObject(otherGO);
+					TakeDamage();
+				}
+				else
+				{
+					OutputDebugStringA("\n Ennemy is already dead ! \n");
+				}
+			}
+			default:
+				break;
+			}
+		});
 }
 
 void Enemy::SetStateMachine()

@@ -25,7 +25,6 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
 {
     // WARNING : Dont forget to change the .h accordingly
 
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Empty.png");//0
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/NoTexture.png");//1
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");//2
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test.png");//3
@@ -52,6 +51,11 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/heart-demi.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/heart-full.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/GameOver.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Empty.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/weaponPlaceHolder.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/pauseMenuL.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/btnQuit.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/btnMainMenu.png");
 
     // Place single image up
     // Down is reserved for animations frame (to avoid redoing all enum)

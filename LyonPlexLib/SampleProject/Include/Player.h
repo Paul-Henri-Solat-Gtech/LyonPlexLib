@@ -45,7 +45,7 @@ public:
 	GameObject m_playerGameObject;
 	GameObject m_playerArm;
 
-	GameObject m_playerHeart1, m_playerHeart2, m_playerHeart3, m_gameOver;
+	GameObject m_playerHeart1, m_playerHeart2, m_playerHeart3, m_gameOver, m_weaponPlaceholder;
 
 	GameObject& GetGameObject() { return m_playerGameObject; };
 	void SetPlayerArm(GameObject& armGm) { m_playerArm = armGm; };
@@ -58,6 +58,8 @@ public:
 	float GetMoveSpeed() { return m_moveSpeed; };
 
 	float GetDeltatime() { return m_deltatime; };
+
+	bool IsAlive() { if (m_hp > 0) { return true; } else { return false; } };
 
 	GameObject* m_closestObject = nullptr;
 	GameObject* mp_cameraGO = nullptr;

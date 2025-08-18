@@ -8,7 +8,7 @@ public:
 
 private:
 
-	Button m_buttonStart;
+	Button* mp_buttonStart;
 
 };
 

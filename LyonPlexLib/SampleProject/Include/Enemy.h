@@ -45,6 +45,8 @@ public:
 
 	void CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeTime = 3.f);
 
+	void CollisionManager();
+
 	void SetMoveSpeed(float speedValue) { m_moveSpeed = speedValue; };
 	
 	float GetMoveSpeed() { return m_moveSpeed; };

@@ -55,7 +55,8 @@ float FPS_24 = 1 / 24;
 // IDLE (dont need to be implemented normaly with override{})
 void PlayerAction_Idle::Start(Player* player)
 {
-	OutputDebugStringA("\n- StartIdle\n");
+	
+	//OutputDebugStringA("\n- StartIdle\n");
 
 	// Reset des variables dynamiques (sauts, chute,...)
 	player->m_jumpProgress = 0.0f;
@@ -155,7 +156,7 @@ void PlayerAction_Idle::Update(Player* player)
 
 void PlayerAction_Idle::End(Player* player)
 {
-	OutputDebugStringA("\nEndIdle -\n");
+	//OutputDebugStringA("\nEndIdle -\n");
 	player->GetPlayerArm().SetTexture(player->m_currIdleMesh);
 }
 
@@ -163,7 +164,7 @@ void PlayerAction_Idle::End(Player* player)
 // MOVE
 void PlayerAction_Move::Start(Player* player)
 {
-	OutputDebugStringA("\nMoving\n");
+	//OutputDebugStringA("\nMoving\n");
 	m_canMoveArm = true;
 	m_cooldownArmMovement = 0.5f;
 	m_cooldownArmMovementActual = m_cooldownArmMovement;
@@ -172,7 +173,7 @@ void PlayerAction_Move::Update(Player* player)
 {
 	//PlayerMovement(player);
 
-	OutputDebugStringA("\n- MOVINGGG\n");
+	//OutputDebugStringA("\n- MOVINGGG\n");
 	// Arm anim
 	if (m_canMoveArm && !m_armIsUp)
 	{
@@ -203,7 +204,7 @@ void PlayerAction_Move::Update(Player* player)
 }
 void PlayerAction_Move::End(Player* player)
 {
-	OutputDebugStringA("\nEnd Moving State\n");
+	//OutputDebugStringA("\nEnd Moving State\n");
 	player->GetPlayerArm().GetComponent<TransformComponent>()->SetRotation(0, 0, 180);
 	player->GetPlayerArm().SetTexture(player->m_currIdleMesh);
 }
@@ -213,20 +214,20 @@ void PlayerAction_Move::End(Player* player)
 void PlayerAction_Attack::Start(Player* player)
 {
 	//anim
-	OutputDebugStringA("StartSlash-");
+	//OutputDebugStringA("StartSlash-");
 	player->m_attackFinished = false;
 	m_enemyHit = false;
 
 	switch (player->m_currIdleMesh)
 	{
 	case TEXTURES::ARMS:
-		OutputDebugStringA("\n Attaque NO Weapon \n");
+		//OutputDebugStringA("\n Attaque NO Weapon \n");
 
 		break;
 
 	case TEXTURES::IDLEARM_W1_1:
 		player->mp_gameManager->GetSoundManager()->PlaySoundPlex("swordSlash1"); // need to adapt sound to frame (like adding pause)
-		OutputDebugStringA("\n Attaque Weapon 1\n");
+		//OutputDebugStringA("\n Attaque Weapon 1\n");
 		switch (player->m_slashAttackNb)
 		{
 		case 1:
@@ -581,7 +582,7 @@ void PlayerAction_Attack::Update(Player* player)
 	switch (player->m_currIdleMesh)
 	{
 	case TEXTURES::ARMS:
-		OutputDebugStringA("\n Attaque NO Weapon \n");
+		//OutputDebugStringA("\n Attaque NO Weapon \n");
 		player->m_attackFinished = true;
 
 		break;
@@ -653,7 +654,7 @@ void PlayerAction_Attack::End(Player* player)
 	switch (player->m_currIdleMesh)
 	{
 	case TEXTURES::ARMS:
-		OutputDebugStringA("\n Attaque NO Weapon \n");
+		//OutputDebugStringA("\n Attaque NO Weapon \n");
 		break;
 
 	case TEXTURES::IDLEARM_W1_1:
@@ -665,7 +666,7 @@ void PlayerAction_Attack::End(Player* player)
 	m_pushBoulder = false;
 
 	player->GetPlayerArm().SetTexture(player->m_currIdleMesh);
-	OutputDebugStringA("-EndSlash");
+	//OutputDebugStringA("-EndSlash");
 }
 
 
@@ -681,7 +682,7 @@ void PlayerAction_Jump::Start(Player* player)
 }
 void PlayerAction_Jump::Update(Player* player)
 {
-	OutputDebugStringA("\n- Jumping\n");
+	//OutputDebugStringA("\n- Jumping\n");
 	//float gForce = 9.18 * 10;
 	//float y = player->m_jumpPosY + (player->m_jumpPower * player->m_jumpProgress) - (0.5f * gForce * (player->m_jumpProgress * player->m_jumpProgress));
 	//player->GetGameObject().GetComponent<TransformComponent>()->position.y = y;
@@ -699,7 +700,7 @@ void PlayerAction_Jump::End(Player* player)
 // FALL
 void PlayerAction_Fall::Start(Player* player)
 {
-	OutputDebugStringA("\n- Start FALLINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG\n");
+	//OutputDebugStringA("\n- Start FALLINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG\n");
 	//if (player->m_fallProgress == 0)
 	//{
 	//	player->m_jumpPosY = player->GetGameObject().GetComponent<TransformComponent>()->position.y;
@@ -720,7 +721,7 @@ void PlayerAction_Fall::Update(Player* player)
 }
 void PlayerAction_Fall::End(Player* player)
 {
-	OutputDebugStringA("\n- END ___________________ FALLINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG\n");
+	//OutputDebugStringA("\n- END ___________________ FALLINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG\n");
 	player->GetPlayerArm().SetTexture(player->m_currIdleMesh);
 }
 
@@ -729,7 +730,7 @@ void PlayerAction_Fall::End(Player* player)
 // PICK UP OBJECT
 void PlayerAction_PickUp::Start(Player* player)
 {
-	OutputDebugStringA("\n-Start Pick Up\n");
+	//OutputDebugStringA("\n-Start Pick Up\n");
 
 }
 
@@ -758,14 +759,24 @@ void PlayerAction_PickUp::Update(Player* player)
 
 void PlayerAction_PickUp::End(Player* player)
 {
-	OutputDebugStringA("\nEnd Pick Up-\n");
+	//OutputDebugStringA("\nEnd Pick Up-\n");
 }
 
-// SPECIAL ATTACK
+// SPECIAL SPECIAL ATTACK
 void PlayerAction_SpecialAttack::Start(Player* player)
 {
-	OutputDebugStringA("\nSPECIAL ATACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-\n");
-	player->CreateProjectile(player->m_playerGameObject.GetPosition(), player->m_playerGameObject.GetPosition(), ProjectileType::Laser);
+	switch (player->m_currIdleMesh)
+	{
+	case TEXTURES::IDLEARM_W1_1:
+		//OutputDebugStringA("\nSPECIAL ATACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-\n");
+		player->CreateProjectile(player->m_playerGameObject.GetPosition(), player->m_playerGameObject.GetPosition(), 2.f);
+		player->mp_gameManager->GetSoundManager()->PlaySoundPlex("swordSpecialSlash");
+		break;
+	case TEXTURES::IDLEARM_W2_1:
+
+		break;
+	}
+
 }
 
 void PlayerAction_SpecialAttack::Update(Player* player)

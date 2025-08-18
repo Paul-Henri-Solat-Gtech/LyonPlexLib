@@ -3,6 +3,9 @@
 #include "Utils.h"
 #include "Boulder.h"
 
+//debug
+#include <psapi.h>
+
 //Utils::Vector3 POSITION_CHAMPS = { 5, 0, 32.5 };
 
 // { 325, -2, 50 }
@@ -10,6 +13,8 @@ XMFLOAT3 POSITION_CHAMPS = { 325, -2, 50 };
 
 void GameScene::Start()
 {
+	m_pauseIsOpen = false;
+
 	CreateGameObject("cam", TYPE_3D, false);
 	m_cam = GetGameObjectByName("cam");
 	m_cam.AddComponent<CameraComponent>(new CameraComponent());
@@ -44,8 +49,6 @@ void GameScene::Start()
 	CreateGameObject("bras", TYPE_2D, true);
 	GetGameObjectByName("bras").SetMesh(MESHES::LOCAL_SQUARE);
 	GetGameObjectByName("bras").SetTexture(TEXTURES::ARMS);
-	//GetGameObjectByName("bras").SetPosition({ (float)renderWidth / 8, (float)renderHeight / 8, 0 });
-	//GetGameObjectByName("bras").SetScale({ (float)renderWidth * 0.15f, (float)renderHeight * 0.15f, 0 });
 	GetGameObjectByName("bras").SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2 + (float)renderHeight / 4, 0 });
 	GetGameObjectByName("bras").SetScale({ (float)renderWidth * 0.45f, (float)renderHeight * 0.45f, 0 });
 	GetGameObjectByName("bras").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
@@ -98,28 +101,6 @@ void GameScene::Start()
 	GetGameObjectByName("Rock").AddComponent<Tag_Object>(new Tag_Object());
 	GetGameObjectByName("Rock").SetTag(TAG_Rock);
 
-	//CreateGameObject("Rock2");
-	//GetGameObjectByName("Rock2").SetPosition({ -3, 0.5, 2 });
-	//GetGameObjectByName("Rock2").SetScale({ 0.1, 0.1, 0.1 });
-	//GetGameObjectByName("Rock2").SetMesh(MESHES::CAILLOUX1);
-	//GetGameObjectByName("Rock2").SetTexture(TEXTURES::GRID);
-	//a = GetGameObjectByName("Rock2").GetScale();
-	//GetGameObjectByName("Rock2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
-	//GetGameObjectByName("Rock2").AddComponent<Tag_Object>(new Tag_Object());
-	//GetGameObjectByName("Rock2").SetTag(TAG_Rock);
-
-	//CreateGameObject("Rock3");
-	//GetGameObjectByName("Rock3").SetPosition({ 2, 0.5,-3 });
-	//GetGameObjectByName("Rock3").SetScale({ 0.1, 0.1, 0.1 });
-	//GetGameObjectByName("Rock3").SetMesh(MESHES::CAILLOUX1);
-	//GetGameObjectByName("Rock3").SetTexture(TEXTURES::GRID);
-	//a = GetGameObjectByName("Rock3").GetScale();
-	//GetGameObjectByName("Rock3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
-	//GetGameObjectByName("Rock3").AddComponent<Tag_Object>(new Tag_Object());
-	//GetGameObjectByName("Rock3").SetTag(TAG_Rock);
-
-
-
 
 	// Audio
 	CreateSoundPlex("slash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
@@ -128,15 +109,8 @@ void GameScene::Start()
 	CreateSoundPlex("HUGH", L"../SampleProject/Ressources/Sounds/HUGH.wav");
 	PlayMusicPlex("Corrosion");
 
+
 	// scene
-	/*CreateGameObject("GM0", 2, 4);
-	GetGameObjectByName("GM0").SetTag(TAG_Floor);
-	GetGameObjectByName("GM0").SetPosition({ 0,-50, 0 });
-	GetGameObjectByName("GM0").SetScale({ 20, 100, 20 });
-	auto& b = GetGameObjectByName("GM0").GetScale();
-	GetGameObjectByName("GM0").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ b.x / 2, b.y / 2, b.z / 2 })));*/
-
-
 	CreateEntity("Light1");
 	AddComponent<Type_3D>("Light1", new Type_3D());
 	AddComponent<MeshComponent>("Light1", new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::BOIS));
@@ -255,6 +229,13 @@ void GameScene::Start()
 		GetGameObjectByName("Road3").SetScale({ 75, 5, 30 });
 		c = GetGameObjectByName("Road3").GetScale();
 		GetGameObjectByName("Road3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
+
+		CreateGameObject("Tree", MESHES::ARBRETEST, TEXTURES::HERBE);
+		GetGameObjectByName("Tree").SetTag(TAG_Floor);
+		GetGameObjectByName("Tree").SetPosition({ 80, -2, 50 });
+		GetGameObjectByName("Tree").SetScale({ 50, 50, 50 });
+		c = GetGameObjectByName("Tree").GetScale();
+		GetGameObjectByName("Tree").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
 	}
 
 
@@ -337,14 +318,91 @@ void GameScene::Start()
 }
 
 void GameScene::Update(float deltatime)
-{
-	m_fpsCam.Update(deltatime);
+{	
+	//debug fps
+	// inside main loop, each frame
+	{
+		// debug fps (use deltatime provided by engine)
+		double dtMs = double(deltatime) * 1000.0;
+		++s_frameCount;
+		s_accumMs += dtMs;
 
-	//if (InputManager::GetKeyIsReleased('K'))
-	//{
-	//	PlaySoundPlex("pop");
-	//	DestroyGameObject(GetGameObjectByName("testDestory"));
-	//}
+		// every 5 seconds print avg FPS and avg frame ms
+		if (s_accumMs >= 5000.0)
+		{
+			double avgMs = s_accumMs / double(s_frameCount);
+			double fps = 1000.0 / avgMs;
+			std::ostringstream ss;
+			ss << "Perf: avgMs=" << avgMs<< " ms, avgFPS=" << fps<< " DrawCalls=" << g_drawCalls << "\n";
+			OutputDebugStringA(ss.str().c_str()); // visible in VS Output
+			std::cout << ss.str();
+			s_frameCount = 0;
+			s_accumMs = 0.0;
+			g_drawCalls = 0;
+		}
+
+		// every 30 seconds log memory usage (working set)
+		// NOTE: renamed 'now' to 'now_tp' to avoid redefinition errors
+		auto now_tp = std::chrono::high_resolution_clock::now();
+		auto sinceReport = std::chrono::duration<double>(now_tp - s_lastReport).count();
+		if (sinceReport >= 30.0)
+		{
+			PROCESS_MEMORY_COUNTERS pmc{};
+			if (GetProcessMemoryInfo(GetCurrentProcess(), &pmc, sizeof(pmc)))
+			{
+				std::ostringstream m;
+				m << "ProcessMem: WorkingSet=" << pmc.WorkingSetSize
+					<< " bytes, PagefileUsage=" << pmc.PagefileUsage << "\n";
+				OutputDebugStringA(m.str().c_str());
+				std::cout << m.str();
+			}
+			s_lastReport = now_tp;
+		}
+	}
+
+	if (m_playerTest.IsAlive() || m_pauseIsOpen) 
+	{
+		// Enemies
+		ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
+		auto& ecs = mp_ecsManager;
+		float closest = 100;
+		ecs->ForEach(mask, [&](Entity e)
+			{
+				GetGameObjectByID(e).OnUdpdate(deltatime);
+			});
+		// Projectiles
+		mask = (1ULL << Tag_Projectile::StaticTypeID);
+		ecs->ForEach(mask, [&](Entity e)
+			{
+				GetGameObjectByID(e).OnUdpdate(deltatime);
+			});
+
+		// Portals
+		portal->OnUdpdate(deltatime);
+
+		// PlayerState
+		m_playerTest.OnUdpdate(deltatime);
+
+		// Camera
+		m_fpsCam.Update(deltatime);
+	}
+
+	if (m_pauseIsOpen)
+	{
+		if (mp_btnMainMenu->GetMouseOnBtn())
+		{
+			mp_btnMainMenu->SetScale({ 170, 100, 0 });
+		}
+		if (!mp_btnMainMenu->GetMouseOnBtn())
+		{
+			mp_btnMainMenu->SetScale({ 120, 50, 0 });
+		}
+		if (mp_btnMainMenu->GetBtnIsClicked())
+		{
+			ChangeScene("MainMenuScene");
+		}
+	}
+
 	if (InputManager::GetKeyIsReleased('N'))
 	{
 		StopMusicPlex();
@@ -415,8 +473,51 @@ void GameScene::Update(float deltatime)
 	{
 		ChangeScene("DevScene");
 	}
+
+	if (InputManager::GetKeyIsReleased(VK_ESCAPE))
+	{
+		m_pauseIsOpen = !m_pauseIsOpen;
+
+		if (m_pauseIsOpen)
+		{
+			SpawnMenu();
+		}
+		else
+		{
+			RemoveMenu();
+		}
+		
+	}
 }
 
 void GameScene::Release()
 {
+}
+
+void GameScene::SpawnMenu()
+{
+	RECT renderZone;
+	GetClientRect(mp_sceneManager->GetGameManager()->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
+	UINT renderWidth = renderZone.right - renderZone.left;
+	UINT renderHeight = renderZone.bottom - renderZone.top;
+
+	// Pause menu
+	CreateGameObject("pauseMenu", TYPE_2D, true);
+	GetGameObjectByName("pauseMenu").SetMesh(MESHES::LOCAL_SQUARE);
+	GetGameObjectByName("pauseMenu").SetTexture(TEXTURES::PAUSEMENU);
+	GetGameObjectByName("pauseMenu").SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2, 0 });
+	GetGameObjectByName("pauseMenu").SetScale({ (float)renderWidth * 0.2f, (float)renderHeight * 0.4f, 0 });
+	GetGameObjectByName("pauseMenu").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
+	// Buttons
+	mp_btnMainMenu = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::BTN_MAINMENU, "btnMainMenu");
+	mp_btnMainMenu->SetScale({ 120, 50, 0 });
+	auto posPauseMenu = GetGameObjectByName("pauseMenu").GetPosition();
+	mp_btnMainMenu->SetPosition({ posPauseMenu.x,posPauseMenu.y + 140,posPauseMenu.z });
+}
+
+void GameScene::RemoveMenu() 
+{
+	DestroyGameObject(GetGameObjectByName("pauseMenu"));
+	DestroyGameObject(GetGameObjectByName("btnMainMenu"));
 }
