@@ -50,7 +50,6 @@ bool PlayerCondition_AttackFinished::OnTest(Player* owner)
 
 bool PlayerCondition_IsSpecialAttacking::OnTest(Player* owner)
 {
-	//return InputManager::GetKeyIsJustPressed(VK_RBUTTON);
 	return InputManager::GetKeyIsJustPressed('L');
 }
 
@@ -101,46 +100,3 @@ bool PlayerCondition_IsNotPickingUp::OnTest(Player* owner)
 	return !owner->m_isPickingUp;
 }
 
-//bool PlayerCondition_IsCloseToEnemy::OnTest(Player* owner)
-//{
-
-	//bool closeToEnemy = false;
-
-	//ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
-	//auto& ecs = owner->mp_gameManager->GetECSManager();
-	//float closest = 100;
-	//ecs.ForEach(mask, [&](Entity e)
-	//	{
-	//		Utils::Vector3 newVec;
-	//		auto& playerPos = owner->m_playerGameObject.GetPosition();
-	//		auto* tc = ecs.GetComponent<TransformComponent>(e);
-
-	//		newVec.x = playerPos.x - tc->position.x;
-	//		newVec.y = playerPos.y - tc->position.y;
-	//		newVec.z = playerPos.z - tc->position.z;
-
-	//		float length = newVec.length();
-
-	//		//if (length < 3.0f)
-	//		if (length < ecs.GetComponent<CollisionComponent>(owner->GetGameObject().GetEntity())->BoundingSphereRadius() * 4)
-	//		{
-	//			if (length < closest)
-	//			{
-	//				closest = length;
-
-	//				GameObject& go = owner->mp_scene->GetGameObjectByID(e);
-	//				Enemy* e = dynamic_cast<Enemy*>(&go);
-	//				if (e) {
-	//					owner->m_closestEnemy = e;
-	//					closeToEnemy = true;
-	//				}
-	//				else {
-	//					// pas d’ennemi valide sous cet ID
-	//				}
-	//			}
-	//		}
-	//	});
-
-
-//	return false;
-//}

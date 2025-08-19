@@ -335,6 +335,9 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 			}
 			break;
 		}
+		case TAG_ProjectilePlayer:
+			OutputDebugStringA("\n Just me. \n");
+			break;
 		default:
 			break;
 		}

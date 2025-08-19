@@ -116,7 +116,7 @@ int GameManager::Run()
 
 		m_ECS.EndFrame();
 
-		//LimitFPS(120.0);
+		LimitFPS(120); //environ 60fps in game car 2 boucle de rendu
 	}
 
 	Release();
