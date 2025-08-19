@@ -21,6 +21,8 @@ void Enemy::Init(GameManager* gameManager)
 
 	m_initialized = true;
 
+	CollisionManager();
+
 	SetStateMachine();
 	
 	OutputDebugStringA("\nINIT ENNEMIE REUSSI !\n");
@@ -73,7 +75,7 @@ void Enemy::OnUdpdate(float deltatime)
 	m_distanceBetweenEnnemyPlayer.y = m_playerGm.GetPosition().y - GetPosition().y;
 	m_distanceBetweenEnnemyPlayer.z = m_playerGm.GetPosition().z - GetPosition().z;
 
-	CollisionManager();
+	//CollisionManager();
 }
 
 void Enemy::CollisionManager()
