@@ -80,43 +80,77 @@ void Enemy::OnUdpdate(float deltatime)
 
 void Enemy::CollisionManager()
 {
-	EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p)
+	const uint32_t myId = GetEntity().id;
+	Scene* scenePtr = mp_scene;
+
+	EventBus::instance().subscribe<CollisionEvent>([myId, scenePtr](CollisionEvent::Payload const& p)
 		{
-			Entity enemyE = p.a, otherE = p.b;
-			// permute pour que playerE soit vraiment le joueur
-			if (otherE.id == GetEntity().id)
-			{
-				enemyE = p.b; otherE = p.a;
-			}
-			// si aucun des deux nest le joueur, on sort
-			if (enemyE.id != GetEntity().id) return;
+			if (p.a.id != myId && p.b.id != myId) return;
 
-			auto tag = mp_scene->GetGameObjectByID(p.b).GetTag();
-			GameObject& otherGO = mp_scene->GetGameObjectByID(otherE);
-
-			switch (tag)
-			{
-			case TAG_Floor:
-				break;
-			case TAG_Environment:
-				break;
-			case TAG_ProjectilePlayer:
-			{
-				OutputDebugStringA("\n OUCH ! \n");
-				if (m_life > 0)
-				{
-					mp_scene->DestroyGameObject(otherGO);
-					TakeDamage();
-				}
-				else
-				{
-					OutputDebugStringA("\n Ennemy is already dead ! \n");
-				}
+			Entity otherE = (p.a.id == myId) ? p.b : p.a;
+			if (otherE.id == 0 || otherE.id == static_cast<uint32_t>(-1)) {
+				OutputDebugStringA("Enemy collision: otherE id invalid -> ignore\n");
+				return;
 			}
-			default:
-				break;
+
+			GameObject& otherGO = scenePtr->GetGameObjectByID(otherE);
+			auto tag = otherGO.GetTag();
+
+			// debug
+			{
+				//char buf[128];
+				//sprintf_s(buf, "Enemy(%u) collision with entity %u tag=%d\n", myId, otherE.id, (int)tag);
+				//OutputDebugStringA(buf);
+			}
+
+			if (tag == TAG_ProjectilePlayer)
+			{
+				// player's projectile hits enemy
+				scenePtr->DestroyGameObject(otherGO);
+				// find the enemy object in the scene and call TakeDamage safely:
+				GameObject& enemyGO = scenePtr->GetGameObjectByID(Entity{ myId });
+				// assume you can cast/pas besoin de dynamic_cast si Enemy inherits GameObject and methods are accessible:
+				Enemy* enemyPtr = static_cast<Enemy*>(&enemyGO);
+				if (enemyPtr) enemyPtr->TakeDamage();
 			}
 		});
+	//EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p)
+	//	{
+	//		Entity enemyE = p.a, otherE = p.b;
+	//		// permute pour que playerE soit vraiment le joueur
+	//		if (otherE.id == GetEntity().id)
+	//		{
+	//			enemyE = p.b; otherE = p.a;
+	//		}
+	//		// si aucun des deux nest le joueur, on sort
+	//		if (enemyE.id != GetEntity().id) return;
+
+	//		auto tag = mp_scene->GetGameObjectByID(p.b).GetTag();
+	//		GameObject& otherGO = mp_scene->GetGameObjectByID(otherE);
+
+	//		switch (tag)
+	//		{
+	//		case TAG_Floor:
+	//			break;
+	//		case TAG_Environment:
+	//			break;
+	//		case TAG_ProjectilePlayer:
+	//		{
+	//			OutputDebugStringA("\n OUCH ! \n");
+	//			if (m_life > 0)
+	//			{
+	//				mp_scene->DestroyGameObject(otherGO);
+	//				TakeDamage();
+	//			}
+	//			else
+	//			{
+	//				OutputDebugStringA("\n Ennemy is already dead ! \n");
+	//			}
+	//		}
+	//		default:
+	//			break;
+	//		}
+	//	});
 }
 
 void Enemy::SetStateMachine()

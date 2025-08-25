@@ -298,52 +298,111 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 	m_weaponPlaceholder.SetScale({ (float)renderWidth * 0.07f, (float)renderHeight * 0.1f, 0 });
 	m_weaponPlaceholder.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
-	EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p) 
-	{
-		Entity playerE = p.a, otherE = p.b;
-		// permute pour que playerE soit vraiment le joueur
-		if (otherE.id == m_playerGameObject.GetEntity().id) 
-		{
-			playerE = p.b; otherE = p.a;
-		}
-		// si aucun des deux nest le joueur, on sort
-		if (playerE.id != m_playerGameObject.GetEntity().id) return;
-			
-		//auto tag = mp_scene->GetGameObjectByID(p.b).GetTag();
+	const uint32_t myId = GetEntity().id;
+	Scene* scenePtr = mp_scene;
+	Player* self = this;
 
-		GameObject& otherGO = mp_scene->GetGameObjectByID(otherE);
-		auto tag = otherGO.GetTag();
-		
-		switch (tag)
+	EventBus::instance().subscribe<CollisionEvent>([myId, scenePtr, self](CollisionEvent::Payload const& p)
 		{
-		case TAG_Floor:
-			break;
-		case TAG_Environment:
-			break;
-		case TAG_Projectile: 
-		{
-			if (m_hp > 0)
-			{
-				m_hp--;
-				HpUpdate();
-				OutputDebugStringA("\n -1hp aie \n");
-				mp_scene->DestroyGameObject(otherGO);
-			}
-			else
-			{
-				OutputDebugStringA("\n Player is already dead ! \n");
-			}
-			break;
-		}
-		case TAG_ProjectilePlayer:
-			OutputDebugStringA("\n Just me. \n");
-			break;
-		default:
-			break;
-		}
+			// si ni a ni b ne m'appartiennent, on sort (usine a faux positifs corrigée)
+			if (p.a.id != myId && p.b.id != myId) return;
 
-		m_hasCollided = true;
+			// determine which one is the other entity (cohérent)
+			Entity otherE = (p.a.id == myId) ? p.b : p.a;
+
+			// guard simple sur id bizarre
+			if (otherE.id == 0 || otherE.id == static_cast<uint32_t>(-1)) {
+				OutputDebugStringA("Player collision: otherE id invalid -> ignore\n");
+				return;
+			}
+
+			// now safe to get the object
+			GameObject& otherGO = scenePtr->GetGameObjectByID(otherE);
+			auto tag = otherGO.GetTag();
+
+			// debug log pour vérifier
+			{
+				//char buf[128];
+				//sprintf_s(buf, "Player(%u) collision with entity %u tag=%d\n", myId, otherE.id, (int)tag);
+				//OutputDebugStringA(buf);
+			}
+
+			switch (tag)
+			{
+			case TAG_Floor:
+			case TAG_Environment:
+				break;
+			case TAG_Projectile:
+				// enemy projectile hits player
+				if (self->m_hp > 0)
+				{
+					self->m_hp--;
+					self->HpUpdate();
+					OutputDebugStringA("\n -1hp aie \n");
+				}
+				else
+				{
+					OutputDebugStringA("\n Player is already dead ! \n");
+				}
+				// destroy projectile
+				scenePtr->DestroyGameObject(otherGO);
+				break;
+			case TAG_ProjectilePlayer:
+				// ignore player's own projectiles
+				OutputDebugStringA("\n Just me (player projectile) - ignore\n");
+				break;
+			default:
+				break;
+			}
+
+			self->m_hasCollided = true;
 		});
+	//EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p) 
+	//{
+	//	Entity playerE = p.a, otherE = p.b;
+	//	// permute pour que playerE soit vraiment le joueur
+	//	if (otherE.id == m_playerGameObject.GetEntity().id) 
+	//	{
+	//		playerE = p.b; otherE = p.a;
+	//	}
+	//	// si aucun des deux nest le joueur, on sort
+	//	if (playerE.id != m_playerGameObject.GetEntity().id) return;
+	//		
+	//	//auto tag = mp_scene->GetGameObjectByID(p.b).GetTag();
+
+	//	GameObject& otherGO = mp_scene->GetGameObjectByID(otherE);
+	//	auto tag = otherGO.GetTag();
+	//	
+	//	switch (tag)
+	//	{
+	//	case TAG_Floor:
+	//		break;
+	//	case TAG_Environment:
+	//		break;
+	//	case TAG_Projectile: 
+	//	{
+	//		if (m_hp > 0)
+	//		{
+	//			m_hp--;
+	//			HpUpdate();
+	//			OutputDebugStringA("\n -1hp aie \n");
+	//			mp_scene->DestroyGameObject(otherGO);
+	//		}
+	//		else
+	//		{
+	//			OutputDebugStringA("\n Player is already dead ! \n");
+	//		}
+	//		break;
+	//	}
+	//	case TAG_ProjectilePlayer:
+	//		OutputDebugStringA("\n Just me. \n");
+	//		break;
+	//	default:
+	//		break;
+	//	}
+
+	//	m_hasCollided = true;
+	//	});
 
 	OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
 
@@ -762,43 +821,81 @@ XMFLOAT3 Player::GetWorldForwardFromGO(GameObject* go)
 
 void Player::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeTime)
 {
-	// source camera si dispo sinon fallback player
-	GameObject* cam = mp_cameraGO ? mp_cameraGO : &m_playerGameObject;
+	if (!mp_scene) return;
 
-	// forward monde issu de la camera (utilise ton helper existant GetWorldForwardFromGO)
-	XMFLOAT3 camFwd = GetWorldForwardFromGO(cam);
+	// choose source for forward: prefer camera if valid, else player
+	GameObject* source = mp_cameraGO ? mp_cameraGO : this;
 
-	// position joueur (world) - spawn depuis la poitrine du joueur plutôt que la cam
-	XMFLOAT3 playerPos = m_playerGameObject.GetPosition();
+	XMFLOAT3 forward = GetWorldForwardFromGO(source);
 
-	// ajuster la hauteur du spawn (à régler selon ton player)
-	const float chestHeight = 1.3f; // essayer 1.0..1.6
+	// if you want purely horizontal direction (ignore camera pitch), zero Y and renormalize:
+	// forward.y = 0.0f;
+	// float len = sqrt(forward.x*forward.x + forward.y*forward.y + forward.z*forward.z);
+	// if (len > 1e-6f) { forward.x /= len; forward.y /= len; forward.z /= len; }
+
+	XMFLOAT3 playerPos = this->GetPosition();
+	const float chestHeight = 1.3f;
 	XMFLOAT3 start = { playerPos.x, playerPos.y + chestHeight, playerPos.z };
 
-	// avance le start d'une distance devant le joueur selon la direction de la caméra
-	const float muzzleOffset = 0.8f; // augmente si le projectile spawn dans le joueur
-	start.x += camFwd.x * muzzleOffset;
-	start.y += camFwd.y * muzzleOffset;
-	start.z += camFwd.z * muzzleOffset;
+	const float muzzleOffset = 0.8f;
+	start.x += forward.x * muzzleOffset;
+	start.y += forward.y * muzzleOffset;
+	start.z += forward.z * muzzleOffset;
 
-	// target lointain sur la même direction
 	const float range = 1000.0f;
 	XMFLOAT3 target = {
-		start.x + camFwd.x * range,
-		start.y + camFwd.y * range,
-		start.z + camFwd.z * range
+		start.x + forward.x * range,
+		start.y + forward.y * range,
+		start.z + forward.z * range
 	};
 
-	// debug rapide : affiche start/target & forward
+	// debug (optional)
 	{
-		//char buf[256];
-		//sprintf_s(buf, "CreateProjectile start=(%.2f,%.2f,%.2f) target=(%.2f,%.2f,%.2f) fwd=(%.3f,%.3f,%.3f)\n",
-		//	start.x, start.y, start.z, target.x, target.y, target.z, camFwd.x, camFwd.y, camFwd.z);
-		//OutputDebugStringA(buf);
+		char buf[256];
+		sprintf_s(buf, "CreateProjectile final start=(%.2f,%.2f,%.2f) target=(%.2f,%.2f,%.2f) fwd=(%.3f,%.3f,%.3f)\n",
+			start.x, start.y, start.z, target.x, target.y, target.z, forward.x, forward.y, forward.z);
+		OutputDebugStringA(buf);
 	}
 
-	// cree le projectile (tu utilises déjà cette signature)
-	mp_scene->CreateGameObject<Projectile>(mp_scene, start, target, ProjectileType::AirSlash);
+	mp_scene->CreateGameObject<Projectile>(mp_scene, start, target, ProjectileType::AirSlash, lifeTime);
+
+	//// source camera si dispo sinon fallback player
+	//GameObject* cam = mp_cameraGO ? mp_cameraGO : &m_playerGameObject;
+
+	//// forward monde issu de la camera (utilise ton helper existant GetWorldForwardFromGO)
+	//XMFLOAT3 camFwd = GetWorldForwardFromGO(cam);
+
+	//// position joueur (world) - spawn depuis la poitrine du joueur plutôt que la cam
+	//XMFLOAT3 playerPos = m_playerGameObject.GetPosition();
+
+	//// ajuster la hauteur du spawn (à régler selon ton player)
+	//const float chestHeight = 1.3f; // essayer 1.0..1.6
+	//XMFLOAT3 start = { playerPos.x, playerPos.y + chestHeight, playerPos.z };
+
+	//// avance le start d'une distance devant le joueur selon la direction de la caméra
+	//const float muzzleOffset = 0.8f; // augmente si le projectile spawn dans le joueur
+	//start.x += camFwd.x * muzzleOffset;
+	//start.y += camFwd.y * muzzleOffset;
+	//start.z += camFwd.z * muzzleOffset;
+
+	//// target lointain sur la même direction
+	//const float range = 1000.0f;
+	//XMFLOAT3 target = {
+	//	start.x + camFwd.x * range,
+	//	start.y + camFwd.y * range,
+	//	start.z + camFwd.z * range
+	//};
+
+	//// debug rapide : affiche start/target & forward
+	//{
+	//	char buf[256];
+	//	sprintf_s(buf, "CreateProjectile start=(%.2f,%.2f,%.2f) target=(%.2f,%.2f,%.2f) fwd=(%.3f,%.3f,%.3f)\n",
+	//		start.x, start.y, start.z, target.x, target.y, target.z, camFwd.x, camFwd.y, camFwd.z);
+	//	OutputDebugStringA(buf);
+	//}
+
+	//// cree le projectile (tu utilises déjà cette signature)
+	//mp_scene->CreateGameObject<Projectile>(mp_scene, start, target, ProjectileType::AirSlash);
 }
 
 void Player::HpUpdate()

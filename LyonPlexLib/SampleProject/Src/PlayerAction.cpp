@@ -769,7 +769,8 @@ void PlayerAction_SpecialAttack::Start(Player* player)
 	{
 	case TEXTURES::IDLEARM_W1_1:
 		//OutputDebugStringA("\nSPECIAL ATACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-\n");
-		player->CreateProjectile(player->m_playerGameObject.GetPosition(), player->m_playerGameObject.GetPosition(), 2.f);
+		//player->CreateProjectile(player->m_playerGameObject.GetPosition(), player->m_playerGameObject.GetPosition(), 2.f);
+		player->CreateProjectile(player->GetPosition(), player->GetPosition(), 2.f);
 		player->mp_gameManager->GetSoundManager()->PlaySoundPlex("swordSpecialSlash");
 		break;
 	case TEXTURES::IDLEARM_W2_1:
