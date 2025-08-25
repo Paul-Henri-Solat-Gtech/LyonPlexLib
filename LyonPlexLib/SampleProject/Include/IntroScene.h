@@ -1,5 +1,5 @@
 #pragma once
-class MainMenuScene : public Scene
+class IntroScene : public Scene
 {
 public:
 	void Start() override;
@@ -8,8 +8,7 @@ public:
 
 private:
 
-	Button* mp_buttonStart;
-	Button* mp_buttonArene;
-	bool m_sceneHasChanged;
+	GameObject m_LyonplexLogo;
+	float m_introTime;
+	bool m_sceneHasChanged, m_soundHasBeenPlayed;
 };
-

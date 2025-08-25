@@ -52,6 +52,9 @@
     <ClCompile Include="..\LyonPlexLib\Src\Boulder.cpp">
       <Filter>Boulder</Filter>
     </ClCompile>
+    <ClCompile Include="Src\IntroScene.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\AllScenes.h">
@@ -107,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="..\LyonPlexLib\Include\Boulder.h">
       <Filter>Boulder</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\IntroScene.h">
+      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

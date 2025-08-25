@@ -8,11 +8,18 @@ void MainMenuScene::Start()
 	GetGameObjectByName("camera2").AddComponent<CameraComponent>(new CameraComponent());
 	GetGameObjectByName("camera2").SetPosition({ 0, 0, 0.5f });
 
+	RECT renderZone;
+	GetClientRect(GetSceneManager()->GetGameManager()->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
+	UINT renderWidth = renderZone.right - renderZone.left;
+	UINT renderHeight = renderZone.bottom - renderZone.top;
+
 	// Buttons
 	mp_buttonStart = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::start, "btnStart");
-	//GetGameObjectByName("btnStart").SetTexture(TEXTURES::start);
-	//GetGameObjectByName("btnStart").SetPosition({ 400, 500, 0 });
-	//GetGameObjectByName("btnStart").SetScale({ 400, 100, 0 });
+	
+	//mp_buttonArene = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::TEMPLE, "btnArene");
+	//mp_buttonArene->SetPosition({(float)renderWidth / 2, mp_buttonStart->GetPosition().y + 200, 0});
+
+	m_sceneHasChanged = false;
 }
 
 void MainMenuScene::Update(float deltatime)
@@ -22,24 +29,39 @@ void MainMenuScene::Update(float deltatime)
 	//	ChangeScene("SampleScene2");
 	//	return; // ! ne pas oublier
 	//}
-	if (mp_buttonStart->GetMouseOnBtn())
+
+	//START
+	if (mp_buttonStart->GetMouseOnBtn() && !m_sceneHasChanged)
 	{
 		//OutputDebugStringA("\nDont touche me !\n");
 		mp_buttonStart->SetScale({ 450, 150, 0 });
 	}
-	if (!mp_buttonStart->GetMouseOnBtn())
+	if (!mp_buttonStart->GetMouseOnBtn() && !m_sceneHasChanged)
 	{
 		//OutputDebugStringA("\nDont touche me !\n");
 		mp_buttonStart->SetScale({ 400, 100, 0 });
 	}
-	if (mp_buttonStart->GetBtnIsClicked())
+	if (mp_buttonStart->GetBtnIsClicked() && !m_sceneHasChanged)
 	{
 		OutputDebugStringA("\nHO YOU DARE CLICK ME !?\n");
+		m_sceneHasChanged = true;
 		ChangeScene("GameScene");
+		return;
 	}
+	//ARENE
+	//if (mp_buttonArene->GetMouseOnBtn() && !m_sceneHasChanged)
+	//{
+	//	//OutputDebugStringA("\nDont touche me !\n");
+	//	mp_buttonArene->SetScale({ 450, 150, 0 });
+	//}
+	//if (!mp_buttonArene->GetMouseOnBtn() && !m_sceneHasChanged)
+	//{
+	//	//OutputDebugStringA("\nDont touche me !\n");
+	//	mp_buttonArene->SetScale({ 400, 100, 0 });
+	//}
 }
 
 void MainMenuScene::Release()
 {
-	//m_buttonStart.Release();
+	mp_buttonStart = nullptr;
 }

@@ -28,6 +28,7 @@
     <ClCompile Include="Src\EnemyCondition.cpp" />
     <ClCompile Include="Src\Enemy.cpp" />
     <ClCompile Include="Src\GameScene.cpp" />
+    <ClCompile Include="Src\IntroScene.cpp" />
     <ClCompile Include="Src\main.cpp" />
     <ClCompile Include="Src\MainMenuScene.cpp" />
     <ClCompile Include="Src\pch.cpp">
@@ -50,6 +51,7 @@
     <ClInclude Include="Include\EnemyCondition.h" />
     <ClInclude Include="Include\Enemy.h" />
     <ClInclude Include="Include\GameScene.h" />
+    <ClInclude Include="Include\IntroScene.h" />
     <ClInclude Include="Include\main.h" />
     <ClInclude Include="Include\MainMenuScene.h" />
     <ClInclude Include="Include\pch.h" />

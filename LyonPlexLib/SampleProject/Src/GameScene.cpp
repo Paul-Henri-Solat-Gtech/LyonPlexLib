@@ -400,6 +400,7 @@ void GameScene::Update(float deltatime)
 		if (mp_btnMainMenu->GetBtnIsClicked())
 		{
 			ChangeScene("MainMenuScene");
+			return;
 		}
 	}
 
