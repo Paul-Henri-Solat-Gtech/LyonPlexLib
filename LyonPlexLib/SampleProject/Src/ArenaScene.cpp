@@ -9,9 +9,6 @@ void ArenaScene::Start()
 	UINT renderWidth = renderZone.right - renderZone.left;
 	UINT renderHeight = renderZone.bottom - renderZone.top;
 
-	//FREE CAMERA
-	//m_freeCam.Init(mp_ecsManager, mp_sceneManager->GetWindow());
-
 	//CAMERA
 	CreateGameObject("cam", TYPE_3D, false);
 	m_cam = GetGameObjectByName("cam");
@@ -38,6 +35,14 @@ void ArenaScene::Start()
 
 	m_player.SetPlayerArm(GetGameObjectByName("bras"));
 
+	//MENU PAUSE
+	m_pauseIsOpen = false;
+
+	//WAVE
+	m_waveNow = 1;
+	m_waveMax = 5;
+	m_waveFinished = false;
+
 	//SCENE
 	{
 		CreateGameObject("Next 0", 2, 0);
@@ -46,9 +51,10 @@ void ArenaScene::Start()
 		GetGameObjectByName("Next 0").SetScale({ 1,1,1 });
 
 		CreateGameObject("MainMountain", 2, 0);
+		GetGameObjectByName("MainMountain").SetTexture(TEXTURES::GroundMountain);
 		GetGameObjectByName("MainMountain").SetPosition({ -2,-99,-4 });
 		GetGameObjectByName("MainMountain").SetRotation({ 0,0,0,1 });
-		GetGameObjectByName("MainMountain").SetScale({ 68,174,64 });
+		GetGameObjectByName("MainMountain").SetScale({ 640,174,640 });
 		auto c = GetGameObjectByName("MainMountain").GetScale();
 		GetGameObjectByName("MainMountain").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
 
@@ -77,12 +83,79 @@ void ArenaScene::Start()
 
 void ArenaScene::Update(float deltatime)
 {
-	//m_freeCam.Update(deltatime);
-	m_fpsCam.Update(deltatime);
-	m_player.OnUdpdate(deltatime);
+	//Pause menu
+	if (InputManager::GetKeyIsReleased(VK_ESCAPE))
+	{
+		m_pauseIsOpen = !m_pauseIsOpen;
+		if (m_pauseIsOpen)
+		{
+			SpawnMenu();
+		}
+		else
+		{
+			RemoveMenu();
+		}
+	}
 
+	if (m_pauseIsOpen)
+	{
+		if (mp_btnMainMenu->GetMouseOnBtn())
+		{
+			mp_btnMainMenu->SetScale({ 170, 100, 0 });
+		}
+		if (!mp_btnMainMenu->GetMouseOnBtn())
+		{
+			mp_btnMainMenu->SetScale({ 120, 50, 0 });
+		}
+		if (mp_btnMainMenu->GetBtnIsClicked())
+		{
+			ChangeScene("MainMenuScene");
+			return;
+		}
+	}
+	else
+	{
+		m_fpsCam.Update(deltatime);
+		m_player.OnUdpdate(deltatime);
+	}
 }
 
 void ArenaScene::Release()
+{
+}
+
+void ArenaScene::SpawnMenu()
+{
+	RECT renderZone;
+	GetClientRect(mp_sceneManager->GetGameManager()->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
+	UINT renderWidth = renderZone.right - renderZone.left;
+	UINT renderHeight = renderZone.bottom - renderZone.top;
+
+	// Pause menu
+	CreateGameObject("pauseMenu", TYPE_2D, true);
+	GetGameObjectByName("pauseMenu").SetMesh(MESHES::LOCAL_SQUARE);
+	GetGameObjectByName("pauseMenu").SetTexture(TEXTURES::PAUSEMENU);
+	GetGameObjectByName("pauseMenu").SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2, 0 });
+	GetGameObjectByName("pauseMenu").SetScale({ (float)renderWidth * 0.2f, (float)renderHeight * 0.4f, 0 });
+	GetGameObjectByName("pauseMenu").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
+	// Buttons
+	mp_btnMainMenu = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::BTN_MAINMENU, "btnMainMenu");
+	mp_btnMainMenu->SetScale({ 120, 50, 0 });
+	auto posPauseMenu = GetGameObjectByName("pauseMenu").GetPosition();
+	mp_btnMainMenu->SetPosition({ posPauseMenu.x,posPauseMenu.y + 140,posPauseMenu.z });
+}
+
+void ArenaScene::RemoveMenu()
+{
+	DestroyGameObject(GetGameObjectByName("pauseMenu"));
+	DestroyGameObject(GetGameObjectByName("btnMainMenu"));
+}
+
+void ArenaScene::WaveSystem()
+{
+}
+
+void ArenaScene::WeaponSystem()
 {
 }

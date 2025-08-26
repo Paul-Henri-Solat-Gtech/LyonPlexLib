@@ -37,6 +37,7 @@ namespace TEXTURES
 		BTN_MAINMENU,
 		LYONPLEXLOGO,
 		lightLp,
+		GroundMountain,
 
 		//IDLE ARM
 		IDLEARM_1,

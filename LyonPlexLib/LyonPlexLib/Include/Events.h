@@ -9,5 +9,5 @@ struct CollisionEvent {
     };
 };
 
-// (plus tard) struct TriggerEnterEvent { … };
+// (plus tard) struct TriggerEnterEvent { E};
 // etc.

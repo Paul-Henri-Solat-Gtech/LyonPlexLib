@@ -10,6 +10,11 @@ Enemy::Enemy(ECSManager* ecsManager, GameManager* gameManager, GameObject& gameO
 	Init(gameManager);
 }
 
+Enemy::~Enemy()
+{
+	//EventBus::instance().unsubscribe<CollisionEvent>(m_subId);
+}
+
 void Enemy::Init(GameManager* gameManager)
 {
 	AddComponent<Tag_Enemy>(new Tag_Enemy());
@@ -83,6 +88,7 @@ void Enemy::CollisionManager()
 	const uint32_t myId = GetEntity().id;
 	Scene* scenePtr = mp_scene;
 
+	//m_subId = 
 	EventBus::instance().subscribe<CollisionEvent>([myId, scenePtr](CollisionEvent::Payload const& p)
 		{
 			if (p.a.id != myId && p.b.id != myId) return;

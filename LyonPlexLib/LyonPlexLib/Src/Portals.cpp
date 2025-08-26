@@ -48,6 +48,6 @@ void Portals::OnUdpdate(float deltatime)
 
 	if (m_capacity <= 0)
 	{
-		//mp_scene->DestroyGameObject(this);
+		mp_scene->DestroyGameObject(*this);
 	}
 }

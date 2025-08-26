@@ -4,6 +4,8 @@
 #include "Utils.h"
 #include "Projectile.h"
 
+//struct MyEvent { using Payload = int; };
+
 enum EnemyType
 {
 	Crabe,
@@ -30,6 +32,7 @@ class Enemy : public GameObject
 public:
 	
 	Enemy(ECSManager* ecsManager, GameManager* gameManager, GameObject& gameObjectPlayer, Scene* scene, EnemyType type);
+	~Enemy();
 
 	void Init(GameManager* gameManager);
 
@@ -54,6 +57,8 @@ public:
 	Utils::Vector3 m_distanceBetweenEnnemyPlayer;
 
 private:
+	//size_t m_subId{ 0 };
+
 	GameManager* mp_gameManager = nullptr;
 	GameObject& m_playerGm;
 	float m_deltatime;

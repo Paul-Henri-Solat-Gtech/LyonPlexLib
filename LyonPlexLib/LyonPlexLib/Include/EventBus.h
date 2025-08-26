@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 #include <functional>
@@ -20,7 +20,7 @@ public:
     EventBus(EventBus const&) = delete;
     EventBus& operator=(EventBus const&) = delete;
 
-    // Inscription à un type d’evenement E
+    // Inscription ãƒ»un type då¼¾venement E
     template<typename E>
     void subscribe(std::function<void(typename E::Payload const&)> cb) {
         std::lock_guard<std::mutex> lock(_mtx);
@@ -30,7 +30,7 @@ public:
             });
     }
 
-    // Publication d’un evenement E
+    // Publication dç½®n evenement E
     template<typename E>
     void publish(typename E::Payload const& payload) {
         std::lock_guard<std::mutex> lock(_mtx);

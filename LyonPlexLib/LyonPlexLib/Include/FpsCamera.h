@@ -18,6 +18,8 @@ private:
     GameObject* m_parentGO = nullptr;
     HWND         m_hWnd = nullptr;
 
+    bool m_alwaysActive = false;
+
     float        m_yaw = 0.f;
     float        m_pitch = 0.f;
     float        m_sensitivity = 0.15f;
