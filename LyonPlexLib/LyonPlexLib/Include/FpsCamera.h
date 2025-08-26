@@ -8,6 +8,12 @@ public:
     /// Handle la rotation souris et pivote le parent via TransformComponent
     void Update(float deltaTime);
 
+    void ForceHideCursor();
+    void ForceShowCursor();
+    void CenterCursorInWindow();
+
+    void SetAlwaysActive(bool active);
+
     /// Pour récupérer le nom que la caméra a enregistré
     const std::string& GetName() const { return m_camName; };
     void SetParentGO(GameObject& parent) { m_parentGO = &parent; };

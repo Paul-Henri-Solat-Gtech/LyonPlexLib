@@ -20,6 +20,8 @@ void ArenaScene::Start()
 	SetParent("cam", "player");
 	m_fpsCam.SetParentGO(m_cam);
 
+	m_fpsCam.SetAlwaysActive(true);
+
 	//PLAYER
 	m_player.Init(mp_ecsManager, mp_sceneManager->GetGameManager(), this, m_cam);
 	SetParent(GetGameObjectByName("cam"), m_player);
@@ -144,12 +146,14 @@ void ArenaScene::SpawnMenu()
 	mp_btnMainMenu->SetScale({ 120, 50, 0 });
 	auto posPauseMenu = GetGameObjectByName("pauseMenu").GetPosition();
 	mp_btnMainMenu->SetPosition({ posPauseMenu.x,posPauseMenu.y + 140,posPauseMenu.z });
+	m_fpsCam.SetAlwaysActive(false);
 }
 
 void ArenaScene::RemoveMenu()
 {
 	DestroyGameObject(GetGameObjectByName("pauseMenu"));
 	DestroyGameObject(GetGameObjectByName("btnMainMenu"));
+	m_fpsCam.SetAlwaysActive(true);
 }
 
 void ArenaScene::WaveSystem()
