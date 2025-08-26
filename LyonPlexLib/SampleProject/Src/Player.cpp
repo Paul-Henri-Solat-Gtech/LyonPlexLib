@@ -828,11 +828,6 @@ void Player::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeT
 
 	XMFLOAT3 forward = GetWorldForwardFromGO(source);
 
-	// if you want purely horizontal direction (ignore camera pitch), zero Y and renormalize:
-	// forward.y = 0.0f;
-	// float len = sqrt(forward.x*forward.x + forward.y*forward.y + forward.z*forward.z);
-	// if (len > 1e-6f) { forward.x /= len; forward.y /= len; forward.z /= len; }
-
 	XMFLOAT3 playerPos = this->GetPosition();
 	const float chestHeight = 1.3f;
 	XMFLOAT3 start = { playerPos.x, playerPos.y + chestHeight, playerPos.z };
@@ -858,44 +853,6 @@ void Player::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeT
 	}
 
 	mp_scene->CreateGameObject<Projectile>(mp_scene, start, target, ProjectileType::AirSlash, lifeTime);
-
-	//// source camera si dispo sinon fallback player
-	//GameObject* cam = mp_cameraGO ? mp_cameraGO : &m_playerGameObject;
-
-	//// forward monde issu de la camera (utilise ton helper existant GetWorldForwardFromGO)
-	//XMFLOAT3 camFwd = GetWorldForwardFromGO(cam);
-
-	//// position joueur (world) - spawn depuis la poitrine du joueur plutôt que la cam
-	//XMFLOAT3 playerPos = m_playerGameObject.GetPosition();
-
-	//// ajuster la hauteur du spawn (à régler selon ton player)
-	//const float chestHeight = 1.3f; // essayer 1.0..1.6
-	//XMFLOAT3 start = { playerPos.x, playerPos.y + chestHeight, playerPos.z };
-
-	//// avance le start d'une distance devant le joueur selon la direction de la caméra
-	//const float muzzleOffset = 0.8f; // augmente si le projectile spawn dans le joueur
-	//start.x += camFwd.x * muzzleOffset;
-	//start.y += camFwd.y * muzzleOffset;
-	//start.z += camFwd.z * muzzleOffset;
-
-	//// target lointain sur la même direction
-	//const float range = 1000.0f;
-	//XMFLOAT3 target = {
-	//	start.x + camFwd.x * range,
-	//	start.y + camFwd.y * range,
-	//	start.z + camFwd.z * range
-	//};
-
-	//// debug rapide : affiche start/target & forward
-	//{
-	//	char buf[256];
-	//	sprintf_s(buf, "CreateProjectile start=(%.2f,%.2f,%.2f) target=(%.2f,%.2f,%.2f) fwd=(%.3f,%.3f,%.3f)\n",
-	//		start.x, start.y, start.z, target.x, target.y, target.z, camFwd.x, camFwd.y, camFwd.z);
-	//	OutputDebugStringA(buf);
-	//}
-
-	//// cree le projectile (tu utilises déjà cette signature)
-	//mp_scene->CreateGameObject<Projectile>(mp_scene, start, target, ProjectileType::AirSlash);
 }
 
 void Player::HpUpdate()

@@ -362,28 +362,6 @@ void GameScene::Update(float deltatime)
 
 	if (m_playerTest.IsAlive() || m_pauseIsOpen) 
 	{
-		//// Enemies
-		//ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
-		//auto& ecs = mp_ecsManager;
-		//float closest = 100;
-		//ecs->ForEach(mask, [&](Entity e)
-		//	{
-		//		GetGameObjectByID(e).OnUdpdate(deltatime);
-		//	});
-		//// Projectiles
-		//mask = (1ULL << Tag_Projectile::StaticTypeID);
-		//ecs->ForEach(mask, [&](Entity e)
-		//	{
-		//		GetGameObjectByID(e).OnUdpdate(deltatime);
-		//	});
-
-		//// Portals
-		//portal->OnUdpdate(deltatime);
-
-		//// PlayerState
-		//m_playerTest.OnUdpdate(deltatime);
-
-		//// Camera
 		m_fpsCam.Update(deltatime);
 	}
 
@@ -469,12 +447,6 @@ void GameScene::Update(float deltatime)
 		OutputDebugStringA(("\nPlayer State : " + std::string(m_playerTest.GetCurrentStateName())).c_str());
 	}
 
-	// Change scene [ALLWAYS AT THE END SO THERE IS NO OTHER CODE RUNNING AFTER IN THIS SCENE]
-	if (InputManager::GetKeyIsReleased('A'))
-	{
-		ChangeScene("DevScene");
-	}
-
 	if (InputManager::GetKeyIsReleased(VK_ESCAPE))
 	{
 		m_pauseIsOpen = !m_pauseIsOpen;
@@ -488,6 +460,13 @@ void GameScene::Update(float deltatime)
 			RemoveMenu();
 		}
 		
+	}
+
+	// Change scene [ALLWAYS AT THE END SO THERE IS NO OTHER CODE RUNNING AFTER IN THIS SCENE]
+	if (InputManager::GetKeyIsReleased('A'))
+	{
+		ChangeScene("DevScene");
+		return;
 	}
 }
 

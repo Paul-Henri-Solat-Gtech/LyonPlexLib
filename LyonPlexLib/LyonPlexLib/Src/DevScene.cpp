@@ -37,7 +37,7 @@ void DevScene::Start()
 		m_orbitPitch = XMConvertToDegrees(asinf(dy / radius));
 		m_orbitPitch = std::clamp(m_orbitPitch, -89.0f, +89.0f);
 	}
-
+	/*
 	CreateGameObject("solGen", MESHES::LOCAL_CUBE, TEXTURES::HERBE);
 	GetGameObjectByName("solGen").SetTag(TAG_Floor);
 	//GetGameObjectByName("solGen").SetPosition(POSITION_BASE);
@@ -1012,7 +1012,7 @@ void DevScene::Start()
 			GetGameObjectByName("Tree 137").SetRotation({ -0.223416,0.418364,0.107304,0.873809 });
 			GetGameObjectByName("Tree 137").SetScale({ 2,2,2 });
 		}
-
+		*/
 
 
 

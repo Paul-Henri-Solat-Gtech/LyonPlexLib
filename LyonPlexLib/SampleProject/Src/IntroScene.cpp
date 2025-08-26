@@ -8,6 +8,14 @@ void IntroScene::Start()
 	UINT renderWidth = renderZone.right - renderZone.left;
 	UINT renderHeight = renderZone.bottom - renderZone.top;
 
+	CreateGameObject("Background", TYPE_2D, true);
+	auto background = GetGameObjectByName("Background");
+	background.SetMesh(MESHES::LOCAL_SQUARE);
+	background.SetTexture(TEXTURES::lightLp);
+	background.SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2, 0 });
+	background.SetScale({ (float)renderWidth, (float)renderHeight, 0 });
+	//background.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
 	CreateGameObject("LogoLyonPlex", TYPE_2D, true);
 	m_LyonplexLogo = GetGameObjectByName("LogoLyonPlex");
 	m_LyonplexLogo.SetMesh(MESHES::LOCAL_SQUARE);

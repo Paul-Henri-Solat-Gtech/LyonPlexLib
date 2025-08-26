@@ -7,6 +7,7 @@
 #include "BlockTutoScene.h"
 #include "MainMenuScene.h"
 #include "IntroScene.h"
+#include "ArenaScene.h"
 // ..
 
 void AllScenes::Init(GameManager* gameManager)
@@ -29,6 +30,7 @@ void AllScenes::CreateAllScenes()
     mp_gameManager->GetSceneManager()->RegisterScene("GameScene", []() { return new GameScene(); });
     mp_gameManager->GetSceneManager()->RegisterScene("MainMenuScene", []() { return new MainMenuScene(); });
     mp_gameManager->GetSceneManager()->RegisterScene("IntroScene", []() { return new IntroScene(); });
+    mp_gameManager->GetSceneManager()->RegisterScene("ArenaScene", []() { return new ArenaScene(); });
 
 }
 

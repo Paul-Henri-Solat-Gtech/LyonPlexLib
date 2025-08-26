@@ -36,6 +36,7 @@ namespace TEXTURES
 		BTN_QUIT,
 		BTN_MAINMENU,
 		LYONPLEXLOGO,
+		lightLp,
 
 		//IDLE ARM
 		IDLEARM_1,

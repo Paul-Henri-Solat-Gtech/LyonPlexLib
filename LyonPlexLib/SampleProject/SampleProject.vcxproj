@@ -23,6 +23,7 @@
     <ClCompile Include="..\LyonPlexLib\Src\Portals.cpp" />
     <ClCompile Include="..\LyonPlexLib\Src\Projectile.cpp" />
     <ClCompile Include="Src\AllScenes.cpp" />
+    <ClCompile Include="Src\ArenaScene.cpp" />
     <ClCompile Include="Src\BlockTutoScene.cpp" />
     <ClCompile Include="Src\EnemyAction.cpp" />
     <ClCompile Include="Src\EnemyCondition.cpp" />
@@ -46,6 +47,7 @@
     <ClInclude Include="..\LyonPlexLib\Include\Portals.h" />
     <ClInclude Include="..\LyonPlexLib\Include\Projectile.h" />
     <ClInclude Include="Include\AllScenes.h" />
+    <ClInclude Include="Include\ArenaScene.h" />
     <ClInclude Include="Include\BlockTutoScene.h" />
     <ClInclude Include="Include\EnemyAction.h" />
     <ClInclude Include="Include\EnemyCondition.h" />

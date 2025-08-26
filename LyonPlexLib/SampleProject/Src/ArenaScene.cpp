@@ -1,0 +1,88 @@
+#include "pch.h"
+#include "ArenaScene.h"
+
+void ArenaScene::Start()
+{
+	//SCREEN SIZE
+	RECT renderZone;
+	GetClientRect(mp_sceneManager->GetGameManager()->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
+	UINT renderWidth = renderZone.right - renderZone.left;
+	UINT renderHeight = renderZone.bottom - renderZone.top;
+
+	//FREE CAMERA
+	//m_freeCam.Init(mp_ecsManager, mp_sceneManager->GetWindow());
+
+	//CAMERA
+	CreateGameObject("cam", TYPE_3D, false);
+	m_cam = GetGameObjectByName("cam");
+	m_cam.AddComponent<CameraComponent>(new CameraComponent());
+	GetGameObjectByName("cam").SetPosition({ 0, 0, 0.5f });
+
+	m_fpsCam.Init(m_cam, mp_sceneManager->GetWindow());
+
+	SetParent("cam", "player");
+	m_fpsCam.SetParentGO(m_cam);
+
+	//PLAYER
+	m_player.Init(mp_ecsManager, mp_sceneManager->GetGameManager(), this, m_cam);
+	SetParent(GetGameObjectByName("cam"), m_player);
+	m_player.SetPosition({ -2,0,-4 });
+
+	//PLAYER ARMS
+	CreateGameObject("bras", TYPE_2D, true);
+	GetGameObjectByName("bras").SetMesh(MESHES::LOCAL_SQUARE);
+	GetGameObjectByName("bras").SetTexture(TEXTURES::ARMS);
+	GetGameObjectByName("bras").SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2 + (float)renderHeight / 4, 0 });
+	GetGameObjectByName("bras").SetScale({ (float)renderWidth * 0.45f, (float)renderHeight * 0.45f, 0 });
+	GetGameObjectByName("bras").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
+	m_player.SetPlayerArm(GetGameObjectByName("bras"));
+
+	//SCENE
+	{
+		CreateGameObject("Next 0", 2, 0);
+		GetGameObjectByName("Next 0").SetPosition({ 0,0,0 });
+		GetGameObjectByName("Next 0").SetRotation({ 0,0,0,1 });
+		GetGameObjectByName("Next 0").SetScale({ 1,1,1 });
+
+		CreateGameObject("MainMountain", 2, 0);
+		GetGameObjectByName("MainMountain").SetPosition({ -2,-99,-4 });
+		GetGameObjectByName("MainMountain").SetRotation({ 0,0,0,1 });
+		GetGameObjectByName("MainMountain").SetScale({ 68,174,64 });
+		auto c = GetGameObjectByName("MainMountain").GetScale();
+		GetGameObjectByName("MainMountain").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
+
+		CreateGameObject("Next 2", 2, 5);
+		GetGameObjectByName("Next 2").SetPosition({ 18,-12,-23 });
+		GetGameObjectByName("Next 2").SetRotation({ -0.270501554,0.773190141,-0.493573099,-0.292218328 });
+		GetGameObjectByName("Next 2").SetScale({ 1,5,1 });
+		CreateGameObject("Next 3", 2, 5);
+		GetGameObjectByName("Next 3").SetPosition({ 16,-10,-24 });
+		GetGameObjectByName("Next 3").SetRotation({ -0.245439559,0.323551387,-0.876536727,-0.258374661 });
+		GetGameObjectByName("Next 3").SetScale({ 1,5,1 });
+		CreateGameObject("Next 6", 2, 5);
+		GetGameObjectByName("Next 6").SetPosition({ 14,-12,8 });
+		GetGameObjectByName("Next 6").SetRotation({ -0.596881986,0.332339525,-0.4358491,-0.585933387 });
+		GetGameObjectByName("Next 6").SetScale({ 1,5,1 });
+		CreateGameObject("Next 8", 2, 5);
+		GetGameObjectByName("Next 8").SetPosition({ -31,-12,0 });
+		GetGameObjectByName("Next 8").SetRotation({ -0.718239546,-0.164727539,-0.013248777,-0.675885499 });
+		GetGameObjectByName("Next 8").SetScale({ 1,5,1 });
+		CreateGameObject("Next 9", 2, 5);
+		GetGameObjectByName("Next 9").SetPosition({ -26,-12,-29 });
+		GetGameObjectByName("Next 9").SetRotation({ -0.957677901,-0.085378788,0.088328496,-0.260310769 });
+		GetGameObjectByName("Next 9").SetScale({ 1,5,1 });
+	}
+}
+
+void ArenaScene::Update(float deltatime)
+{
+	//m_freeCam.Update(deltatime);
+	m_fpsCam.Update(deltatime);
+	m_player.OnUdpdate(deltatime);
+
+}
+
+void ArenaScene::Release()
+{
+}

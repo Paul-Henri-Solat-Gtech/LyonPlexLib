@@ -55,6 +55,9 @@
     <ClCompile Include="Src\IntroScene.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Src\ArenaScene.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\AllScenes.h">
@@ -112,6 +115,9 @@
       <Filter>Boulder</Filter>
     </ClInclude>
     <ClInclude Include="Include\IntroScene.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\ArenaScene.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>

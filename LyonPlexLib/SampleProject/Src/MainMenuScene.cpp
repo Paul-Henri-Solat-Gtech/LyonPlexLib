@@ -16,8 +16,8 @@ void MainMenuScene::Start()
 	// Buttons
 	mp_buttonStart = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::start, "btnStart");
 	
-	//mp_buttonArene = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::TEMPLE, "btnArene");
-	//mp_buttonArene->SetPosition({(float)renderWidth / 2, mp_buttonStart->GetPosition().y + 200, 0});
+	mp_buttonArene = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::TEMPLE, "btnArene");
+	mp_buttonArene->SetPosition({(float)renderWidth / 2, mp_buttonStart->GetPosition().y + 200, 0});
 
 	m_sceneHasChanged = false;
 }
@@ -43,25 +43,40 @@ void MainMenuScene::Update(float deltatime)
 	}
 	if (mp_buttonStart->GetBtnIsClicked() && !m_sceneHasChanged)
 	{
-		OutputDebugStringA("\nHO YOU DARE CLICK ME !?\n");
+		//OutputDebugStringA("\nHO YOU DARE CLICK ME !?\n");
 		m_sceneHasChanged = true;
 		ChangeScene("GameScene");
 		return;
 	}
 	//ARENE
-	//if (mp_buttonArene->GetMouseOnBtn() && !m_sceneHasChanged)
-	//{
-	//	//OutputDebugStringA("\nDont touche me !\n");
-	//	mp_buttonArene->SetScale({ 450, 150, 0 });
-	//}
-	//if (!mp_buttonArene->GetMouseOnBtn() && !m_sceneHasChanged)
-	//{
-	//	//OutputDebugStringA("\nDont touche me !\n");
-	//	mp_buttonArene->SetScale({ 400, 100, 0 });
-	//}
+	if (mp_buttonArene->GetMouseOnBtn() && !m_sceneHasChanged)
+	{
+		//OutputDebugStringA("\nDont touche me !\n");
+		mp_buttonArene->SetScale({ 450, 150, 0 });
+	}
+	if (!mp_buttonArene->GetMouseOnBtn() && !m_sceneHasChanged)
+	{
+		//OutputDebugStringA("\nDont touche me !\n");
+		mp_buttonArene->SetScale({ 400, 100, 0 });
+	}
+	if (mp_buttonArene->GetBtnIsClicked() && !m_sceneHasChanged)
+	{
+		//OutputDebugStringA("\nHO YOU DARE CLICK ME !?\n");
+		m_sceneHasChanged = true;
+		ChangeScene("ArenaScene");
+		return;
+	}
+
+	//WORLD EDIT
+	if (InputManager::GetKeyIsReleased('A'))
+	{
+		ChangeScene("DevScene");
+		return;
+	}
 }
 
 void MainMenuScene::Release()
 {
 	mp_buttonStart = nullptr;
+	mp_buttonArene = nullptr;
 }
