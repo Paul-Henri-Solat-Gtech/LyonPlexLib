@@ -37,7 +37,14 @@ void Portals::OnUdpdate(float deltatime)
 			posZ = Utils::randomFloat(z - 4, z + 4);
 		}
 
-		newEnemy.SetPosition({ posX, 1, posZ });
+		float y = GetPosition().y;
+		float posY = y;
+		while ((posY < y + 1) && (posY > y - 1))
+		{
+			posY = Utils::randomFloat(y - 1, y + 1);
+		}
+
+		newEnemy.SetPosition({ posX, posY, posZ });
 		newEnemy.SetMesh(MESHES::LOCAL_SQUARE);
 		newEnemy.SetTexture(TEXTURES::iceCream);
 

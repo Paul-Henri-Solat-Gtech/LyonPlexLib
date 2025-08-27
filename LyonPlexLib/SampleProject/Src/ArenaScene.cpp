@@ -25,7 +25,7 @@ void ArenaScene::Start()
 	//PLAYER
 	m_player.Init(mp_ecsManager, mp_sceneManager->GetGameManager(), this, m_cam);
 	SetParent(GetGameObjectByName("cam"), m_player);
-	m_player.SetPosition({ -2,0,-4 });
+	m_player.SetPosition({ 0,0,0 });
 
 	//PLAYER ARMS
 	CreateGameObject("bras", TYPE_2D, true);
@@ -44,6 +44,27 @@ void ArenaScene::Start()
 	m_waveNow = 1;
 	m_waveMax = 5;
 	m_waveFinished = false;
+	m_waveStarted = true;
+	m_cooldownNextWave = 10.f;
+	m_portalNbSpawned = 0;
+	m_portalHasSpawned = false;
+	m_fisrtEnnemyHasSpawned = false;
+
+	//ITEMS
+	CreateGameObject("Stick");
+	GetGameObjectByName("Stick").SetPosition({ 0, -10, 0 });
+	GetGameObjectByName("Stick").SetScale({ 2, 2, 2 });
+	GetGameObjectByName("Stick").SetMesh(MESHES::STICK);
+	GetGameObjectByName("Stick").SetTexture(TEXTURES::HERBE);
+	GetGameObjectByName("Stick").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("Stick").SetTag(TAG_Stick);
+
+	//PORTALS
+	//Use pos : y ~ -10 Xmax Xmin getmainmoutain size
+	//m_portal = &CreateGameObject<Portals>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player, this);
+	//m_portal->SetPosition({ 30, -10, 30 });
+	//m_portal->SetScale({ 1, 1, 0.5 });
+	//m_portal->SetTexture(TEXTURES::EAU);
 
 	//SCENE
 	{
@@ -54,7 +75,7 @@ void ArenaScene::Start()
 
 		CreateGameObject("MainMountain", 2, 0);
 		GetGameObjectByName("MainMountain").SetTexture(TEXTURES::GroundMountain);
-		GetGameObjectByName("MainMountain").SetPosition({ -2,-99,-4 });
+		GetGameObjectByName("MainMountain").SetPosition({ 0,-99,0 });
 		GetGameObjectByName("MainMountain").SetRotation({ 0,0,0,1 });
 		GetGameObjectByName("MainMountain").SetScale({ 640,174,640 });
 		auto c = GetGameObjectByName("MainMountain").GetScale();
@@ -81,6 +102,8 @@ void ArenaScene::Start()
 		GetGameObjectByName("Next 9").SetRotation({ -0.957677901,-0.085378788,0.088328496,-0.260310769 });
 		GetGameObjectByName("Next 9").SetScale({ 1,5,1 });
 	}
+
+
 }
 
 void ArenaScene::Update(float deltatime)
@@ -117,8 +140,27 @@ void ArenaScene::Update(float deltatime)
 	}
 	else
 	{
+		//All updates here (so pause can actually pause everything)
+
 		m_fpsCam.Update(deltatime);
 		m_player.OnUdpdate(deltatime);
+
+		//for (auto& gameObject : m_sceneGameObjects)
+		//{
+		//	gameObject.get()->OnUdpdate(deltatime);
+		//}
+		std::vector<GameObject*> snapshot;
+		snapshot.reserve(m_sceneGameObjects.size());
+		for (auto& up : m_sceneGameObjects)
+		{
+			if (up) snapshot.push_back(up.get());
+		}
+		for (auto* go : snapshot)
+		{
+			if (go) go->OnUdpdate(deltatime);
+		}
+
+		WaveSystem(deltatime);
 	}
 }
 
@@ -156,10 +198,58 @@ void ArenaScene::RemoveMenu()
 	m_fpsCam.SetAlwaysActive(true);
 }
 
-void ArenaScene::WaveSystem()
+void ArenaScene::WeaponSystem()
 {
 }
 
-void ArenaScene::WeaponSystem()
+void ArenaScene::WaveSystem(float deltatime)
 {
+	if (m_waveStarted && !m_waveFinished && /*m_portalNbSpawned <= 0 &&*/ !m_portalHasSpawned) 
+	{
+		OutputDebugStringA("\n [ ! Lets go ! ] \n");
+		SpawnPortal();
+		m_portalHasSpawned = true;
+	}
+
+	if (GetEnnemyNb() >= 1) 
+	{
+		m_fisrtEnnemyHasSpawned = true;
+	}
+
+	if (GetEnnemyNb() <= 0 && m_waveStarted && !m_waveFinished && m_portalHasSpawned && m_fisrtEnnemyHasSpawned)
+	{
+		m_waveFinished = true;
+		m_waveStarted = false;
+		m_portalHasSpawned = false;
+		//m_portal = nullptr;
+		m_portalNbSpawned = 0;
+		m_cooldownNextWave = 10.0f;
+		OutputDebugStringA("\n [ ! Wave is finished ! ] \n");
+	}
+
+	if (m_waveFinished)
+	{
+		if (m_cooldownNextWave <= 0)
+		{
+			m_waveStarted = true;
+			m_waveFinished = false;
+			m_fisrtEnnemyHasSpawned = false;
+			OutputDebugStringA("\n [ ! Start new Wave ! ] \n");
+		}
+		else
+		{
+			m_cooldownNextWave -= 1 * deltatime;
+			//OutputDebugStringA((std::string("\nNext wave in : ") + std::to_string(m_cooldownNextWave)).c_str());
+		}
+	}
+}
+
+void ArenaScene::SpawnPortal() 
+{
+	m_portal = &CreateGameObject<Portals>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player, this);
+	m_portal->SetPosition({ 30, -10, 30 });
+	m_portal->SetScale({ 1, 1, 0.5 });
+	m_portal->SetTexture(TEXTURES::EAU);
+
+	m_portalNbSpawned++;
 }

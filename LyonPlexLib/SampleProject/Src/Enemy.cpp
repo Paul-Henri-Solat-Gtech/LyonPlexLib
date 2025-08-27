@@ -31,6 +31,8 @@ void Enemy::Init(GameManager* gameManager)
 	SetStateMachine();
 	
 	OutputDebugStringA("\nINIT ENNEMIE REUSSI !\n");
+
+	mp_scene->SetEnnemyNb(mp_scene->GetEnnemyNb() + 1);
 }
 
 const char* Enemy::GetStateName(State state) const
@@ -57,6 +59,7 @@ void Enemy::TakeDamage()
 	if (m_life <= 0)
 	{
 		alive = false;
+		mp_scene->SetEnnemyNb(mp_scene->GetEnnemyNb() - 1);
 		mp_scene->DestroyGameObject(*this);
 		mp_gameManager->GetSoundManager()->PlaySoundPlex("deathScream"); // need to adapt sound to frame (like adding pause)
 	}

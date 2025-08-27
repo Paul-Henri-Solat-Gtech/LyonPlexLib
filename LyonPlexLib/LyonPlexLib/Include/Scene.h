@@ -109,8 +109,12 @@ public:
 		return ref;
 	}
 
-	/*std::vector<Enemy*> m_enemies;
-	int m_enemyCount = 0;*/
+	//Ennemy & gamepley
+	void SetEnnemyNb(int value) { m_ennemyNb = value; };
+	int GetEnnemyNb() { return m_ennemyNb; };
+
+	void SetPortalNb(int value) { m_portalNb = value; };
+	int GetPortalNb() { return m_portalNb; };
 
 protected:
 
@@ -126,6 +130,11 @@ protected:
 	bool m_mouseRotating;
 	POINT m_lastMousePos;
 
+	//Water not wave for ennemy
 	int m_waveCount = 0;
+
+	// Ennemy and portal
+	int m_ennemyNb = 0;
+	int m_portalNb = 0;
 };
 

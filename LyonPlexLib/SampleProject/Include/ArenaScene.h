@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FpsCamera.h"
+#include "Portals.h"
 #include <Player.h>
 
 class ArenaScene : public Scene
@@ -13,8 +14,10 @@ public:
 	void SpawnMenu();
 	void RemoveMenu();
 
-	void WaveSystem();
 	void WeaponSystem();
+
+	void WaveSystem(float deltatime);
+	void SpawnPortal();
 
 private:
 	//Camera
@@ -31,6 +34,12 @@ private:
 
 	//Wave
 	int m_waveNow, m_waveMax;
-	bool m_waveFinished;
+	bool m_waveStarted, m_waveFinished;
+	float m_cooldownNextWave;
+
+	//Portal
+	Portals* m_portal = nullptr;
+	int m_portalNbSpawned;
+	bool m_portalHasSpawned, m_fisrtEnnemyHasSpawned;
 };
 
