@@ -16,6 +16,9 @@ void Portals::OnUdpdate(float deltatime)
 
 	GetComponent<TransformComponent>()->AddRotation(0.f,0.f,0.1f);
 	LookAt(m_playerGm);
+	auto rotZ = GetRotation().z;
+	rotZ += 5;
+	AddRotation({0,0,rotZ});
 
 	if (m_timer > 1.5 && m_capacity > 0)
 	{

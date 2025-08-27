@@ -38,6 +38,7 @@ namespace TEXTURES
 		LYONPLEXLOGO,
 		lightLp,
 		GroundMountain,
+		PORTAL,
 
 		//IDLE ARM
 		IDLEARM_1,

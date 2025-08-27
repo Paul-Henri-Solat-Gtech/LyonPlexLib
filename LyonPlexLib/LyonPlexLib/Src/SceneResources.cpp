@@ -59,6 +59,7 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/LyonPlexLogo.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/lightlp.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/groundmt.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/portal.png");
 
     // Place single image up
     // Down is reserved for animations frame (to avoid redoing all enum)
