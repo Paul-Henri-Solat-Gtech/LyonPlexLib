@@ -304,28 +304,14 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 
 	EventBus::instance().subscribe<CollisionEvent>([myId, scenePtr, self](CollisionEvent::Payload const& p)
 		{
-			// si ni a ni b ne m'appartiennent, on sort (usine a faux positifs corrigée)
 			if (p.a.id != myId && p.b.id != myId) return;
-
-			// determine which one is the other entity (cohérent)
 			Entity otherE = (p.a.id == myId) ? p.b : p.a;
+			if (otherE.id == 0 || otherE.id == static_cast<uint32_t>(-1)) return;
 
-			// guard simple sur id bizarre
-			if (otherE.id == 0 || otherE.id == static_cast<uint32_t>(-1)) {
-				OutputDebugStringA("Player collision: otherE id invalid -> ignore\n");
-				return;
-			}
+			GameObject* otherGO = scenePtr->GetGameObjectByID(otherE);
+			if (!otherGO) return;                 // <-- évite le crash si l'objet a déjà disparu
 
-			// now safe to get the object
-			GameObject& otherGO = scenePtr->GetGameObjectByID(otherE);
-			auto tag = otherGO.GetTag();
-
-			// debug log pour vérifier
-			{
-				//char buf[128];
-				//sprintf_s(buf, "Player(%u) collision with entity %u tag=%d\n", myId, otherE.id, (int)tag);
-				//OutputDebugStringA(buf);
-			}
+			auto tag = otherGO->GetTag();
 
 			switch (tag)
 			{
@@ -333,29 +319,21 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 			case TAG_Environment:
 				break;
 			case TAG_Projectile:
-				// enemy projectile hits player
-				if (self->m_hp > 0)
-				{
+				if (self && self->m_hp > 0) {      // protège aussi l'usage de `self`
 					self->m_hp--;
 					self->HpUpdate();
 					OutputDebugStringA("\n -1hp aie \n");
 				}
-				else
-				{
-					OutputDebugStringA("\n Player is already dead ! \n");
-				}
-				// destroy projectile
-				scenePtr->DestroyGameObject(otherGO);
+				scenePtr->DestroyGameObject(*otherGO);
 				break;
 			case TAG_ProjectilePlayer:
-				// ignore player's own projectiles
 				OutputDebugStringA("\n Just me (player projectile) - ignore\n");
 				break;
 			default:
 				break;
 			}
 
-			self->m_hasCollided = true;
+			if (self) self->m_hasCollided = true;
 		});
 	//EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p) 
 	//{
@@ -457,8 +435,9 @@ void Player::ApplyMovementAndCollisions(float dt)
 			{
 				if (e.id == GetEntity().id) return;
 
-				auto& otherT = *mp_scene->GetGameObjectByID(e).GetComponent<TransformComponent>();
-				auto& otherC = *mp_scene->GetGameObjectByID(e).GetComponent<CollisionComponent>();
+				GameObject* otherGO = mp_scene->GetGameObjectByID(e);
+				auto& otherT = *otherGO->GetComponent<TransformComponent>();
+				auto& otherC = *otherGO->GetComponent<CollisionComponent>();
 
 				//float rOther = otherC.GetBoundingSphereRadius();
 				float rOther = otherC.BoundingSphereRadius();
@@ -482,8 +461,9 @@ void Player::ApplyMovementAndCollisions(float dt)
 
 	// 4) Pour chaque candidate :
 	for (auto& e : candidates) {
-		auto& oc = *mp_scene->GetGameObjectByID(e).GetComponent<CollisionComponent>();
-		auto& ot = *mp_scene->GetGameObjectByID(e).GetComponent<TransformComponent>();
+		GameObject* otherGO = mp_scene->GetGameObjectByID(e);
+		auto& oc = *otherGO->GetComponent<CollisionComponent>();
+		auto& ot = *otherGO->GetComponent<TransformComponent>();
 		XMVECTOR mtv = XMVectorZero();
 
 		bool hit = false;
@@ -516,7 +496,7 @@ void Player::ApplyMovementAndCollisions(float dt)
 
 		if (!XMVector3Equal(mtv, XMVectorZero())) {
 			// pour le sol et environnement on ne bouge que le joueur
-			if (mp_scene->GetGameObjectByID(e).GetTag() == TAG_Floor || mp_scene->GetGameObjectByID(e).GetTag() == TAG_Environment) {
+			if (mp_scene->GetGameObjectByID(e)->GetTag() == TAG_Floor || mp_scene->GetGameObjectByID(e)->GetTag() == TAG_Environment) {
 				XMVECTOR v = XMLoadFloat3(&tP.position);
 				v = XMVectorSubtract(v, mtv);
 				XMStoreFloat3(&tP.position, v);
@@ -554,8 +534,9 @@ void Player::ApplyMovementAndCollisions(float dt)
 		float tMin = 1.0f;
 		XMVECTOR hitN = XMVectorZero();
 		for (auto& e : candidates) {
-			auto& oc = *mp_scene->GetGameObjectByID(e).GetComponent<CollisionComponent>();
-			auto& ot = *mp_scene->GetGameObjectByID(e).GetComponent<TransformComponent>();
+			GameObject* otherGO = mp_scene->GetGameObjectByID(e);
+			auto& oc = *otherGO->GetComponent<CollisionComponent>();
+			auto& ot = *otherGO->GetComponent<TransformComponent>();
 			float t;
 			XMVECTOR n;
 			if (oc.shapeType == ColliderType::AABB) {
@@ -643,8 +624,9 @@ void Player::ApplyMovementAndCollisions(float dt)
 
 	bool onGround = false;
 	for (auto& e : candidates) {
-		auto& oc = *mp_scene->GetGameObjectByID(e).GetComponent<CollisionComponent>();
-		auto& ot = *mp_scene->GetGameObjectByID(e).GetComponent<TransformComponent>();
+		GameObject* otherGO = mp_scene->GetGameObjectByID(e);
+		auto& oc = *otherGO->GetComponent<CollisionComponent>();
+		auto& ot = *otherGO->GetComponent<TransformComponent>();
 
 		bool hit = false;
 		if (oc.shapeType == ColliderType::AABB) {

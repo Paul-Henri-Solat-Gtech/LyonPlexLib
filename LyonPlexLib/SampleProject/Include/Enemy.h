@@ -69,6 +69,8 @@ private:
 	bool m_initialized = false;
 	EnemyType m_type;
 
+	bool m_collisionSubscribed = false;
+
 protected:
 	friend class EnnemyAction_Idle;
 	friend class EnnemyAction_Move;

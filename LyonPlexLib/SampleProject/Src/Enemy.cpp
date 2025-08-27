@@ -59,13 +59,24 @@ void Enemy::TakeDamage()
 	if (m_life <= 0)
 	{
 		alive = false;
+
+		if (mp_gameManager) {
+			if (auto* sm = mp_gameManager->GetSoundManager()) {
+				sm->PlaySoundPlex("deathScream");
+			}
+		}
+
 		mp_scene->SetEnnemyNb(mp_scene->GetEnnemyNb() - 1);
 		mp_scene->DestroyGameObject(*this);
-		mp_gameManager->GetSoundManager()->PlaySoundPlex("deathScream"); // need to adapt sound to frame (like adding pause)
 	}
-	else 
+	else
 	{
-		mp_gameManager->GetSoundManager()->PlaySoundPlex("HUGH"); // need to adapt sound to frame (like adding pause)
+		if (mp_gameManager) {
+			auto* sm = mp_gameManager->GetSoundManager();
+			if (sm && sm->IsAlive()) {   // ajoute un flag m_alive
+				sm->PlaySoundPlex("HUGH");
+			}
+		}
 	}
 }
 
@@ -91,7 +102,9 @@ void Enemy::CollisionManager()
 	const uint32_t myId = GetEntity().id;
 	Scene* scenePtr = mp_scene;
 
-	//m_subId = 
+	if (m_collisionSubscribed) return;
+	m_collisionSubscribed = true;
+
 	EventBus::instance().subscribe<CollisionEvent>([myId, scenePtr](CollisionEvent::Payload const& p)
 		{
 			if (p.a.id != myId && p.b.id != myId) return;
@@ -102,64 +115,25 @@ void Enemy::CollisionManager()
 				return;
 			}
 
-			GameObject& otherGO = scenePtr->GetGameObjectByID(otherE);
-			auto tag = otherGO.GetTag();
+			// get pointer (peut retourner nullptr si l'objet a été détruit)
+			GameObject* otherGO = scenePtr->GetGameObjectByID(otherE);
+			if (!otherGO) return; // évite deref null
 
-			// debug
-			{
-				//char buf[128];
-				//sprintf_s(buf, "Enemy(%u) collision with entity %u tag=%d\n", myId, otherE.id, (int)tag);
-				//OutputDebugStringA(buf);
-			}
+			auto tag = otherGO->GetTag();
 
 			if (tag == TAG_ProjectilePlayer)
 			{
-				// player's projectile hits enemy
-				scenePtr->DestroyGameObject(otherGO);
-				// find the enemy object in the scene and call TakeDamage safely:
-				GameObject& enemyGO = scenePtr->GetGameObjectByID(Entity{ myId });
-				// assume you can cast/pas besoin de dynamic_cast si Enemy inherits GameObject and methods are accessible:
-				Enemy* enemyPtr = static_cast<Enemy*>(&enemyGO);
+				// détruire le projectile (marque pour suppression)
+				scenePtr->DestroyGameObject(*otherGO);
+
+				// retrouver l'enemy de façon sûre avant d'appeler TakeDamage
+				GameObject* maybeEnemyGO = scenePtr->GetGameObjectByID(Entity{ myId });
+				if (!maybeEnemyGO) return;
+
+				Enemy* enemyPtr = static_cast<Enemy*>(maybeEnemyGO);
 				if (enemyPtr) enemyPtr->TakeDamage();
 			}
 		});
-	//EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p)
-	//	{
-	//		Entity enemyE = p.a, otherE = p.b;
-	//		// permute pour que playerE soit vraiment le joueur
-	//		if (otherE.id == GetEntity().id)
-	//		{
-	//			enemyE = p.b; otherE = p.a;
-	//		}
-	//		// si aucun des deux nest le joueur, on sort
-	//		if (enemyE.id != GetEntity().id) return;
-
-	//		auto tag = mp_scene->GetGameObjectByID(p.b).GetTag();
-	//		GameObject& otherGO = mp_scene->GetGameObjectByID(otherE);
-
-	//		switch (tag)
-	//		{
-	//		case TAG_Floor:
-	//			break;
-	//		case TAG_Environment:
-	//			break;
-	//		case TAG_ProjectilePlayer:
-	//		{
-	//			OutputDebugStringA("\n OUCH ! \n");
-	//			if (m_life > 0)
-	//			{
-	//				mp_scene->DestroyGameObject(otherGO);
-	//				TakeDamage();
-	//			}
-	//			else
-	//			{
-	//				OutputDebugStringA("\n Ennemy is already dead ! \n");
-	//			}
-	//		}
-	//		default:
-	//			break;
-	//		}
-	//	});
 }
 
 void Enemy::SetStateMachine()

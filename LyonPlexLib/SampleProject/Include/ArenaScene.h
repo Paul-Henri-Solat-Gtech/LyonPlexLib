@@ -41,5 +41,9 @@ private:
 	Portals* m_portal = nullptr;
 	int m_portalNbSpawned;
 	bool m_portalHasSpawned, m_fisrtEnnemyHasSpawned;
+
+	//WinLose
+	bool m_youWin;
+	//bool m_youLose;
 };
 

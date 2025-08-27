@@ -44,17 +44,18 @@ void SoundManager::CreateSound(const std::string& soundName, const std::wstring&
 
 void SoundManager::PlaySoundPlex(std::string soundName)
 {
-    for (auto& savedSound : m_soundsList) 
+    if (m_soundsList.empty()) return; // évite begin() sur un vector détruit/vidé
+
+    for (const auto& savedSound : m_soundsList)
     {
+        if (!savedSound.sound) continue; // slot incomplet -> skip
         if (savedSound.soundName == soundName)
         {
-            // Cree une instance et la joue immediatement
-            auto newSoundInstance = savedSound.sound->CreateInstance();
-            newSoundInstance->Play();
-            m_activeSoundInstances.push_back(std::move(newSoundInstance));
-            
-            std::string msg = std::string("PlayingSound: ") + soundName;
-            OutputDebugStringA(msg.c_str());
+            auto inst = savedSound.sound->CreateInstance();
+            if (!inst) break;
+            inst->Play();
+            m_activeSoundInstances.push_back(std::move(inst));
+            OutputDebugStringA((std::string("PlayingSound: ") + soundName + "\n").c_str());
             break;
         }
     }

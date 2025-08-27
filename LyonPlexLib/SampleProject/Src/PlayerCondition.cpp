@@ -85,7 +85,7 @@ bool PlayerCondition_IsCloseToObject::OnTest(Player* owner)
 				if (length < closest)
 				{
 					closest = length;
-					owner->m_closestObject = &owner->mp_scene->GetGameObjectByID(e);
+					owner->m_closestObject = owner->mp_scene->GetGameObjectByID(e);
 					closeToObject = true;
 				}
 			}

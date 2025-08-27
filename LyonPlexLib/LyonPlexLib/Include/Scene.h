@@ -49,7 +49,7 @@ public:
 	GameObject& GetGameObjectByName(const std::string& gameObjectName);
 	GameObject* FindGameObjectByName(const std::string& name);
 	GameObject& GetGameObjectByTag(Tag gameObjectTag);
-	GameObject& GetGameObjectByID(Entity entityID);
+	GameObject* GetGameObjectByID(Entity entityID);
 
 	void DestroyGameObject(GameObject& gameObject);
 	void EndUpdate();

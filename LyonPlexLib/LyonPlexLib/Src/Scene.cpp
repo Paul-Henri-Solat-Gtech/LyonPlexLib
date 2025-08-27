@@ -182,13 +182,14 @@ GameObject& Scene::GetGameObjectByTag(Tag gameObjectTag)
 		}
 	}
 }
-GameObject& Scene::GetGameObjectByID(Entity entityID)
+GameObject* Scene::GetGameObjectByID(Entity entityID)
 {
 	for (auto& gO : m_sceneGameObjects)
 	{
 		if (gO.get()->GetEntity().id == entityID.id)
-			return *gO;
+			return gO.get();
 	}
+	return nullptr;
 }
 void Scene::DestroyGameObject(GameObject& gameObject)
 {

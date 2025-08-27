@@ -49,6 +49,7 @@ void ArenaScene::Start()
 	m_portalNbSpawned = 0;
 	m_portalHasSpawned = false;
 	m_fisrtEnnemyHasSpawned = false;
+	m_youWin = false;
 
 	//ITEMS
 	CreateGameObject("Stick");
@@ -149,6 +150,7 @@ void ArenaScene::Update(float deltatime)
 		//{
 		//	gameObject.get()->OnUdpdate(deltatime);
 		//}
+
 		std::vector<GameObject*> snapshot;
 		snapshot.reserve(m_sceneGameObjects.size());
 		for (auto& up : m_sceneGameObjects)
@@ -160,7 +162,10 @@ void ArenaScene::Update(float deltatime)
 			if (go) go->OnUdpdate(deltatime);
 		}
 
-		WaveSystem(deltatime);
+		if (!m_youWin) 
+		{
+			WaveSystem(deltatime);
+		}
 	}
 }
 
@@ -204,43 +209,52 @@ void ArenaScene::WeaponSystem()
 
 void ArenaScene::WaveSystem(float deltatime)
 {
-	if (m_waveStarted && !m_waveFinished && /*m_portalNbSpawned <= 0 &&*/ !m_portalHasSpawned) 
+	if (m_waveNow < m_waveMax) 
 	{
-		OutputDebugStringA("\n [ ! Lets go ! ] \n");
-		SpawnPortal();
-		m_portalHasSpawned = true;
-	}
-
-	if (GetEnnemyNb() >= 1) 
-	{
-		m_fisrtEnnemyHasSpawned = true;
-	}
-
-	if (GetEnnemyNb() <= 0 && m_waveStarted && !m_waveFinished && m_portalHasSpawned && m_fisrtEnnemyHasSpawned)
-	{
-		m_waveFinished = true;
-		m_waveStarted = false;
-		m_portalHasSpawned = false;
-		//m_portal = nullptr;
-		m_portalNbSpawned = 0;
-		m_cooldownNextWave = 10.0f;
-		OutputDebugStringA("\n [ ! Wave is finished ! ] \n");
-	}
-
-	if (m_waveFinished)
-	{
-		if (m_cooldownNextWave <= 0)
+		if (m_waveStarted && !m_waveFinished && /*m_portalNbSpawned <= 0 &&*/ !m_portalHasSpawned)
 		{
-			m_waveStarted = true;
-			m_waveFinished = false;
-			m_fisrtEnnemyHasSpawned = false;
-			OutputDebugStringA("\n [ ! Start new Wave ! ] \n");
+			OutputDebugStringA("\n [ ! Lets go ! ] \n");
+			SpawnPortal();
+			m_portalHasSpawned = true;
 		}
-		else
+
+		if (GetEnnemyNb() >= 1)
 		{
-			m_cooldownNextWave -= 1 * deltatime;
-			//OutputDebugStringA((std::string("\nNext wave in : ") + std::to_string(m_cooldownNextWave)).c_str());
+			m_fisrtEnnemyHasSpawned = true;
 		}
+
+		if (GetEnnemyNb() <= 0 && m_waveStarted && !m_waveFinished && m_portalHasSpawned && m_fisrtEnnemyHasSpawned)
+		{
+			m_waveFinished = true;
+			m_waveStarted = false;
+			m_portalHasSpawned = false;
+			//m_portal = nullptr;
+			m_portalNbSpawned = 0;
+			m_cooldownNextWave = 10.0f;
+			OutputDebugStringA("\n [ ! Wave is finished ! ] \n");
+		}
+
+		if (m_waveFinished)
+		{
+			if (m_cooldownNextWave <= 0)
+			{
+				m_waveStarted = true;
+				m_waveFinished = false;
+				m_fisrtEnnemyHasSpawned = false;
+				OutputDebugStringA("\n [ ! Start new Wave ! ] \n");
+				m_waveNow++;
+			}
+			else
+			{
+				m_cooldownNextWave -= 1 * deltatime;
+				//OutputDebugStringA((std::string("\nNext wave in : ") + std::to_string(m_cooldownNextWave)).c_str());
+			}
+		}
+	}
+	else
+	{
+		OutputDebugStringA("\n [ ! You WIN ! ] \n");
+		m_youWin = true;
 	}
 }
 

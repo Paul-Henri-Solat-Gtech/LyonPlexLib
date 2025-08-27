@@ -563,7 +563,7 @@ void PlayerAction_Attack::Update(Player* player)
 						{
 							closest = length;
 
-							GameObject& go = player->mp_scene->GetGameObjectByID(e);
+							GameObject& go = *player->mp_scene->GetGameObjectByID(e);
 							Enemy* e = dynamic_cast<Enemy*>(&go);
 							if (e) {
 								//player->m_closestEnemy = e;
@@ -627,7 +627,7 @@ void PlayerAction_Attack::Update(Player* player)
 						{
 							closest = length;
 
-							GameObject& go = player->mp_scene->GetGameObjectByID(e);
+							GameObject& go = *player->mp_scene->GetGameObjectByID(e);
 							Boulder* e = dynamic_cast<Boulder*>(&go);
 							if (e) {
 								Utils::Vector3 normVec = newVec.normalized();

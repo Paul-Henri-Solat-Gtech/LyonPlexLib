@@ -21,6 +21,9 @@ public:
 
 	void Release();
 
+	~SoundManager() { m_alive = false; }
+	bool IsAlive() const { return m_alive; }
+
 private:
 	// Moteur audio
 	std::unique_ptr<DirectX::AudioEngine> m_audioEngine;
@@ -46,6 +49,8 @@ private:
 	//// Music
 	//std::vector<std::unique_ptr<DirectX::SoundEffectInstance>> m_activeInstances;
 	//std::unique_ptr<DirectX::SoundEffectInstance> m_musicInst;
+
+	bool m_alive = true;
 
 };
 
