@@ -3,11 +3,13 @@
 #include "Enemy.h"
 #include "Utils.h"
 
-Portals::Portals(ECSManager* ecsManager, GameManager* gameManager, GameObject& gameObjectPlayer, Scene* scene) : m_playerGm(gameObjectPlayer)
+Portals::Portals(GameObject& gameObjectPlayer, Scene* scene, int ennemyNb) : m_playerGm(gameObjectPlayer)
 {
-	InitGameObj(ecsManager, scene);
-	mp_gameManager = gameManager;
-	mp_ecs = ecsManager;
+	mp_gameManager = scene->GetSceneManager()->GetGameManager();
+	mp_ecs = scene->GetEcsManager();
+	m_capacity = ennemyNb;
+
+	InitGameObj(mp_ecs, scene);
 }
 
 void Portals::OnUdpdate(float deltatime)
@@ -28,24 +30,15 @@ void Portals::OnUdpdate(float deltatime)
 
 		float x = GetPosition().x;
 		float posX = x;
-		while ((posX < x + 1) && (posX > x - 1))
-		{
-			posX = Utils::randomFloat(x - 4, x + 4);
-		}
+		posX = Utils::randomFloat(x - 4, x + 4);
 
 		float z = GetPosition().z;
 		float posZ = z;
-		while ((posZ < z + 1) && (posZ > z - 1))
-		{
-			posZ = Utils::randomFloat(z - 4, z + 4);
-		}
+		posZ = Utils::randomFloat(z - 4, z + 4);
 
 		float y = GetPosition().y;
 		float posY = y;
-		while ((posY < y + 1) && (posY > y - 1))
-		{
-			posY = Utils::randomFloat(y - 1, y + 1);
-		}
+		posY = Utils::randomFloat(y - 1, y + 1);
 
 		newEnemy.SetPosition({ posX, posY, posZ });
 		newEnemy.SetMesh(MESHES::LOCAL_SQUARE);
