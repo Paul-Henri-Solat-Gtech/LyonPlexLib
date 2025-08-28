@@ -12,8 +12,10 @@ void ArenaScene::Start()
 	//CAMERA
 	CreateGameObject("cam", TYPE_3D, false);
 	m_cam = GetGameObjectByName("cam");
+	mp_ecsManager->RemoveComponent<MeshComponent>(m_cam.GetEntity());
 	m_cam.AddComponent<CameraComponent>(new CameraComponent());
 	GetGameObjectByName("cam").SetPosition({ 0, 0, 0.5f });
+
 
 	m_fpsCam.Init(m_cam, mp_sceneManager->GetWindow());
 

@@ -25,9 +25,9 @@ void EnnemyAction_Shoot::Start(Enemy* ennemy)
 }
 void EnnemyAction_Shoot::Update(Enemy* ennemy)
 {
-	if (m_nextShootTimer >= ennemy->m_reloadSpeed) 
+	if (m_nextShootTimer >= ennemy->m_reloadSpeed)
 	{
-		ennemy->CreateProjectile(ennemy->GetPosition(), ennemy->m_playerGm.GetPosition(),ProjectileType::Laser);
+		ennemy->CreateProjectile(ennemy->GetPosition(), ennemy->m_playerGm.GetPosition(), ProjectileType::Laser);
 		m_nextShootTimer = 0;
 	}
 	else
@@ -53,18 +53,72 @@ void EnnemyAction_Roam::Start(Enemy* ennemy)
 	m_maxZ = ennemy->GetPosition().z + 100;
 	m_minZ = ennemy->GetPosition().z - 100;
 	SetNextLocation(ennemy);
+	targetX = false;
+	targetZ = false;
 }
 void EnnemyAction_Roam::Update(Enemy* ennemy)
 {
-	if (ennemy->GetPosition().x != m_nextPosition.x || ennemy->GetPosition().y != m_nextPosition.y)
+	ennemy->LookAt(ennemy->m_playerGm);
+
+	if (!targetX || !targetZ)
 	{
-		ennemy->LookAt(m_nextPosition);
-		ennemy->MoveForward(ennemy->GetDeltatime() * ennemy->m_moveSpeed);
+		if (ennemy->GetPosition().x < m_nextPosition.x)
+		{
+			ennemy->GetPosition().x += ennemy->GetDeltatime() * ennemy->m_moveSpeed;
+
+			if (ennemy->GetPosition().x >= m_nextPosition.x)
+			{
+				SetNextLocation(ennemy);
+				targetX = true;
+			}
+		}
+		else if (ennemy->GetPosition().x > m_nextPosition.x)
+		{
+			ennemy->GetPosition().x -= ennemy->GetDeltatime() * ennemy->m_moveSpeed;
+
+			if (ennemy->GetPosition().x <= m_nextPosition.x)
+			{
+				SetNextLocation(ennemy);
+				targetX = true;
+			}
+		}
+		if (ennemy->GetPosition().z < m_nextPosition.z)
+		{
+			ennemy->GetPosition().z += ennemy->GetDeltatime() * ennemy->m_moveSpeed;
+
+			if (ennemy->GetPosition().z >= m_nextPosition.z)
+			{
+				SetNextLocation(ennemy);
+				targetZ = true;
+			}
+		}
+		else if (ennemy->GetPosition().z > m_nextPosition.z)
+		{
+			ennemy->GetPosition().z -= ennemy->GetDeltatime() * ennemy->m_moveSpeed;
+
+			if (ennemy->GetPosition().z <= m_nextPosition.z)
+			{
+				SetNextLocation(ennemy);
+				targetZ = true;
+			}
+		}
+
 	}
-	else
-	{
-		SetNextLocation(ennemy);
-	}
+
+
+	////if (ennemy->GetPosition().x != m_nextPosition.x || ennemy->GetPosition().y != m_nextPosition.y)
+	//if (ennemy->GetPosition().x != m_nextPosition.x || ennemy->GetPosition().z != m_nextPosition.z)
+	//{
+
+
+
+	//	ennemy->LookAt(m_nextPosition);
+	//	ennemy->MoveForward();
+	//}
+	//else
+	//{
+	//	SetNextLocation(ennemy);
+	//}
 }
 void EnnemyAction_Roam::End(Enemy* ennemy)
 {
@@ -98,5 +152,5 @@ void EnnemyAction_Roam::SetNextLocation(Enemy* ennemy)
 	} while (currX + randX < m_minX || currX + randX > m_maxX || currZ + randZ < m_minZ || currZ + randZ > m_maxZ);
 
 	// enfin on fixe la vraie prochaine position
-	m_nextPosition = {currX + randX,ennemy->GetPosition().y,currZ + randZ};
+	m_nextPosition = { currX + randX,ennemy->GetPosition().y,currZ + randZ };
 }

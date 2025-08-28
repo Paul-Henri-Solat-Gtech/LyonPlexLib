@@ -44,7 +44,7 @@ void Portals::OnUdpdate(float deltatime)
 		float posY = y;
 		while ((posY < y + 1) && (posY > y - 1))
 		{
-			posY = Utils::randomFloat(y - 1, y + 1);
+			posY = Utils::randomFloat(y - 4, y + 4);
 		}
 
 		newEnemy.SetPosition({ posX, posY, posZ });
