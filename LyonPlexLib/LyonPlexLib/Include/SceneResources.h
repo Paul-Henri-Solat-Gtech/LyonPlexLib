@@ -39,6 +39,7 @@ namespace TEXTURES
 		lightLp,
 		GroundMountain,
 		PORTAL,
+		TITLE,
 
 		//IDLE ARM
 		IDLEARM_1,

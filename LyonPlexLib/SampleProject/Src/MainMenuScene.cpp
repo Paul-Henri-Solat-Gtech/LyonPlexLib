@@ -13,6 +13,15 @@ void MainMenuScene::Start()
 	UINT renderWidth = renderZone.right - renderZone.left;
 	UINT renderHeight = renderZone.bottom - renderZone.top;
 
+	// Title
+	auto& gmTitle = CreateGameObject("Title", TYPE_2D, true);
+	//m_playerHeart1 = mp_scene->GetGameObjectByName("Heart1");
+	gmTitle.SetMesh(MESHES::LOCAL_SQUARE);
+	gmTitle.SetTexture(TEXTURES::TITLE);
+	gmTitle.SetPosition({ (float)renderWidth / 2, ((float)renderHeight / 2) - 200, 0 });
+	gmTitle.SetScale({ (float)renderWidth * 0.5f , (float)renderHeight * 0.5f, 0 });
+	gmTitle.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
 	// Buttons
 	mp_buttonStart = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::start, "btnStart");
 	

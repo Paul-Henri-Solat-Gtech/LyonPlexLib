@@ -256,8 +256,8 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 	m_moveSpeed = m_walkSpeed;
 
 	// sounds
-	mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
-	mp_gameManager->GetSoundManager()->CreateSound("swordSpecialSlash", L"../LyonPlexLib/Ressources/swordSpecialSlash.wav");
+	//mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
+	//mp_gameManager->GetSoundManager()->CreateSound("swordSpecialSlash", L"../LyonPlexLib/Ressources/swordSpecialSlash.wav");
 
 	// Hearts
 	RECT renderZone;
@@ -828,10 +828,10 @@ void Player::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeT
 
 	// debug (optional)
 	{
-		char buf[256];
-		sprintf_s(buf, "CreateProjectile final start=(%.2f,%.2f,%.2f) target=(%.2f,%.2f,%.2f) fwd=(%.3f,%.3f,%.3f)\n",
-			start.x, start.y, start.z, target.x, target.y, target.z, forward.x, forward.y, forward.z);
-		OutputDebugStringA(buf);
+		//char buf[256];
+		//sprintf_s(buf, "CreateProjectile final start=(%.2f,%.2f,%.2f) target=(%.2f,%.2f,%.2f) fwd=(%.3f,%.3f,%.3f)\n",
+		//	start.x, start.y, start.z, target.x, target.y, target.z, forward.x, forward.y, forward.z);
+		//OutputDebugStringA(buf);
 	}
 
 	mp_scene->CreateGameObject<Projectile>(mp_scene, start, target, ProjectileType::AirSlash, lifeTime);

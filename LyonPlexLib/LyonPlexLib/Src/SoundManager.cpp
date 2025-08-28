@@ -44,18 +44,21 @@ void SoundManager::CreateSound(const std::string& soundName, const std::wstring&
 
 void SoundManager::PlaySoundPlex(std::string soundName)
 {
-    if (m_soundsList.empty()) return; // évite begin() sur un vector détruit/vidé
+    if (m_soundsList.empty()) return;
 
-    for (const auto& savedSound : m_soundsList)
+    for (auto& savedSound : m_soundsList)
     {
-        if (!savedSound.sound) continue; // slot incomplet -> skip
+        if (!savedSound.sound) continue;
         if (savedSound.soundName == soundName)
         {
             auto inst = savedSound.sound->CreateInstance();
             if (!inst) break;
+
             inst->Play();
+            m_instancesByName[soundName].push_back(inst.get());
             m_activeSoundInstances.push_back(std::move(inst));
-            OutputDebugStringA((std::string("PlayingSound: ") + soundName + "\n").c_str());
+
+           // OutputDebugStringA((std::string("PlayingSound: ") + soundName + "\n").c_str());
             break;
         }
     }
@@ -87,27 +90,43 @@ void SoundManager::StopMusic()
     }
 }
 
+void SoundManager::SetVolume(std::string soundName, float volume)
+{
+    volume = std::clamp(volume, 0.0f, 1.0f);
+
+    auto it = m_instancesByName.find(soundName);
+    if (it != m_instancesByName.end())
+    {
+        for (auto* inst : it->second)
+        {
+            if (inst) inst->SetVolume(volume);
+        }
+    }
+}
+
+void SoundManager::SetMasterVolume(float volume)
+{
+    if (m_audioEngine) 
+    {
+        m_audioEngine->SetMasterVolume(std::clamp(volume, 0.0f, 1.0f));
+    }
+}
 
 void SoundManager::Release()
 {
-    // 1) Arrêter et libérer l'instance de lecture courante
-    // Stoppe tous les effets
-    for (auto& inst : m_activeSoundInstances) 
+    for (auto& inst : m_activeSoundInstances)
     {
-        inst->Stop();
+        if (inst) inst->Stop();
     }
     m_activeSoundInstances.clear();
+    m_instancesByName.clear();
 
-    // Stoppe la musique
-    if (m_musicInstance) 
+    if (m_musicInstance)
     {
         m_musicInstance->Stop();
     }
     m_musicInstance.reset();
 
-    // 2) Vider la liste des SoundEffect
-    m_soundsList.clear();  // détruit tous les SoundEffect
-
-    // 3) Détruire l’AudioEngine
-    m_audioEngine.reset(); // le destructeur d’AudioEngine fera le shutdown interne
+    m_soundsList.clear();
+    m_audioEngine.reset();
 }
