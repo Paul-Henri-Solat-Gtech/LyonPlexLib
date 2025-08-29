@@ -37,8 +37,8 @@ void Portals::OnUdpdate(float deltatime)
 		posZ = Utils::randomFloat(z - 4, z + 4);
 
 		float y = GetPosition().y;
-		float posY = y;
-		posY = Utils::randomFloat(y - 1, y + 1);
+		float posY = y - 1;
+		//posY = Utils::randomFloat(y - 1, y + 1);
 
 		newEnemy.SetPosition({ posX, posY, posZ });
 		newEnemy.SetMesh(MESHES::LOCAL_SQUARE);

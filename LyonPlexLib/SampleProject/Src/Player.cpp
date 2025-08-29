@@ -319,9 +319,11 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 			case TAG_Environment:
 				break;
 			case TAG_Projectile:
-				if (self && self->m_hp > 0) {      // protège aussi l'usage de `self`
+				if (self && self->m_hp > 0 && !self->m_isInvincible)
+				{      
 					self->m_hp--;
 					self->HpUpdate();
+					self->m_isInvincible = true;
 					OutputDebugStringA("\n -1hp aie \n");
 				}
 				scenePtr->DestroyGameObject(*otherGO);
@@ -411,6 +413,7 @@ void Player::OnUdpdate(float deltatime)
 	m_deltatime = deltatime;
 	Movement();
 	ApplyMovementAndCollisions(deltatime);
+	InvincibilityManager(deltatime);
 }
 
 void Player::ApplyMovementAndCollisions(float dt)
@@ -898,3 +901,15 @@ void Player::DeathManager()
 	m_gameOver.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 }
 
+void Player::InvincibilityManager(float deltatime) 
+{
+	if (m_invicibilityCooldown > 0 && m_isInvincible) 
+	{
+		m_invicibilityCooldown -= 1 * deltatime;
+	}
+	else
+	{
+		m_isInvincible = false;
+		m_invicibilityCooldown = m_invincibilityTime;
+	}
+}

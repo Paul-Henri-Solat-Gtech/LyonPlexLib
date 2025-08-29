@@ -41,6 +41,7 @@ public:
 
 	void HpUpdate();
 	void DeathManager();
+	void InvincibilityManager(float deltatime);
 
 	GameObject m_playerGameObject;
 	GameObject m_playerArm;
@@ -84,6 +85,10 @@ public:
 	float m_jumpPosY = 0.0f;
 	float m_jumpProgress = 0.0f;
 	float m_fallProgress = 0.0f;
+
+	float m_invincibilityTime = 3.0f;
+	float m_invincibilityTimeCooldown = 0;
+	bool m_isInvincible = false;
 
 	DirectX::XMFLOAT3 m_velocity = { 0.0f, 0.0f, 0.0f };
 

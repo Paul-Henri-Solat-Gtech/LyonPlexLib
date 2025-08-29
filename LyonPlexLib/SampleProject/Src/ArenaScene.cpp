@@ -57,6 +57,28 @@ void ArenaScene::Start()
 	m_fisrtEnnemyHasSpawned = false;
 	m_youWin = false;
 
+	//WAVE HUD
+	m_waveNowHud = CreateGameObject("waveNowHud", TYPE_2D, true);
+	m_waveNowHud.SetMesh(MESHES::LOCAL_SQUARE);
+	m_waveNowHud.SetTexture(TEXTURES::ZERO);
+	m_waveNowHud.SetPosition({ (float)renderWidth - 80, (float)renderHeight / 6, 0 });
+	m_waveNowHud.SetScale({ (float)renderWidth * 0.05f, (float)renderHeight * 0.1f, 0 });
+	m_waveNowHud.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
+	m_slash = CreateGameObject("slashHud", TYPE_2D, true);
+	m_slash.SetMesh(MESHES::LOCAL_SQUARE);
+	m_slash.SetTexture(TEXTURES::SLASH);
+	m_slash.SetPosition({ (float)renderWidth - 160, (float)renderHeight / 6, 0 });
+	m_slash.SetScale({ (float)renderWidth * 0.05f, (float)renderHeight * 0.1f, 0 });
+	m_slash.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
+	m_waveMaxHud = CreateGameObject("waveMaxHud", TYPE_2D, true);
+	m_waveMaxHud.SetMesh(MESHES::LOCAL_SQUARE);
+	m_waveMaxHud.SetTexture(TEXTURES::NINE);
+	m_waveMaxHud.SetPosition({ (float)renderWidth - 250, (float)renderHeight / 6, 0 });
+	m_waveMaxHud.SetScale({ (float)renderWidth * 0.05f, (float)renderHeight * 0.1f, 0 });
+	m_waveMaxHud.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
 	//ITEMS
 	CreateGameObject("Stick");
 	GetGameObjectByName("Stick").SetPosition({ 0, -10, 0 });
@@ -220,6 +242,7 @@ void ArenaScene::WaveSystem(float deltatime)
 		if (m_waveStarted && !m_waveFinished && /*m_portalNbSpawned <= 0 &&*/ !m_portalHasSpawned)
 		{
 			OutputDebugStringA("\n [ ! Lets go ! ] \n");
+			UpdateWaveHUD();
 			SpawnPortal();
 			m_portalHasSpawned = true;
 		}
@@ -247,8 +270,8 @@ void ArenaScene::WaveSystem(float deltatime)
 				m_waveStarted = true;
 				m_waveFinished = false;
 				m_fisrtEnnemyHasSpawned = false;
-				OutputDebugStringA("\n [ ! Start new Wave ! ] \n");
 				m_waveNow++;
+				OutputDebugStringA("\n [ ! Start new Wave ! ] \n");
 			}
 			else
 			{
@@ -274,4 +297,79 @@ void ArenaScene::SpawnPortal()
 	m_portal->SetTexture(TEXTURES::PORTAL);
 
 	m_portalNbSpawned++;
+}
+
+void ArenaScene::UpdateWaveHUD() 
+{
+	switch (m_waveNow)
+	{
+	case 0:
+		m_waveNowHud.SetTexture(TEXTURES::ZERO);
+		break;
+	case 1:
+		m_waveNowHud.SetTexture(TEXTURES::ONE);
+		break;
+	case 2:
+		m_waveNowHud.SetTexture(TEXTURES::TWO);
+		break;
+	case 3:
+		m_waveNowHud.SetTexture(TEXTURES::TREE);
+		break;
+	case 4:
+		m_waveNowHud.SetTexture(TEXTURES::FOUR);
+		break;
+	case 5:
+		m_waveNowHud.SetTexture(TEXTURES::FIVE);
+		break;
+	case 6:
+		m_waveNowHud.SetTexture(TEXTURES::SIX);
+		break;
+	case 7:
+		m_waveNowHud.SetTexture(TEXTURES::SEVEN);
+		break;
+	case 8:
+		m_waveNowHud.SetTexture(TEXTURES::EIGHT);
+		break;
+	case 9:
+		m_waveNowHud.SetTexture(TEXTURES::NINE);
+		break;
+	default:
+		break;
+	}
+
+	switch (m_waveMax)
+	{
+	case 0:
+		m_waveMaxHud.SetTexture(TEXTURES::ZERO);
+		break;
+	case 1:
+		m_waveMaxHud.SetTexture(TEXTURES::ONE);
+		break;
+	case 2:
+		m_waveMaxHud.SetTexture(TEXTURES::TWO);
+		break;
+	case 3:
+		m_waveMaxHud.SetTexture(TEXTURES::TREE);
+		break;
+	case 4:
+		m_waveMaxHud.SetTexture(TEXTURES::FOUR);
+		break;
+	case 5:
+		m_waveMaxHud.SetTexture(TEXTURES::FIVE);
+		break;
+	case 6:
+		m_waveMaxHud.SetTexture(TEXTURES::SIX);
+		break;
+	case 7:
+		m_waveMaxHud.SetTexture(TEXTURES::SEVEN);
+		break;
+	case 8:
+		m_waveMaxHud.SetTexture(TEXTURES::EIGHT);
+		break;
+	case 9:
+		m_waveMaxHud.SetTexture(TEXTURES::NINE);
+		break;
+	default:
+		break;
+	}
 }

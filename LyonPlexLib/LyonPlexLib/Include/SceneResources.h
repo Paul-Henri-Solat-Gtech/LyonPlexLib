@@ -40,6 +40,17 @@ namespace TEXTURES
 		GroundMountain,
 		PORTAL,
 		TITLE,
+		SLASH,
+		ZERO,
+		ONE,
+		TWO,
+		TREE,
+		FOUR,
+		FIVE,
+		SIX,
+		SEVEN,
+		EIGHT,
+		NINE,
 
 		//IDLE ARM
 		IDLEARM_1,
