@@ -38,6 +38,20 @@ void DevScene::Start()
 		m_orbitPitch = std::clamp(m_orbitPitch, -89.0f, +89.0f);
 	}
 
+
+	//CreateGameObject("Rock");
+	//GetGameObjectByName("Rock").SetMesh(MESHES::VINE_LARGE);
+	//GetGameObjectByName("Rock").SetPosition({ 0,0,0 });
+
+	CreateGameObject("Rock");
+	GetGameObjectByName("Rock").SetMesh(MESHES::MAP);
+	GetGameObjectByName("Rock").SetPosition({ -10,0,0 });
+
+	//CreateGameObject("Rock");
+	//GetGameObjectByName("Rock").SetMesh(MESHES::VINE_SHORT);
+	//GetGameObjectByName("Rock").SetPosition({ 10,0,0 });
+
+	/*
 	CreateGameObject("solGen", MESHES::LOCAL_CUBE, TEXTURES::HERBE);
 	GetGameObjectByName("solGen").SetTag(TAG_Floor);
 	//GetGameObjectByName("solGen").SetPosition(POSITION_BASE);
@@ -1014,7 +1028,7 @@ void DevScene::Start()
 		}
 
 
-
+		*/
 
 	m_newIdGM = 0;
 	m_camWalkSpeed = 30.f;

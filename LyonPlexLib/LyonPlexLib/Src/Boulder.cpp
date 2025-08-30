@@ -7,7 +7,7 @@ Boulder::Boulder(ECSManager* ecsManager, GameManager* gameManager, GameObject& g
 	mp_gameManager = gameManager;
 	mp_ecs = ecsManager;
 
-	SetMesh(MESHES::CAILLOUX3);
+	SetMesh(MESHES::ROCKLM1);
 	SetTexture(TEXTURES::PIERRE);
 	AddComponent<Tag_Boulder>(new Tag_Boulder());
 }

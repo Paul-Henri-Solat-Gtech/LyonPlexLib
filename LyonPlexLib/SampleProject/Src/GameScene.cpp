@@ -91,7 +91,7 @@ void GameScene::Start()
 	pos = { POSITION_CHAMPS.x - 3, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z - 2 };
 	GetGameObjectByName("Rock").SetPosition(pos);
 	GetGameObjectByName("Rock").SetScale({ 0.2, 0.2, 0.2 });
-	GetGameObjectByName("Rock").SetMesh(MESHES::CAILLOUX1);
+	GetGameObjectByName("Rock").SetMesh(MESHES::ROCKBIG);
 	GetGameObjectByName("Rock").SetTexture(TEXTURES::CEPHA);
 	a = GetGameObjectByName("Rock").GetScale();
 	//GetGameObjectByName("Rock").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
@@ -195,7 +195,7 @@ void GameScene::Start()
 	c = GetGameObjectByName("Mountain2").GetScale();
 	GetGameObjectByName("Mountain2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
 
-	CreateGameObject("Mountain3", MESHES::CAILLOUX4, TEXTURES::PIERRE);
+	CreateGameObject("Mountain3", MESHES::ROCHER4, TEXTURES::PIERRE);
 	GetGameObjectByName("Mountain3").SetTag(TAG_Floor);
 	GetGameObjectByName("Mountain3").SetPosition({ 125, 2, 100 });
 	GetGameObjectByName("Mountain3").SetScale({ 10, 12, 3 });
