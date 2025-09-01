@@ -75,6 +75,7 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/btnstart.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/btnarena.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/btnshutdown.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/SkyboxArmonizer.png");
 
     // Place single image up
     // Down is reserved for animations frame (to avoid redoing all enum)
@@ -450,6 +451,7 @@ bool SceneResources::InitLocalMeshResources(MeshManager& meshMngr)
     meshMngr.InitTriangle();
     meshMngr.InitSquare();
     meshMngr.InitCube();
+    meshMngr.InitSphere();
 
     return true;
 }

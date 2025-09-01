@@ -97,11 +97,12 @@ void ArenaScene::Start()
 
 	//SCENE
 	{
-		CreateGameObject("Next 0", 2, 0);
-		GetGameObjectByName("Next 0").SetPosition({ 0,0,0 });
-		GetGameObjectByName("Next 0").SetRotation({ 0,0,0,1 });
-		GetGameObjectByName("Next 0").SetScale({ 1,1,1 });
-		GetGameObjectByName("Next 0").SetMesh(MESHES::LOCAL_SPHERE);
+		CreateGameObject("skybox", 2, 0);
+		GetGameObjectByName("skybox").SetPosition({ 0,0,0 });
+		GetGameObjectByName("skybox").SetRotation({ 0,0,0,1 });
+		GetGameObjectByName("skybox").SetScale({ -1000,-1000,-1000 });
+		GetGameObjectByName("skybox").SetMesh(MESHES::LOCAL_SPHERE);
+		GetGameObjectByName("skybox").SetTexture(TEXTURES::SKYBOX);
 
 		CreateGameObject("MainMountain", 2, 0);
 		GetGameObjectByName("MainMountain").SetTexture(TEXTURES::GroundMountain);
