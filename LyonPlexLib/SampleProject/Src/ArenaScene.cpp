@@ -101,6 +101,7 @@ void ArenaScene::Start()
 		GetGameObjectByName("Next 0").SetPosition({ 0,0,0 });
 		GetGameObjectByName("Next 0").SetRotation({ 0,0,0,1 });
 		GetGameObjectByName("Next 0").SetScale({ 1,1,1 });
+		GetGameObjectByName("Next 0").SetMesh(MESHES::LOCAL_SPHERE);
 
 		CreateGameObject("MainMountain", 2, 0);
 		GetGameObjectByName("MainMountain").SetTexture(TEXTURES::GroundMountain);
@@ -130,6 +131,51 @@ void ArenaScene::Start()
 		GetGameObjectByName("Next 9").SetPosition({ -26,-12,-29 });
 		GetGameObjectByName("Next 9").SetRotation({ -0.957677901,-0.085378788,0.088328496,-0.260310769 });
 		GetGameObjectByName("Next 9").SetScale({ 1,5,1 });
+
+		//-----
+
+		CreateGameObject("Next 0b", 2, 0);
+		GetGameObjectByName("Next 0b").SetPosition({ 0,0,0 });
+		GetGameObjectByName("Next 0b").SetRotation({ 0,0,0,1 });
+		GetGameObjectByName("Next 0b").SetScale({ 1,1,1 });
+		GetGameObjectByName("Next 0b").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ 0.5, 0.5, 0.5 })));
+		CreateGameObject("Next 2b", 2, 5);
+		GetGameObjectByName("Next 2b").SetPosition({ -1,-12,-120 });
+		GetGameObjectByName("Next 2b").SetRotation({ -0.667234242,-0.637259066,0.29850179,0.244123131 });
+		GetGameObjectByName("Next 2b").SetScale({ 1,13,12 });
+		CreateGameObject("Next 3b", 2, 5);
+		GetGameObjectByName("Next 3b").SetPosition({ 56,-12,115 });
+		GetGameObjectByName("Next 3b").SetRotation({ -0.663810909,-0.610748649,0.276965022,0.331106514 });
+		GetGameObjectByName("Next 3b").SetScale({ 1,13,12 });
+		CreateGameObject("Next 6b", 2, 5);
+		GetGameObjectByName("Next 6b").SetPosition({ 83,-12,-7 });
+		GetGameObjectByName("Next 6b").SetRotation({ -0.689234376,-0.710599065,0.07979539,0.116780572 });
+		GetGameObjectByName("Next 6b").SetScale({ 1,20,24 });
+		GetGameObjectByName("Next 6b").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ 0.5, 10, 12 })));
+		CreateGameObject("Next 8b", 2, 5);
+		GetGameObjectByName("Next 8b").SetPosition({ -153,-12,44 });
+		GetGameObjectByName("Next 8b").SetRotation({ 0.381226152,0.272696972,0.493557602,-0.732600868 });
+		GetGameObjectByName("Next 8b").SetScale({ 1,20,24 });
+		GetGameObjectByName("Next 8b").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ 0.5, 10, 12 })));
+		CreateGameObject("Next 1b", 2, 0);
+		GetGameObjectByName("Next 1b").SetPosition({ 6,0,5 });
+		GetGameObjectByName("Next 1b").SetRotation({ -0.351867527,-0.378683448,0.092660606,0.851000667 });
+		GetGameObjectByName("Next 1b").SetScale({ 1,1,1 });
+		CreateGameObject("Next 4b", 2, 0);
+		GetGameObjectByName("Next 4b").SetPosition({ -80,-12,63 });
+		GetGameObjectByName("Next 4b").SetRotation({ -0.161777586,-0.827331543,0.101396948,0.528270125 });
+		GetGameObjectByName("Next 4b").SetScale({ 1,13,12 });
+		GetGameObjectByName("Next 4b").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ 0.5, 6.5, 6 })));
+		CreateGameObject("Next 5b", 2, 0);
+		GetGameObjectByName("Next 5b").SetPosition({ -77,-12,-71 });
+		GetGameObjectByName("Next 5b").SetRotation({ -0.632475138,-0.734387934,0.162499338,0.185050413 });
+		GetGameObjectByName("Next 5b").SetScale({ 1,13,12 });
+		GetGameObjectByName("Next 5b").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ 0.5, 6.5, 6 })));
+		CreateGameObject("Next 7b", 2, 0);
+		GetGameObjectByName("Next 7b").SetPosition({ -140,-12,54 });
+		GetGameObjectByName("Next 7b").SetRotation({ 0.10527686,-0.797380924,0.537758529,-0.252816647 });
+		GetGameObjectByName("Next 7b").SetScale({ 1,20,24 });
+		GetGameObjectByName("Next 7b").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ 0.5, 10, 12 })));
 	}
 
 

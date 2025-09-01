@@ -82,6 +82,7 @@ public:
 	void InitTriangle();
 	void InitSquare();
 	void InitCube();
+	void InitSphere();
 	// load custom mesh
 	void LoadMeshFromFile(const std::string& path);
 
@@ -95,6 +96,7 @@ private:
 	MeshData CreateMesh_Triangle();
 	MeshData CreateMesh_Square();
 	MeshData CreateMesh_Cube();
+	MeshData CreateMesh_Sphere();
 
 
 	GraphicsDevice* mp_graphicsDevice = nullptr;
