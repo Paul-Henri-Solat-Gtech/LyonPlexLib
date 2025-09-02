@@ -25,7 +25,7 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
 {
     // WARNING : Dont forget to change the .h accordingly
 
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Empty.png");//0
+    //txtMngr.LoadTexture("../LyonPlexLib/Ressources/Empty.png");//0
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/NoTexture.png");//1
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");//2
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test.png");//3
@@ -386,16 +386,17 @@ bool SceneResources::InitImportedMeshResources(MeshManager& meshMngr)
     //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/ArbreTest.obj");//3
     //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/Cepha1.obj");
     //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/Cube.obj");
-    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/TEMPLE.obj");
+    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/TEMPLE.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/Temple.obj");
 
     // A MODIFIER
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/Maison.obj");
-    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/maison2.obj");
+    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/maison2.obj");
 
 
-    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/RockBig.obj");
-    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/RockLM1.obj");
-    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/RockLM2.obj"); //11
+    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/RockBig.obj");
+    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/RockLM1.obj");
+    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/RockLM2.obj"); //11
 
     
     // A MODIFIER
@@ -404,7 +405,8 @@ bool SceneResources::InitImportedMeshResources(MeshManager& meshMngr)
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cypress_gros.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cypress_petit.obj");
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/masitics.obj");
-    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/olivier.obj");
+    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/olivier.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/Olive2.obj");
 
     //// ANCIENS
     //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/buisson_fleur.obj");
@@ -431,8 +433,9 @@ bool SceneResources::InitImportedMeshResources(MeshManager& meshMngr)
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Rocks/Path1.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Rocks/Path2.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Rocks/Path3.obj");
-    //meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Rocks/RockBig.obj");
-    //meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Rocks/RockLM2.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Rocks/RockBig.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Rocks/RockLM1.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Rocks/RockLM2.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Rocks/RockLM3.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Rocks/RockMedium.obj");//30
 

@@ -148,7 +148,7 @@ bool MeshData::LoadFromFile(const std::string& path)
 
 	if (!ok)
 	{
-		OutputDebugStringA(">> LoadObj FAILED\n");
+		Utils::log(">> LoadObj FAILED : " + path + "\n");
 		return false;
 	}
 	//OutputDebugStringA(">> LoadObj SUCCEEDED\n");

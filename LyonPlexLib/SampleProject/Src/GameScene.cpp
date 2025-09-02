@@ -52,9 +52,9 @@ void GameScene::Start()
 
 	m_playerTest.SetPlayerArm(GetGameObjectByName("bras"));
 
-	auto b = CreateGameObject<Boulder>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_playerTest, this);
-	b.SetPosition({ 315, 2, 58 });
-	b.SetScale({ 3, 3, 3 });
+	//auto b = CreateGameObject<Boulder>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_playerTest, this);
+	//b.SetPosition({ 315, 2, 58 });
+	//b.SetScale({ 3, 3, 3 });
 
 	CreateGameObject("Stick");
 	XMFLOAT3 pos = { POSITION_CHAMPS.x + 2, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z + 2 };
@@ -157,6 +157,25 @@ void GameScene::Start()
 	GetComponent<LightComponent>("Light2")->range = 50;
 
 
+
+	XMFLOAT2 posXZmin = { POSITION_CHAMPS.x - 45 , POSITION_CHAMPS.z - 20 };
+	XMFLOAT2 posXZmax = { POSITION_CHAMPS.x + 45 , POSITION_CHAMPS.z + 20 };
+	auto boulder = CreateGameObject<Boulder>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_playerTest, this, posXZmin, posXZmax);
+	boulder.SetPosition(POSITION_CHAMPS);
+	boulder.GetPosition().y += 5;
+	//boulder.SetScale({ 3, 3, 3 });
+
+
+	auto boulder2 = CreateGameObject<Boulder>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_playerTest, this, posXZmin, posXZmax);
+	boulder2.SetPosition({ POSITION_CHAMPS.x - 5, POSITION_CHAMPS.y + 5, POSITION_CHAMPS.z - 10 });
+	boulder2.SetScale({ 3, 3, 3 });
+
+
+	auto boulder3 = CreateGameObject<Boulder>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_playerTest, this, posXZmin, posXZmax);
+	boulder3.SetPosition({ POSITION_CHAMPS.x + 5, POSITION_CHAMPS.y + 5, POSITION_CHAMPS.z + 10 });
+	boulder3.SetScale({ 3, 5, 2 });
+	boulder3.SetTransformRotation(XMFLOAT3(15, 0, 0));
+
 	CreateGameObject("solGen", MESHES::LOCAL_CUBE, TEXTURES::HERBE);
 	GetGameObjectByName("solGen").SetTag(TAG_Floor);
 	//GetGameObjectByName("solGen").SetPosition(POSITION_CHAMPS);
@@ -195,7 +214,7 @@ void GameScene::Start()
 	c = GetGameObjectByName("Mountain2").GetScale();
 	GetGameObjectByName("Mountain2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
 
-	CreateGameObject("Mountain3", MESHES::ROCHER4, TEXTURES::PIERRE);
+	CreateGameObject("Mountain3", MESHES::ROCKMedium, TEXTURES::PIERRE);
 	GetGameObjectByName("Mountain3").SetTag(TAG_Floor);
 	GetGameObjectByName("Mountain3").SetPosition({ 125, 2, 100 });
 	GetGameObjectByName("Mountain3").SetScale({ 10, 12, 3 });

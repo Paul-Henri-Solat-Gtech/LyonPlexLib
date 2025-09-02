@@ -60,8 +60,8 @@ public:
 	// NE PAS UTILISER POUR GAMEPLAY
 	void SetRotation(XMFLOAT4 rot) { GetComponent<TransformComponent>()->rotation = rot; GetComponent<TransformComponent>()->dirty = true; };
 	// --
-	void SetTransformRotation(XMFLOAT3 rot) { GetComponent<TransformComponent>()->SetRotation(rot.x,rot.y,rot.z); };
-	void AddRotation(XMFLOAT3 rot) { GetComponent<TransformComponent>()->AddRotation(rot.x,rot.y,rot.z); };
+	void SetTransformRotation(XMFLOAT3 rot) { GetComponent<TransformComponent>()->SetRotation(rot.x, rot.y, rot.z); };
+	void AddRotation(XMFLOAT3 rot) { GetComponent<TransformComponent>()->AddRotation(rot.x, rot.y, rot.z); };
 	XMFLOAT4& GetRotation() { return GetComponent<TransformComponent>()->rotation; };
 	void SetScale(XMFLOAT3 scl) { GetComponent<TransformComponent>()->scale = scl; GetComponent<TransformComponent>()->dirty = true; };
 	XMFLOAT3& GetScale() { return GetComponent<TransformComponent>()->scale; };
@@ -77,6 +77,9 @@ public:
 	float GetColliderY() { return m_colliderY; };
 	void SetColliderZ(float colZ) { m_colliderZ = colZ; };
 	float GetColliderZ() { return m_colliderZ; };
+
+	void SetColliderOffSet(XMFLOAT3 colOffset) { m_colliderOffset = colOffset; };
+	XMFLOAT3 GetColliderOffSet() { return m_colliderOffset; };
 
 	virtual void OnUdpdate(float deltatime) {};
 
@@ -113,5 +116,6 @@ private:
 	Tag m_tag;
 
 	float m_colliderX, m_colliderY, m_colliderZ;
+	XMFLOAT3 m_colliderOffset = { 0,0,0 };
 };
 
