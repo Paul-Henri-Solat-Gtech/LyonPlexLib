@@ -19,6 +19,8 @@ void Enemy::Init(GameManager* gameManager)
 {
 	AddComponent<Tag_Enemy>(new Tag_Enemy());
 	SetMesh(MESHES::LOCAL_SQUARE);
+
+	GetComponent<MeshComponent>()->ColorPatchUp();
 	auto enemyScale = this->GetScale();
 	AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ enemyScale.x / 2, enemyScale.y / 2, enemyScale.z / 2 }))); //not colliding with terrain Or just not work
 
@@ -148,7 +150,9 @@ void Enemy::SetStateMachine()
 		m_life = 3;
 		m_moveSpeed = 5.f;
 		m_reloadSpeed = 2.f;
-		SetTexture(TEXTURES::CRABE_WALK_1);
+		SetTexture(TEXTURES::CRABE_IDLE_1);
+		SetScale({ 4,4,4 });
+		SetPosition({ GetPosition().x,GetPosition().y - 10, GetPosition().z });
 
 		// Enemy States >
 
@@ -232,7 +236,9 @@ void Enemy::SetStateMachine()
 		m_life = 5;
 		m_moveSpeed = 1.f;
 		m_reloadSpeed = 5.f;
-
+		SetTexture(TEXTURES::GOLEM_IDLE_1);
+		SetScale({ 10,10,10 });
+		SetPosition({GetPosition().x,GetPosition().y - 4, GetPosition().z});
 		// Enemy States >
 
 		// --- IDLE ---
