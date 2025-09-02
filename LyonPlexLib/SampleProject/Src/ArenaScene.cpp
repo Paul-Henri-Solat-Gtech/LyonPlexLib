@@ -59,6 +59,28 @@ void ArenaScene::Start()
 	m_fisrtEnnemyHasSpawned = false;
 	m_youWin = false;
 
+	//WAVE HUD
+	m_waveNowHud = CreateGameObject("waveNowHud", TYPE_2D, true);
+	m_waveNowHud.SetMesh(MESHES::LOCAL_SQUARE);
+	m_waveNowHud.SetTexture(TEXTURES::ZERO);
+	m_waveNowHud.SetPosition({ (float)renderWidth - 80, (float)renderHeight / 6, 0 });
+	m_waveNowHud.SetScale({ (float)renderWidth * 0.05f, (float)renderHeight * 0.1f, 0 });
+	m_waveNowHud.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
+	m_slash = CreateGameObject("slashHud", TYPE_2D, true);
+	m_slash.SetMesh(MESHES::LOCAL_SQUARE);
+	m_slash.SetTexture(TEXTURES::SLASH);
+	m_slash.SetPosition({ (float)renderWidth - 160, (float)renderHeight / 6, 0 });
+	m_slash.SetScale({ (float)renderWidth * 0.05f, (float)renderHeight * 0.1f, 0 });
+	m_slash.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
+	m_waveMaxHud = CreateGameObject("waveMaxHud", TYPE_2D, true);
+	m_waveMaxHud.SetMesh(MESHES::LOCAL_SQUARE);
+	m_waveMaxHud.SetTexture(TEXTURES::NINE);
+	m_waveMaxHud.SetPosition({ (float)renderWidth - 250, (float)renderHeight / 6, 0 });
+	m_waveMaxHud.SetScale({ (float)renderWidth * 0.05f, (float)renderHeight * 0.1f, 0 });
+	m_waveMaxHud.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
 	//ITEMS
 	CreateGameObject("Stick");
 	GetGameObjectByName("Stick").SetPosition({ 0, -10, 0 });
@@ -77,10 +99,12 @@ void ArenaScene::Start()
 
 	//SCENE
 	{
-		CreateGameObject("Next 0", 2, 0);
-		GetGameObjectByName("Next 0").SetPosition({ 0,0,0 });
-		GetGameObjectByName("Next 0").SetRotation({ 0,0,0,1 });
-		GetGameObjectByName("Next 0").SetScale({ 1,1,1 });
+		CreateGameObject("skybox", 2, 0);
+		GetGameObjectByName("skybox").SetPosition({ 0,0,0 });
+		GetGameObjectByName("skybox").SetRotation({ 0,0,0,1 });
+		GetGameObjectByName("skybox").SetScale({ -1000,-1000,-1000 });
+		GetGameObjectByName("skybox").SetMesh(MESHES::LOCAL_SPHERE);
+		GetGameObjectByName("skybox").SetTexture(TEXTURES::SKYBOX);
 
 		CreateGameObject("MainMountain", 2, 0);
 		GetGameObjectByName("MainMountain").SetTexture(TEXTURES::GroundMountain);
@@ -110,6 +134,51 @@ void ArenaScene::Start()
 		GetGameObjectByName("Next 9").SetPosition({ -26,-12,-29 });
 		GetGameObjectByName("Next 9").SetRotation({ -0.957677901,-0.085378788,0.088328496,-0.260310769 });
 		GetGameObjectByName("Next 9").SetScale({ 1,5,1 });
+
+		//-----
+
+		CreateGameObject("Next 0b", 2, 0);
+		GetGameObjectByName("Next 0b").SetPosition({ 0,0,0 });
+		GetGameObjectByName("Next 0b").SetRotation({ 0,0,0,1 });
+		GetGameObjectByName("Next 0b").SetScale({ 1,1,1 });
+		GetGameObjectByName("Next 0b").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ 0.5, 0.5, 0.5 })));
+		CreateGameObject("Next 2b", 2, 5);
+		GetGameObjectByName("Next 2b").SetPosition({ -1,-12,-120 });
+		GetGameObjectByName("Next 2b").SetRotation({ -0.667234242,-0.637259066,0.29850179,0.244123131 });
+		GetGameObjectByName("Next 2b").SetScale({ 1,13,12 });
+		CreateGameObject("Next 3b", 2, 5);
+		GetGameObjectByName("Next 3b").SetPosition({ 56,-12,115 });
+		GetGameObjectByName("Next 3b").SetRotation({ -0.663810909,-0.610748649,0.276965022,0.331106514 });
+		GetGameObjectByName("Next 3b").SetScale({ 1,13,12 });
+		CreateGameObject("Next 6b", 2, 5);
+		GetGameObjectByName("Next 6b").SetPosition({ 83,-12,-7 });
+		GetGameObjectByName("Next 6b").SetRotation({ -0.689234376,-0.710599065,0.07979539,0.116780572 });
+		GetGameObjectByName("Next 6b").SetScale({ 1,20,24 });
+		GetGameObjectByName("Next 6b").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ 0.5, 10, 12 })));
+		CreateGameObject("Next 8b", 2, 5);
+		GetGameObjectByName("Next 8b").SetPosition({ -153,-12,44 });
+		GetGameObjectByName("Next 8b").SetRotation({ 0.381226152,0.272696972,0.493557602,-0.732600868 });
+		GetGameObjectByName("Next 8b").SetScale({ 1,20,24 });
+		GetGameObjectByName("Next 8b").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ 0.5, 10, 12 })));
+		CreateGameObject("Next 1b", 2, 0);
+		GetGameObjectByName("Next 1b").SetPosition({ 6,0,5 });
+		GetGameObjectByName("Next 1b").SetRotation({ -0.351867527,-0.378683448,0.092660606,0.851000667 });
+		GetGameObjectByName("Next 1b").SetScale({ 1,1,1 });
+		CreateGameObject("Next 4b", 2, 0);
+		GetGameObjectByName("Next 4b").SetPosition({ -80,-12,63 });
+		GetGameObjectByName("Next 4b").SetRotation({ -0.161777586,-0.827331543,0.101396948,0.528270125 });
+		GetGameObjectByName("Next 4b").SetScale({ 1,13,12 });
+		GetGameObjectByName("Next 4b").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ 0.5, 6.5, 6 })));
+		CreateGameObject("Next 5b", 2, 0);
+		GetGameObjectByName("Next 5b").SetPosition({ -77,-12,-71 });
+		GetGameObjectByName("Next 5b").SetRotation({ -0.632475138,-0.734387934,0.162499338,0.185050413 });
+		GetGameObjectByName("Next 5b").SetScale({ 1,13,12 });
+		GetGameObjectByName("Next 5b").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ 0.5, 6.5, 6 })));
+		CreateGameObject("Next 7b", 2, 0);
+		GetGameObjectByName("Next 7b").SetPosition({ -140,-12,54 });
+		GetGameObjectByName("Next 7b").SetRotation({ 0.10527686,-0.797380924,0.537758529,-0.252816647 });
+		GetGameObjectByName("Next 7b").SetScale({ 1,20,24 });
+		GetGameObjectByName("Next 7b").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ 0.5, 10, 12 })));
 	}
 
 
@@ -222,6 +291,7 @@ void ArenaScene::WaveSystem(float deltatime)
 		if (m_waveStarted && !m_waveFinished && /*m_portalNbSpawned <= 0 &&*/ !m_portalHasSpawned)
 		{
 			OutputDebugStringA("\n [ ! Lets go ! ] \n");
+			UpdateWaveHUD();
 			SpawnPortal();
 			m_portalHasSpawned = true;
 		}
@@ -249,8 +319,8 @@ void ArenaScene::WaveSystem(float deltatime)
 				m_waveStarted = true;
 				m_waveFinished = false;
 				m_fisrtEnnemyHasSpawned = false;
-				OutputDebugStringA("\n [ ! Start new Wave ! ] \n");
 				m_waveNow++;
+				OutputDebugStringA("\n [ ! Start new Wave ! ] \n");
 			}
 			else
 			{
@@ -268,10 +338,87 @@ void ArenaScene::WaveSystem(float deltatime)
 
 void ArenaScene::SpawnPortal() 
 {
-	m_portal = &CreateGameObject<Portals>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player, this);
+	int nbEnnemy = 3 + m_waveNow;
+
+	m_portal = &CreateGameObject<Portals>(m_player, this, nbEnnemy);
 	m_portal->SetPosition({ 30, -10, 30 });
 	m_portal->SetScale({ 1, 1, 0.5 });
 	m_portal->SetTexture(TEXTURES::PORTAL);
 
 	m_portalNbSpawned++;
+}
+
+void ArenaScene::UpdateWaveHUD() 
+{
+	switch (m_waveNow)
+	{
+	case 0:
+		m_waveNowHud.SetTexture(TEXTURES::ZERO);
+		break;
+	case 1:
+		m_waveNowHud.SetTexture(TEXTURES::ONE);
+		break;
+	case 2:
+		m_waveNowHud.SetTexture(TEXTURES::TWO);
+		break;
+	case 3:
+		m_waveNowHud.SetTexture(TEXTURES::TREE);
+		break;
+	case 4:
+		m_waveNowHud.SetTexture(TEXTURES::FOUR);
+		break;
+	case 5:
+		m_waveNowHud.SetTexture(TEXTURES::FIVE);
+		break;
+	case 6:
+		m_waveNowHud.SetTexture(TEXTURES::SIX);
+		break;
+	case 7:
+		m_waveNowHud.SetTexture(TEXTURES::SEVEN);
+		break;
+	case 8:
+		m_waveNowHud.SetTexture(TEXTURES::EIGHT);
+		break;
+	case 9:
+		m_waveNowHud.SetTexture(TEXTURES::NINE);
+		break;
+	default:
+		break;
+	}
+
+	switch (m_waveMax)
+	{
+	case 0:
+		m_waveMaxHud.SetTexture(TEXTURES::ZERO);
+		break;
+	case 1:
+		m_waveMaxHud.SetTexture(TEXTURES::ONE);
+		break;
+	case 2:
+		m_waveMaxHud.SetTexture(TEXTURES::TWO);
+		break;
+	case 3:
+		m_waveMaxHud.SetTexture(TEXTURES::TREE);
+		break;
+	case 4:
+		m_waveMaxHud.SetTexture(TEXTURES::FOUR);
+		break;
+	case 5:
+		m_waveMaxHud.SetTexture(TEXTURES::FIVE);
+		break;
+	case 6:
+		m_waveMaxHud.SetTexture(TEXTURES::SIX);
+		break;
+	case 7:
+		m_waveMaxHud.SetTexture(TEXTURES::SEVEN);
+		break;
+	case 8:
+		m_waveMaxHud.SetTexture(TEXTURES::EIGHT);
+		break;
+	case 9:
+		m_waveMaxHud.SetTexture(TEXTURES::NINE);
+		break;
+	default:
+		break;
+	}
 }

@@ -10,6 +10,7 @@ private:
 
 	Button* mp_buttonStart;
 	Button* mp_buttonArene;
+	Button* mp_buttonQuit;
 	bool m_sceneHasChanged;
 };
 

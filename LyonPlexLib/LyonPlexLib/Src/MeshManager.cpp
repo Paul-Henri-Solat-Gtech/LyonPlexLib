@@ -128,6 +128,89 @@ MeshData MeshManager::CreateMesh_Cube()
 	return m;
 }
 
+MeshData MeshManager::CreateMesh_Sphere()
+{
+	MeshData m;
+
+	// Parametres de la sphere
+	const float radius = 0.5f;
+	const uint32_t slices = 32; // longitudes
+	const uint32_t stacks = 16; // latitudes
+
+	// genere les vertices
+	for (uint32_t stack = 0; stack <= stacks; ++stack)
+	{
+		float v = float(stack) / float(stacks);                  // 0 -> 1
+		float theta = v * DirectX::XM_PI;                        // 0 -> pi
+
+		float sinTheta = sinf(theta);
+		float cosTheta = cosf(theta);
+
+		for (uint32_t slice = 0; slice <= slices; ++slice)
+		{
+			float u = float(slice) / float(slices);              // 0 -> 1
+			float phi = u * DirectX::XM_2PI;                     // 0 -> 2pi
+
+			float sinPhi = sinf(phi);
+			float cosPhi = cosf(phi);
+
+			// position sur la sphere
+			float x = radius * sinTheta * cosPhi;
+			float y = radius * cosTheta;
+			float z = radius * sinTheta * sinPhi;
+
+			// normal (pointant vers l'exterieur)
+			VertexParam vert{};
+			vert.Position = { x, y, z };
+			// couleur par defaut
+			vert.Color = { 1.0f, 1.0f, 1.0f, 1.0f };
+			// UV
+			vert.TexCoord = { u, 1.0f - v }; // flip V pour coherence avec LoadObj
+			// normal (normalize) - pour une sphere centree et radius > 0, pos/radius suffit
+			vert.Normal = { sinTheta * cosPhi, cosTheta, sinTheta * sinPhi };
+
+			m.vertices.push_back(vert);
+		}
+	}
+
+	// genere les indices
+	for (uint32_t stack = 0; stack < stacks; ++stack)
+	{
+		uint32_t rowStart = stack * (slices + 1);
+		uint32_t nextRowStart = (stack + 1) * (slices + 1);
+
+		for (uint32_t slice = 0; slice < slices; ++slice)
+		{
+			uint32_t a = rowStart + slice;
+			uint32_t b = nextRowStart + slice;
+			uint32_t c = nextRowStart + slice + 1;
+			uint32_t d = rowStart + slice + 1;
+
+			// triangle 1
+			m.indices.push_back(a);
+			m.indices.push_back(b);
+			m.indices.push_back(c);
+
+			// triangle 2
+			m.indices.push_back(a);
+			m.indices.push_back(c);
+			m.indices.push_back(d);
+		}
+	}
+
+	// submesh
+	m.subMeshes.push_back(SubMesh{
+		/* IndexOffset = */ 0,
+		/* IndexCount  = */ static_cast<uint32_t>(m.indices.size()),
+		/* MaterialIndex = */ 0
+		});
+
+	m.vSize = static_cast<uint32_t>(m.vertices.size());
+	m.iSize = static_cast<uint32_t>(m.indices.size());
+
+	return m;
+}
+
 
 bool MeshData::LoadFromFile(const std::string& path)
 {
@@ -303,6 +386,14 @@ void MeshManager::InitCube()
 	cb.materialNames = { "" };               // pas de nom de texture
 	cb.materialTextureIDs = { 0 };
 	m_meshLibrary.Add(cb);
+}
+
+void MeshManager::InitSphere()
+{
+	MeshData sp = CreateMesh_Sphere();
+	sp.materialNames = { "" };               // pas de nom de texture
+	sp.materialTextureIDs = { 0 };
+	m_meshLibrary.Add(sp);
 }
 
 

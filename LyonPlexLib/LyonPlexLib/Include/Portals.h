@@ -3,7 +3,7 @@ class Portals : public GameObject
 {
 public:
 
-	Portals(ECSManager* ecsManager, GameManager* gameManager, GameObject& gameObjectPlayer, Scene* scene);
+	Portals(GameObject& gameObjectPlayer, Scene* scene, int ennemyNb);
 	//~Portals();
 
 	void OnUdpdate(float deltatime) override;

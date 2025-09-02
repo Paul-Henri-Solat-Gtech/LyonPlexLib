@@ -19,6 +19,8 @@ public:
 	void WaveSystem(float deltatime);
 	void SpawnPortal();
 
+	void UpdateWaveHUD();
+
 private:
 	//Camera
 	GameObject m_cam;
@@ -36,6 +38,7 @@ private:
 	int m_waveNow, m_waveMax;
 	bool m_waveStarted, m_waveFinished;
 	float m_cooldownNextWave;
+	GameObject m_waveMaxHud, m_waveNowHud, m_slash;
 
 	//Portal
 	Portals* m_portal = nullptr;
