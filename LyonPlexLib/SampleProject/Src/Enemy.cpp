@@ -18,6 +18,7 @@ Enemy::~Enemy()
 void Enemy::Init(GameManager* gameManager)
 {
 	AddComponent<Tag_Enemy>(new Tag_Enemy());
+	SetMesh(MESHES::LOCAL_SQUARE);
 	auto enemyScale = this->GetScale();
 	AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ enemyScale.x / 2, enemyScale.y / 2, enemyScale.z / 2 }))); //not colliding with terrain Or just not work
 
@@ -147,6 +148,7 @@ void Enemy::SetStateMachine()
 		m_life = 3;
 		m_moveSpeed = 5.f;
 		m_reloadSpeed = 2.f;
+		SetTexture(TEXTURES::CRABE_WALK_1);
 
 		// Enemy States >
 
