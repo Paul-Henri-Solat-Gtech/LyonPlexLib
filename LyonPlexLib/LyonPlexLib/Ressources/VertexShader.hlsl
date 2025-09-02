@@ -99,7 +99,7 @@ PSInput VSMain(VSInput input)
 
 float4 PSMain(PSInput input) : SV_Target
 {
-    const float GAMMA = 2.1;
+    const float GAMMA = 2.3;
     float4 tex = textures.Sample(linearClamp, input.uv);
     float outAlpha = tex.a * alpha;
     if (outAlpha < 0.001)

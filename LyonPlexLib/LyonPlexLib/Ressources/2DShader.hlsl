@@ -41,6 +41,6 @@ PSInput VSMain2D(VSInput input)
 float4 PSMain2D(PSInput input) : SV_TARGET
 {
     float4 c = textures.Sample(linearClamp, input.uv);
-    c.rgb = pow(c.rgb, 1.0 / 2.1); // format lineraire a RGB
+    c.rgb = pow(c.rgb, 1.0 / 2.0); // format lineraire a RGB
     return c;
 }
