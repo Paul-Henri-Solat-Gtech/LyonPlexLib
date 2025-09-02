@@ -363,6 +363,7 @@ void Render3D::UpdateAndBindCB(Entity ent)
 
 	cbData.materialIndex = m_ECS->GetComponent<MeshComponent>(ent)->materialID;
 	cbData.alpha = m_ECS->GetComponent<MeshComponent>(ent)->alpha;
+	cbData.materialFlags = m_ECS->GetComponent<MeshComponent>(ent)->materialFlags;
 
 	// Calcul des offsets en utilisant m_allocatedEntityCount
 	UINT64 entityOffset = UINT64(ent.id) * m_cbSize;

@@ -11,14 +11,15 @@ cbuffer CameraBuffer : register(b0)
     float4x4 viewMatrix;
     float4x4 projectMatrix;
     float3 camPos;
-    float _camCBpad; // padding 16 bytes
+    float _camCBpad; 
 };
 cbuffer ObjectBuffer : register(b1)
 {
     float4x4 worldMatrix;
     uint materialIndex;
     float alpha;
-    float _objectCBpad[2]; // padding 16 bytes
+    uint materialFlags; // bit 0 = useQuickGamma
+    float _objectCBpad[1];
 };
 
 struct Light
@@ -35,14 +36,13 @@ struct Light
 cbuffer LightCountCB : register(b2)
 {
     uint lightCount;
-    float3 _pad; // pour aligner � 16
+    float3 _pad; // pour aligner  16
 };
 
 // CBV #2 : juste l�array
 cbuffer LightArrayCB : register(b3)
 {
-    Light lights[MAX_LIGHTS]; // 8�48 = 384 bytes
-    // HLSL compl�tera automatiquement au multiple de 16
+    Light lights[MAX_LIGHTS]; // 8x48 = 384 bytes
 };
 
 // slot t0 : table SRV textures
@@ -97,124 +97,45 @@ PSInput VSMain(VSInput input)
     return output;
 }
 
-//float4 PSMain(PSInput input) : SV_Target
-//{
-//    float4 tex = textures.Sample(linearClamp, input.uv);
-//    float outAlpha = tex.a * alpha;
-//    if (outAlpha < 0.001)
-//        discard;
-
-//    float3 baseColor = tex.rgb;
-
-//// seuil pour considérer "transparent"
-//    if (outAlpha < 0.999)
-//    {
-//    // ambient simple (valeur en linéaire ou sRGB selon ta config)
-//        float3 ambient = float3(0.6, 0.6, 0.6); // ajuste si trop sombre/clair
-//        float3 result = baseColor * ambient;
-//        return float4(result, outAlpha);
-//    }
-    
-//    // sample albedo
-//    //float3 baseColor = textures.Sample(linearClamp, input.uv).rgb;
-    
-//    //float4 tex = textures.Sample(linearClamp, input.uv);
-    
-//    //// 1) sRGB -> linéaire (approx)
-//    //float3 baseLinear = pow(tex.rgb, 2.2);
-    
-//    //float3 baseColor = tex.rgb;
-//    //float outAlpha = tex.a * alpha; // alpha du cbuffer pour contrôle global
-
-//    //if (outAlpha < 0.01)
-//    //    discard;
-    
-//    float3 N = normalize(input.worldN);
-//    float3 V = normalize(camPos - input.worldPos);
-
-//    float3 accum = float3(0.5, 0.5, 0.5);
-
-//    [unroll]
-//    for (int i = 0; i < lightCount; ++i)
-//    {
-//        Light L = lights[i];
-
-//        float3 Ldir;
-//        float att = 1.0;
-
-//        if (L.type == 0) // directionnelle
-//        {
-//            Ldir = normalize(-L.direction);
-//        }
-//        else // ponctuelle
-//        {
-//            float3 toL = L.direction - input.worldPos;
-//            float dist = length(toL);
-//            if (dist > L.range)
-//                continue;
-//            Ldir = toL / dist;
-//            att = saturate(1 - dist / L.range);
-//        }
-
-//        // Lambert
-//        float NdotL = saturate(dot(N, Ldir));
-//        float3 diff = L.color * L.intensity * NdotL * att;
-
-//        // Blinn Phong
-//        float3 H = normalize(Ldir + V);
-//        float NdotH = saturate(dot(N, H));
-//        float shininess = 32; // ou a texturer plus tard
-//        float3 spec = L.color * L.intensity * pow(NdotH, shininess) * att;
-
-//        accum += diff + spec;
-//    }
-
-//    //float3 litColor = baseColor * accum;
-//    //return float4(litColor, alpha);
-//    float3 litLinear = baseLinear * accum;
-
-//// 3) linéaire -> sRGB pour sortie
-//    float3 litSRGB = pow(litLinear, 1.0 / 2.2);
-
-//// alpha (straight)
-//    float outAlpha = tex.a * alpha;
-
-//    return float4(litSRGB, outAlpha);
-//}
 float4 PSMain(PSInput input) : SV_Target
 {
-    float4 tex = textures.Sample(linearClamp, input.uv); // tex.rgb est déjà LINÉAIRE si SRV est _SRGB
+    const float GAMMA = 2.1;
+    float4 tex = textures.Sample(linearClamp, input.uv);
     float outAlpha = tex.a * alpha;
     if (outAlpha < 0.001)
         discard;
 
     float3 baseColor = tex.rgb;
 
-    // transparent (ambient only)
+    bool useQuick = (materialFlags & 1) != 0;
+
     if (outAlpha < 0.999)
     {
-        float3 ambient = float3(0.4, 0.4, 0.4); // valeur en LINÉAIRE (ajuste si besoin)
+        // ambient only pour pixels partiellement transparents
+        float3 ambient = float3(0.6, 0.6, 0.6);
         float3 result = baseColor * ambient;
+        if (useQuick)
+            result = pow(result, 1.0 / GAMMA);
         return float4(result, outAlpha);
     }
 
-    // opaque : éclairage complet en LINÉAIRE
+    // opaque : éclairage complet
     float3 N = normalize(input.worldN);
     float3 V = normalize(camPos - input.worldPos);
-
-    float3 accum = float3(0.4, 0.4, 0.4); // ambient en LINÉAIRE
+    float3 accum = float3(0.5, 0.5, 0.5);
     [unroll]
     for (int i = 0; i < lightCount; ++i)
     {
         Light L = lights[i];
+
         float3 Ldir;
         float att = 1.0;
 
-        if (L.type == 0)
+        if (L.type == 0) // directionnelle
         {
             Ldir = normalize(-L.direction);
         }
-        else
+        else // ponctuelle
         {
             float3 toL = L.direction - input.worldPos;
             float dist = length(toL);
@@ -224,18 +145,22 @@ float4 PSMain(PSInput input) : SV_Target
             att = saturate(1 - dist / L.range);
         }
 
+        // Lambert
         float NdotL = saturate(dot(N, Ldir));
         float3 diff = L.color * L.intensity * NdotL * att;
 
+        // Blinn-Phong spec
         float3 H = normalize(Ldir + V);
         float NdotH = saturate(dot(N, H));
-        float shininess = 32;
+        float shininess = 32.0;
         float3 spec = L.color * L.intensity * pow(NdotH, shininess) * att;
 
         accum += diff + spec;
     }
 
-    float3 litLinear = baseColor * accum;
-    // RT en sRGB : retourner linéaire (GPU convertira)
-    return float4(litLinear, outAlpha);
+    float3 lit = baseColor * accum;
+    if (useQuick)
+        lit = pow(lit, 1.0 / GAMMA);
+
+    return float4(lit, outAlpha);
 }
