@@ -19,6 +19,7 @@ void GameScene::Start()
 	m_cam = GetGameObjectByName("cam");
 	m_cam.AddComponent<CameraComponent>(new CameraComponent());
 	GetGameObjectByName("cam").SetPosition({ 0, 0, 0.5f });
+	GetEcsManager()->RemoveComponent<MeshComponent>(GetGameObjectByName("cam").GetEntity());
 
 	// fps cam
 	m_fpsCam.Init(m_cam, mp_sceneManager->GetWindow());
@@ -249,7 +250,7 @@ void GameScene::Start()
 		c = GetGameObjectByName("Road3").GetScale();
 		GetGameObjectByName("Road3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
 
-		CreateGameObject("Tree", MESHES::ARBRETEST, TEXTURES::HERBE);
+		CreateGameObject("Tree", MESHES::MASTICS, TEXTURES::HERBE);
 		GetGameObjectByName("Tree").SetTag(TAG_Floor);
 		GetGameObjectByName("Tree").SetPosition({ 80, -2, 50 });
 		GetGameObjectByName("Tree").SetScale({ 50, 50, 50 });
