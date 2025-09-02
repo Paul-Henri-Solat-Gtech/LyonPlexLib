@@ -38,7 +38,7 @@ private:
 	float m_zoomMax = 1000.0f;              // max zoom-out
 
 	int m_newIdGM;
-	int m_camSpeed, m_camWalkSpeed, m_camRunSpeed, m_scaleSpeed, m_scaleNormalSpeed, m_scaleFastSpeed;
+	float m_camSpeed, m_camWalkSpeed, m_camRunSpeed, m_scaleSpeed, m_scaleNormalSpeed, m_scaleFastSpeed;
 
 	std::string m_lastPlacedGmName;
 	XMFLOAT3 m_lastPlacedGmPos;

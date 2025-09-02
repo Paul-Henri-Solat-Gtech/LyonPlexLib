@@ -231,7 +231,7 @@ bool MeshData::LoadFromFile(const std::string& path)
 
 	if (!ok)
 	{
-		OutputDebugStringA(">> LoadObj FAILED\n");
+		Utils::log(">> LoadObj FAILED : " + path + "\n");
 		return false;
 	}
 	//OutputDebugStringA(">> LoadObj SUCCEEDED\n");
@@ -411,18 +411,18 @@ void MeshManager::LoadMeshFromFile(const std::string& path)
         // assume relative to path's folder
         std::string baseDir = std::filesystem::path(path).remove_filename().string();
 
-		//// DEBUG
-		//char buf[256];
-		//sprintf_s(buf, sizeof(buf),
-		//	"[LoadMeshFromFile] Loading texture `%s`\n", texPath.c_str());
-		//OutputDebugStringA(buf);
-
 		std::string texPath = baseDir + name;
+		// DEBUG
+		char buf[256];
+		sprintf_s(buf, sizeof(buf),
+			"[LoadMeshFromFile] Loading texture `%s`\n", texPath.c_str());
+		OutputDebugStringA(buf);
+
 		TextureManager::TextureID tid = mp_textureManager->LoadTexture(texPath);
 
-		//sprintf_s(buf, sizeof(buf),
-		//	"[LoadMeshFromFile] -> LoadTexture returned ID = %u\n", tid);
-		//OutputDebugStringA(buf);
+		sprintf_s(buf, sizeof(buf),
+			"[LoadMeshFromFile] -> LoadTexture returned ID = %u\n", tid);
+		OutputDebugStringA(buf);
 
 		mesh.materialTextureIDs[i] = tid;
         //mesh.materialTextureIDs[i] = mp_textureManager->LoadTexture(baseDir + name);

@@ -103,6 +103,8 @@ TextureID TextureManager::LoadTexture(const std::string& key)
         &tex.resource,
         true);
     if (FAILED(hr)) throw std::runtime_error("Failed to load 2D texture: " + key);
+    //if (FAILED(hr)) Utils::log("\nFailed to load 2D texture: " + key + "\n");
+    Utils::log("\n 2D texture loaded : " + key + "\n");
     auto uploadOp = uploadBatch.End(m_graphicsDevice->GetCommandQueue().Get());
     uploadOp.wait();
 
@@ -131,6 +133,8 @@ TextureID TextureManager::LoadCubeTexture(const std::string& key)
         &tex.resource,
         true);
     if (FAILED(hr)) throw std::runtime_error("Failed to load cube texture: " + key);
+    Utils::log("\n 3D texture loaded : " + key + "\n");
+
     auto uploadOp = uploadBatch.End(m_graphicsDevice->GetCommandQueue().Get());
     uploadOp.wait();
 

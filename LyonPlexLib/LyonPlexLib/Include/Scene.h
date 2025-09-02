@@ -39,7 +39,7 @@ public:
 	Entity* GetEntity(const std::string& entityName);//(a enlever)
 
 	GameObject& CreateGameObject(const std::string& gameObjectName);
-	GameObject& CreateGameObject(const std::string& gameObjectName, uint32_t meshId, uint32_t textureId);
+	GameObject& CreateGameObject(const std::string& gameObjectName, uint32_t meshId, uint32_t textureId = UINT32_MAX);
 	GameObject& CreateWaterGameObject();
 	GameObject& CreateWaterGameObject(const std::string& gameObjectName);
 	GameObject& CreateGameObject(const std::string& gameObjectName, /*std::vector<std::unique_ptr<GameObject>>& sceneGameObjects,*/ DimensionalType type, bool useMesh = true);

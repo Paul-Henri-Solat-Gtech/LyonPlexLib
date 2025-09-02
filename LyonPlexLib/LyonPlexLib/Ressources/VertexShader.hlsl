@@ -10,25 +10,25 @@ cbuffer CameraBuffer : register(b0)
 {
     float4x4 viewMatrix;
     float4x4 projectMatrix;
-    float3   camPos; 
-    float    _camCBpad; // padding 16 bytes
+    float3 camPos;
+    float _camCBpad; // padding 16 bytes
 };
 cbuffer ObjectBuffer : register(b1)
 {
     float4x4 worldMatrix;
-    uint     materialIndex;
-    float    alpha;
-    float    _objectCBpad[2]; // padding 16 bytes
+    uint materialIndex;
+    float alpha;
+    float _objectCBpad[2]; // padding 16 bytes
 };
 
 struct Light
 {
-    uint type; 
-    float3 color; 
-    float intensity; 
-    float3 direction; 
-    float range; 
-    float _pad[3]; 
+    uint type;
+    float3 color;
+    float intensity;
+    float3 direction;
+    float range;
+    float _pad[3];
 };
 
 // CBV #1 : juste le count
@@ -46,7 +46,7 @@ cbuffer LightArrayCB : register(b3)
 };
 
 // slot t0 : table SRV textures
-Texture2D   textures : register(t0);
+Texture2D textures : register(t0);
 
 // slot s0 : sampler lineaire
 SamplerState linearClamp : register(s0);
@@ -59,18 +59,18 @@ SamplerState linearClamp : register(s0);
 struct VSInput
 {
     float3 position : POSITION;
-    float4 color    : COLOR;
-    float2 uv       : TEXCOORD0;
-    float3 normal   : NORMAL;
+    float4 color : COLOR;
+    float2 uv : TEXCOORD0;
+    float3 normal : NORMAL;
 };
 
 struct PSInput
 {
     float4 positionH : SV_POSITION;
-    float4 color     : COLOR;
-    float2 uv        : TEXCOORD0;
-    float3 worldPos  : TEXCOORD1;
-    float3 worldN    : TEXCOORD2;
+    float4 color : COLOR;
+    float2 uv : TEXCOORD0;
+    float3 worldPos : TEXCOORD1;
+    float3 worldN : TEXCOORD2;
 };
 
 
@@ -97,29 +97,124 @@ PSInput VSMain(VSInput input)
     return output;
 }
 
-float4 PSMain(PSInput input) : SV_Target
-{    
-    // sample albedo
-    float3 baseColor = textures.Sample(linearClamp, input.uv).rgb;
+//float4 PSMain(PSInput input) : SV_Target
+//{
+//    float4 tex = textures.Sample(linearClamp, input.uv);
+//    float outAlpha = tex.a * alpha;
+//    if (outAlpha < 0.001)
+//        discard;
 
+//    float3 baseColor = tex.rgb;
+
+//// seuil pour considérer "transparent"
+//    if (outAlpha < 0.999)
+//    {
+//    // ambient simple (valeur en linéaire ou sRGB selon ta config)
+//        float3 ambient = float3(0.6, 0.6, 0.6); // ajuste si trop sombre/clair
+//        float3 result = baseColor * ambient;
+//        return float4(result, outAlpha);
+//    }
+    
+//    // sample albedo
+//    //float3 baseColor = textures.Sample(linearClamp, input.uv).rgb;
+    
+//    //float4 tex = textures.Sample(linearClamp, input.uv);
+    
+//    //// 1) sRGB -> linéaire (approx)
+//    //float3 baseLinear = pow(tex.rgb, 2.2);
+    
+//    //float3 baseColor = tex.rgb;
+//    //float outAlpha = tex.a * alpha; // alpha du cbuffer pour contrôle global
+
+//    //if (outAlpha < 0.01)
+//    //    discard;
+    
+//    float3 N = normalize(input.worldN);
+//    float3 V = normalize(camPos - input.worldPos);
+
+//    float3 accum = float3(0.5, 0.5, 0.5);
+
+//    [unroll]
+//    for (int i = 0; i < lightCount; ++i)
+//    {
+//        Light L = lights[i];
+
+//        float3 Ldir;
+//        float att = 1.0;
+
+//        if (L.type == 0) // directionnelle
+//        {
+//            Ldir = normalize(-L.direction);
+//        }
+//        else // ponctuelle
+//        {
+//            float3 toL = L.direction - input.worldPos;
+//            float dist = length(toL);
+//            if (dist > L.range)
+//                continue;
+//            Ldir = toL / dist;
+//            att = saturate(1 - dist / L.range);
+//        }
+
+//        // Lambert
+//        float NdotL = saturate(dot(N, Ldir));
+//        float3 diff = L.color * L.intensity * NdotL * att;
+
+//        // Blinn Phong
+//        float3 H = normalize(Ldir + V);
+//        float NdotH = saturate(dot(N, H));
+//        float shininess = 32; // ou a texturer plus tard
+//        float3 spec = L.color * L.intensity * pow(NdotH, shininess) * att;
+
+//        accum += diff + spec;
+//    }
+
+//    //float3 litColor = baseColor * accum;
+//    //return float4(litColor, alpha);
+//    float3 litLinear = baseLinear * accum;
+
+//// 3) linéaire -> sRGB pour sortie
+//    float3 litSRGB = pow(litLinear, 1.0 / 2.2);
+
+//// alpha (straight)
+//    float outAlpha = tex.a * alpha;
+
+//    return float4(litSRGB, outAlpha);
+//}
+float4 PSMain(PSInput input) : SV_Target
+{
+    float4 tex = textures.Sample(linearClamp, input.uv); // tex.rgb est déjà LINÉAIRE si SRV est _SRGB
+    float outAlpha = tex.a * alpha;
+    if (outAlpha < 0.001)
+        discard;
+
+    float3 baseColor = tex.rgb;
+
+    // transparent (ambient only)
+    if (outAlpha < 0.999)
+    {
+        float3 ambient = float3(0.4, 0.4, 0.4); // valeur en LINÉAIRE (ajuste si besoin)
+        float3 result = baseColor * ambient;
+        return float4(result, outAlpha);
+    }
+
+    // opaque : éclairage complet en LINÉAIRE
     float3 N = normalize(input.worldN);
     float3 V = normalize(camPos - input.worldPos);
 
-    float3 accum = float3(0.5, 0.5, 0.5);
-
+    float3 accum = float3(0.4, 0.4, 0.4); // ambient en LINÉAIRE
     [unroll]
     for (int i = 0; i < lightCount; ++i)
     {
         Light L = lights[i];
-
         float3 Ldir;
         float att = 1.0;
 
-        if (L.type == 0) // directionnelle
+        if (L.type == 0)
         {
             Ldir = normalize(-L.direction);
         }
-        else // ponctuelle
+        else
         {
             float3 toL = L.direction - input.worldPos;
             float dist = length(toL);
@@ -129,19 +224,18 @@ float4 PSMain(PSInput input) : SV_Target
             att = saturate(1 - dist / L.range);
         }
 
-        // Lambert
         float NdotL = saturate(dot(N, Ldir));
         float3 diff = L.color * L.intensity * NdotL * att;
 
-        // Blinn Phong
         float3 H = normalize(Ldir + V);
         float NdotH = saturate(dot(N, H));
-        float shininess = 32; // ou a tex�turer plus tard
+        float shininess = 32;
         float3 spec = L.color * L.intensity * pow(NdotH, shininess) * att;
 
         accum += diff + spec;
     }
 
-    float3 litColor = baseColor * accum;
-    return float4(litColor, alpha);
+    float3 litLinear = baseColor * accum;
+    // RT en sRGB : retourner linéaire (GPU convertira)
+    return float4(litLinear, outAlpha);
 }
