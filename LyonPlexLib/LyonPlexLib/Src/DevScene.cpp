@@ -47,7 +47,7 @@ void DevScene::Start()
 	auto a = GetGameObjectByName("Grid");
 	a.SetTexture(TEXTURES::ARMS);
 	a.SetScale({ 20,1,20 });
-	//a.GetComponent<MeshComponent>()->alpha = 0.2;
+	a.GetComponent<MeshComponent>()->ColorPatchUp();
 
 	CreateGameObject("Grid2", DimensionalType::TYPE_3D_TRANSPARENT, true);
 	a = GetGameObjectByName("Grid2");

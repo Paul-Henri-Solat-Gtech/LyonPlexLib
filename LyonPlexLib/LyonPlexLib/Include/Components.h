@@ -142,6 +142,12 @@ struct MeshComponent : public Component
 	uint32_t meshID;
 	uint32_t materialID;
 	float alpha = 1;
+	uint32_t materialFlags = 0; //  quick patch-up for color of 'invisible' textures
+
+	void ColorPatchUp()
+	{
+		materialFlags = 1ULL << 0;
+	}
 
 	MeshComponent(uint32_t meshID_, uint32_t materialID_ = UINT32_MAX)
 	{
