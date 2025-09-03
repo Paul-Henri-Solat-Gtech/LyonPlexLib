@@ -60,7 +60,7 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/lightlp.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/groundmt.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/portal.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/taTitle.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/titreV2.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/slash.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/zero.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/one.png");
@@ -72,8 +72,8 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/seven.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/eight.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/nine.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/btnstart.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/btnarena.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/BtnStartv2.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/BtnArenav2.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/btnshutdown.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/SkyboxArmonizer.png");
 

@@ -18,19 +18,23 @@ void MainMenuScene::Start()
 	//m_playerHeart1 = mp_scene->GetGameObjectByName("Heart1");
 	gmTitle.SetMesh(MESHES::LOCAL_SQUARE);
 	gmTitle.SetTexture(TEXTURES::TITLE);
-	gmTitle.SetPosition({ (float)renderWidth / 2, ((float)renderHeight / 2) - 200, 0 });
-	gmTitle.SetScale({ (float)renderWidth * 0.5f , (float)renderHeight * 0.5f, 0 });
+	gmTitle.SetPosition({ (float)renderWidth - 300, ((float)renderHeight / 2) - 200, 0 });
+	gmTitle.SetScale({ 220, 120, 1 });
 	gmTitle.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
 	// Buttons
 	mp_buttonStart = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::BTN_START, "btnStart");
+	mp_buttonStart->SetScale({ 200, 80, 1 });
+	mp_buttonStart->SetPosition({ 210, ((float)renderHeight / 2) - 50, 0 });
 
 	mp_buttonArene = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::BTN_ARENA, "btnArene");
-	mp_buttonArene->SetPosition({ (float)renderWidth / 2, mp_buttonStart->GetPosition().y + 200, 0 });
+	mp_buttonArene->SetScale({ 300, 80, 1 });
+	mp_buttonArene->SetPosition({ 350, ((float)renderHeight / 2) + 130, 0 });
 
 	mp_buttonQuit = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::BTN_SHUTDOWN, "btnquit");
+	mp_buttonQuit->SetScale({ 10, 10, 1 });
 	mp_buttonQuit->SetPosition({ (float)renderWidth - 70, (float)renderHeight - 70, 0 });
-	mp_buttonQuit->SetScale({50, 50, 1});
+
 
 	m_sceneHasChanged = false;
 }
@@ -41,12 +45,12 @@ void MainMenuScene::Update(float deltatime)
 	if (mp_buttonStart->GetMouseOnBtn() && !m_sceneHasChanged)
 	{
 		//OutputDebugStringA("\nDont touche me !\n");
-		mp_buttonStart->SetScale({ 450, 150, 0 });
+		mp_buttonStart->SetScale({ 220, 100, 1 });
 	}
 	if (!mp_buttonStart->GetMouseOnBtn() && !m_sceneHasChanged)
 	{
 		//OutputDebugStringA("\nDont touche me !\n");
-		mp_buttonStart->SetScale({ 400, 100, 0 });
+		mp_buttonStart->SetScale({ 200, 80, 1 });
 	}
 	if (mp_buttonStart->GetBtnIsClicked() && !m_sceneHasChanged)
 	{
@@ -60,12 +64,12 @@ void MainMenuScene::Update(float deltatime)
 	if (mp_buttonArene->GetMouseOnBtn() && !m_sceneHasChanged)
 	{
 		//OutputDebugStringA("\nDont touche me !\n");
-		mp_buttonArene->SetScale({ 450, 150, 0 });
+		mp_buttonArene->SetScale({ 270, 100, 1 });
 	}
 	if (!mp_buttonArene->GetMouseOnBtn() && !m_sceneHasChanged)
 	{
 		//OutputDebugStringA("\nDont touche me !\n");
-		mp_buttonArene->SetScale({ 400, 100, 0 });
+		mp_buttonArene->SetScale({ 250, 80, 1 });
 	}
 	if (mp_buttonArene->GetBtnIsClicked() && !m_sceneHasChanged)
 	{
@@ -78,11 +82,11 @@ void MainMenuScene::Update(float deltatime)
 	//QUIT
 	if (mp_buttonQuit->GetMouseOnBtn() && !m_sceneHasChanged)
 	{
-		mp_buttonQuit->SetScale({ 70, 70, 1 });
+		mp_buttonQuit->SetScale({ 40, 40, 1 });
 	}
 	if (!mp_buttonQuit->GetMouseOnBtn() && !m_sceneHasChanged)
 	{
-		mp_buttonQuit->SetScale({ 50, 50, 1 });
+		mp_buttonQuit->SetScale({ 20, 20, 1 });
 	}
 	if (mp_buttonQuit->GetBtnIsClicked() && !m_sceneHasChanged)
 	{
