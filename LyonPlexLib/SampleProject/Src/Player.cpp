@@ -235,10 +235,11 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 
 	InitPlayerGameObj(ecsManager, scene);
 	//mp_scene->CreateGameObject("player");
-	SetScale({ 1, 3, 1 });
+	SetScale({ 1, 8, 1 });
 	XMFLOAT3 POSITION_CHAMPS = { 325, -2, 50 };
 	XMFLOAT3 pos(POSITION_CHAMPS.x + 0, POSITION_CHAMPS.y + 15, POSITION_CHAMPS.z + 0);
-	SetPosition(pos);
+	//SetPosition(pos);
+	SetPosition({0,0,0});
 
 
 	mp_gameManager = gameManager;

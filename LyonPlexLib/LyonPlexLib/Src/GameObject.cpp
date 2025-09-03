@@ -108,11 +108,11 @@ void GameObject::InitHitbox(const std::string& name, ECSManager* ecsManager, Sce
 
 	// TYPE
 	//AddComponent<Type_3D>(new Type_3D());
-	AddComponent<Type_3D>(new Type_3D());
+	AddComponent<Type_3D_Transparent>(new Type_3D_Transparent());
 
 	// MESH
-	//AddComponent<MeshComponent>(new MeshComponent(meshId, textureId));
-
+	AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::TEMPLE));
+	GetComponent<MeshComponent>()->alpha = 0.5;
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());
 	//GetComponent<TransformComponent>()->position = { 0, 0, 0 };
