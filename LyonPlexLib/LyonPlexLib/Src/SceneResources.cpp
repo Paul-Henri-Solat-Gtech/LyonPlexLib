@@ -432,45 +432,10 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
 bool SceneResources::InitImportedMeshResources(MeshManager& meshMngr)
 {
 
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/ArbreTest.obj");//3
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/Cepha1.obj");
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/Cube.obj");
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/TEMPLE.obj");
-    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/Temple.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/Temple.obj");
 
     // A MODIFIER
     meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/Maison.obj");
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/maison2.obj");
-
-
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/RockBig.obj");
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/RockLM1.obj");
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/RockLM2.obj"); //11
-
-    
-    // A MODIFIER
-    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cepha_gros.obj");
-    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cepha_petit.obj");
-    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cypress_gros.obj");
-    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cypress_petit.obj");
-    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/masitics.obj");
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/olivier.obj");
-    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/Olive2.obj");
-
-    //// ANCIENS
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/buisson_fleur.obj");
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/BigFL.obj");
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/buisson_gros.obj");    //20
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/buisson_moyen_fleur.obj");
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/buisson_moyen.obj");
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/buisson_petit.obj");
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux_sol1.obj");
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux_sol2.obj");
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux_sol3.obj");
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux1.obj");
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux2.obj");
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux3.obj");
-    //meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/cailloux4.obj");//30
     
     // NOUVEAUX
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Bushes/Fleur.obj");
@@ -491,15 +456,25 @@ bool SceneResources::InitImportedMeshResources(MeshManager& meshMngr)
 
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Objets/Baton.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/Herbe.obj");
-    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/RouteDroite.obj");
-    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/RouteTournante.obj");
-    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/Falaise.obj");
 
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/Map.obj");
-    //meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/Lianes/LIANE1.obj");
-    //meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/Lianes/LIANE2.obj");
-    //meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/Lianes/LIANE3.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Lianes/LIANE1.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Lianes/LIANE2.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Lianes/LIANE3.obj");
 
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/Cepha1.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/Cepha2.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/Cypress1.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/Cypress2.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/Mastic1.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/Mastic2.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/olivier_tronc.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/olivier_sup.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/Olive2.obj");
+
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/PONT.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/POTEAU_INTACT.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/POTEAU_BRISE.obj");
 
     return true;
 }

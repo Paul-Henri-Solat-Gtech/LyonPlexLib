@@ -43,18 +43,41 @@ void DevScene::Start()
 	//GetGameObjectByName("Map").SetPosition({ -10,0,0 });
 
 
-	CreateGameObject("Grid", DimensionalType::TYPE_3D_TRANSPARENT, true);
-	auto a = GetGameObjectByName("Grid");
-	a.SetTexture(TEXTURES::ARMS);
-	a.SetScale({ 20,1,20 });
-	a.GetComponent<MeshComponent>()->ColorPatchUp();
+	//CreateGameObject("Grid", DimensionalType::TYPE_3D_TRANSPARENT, true);
+	//auto a = GetGameObjectByName("Grid");
+	//a.SetTexture(TEXTURES::ARMS);
+	//a.SetScale({ 20,1,20 });
+	//a.GetComponent<MeshComponent>()->ColorPatchUp();
 
-	CreateGameObject("Grid2", DimensionalType::TYPE_3D_TRANSPARENT, true);
-	a = GetGameObjectByName("Grid2");
-	a.SetTexture(TEXTURES::GRID);
-	a.SetScale({ 20,0,20 });
-	a.SetPosition({ 0,4,0 });
-	a.GetComponent<MeshComponent>()->alpha = 0.5;
+	//CreateGameObject("Grid2", DimensionalType::TYPE_3D_TRANSPARENT, true);
+	//a = GetGameObjectByName("Grid2");
+	//a.SetTexture(TEXTURES::GRID);
+	//a.SetScale({ 20,0,20 });
+	//a.SetPosition({ 0,4,0 });
+	//a.GetComponent<MeshComponent>()->alpha = 0.5;
+
+	//CreateGameObject("olive", MESHES::OLIVIER_2);
+	//auto a = GetGameObjectByName("olive");
+	//a.SetScale({ 10,10,10 });
+	//a.SetPosition({ -10,0,0 });
+
+	//CreateGameObject("vine", MESHES::VINE_1);
+	//auto b = GetGameObjectByName("vine");
+	//b.SetScale({ 10,10,10 });
+	//b.SetPosition({ 10,0,0 });
+
+
+	int i = MESHES::VINE_1;
+	float j = 0;
+	for (; i < MESHES::TotalMeshCount; i++)
+	{
+		auto b = CreateGameObject("", i);
+		 //= GetGameObjectByName("");
+		b.SetScale({ 10,10,10 });
+		b.SetPosition({ -150 + 50.f * j,0,0 });
+		j++;
+	}
+
 
 	m_newIdGM = 0;
 	m_camWalkSpeed = 30.f;
@@ -341,8 +364,8 @@ void DevScene::Update(float deltatime)
 					std::string cm_position = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetPosition({ " + RoundValueStr(gm->GetPosition().x) + "," + RoundValueStr(gm->GetPosition().y) + "," + RoundValueStr(gm->GetPosition().z) + " });";
 					std::string cm_rotation = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetRotation({ " + FloatToStringNoTrailingZeros(gm->GetRotation().x) + "," + FloatToStringNoTrailingZeros(gm->GetRotation().y) + "," + FloatToStringNoTrailingZeros(gm->GetRotation().z) + "," + FloatToStringNoTrailingZeros(gm->GetRotation().w) + " });";
 					std::string cm_scale = std::string("\nGetGameObjectByName(\"") + gm->GetName() + "\").SetScale({ " + RoundValueStr(gm->GetScale().x) + "," + RoundValueStr(gm->GetScale().y) + "," + RoundValueStr(gm->GetScale().z) + " });";
-					std::string cm_collider = std::string("\nGetGameObjectByName(\"") + gm->GetName() 
-						+ "\").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({" 
+					std::string cm_collider = std::string("\nGetGameObjectByName(\"") + gm->GetName()
+						+ "\").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({"
 						+ FloatToStringNoTrailingZeros(gm->GetColliderX()) + ", " + FloatToStringNoTrailingZeros(gm->GetColliderY()) + ", " + FloatToStringNoTrailingZeros(gm->GetColliderZ()) + "}, {"
 						+ FloatToStringNoTrailingZeros(gm->GetColliderOffSet().x) + ", " + FloatToStringNoTrailingZeros(gm->GetColliderOffSet().y) + ", " + FloatToStringNoTrailingZeros(gm->GetColliderOffSet().z)
 						+ " })));";
@@ -531,8 +554,8 @@ void DevScene::Update(float deltatime)
 			gameObj.SetColliderX(m_placingHitbox.GetComponent<TransformComponent>()->scale.x / 2);
 			gameObj.SetColliderY(m_placingHitbox.GetComponent<TransformComponent>()->scale.y / 2);
 			gameObj.SetColliderZ(m_placingHitbox.GetComponent<TransformComponent>()->scale.z / 2);
-			XMFLOAT3 offset = 
-			{ 
+			XMFLOAT3 offset =
+			{
 				m_placingHitbox.GetComponent<TransformComponent>()->position.x - m_placingModule.GetComponent<TransformComponent>()->position.x,
 				m_placingHitbox.GetComponent<TransformComponent>()->position.y - m_placingModule.GetComponent<TransformComponent>()->position.y,
 				m_placingHitbox.GetComponent<TransformComponent>()->position.z - m_placingModule.GetComponent<TransformComponent>()->position.z,

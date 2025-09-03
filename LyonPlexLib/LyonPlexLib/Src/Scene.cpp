@@ -96,7 +96,8 @@ GameObject& Scene::CreateGameObject(const std::string& gameObjectName, uint32_t 
 
 	// 2) On l'initialise
 	obj.Init(gameObjectName, mp_ecsManager, this, meshId, textureId);
-	return obj;
+	//return obj;
+	return *m_sceneGameObjects.back();
 }
 
 GameObject& Scene::CreateWaterGameObject()
