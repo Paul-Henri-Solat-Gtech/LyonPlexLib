@@ -148,6 +148,100 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Crabe/ATTACK/27.png");
     }
 
+    // GOLEM IDLE
+    {
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/1.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/2.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/3.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/4.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/5.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/6.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/7.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/8.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/9.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/10.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/11.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/12.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/13.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/14.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/15.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/16.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/17.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/18.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/19.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/IDLE/20.png");
+    }
+
+    // GOLEM WALK
+    {
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/1.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/2.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/3.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/4.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/5.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/6.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/7.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/8.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/9.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/10.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/11.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/12.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/13.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/14.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/15.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/16.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/17.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/18.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/19.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/20.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/21.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/22.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/23.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/24.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/25.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/26.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/27.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/28.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/29.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/30.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/31.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/32.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/33.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/34.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/35.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/WALK/36.png");
+    }
+
+    // GOLEM ATTACK
+    {
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/1.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/2.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/3.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/4.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/5.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/6.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/7.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/8.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/9.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/10.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/11.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/12.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/13.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/14.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/15.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/16.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/17.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/18.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/19.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/20.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/21.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/22.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/23.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/24.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/25.png");
+        txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Golem/ATTACK/26.png");
+    }
+
     // IDLE ARM (24 frames)
     {
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Idle/NoWeapons/1.png");
