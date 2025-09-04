@@ -37,6 +37,8 @@ void MainMenuScene::Start()
 
 
 	m_sceneHasChanged = false;
+	m_btnStartSelected = false;
+	m_btnArenaSelected = false;
 }
 
 void MainMenuScene::Update(float deltatime)
@@ -46,11 +48,18 @@ void MainMenuScene::Update(float deltatime)
 	{
 		//OutputDebugStringA("\nDont touche me !\n");
 		mp_buttonStart->SetScale({ 220, 100, 1 });
+		if ((!m_btnStartSelected && m_btnArenaSelected) || (!m_btnStartSelected && !m_btnArenaSelected))
+		{
+			GetSceneManager()->GetGameManager()->GetSoundManager()->PlaySoundPlex("BIP");
+			m_btnStartSelected = true;
+			m_btnArenaSelected = false;
+		}
 	}
 	if (!mp_buttonStart->GetMouseOnBtn() && !m_sceneHasChanged)
 	{
 		//OutputDebugStringA("\nDont touche me !\n");
 		mp_buttonStart->SetScale({ 200, 80, 1 });
+		m_btnStartSelected = false;
 	}
 	if (mp_buttonStart->GetBtnIsClicked() && !m_sceneHasChanged)
 	{
@@ -65,11 +74,19 @@ void MainMenuScene::Update(float deltatime)
 	{
 		//OutputDebugStringA("\nDont touche me !\n");
 		mp_buttonArene->SetScale({ 270, 100, 1 });
+
+		if ((m_btnStartSelected && !m_btnArenaSelected) || (!m_btnStartSelected && !m_btnArenaSelected))
+		{
+			GetSceneManager()->GetGameManager()->GetSoundManager()->PlaySoundPlex("BIP");
+			m_btnStartSelected = false;
+			m_btnArenaSelected = true;
+		}
 	}
 	if (!mp_buttonArene->GetMouseOnBtn() && !m_sceneHasChanged)
 	{
 		//OutputDebugStringA("\nDont touche me !\n");
 		mp_buttonArene->SetScale({ 250, 80, 1 });
+		m_btnArenaSelected = false;
 	}
 	if (mp_buttonArene->GetBtnIsClicked() && !m_sceneHasChanged)
 	{

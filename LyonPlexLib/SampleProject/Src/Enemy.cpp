@@ -85,6 +85,7 @@ void Enemy::TakeDamage()
 
 void Enemy::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeTime)
 {
+	mp_scene->GetSceneManager()->GetGameManager()->GetSoundManager()->PlaySoundPlex("BEAM");
 	auto& newProjectile = mp_scene->CreateGameObject<Projectile>(mp_scene, GetPosition(), m_playerGm.GetPosition(), ProjectileType::Laser);
 }
 

@@ -29,7 +29,7 @@ void IntroScene::Start()
 	m_introTime = 4;
 
 	// sounds
-	GetSceneManager()->GetGameManager()->GetSoundManager()->CreateSound("roar", L"../LyonPlexLib/Ressources/Roar.wav");
+	//GetSceneManager()->GetGameManager()->GetSoundManager()->CreateSound("roar", L"../LyonPlexLib/Ressources/Roar.wav");
 }
 
 void IntroScene::Update(float deltatime)

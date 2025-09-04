@@ -75,7 +75,7 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/BtnStartv2.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/BtnArenav2.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/btnshutdown.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/SkyboxArmonizer.png");
+    txtMngr.LoadTexture("../LyonPlexLib/Ressources/testSkyboxV2.png");
 
     // Place single image up
     // Down is reserved for animations frame (to avoid redoing all enum)

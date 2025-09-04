@@ -14,6 +14,9 @@ void AllScenes::Init(GameManager* gameManager)
 {
     mp_gameManager = gameManager;
 
+    // Create all sounds
+    InitAllSounds();
+
     // Create all scenes
     CreateAllScenes();
 
@@ -40,4 +43,14 @@ void AllScenes::StartScene(std::string sceneName)
     mp_gameManager->GetSceneManager()->SetScene(sceneName);
 }
 
+void AllScenes::InitAllSounds() 
+{
+    mp_gameManager->GetSoundManager()->CreateSound("roar", L"../LyonPlexLib/Ressources/Roar.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("swordSpecialSlash", L"../LyonPlexLib/Ressources/swordSpecialSlash.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("deathScream", L"../SampleProject/Ressources/Sounds/deathScreamBBB3.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("HUGH", L"../SampleProject/Ressources/Sounds/HUGH.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("BEAM", L"../SampleProject/Ressources/Sounds/beam.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("BIP", L"../SampleProject/Ressources/Sounds/bip.wav");
+}
 

@@ -30,10 +30,10 @@ void ArenaScene::Start()
 	m_player.SetPosition({ 0,0,0 });
 
 	//SOUNDS
-	mp_sceneManager->GetGameManager()->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
-	mp_sceneManager->GetGameManager()->GetSoundManager()->CreateSound("swordSpecialSlash", L"../LyonPlexLib/Ressources/swordSpecialSlash.wav");
-	mp_sceneManager->GetGameManager()->GetSoundManager()->CreateSound("deathScream", L"../SampleProject/Ressources/Sounds/deathScreamBBB3.wav");
-	mp_sceneManager->GetGameManager()->GetSoundManager()->CreateSound("HUGH", L"../SampleProject/Ressources/Sounds/HUGH.wav");
+	//mp_sceneManager->GetGameManager()->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
+	//mp_sceneManager->GetGameManager()->GetSoundManager()->CreateSound("swordSpecialSlash", L"../LyonPlexLib/Ressources/swordSpecialSlash.wav");
+	//mp_sceneManager->GetGameManager()->GetSoundManager()->CreateSound("deathScream", L"../SampleProject/Ressources/Sounds/deathScreamBBB3.wav");
+	//mp_sceneManager->GetGameManager()->GetSoundManager()->CreateSound("HUGH", L"../SampleProject/Ressources/Sounds/HUGH.wav");
 
 	//PLAYER ARMS
 	CreateGameObject("bras", TYPE_2D, true);
