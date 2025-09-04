@@ -49,8 +49,8 @@ XMMATRIX TransformSystem::ComputeWorldMatrix(Entity entity, ECSManager& ecs)
 			XMMATRIX parentWorld = ComputeWorldMatrix(t->parent, ecs);
 			// Convention : on applique d’abord le local puis lie au parent
 			
-			//world = local * parentWorld; // Lui ou l'autre ?
-			world = parentWorld * local;
+			world = local * parentWorld; // Lui ou l'autre ? normalement plutot lui avec directX
+			//world = parentWorld * local;
 		}
 	}
 

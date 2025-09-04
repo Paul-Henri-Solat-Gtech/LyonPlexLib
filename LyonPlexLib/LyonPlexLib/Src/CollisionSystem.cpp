@@ -30,6 +30,9 @@ void CollisionSystem::Update()
 
 void CollisionSystem::TryPair(Entity a, Entity b)
 {
+	if (m_ECS->GetComponent<Tag_World>(a) != nullptr && m_ECS->GetComponent<Tag_World>(b) != nullptr) // ne calcul pas les collisions entre les objets immobiles du monde
+		return;
+
 	auto* ta = m_ECS->GetComponent<TransformComponent>(a);
 	auto* tb = m_ECS->GetComponent<TransformComponent>(b);
 	auto* ca = m_ECS->GetComponent<CollisionComponent>(a);
