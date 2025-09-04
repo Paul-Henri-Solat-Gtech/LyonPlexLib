@@ -14,7 +14,7 @@ Portals::Portals(GameObject& gameObjectPlayer, Scene* scene, int ennemyNb) : m_p
 	GetComponent<MeshComponent>()->ColorPatchUp();
 }
 
-void Portals::OnUdpdate(float deltatime)
+void Portals::OnUpdate(float deltatime)
 {
 	m_timer += deltatime;
 

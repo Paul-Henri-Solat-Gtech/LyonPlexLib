@@ -16,7 +16,7 @@ Boulder::Boulder(ECSManager* ecsManager, GameManager* gameManager, GameObject& g
 	AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 1.01, 0.6, 0.7 }, { 0, 0,0,1 }, { -0.1, 0.05, -0.01 })));
 }
 
-void Boulder::OnUdpdate(float deltatime)
+void Boulder::OnUpdate(float deltatime)
 {
 
 	if (m_slideDistLeft > 0.2)

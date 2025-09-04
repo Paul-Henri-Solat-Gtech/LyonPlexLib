@@ -61,6 +61,8 @@ void Enemy::TakeDamage()
 
 	if (m_life <= 0)
 	{
+		SpawnHealingRock();
+
 		alive = false;
 
 		if (mp_gameManager) {
@@ -89,7 +91,12 @@ void Enemy::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeTi
 	auto& newProjectile = mp_scene->CreateGameObject<Projectile>(mp_scene, GetPosition(), m_playerGm.GetPosition(), ProjectileType::Laser);
 }
 
-void Enemy::OnUdpdate(float deltatime)
+void Enemy::SpawnHealingRock()
+{
+	auto& newHealRock = mp_scene->CreateGameObject<HealingRock>(mp_scene, m_playerGm, GetPosition(), 10);
+}
+
+void Enemy::OnUpdate(float deltatime)
 {
 	m_stateMachine.Update();
 	m_deltatime = deltatime;

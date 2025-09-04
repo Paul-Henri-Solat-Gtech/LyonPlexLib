@@ -17,7 +17,7 @@ public:
 
 	void InitProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget);
 
-	void OnUdpdate(float deltatime) override;
+	void OnUpdate(float deltatime) override;
 
 	void Destroy();
 

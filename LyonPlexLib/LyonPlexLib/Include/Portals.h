@@ -6,7 +6,7 @@ public:
 	Portals(GameObject& gameObjectPlayer, Scene* scene, int ennemyNb);
 	//~Portals();
 
-	void OnUdpdate(float deltatime) override;
+	void OnUpdate(float deltatime) override;
 
 
 	GameObject& m_playerGm;

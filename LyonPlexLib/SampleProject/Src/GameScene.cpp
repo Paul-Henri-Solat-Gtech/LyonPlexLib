@@ -446,11 +446,11 @@ void GameScene::Update(float deltatime)
 
 	for (auto& gameObject : m_sceneGameObjects)
 	{
-		gameObject.get()->OnUdpdate(deltatime);
+		gameObject.get()->OnUpdate(deltatime);
 	}
 
 	//// PlayerState
-	m_playerTest.OnUdpdate(deltatime);
+	m_playerTest.OnUpdate(deltatime);
 
 
 	////if (m_enemyTest.GetGameObject().alive)

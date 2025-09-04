@@ -331,58 +331,22 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 			case TAG_ProjectilePlayer:
 				OutputDebugStringA("\n Just me (player projectile) - ignore\n");
 				break;
+			case TAG_HealingRock:
+				if (self->m_hp < 6) 
+				{
+					OutputDebugStringA("\n  + 1hp \n");
+					self->mp_gameManager->GetSoundManager()->PlaySoundPlex("heal");
+					self->m_hp += 1;
+					self->HpUpdate();
+					scenePtr->DestroyGameObject(*otherGO);
+				}
+				break;
 			default:
 				break;
 			}
 
 			if (self) self->m_hasCollided = true;
 		});
-	//EventBus::instance().subscribe<CollisionEvent>([&](CollisionEvent::Payload const& p) 
-	//{
-	//	Entity playerE = p.a, otherE = p.b;
-	//	// permute pour que playerE soit vraiment le joueur
-	//	if (otherE.id == m_playerGameObject.GetEntity().id) 
-	//	{
-	//		playerE = p.b; otherE = p.a;
-	//	}
-	//	// si aucun des deux nest le joueur, on sort
-	//	if (playerE.id != m_playerGameObject.GetEntity().id) return;
-	//		
-	//	//auto tag = mp_scene->GetGameObjectByID(p.b).GetTag();
-
-	//	GameObject& otherGO = mp_scene->GetGameObjectByID(otherE);
-	//	auto tag = otherGO.GetTag();
-	//	
-	//	switch (tag)
-	//	{
-	//	case TAG_Floor:
-	//		break;
-	//	case TAG_Environment:
-	//		break;
-	//	case TAG_Projectile: 
-	//	{
-	//		if (m_hp > 0)
-	//		{
-	//			m_hp--;
-	//			HpUpdate();
-	//			OutputDebugStringA("\n -1hp aie \n");
-	//			mp_scene->DestroyGameObject(otherGO);
-	//		}
-	//		else
-	//		{
-	//			OutputDebugStringA("\n Player is already dead ! \n");
-	//		}
-	//		break;
-	//	}
-	//	case TAG_ProjectilePlayer:
-	//		OutputDebugStringA("\n Just me. \n");
-	//		break;
-	//	default:
-	//		break;
-	//	}
-
-	//	m_hasCollided = true;
-	//	});
 
 	OutputDebugStringA("\nINIT PLAYER REUSSI !\n");
 
@@ -407,7 +371,7 @@ const char* Player::GetCurrentStateName() const
 	return GetStateName(static_cast<State>(state));
 }
 
-void Player::OnUdpdate(float deltatime)
+void Player::OnUpdate(float deltatime)
 {
 	m_stateMachine.Update();
 	m_deltatime = deltatime;

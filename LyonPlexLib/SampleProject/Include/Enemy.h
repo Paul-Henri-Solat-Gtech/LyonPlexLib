@@ -3,6 +3,7 @@
 #include "StateMachine.h"
 #include "Utils.h"
 #include "Projectile.h"
+#include "HealingRock.h"
 
 //struct MyEvent { using Payload = int; };
 
@@ -36,7 +37,7 @@ public:
 
 	void Init(GameManager* gameManager);
 
-	void OnUdpdate(float deltatime) override;
+	void OnUpdate(float deltatime) override;
 
 	void SetStateMachine();
 
@@ -47,6 +48,8 @@ public:
 	void TakeDamage();
 
 	void CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeTime = 3.f);
+
+	void SpawnHealingRock();
 
 	void CollisionManager();
 

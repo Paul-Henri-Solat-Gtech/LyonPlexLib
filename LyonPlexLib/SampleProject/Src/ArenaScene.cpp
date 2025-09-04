@@ -221,7 +221,7 @@ void ArenaScene::Update(float deltatime)
 		//All updates here (so pause can actually pause everything)
 
 		m_fpsCam.Update(deltatime);
-		m_player.OnUdpdate(deltatime);
+		m_player.OnUpdate(deltatime);
 
 		//for (auto& gameObject : m_sceneGameObjects)
 		//{
@@ -236,7 +236,7 @@ void ArenaScene::Update(float deltatime)
 		}
 		for (auto* go : snapshot)
 		{
-			if (go) go->OnUdpdate(deltatime);
+			if (go) go->OnUpdate(deltatime);
 		}
 
 		if (!m_youWin) 

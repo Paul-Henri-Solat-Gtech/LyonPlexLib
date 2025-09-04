@@ -58,6 +58,9 @@
     <ClCompile Include="Src\ArenaScene.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Src\HealingRock.cpp">
+      <Filter>HealingRock</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\AllScenes.h">
@@ -120,6 +123,9 @@
     <ClInclude Include="Include\ArenaScene.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Include\HealingRock.h">
+      <Filter>HealingRock</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Fichiers d%27en-tête">
@@ -142,6 +148,9 @@
     </Filter>
     <Filter Include="Boulder">
       <UniqueIdentifier>{410b5cd6-9456-4838-8548-ee6168cb2c5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HealingRock">
+      <UniqueIdentifier>{f351facd-4045-460e-ad51-37dbd23d3cc0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

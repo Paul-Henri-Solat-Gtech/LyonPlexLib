@@ -10,7 +10,7 @@ public:
 	Boulder(ECSManager* ecsManager, GameManager* gameManager, GameObject& gameObjectPlayer, Scene* scene, XMFLOAT2 posXZmin, XMFLOAT2 posXZmax);
 	//~Boulder();
 
-	void OnUdpdate(float deltatime) override;
+	void OnUpdate(float deltatime) override;
 
 	void GetPushed(Utils::Vector3 dir);
 

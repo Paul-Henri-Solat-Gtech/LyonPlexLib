@@ -17,7 +17,7 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 	AddComponent<Tag_Projectile>(new Tag_Projectile());
 
 	SetPosition(posStart);
-	SetScale({ 0.2,0.2,0.8 });
+	SetScale({ 0.2f,0.2f,0.8f });
 	auto projScale = GetScale();
 	AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x / 2, projScale.y / 2, projScale.z / 2 })));
 	m_speed = 30;
@@ -66,7 +66,7 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 
 
 
-void Projectile::OnUdpdate(float deltatime)
+void Projectile::OnUpdate(float deltatime)
 {
 	//if (!m_projectileGameObject)
 	//	return;

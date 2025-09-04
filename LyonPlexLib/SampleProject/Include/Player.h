@@ -26,7 +26,7 @@ public:
 	Player();
 	void Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene, GameObject& cameraGO);
 	
-	void OnUdpdate(float deltatime);
+	void OnUpdate(float deltatime) override;
 
 	void ApplyMovementAndCollisions(float dt);
 

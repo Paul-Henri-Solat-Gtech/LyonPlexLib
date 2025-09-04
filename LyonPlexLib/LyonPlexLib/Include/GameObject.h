@@ -26,6 +26,7 @@ enum Tag
 	TAG_Rock,
 	TAG_Projectile,
 	TAG_ProjectilePlayer,
+	TAG_HealingRock,
 
 	TagCount
 };
@@ -82,7 +83,7 @@ public:
 	void SetColliderOffSet(XMFLOAT3 colOffset) { m_colliderOffset = colOffset; };
 	XMFLOAT3 GetColliderOffSet() { return m_colliderOffset; };
 
-	virtual void OnUdpdate(float deltatime) {};
+	virtual void OnUpdate(float deltatime) {};
 
 	bool IsColliding();
 	bool IsCollidingWith();
