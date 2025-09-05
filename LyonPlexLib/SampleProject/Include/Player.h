@@ -86,7 +86,7 @@ public:
 	float m_jumpProgress = 0.0f;
 	float m_fallProgress = 0.0f;
 
-	float m_invincibilityTime = 3.0f;
+	float m_invincibilityTime = 1.0f;
 	float m_invincibilityTimeCooldown = 0;
 	bool m_isInvincible = false;
 

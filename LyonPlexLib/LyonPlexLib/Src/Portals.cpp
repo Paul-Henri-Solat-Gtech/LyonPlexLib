@@ -10,8 +10,10 @@ Portals::Portals(GameObject& gameObjectPlayer, Scene* scene, int ennemyNb) : m_p
 	m_capacity = ennemyNb;
 
 	InitGameObj(mp_ecs, scene);
-
+	SetMesh(MESHES::LOCAL_SQUARE);
+	SetTexture(TEXTURES::PORTAL);
 	GetComponent<MeshComponent>()->ColorPatchUp();
+	SetScale({3,3,1});
 }
 
 void Portals::OnUpdate(float deltatime)
@@ -66,7 +68,7 @@ void Portals::OnUpdate(float deltatime)
 		}
 		}
 
-		XMFLOAT3 test = { GetScale().x - 0.1f, GetScale().y -0.1f, GetScale().z - 0.1f};
+		XMFLOAT3 test = { GetScale().x - 0.25f, GetScale().y -0.25f, 1};
 		SetScale(test);
 		m_capacity--;
 	}

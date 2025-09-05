@@ -342,8 +342,8 @@ void ArenaScene::SpawnPortal()
 
 	m_portal = &CreateGameObject<Portals>(m_player, this, nbEnnemy);
 	m_portal->SetPosition({ 30, -10, 30 });
-	m_portal->SetScale({ 1, 1, 0.5 });
-	m_portal->SetTexture(TEXTURES::PORTAL);
+	//m_portal->SetScale({ 1, 1, 0.5 });
+	//m_portal->SetTexture(TEXTURES::PORTAL);
 
 	m_portalNbSpawned++;
 }

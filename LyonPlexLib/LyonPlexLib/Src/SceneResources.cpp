@@ -59,7 +59,7 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/LyonPlexLogo.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/lightlp.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/groundmt.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/portal.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/portail.png");
     txtMngr.LoadTexture("../SampleProject/Ressources/titreV2.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/slash.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/zero.png");
