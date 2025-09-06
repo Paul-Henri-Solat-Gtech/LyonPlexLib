@@ -84,7 +84,7 @@ void ArenaScene::Start()
 	//ITEMS
 	CreateGameObject("Stick");
 	GetGameObjectByName("Stick").SetPosition({ 0, -10, 0 });
-	GetGameObjectByName("Stick").SetScale({ 2, 2, 2 });
+	GetGameObjectByName("Stick").SetScale({ 5, 5, 5 });
 	GetGameObjectByName("Stick").SetMesh(MESHES::STICK);
 	GetGameObjectByName("Stick").SetTexture(TEXTURES::HERBE);
 	GetGameObjectByName("Stick").AddComponent<Tag_Object>(new Tag_Object());

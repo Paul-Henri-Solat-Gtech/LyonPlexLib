@@ -13,6 +13,8 @@ void MainMenuScene::Start()
 	UINT renderWidth = renderZone.right - renderZone.left;
 	UINT renderHeight = renderZone.bottom - renderZone.top;
 
+
+
 	// Title
 	auto& gmTitle = CreateGameObject("Title", TYPE_2D, true);
 	//m_playerHeart1 = mp_scene->GetGameObjectByName("Heart1");
@@ -34,7 +36,15 @@ void MainMenuScene::Start()
 	mp_buttonQuit = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::BTN_SHUTDOWN, "btnquit");
 	mp_buttonQuit->SetScale({ 10, 10, 1 });
 	mp_buttonQuit->SetPosition({ (float)renderWidth - 70, (float)renderHeight - 70, 0 });
-
+	
+	// Background
+	auto& gmBg = CreateGameObject("BG", TYPE_2D, true);
+	//m_playerHeart1 = mp_scene->GetGameObjectByName("Heart1");
+	gmBg.SetMesh(MESHES::LOCAL_SQUARE);
+	gmBg.SetTexture(TEXTURES::BGMAINMENU);
+	gmBg.SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2, 1 });
+	gmBg.SetScale({ 595, 320, 1 });
+	gmBg.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
 	m_sceneHasChanged = false;
 	m_btnStartSelected = false;

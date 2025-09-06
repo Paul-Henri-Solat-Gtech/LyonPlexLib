@@ -859,9 +859,9 @@ void Player::DeathManager()
 	mp_scene->CreateGameObject("gameOver", TYPE_2D, true);
 	m_gameOver = mp_scene->GetGameObjectByName("gameOver");
 	m_gameOver.SetMesh(MESHES::LOCAL_SQUARE);
-	m_gameOver.SetTexture(TEXTURES::gameOver);
+	m_gameOver.SetTexture(TEXTURES::LOSESCREEN);
 	m_gameOver.SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2, 0 });
-	m_gameOver.SetScale({ (float)renderWidth * 0.4f, (float)renderHeight * 0.2f, 0 });
+	m_gameOver.SetScale({ (float)renderWidth * 0.4f, (float)renderHeight * 0.4f, 0 });
 	m_gameOver.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 }
 
