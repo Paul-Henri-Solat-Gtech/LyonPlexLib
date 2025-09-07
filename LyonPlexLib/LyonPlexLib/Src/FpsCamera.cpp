@@ -1,5 +1,4 @@
-﻿#include "FpsCamera.h"
-#include "pch.h"
+﻿#include "pch.h"
 #include "FpsCamera.h"
 
 void FpsCamera::Init(GameObject& camGO, HWND hWnd)
@@ -55,13 +54,10 @@ void FpsCamera::Update(float deltaTime)
         m_pitch += dy * m_sensitivity;
         m_pitch = std::clamp(m_pitch, -89.f, +89.f);
 
-        if (m_parentGO)
-        {
-            auto* pt = m_parentGO->GetComponent<TransformComponent>();
-            if (pt) {
-                pt->SetRotation(m_pitch, m_yaw, 0.f);
-                pt->dirty = true;
-            }
+        auto* pt = m_camGO->GetComponent<TransformComponent>();
+        if (pt) {
+            pt->SetRotation(m_pitch, m_yaw, 0.f);
+            pt->dirty = true;
         }
 
         // recentre le curseur à la position de référence (milieu)
@@ -124,8 +120,6 @@ void FpsCamera::SetAlwaysActive(bool active)
             }
 
             CenterCursorInWindow();
-
-            // masquer de façon fiable
             ForceHideCursor();
         }
     }

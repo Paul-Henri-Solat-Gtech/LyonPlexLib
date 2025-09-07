@@ -20,7 +20,6 @@ void ArenaScene::Start()
 	m_fpsCam.Init(m_cam, mp_sceneManager->GetWindow());
 
 	SetParent("cam", "player");
-	m_fpsCam.SetParentGO(m_cam);
 
 	m_fpsCam.SetAlwaysActive(true);
 

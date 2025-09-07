@@ -72,8 +72,8 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/seven.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/eight.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/nine.png");
-    txtMngr.LoadTexture("../SampleProject/Ressources/BtnStartv2.png");
-    txtMngr.LoadTexture("../SampleProject/Ressources/BtnArenav2.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/btnStart.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/btnArena.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/btnshutdown.png");
     txtMngr.LoadTexture("../SampleProject/Ressources/testSkyboxV2.png");
     txtMngr.LoadTexture("../SampleProject/Ressources/healingrock.png");

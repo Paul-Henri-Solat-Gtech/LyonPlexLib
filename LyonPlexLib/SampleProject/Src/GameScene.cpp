@@ -24,16 +24,6 @@ void GameScene::Start()
 	// fps cam
 	m_fpsCam.Init(m_cam, mp_sceneManager->GetWindow());
 
-	// CreateGameObject("player"); //				45		-60
-	// GetGameObjectByName("player").SetScale({ 1, 3, 1 });
-	// XMFLOAT3 pos(POSITION_CHAMPS.x + 0, POSITION_CHAMPS.y + 15, POSITION_CHAMPS.z + 0);
-	// GetGameObjectByName("player").SetPosition(pos);
-	// m_player = GetGameObjectByName("player");
-	//m_player.SetTexture(TEXTURES::EMPTY);
-
-	SetParent("cam", "player");
-	m_fpsCam.SetParentGO(m_cam);
-
 	m_playerWalkSpeed = 3.f;
 	m_playerRunSpeed = 6.f;
 	m_playerSpeed = m_playerWalkSpeed;
@@ -41,6 +31,7 @@ void GameScene::Start()
 	// Test player + stateMachine
 	m_playerTest.Init(mp_ecsManager, mp_sceneManager->GetGameManager(), this, m_cam);
 	SetParent(GetGameObjectByName("cam"), m_playerTest);
+
 	//SetParent("cam", "player");
 
 	RECT renderZone;
