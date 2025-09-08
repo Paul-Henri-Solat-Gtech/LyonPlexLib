@@ -7,7 +7,6 @@
 #include "Utils.h"
 #include <Events.h>
 
-
 bool ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2);
 
 bool ObbVsAabb(XMFLOAT3 paabb, AABBCollider a, XMFLOAT3 pobb, OBBCollider b);
@@ -338,7 +337,7 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 				// === Knockback ===
 				if (self)
 				{
-					//self->ApplyKnockback(otherGO->GetPosition(), 8.0f, 3.0f);
+					self->ApplyKnockback(otherGO->GetPosition(), 8.0f, 3.0f);
 				}
 
 				scenePtr->DestroyGameObject(*otherGO);
@@ -395,7 +394,6 @@ void Player::OnUpdate(float deltatime)
 {
 	m_stateMachine.Update();
 	m_deltatime = deltatime;
-	KnockeBackManager(deltatime);
 	Movement();
 
 	Utils::log("\n\n -- BEFORE MOVE & COL --- \n");
@@ -409,6 +407,7 @@ void Player::OnUpdate(float deltatime)
 	Utils::log(" Position = X: " + std::to_string(GetPosition().x) + "  ; Y: " + std::to_string(GetPosition().y) + "  ; Z: " + std::to_string(GetPosition().z) + "\n");
 
 	InvincibilityManager(deltatime);
+	KnockeBackManager(deltatime);
 }
 
 
@@ -1350,45 +1349,33 @@ void Player::InvincibilityManager(float deltatime)
 
 void Player::KnockeBackManager(float deltatime)
 {
-	if (!m_isKnockedback) return;
+	if (!m_knockback.active) return;
 
+	// déplacement horizontal
 	XMFLOAT3 pos = GetPosition();
-
-	// applique knockback uniquement sur le Player
-	pos.x += m_knockbackVelocity.x * deltatime;
-	pos.y += m_knockbackVelocity.y * deltatime;
-	pos.z += m_knockbackVelocity.z * deltatime;
-
-	// gravité uniquement pour le knockback
-	m_knockbackVelocity.y -= 30.0f * deltatime;
-
-	// friction horizontale
-	m_knockbackVelocity.x *= 0.9f;
-	m_knockbackVelocity.z *= 0.9f;
-
+	pos.x += m_knockback.dir.x * m_knockback.speed * deltatime;
+	pos.z += m_knockback.dir.z * m_knockback.speed * deltatime;
 	SetPosition(pos);
 
-	// stop si vitesse faible
-	if (fabs(m_knockbackVelocity.x) < 0.1f &&
-		fabs(m_knockbackVelocity.y) < 0.1f &&
-		fabs(m_knockbackVelocity.z) < 0.1f)
-	{
-		m_isKnockedback = false;
-		m_knockbackVelocity = { 0,0,0 };
-	}
+	// réduire distance horizontale
+	m_knockback.distLeft -= m_knockback.speed * deltatime;
+	if (m_knockback.distLeft <= 0.0f)
+		m_knockback.active = false;
+
 }
 
 void Player::ApplyKnockback(const XMFLOAT3& sourcePos, float strength, float upward)
 {
-	// direction horizontale (Player <- source)
 	XMVECTOR dir = XMLoadFloat3(&GetPosition()) - XMLoadFloat3(&sourcePos);
-	dir = XMVectorSetY(dir, 0); // ignore Y pour horizontal
+	dir = XMVectorSetY(dir, 0);
 	dir = XMVector3Normalize(dir);
 
-	// applique force au knockbackVelocity uniquement
-	m_knockbackVelocity.x = XMVectorGetX(dir) * strength;
-	m_knockbackVelocity.z = XMVectorGetZ(dir) * strength;
-	m_knockbackVelocity.y = upward;
+	XMStoreFloat3(&m_knockback.dir, dir);
+	m_knockback.speed = strength * 5.0f;   // horizontal
+	m_knockback.distLeft = strength;
+	m_knockback.upward = upward;           // vitesse verticale temporaire
+	m_knockback.active = true;
 
-	m_isKnockedback = true;
+	// Ajoute la vitesse verticale au système physique du joueur
+	m_velocity.y = upward;
 }
