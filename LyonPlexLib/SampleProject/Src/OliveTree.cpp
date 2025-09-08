@@ -53,7 +53,7 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position)
 
 }
 
-void OliveTree::OnUdpdate(float deltatime)
+void OliveTree::OnUpdate(float deltatime)
 {
 	if (m_isCut)
 	{

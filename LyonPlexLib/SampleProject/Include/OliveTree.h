@@ -7,7 +7,7 @@ public:
 	OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position);
 	//~OliveTree();
 
-	void OnUdpdate(float deltatime) override;
+	void OnUpdate(float deltatime) override;
 
 	void SetScale(XMFLOAT3 scl);
 	//void SetPosition(XMFLOAT3 pos);
