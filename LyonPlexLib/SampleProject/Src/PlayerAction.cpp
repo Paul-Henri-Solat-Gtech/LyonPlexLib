@@ -6,51 +6,6 @@
 
 float FPS_24 = 1 / 24;
 
-//void PlayerMovement(Player* player)
-//{
-//	// Gère le sprint
-//	if (InputManager::GetKeyIsPressed(VK_SHIFT))
-//	{
-//		player->SetMoveSpeed(player->GetRunSpeed());
-//	}
-//	else
-//	{
-//		player->SetMoveSpeed(player->GetWalkSpeed());
-//	}
-//	// 1) Récupère la rotation de la caméra
-//	XMFLOAT4 camQuatF = player->mp_cameraGO->GetRotation();
-//	XMVECTOR camQuat = XMLoadFloat4(&camQuatF);
-//	XMMATRIX rotMat = XMMatrixRotationQuaternion(camQuat);
-//
-//	// 2) Construit forward & right **dans le plan XZ**
-//	XMVECTOR forward = XMVector3TransformNormal(XMVectorSet(0, 0, 1, 0), rotMat);
-//	forward = XMVectorSetY(forward, 0);
-//	forward = XMVector3Normalize(forward);
-//
-//	XMVECTOR right = XMVector3Normalize(XMVector3Cross(XMVectorSet(0, 1, 0, 0), forward));
-//
-//	// 3) Calcule la direction de déplacement horizontale selon l’input
-//	XMVECTOR moveDir = XMVectorZero();
-//	if (InputManager::GetKeyIsPressed('Z')) moveDir += forward;
-//	if (InputManager::GetKeyIsPressed('S')) moveDir -= forward;
-//	if (InputManager::GetKeyIsPressed('D')) moveDir += right;
-//	if (InputManager::GetKeyIsPressed('Q')) moveDir -= right;
-//
-//	// 4) Normalise (pour ne pas accélérer dans les diagonales)
-//	if (!XMVector3Equal(moveDir, XMVectorZero())) {
-//		moveDir = XMVector3Normalize(moveDir);
-//	}
-//
-//	// 5) Écrit la vitesse horizontale dans m_velocity.x/z
-//	//    (on garde m_velocity.y intact pour la gravité/jump)
-//	XMFLOAT3 vel = player->m_velocity;
-//	float speed = player->GetMoveSpeed();      // sprint ou marche
-//	vel.x = XMVectorGetX(moveDir) * speed;
-//	vel.z = XMVectorGetZ(moveDir) * speed;
-//	player->m_velocity = vel;
-//}
-
-
 
 // IDLE (dont need to be implemented normaly with override{})
 void PlayerAction_Idle::Start(Player* player)

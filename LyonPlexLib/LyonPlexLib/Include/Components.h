@@ -28,6 +28,7 @@ enum ComponentID
 	Tag_Player_ID,
 	Tag_Enemy_ID,
 	Tag_Object_ID,
+	Tag_World_ID,
 	Tag_Projectile_ID,
 	Tag_Boulder_ID,
 	Tag_HealingRock_ID,
@@ -181,7 +182,7 @@ struct CollisionComponent : public Component
 		return c;
 	}
 
-	static CollisionComponent MakeAABB(XMFLOAT3 halfSize, XMFLOAT3 offset = { 0,0,0 })
+	static CollisionComponent MakeAABB(XMFLOAT3 halfSize = { 1,1,1 }, XMFLOAT3 offset = { 0,0,0 })
 	{
 		CollisionComponent c;
 		c.shapeType = ColliderType::AABB;
@@ -189,7 +190,7 @@ struct CollisionComponent : public Component
 		return c;
 	}
 	
-	static CollisionComponent MakeOBB(XMFLOAT3 halfSize, XMFLOAT4 orientation = { 0, 0, 0, 1 }, XMFLOAT3 offset = { 0,0,0 })
+	static CollisionComponent MakeOBB(XMFLOAT3 halfSize = { 1,1,1 }, XMFLOAT4 orientation = { 0, 0, 0, 1 }, XMFLOAT3 offset = { 0,0,0 })
 	{
 		CollisionComponent c;
 		c.shapeType = ColliderType::OBB;
@@ -222,15 +223,8 @@ struct CollisionComponent : public Component
 		if (shapeType == ColliderType::AABB) {
 			auto& b = std::get<AABBCollider>(shape);
 			// plus long demi‑axe
-			//float maxHalfSize = b.halfSize.x > b.halfSize.y ? b.halfSize.x : b.halfSize.y;
-
 			float maxHalfSize = (b.halfSize.x > b.halfSize.y) ? (b.halfSize.x > b.halfSize.z ? b.halfSize.x : b.halfSize.z) : (b.halfSize.z > b.halfSize.y ? b.halfSize.z : b.halfSize.y);
 
-			//maxHalfSize = b.halfSize.z > b.halfSize.y ? b.halfSize.z : b.halfSize.y;
-
-			//maxHalfSize = b.halfSize.x > b.halfSize.z ? b.halfSize.x : b.halfSize.z;
-
-			//return std::max({ b.halfSize.x, b.halfSize.y, b.halfSize.z });
 			return maxHalfSize;
 		}
 		else {
@@ -373,6 +367,17 @@ struct Tag_Object : public Component
 	static constexpr uint32_t StaticTypeID = Tag_Object_ID;
 
 	Tag_Object()
+	{
+		mask = 1ULL << StaticTypeID;
+		typeID = StaticTypeID;
+	}
+};
+
+struct Tag_World : public Component
+{
+	static constexpr uint32_t StaticTypeID = Tag_World_ID;
+
+	Tag_World()
 	{
 		mask = 1ULL << StaticTypeID;
 		typeID = StaticTypeID;

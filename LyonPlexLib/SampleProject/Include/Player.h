@@ -104,6 +104,8 @@ public:
 	bool m_isPickingUp = false;
 	bool m_isFalling = false;
 	bool m_isOnGround = false;
+	int m_coyoteFrames = 0; // initialise à 0
+	static constexpr int COYOTE_MAX_FRAMES = 4; // ajustez le feeling (2-6)
 
 	int m_currIdleMesh = TEXTURES::ARMS;
 

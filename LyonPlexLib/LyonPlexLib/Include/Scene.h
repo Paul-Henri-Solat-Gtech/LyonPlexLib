@@ -94,6 +94,17 @@ public:
 			}
 		}
 	}
+	template<typename T>
+	T* GetComponent(Entity e) const
+	{
+		for (auto& entity : m_sceneEntities)
+		{
+			if (entity.entity.id == e.id)
+			{
+				return mp_ecsManager->GetComponent<T>(entity.entity);
+			}
+		}
+	}
 
 	template<typename T, typename... Args>
 	T& CreateGameObject(Args&&... ctorArgs) 
@@ -116,9 +127,9 @@ public:
 	void SetPortalNb(int value) { m_portalNb = value; };
 	int GetPortalNb() { return m_portalNb; };
 
+	ECSManager* mp_ecsManager;
 protected:
 
-	ECSManager* mp_ecsManager;
 	SceneManager* mp_sceneManager;
 
 	std::vector<SceneEntity> m_sceneEntities; // old

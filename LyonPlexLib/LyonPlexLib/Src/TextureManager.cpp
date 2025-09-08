@@ -100,8 +100,8 @@ TextureID TextureManager::LoadTexture(const std::string& key)
         m_graphicsDevice->GetDevice().Get(),
         uploadBatch,
         wpath.c_str(),
-        &tex.resource,
-        true);
+        &tex.resource/*,
+        true*/);
     if (FAILED(hr)) throw std::runtime_error("Failed to load 2D texture: " + key);
     //if (FAILED(hr)) Utils::log("\nFailed to load 2D texture: " + key + "\n");
     Utils::log("\n 2D texture loaded : " + key + "\n");

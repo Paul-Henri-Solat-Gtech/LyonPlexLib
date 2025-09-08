@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Boulder.h"
 
-Boulder::Boulder(ECSManager* ecsManager, GameManager* gameManager, GameObject& gameObjectPlayer, Scene* scene, XMFLOAT2 posXZmin, XMFLOAT2 posXZmax) : m_playerGm(gameObjectPlayer)
+Boulder::Boulder(ECSManager* ecsManager, GameManager* gameManager, GameObject& gameObjectPlayer, Scene* scene, XMFLOAT2 posXZmin, XMFLOAT2 posXZmax) : m_playerGm(gameObjectPlayer), m_weight(0)
 {
 	InitGameObj(ecsManager, scene);
 	mp_gameManager = gameManager;

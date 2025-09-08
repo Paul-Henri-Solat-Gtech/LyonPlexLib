@@ -81,9 +81,6 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture("../SampleProject/Ressources/WINSCREEN.png");
     txtMngr.LoadTexture("../SampleProject/Ressources/LOSESCREEN.png");
 
-    // Place single image up
-    // Down is reserved for animations frame (to avoid redoing all enum)
-
     // CRABE IDLE
     {
         txtMngr.LoadTexture("../SampleProject/Ressources/Animations/Enemies/Crabe/IDLE/1.png");
@@ -529,11 +526,13 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
 
 bool SceneResources::InitImportedMeshResources(MeshManager& meshMngr)
 {
+    // A MODIFIER
+    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/Maison.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Objets/Baton.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/Herbe.obj");
 
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/Temple.obj");
 
-    // A MODIFIER
-    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/Maison.obj");
     
     // NOUVEAUX
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Bushes/Fleur.obj");
@@ -552,8 +551,6 @@ bool SceneResources::InitImportedMeshResources(MeshManager& meshMngr)
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Rocks/RockMedium.obj");//30
 
 
-    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Objets/Baton.obj");
-    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/Herbe.obj");
 
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/Map.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Lianes/LIANE1.obj");

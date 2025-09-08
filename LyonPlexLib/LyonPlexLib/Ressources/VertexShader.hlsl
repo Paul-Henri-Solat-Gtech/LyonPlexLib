@@ -122,7 +122,7 @@ float4 PSMain(PSInput input) : SV_Target
     // opaque : éclairage complet
     float3 N = normalize(input.worldN);
     float3 V = normalize(camPos - input.worldPos);
-    float3 accum = float3(0.5, 0.5, 0.5);
+    float3 accum = float3(0.6, 0.6, 0.6);
     [unroll]
     for (int i = 0; i < lightCount; ++i)
     {
