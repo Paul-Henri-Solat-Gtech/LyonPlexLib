@@ -11,7 +11,7 @@ bool PlayerCondition_IsAirBorne::OnTest(Player* owner)			// SUPPR ?
 
 bool PlayerCondition_IsOnGround::OnTest(Player* owner)
 {
-	return owner->m_isOnGround;
+	return owner->m_isOnGround || owner->m_coyoteFrames > 0;
 }
 bool PlayerCondition_IsNotOnGround::OnTest(Player* owner)
 {

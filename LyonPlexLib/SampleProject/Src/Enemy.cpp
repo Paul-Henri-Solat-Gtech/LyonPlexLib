@@ -22,7 +22,7 @@ void Enemy::Init(GameManager* gameManager)
 
 	GetComponent<MeshComponent>()->ColorPatchUp();
 	auto enemyScale = this->GetScale();
-	AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ enemyScale.x / 2, enemyScale.y / 2, enemyScale.z / 2 }))); //not colliding with terrain Or just not work
+	AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ enemyScale.x / 2, enemyScale.y / 2, enemyScale.z / 2 }))); 
 
 	mp_gameManager = gameManager;
 	m_deltatime = 0;

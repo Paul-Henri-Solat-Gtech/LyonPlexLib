@@ -85,7 +85,8 @@ GameObject& Scene::CreateGameObject(const std::string& gameObjectName)
 
 	// 2) On l'initialise
 	obj.Init(gameObjectName, mp_ecsManager, this);
-	return obj;
+	//return obj;
+	return *m_sceneGameObjects.back();
 }
 GameObject& Scene::CreateGameObject(const std::string& gameObjectName, uint32_t meshId, uint32_t textureId)
 {
@@ -110,7 +111,8 @@ GameObject& Scene::CreateWaterGameObject()
 	// 2) On l'initialise
 	obj.InitWater(mp_ecsManager, this, m_waveCount);
 	m_waveCount++;
-	return obj;
+	//return obj;
+	return *m_sceneGameObjects.back();
 }
 GameObject& Scene::CreateWaterGameObject(const std::string& gameObjectName)
 {
@@ -122,7 +124,8 @@ GameObject& Scene::CreateWaterGameObject(const std::string& gameObjectName)
 	// 2) On l'initialise
 	obj.InitWater(gameObjectName, mp_ecsManager, this, m_waveCount);
 	m_waveCount++;
-	return obj;
+	//return obj;
+	return *m_sceneGameObjects.back();
 }
 GameObject& Scene::CreateGameObject(const std::string& gameObjectName, DimensionalType type, bool useMesh)
 {
@@ -132,7 +135,8 @@ GameObject& Scene::CreateGameObject(const std::string& gameObjectName, Dimension
 
 	// 2) On l'initialise
 	obj.Init(gameObjectName, mp_ecsManager, this, type, useMesh);
-	return obj;
+	//return obj;
+	return *m_sceneGameObjects.back();
 }
 GameObject& Scene::CreateBoulder(const std::string& gameObjectName, DimensionalType type, bool useMesh)
 {
@@ -142,7 +146,8 @@ GameObject& Scene::CreateBoulder(const std::string& gameObjectName, DimensionalT
 
 	// 2) On l'initialise
 	obj.Init(gameObjectName, mp_ecsManager, this, type, useMesh);
-	return obj;
+	//return obj;
+	return *m_sceneGameObjects.back();
 }
 GameObject& Scene::CreateGameHitbox(const std::string& gameObjectName)
 {
@@ -153,7 +158,8 @@ GameObject& Scene::CreateGameHitbox(const std::string& gameObjectName)
 
 	// 2) On l'initialise
 	obj.InitHitbox(gameObjectName, mp_ecsManager, this);
-	return obj;
+	//return obj;
+	return *m_sceneGameObjects.back();
 }
 
 GameObject& Scene::GetGameObjectByName(const std::string& gameObjectName)

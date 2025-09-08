@@ -16,12 +16,12 @@ public:
 
     /// Pour récupérer le nom que la caméra a enregistré
     const std::string& GetName() const { return m_camName; };
-    void SetParentGO(GameObject& parent) { m_parentGO = &parent; };
+    //void SetParentGO(GameObject& parent) { m_parentGO = &parent; };
 
 private:
     std::string  m_camName;
     GameObject*   m_camGO = nullptr;
-    GameObject* m_parentGO = nullptr;
+    //GameObject* m_parentGO = nullptr;
     HWND         m_hWnd = nullptr;
 
     bool m_alwaysActive = false;

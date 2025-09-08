@@ -37,6 +37,8 @@ public:
 	void Init(const std::string& name, ECSManager* ecsManager, Scene* scene);
 	void InitGameObj(ECSManager* ecsManager, Scene* scene);
 
+	void InitOliveTreeGameObj(ECSManager* ecsManager, Scene* scene);
+
 	void InitPlayerGameObj(ECSManager* ecsManager, Scene* scene);
 
 	void Init(const std::string& name, ECSManager* ecsManager, Scene* scene, uint32_t meshId, uint32_t textureId);
@@ -109,7 +111,7 @@ public:
 
 
 
-private:
+protected:
 	ECSManager* mp_ecsManager = nullptr;
 	Entity m_entity;
 

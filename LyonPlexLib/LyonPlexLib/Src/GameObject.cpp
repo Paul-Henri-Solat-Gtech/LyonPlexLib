@@ -42,6 +42,28 @@ void GameObject::InitGameObj(ECSManager* ecsManager, Scene* scene)
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());
 }
+void GameObject::InitOliveTreeGameObj(ECSManager* ecsManager, Scene* scene)
+{
+	static int treeCount = 1;
+	std::string name = "OliveTree" + std::to_string(treeCount++);
+	Utils::log("\nOlive tree created : " + name + "\n");
+	SetName(name);
+	SetTag(TAG_None);
+	mp_ecsManager = ecsManager;
+	mp_scene = scene;
+	m_entity = mp_ecsManager->CreateEntity();
+
+	//	Adding basics component(s) for any entity in scene & default parameters :
+
+	// TYPE
+	//AddComponent<Type_3D>(new Type_3D());
+
+	// MESH
+	//AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE));
+
+	//	TRANSFORM
+	AddComponent<TransformComponent>(new TransformComponent());
+}
 void GameObject::InitPlayerGameObj(ECSManager* ecsManager, Scene* scene)
 {
 	SetName("Player");
@@ -55,6 +77,8 @@ void GameObject::InitPlayerGameObj(ECSManager* ecsManager, Scene* scene)
 	// TYPE
 	AddComponent<Type_3D>(new Type_3D());
 
+	// MESH
+	AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE));
 
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());
@@ -111,7 +135,7 @@ void GameObject::InitHitbox(const std::string& name, ECSManager* ecsManager, Sce
 	AddComponent<Type_3D_Transparent>(new Type_3D_Transparent());
 
 	// MESH
-	AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::TEMPLE));
+	AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::GRID));
 	GetComponent<MeshComponent>()->alpha = 0.5;
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());

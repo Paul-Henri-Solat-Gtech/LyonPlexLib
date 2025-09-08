@@ -509,6 +509,87 @@ namespace Utils
 		return (a.position.y < b.position.y && penetrationY <= 0 /*&& abs(penetrationY) < epsilon*/);
 	}
 
+	// playerWorldPos : position monde du centre du joueur
+	// playerAabb    : AABB du joueur (local halfSize) — appliquez playerScale si besoin avant l'appel
+	// obbWorldPos   : centre monde de l'OBB (transform monde)
+	// obbWorldOrientation : quaternion monde de l'OBB
+	// obbLocal      : OBBCollider local (halfSize, offset) — appliquez otherScale au halfSize & offset avant l'appel
+	inline bool IsStandingOnOBB_World(
+		const XMFLOAT3& playerWorldPos,
+		const AABBCollider& playerAabb,
+		const XMFLOAT3& obbWorldPos,
+		const XMFLOAT4& obbWorldOrientation,
+		const OBBCollider& obbLocal,
+		float maxDistance = 0.1f,
+		float maxSlopeDeg = 45.0f)
+	{
+		// origine : juste sous les pieds du joueur en monde
+		XMVECTOR origin = XMVectorSet(
+			playerWorldPos.x,
+			playerWorldPos.y - playerAabb.halfSize.y + 1e-3f,
+			playerWorldPos.z,
+			0.0f);
+		XMVECTOR dir = XMVectorSet(0, -1, 0, 0);
+
+		// centre monde de l'OBB = obbWorldPos + rotate(offset, orientation)
+		XMVECTOR obbCenter = XMLoadFloat3(&obbWorldPos) + XMVector3Rotate(XMLoadFloat3(&obbLocal.offset), XMLoadFloat4(&obbWorldOrientation));
+
+		// transformer le rayon en espace local OBB (rotation inverse)
+		XMVECTOR q = XMLoadFloat4(&obbWorldOrientation);
+		q = XMQuaternionNormalize(q);
+		XMVECTOR iq = XMQuaternionInverse(q);
+
+		XMVECTOR localO = XMVector3Rotate(origin - obbCenter, iq);
+		XMVECTOR localD = XMVector3Rotate(dir, iq);
+
+		// slab method sur la box centrée à l'origine locale
+		float tMin = 0.0f;
+		float tMax = maxDistance;
+		XMVECTOR faceN = XMVectorZero();
+
+		// extraire composantes (plus portables/propres)
+		XMFLOAT3 localOf, localDf, halfF;
+		XMStoreFloat3(&localOf, localO);
+		XMStoreFloat3(&localDf, localD);
+		XMStoreFloat3(&halfF, XMLoadFloat3(&obbLocal.halfSize));
+
+		for (int i = 0; i < 3; ++i) {
+			float o = ((float*)&localOf)[i];
+			float d = ((float*)&localDf)[i];
+			float h = ((float*)&halfF)[i];
+
+			if (fabsf(d) < 1e-6f) {
+				if (o < -h || o > +h) return false; // hors de la tranche
+			}
+			else {
+				float t1 = (-h - o) / d;
+				float t2 = (+h - o) / d;
+				if (t1 > t2) std::swap(t1, t2);
+				if (t1 > tMin) {
+					tMin = t1;
+					// normale locale de la face touchée sur l'axe i
+					XMVECTOR n = XMVectorZero();
+					float nv[3] = { 0,0,0 };
+					nv[i] = (d > 0.0f ? -1.0f : +1.0f);
+					n = XMVectorSet(nv[0], nv[1], nv[2], 0.0f);
+					faceN = n;
+				}
+				tMax = tMax < t2 ? tMax : t2;
+				if (tMin > tMax) return false;
+			}
+		}
+
+		// intersection hors interval [0,maxDistance]
+		if (tMin < 0.0f || tMin > maxDistance) return false;
+
+		// normale en monde : rotate faceN par q
+		XMVECTOR normalW = XMVector3Rotate(faceN, q);
+		normalW = XMVector3Normalize(normalW);
+		float upDot = XMVectorGetY(normalW);
+		float minCos = cosf(XMConvertToRadians(maxSlopeDeg));
+		return upDot >= minCos;
+	}
+
 	inline bool IsStandingOnOBB(
 		TransformComponent const& tPlayer,        // transform du joueur
 		AABBCollider     const& playerAabb,       // demi?tailles du joueur (AABB)
@@ -541,7 +622,7 @@ namespace Utils
 		XMVECTOR localO = XMVector3Rotate(origin - obbCenter, iq);
 		XMVECTOR localD = XMVector3Rotate(dir, iq);
 
-		// 4) Slab?method pour box centrée à l’origine locale
+		// 4) Slab method pour box centrée à l’origine locale
 		float tMin = 0.0f, tMax = maxDistance;
 		XMVECTOR faceN = XMVectorZero();
 		for (int i = 0; i < 3; ++i) {

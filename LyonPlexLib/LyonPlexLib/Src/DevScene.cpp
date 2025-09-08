@@ -47,58 +47,38 @@ void DevScene::Start()
 	GetComponent<LightComponent>("Light1")->direction = { -1, -1, -1 };
 	GetComponent<LightComponent>("Light1")->range = 500;
 
-	////////////////////////////// OLIVIER COMPLET
-	////////////////////////////CreateGameObject("Tronc_olive 0", 32, 4294967295);
-	////////////////////////////GetGameObjectByName("Tronc_olive 0").SetPosition({ 0,0,0 });
-	////////////////////////////GetGameObjectByName("Tronc_olive 0").SetRotation({ 0,0,0,1 });
-	////////////////////////////GetGameObjectByName("Tronc_olive 0").SetScale({ 1,1,1 });
-	////////////////////////////CreateGameObject("Feuilles_olive 1", 33, 4294967295);
-	////////////////////////////GetGameObjectByName("Feuilles_olive 1").SetPosition({ 0,4,0 });
-	////////////////////////////GetGameObjectByName("Feuilles_olive 1").SetRotation({ 0,0,-0.017452408,0.99984771 });
-	////////////////////////////GetGameObjectByName("Feuilles_olive 1").SetScale({ 1,1,1 });
+	
 
-
-	////////////////////////////// FEUILLES AVEC BOUNDINGBOX
-	////////////////////////////CreateGameObject("Feuilles 2", 33, 4294967295);
-	////////////////////////////GetGameObjectByName("Feuilles 2").SetPosition({ 0,5,0 });
-	////////////////////////////GetGameObjectByName("Feuilles 2").SetRotation({ 0,0,0,1 });
-	////////////////////////////GetGameObjectByName("Feuilles 2").SetScale({ 1,1,1 });
-	////////////////////////////CreateGameObject("BB_Feuilles 3", 2, 0);
-	////////////////////////////GetGameObjectByName("BB_Feuilles 3").SetPosition({ 0,5,0 });
-	////////////////////////////GetGameObjectByName("BB_Feuilles 3").SetRotation({ 0,0,0,1 });
-	////////////////////////////GetGameObjectByName("BB_Feuilles 3").SetScale({ 4,3,8 });
-
-	//CreateGameObject("Next 0", 32, 4294967295);
+	//CreateGameObject("olive_trunk", 32, 4294967295);
+	//auto a = GetGameObjectByName("olive_trunk");
+	//a.SetPosition({ 0.f,-20.f,-10.f });
+	//a.SetRotation({ 0,0,0,1 });
+	//a.SetScale({ 1,1,1 });
+	//CreateGameObject("olive_leaves", 33, 4294967295);
+	//auto& b = GetGameObjectByName("olive_leaves");
+	//SetParent(b, a);
+	//b.SetPosition({ 0.155318305,4.349291325,-0.093118094 }); // LOCAL POS
+	//b.SetRotation({ 0,0,-0.034899499,0.999390841 });		  // LOCAL ROTA
+	//b.SetScale({ 1,1,1 });
+	//b.AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 1,1,1 }, { 0,0,0,1 }, { 0,0,0 })));
+	//
+	//CreateGameObject("Next 0", 32, 4294967295); // TRUNK
 	//GetGameObjectByName("Next 0").SetPosition({ 0,0,0 });
 	//GetGameObjectByName("Next 0").SetRotation({ 0,0,0,1 });
 	//GetGameObjectByName("Next 0").SetScale({ 1,1,1 });
-	//CreateGameObject("Next 1", 33, 4294967295);
-	//GetGameObjectByName("Next 1").SetPosition({ 0,4.3,0 });
-	//GetGameObjectByName("Next 1").SetRotation({ 0,0,0,1 });
-	//GetGameObjectByName("Next 1").SetScale({ 1,1,1 });
+	//CreateGameObject("Next 1", 2, 0);
+	//GetGameObjectByName("Next 1").SetPosition({ 0.115241952,1.324885845,0.244909346 });
+	//GetGameObjectByName("Next 1").SetRotation({ 0,0.2164395,0,0.976296067 });
+	//GetGameObjectByName("Next 1").SetScale({ 1.700000286,2,2 });
 
-	//CreateGameObject("test 0", 32, 4294967295);
-	//GetGameObjectByName("test 0").SetPosition({ 0,0,0 });
-	//GetGameObjectByName("test 0").SetRotation({ 0,0,0,1 });
-	//GetGameObjectByName("test 0").SetScale({ 1,1,1 });
-	//CreateGameObject("test 1", 33, 4294967295);
-	//GetGameObjectByName("test 1").SetPosition({ 0,4.3,0 });
-	//GetGameObjectByName("test 1").SetRotation({ 0,0,0,1 });
-	//GetGameObjectByName("test 1").SetScale({ 1,1,1 });
-
-	CreateGameObject("olive_trunk", 32, 4294967295);
-	auto& a = GetGameObjectByName("olive_trunk");
-	a.SetPosition({ 0,0,0 });
-	a.SetRotation({ 0,0,0,1 });
-	a.SetScale({ 1,1,1 });
-
-	CreateGameObject("olive_leaves", 33, 4294967295);
-	auto& b = GetGameObjectByName("olive_leaves");
-	SetParent(b, a);
-	b.SetPosition({ 0.155318305,4.349291325,-0.093118094 });
-	b.SetRotation({ 0,0,-0.034899499,0.999390841 });
-	b.SetScale({ 1,1,1 });
-
+	//CreateGameObject("Next 2", 33, 4294967295); // LEAVES
+	//GetGameObjectByName("Next 2").SetPosition({ 0,0,0 });
+	//GetGameObjectByName("Next 2").SetRotation({ 0,0.2164395,0,0.976296067 });
+	//GetGameObjectByName("Next 2").SetScale({ 1.700000286,2,2 });
+	//CreateGameObject("Next 3", 2, 0);
+	//GetGameObjectByName("Next 3").SetPosition({ -0.168319225,1.354707241,0.381285578 });
+	//GetGameObjectByName("Next 3").SetRotation({ 0,0.2164395,0,0.976296067 });
+	//GetGameObjectByName("Next 3").SetScale({ 7.700000286,7,18 });
 
 	//CreateGameObject("Map");
 	//auto a = GetGameObjectByName("Map");
@@ -483,47 +463,47 @@ void DevScene::Start()
 
 
 
-	/*CreateGameObject("RockWall 0", 35, 4294967295);
-	GetGameObjectByName("RockWall 0").SetPosition({ -32,-18,-163 });
-	GetGameObjectByName("RockWall 0").SetRotation({ 0,-0.078459084,0,0.996917367 });
-	GetGameObjectByName("RockWall 0").SetScale({ 1,1,2 });
-	CreateGameObject("RockWall 1", 17, 4294967295);
-	GetGameObjectByName("RockWall 1").SetPosition({ 57,2,-19 });
-	GetGameObjectByName("RockWall 1").SetRotation({ 0,-0.078459084,0,0.996917367 });
-	GetGameObjectByName("RockWall 1").SetScale({ 25,16,26 });
-	CreateGameObject("RockWall 2", 17, 4294967295);
-	GetGameObjectByName("RockWall 2").SetPosition({ 10,2,-58 });
-	GetGameObjectByName("RockWall 2").SetRotation({ 0,-0.544638991,0,0.838670671 });
-	GetGameObjectByName("RockWall 2").SetScale({ 29,25,30 });
-	CreateGameObject("RockWall 3", 18, 4294967295);
-	GetGameObjectByName("RockWall 3").SetPosition({ 38,-16,16 });
-	GetGameObjectByName("RockWall 3").SetRotation({ 0,0.96126163,0,0.275637567 });
-	GetGameObjectByName("RockWall 3").SetScale({ 48,35,40 });
-	CreateGameObject("RockWall 5", 19, 4294967295);
-	GetGameObjectByName("RockWall 5").SetPosition({ -57,2,-59 });
-	GetGameObjectByName("RockWall 5").SetRotation({ 0,0.96126163,0,0.275637567 });
-	GetGameObjectByName("RockWall 5").SetScale({ 43,80,35 });
-	CreateGameObject("RockWall 6", 17, 4294967295);
-	GetGameObjectByName("RockWall 6").SetPosition({ -3,-18,-8 });
-	GetGameObjectByName("RockWall 6").SetRotation({ 0.557308376,0.05808115,0.254369915,0.788244784 });
-	GetGameObjectByName("RockWall 6").SetScale({ 31,13,26 });
+	//CreateGameObject("RockWall 0", 35, 4294967295);
+	//GetGameObjectByName("RockWall 0").SetPosition({ -32,-18,-163 });
+	//GetGameObjectByName("RockWall 0").SetRotation({ 0,-0.078459084,0,0.996917367 });
+	//GetGameObjectByName("RockWall 0").SetScale({ 1,1,2 });
+	//CreateGameObject("RockWall 1", 17, 4294967295);
+	//GetGameObjectByName("RockWall 1").SetPosition({ 57,2,-19 });
+	//GetGameObjectByName("RockWall 1").SetRotation({ 0,-0.078459084,0,0.996917367 });
+	//GetGameObjectByName("RockWall 1").SetScale({ 25,16,26 });
+	//CreateGameObject("RockWall 2", 17, 4294967295);
+	//GetGameObjectByName("RockWall 2").SetPosition({ 10,2,-58 });
+	//GetGameObjectByName("RockWall 2").SetRotation({ 0,-0.544638991,0,0.838670671 });
+	//GetGameObjectByName("RockWall 2").SetScale({ 29,25,30 });
+	//CreateGameObject("RockWall 3", 18, 4294967295);
+	//GetGameObjectByName("RockWall 3").SetPosition({ 38,-16,16 });
+	//GetGameObjectByName("RockWall 3").SetRotation({ 0,0.96126163,0,0.275637567 });
+	//GetGameObjectByName("RockWall 3").SetScale({ 48,35,40 });
+	//CreateGameObject("RockWall 5", 19, 4294967295);
+	//GetGameObjectByName("RockWall 5").SetPosition({ -57,2,-59 });
+	//GetGameObjectByName("RockWall 5").SetRotation({ 0,0.96126163,0,0.275637567 });
+	//GetGameObjectByName("RockWall 5").SetScale({ 43,80,35 });
+	//CreateGameObject("RockWall 6", 17, 4294967295);
+	//GetGameObjectByName("RockWall 6").SetPosition({ -3,-18,-8 });
+	//GetGameObjectByName("RockWall 6").SetRotation({ 0.557308376,0.05808115,0.254369915,0.788244784 });
+	//GetGameObjectByName("RockWall 6").SetScale({ 31,13,26 });
 
-	CreateGameObject("Boulder 0", 18, 4294967295);
-	GetGameObjectByName("Boulder 0").SetPosition({ -53,-21,113 });
-	GetGameObjectByName("Boulder 0").SetRotation({ 0.583064735,-0.467740774,0.46044904,0.478790939 });
-	GetGameObjectByName("Boulder 0").SetScale({ 11,11,11 });
-	CreateGameObject("Boulder 1", 18, 4294967295);
-	GetGameObjectByName("Boulder 1").SetPosition({ -39,-21,111 });
-	GetGameObjectByName("Boulder 1").SetRotation({ 0.113225348,-0.030704228,0.993081927,-0.00505937 });
-	GetGameObjectByName("Boulder 1").SetScale({ 7,20,9 });
-	CreateGameObject("Boulder 2", 18, 4294967295);
-	GetGameObjectByName("Boulder 2").SetPosition({ -20,-19,111 });
-	GetGameObjectByName("Boulder 2").SetRotation({ 0.076485023,0.680503786,0.723926127,-0.083639987 });
-	GetGameObjectByName("Boulder 2").SetScale({ 6,14,19 });
-	CreateGameObject("BigRock", 20, 4294967295);
-	GetGameObjectByName("BigRock").SetPosition({ 9,-6,147 });
-	GetGameObjectByName("BigRock").SetRotation({ 0,-0.878817022,0,0.477158964 });
-	GetGameObjectByName("BigRock").SetScale({ 36,41,41 });*/
+	//CreateGameObject("Boulder 0", 18, 4294967295);
+	//GetGameObjectByName("Boulder 0").SetPosition({ -53,-21,113 });
+	//GetGameObjectByName("Boulder 0").SetRotation({ 0.583064735,-0.467740774,0.46044904,0.478790939 });
+	//GetGameObjectByName("Boulder 0").SetScale({ 11,11,11 });
+	//CreateGameObject("Boulder 1", 18, 4294967295);
+	//GetGameObjectByName("Boulder 1").SetPosition({ -39,-21,111 });
+	//GetGameObjectByName("Boulder 1").SetRotation({ 0.113225348,-0.030704228,0.993081927,-0.00505937 });
+	//GetGameObjectByName("Boulder 1").SetScale({ 7,20,9 });
+	//CreateGameObject("Boulder 2", 18, 4294967295);
+	//GetGameObjectByName("Boulder 2").SetPosition({ -20,-19,111 });
+	//GetGameObjectByName("Boulder 2").SetRotation({ 0.076485023,0.680503786,0.723926127,-0.083639987 });
+	//GetGameObjectByName("Boulder 2").SetScale({ 6,14,19 });
+	//CreateGameObject("BigRock", 20, 4294967295);
+	//GetGameObjectByName("BigRock").SetPosition({ 9,-6,147 });
+	//GetGameObjectByName("BigRock").SetRotation({ 0,-0.878817022,0,0.477158964 });
+	//GetGameObjectByName("BigRock").SetScale({ 36,41,41 });
 
 
 
@@ -1049,12 +1029,12 @@ void DevScene::Update(float deltatime)
 		}
 	}
 
-	//// ChangeScene
-	//if (InputManager::GetKeyIsReleased('A'))
-	//{
-	//	ChangeScene("MainMenuScene");
-	//	ChangeScene("GameScene");
-	//}
+	// ChangeScene
+	if (InputManager::GetKeyIsReleased('N'))
+	{
+		ChangeScene("MainMenuScene");
+		ChangeScene("GameScene");
+	}
 }
 
 void DevScene::Release()

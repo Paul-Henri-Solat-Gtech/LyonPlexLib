@@ -57,8 +57,6 @@ void SceneManager::SetScene(const std::string& sceneName) {
 		return;
 	}
 
-	ReleaseScene();
-
 	// 3) Creer une nouvelle instance
 	Scene* newScene = sceneModel->second(); // new SampleScene2() par exemple -> second est la 2eme valeur de lobjet stocker a savoir ici la class derive scene
 

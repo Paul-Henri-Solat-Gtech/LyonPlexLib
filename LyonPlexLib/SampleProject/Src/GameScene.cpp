@@ -2,7 +2,7 @@
 #include "GameScene.h"
 #include "Utils.h"
 #include "Boulder.h"
-
+#include "OliveTree.h"
 //debug
 #include <psapi.h>
 
@@ -15,24 +15,18 @@ void GameScene::Start()
 {
 	m_pauseIsOpen = false;
 
-	CreateGameObject("cam", TYPE_3D, false);
-	m_cam = GetGameObjectByName("cam");
+	//CreateGameObject("cam", TYPE_3D, false);
+	//GameObject cam;	
+	//m_cam = cam;
+	m_cam.Init(mp_ecsManager, this);
 	m_cam.AddComponent<CameraComponent>(new CameraComponent());
-	GetGameObjectByName("cam").SetPosition({ 0, 0, 0.5f });
-	GetEcsManager()->RemoveComponent<MeshComponent>(GetGameObjectByName("cam").GetEntity());
+	//GetEcsManager()->RemoveComponent<MeshComponent>(m_cam.GetEntity());
 
 	// fps cam
 	m_fpsCam.Init(m_cam, mp_sceneManager->GetWindow());
 
-	// CreateGameObject("player"); //				45		-60
-	// GetGameObjectByName("player").SetScale({ 1, 3, 1 });
-	// XMFLOAT3 pos(POSITION_CHAMPS.x + 0, POSITION_CHAMPS.y + 15, POSITION_CHAMPS.z + 0);
-	// GetGameObjectByName("player").SetPosition(pos);
-	// m_player = GetGameObjectByName("player");
-	//m_player.SetTexture(TEXTURES::EMPTY);
 
-	SetParent("cam", "player");
-	m_fpsCam.SetParentGO(m_cam);
+	//m_fpsCam.SetParentGO(m_cam);
 
 	m_playerWalkSpeed = 3.f;
 	m_playerRunSpeed = 6.f;
@@ -40,8 +34,9 @@ void GameScene::Start()
 
 	// Test player + stateMachine
 	m_playerTest.Init(mp_ecsManager, mp_sceneManager->GetGameManager(), this, m_cam);
-	SetParent(GetGameObjectByName("cam"), m_playerTest);
-	//SetParent("cam", "player");
+	SetParent(m_cam, m_playerTest);
+	
+	m_cam.SetPosition({ 0, m_playerTest.GetScale().y/2, 0 });
 
 	RECT renderZone;
 	GetClientRect(mp_sceneManager->GetGameManager()->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
@@ -384,20 +379,52 @@ void GameScene::Start()
 	GetGameObjectByName("HB 2").SetTag(TAG_Environment);
 
 	CreateGameHitbox("HB 3");// temple zone 
-	GetGameObjectByName("HB 3").SetPosition({ -208,-23,-30 });
+	GetGameObjectByName("HB 3").SetPosition({ -208,-21,-30 });
 	GetGameObjectByName("HB 3").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("HB 3").SetScale({ 271,6,421 });
-	GetGameObjectByName("HB 3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 135.5, 3, 210.5 })));
+	GetGameObjectByName("HB 3").SetScale({ 271,2,421 });
+	GetGameObjectByName("HB 3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 135.5, 1, 210.5 })));
 	GetGameObjectByName("HB 3").AddComponent<Tag_World>(new Tag_World());
 	GetGameObjectByName("HB 3").SetTag(TAG_Environment);
 
 	CreateGameHitbox("HB 4");// deep lac + river
-	GetGameObjectByName("HB 4").SetPosition({ -5,-26,-29 });
+	GetGameObjectByName("HB 4").SetPosition({ -5,-24,-29 });
 	GetGameObjectByName("HB 4").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("HB 4").SetScale({ 156,6,416 });
-	GetGameObjectByName("HB 4").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 78, 3, 208 })));
+	GetGameObjectByName("HB 4").SetScale({ 156,2,416 });
+	GetGameObjectByName("HB 4").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 78, 1, 208 })));
 	GetGameObjectByName("HB 4").AddComponent<Tag_World>(new Tag_World());
 	GetGameObjectByName("HB 4").SetTag(TAG_Environment);
+
+
+	XMFLOAT3 position = { 30.f,-19.5,10 };
+	auto& oTree = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
+
+	//position = { 0,0,10 };
+	//auto& oTree1 = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
+
+	//position = { -20,0,0 };
+	//auto& oTree2 = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
+
+	position = { 0,-25, 20 };
+	auto& oTree3 = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
+	//oTree3.SetScale({ 3.f,3.f,3.f });
+	oTree3.SetScale({ 5.f,5.f,5.f });
+	//oTree3.SetScale({ 1.f,1.f,1.f });
+
+	/*position = { 0,-22,-25 };
+	auto& oTree4 = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
+
+	position = { 0,-5,-5 };
+	CreateGameObject<OliveTree>(mp_ecsManager, this, position);
+
+	position = { 0,-10,-10 };
+	CreateGameObject<OliveTree>(mp_ecsManager, this, position);
+
+	position = { 0,-2,-5 };
+	CreateGameObject<OliveTree>(mp_ecsManager, this, position);
+
+	position = { 0,-5,-15 };
+	CreateGameObject<OliveTree>(mp_ecsManager, this, position);*/
+
 
 	CreateGameHitbox("HB 5");// RockWall
 	GetGameObjectByName("HB 5").SetPosition({ 206,-3,-32 });
@@ -464,15 +491,15 @@ void GameScene::Start()
 	GetGameObjectByName("HB_ 7").AddComponent<Tag_World>(new Tag_World());
 	GetGameObjectByName("HB_ 7").SetTag(TAG_Environment);
 
-	CreateGameHitbox("HB_ 8");// close side map 1 (down hill)
-	GetGameObjectByName("HB_ 8").SetPosition({ 34,2,-238 });
-	GetGameObjectByName("HB_ 8").SetRotation({ 0,0.713250458,0,0.700909257 });
-	GetGameObjectByName("HB_ 8").SetScale({ 18,96,741 });
-	GetGameObjectByName("HB_ 8").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 9, 48, 370.5 })));
-	GetGameObjectByName("HB_ 8").AddComponent<Tag_World>(new Tag_World());
-	GetGameObjectByName("HB_ 8").SetTag(TAG_Environment);
+	//CreateGameHitbox("HB_ 8");// close side map 1 (down hill)
+	//GetGameObjectByName("HB_ 8").SetPosition({ 34,2,-238 });
+	//GetGameObjectByName("HB_ 8").SetRotation({ 0,0.713250458,0,0.700909257 });
+	//GetGameObjectByName("HB_ 8").SetScale({ 18,96,741 });
+	//GetGameObjectByName("HB_ 8").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 9, 48, 370.5 })));
+	//GetGameObjectByName("HB_ 8").AddComponent<Tag_World>(new Tag_World());
+	//GetGameObjectByName("HB_ 8").SetTag(TAG_Environment);
 
-	
+
 	// HITBOXES TEMPLE
 	CreateGameHitbox("HB_Temple 1");
 	GetGameObjectByName("HB_Temple 1").SetPosition({ -127,-13,-75 });

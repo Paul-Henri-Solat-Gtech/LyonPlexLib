@@ -58,7 +58,9 @@
     <ClCompile Include="Src\ArenaScene.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Src\OliveTree.cpp" />
+    <ClCompile Include="Src\OliveTree.cpp">
+      <Filter>OliveTree</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\AllScenes.h">
@@ -121,7 +123,9 @@
     <ClInclude Include="Include\ArenaScene.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Include\OliveTree.h" />
+    <ClInclude Include="Include\OliveTree.h">
+      <Filter>OliveTree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Fichiers d%27en-tête">
@@ -144,6 +148,9 @@
     </Filter>
     <Filter Include="Boulder">
       <UniqueIdentifier>{410b5cd6-9456-4838-8548-ee6168cb2c5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OliveTree">
+      <UniqueIdentifier>{79e2c928-4170-49bd-af87-5eedcb1fd75e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
