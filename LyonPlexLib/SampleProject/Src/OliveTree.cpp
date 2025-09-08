@@ -3,6 +3,9 @@
 
 OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position)
 {
+	static int treeNum = 1;
+	m_treeNum = treeNum;
+
 	InitOliveTreeGameObj(ecsManager, scene);
 
 	mp_trunk = &scene->CreateGameObject("olive_trunk", 32, 4294967295);
@@ -52,15 +55,29 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position)
 
 void OliveTree::OnUdpdate(float deltatime)
 {
+	if (m_isCut)
+	{
+		switch (m_treeNum)
+		{
+		case 1 :
+			mp_leaves->SetPosition({0,0,0});
+			break;
+		case 2 :
+			mp_leaves->SetPosition({0,0,0});
+			break;
+		default :
+			break;
+		}
+	}
 
 }
 
-void OliveTree::SetPosition(XMFLOAT3 pos)
-{
-	GetComponent<TransformComponent>()->position = pos; GetComponent<TransformComponent>()->dirty = true;
-	//mp_trunkCol->GetComponent<TransformComponent>()->position = pos; mp_trunkCol->GetComponent<TransformComponent>()->dirty = true;
-	//mp_leavesCol->GetComponent<TransformComponent>()->position = pos; mp_leavesCol->GetComponent<TransformComponent>()->dirty = true;
-}
+//void OliveTree::SetPosition(XMFLOAT3 pos)
+//{
+//	GetComponent<TransformComponent>()->position = pos; GetComponent<TransformComponent>()->dirty = true;
+//	//mp_trunkCol->GetComponent<TransformComponent>()->position = pos; mp_trunkCol->GetComponent<TransformComponent>()->dirty = true;
+//	//mp_leavesCol->GetComponent<TransformComponent>()->position = pos; mp_leavesCol->GetComponent<TransformComponent>()->dirty = true;
+//}
 
 void OliveTree::SetScale(XMFLOAT3 scl)
 {

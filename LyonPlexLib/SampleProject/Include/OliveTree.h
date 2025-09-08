@@ -10,7 +10,7 @@ public:
 	void OnUdpdate(float deltatime) override;
 
 	void SetScale(XMFLOAT3 scl);
-	void SetPosition(XMFLOAT3 pos);
+	//void SetPosition(XMFLOAT3 pos);
 
 private:
 	GameObject* mp_trunk = nullptr;
@@ -21,5 +21,8 @@ private:
 
 	XMFLOAT3 m_trunkColidScale;
 	XMFLOAT3 m_leavesColidScale;
+
+	bool m_isCut = false;
+	int m_treeNum = 0;
 };
 
