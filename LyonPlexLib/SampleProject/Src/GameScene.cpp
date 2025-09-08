@@ -395,32 +395,12 @@ void GameScene::Start()
 	XMFLOAT3 position = { 30.f,-19.5,10 };
 	auto& oTree = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
 
-	//position = { 0,0,10 };
-	//auto& oTree1 = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
-
-	//position = { -20,0,0 };
-	//auto& oTree2 = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
 
 	position = { 0,-25, 20 };
 	auto& oTree3 = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
-	//oTree3.SetScale({ 3.f,3.f,3.f });
+
 	oTree3.SetScale({ 5.f,5.f,5.f });
-	//oTree3.SetScale({ 1.f,1.f,1.f });
 
-	/*position = { 0,-22,-25 };
-	auto& oTree4 = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
-
-	position = { 0,-5,-5 };
-	CreateGameObject<OliveTree>(mp_ecsManager, this, position);
-
-	position = { 0,-10,-10 };
-	CreateGameObject<OliveTree>(mp_ecsManager, this, position);
-
-	position = { 0,-2,-5 };
-	CreateGameObject<OliveTree>(mp_ecsManager, this, position);
-
-	position = { 0,-5,-15 };
-	CreateGameObject<OliveTree>(mp_ecsManager, this, position);*/
 
 
 	CreateGameHitbox("HB 5");// RockWall
@@ -1279,6 +1259,180 @@ void GameScene::Start()
 	GetGameObjectByName("Next 20").SetScale({ 6,6,6 });
 	GetGameObjectByName("Next 20").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
 	//
+
+
+
+	CreateGameObject("RockWall 0", 35, 4294967295);
+	GetGameObjectByName("RockWall 0").SetPosition({ -32,-18,-163 });
+	GetGameObjectByName("RockWall 0").SetRotation({ 0,-0.078459084,0,0.996917367 });
+	GetGameObjectByName("RockWall 0").SetScale({ 1,1,2 });
+	CreateGameObject("RockWall 1", 17, 4294967295);
+	GetGameObjectByName("RockWall 1").SetPosition({ 57,2,-19 });
+	GetGameObjectByName("RockWall 1").SetRotation({ 0,-0.078459084,0,0.996917367 });
+	GetGameObjectByName("RockWall 1").SetScale({ 25,16,26 });
+	CreateGameObject("RockWall 2", 17, 4294967295);
+	GetGameObjectByName("RockWall 2").SetPosition({ 10,2,-58 });
+	GetGameObjectByName("RockWall 2").SetRotation({ 0,-0.544638991,0,0.838670671 });
+	GetGameObjectByName("RockWall 2").SetScale({ 29,25,30 });
+	CreateGameObject("RockWall 3", 18, 4294967295);
+	GetGameObjectByName("RockWall 3").SetPosition({ 38,-16,16 });
+	GetGameObjectByName("RockWall 3").SetRotation({ 0,0.96126163,0,0.275637567 });
+	GetGameObjectByName("RockWall 3").SetScale({ 48,35,40 });
+	CreateGameObject("RockWall 5", 19, 4294967295);
+	GetGameObjectByName("RockWall 5").SetPosition({ -57,2,-59 });
+	GetGameObjectByName("RockWall 5").SetRotation({ 0,0.96126163,0,0.275637567 });
+	GetGameObjectByName("RockWall 5").SetScale({ 43,80,35 });
+	CreateGameObject("RockWall 6", 17, 4294967295);
+	GetGameObjectByName("RockWall 6").SetPosition({ -3,-18,-8 });
+	GetGameObjectByName("RockWall 6").SetRotation({ 0.557308376,0.05808115,0.254369915,0.788244784 });
+	GetGameObjectByName("RockWall 6").SetScale({ 31,13,26 });
+
+	CreateGameObject("Boulder 0", 18, 4294967295);
+	GetGameObjectByName("Boulder 0").SetPosition({ -53,-21,113 });
+	GetGameObjectByName("Boulder 0").SetRotation({ 0.583064735,-0.467740774,0.46044904,0.478790939 });
+	GetGameObjectByName("Boulder 0").SetScale({ 11,11,11 });
+	CreateGameObject("Boulder 1", 18, 4294967295);
+	GetGameObjectByName("Boulder 1").SetPosition({ -39,-21,111 });
+	GetGameObjectByName("Boulder 1").SetRotation({ 0.113225348,-0.030704228,0.993081927,-0.00505937 });
+	GetGameObjectByName("Boulder 1").SetScale({ 7,20,9 });
+	CreateGameObject("Boulder 2", 18, 4294967295);
+	GetGameObjectByName("Boulder 2").SetPosition({ -20,-19,111 });
+	GetGameObjectByName("Boulder 2").SetRotation({ 0.076485023,0.680503786,0.723926127,-0.083639987 });
+	GetGameObjectByName("Boulder 2").SetScale({ 6,14,19 });
+	CreateGameObject("BigRock", 20, 4294967295);
+	GetGameObjectByName("BigRock").SetPosition({ 9,-6,147 });
+	GetGameObjectByName("BigRock").SetRotation({ 0,-0.878817022,0,0.477158964 });
+	GetGameObjectByName("BigRock").SetScale({ 36,41,41 });
+
+
+	// CHAMPS
+	CreateGameObject("Champs 0", 2, 33);
+	GetGameObjectByName("Champs 0").SetPosition({ 239,-20,-131 });
+	GetGameObjectByName("Champs 0").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Champs 0").SetScale({ 150,2,100 });
+	CreateGameObject("Maison", 4, 1);
+	GetGameObjectByName("Maison").SetPosition({ 178,-19,-94 });
+	GetGameObjectByName("Maison").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Maison").SetScale({ 2,2,2 });
+	CreateGameObject("Champs 2", 2, 7);
+	GetGameObjectByName("Champs 2").SetPosition({ 253,-19,-99 });
+	GetGameObjectByName("Champs 2").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Champs 2").SetScale({ 110,2,25 });
+	CreateGameObject("Champs 3", 2, 7);
+	GetGameObjectByName("Champs 3").SetPosition({ 253,-19,-132 });
+	GetGameObjectByName("Champs 3").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Champs 3").SetScale({ 110,2,25 });
+	CreateGameObject("Champs 4", 2, 7);
+	GetGameObjectByName("Champs 4").SetPosition({ 253,-19,-164 });
+	GetGameObjectByName("Champs 4").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Champs 4").SetScale({ 110,2,25 });
+
+	// OLIVIERS DECO
+	CreateGameObject("Tree 8", 34, 4294967295);
+	GetGameObjectByName("Tree 8").SetPosition({ 8,91,-61 });
+	GetGameObjectByName("Tree 8").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Tree 8").SetScale({ 16,16,16 });
+	CreateGameObject("Tree 9", 34, 4294967295);
+	GetGameObjectByName("Tree 9").SetPosition({ 101,1,-92 });
+	GetGameObjectByName("Tree 9").SetRotation({ 0,-0.788010716,0,0.615661561 });
+	GetGameObjectByName("Tree 9").SetScale({ 6,6,6 });
+	CreateGameObject("Tree 10", 34, 4294967295);
+	GetGameObjectByName("Tree 10").SetPosition({ 329,1,-196 });
+	GetGameObjectByName("Tree 10").SetRotation({ 0,-0.882947743,0,-0.469471335 });
+	GetGameObjectByName("Tree 10").SetScale({ 6,6,6 });
+	CreateGameObject("Tree 11", 34, 4294967295);
+	GetGameObjectByName("Tree 11").SetPosition({ 255,27,-2 });
+	GetGameObjectByName("Tree 11").SetRotation({ 0,-0.882947743,0,-0.469471335 });
+	GetGameObjectByName("Tree 11").SetScale({ 6,6,6 });
+	CreateGameObject("Tree 12", 34, 4294967295);
+	GetGameObjectByName("Tree 12").SetPosition({ 281,28,91 });
+	GetGameObjectByName("Tree 12").SetRotation({ 0,0.15643461,0,0.987688363 });
+	GetGameObjectByName("Tree 12").SetScale({ 7,7,7 });
+
+	CreateGameObject("Olivier_trunk 13", 32, 4294967295);
+	GetGameObjectByName("Olivier_trunk 13").SetPosition({ -79,-22,-115 });
+	GetGameObjectByName("Olivier_trunk 13").SetRotation({ 0,0.656059146,0,0.754709542 });
+	GetGameObjectByName("Olivier_trunk 13").SetScale({ 7,7,7 });
+
+	CreateGameObject("Tree 16", 34, 4294967295);
+	GetGameObjectByName("Tree 16").SetPosition({ -47,6,-232 });
+	GetGameObjectByName("Tree 16").SetRotation({ -0.138627812,-0.479704678,-0.037643887,0.865591586 });
+	GetGameObjectByName("Tree 16").SetScale({ 8,8,8 });
+
+	// ARBRES CHAMPS
+	CreateGameObject("Tree 17", 28, 4294967295);
+	GetGameObjectByName("Tree 17").SetPosition({ 308,-7,-179 });
+	GetGameObjectByName("Tree 17").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Tree 17").SetScale({ 2,2,2 });
+	CreateGameObject("Tree 18", 28, 4294967295);
+	GetGameObjectByName("Tree 18").SetPosition({ 307,-7,-84 });
+	GetGameObjectByName("Tree 18").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Tree 18").SetScale({ 2,2,2 });
+	CreateGameObject("Tree 19", 28, 4294967295);
+	GetGameObjectByName("Tree 19").SetPosition({ 167,-7,-83 });
+	GetGameObjectByName("Tree 19").SetRotation({ 0,0.999048233,0,-0.043619186 });
+	GetGameObjectByName("Tree 19").SetScale({ 2,2,2 });
+	CreateGameObject("Tree 20", 28, 4294967295);
+	GetGameObjectByName("Tree 20").SetPosition({ 168,-7,-178 });
+	GetGameObjectByName("Tree 20").SetRotation({ 0,0.999048233,0,-0.043619186 });
+	GetGameObjectByName("Tree 20").SetScale({ 2,2,2 });
+
+	// OLIVES COMPETENCE
+	CreateGameObject("Olivier_trunk 23", 32, 4294967295);// 1
+	GetGameObjectByName("Olivier_trunk 23").SetPosition({ 72,1,149 });
+	GetGameObjectByName("Olivier_trunk 23").SetRotation({ -0.015740039,-0.043857157,0.012615366,0.998834133 });
+	GetGameObjectByName("Olivier_trunk 23").SetScale({ 4,4,4 });
+	CreateGameObject("Olivier_leaves 22", 33, 4294967295);
+	GetGameObjectByName("Olivier_leaves 22").SetPosition({ 53,-9,128 });
+	GetGameObjectByName("Olivier_leaves 22").SetRotation({ -0.040849205,-0.022417387,0.671295822,0.739723504 });
+	GetGameObjectByName("Olivier_leaves 22").SetScale({ 4,4,4 });
+
+	CreateGameObject("Olivier_trunk 21", 32, 4294967295);// 2
+	GetGameObjectByName("Olivier_trunk 21").SetPosition({ -14,2,-21 });
+	GetGameObjectByName("Olivier_trunk 21").SetRotation({ 0,0.737277627,0,-0.675589979 });
+	GetGameObjectByName("Olivier_trunk 21").SetScale({ 6,7,7 });
+	CreateGameObject("Olivier_leaves 24", 33, 4294967295);
+	GetGameObjectByName("Olivier_leaves 24").SetPosition({ -59,-8,-17 });
+	GetGameObjectByName("Olivier_leaves 24").SetRotation({ 0.03906719,-0.74653542,-0.012860671,0.664073229 });
+	GetGameObjectByName("Olivier_leaves 24").SetScale({ 6,6,7 });
+
+
+	CreateGameHitbox("HB_LAKE 0");
+	GetGameObjectByName("HB_LAKE 0").SetPosition({ -54,-20,113 });
+	GetGameObjectByName("HB_LAKE 0").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("HB_LAKE 0").SetScale({ 10,10,15 });
+	GetGameObjectByName("HB_LAKE 0").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 5, 5, 7.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("HB_LAKE 1");
+	GetGameObjectByName("HB_LAKE 1").SetPosition({ -38,-18,112 });
+	GetGameObjectByName("HB_LAKE 1").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("HB_LAKE 1").SetScale({ 11,12,11 });
+	GetGameObjectByName("HB_LAKE 1").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 5.5, 6, 5.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("HB_LAKE 2");
+	GetGameObjectByName("HB_LAKE 2").SetPosition({ -20,-18,111 });
+	GetGameObjectByName("HB_LAKE 2").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("HB_LAKE 2").SetScale({ 11,19,11 });
+	GetGameObjectByName("HB_LAKE 2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 5.5, 9.5, 5.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("HB_LAKE 3");
+	GetGameObjectByName("HB_LAKE 3").SetPosition({ 12.619031906,-19.762268066,136.884719849 });
+	GetGameObjectByName("HB_LAKE 3").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("HB_LAKE 3").SetScale({ 36,19,41 });
+	GetGameObjectByName("HB_LAKE 3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 18, 9.5, 20.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("HB_LAKE 4");
+	GetGameObjectByName("HB_LAKE 4").SetPosition({ 14.275276184,-16.169765472,143.986968994 });
+	GetGameObjectByName("HB_LAKE 4").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("HB_LAKE 4").SetScale({ 36,19,41 });
+	GetGameObjectByName("HB_LAKE 4").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 18, 9.5, 20.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("HB_LAKE 5");
+	GetGameObjectByName("HB_LAKE 5").SetPosition({ 22.305616379,-19.80868721,136.464157104 });
+	GetGameObjectByName("HB_LAKE 5").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("HB_LAKE 5").SetScale({ 36,19,41 });
+	GetGameObjectByName("HB_LAKE 5").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 18, 9.5, 20.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("HB_LAKE 6");
+	GetGameObjectByName("HB_LAKE 6").SetPosition({ 52.282047272,-11.43447113,128.391662598 });
+	GetGameObjectByName("HB_LAKE 6").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("HB_LAKE 6").SetScale({ 16,19,31 });
+	GetGameObjectByName("HB_LAKE 6").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 8, 9.5, 15.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+
 }
 
 void GameScene::Update(float deltatime)
