@@ -87,8 +87,28 @@ void Enemy::TakeDamage()
 
 void Enemy::CreateProjectile(XMFLOAT3 posStart, XMFLOAT3 posTarget, float lifeTime)
 {
-	mp_scene->GetSceneManager()->GetGameManager()->GetSoundManager()->PlaySoundPlex("BEAM");
-	auto& newProjectile = mp_scene->CreateGameObject<Projectile>(mp_scene, GetPosition(), m_playerGm.GetPosition(), ProjectileType::Laser);
+	switch (m_type)
+	{
+	case Crabe:
+	{
+		mp_scene->GetSceneManager()->GetGameManager()->GetSoundManager()->PlaySoundPlex("BEAM");
+		auto& newProjectile = mp_scene->CreateGameObject<Projectile>(mp_scene, GetPosition(), m_playerGm.GetPosition(), ProjectileType::Laser, lifeTime);
+		break;
+	}
+	case Golem:
+	{
+		mp_scene->GetSceneManager()->GetGameManager()->GetSoundManager()->PlaySoundPlex("BEAM");
+		auto& newProjectile = mp_scene->CreateGameObject<Projectile>(mp_scene, GetPosition(), m_playerGm.GetPosition(), ProjectileType::Rock, lifeTime);
+		break;
+	}
+	default:
+	{
+		mp_scene->GetSceneManager()->GetGameManager()->GetSoundManager()->PlaySoundPlex("BEAM");
+		auto& newProjectile = mp_scene->CreateGameObject<Projectile>(mp_scene, GetPosition(), m_playerGm.GetPosition(), ProjectileType::Laser, lifeTime);
+		break;
+	}
+	}
+
 }
 
 void Enemy::SpawnHealingRock()
@@ -253,17 +273,16 @@ void Enemy::SetStateMachine()
 		{
 			auto* sIdle = m_stateMachine.CreateBehaviour(State::Idle);
 			sIdle->AddAction(new EnnemyAction_Idle());
-			//-> MOVE TRANSITION
-			{
-				auto transition = sIdle->CreateTransition(State::Move);
-				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsVeryNear>();
-				//transition->AddCondition<PlayerCondition_IsAttacking>();
-			}
 			//-> SHOOT TRANSITION
 			{
 				auto transition = sIdle->CreateTransition(State::Shoot);
 				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
 			}
+			//-> MELEE ATTACK TRANSITION
+			//{
+			//	auto transition = sIdle->CreateTransition(State::Attack);
+			//	auto condition = transition->AddCondition<EnnemyCondition_PlayerIsVeryNear>();
+			//}
 		}
 
 		// --- MOVE ---
@@ -275,11 +294,11 @@ void Enemy::SetStateMachine()
 				auto transition = sMove->CreateTransition(State::Idle);
 				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNotNear>();
 			}
-			//-> SHOOT TRANSITION
-			{
-				auto transition = sMove->CreateTransition(State::Shoot);
-				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
-			}
+			//-> MELEE ATTACK TRANSITION
+			//{
+			//	auto transition = sMove->CreateTransition(State::Attack);
+			//	auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
+			//}
 		}
 
 		// --- SHOOT ---
@@ -291,12 +310,28 @@ void Enemy::SetStateMachine()
 				auto transition = sShoot->CreateTransition(State::Idle);
 				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNotNear>();
 			}
-			//-> MOVE TRANSITION
-			{
-				auto transition = sShoot->CreateTransition(State::Move);
+			//-> MELEE ATTACK TRANSITION
+			/*{
+				auto transition = sShoot->CreateTransition(State::Attack);
 				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsVeryNear>();
-			}
+			}*/
 		}
+
+		// --- MELEE ATTACK ---
+		//{
+		//	auto* sAttack = m_stateMachine.CreateBehaviour(State::Shoot);
+		//	sAttack->AddAction(new EnnemyAction_Shoot());
+		//	//-> IDLE TRANSITION
+		//	{
+		//		auto transition = sAttack->CreateTransition(State::Idle);
+		//		auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNotNear>();
+		//	}
+		//	//-> SHOOT TRANSITION
+		//	{
+		//		auto transition = sAttack->CreateTransition(State::Shoot);
+		//		auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
+		//	}
+		//}
 	}
 		break;
 	default:

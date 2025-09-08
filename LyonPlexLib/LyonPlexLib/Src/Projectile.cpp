@@ -42,21 +42,44 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 	switch (m_projectileType)
 	{
 	case Laser:
+	{
 		SetTag(Tag::TAG_Projectile);
 		SetTexture(TEXTURES::NOTEXTURE);
 		m_speed = 30;
 		m_damage = 1;
 		break;
+	}
 	case Rock:
+	{
 		SetTag(Tag::TAG_Projectile);
+
+		int r = RandNumber(2);
+		switch (r)
+		{
+		case 0:
+			SetMesh(MESHES::ROCKBIG);
+			break;
+		case 1:
+			SetMesh(MESHES::ROCKMedium);
+			break;
+		case 2:
+			SetMesh(MESHES::ROCKLM2);
+			break;
+		}
+		SetTexture(TEXTURES::WATER_NORMAL);
+		SetScale({ 2,2,2 });
+		Laube(posStart, posTarget);
 		break;
+	}
 	case AirSlash:
+	{
 		SetTag(Tag::TAG_ProjectilePlayer);
 		SetTexture(TEXTURES::WATER_NORMAL);
 		SetScale({ 2,0.1,0.8 });
 		m_speed = 70;
 		m_damage = 1;
 		break;
+	}
 	default:
 		break;
 	}
@@ -89,8 +112,31 @@ void Projectile::OnUpdate(float deltatime)
 
 		break;
 	case Rock:
+	{
+		// integration simple Euler pour laube
+		m_laubeVelocity.y -= m_laubeGravity * deltatime;
 
+		XMFLOAT3 pos = GetPosition();
+		pos.x += m_laubeVelocity.x * deltatime;
+		pos.y += m_laubeVelocity.y * deltatime;
+		pos.z += m_laubeVelocity.z * deltatime;
+		SetPosition(pos);
+
+		// mise a jour rotation pour suivre la vitesse si non nulle
+		XMVECTOR velV = XMLoadFloat3(&m_laubeVelocity);
+		float len = XMVectorGetX(XMVector3Length(velV));
+		if (len > 0.001f)
+		{
+			XMVECTOR dirV = XMVector3Normalize(velV);
+			XMVECTOR eye = XMLoadFloat3(&pos);
+			XMMATRIX view = XMMatrixLookToLH(eye, dirV, XMVectorSet(0.f, 1.f, 0.f, 0.f));
+			XMMATRIX world = XMMatrixInverse(nullptr, view);
+			XMVECTOR quat = XMQuaternionRotationMatrix(world);
+			XMFLOAT4 q; XMStoreFloat4(&q, quat);
+			SetRotation(q);
+		}
 		break;
+	}
 	case AirSlash:
 		//AddRotation({ 0,1,0 });
 		break;
@@ -106,43 +152,58 @@ void Projectile::Destroy()
 
 void Projectile::Laube(XMFLOAT3 posStart, XMFLOAT3 posTarget)
 {
-	//if (!m_projectileGameObject)
-	//	return;
+	// displacement
+	XMFLOAT3 d = { posTarget.x - posStart.x, posTarget.y - posStart.y, posTarget.z - posStart.z };
+	float dxz = sqrtf(d.x * d.x + d.z * d.z);
 
-	// Direction plate (XZ)
-	XMFLOAT3 dir = {
-		posTarget.x - posStart.x,
-		0.f,
-		posTarget.z - posStart.z
-	};
+	const float g = m_laubeGravity;
+	const float s = m_speed;
+	const float s2 = s * s;
 
-	// Normalise la direction XZ
-	float len = sqrt(dir.x * dir.x + dir.z * dir.z);
-	if (len > 0.0001f)
+	if (dxz < 0.0001f)
 	{
-		dir.x /= len;
-		dir.z /= len;
+		// quasi vertical, fallback: tirer vers la cible
+		XMFLOAT3 dir = { 0.f, (d.y > 0.f ? 1.f : -1.f), 0.f };
+		m_laubeVelocity = { dir.x * s, dir.y * s, dir.z * s };
+	}
+	else
+	{
+		// discriminant de la solution balistique
+		float inside = s2 * s2 - g * (g * dxz * dxz + 2.f * d.y * s2);
+
+		if (inside < 0.f)
+		{
+			// pas de solution physique: fallback visuel (inclinaison fixe)
+			XMFLOAT3 dir = { d.x / dxz, 0.5f, d.z / dxz };
+			XMVECTOR dv = XMLoadFloat3(&dir);
+			dv = XMVector3Normalize(dv);
+			XMFLOAT3 dirN; 
+			XMStoreFloat3(&dirN, dv);
+			m_laubeVelocity = { dirN.x * s, dirN.y * s, dirN.z * s };
+		}
+		else
+		{
+			float sqrtv = sqrtf(inside);
+			// ici on prend l'arc haut; pour arc bas remplacer +sqrtv par -sqrtv
+			float angle = atanf((s2 + sqrtv) / (g * dxz));
+			float cosA = cosf(angle);
+			float sinA = sinf(angle);
+			float vxz = s * cosA;
+			XMFLOAT3 dirXZ = { d.x / dxz, 0.f, d.z / dxz };
+			m_laubeVelocity.x = dirXZ.x * vxz;
+			m_laubeVelocity.y = s * sinA;
+			m_laubeVelocity.z = dirXZ.z * vxz;
+		}
 	}
 
-	// Ajoute une composante Y pour former un arc (valeur ajustable)
-	XMFLOAT3 lobbedDir = {
-		dir.x,
-		0.5f, // élévation (plus grand = plus en cloche)
-		dir.z
-	};
+	// orientation initiale pour regarder dans la direction de la vitesse
+	XMFLOAT3 lookAt = { posStart.x + m_laubeVelocity.x, posStart.y + m_laubeVelocity.y, posStart.z + m_laubeVelocity.z };
+	LookAt(lookAt);
+}
 
-	// Normalize finale
-	float lobLen = sqrt(lobbedDir.x * lobbedDir.x + lobbedDir.y * lobbedDir.y + lobbedDir.z * lobbedDir.z);
-	lobbedDir.x /= lobLen;
-	lobbedDir.y /= lobLen;
-	lobbedDir.z /= lobLen;
-
-	// Calcul d’un point LookAt à partir de la direction lobée
-	XMFLOAT3 targetLookAt = {
-		posStart.x + lobbedDir.x,
-		posStart.y + lobbedDir.y,
-		posStart.z + lobbedDir.z
-	};
-
-	LookAt(targetLookAt);
+//de 0 a max
+int Projectile::RandNumber(int max)
+{
+	int r = rand() % (max + 1);
+	return r;
 }

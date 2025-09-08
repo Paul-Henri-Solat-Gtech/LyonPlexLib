@@ -24,6 +24,7 @@ class Enemy : public GameObject
 		Idle,
 		Move,
 		Shoot,
+		Attack,
 		Flee,
 		Roam,
 
@@ -78,6 +79,7 @@ protected:
 	friend class EnnemyAction_Idle;
 	friend class EnnemyAction_Move;
 	friend class EnnemyAction_Shoot;
+	friend class EnnemyAction_MeleeAttack;
 	friend class EnnemyAction_Flee;
 	friend class EnnemyAction_Roam;
 };

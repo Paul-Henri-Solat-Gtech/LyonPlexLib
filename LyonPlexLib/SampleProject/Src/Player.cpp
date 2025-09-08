@@ -319,20 +319,32 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 			case TAG_Environment:
 				break;
 			case TAG_Projectile:
+			{
 				if (self && self->m_hp > 0 && !self->m_isInvincible)
-				{      
+				{
 					self->m_hp--;
 					self->HpUpdate();
 					self->m_isInvincible = true;
 					OutputDebugStringA("\n -1hp aie \n");
 				}
+
+				// === Knockback ===
+				if (self)
+				{
+					self->ApplyKnockback(otherGO->GetPosition(), 8.0f, 3.0f);
+				}
+
 				scenePtr->DestroyGameObject(*otherGO);
 				break;
+			}
 			case TAG_ProjectilePlayer:
+			{
 				OutputDebugStringA("\n Just me (player projectile) - ignore\n");
 				break;
+			}
 			case TAG_HealingRock:
-				if (self->m_hp < 6) 
+			{
+				if (self->m_hp < 6)
 				{
 					OutputDebugStringA("\n  + 1hp \n");
 					self->mp_gameManager->GetSoundManager()->PlaySoundPlex("heal");
@@ -341,6 +353,7 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 					scenePtr->DestroyGameObject(*otherGO);
 				}
 				break;
+			}
 			default:
 				break;
 			}
@@ -375,6 +388,7 @@ void Player::OnUpdate(float deltatime)
 {
 	m_stateMachine.Update();
 	m_deltatime = deltatime;
+	KnockeBackManager(deltatime);
 	Movement();
 	ApplyMovementAndCollisions(deltatime);
 	InvincibilityManager(deltatime);
@@ -876,4 +890,49 @@ void Player::InvincibilityManager(float deltatime)
 		m_isInvincible = false;
 		m_invicibilityCooldown = m_invincibilityTime;
 	}
+}
+
+void Player::KnockeBackManager(float deltatime)
+{
+	if (!m_isKnockedback) return;
+
+	XMFLOAT3 pos = GetPosition();
+
+	// applique knockback uniquement sur le Player
+	pos.x += m_knockbackVelocity.x * deltatime;
+	pos.y += m_knockbackVelocity.y * deltatime;
+	pos.z += m_knockbackVelocity.z * deltatime;
+
+	// gravité uniquement pour le knockback
+	m_knockbackVelocity.y -= 30.0f * deltatime;
+
+	// friction horizontale
+	m_knockbackVelocity.x *= 0.9f;
+	m_knockbackVelocity.z *= 0.9f;
+
+	SetPosition(pos);
+
+	// stop si vitesse faible
+	if (fabs(m_knockbackVelocity.x) < 0.1f &&
+		fabs(m_knockbackVelocity.y) < 0.1f &&
+		fabs(m_knockbackVelocity.z) < 0.1f)
+	{
+		m_isKnockedback = false;
+		m_knockbackVelocity = { 0,0,0 };
+	}
+}
+
+void Player::ApplyKnockback(const XMFLOAT3& sourcePos, float strength, float upward)
+{
+	// direction horizontale (Player <- source)
+	XMVECTOR dir = XMLoadFloat3(&GetPosition()) - XMLoadFloat3(&sourcePos);
+	dir = XMVectorSetY(dir, 0); // ignore Y pour horizontal
+	dir = XMVector3Normalize(dir);
+
+	// applique force au knockbackVelocity uniquement
+	m_knockbackVelocity.x = XMVectorGetX(dir) * strength;
+	m_knockbackVelocity.z = XMVectorGetZ(dir) * strength;
+	m_knockbackVelocity.y = upward;
+
+	m_isKnockedback = true;
 }

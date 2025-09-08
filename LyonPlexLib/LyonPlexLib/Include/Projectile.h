@@ -26,6 +26,8 @@ public:
 	//GameObject& GetPlayerGameObject() { return m_gmTarget; };
 	//GameObject* GetGameObject() { return m_projectileGameObject; };
 
+	int RandNumber(int max);
+
 private:
 	Scene* mp_scene;
 
@@ -36,5 +38,8 @@ private:
 
 	float m_speed, m_lifetime;
 	int m_damage;
+
+	XMFLOAT3 m_laubeVelocity{ 0.f, 0.f, 0.f }; // vitesse courante, utilise pour lob
+	float    m_laubeGravity{ 50.f };
 };
 

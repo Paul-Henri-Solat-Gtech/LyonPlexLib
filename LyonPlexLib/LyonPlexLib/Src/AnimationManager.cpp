@@ -82,8 +82,6 @@ void AnimationManager::Loop(float deltatime)
 	AnimationSystem();
 }
 
-
-
 void AnimationManager::AnimationSystem()
 {
     if (m_frameCooldown > 0) 
@@ -107,4 +105,16 @@ void AnimationManager::AnimationSystem()
 
     // 4) set next id frame
     m_nextIdFrame++;
+}
+
+void AnimationManager::Play()
+{
+    if (m_textureList.empty() || !m_gameObjectToAnimate)
+        return;
+
+    m_nextIdFrame = 0;
+    m_frameCooldown = m_frameOriginalCooldown;
+    m_actualTexture = m_textureList[0];
+    m_gameObjectToAnimate->SetTexture(m_actualTexture);
+    m_animationHisFinished = false;
 }

@@ -42,6 +42,8 @@ public:
 	void HpUpdate();
 	void DeathManager();
 	void InvincibilityManager(float deltatime);
+	void KnockeBackManager(float deltatime);
+	void ApplyKnockback(const XMFLOAT3& sourcePos, float strength, float upward);
 
 	GameObject m_playerGameObject;
 	GameObject m_playerArm;
@@ -110,6 +112,10 @@ public:
 	float m_deltatime;
 	GameManager* mp_gameManager;
 	Scene* mp_scene = nullptr;
+
+	//knockback
+	bool m_isKnockedback = false;
+	XMFLOAT3 m_knockbackVelocity = { 0,0,0 };
 
 private:
 

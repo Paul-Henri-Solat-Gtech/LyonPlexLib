@@ -26,7 +26,7 @@ void IntroScene::Start()
 
 	m_sceneHasChanged = false;
 	m_soundHasBeenPlayed = false;
-	m_introTime = 4;
+	m_introTime = 6;
 
 	// sounds
 	//GetSceneManager()->GetGameManager()->GetSoundManager()->CreateSound("roar", L"../LyonPlexLib/Ressources/Roar.wav");
@@ -55,6 +55,12 @@ void IntroScene::Update(float deltatime)
 			m_LyonplexLogo.SetScale({ logoScale.x + 0.5f, logoScale.y + 0.5f, 0 });
 		}
 
+	}
+
+	if (InputManager::GetKeyIsJustPressed(VK_LBUTTON))
+	{
+		m_sceneHasChanged = true;
+		ChangeScene("MainMenuScene");
 	}
 }
 

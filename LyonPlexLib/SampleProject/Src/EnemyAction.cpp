@@ -4,6 +4,8 @@
 
 void EnnemyAction_Idle::Start(Enemy* ennemy)
 {
+	m_idleAnim.Init(0.05f, ennemy);
+
 	switch (ennemy->m_type)
 	{
 	case EnemyType::Crabe:
@@ -23,10 +25,8 @@ void EnnemyAction_Idle::Start(Enemy* ennemy)
 		m_idleAnim.AddFrame(TEXTURES::CRABE_IDLE_13);
 		m_idleAnim.AddFrame(TEXTURES::CRABE_IDLE_14);
 		m_idleAnim.AddFrame(TEXTURES::CRABE_IDLE_15);
-
-
+		break;
 	}
-	break;
 	case EnemyType::Golem:
 	{
 		m_idleAnim.AddFrame(TEXTURES::GOLEM_IDLE_1);
@@ -49,21 +49,21 @@ void EnnemyAction_Idle::Start(Enemy* ennemy)
 		m_idleAnim.AddFrame(TEXTURES::GOLEM_IDLE_18);
 		m_idleAnim.AddFrame(TEXTURES::GOLEM_IDLE_19);
 		m_idleAnim.AddFrame(TEXTURES::GOLEM_IDLE_20);
-
-	}
 	break;
+	}
 	}
 }
 void EnnemyAction_Idle::Update(Enemy* ennemy)
 {
-	m_idleAnim.AnimationSequence(ennemy->m_deltatime);
+	m_idleAnim.AnimationSequence(ennemy->GetDeltatime());
+	ennemy->LookAt(ennemy->m_playerGm);
 }
 
 void EnnemyAction_Move::Start(Enemy* ennemy)
 {
 	//OutputDebugStringA("-ENEMY START MOVING !");
 	//animation
-	m_moveAnim.Init(0.05, ennemy);
+	m_moveAnim.Init(0.05f, ennemy);
 	// move frames (switch case enemy type)
 	switch (ennemy->m_type)
 	{
@@ -158,7 +158,7 @@ void EnnemyAction_Shoot::Start(Enemy* ennemy)
 	//ennemy->CreateProjectile(ennemy->GetPosition(), ennemy->m_playerGm.GetPosition());
 
 	//animation
-	m_shootAnim.Init(0.05, ennemy);
+	m_shootAnim.Init(0.05f, ennemy);
 	// shoot frames (switch case enemy type)
 	switch (ennemy->m_type)
 	{
@@ -231,7 +231,7 @@ void EnnemyAction_Shoot::Update(Enemy* ennemy)
 	//m_shootAnim.Loop(ennemy->GetDeltatime());
 	if (m_nextShootTimer >= ennemy->m_reloadSpeed)
 	{
-		ennemy->CreateProjectile(ennemy->GetPosition(), ennemy->m_playerGm.GetPosition(), ProjectileType::Laser);
+		ennemy->CreateProjectile(ennemy->GetPosition(), ennemy->m_playerGm.GetPosition(), 5.f);
 		m_nextShootTimer = 0;
 	}
 	else
@@ -253,9 +253,109 @@ void EnnemyAction_Shoot::End(Enemy* ennemy)
 	}
 }
 
+void EnnemyAction_MeleeAttack::Start(Enemy* ennemy)
+{
+	m_nextShootTimer = 0;
+	//animation
+	m_atkAnim.Init(0.05f, ennemy);
+	// shoot frames (switch case enemy type)
+	switch (ennemy->m_type)
+	{
+	case EnemyType::Crabe:
+	{
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_1);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_2);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_3);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_4);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_5);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_6);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_7);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_8);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_9);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_10);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_11);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_12);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_13);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_14);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_15);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_16);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_17);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_18);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_19);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_20);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_21);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_22);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_23);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_24);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_25);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_26);
+		m_atkAnim.AddFrame(TEXTURES::CRABE_ATTACK_27);
+	}
+	break;
+	case EnemyType::Golem:
+	{
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_1);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_2);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_3);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_4);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_5);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_6);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_7);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_8);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_9);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_10);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_11);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_12);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_13);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_14);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_15);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_16);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_17);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_18);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_19);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_20);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_21);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_22);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_23);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_24);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_25);
+		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_26);
+	}
+	break;
+	}
+}
+void EnnemyAction_MeleeAttack::Update(Enemy* ennemy)
+{
+	m_atkAnim.AnimationSequence(ennemy->GetDeltatime());
+	//m_shootAnim.Loop(ennemy->GetDeltatime());
+	if (m_nextShootTimer >= ennemy->m_reloadSpeed)
+	{
+		//ennemy->CreateProjectile(ennemy->GetPosition(), ennemy->m_playerGm.GetPosition(), 5.f);
+		// inflictdamage
+		m_nextShootTimer = 0;
+	}
+	else
+	{
+		m_nextShootTimer += 1 * ennemy->m_deltatime;
+	}
+	ennemy->LookAt(ennemy->m_playerGm);
+}
+void EnnemyAction_MeleeAttack::End(Enemy* ennemy)
+{
+	switch (ennemy->m_type)
+	{
+	case EnemyType::Crabe:
+		ennemy->SetTexture(TEXTURES::CRABE_IDLE_1);
+		break;
+	case EnemyType::Golem:
+		ennemy->SetTexture(TEXTURES::GOLEM_IDLE_1);
+		break;
+	}
+}
+
 void EnnemyAction_Flee::Start(Enemy* ennemy)
 {
-	m_moveAnim.Init(0.05, ennemy);
+	m_moveAnim.Init(0.05f, ennemy);
 	// shoot frames (switch case enemy type
 	switch (ennemy->m_type)
 	{
@@ -325,7 +425,6 @@ void EnnemyAction_Flee::Update(Enemy* ennemy)
 	ennemy->LookAt(ennemy->m_playerGm);
 	ennemy->MoveBackward(ennemy->GetDeltatime() * 8);
 }
-
 void EnnemyAction_Flee::End(Enemy* ennemy)
 {
 	switch (ennemy->m_type)
@@ -349,7 +448,7 @@ void EnnemyAction_Roam::Start(Enemy* ennemy)
 	targetX = false;
 	targetZ = false;
 
-	m_moveAnim.Init(0.05, ennemy);
+	m_moveAnim.Init(0.05f, ennemy);
 	// move frames (switch case enemy type)
 	switch (ennemy->m_type)
 	{
@@ -507,4 +606,5 @@ void EnnemyAction_Roam::SetNextLocation(Enemy* ennemy)
 	// enfin on fixe la vraie prochaine position
 	m_nextPosition = { currX + randX,ennemy->GetPosition().y,currZ + randZ };
 }
+
 
