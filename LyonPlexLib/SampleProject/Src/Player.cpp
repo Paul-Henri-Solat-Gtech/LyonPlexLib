@@ -236,15 +236,9 @@ Player::Player() : m_stateMachine(this, State::Count)
 
 void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene, GameObject& cameraGO)
 {
-	//m_playerGameObject = gameObject;
-
 	InitPlayerGameObj(ecsManager, scene);
-	//mp_scene->CreateGameObject("player");
 	SetScale({ 1, 4, 1 });
-	//XMFLOAT3 POSITION_CHAMPS = { 325, -2, 50 };
-	//XMFLOAT3 pos(POSITION_CHAMPS.x + 0, POSITION_CHAMPS.y + 15, POSITION_CHAMPS.z + 0);
-	//SetPosition(pos);
-	SetPosition({ 0,60,0 });
+	SetPosition({ -60,60,60 });
 
 
 	mp_gameManager = gameManager;
@@ -652,20 +646,18 @@ void Player::ApplyMovementAndCollisions(float dt)
 				mtv = Utils::ResolveAabbObbCollision(playerPosF, playerLocalAabb, otherPosF, otherO);
 			}
 		}
-		else { // Sphere vs AABB
-			// if you have sphere vs aabb test, use it; else skip for now
+		else { 
 			SphereCollider s = std::get<SphereCollider>(oc.shape);
 			float maxScale = (otherWorldScale.x > otherWorldScale.y)
 				? (otherWorldScale.x > otherWorldScale.z ? otherWorldScale.x : otherWorldScale.z)
 				: (otherWorldScale.y > otherWorldScale.z ? otherWorldScale.y : otherWorldScale.z);
 			s.radius *= maxScale;
-			// approximate: if sphere collides with player AABB, you probably have helper; else skip.
-			// We'll attempt broad-phase only (already did).
+			// ADD TEST AABB-SPHERE
 		}
 
 		// If mtv is tiny -> no penetration
 		if (XMVectorGetX(XMVector3LengthSq(mtv)) > EPS_LEN_SQ) {
-			// ensure mtv points *away* from other (push-out). Convention: playerPos -> otherPos = dirPO
+			// Convention: playerPos -> otherPos = dirPO
 			XMVECTOR vPlayer = XMLoadFloat3(&playerPosF);
 			XMVECTOR vOther = XMLoadFloat3(&otherPosF);
 			XMVECTOR dirPO = XMVectorSubtract(vOther, vPlayer); // from player to other

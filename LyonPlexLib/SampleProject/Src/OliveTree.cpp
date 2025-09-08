@@ -50,6 +50,7 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position)
 	mp_leavesCol->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB()));
 
 	SetPosition(position);
+	SetScale({ 1,1,1 });
 
 }
 
@@ -59,13 +60,13 @@ void OliveTree::OnUpdate(float deltatime)
 	{
 		switch (m_treeNum)
 		{
-		case 1 :
-			mp_leaves->SetPosition({0,0,0});
+		case 1:
+			mp_leaves->SetPosition({ 0,0,0 });
 			break;
-		case 2 :
-			mp_leaves->SetPosition({0,0,0});
+		case 2:
+			mp_leaves->SetPosition({ 0,0,0 });
 			break;
-		default :
+		default:
 			break;
 		}
 	}
@@ -85,20 +86,20 @@ void OliveTree::SetScale(XMFLOAT3 scl)
 	GetComponent<TransformComponent>()->scale = scl;
 	GetComponent<TransformComponent>()->dirty = true;
 
-	mp_trunk->GetComponent<TransformComponent>()->scale = scl;
-	mp_trunk->GetComponent<TransformComponent>()->dirty = true;
+	//mp_trunk->GetComponent<TransformComponent>()->scale = scl;
+	//mp_trunk->GetComponent<TransformComponent>()->dirty = true;
 
 	auto& colTrunk = std::get<OBBCollider>(mp_trunkCol->GetComponent<CollisionComponent>()->shape);
 
-	colTrunk.halfSize.x = 1.700000286f * scl.x/2;
-	colTrunk.halfSize.y = 3 * scl.y/2;
-	colTrunk.halfSize.z = 2 * scl.z/2;
+	colTrunk.halfSize.x = 1.700000286f * scl.x/* * scl.x*/ / 2;
+	colTrunk.halfSize.y = 3 * scl.y /** scl.y*/ / 2;
+	colTrunk.halfSize.z = 2 * scl.z /** scl.z*/ / 2;
 
 	auto& colLeaves = std::get<OBBCollider>(mp_leavesCol->GetComponent<CollisionComponent>()->shape);
 
-	colLeaves.halfSize.x = 2 * scl.x;
-	colLeaves.halfSize.y = 2 * scl.y;
-	colLeaves.halfSize.z = 4.5 * scl.z;
+	colLeaves.halfSize.x = 2 * scl.x /** scl.x*/;
+	colLeaves.halfSize.y = 2 * scl.y /** scl.y*/;
+	colLeaves.halfSize.z = 4.5 * scl.z /** scl.z*/;
 
 
 };

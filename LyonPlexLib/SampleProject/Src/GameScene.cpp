@@ -392,14 +392,17 @@ void GameScene::Start()
 	GetGameObjectByName("HB 4").SetTag(TAG_Environment);
 
 
-	XMFLOAT3 position = { 30.f,-19.5,10 };
+	XMFLOAT3 position = { 30.f,-20,10 };
 	auto& oTree = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
 
+	position = { 20,-25, 20 };
+	auto& oTree2 = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
+	oTree2.SetScale({ 2.f,2.f,2.f });
 
-	position = { 0,-25, 20 };
+	position = { 20,-25, -20 };
 	auto& oTree3 = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
+	oTree3.SetScale({ 3.f,3.f,3.f });
 
-	oTree3.SetScale({ 5.f,5.f,5.f });
 
 
 
@@ -1378,19 +1381,30 @@ void GameScene::Start()
 	GetGameObjectByName("Tree 20").SetScale({ 2,2,2 });
 
 	// OLIVES COMPETENCE
-	CreateGameObject("Olivier_trunk 23", 32, 4294967295);// 1
-	GetGameObjectByName("Olivier_trunk 23").SetPosition({ 72,1,149 });
-	GetGameObjectByName("Olivier_trunk 23").SetRotation({ -0.015740039,-0.043857157,0.012615366,0.998834133 });
-	GetGameObjectByName("Olivier_trunk 23").SetScale({ 4,4,4 });
+	position = { 72,1,149 };
+	auto& oliveTree = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
+	oliveTree.SetScale({ 4,4,4 });
+	oliveTree.SetRotation({ -0.015740039,-0.043857157,0.012615366,0.998834133 });
+	//CreateGameObject("Olivier_trunk 23", 32, 4294967295);// 1
+	//GetGameObjectByName("Olivier_trunk 23").SetPosition({ 72,1,149 });
+	//GetGameObjectByName("Olivier_trunk 23").SetRotation({ -0.015740039,-0.043857157,0.012615366,0.998834133 });
+	//GetGameObjectByName("Olivier_trunk 23").SetScale({ 4,4,4 });
+
 	CreateGameObject("Olivier_leaves 22", 33, 4294967295);
 	GetGameObjectByName("Olivier_leaves 22").SetPosition({ 53,-9,128 });
 	GetGameObjectByName("Olivier_leaves 22").SetRotation({ -0.040849205,-0.022417387,0.671295822,0.739723504 });
 	GetGameObjectByName("Olivier_leaves 22").SetScale({ 4,4,4 });
 
-	CreateGameObject("Olivier_trunk 21", 32, 4294967295);// 2
-	GetGameObjectByName("Olivier_trunk 21").SetPosition({ -14,2,-21 });
-	GetGameObjectByName("Olivier_trunk 21").SetRotation({ 0,0.737277627,0,-0.675589979 });
-	GetGameObjectByName("Olivier_trunk 21").SetScale({ 6,7,7 });
+
+	position = { -14,2,-21 };
+	auto& oliveTree2 = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
+	oliveTree2.SetScale({ 6,7,7 });
+	oliveTree2.SetRotation({ 0,0.737277627,0,-0.675589979 });
+	//CreateGameObject("Olivier_trunk 21", 32, 4294967295);// 2
+	//GetGameObjectByName("Olivier_trunk 21").SetPosition({ -14,2,-21 });
+	//GetGameObjectByName("Olivier_trunk 21").SetRotation({ 0,0.737277627,0,-0.675589979 });
+	//GetGameObjectByName("Olivier_trunk 21").SetScale({ 6,7,7 });
+
 	CreateGameObject("Olivier_leaves 24", 33, 4294967295);
 	GetGameObjectByName("Olivier_leaves 24").SetPosition({ -59,-8,-17 });
 	GetGameObjectByName("Olivier_leaves 24").SetRotation({ 0.03906719,-0.74653542,-0.012860671,0.664073229 });
@@ -1432,6 +1446,22 @@ void GameScene::Start()
 	GetGameObjectByName("HB_LAKE 6").SetRotation({ 0,0,0,1 });
 	GetGameObjectByName("HB_LAKE 6").SetScale({ 16,19,31 });
 	GetGameObjectByName("HB_LAKE 6").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 8, 9.5, 15.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+
+	CreateGameHitbox("HB_UPSTREAM 1");
+	GetGameObjectByName("HB_UPSTREAM 1").SetPosition({ 72.454551697,-2.514286518,89.278663635 });
+	GetGameObjectByName("HB_UPSTREAM 1").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("HB_UPSTREAM 1").SetScale({ 21,6,166 });
+	GetGameObjectByName("HB_UPSTREAM 1").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 10.5, 3, 83 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("HB_UPSTREAM 2");
+	GetGameObjectByName("HB_UPSTREAM 2").SetPosition({ 206.016464233,1.502984762,73.236419678 });
+	GetGameObjectByName("HB_UPSTREAM 2").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("HB_UPSTREAM 2").SetScale({ 256,6,176 });
+	GetGameObjectByName("HB_UPSTREAM 2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 128, 3, 88 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("HB_UPSTREAM 3");// WATERFALL
+	GetGameObjectByName("HB_UPSTREAM 3").SetPosition({ 62.914527893,-15.86863327,80.58568573 });
+	GetGameObjectByName("HB_UPSTREAM 3").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("HB_UPSTREAM 3").SetScale({ 3,21,156 });
+	GetGameObjectByName("HB_UPSTREAM 3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 1.5, 10.5, 78 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
 
 }
 
