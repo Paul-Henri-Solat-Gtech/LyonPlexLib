@@ -53,14 +53,6 @@ void GameObject::InitOliveTreeGameObj(ECSManager* ecsManager, Scene* scene)
 	mp_scene = scene;
 	m_entity = mp_ecsManager->CreateEntity();
 
-	//	Adding basics component(s) for any entity in scene & default parameters :
-
-	// TYPE
-	//AddComponent<Type_3D>(new Type_3D());
-
-	// MESH
-	//AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE));
-
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());
 }

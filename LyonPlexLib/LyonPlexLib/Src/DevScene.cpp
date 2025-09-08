@@ -11,16 +11,15 @@ XMFLOAT3 POSITION_BASE = { 325, -2, 50 };
 
 void DevScene::Start()
 {
-	// R馗up駻er le HWND depuis SceneManager
 	m_hWnd = mp_sceneManager->GetWindow();
 
-	// Cr馥r le cube (placingModule)
+	// Creer le cube (placingModule)
 	CreateGameObject("placingModule");
 	m_placingModule = GetGameObjectByName("placingModule");
 	m_placingModule.SetPosition({ 0, 0, 0 }); // par exemple au centre
 	m_placingModule.SetTexture(TEXTURES::NOTEXTURE);
 
-	// Cr馥r la cam駻a
+	// Creer la camera
 	CreateGameObject("camera", TYPE_3D, false);
 	m_camera = GetGameObjectByName("camera");
 	m_camera.AddComponent<CameraComponent>(new CameraComponent());
@@ -48,38 +47,6 @@ void DevScene::Start()
 	GetComponent<LightComponent>("Light1")->range = 500;
 
 	
-
-	//CreateGameObject("olive_trunk", 32, 4294967295);
-	//auto a = GetGameObjectByName("olive_trunk");
-	//a.SetPosition({ 0.f,-20.f,-10.f });
-	//a.SetRotation({ 0,0,0,1 });
-	//a.SetScale({ 1,1,1 });
-	//CreateGameObject("olive_leaves", 33, 4294967295);
-	//auto& b = GetGameObjectByName("olive_leaves");
-	//SetParent(b, a);
-	//b.SetPosition({ 0.155318305,4.349291325,-0.093118094 }); // LOCAL POS
-	//b.SetRotation({ 0,0,-0.034899499,0.999390841 });		  // LOCAL ROTA
-	//b.SetScale({ 1,1,1 });
-	//b.AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 1,1,1 }, { 0,0,0,1 }, { 0,0,0 })));
-	//
-	//CreateGameObject("Next 0", 32, 4294967295); // TRUNK
-	//GetGameObjectByName("Next 0").SetPosition({ 0,0,0 });
-	//GetGameObjectByName("Next 0").SetRotation({ 0,0,0,1 });
-	//GetGameObjectByName("Next 0").SetScale({ 1,1,1 });
-	//CreateGameObject("Next 1", 2, 0);
-	//GetGameObjectByName("Next 1").SetPosition({ 0.115241952,1.324885845,0.244909346 });
-	//GetGameObjectByName("Next 1").SetRotation({ 0,0.2164395,0,0.976296067 });
-	//GetGameObjectByName("Next 1").SetScale({ 1.700000286,2,2 });
-
-	//CreateGameObject("Next 2", 33, 4294967295); // LEAVES
-	//GetGameObjectByName("Next 2").SetPosition({ 0,0,0 });
-	//GetGameObjectByName("Next 2").SetRotation({ 0,0.2164395,0,0.976296067 });
-	//GetGameObjectByName("Next 2").SetScale({ 1.700000286,2,2 });
-	//CreateGameObject("Next 3", 2, 0);
-	//GetGameObjectByName("Next 3").SetPosition({ -0.168319225,1.354707241,0.381285578 });
-	//GetGameObjectByName("Next 3").SetRotation({ 0,0.2164395,0,0.976296067 });
-	//GetGameObjectByName("Next 3").SetScale({ 7.700000286,7,18 });
-
 	//CreateGameObject("Map");
 	//auto a = GetGameObjectByName("Map");
 	//a.SetMesh(MESHES::MAP);
