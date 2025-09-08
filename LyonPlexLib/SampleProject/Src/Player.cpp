@@ -331,7 +331,7 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 				// === Knockback ===
 				if (self)
 				{
-					self->ApplyKnockback(otherGO->GetPosition(), 8.0f, 3.0f);
+					//self->ApplyKnockback(otherGO->GetPosition(), 8.0f, 3.0f);
 				}
 
 				scenePtr->DestroyGameObject(*otherGO);
