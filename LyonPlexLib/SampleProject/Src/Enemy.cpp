@@ -263,7 +263,7 @@ void Enemy::SetStateMachine()
 
 		m_life = 5;
 		m_moveSpeed = 1.f;
-		m_reloadSpeed = 5.f;
+		m_reloadSpeed = 3.f;
 		SetTexture(TEXTURES::GOLEM_IDLE_1);
 		SetScale({ 10,10,10 });
 		SetPosition({GetPosition().x,GetPosition().y - 4, GetPosition().z});
@@ -279,10 +279,10 @@ void Enemy::SetStateMachine()
 				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
 			}
 			//-> MELEE ATTACK TRANSITION
-			//{
-			//	auto transition = sIdle->CreateTransition(State::Attack);
-			//	auto condition = transition->AddCondition<EnnemyCondition_PlayerIsVeryNear>();
-			//}
+			{
+				auto transition = sIdle->CreateTransition(State::Attack);
+				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsVeryNear>();
+			}
 		}
 
 		// --- MOVE ---
@@ -295,10 +295,10 @@ void Enemy::SetStateMachine()
 				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNotNear>();
 			}
 			//-> MELEE ATTACK TRANSITION
-			//{
-			//	auto transition = sMove->CreateTransition(State::Attack);
-			//	auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
-			//}
+			{
+				auto transition = sMove->CreateTransition(State::Attack);
+				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
+			}
 		}
 
 		// --- SHOOT ---
@@ -311,27 +311,27 @@ void Enemy::SetStateMachine()
 				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNotNear>();
 			}
 			//-> MELEE ATTACK TRANSITION
-			/*{
+			{
 				auto transition = sShoot->CreateTransition(State::Attack);
 				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsVeryNear>();
-			}*/
+			}
 		}
 
 		// --- MELEE ATTACK ---
-		//{
-		//	auto* sAttack = m_stateMachine.CreateBehaviour(State::Shoot);
-		//	sAttack->AddAction(new EnnemyAction_Shoot());
-		//	//-> IDLE TRANSITION
-		//	{
-		//		auto transition = sAttack->CreateTransition(State::Idle);
-		//		auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNotNear>();
-		//	}
-		//	//-> SHOOT TRANSITION
-		//	{
-		//		auto transition = sAttack->CreateTransition(State::Shoot);
-		//		auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
-		//	}
-		//}
+		{
+			auto* sAttack = m_stateMachine.CreateBehaviour(State::Attack);
+			sAttack->AddAction(new EnnemyAction_MeleeAttack());
+			//-> IDLE TRANSITION
+			{
+				auto transition = sAttack->CreateTransition(State::Idle);
+				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNotNear>();
+			}
+			//-> SHOOT TRANSITION
+			{
+				auto transition = sAttack->CreateTransition(State::Shoot);
+				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
+			}
+		}
 	}
 		break;
 	default:

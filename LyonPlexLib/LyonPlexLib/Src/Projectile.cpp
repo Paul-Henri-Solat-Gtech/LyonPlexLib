@@ -44,7 +44,8 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 	case Laser:
 	{
 		SetTag(Tag::TAG_Projectile);
-		SetTexture(TEXTURES::NOTEXTURE);
+		SetTexture(TEXTURES::BTN_QUIT);
+		//GetComponent<MeshComponent>()->alpha = 0.8f;
 		m_speed = 30;
 		m_damage = 1;
 		break;

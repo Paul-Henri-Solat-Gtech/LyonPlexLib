@@ -34,10 +34,12 @@ public:
 	void Update(Enemy* ennemy) override;
 	void End(Enemy* ennemy) override;
 
+	void InitShootAnimation(Enemy* ennemy);
 private:
 
 	float m_nextShootTimer;
 	AnimationManager m_shootAnim;
+	bool m_hasShooted;
 };
 
 class EnnemyAction_MeleeAttack : public Action<Enemy>

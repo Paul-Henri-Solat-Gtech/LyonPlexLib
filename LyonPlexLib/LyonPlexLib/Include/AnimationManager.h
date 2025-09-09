@@ -9,7 +9,6 @@ public:
 
 	void AnimationSequence(float deltatime);
 	void AnimationSystem();
-	void Play();
 
 
 	void AddFrame(TEXTURES::TEXTURES newFrameTexture)		{ m_textureList.push_back(newFrameTexture); };
@@ -18,7 +17,6 @@ public:
 	bool GetAnimationHisFinished()		{ return m_animationHisFinished; };
 	bool GetAnimationHalfDuration()	{ return m_halfDuration; };
 	bool GetAnimationQuarterDuration()	{ return m_quarterDuration; };
-	bool IsFinished() { return m_animationHisFinished; };
 
 private:
 	TEXTURES::TEXTURES m_actualTexture;

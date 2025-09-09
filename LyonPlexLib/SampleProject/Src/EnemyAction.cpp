@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "EnemyAction.h"
 
 
@@ -154,90 +154,38 @@ void EnnemyAction_Move::End(Enemy* ennemy)
 void EnnemyAction_Shoot::Start(Enemy* ennemy)
 {
 	//OutputDebugStringA("-ENEMY START SHOOTING !");
-	m_nextShootTimer = 0;
-	//ennemy->CreateProjectile(ennemy->GetPosition(), ennemy->m_playerGm.GetPosition());
+	m_nextShootTimer = ennemy->m_reloadSpeed;
+	m_hasShooted = false;
 
 	//animation
-	m_shootAnim.Init(0.05f, ennemy);
-	// shoot frames (switch case enemy type)
-	switch (ennemy->m_type)
-	{
-		case EnemyType::Crabe:
-		{
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_1);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_2);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_3);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_4);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_5);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_6);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_7);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_8);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_9);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_10);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_11);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_12);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_13);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_14);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_15);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_16);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_17);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_18);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_19);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_20);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_21);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_22);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_23);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_24);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_25);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_26);
-			m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_27);
-		}
-		break;
-		case EnemyType::Golem:
-		{
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_1);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_2);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_3);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_4);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_5);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_6);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_7);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_8);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_9);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_10);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_11);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_12);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_13);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_14);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_15);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_16);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_17);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_18);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_19);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_20);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_21);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_22);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_23);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_24);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_25);
-			m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_26);
-		}
-		break;
-	}
+	InitShootAnimation(ennemy);
 }
 void EnnemyAction_Shoot::Update(Enemy* ennemy)
 {
+	m_nextShootTimer += 1.0f * ennemy->m_deltatime;
+
+	if (m_nextShootTimer < ennemy->m_reloadSpeed)
+	{
+		ennemy->LookAt(ennemy->m_playerGm);
+		return;
+	}
+
+	if (!m_hasShooted)
+	{
+		InitShootAnimation(ennemy);
+
+		m_hasShooted = true;
+	}
+
 	m_shootAnim.AnimationSequence(ennemy->GetDeltatime());
-	//m_shootAnim.Loop(ennemy->GetDeltatime());
-	if (m_nextShootTimer >= ennemy->m_reloadSpeed)
+
+	if (m_shootAnim.GetAnimationHisFinished())
 	{
 		ennemy->CreateProjectile(ennemy->GetPosition(), ennemy->m_playerGm.GetPosition(), 5.f);
-		m_nextShootTimer = 0;
+		m_nextShootTimer = 0.0f;
+		m_hasShooted = false;
 	}
-	else
-	{
-		m_nextShootTimer += 1 * ennemy->m_deltatime;
-	}
+
 	ennemy->LookAt(ennemy->m_playerGm);
 }
 void EnnemyAction_Shoot::End(Enemy* ennemy)
@@ -249,6 +197,74 @@ void EnnemyAction_Shoot::End(Enemy* ennemy)
 		break;
 	case EnemyType::Golem:
 		ennemy->SetTexture(TEXTURES::GOLEM_IDLE_1);
+		break;
+	}
+	m_hasShooted = false;
+}
+
+void EnnemyAction_Shoot::InitShootAnimation(Enemy* ennemy)
+{
+	m_shootAnim.Init(0.05f, ennemy);
+
+	switch (ennemy->m_type)
+	{
+	case EnemyType::Crabe:
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_1);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_2);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_3);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_4);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_5);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_6);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_7);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_8);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_9);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_10);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_11);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_12);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_13);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_14);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_15);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_16);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_17);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_18);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_19);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_20);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_21);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_22);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_23);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_24);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_25);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_26);
+		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_27);
+		break;
+
+	case EnemyType::Golem:
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_1);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_2);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_3);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_4);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_5);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_6);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_7);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_8);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_9);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_10);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_11);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_12);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_13);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_14);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_15);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_16);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_17);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_18);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_19);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_20);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_21);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_22);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_23);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_24);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_25);
+		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_26);
 		break;
 	}
 }
@@ -515,54 +531,57 @@ void EnnemyAction_Roam::Start(Enemy* ennemy)
 }
 void EnnemyAction_Roam::Update(Enemy* ennemy)
 {
+	// keep looking at player if you want (optionnel)
 	ennemy->LookAt(ennemy->m_playerGm);
 
-	if (!targetX || !targetZ)
+	// animation pendant le déplacement
+	m_moveAnim.AnimationSequence(ennemy->GetDeltatime());
+
+	// position courante
+	XMFLOAT3 pos = ennemy->GetPosition();
+
+	// vecteur direction vers la cible (XZ)
+	float dx = m_nextPosition.x - pos.x;
+	float dz = m_nextPosition.z - pos.z;
+
+	// distance 2D au carré
+	float dist2 = dx * dx + dz * dz;
+
+	// epsilon pour considérer qu'on est arrivé
+	const float arriveEpsilon = 0.05f;
+
+	if (dist2 <= arriveEpsilon * arriveEpsilon)
 	{
-		m_moveAnim.AnimationSequence(ennemy->GetDeltatime());
-
-		if (ennemy->GetPosition().x < m_nextPosition.x)
-		{
-			ennemy->GetPosition().x += ennemy->GetDeltatime() * ennemy->m_moveSpeed;
-
-			if (ennemy->GetPosition().x >= m_nextPosition.x)
-			{
-				SetNextLocation(ennemy);
-				targetX = true;
-			}
-		}
-		else if (ennemy->GetPosition().x > m_nextPosition.x)
-		{
-			ennemy->GetPosition().x -= ennemy->GetDeltatime() * ennemy->m_moveSpeed;
-
-			if (ennemy->GetPosition().x <= m_nextPosition.x)
-			{
-				SetNextLocation(ennemy);
-				targetX = true;
-			}
-		}
-		if (ennemy->GetPosition().z < m_nextPosition.z)
-		{
-			ennemy->GetPosition().z += ennemy->GetDeltatime() * ennemy->m_moveSpeed;
-
-			if (ennemy->GetPosition().z >= m_nextPosition.z)
-			{
-				SetNextLocation(ennemy);
-				targetZ = true;
-			}
-		}
-		else if (ennemy->GetPosition().z > m_nextPosition.z)
-		{
-			ennemy->GetPosition().z -= ennemy->GetDeltatime() * ennemy->m_moveSpeed;
-
-			if (ennemy->GetPosition().z <= m_nextPosition.z)
-			{
-				SetNextLocation(ennemy);
-				targetZ = true;
-			}
-		}
-
+		// cible atteinte -> calcule la suivante
+		SetNextLocation(ennemy);
+		return;
 	}
+
+	// distance réelle
+	float dist = sqrtf(dist2);
+
+	// déplacement pour cette frame
+	float move = ennemy->m_moveSpeed * ennemy->GetDeltatime();
+
+	// si on dépasse la cible, on snap dessus et demande la suivante
+	if (move >= dist)
+	{
+		pos.x = m_nextPosition.x;
+		pos.z = m_nextPosition.z;
+		ennemy->SetPosition(pos);
+		SetNextLocation(ennemy);
+		return;
+	}
+
+	// sinon avance dans la direction normalisée (évite accélérer en diagonale)
+	float invDist = 1.0f / dist;
+	float nx = dx * invDist;
+	float nz = dz * invDist;
+
+	pos.x += nx * move;
+	pos.z += nz * move;
+
+	ennemy->SetPosition(pos);
 }
 void EnnemyAction_Roam::End(Enemy* ennemy)
 {
@@ -579,32 +598,36 @@ void EnnemyAction_Roam::End(Enemy* ennemy)
 
 void EnnemyAction_Roam::SetNextLocation(Enemy* ennemy)
 {
-	int randX = 0, randZ = 0;
+	// paramètre : amplitude max du saut local (garde le roam proche)
+	const int LOCAL_MAX = 20; // +/-20 comme tu utilisais
+
 	float currX = ennemy->GetPosition().x;
 	float currZ = ennemy->GetPosition().z;
 
-	do {
-		int randChoice = std::rand() % 3;  // on recalcule a chaque tour
-		switch (randChoice)
-		{
-		case 0: // uniquement X
-			randX = std::rand() % 41 - 20;
-			randZ = 0;
-			break;
-		case 1: // uniquement Z
-			randX = 0;
-			randZ = std::rand() % 41 - 20;
-			break;
-		case 2: // X et Z
-			randX = std::rand() % 41 - 20;
-			randZ = std::rand() % 41 - 20;
-			break;
-		}
-		// on boucle tant que la pos sort des bornes X ou Z
-	} while (currX + randX < m_minX || currX + randX > m_maxX || currZ + randZ < m_minZ || currZ + randZ > m_maxZ);
+	// propose un offset aléatoire dans [-LOCAL_MAX, LOCAL_MAX]
+	int randX = (std::rand() % (LOCAL_MAX * 2 + 1)) - LOCAL_MAX;
+	int randZ = (std::rand() % (LOCAL_MAX * 2 + 1)) - LOCAL_MAX;
 
-	// enfin on fixe la vraie prochaine position
-	m_nextPosition = { currX + randX,ennemy->GetPosition().y,currZ + randZ };
+	// calcul de la candidate
+	float candX = currX + (float)randX;
+	float candZ = currZ + (float)randZ;
+
+	// clamp dans les bornes globales du roam
+	if (candX < m_minX) candX = m_minX;
+	if (candX > m_maxX) candX = m_maxX;
+	if (candZ < m_minZ) candZ = m_minZ;
+	if (candZ > m_maxZ) candZ = m_maxZ;
+
+	// si la candidate est très proche, on génère à nouveau (éviter points identiques)
+	const float MIN_DIST = 1.0f;
+	if (fabsf(candX - currX) < MIN_DIST && fabsf(candZ - currZ) < MIN_DIST)
+	{
+		// petit retry simple : on pousse vers une extrémité aléatoire
+		if (std::rand() % 2 == 0) candX = std::clamp(currX + (float)((std::rand() % 2 ? 1 : -1) * LOCAL_MAX), m_minX, m_maxX);
+		else candZ = std::clamp(currZ + (float)((std::rand() % 2 ? 1 : -1) * LOCAL_MAX), m_minZ, m_maxZ);
+	}
+
+	m_nextPosition = { candX, ennemy->GetPosition().y, candZ };
 }
 
 
