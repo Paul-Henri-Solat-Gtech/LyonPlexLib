@@ -36,8 +36,8 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle3.jpg");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle4.jpg");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/chemin_terre.jpg");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/pierre.jpg");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/herbe.jpg");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Environnement3D/pierre.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Environnement3D/Herbe.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/pont.jpg");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/maison.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/temple.jpg");
@@ -534,6 +534,7 @@ bool SceneResources::InitImportedMeshResources(MeshManager& meshMngr)
     
     // NOUVEAUX
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Bushes/Fleur.obj");
+    //meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Bushes/Feuille.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Bushes/BigFL.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Bushes/Big.obj");    //20
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Bushes/MediumFL.obj");
@@ -561,13 +562,14 @@ bool SceneResources::InitImportedMeshResources(MeshManager& meshMngr)
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/Cypress2.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/Mastic1.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/Mastic2.obj");
-    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/olivier_tronc.obj");
-    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/olivier_sup.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/Olive1.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/Olive1_tronc.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/Olive1_sup.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Trees/Olive2.obj");
 
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/PONT.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/POTEAU_INTACT.obj");
-    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/POTEAU_BRISE.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/PILIER_BRISE.obj");
 
     return true;
 }

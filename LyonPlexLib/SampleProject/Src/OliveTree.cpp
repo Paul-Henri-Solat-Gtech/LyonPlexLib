@@ -7,7 +7,7 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 
 	InitOliveTreeGameObj(ecsManager, scene);
 
-	mp_trunk = &scene->CreateGameObject("olive_trunk", 32, 4294967295);
+	mp_trunk = &scene->CreateGameObject("olive_trunk", MESHES::OLIVIER_1_TRONC);
 	scene->SetParent(*mp_trunk, *this);
 
 	mp_trunk->SetTag(TAG_Environment);
@@ -16,7 +16,7 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 	mp_trunk->SetScale({ 1,1,1 });
 	//mp_trunk->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 0.850000143,2,1 }, { 0,0.2164395,0,0.976296067 }, { 0.115241952,1.324885845,0.244909346 })));
 
-	mp_leaves = &scene->CreateGameObject("olive_leaves", 33, 4294967295);
+	mp_leaves = &scene->CreateGameObject("olive_leaves", MESHES::OLIVIER_1_FEUILLES);
 	scene->SetParent(*mp_leaves, *mp_trunk);
 
 	mp_leaves->SetTag(TAG_Environment);
@@ -90,7 +90,7 @@ void OliveTree::OnUpdate(float deltatime)
 		case 1:
 			mp_leaves->SetPosition({ -25 / GetScale().x, -20 / GetScale().y, -15 / GetScale().z });
 			mp_leaves->SetTransformRotation({ 90,60,0 });
-			mp_leavesCol->SetPosition({ 0, 0, 2 });
+			mp_leavesCol->SetPosition({ 0, 0, 1 });
 			m_isCut = false;
 			break;
 		case 2:

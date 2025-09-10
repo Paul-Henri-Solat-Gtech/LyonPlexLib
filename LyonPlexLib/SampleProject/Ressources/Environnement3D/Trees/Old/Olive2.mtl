@@ -1,7 +1,7 @@
 # Blender 4.5.2 LTS MTL File: 'pilier.blend'
 # www.blender.org
 
-newmtl Mastic_2_2_1
+newmtl Olivier_1_2_2
 Ns 0.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.000000 0.000000 0.000000
@@ -9,9 +9,9 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 1
-map_Kd Mastic 2_2 1.png
+map_Kd Olivier2 Full.png
 
-newmtl mastic_1_2_1
+newmtl Olivier_2_2_2
 Ns 0.000000
 Ka 1.000000 1.000000 1.000000
 Ks 0.000000 0.000000 0.000000
@@ -19,4 +19,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 1
-map_Kd Mastic 1_2 1.png
+map_Kd Olivier 2_2 2.png

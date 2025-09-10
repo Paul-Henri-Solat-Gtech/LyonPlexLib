@@ -234,7 +234,7 @@ void GameScene::Start()
 	GetGameObjectByName("HB 2").SetTag(TAG_Environment);
 
 	CreateGameHitbox("HB 3");// temple zone 
-	GetGameObjectByName("HB 3").SetPosition({ -208,-21,-30 });
+	GetGameObjectByName("HB 3").SetPosition({ -208,-20,-30 });
 	GetGameObjectByName("HB 3").SetRotation({ 0,0,0,1 });
 	GetGameObjectByName("HB 3").SetScale({ 271,2,421 });
 	GetGameObjectByName("HB 3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 135.5, 1, 210.5 })));
@@ -1005,10 +1005,11 @@ void GameScene::Start()
 
 
 
-	CreateGameObject("RockWall 0", 35, 4294967295);
-	GetGameObjectByName("RockWall 0").SetPosition({ -32,-18,-163 });
-	GetGameObjectByName("RockWall 0").SetRotation({ 0,-0.078459084,0,0.996917367 });
-	GetGameObjectByName("RockWall 0").SetScale({ 1,1,2 });
+	CreateGameObject("Bridge 0", MESHES::BRIDGE, 4294967295);
+	GetGameObjectByName("Bridge 0").SetPosition({ -32,-18,-163 });
+	GetGameObjectByName("Bridge 0").SetRotation({ 0,-0.078459084,0,0.996917367 });
+	GetGameObjectByName("Bridge 0").SetScale({ 1,1,2 });
+
 	CreateGameObject("RockWall 1", 17, 4294967295);
 	GetGameObjectByName("RockWall 1").SetPosition({ 57,2,-19 });
 	GetGameObjectByName("RockWall 1").SetRotation({ 0,-0.078459084,0,0.996917367 });
@@ -1172,12 +1173,12 @@ void GameScene::Start()
 	GetGameObjectByName(" 1").SetScale({ 1,10,1 });*/
 	//GetGameObjectByName(" 1").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 125, 1, 125 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
 
-	/*CreateGameHitbox("HB_LAKE 0");
+	CreateGameHitbox("HB_LAKE 0");
 	GetGameObjectByName("HB_LAKE 0").SetPosition({ -54,-20,113 });
 	GetGameObjectByName("HB_LAKE 0").SetRotation({ 0,0,0,1 });
 	GetGameObjectByName("HB_LAKE 0").SetScale({ 10,10,15 });
 	GetGameObjectByName("HB_LAKE 0").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 5, 5, 7.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("HB_LAKE 1");
+	/*CreateGameHitbox("HB_LAKE 1");
 	GetGameObjectByName("HB_LAKE 1").SetPosition({ -38,-18,112 });
 	GetGameObjectByName("HB_LAKE 1").SetRotation({ 0,0,0,1 });
 	GetGameObjectByName("HB_LAKE 1").SetScale({ 11,12,11 });
@@ -1224,6 +1225,62 @@ void GameScene::Start()
 	GetGameObjectByName("HB_UPSTREAM 3").SetScale({ 3,21,156 });
 	GetGameObjectByName("HB_UPSTREAM 3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 1.5, 10.5, 78 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
 
+	CreateGameHitbox("MiddleRocks 1");
+	GetGameObjectByName("MiddleRocks 1").SetPosition({ 32.100036621,-13.396051407,18.657812119 });
+	GetGameObjectByName("MiddleRocks 1").SetRotation({ 0,-0.275637329,0,0.961261749 });
+	GetGameObjectByName("MiddleRocks 1").SetScale({ 40,30,30 });
+	GetGameObjectByName("MiddleRocks 1").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 20, 15, 15 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+
+	CreateGameHitbox("MiddleRocks 2");
+	GetGameObjectByName("MiddleRocks 2").SetPosition({ 61.833629608,-13.396051407,24.963226318 });
+	GetGameObjectByName("MiddleRocks 2").SetRotation({ 0,-0.069756389,0,0.997564077 });
+	GetGameObjectByName("MiddleRocks 2").SetScale({ 38,30,40 });
+	GetGameObjectByName("MiddleRocks 2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 19, 15, 20 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("MiddleRocks 3");
+	GetGameObjectByName("MiddleRocks 3").SetPosition({ 6.974430084,-8.886211395,-19.0909729 });
+	GetGameObjectByName("MiddleRocks 3").SetRotation({ 0,-0.37460652,0,0.927183926 });
+	GetGameObjectByName("MiddleRocks 3").SetScale({ 58,30,65 });
+	GetGameObjectByName("MiddleRocks 3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 29, 15, 32.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("MiddleRocks 4");
+	GetGameObjectByName("MiddleRocks 4").SetPosition({ -18.031211853,-12.179989815,7.130444527 });
+	GetGameObjectByName("MiddleRocks 4").SetRotation({ 0,-0.37460652,0,0.927183926 });
+	GetGameObjectByName("MiddleRocks 4").SetScale({ 48,25,15 });
+	GetGameObjectByName("MiddleRocks 4").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 24, 12.5, 7.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("MiddleRocks 5");
+	GetGameObjectByName("MiddleRocks 5").SetPosition({ -59.122394562,-2.865666389,-51.741119385 });
+	GetGameObjectByName("MiddleRocks 5").SetRotation({ 0,-0.147809193,0,0.989015937 });
+	GetGameObjectByName("MiddleRocks 5").SetScale({ 68,55,30 });
+	GetGameObjectByName("MiddleRocks 5").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 34, 27.5, 15 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("MiddleRocks 6");
+	GetGameObjectByName("MiddleRocks 6").SetPosition({ -58.247680664,-2.865666389,-69.050384521 });
+	GetGameObjectByName("MiddleRocks 6").SetRotation({ 0,-0.147809193,0,0.989015937 });
+	GetGameObjectByName("MiddleRocks 6").SetScale({ 68,55,40 });
+	GetGameObjectByName("MiddleRocks 6").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 34, 27.5, 20 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("MiddleRocks 7");
+	GetGameObjectByName("MiddleRocks 7").SetPosition({ -1.207934856,-2.865666389,-71.183433533 });
+	GetGameObjectByName("MiddleRocks 7").SetRotation({ 0,0.233445346,0,0.972369969 });
+	GetGameObjectByName("MiddleRocks 7").SetScale({ 48,55,40 });
+	GetGameObjectByName("MiddleRocks 7").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 24, 27.5, 20 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("MiddleRocks 8");
+	GetGameObjectByName("MiddleRocks 8").SetPosition({ 26.881340027,-2.865666389,-71.527770996 });
+	GetGameObjectByName("MiddleRocks 8").SetRotation({ 0,-0.069756478,0,0.997564077 });
+	GetGameObjectByName("MiddleRocks 8").SetScale({ 38,55,50 });
+	GetGameObjectByName("MiddleRocks 8").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 19, 27.5, 25 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("MiddleRocks 9");
+	GetGameObjectByName("MiddleRocks 9").SetPosition({ 48.76807785,-2.865666389,-43.133491516 });
+	GetGameObjectByName("MiddleRocks 9").SetRotation({ 0,-0.20791164,0,0.978147626 });
+	GetGameObjectByName("MiddleRocks 9").SetScale({ 58,45,30 });
+	GetGameObjectByName("MiddleRocks 9").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 29, 22.5, 15 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("MiddleRocks 10");
+	GetGameObjectByName("MiddleRocks 10").SetPosition({ 55.417121887,18.206371307,-16.908542633 });
+	GetGameObjectByName("MiddleRocks 10").SetRotation({ 0,-0.043619391,0,0.999048233 });
+	GetGameObjectByName("MiddleRocks 10").SetScale({ 51,36,61 });
+	GetGameObjectByName("MiddleRocks 10").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 25.5, 18, 30.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("MiddleRocks 11");
+	GetGameObjectByName("MiddleRocks 11").SetPosition({ 9.378818512,18.206371307,-48.766422272 });
+	GetGameObjectByName("MiddleRocks 11").SetRotation({ 0,-0.156434402,0,0.987688422 });
+	GetGameObjectByName("MiddleRocks 11").SetScale({ 66,71,61 });
+	GetGameObjectByName("MiddleRocks 11").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 33, 35.5, 30.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
 
 	/*auto* a1 = &CreateGameHitbox("Temp_slope 0");
 	GetGameObjectByName("Temp_slope 0").SetPosition({ -35,-25,74 });

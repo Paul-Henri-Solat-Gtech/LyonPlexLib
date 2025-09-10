@@ -11,9 +11,9 @@ bool CollisionSystem::Init(ECSManager* ecs)
 	m_ECS = ecs;
 	return false;
 }
-// en haut du fichier CollisionSystem.cpp (includes si nécessaire)
-#include <cstdint> // pour UINT32_MAX
-#include <cassert>
+//// en haut du fichier CollisionSystem.cpp (includes si nécessaire)
+//#include <cstdint> // pour UINT32_MAX
+//#include <cassert>
 
 // helper minimal : calcule la position "monde" en remontant les parents
 // Hypothèse : on ne prend en compte QUE la translation (addition des positions).
@@ -37,9 +37,9 @@ static XMFLOAT3 GetWorldPosition(Entity e, ECSManager* ecs)
 		TransformComponent* tp = ecs->GetComponent<TransformComponent>(curParent);
 		if (!tp) break;
 		// On additionne simplement la translation du parent
-		accum.x += tp->position.x;
-		accum.y += tp->position.y;
-		accum.z += tp->position.z;
+		accum.x += tp->position.x * tp->scale.x;
+		accum.y += tp->position.y * tp->scale.y; // ATTENTION
+		accum.z += tp->position.z * tp->scale.z;
 
 		// passe au parent du parent
 		curParent = tp->parent;
@@ -276,12 +276,12 @@ void CollisionSystem::TryPair(Entity a, Entity b/*, const std::unordered_map<uin
 	}
 	else if (ca->shapeType == ColliderType::AABB && cb->shapeType == ColliderType::OBB) {
 		std::get<OBBCollider>(cb->shape).orientation = tb->rotation;
-		hit = ObbVsAabb( pa,std::get<AABBCollider>(ca->shape), pb,
+		hit = ObbVsAabb(pa, std::get<AABBCollider>(ca->shape), pb,
 			std::get<OBBCollider>(cb->shape));
 	}
 	else if (ca->shapeType == ColliderType::OBB && cb->shapeType == ColliderType::AABB) {
 		std::get<OBBCollider>(ca->shape).orientation = ta->rotation;
-		hit = ObbVsAabb( pb,std::get<AABBCollider>(cb->shape), pa,
+		hit = ObbVsAabb(pb, std::get<AABBCollider>(cb->shape), pa,
 			std::get<OBBCollider>(ca->shape));
 	}
 
@@ -324,7 +324,7 @@ bool CollisionSystem::SphereVsAabb(XMFLOAT3 pc, SphereCollider s, XMFLOAT3 pa, A
 	return dx * dx + dy * dy + dz * dz <= s.radius * s.radius;
 }
 // 3) OBB vs OBB (SAT, sans m128_f32)
-bool CollisionSystem::ObbVsObb(XMFLOAT3 p1, OBBCollider b1,	XMFLOAT3 p2, OBBCollider b2)
+bool CollisionSystem::ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2)
 {
 
 	// 3 axes locaux de chaque boîte

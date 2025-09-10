@@ -1,12 +1,13 @@
-# Blender 4.5.2 LTS MTL File: 'pilier.blend'
+# Blender 4.5.2 LTS MTL File: 'pont.blend'
 # www.blender.org
 
-newmtl Cypress1
+newmtl PONT
 Ns 0.000000
 Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
 Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 1
-map_Kd Cypress1.png
+map_Kd PONT.png

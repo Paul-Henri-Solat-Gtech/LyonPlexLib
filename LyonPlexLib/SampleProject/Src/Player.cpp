@@ -588,10 +588,10 @@ void Player::ApplyMovementAndCollisions(float dt)
 		XMFLOAT4 otherWorldRot{};
 		XMFLOAT3 otherWorldScale{ 1,1,1 };
 		bool haveWT = GetWorldFromMap(e.id, otherWorldPos, otherWorldRot, otherWorldScale);
-		if (!haveWT) {
+		/*if (!haveWT) {
 			otherWorldPos = ComputeChildEntityPos(e, *mp_scene->GetEcsManager(), mp_scene);
 			otherWorldRot = XMFLOAT4{ 0,0,0,1 };
-		}
+		}*/
 
 		// prepare a world-correct collider copy (do NOT modify original)
 		XMFLOAT3 playerPosF = tP.position;
@@ -613,7 +613,8 @@ void Player::ApplyMovementAndCollisions(float dt)
 			OBBCollider obbFromA;
 			obbFromA.halfSize = otherA.halfSize;
 			obbFromA.offset = otherA.offset;
-			obbFromA.orientation = otherWorldRot; // treat as OBB oriented by world rot
+			//obbFromA.orientation = otherWorldRot; // treat as OBB oriented by world rot
+			obbFromA.orientation = otLocal.rotation; // treat as OBB oriented by world rot
 
 			// use ObbVsAabb (player is AABB)
 			bool hit = ObbVsAabb(playerPosF, playerLocalAabb, otherPosF, obbFromA);
@@ -624,10 +625,13 @@ void Player::ApplyMovementAndCollisions(float dt)
 		else if (oc.shapeType == ColliderType::OBB) {
 			OBBCollider otherO = std::get<OBBCollider>(oc.shape);
 			// combine local orientation with parent/world orientation: worldRot * localOrientation
-			XMVECTOR locOri = XMLoadFloat4(&otherO.orientation);
-			XMVECTOR worldOri = XMLoadFloat4(&otherWorldRot);
-			XMVECTOR combinedOri = XMQuaternionMultiply(worldOri, locOri); // parent * local
-			XMFLOAT4 combinedOriF; XMStoreFloat4(&combinedOriF, combinedOri);
+			//XMVECTOR locOri = XMLoadFloat4(&otherO.orientation);
+			//XMVECTOR worldOri = XMLoadFloat4(&otherWorldRot);
+			//XMVECTOR combinedOri = XMQuaternionMultiply(worldOri, locOri); // parent * local
+			//XMFLOAT4 combinedOriF; XMStoreFloat4(&combinedOriF, combinedOri);
+
+			XMVECTOR wOri = XMLoadFloat4(&otherWorldRot);
+			XMFLOAT4 combinedOriF; XMStoreFloat4(&combinedOriF, wOri);
 
 			// scale halfSize & offset
 			//otherO.halfSize.x *= otherWorldScale.x;
@@ -753,20 +757,25 @@ void Player::ApplyMovementAndCollisions(float dt)
 				obbFromA.halfSize = otherA.halfSize;
 				obbFromA.offset = otherA.offset;
 				obbFromA.orientation = otherWorldRot;
+				//obbFromA.orientation = otLocal.rotation; 
 
 				TransformComponent tmpOt = otLocal;
 				tmpOt.position = otherWorldPos;
 				tmpOt.rotation = otherWorldRot;
+				//tmpOt.rotation = otLocal.rotation; 
 
 				t = Utils::SweepAabbVsObb(currentPos, dCurr, mover, tmpOt, obbFromA, n);
 			}
 			else if (oc.shapeType == ColliderType::OBB) {
 				OBBCollider otherO = std::get<OBBCollider>(oc.shape);
 				// compose world orientation
-				XMVECTOR locOri = XMLoadFloat4(&otherO.orientation);
+		/*		XMVECTOR locOri = XMLoadFloat4(&otherO.orientation);
 				XMVECTOR wOri = XMLoadFloat4(&otherWorldRot);
 				XMVECTOR combined = XMQuaternionMultiply(wOri, locOri);
-				XMFLOAT4 combinedF; XMStoreFloat4(&combinedF, combined);
+				XMFLOAT4 combinedF; XMStoreFloat4(&combinedF, combined);*/
+
+				XMVECTOR wOri = XMLoadFloat4(&otherWorldRot);
+				XMFLOAT4 combinedF; XMStoreFloat4(&combinedF, wOri);
 
 				//otherO.halfSize.x *= otherWorldScale.x;
 				//otherO.halfSize.y *= otherWorldScale.y;
@@ -1002,10 +1011,14 @@ void Player::ApplyMovementAndCollisions(float dt)
 			}
 			else if (oc.shapeType == ColliderType::OBB) {
 				OBBCollider otherO = std::get<OBBCollider>(oc.shape);
-				XMVECTOR locOri = XMLoadFloat4(&otherO.orientation);
+				/*XMVECTOR locOri = XMLoadFloat4(&otherO.orientation);
 				XMVECTOR wOri = XMLoadFloat4(&otherWorldRot);
 				XMVECTOR combined = XMQuaternionMultiply(wOri, locOri);
-				XMFLOAT4 combinedF; XMStoreFloat4(&combinedF, combined);
+				XMFLOAT4 combinedF; XMStoreFloat4(&combinedF, combined);*/
+
+
+				XMVECTOR wOri = XMLoadFloat4(&otherWorldRot);
+				XMFLOAT4 combinedF; XMStoreFloat4(&combinedF, wOri);
 
 				//otherO.halfSize.x *= otherWorldScale.x;
 				//otherO.halfSize.y *= otherWorldScale.y;

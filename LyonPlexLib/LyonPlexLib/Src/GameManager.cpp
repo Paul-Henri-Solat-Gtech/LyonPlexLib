@@ -93,8 +93,8 @@ int GameManager::Run()
 		}
 		// UPDATE
 		//m_renderer.Update();
-		m_sceneManager.UpdateScene(m_deltaTime);
 		m_ECS.m_systemMgr.UpdateAll(m_deltaTime);
+		m_sceneManager.UpdateScene(m_deltaTime);
 		m_collisionSystem.Update();
 
 
