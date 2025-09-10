@@ -16,7 +16,6 @@ void ArenaScene::Start()
 	m_cam.AddComponent<CameraComponent>(new CameraComponent());
 	GetGameObjectByName("cam").SetPosition({ 0, 0, 0.5f });
 
-
 	m_fpsCam.Init(m_cam, mp_sceneManager->GetWindow());
 
 	SetParent("cam", "player");
@@ -57,6 +56,7 @@ void ArenaScene::Start()
 	m_portalHasSpawned = false;
 	m_fisrtEnnemyHasSpawned = false;
 	m_youWin = false;
+	m_chronoChangeScene = 5.f;
 
 	//WAVE HUD
 	m_waveNowHud = CreateGameObject("waveNowHud", TYPE_2D, true);
@@ -88,13 +88,6 @@ void ArenaScene::Start()
 	GetGameObjectByName("Stick").SetTexture(TEXTURES::HERBE);
 	GetGameObjectByName("Stick").AddComponent<Tag_Object>(new Tag_Object());
 	GetGameObjectByName("Stick").SetTag(TAG_Stick);
-
-	//PORTALS
-	//Use pos : y ~ -10 Xmax Xmin getmainmoutain size
-	//m_portal = &CreateGameObject<Portals>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player, this);
-	//m_portal->SetPosition({ 30, -10, 30 });
-	//m_portal->SetScale({ 1, 1, 0.5 });
-	//m_portal->SetTexture(TEXTURES::EAU);
 
 	//SCENE
 	{
@@ -242,6 +235,16 @@ void ArenaScene::Update(float deltatime)
 		{
 			WaveSystem(deltatime);
 		}
+		else
+		{
+			m_chronoChangeScene -= 1.f * deltatime;
+
+			if (m_chronoChangeScene <= 0)
+			{
+				ChangeScene("MainMenuScene");
+				return;
+			}
+		}
 	}
 }
 
@@ -285,9 +288,9 @@ void ArenaScene::WeaponSystem()
 
 void ArenaScene::WaveSystem(float deltatime)
 {
-	if (m_waveNow < m_waveMax) 
+	if (m_waveNow <= m_waveMax) 
 	{
-		if (m_waveStarted && !m_waveFinished && /*m_portalNbSpawned <= 0 &&*/ !m_portalHasSpawned)
+		if (m_waveStarted && !m_waveFinished && !m_portalHasSpawned)
 		{
 			OutputDebugStringA("\n [ ! Lets go ! ] \n");
 			UpdateWaveHUD();
@@ -331,6 +334,20 @@ void ArenaScene::WaveSystem(float deltatime)
 	else
 	{
 		OutputDebugStringA("\n [ ! You WIN ! ] \n");
+
+		RECT renderZone;
+		GetClientRect(mp_sceneManager->GetGameManager()->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
+		UINT renderWidth = renderZone.right - renderZone.left;
+		UINT renderHeight = renderZone.bottom - renderZone.top;
+
+		CreateGameObject("Win", TYPE_2D, true);
+		auto& win = GetGameObjectByName("Win");
+		win.SetMesh(MESHES::LOCAL_SQUARE);
+		win.SetTexture(TEXTURES::WINSCREEN);
+		win.SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2, 0 });
+		win.SetScale({ (float)renderWidth * 0.4f, (float)renderHeight * 0.4f, 0 });
+		win.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
 		m_youWin = true;
 	}
 }
@@ -341,8 +358,6 @@ void ArenaScene::SpawnPortal()
 
 	m_portal = &CreateGameObject<Portals>(m_player, this, nbEnnemy);
 	m_portal->SetPosition({ 30, -10, 30 });
-	//m_portal->SetScale({ 1, 1, 0.5 });
-	//m_portal->SetTexture(TEXTURES::PORTAL);
 
 	m_portalNbSpawned++;
 }

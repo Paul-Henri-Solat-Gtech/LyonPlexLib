@@ -17,9 +17,8 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 	AddComponent<Tag_Projectile>(new Tag_Projectile());
 
 	SetPosition(posStart);
-	SetScale({ 0.2f,0.2f,0.8f });
 	auto projScale = GetScale();
-	AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x / 2, projScale.y / 2, projScale.z / 2 })));
+	
 	m_speed = 30;
 	m_damage = 1;
 
@@ -45,7 +44,10 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 	{
 		SetTag(Tag::TAG_Projectile);
 		SetTexture(TEXTURES::BTN_QUIT);
-		//GetComponent<MeshComponent>()->alpha = 0.8f;
+		SetScale({ 0.2f, 0.2f, 0.8f });
+		projScale = GetScale();
+
+		AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x / 2, projScale.y / 2, projScale.z / 2 })));
 		m_speed = 30;
 		m_damage = 1;
 		break;
@@ -53,22 +55,27 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 	case Rock:
 	{
 		SetTag(Tag::TAG_Projectile);
-
+		SetTexture(TEXTURES::WATER_NORMAL);
+		SetScale({ 2,2,2 });
+		projScale = GetScale();
+		
 		int r = RandNumber(2);
 		switch (r)
 		{
 		case 0:
 			SetMesh(MESHES::ROCKBIG);
+			AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x * 3 / 2, projScale.y * 5/ 2, projScale.z * 3 / 2 })));
 			break;
 		case 1:
 			SetMesh(MESHES::ROCKMedium);
+			AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x * 3 / 2, projScale.y * 2 / 2, projScale.z * 2 / 2 })));
 			break;
 		case 2:
 			SetMesh(MESHES::ROCKLM2);
+			AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x * 2 / 2, projScale.y * 1 / 2, projScale.z * 1.5f / 2 })));
 			break;
 		}
-		SetTexture(TEXTURES::WATER_NORMAL);
-		SetScale({ 2,2,2 });
+
 		Laube(posStart, posTarget);
 		break;
 	}
@@ -77,6 +84,9 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 		SetTag(Tag::TAG_ProjectilePlayer);
 		SetTexture(TEXTURES::WATER_NORMAL);
 		SetScale({ 2,0.1,0.8 });
+		projScale = GetScale();
+
+		AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x / 2, projScale.y / 2, projScale.z / 2 })));
 		m_speed = 70;
 		m_damage = 1;
 		break;

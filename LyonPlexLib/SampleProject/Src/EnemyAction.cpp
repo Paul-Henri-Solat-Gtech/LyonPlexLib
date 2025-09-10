@@ -155,35 +155,37 @@ void EnnemyAction_Shoot::Start(Enemy* ennemy)
 {
 	//OutputDebugStringA("-ENEMY START SHOOTING !");
 	m_nextShootTimer = ennemy->m_reloadSpeed;
-	m_hasShooted = false;
+
+	m_hasShot = false;
 
 	//animation
 	InitShootAnimation(ennemy);
+
 }
 void EnnemyAction_Shoot::Update(Enemy* ennemy)
 {
+
 	m_nextShootTimer += 1.0f * ennemy->m_deltatime;
 
+	//Stop if the cooldown havent been finished
 	if (m_nextShootTimer < ennemy->m_reloadSpeed)
 	{
 		ennemy->LookAt(ennemy->m_playerGm);
 		return;
 	}
 
-	if (!m_hasShooted)
-	{
-		InitShootAnimation(ennemy);
-
-		m_hasShooted = true;
-	}
-
 	m_shootAnim.AnimationSequence(ennemy->GetDeltatime());
 
-	if (m_shootAnim.GetAnimationHisFinished())
+	if (m_shootAnim.GetAnimationThirdQuarterDuration() && !m_hasShot)
 	{
 		ennemy->CreateProjectile(ennemy->GetPosition(), ennemy->m_playerGm.GetPosition(), 5.f);
+		m_hasShot = true;
+	}
+	if (m_shootAnim.GetAnimationHisFinished())
+	{
+		InitShootAnimation(ennemy);
 		m_nextShootTimer = 0.0f;
-		m_hasShooted = false;
+		m_hasShot = false;
 	}
 
 	ennemy->LookAt(ennemy->m_playerGm);
@@ -199,7 +201,6 @@ void EnnemyAction_Shoot::End(Enemy* ennemy)
 		ennemy->SetTexture(TEXTURES::GOLEM_IDLE_1);
 		break;
 	}
-	m_hasShooted = false;
 }
 
 void EnnemyAction_Shoot::InitShootAnimation(Enemy* ennemy)
@@ -531,10 +532,10 @@ void EnnemyAction_Roam::Start(Enemy* ennemy)
 }
 void EnnemyAction_Roam::Update(Enemy* ennemy)
 {
-	// keep looking at player if you want (optionnel)
+	// keep looking at player
 	ennemy->LookAt(ennemy->m_playerGm);
 
-	// animation pendant le déplacement
+	// animation move
 	m_moveAnim.AnimationSequence(ennemy->GetDeltatime());
 
 	// position courante
@@ -544,10 +545,10 @@ void EnnemyAction_Roam::Update(Enemy* ennemy)
 	float dx = m_nextPosition.x - pos.x;
 	float dz = m_nextPosition.z - pos.z;
 
-	// distance 2D au carré
+	// distance 2D au carre
 	float dist2 = dx * dx + dz * dz;
 
-	// epsilon pour considérer qu'on est arrivé
+	// epsilon pour considerer qu'on est arrive
 	const float arriveEpsilon = 0.05f;
 
 	if (dist2 <= arriveEpsilon * arriveEpsilon)
@@ -557,10 +558,10 @@ void EnnemyAction_Roam::Update(Enemy* ennemy)
 		return;
 	}
 
-	// distance réelle
+	// distance reelle
 	float dist = sqrtf(dist2);
 
-	// déplacement pour cette frame
+	// deplacement pour cette frame
 	float move = ennemy->m_moveSpeed * ennemy->GetDeltatime();
 
 	// si on dépasse la cible, on snap dessus et demande la suivante
@@ -573,7 +574,7 @@ void EnnemyAction_Roam::Update(Enemy* ennemy)
 		return;
 	}
 
-	// sinon avance dans la direction normalisée (évite accélérer en diagonale)
+	// sinon avance dans la direction
 	float invDist = 1.0f / dist;
 	float nx = dx * invDist;
 	float nz = dz * invDist;
@@ -598,13 +599,13 @@ void EnnemyAction_Roam::End(Enemy* ennemy)
 
 void EnnemyAction_Roam::SetNextLocation(Enemy* ennemy)
 {
-	// paramètre : amplitude max du saut local (garde le roam proche)
-	const int LOCAL_MAX = 20; // +/-20 comme tu utilisais
+	// zone max roam
+	const int LOCAL_MAX = 20;
 
 	float currX = ennemy->GetPosition().x;
 	float currZ = ennemy->GetPosition().z;
 
-	// propose un offset aléatoire dans [-LOCAL_MAX, LOCAL_MAX]
+	// offset random
 	int randX = (std::rand() % (LOCAL_MAX * 2 + 1)) - LOCAL_MAX;
 	int randZ = (std::rand() % (LOCAL_MAX * 2 + 1)) - LOCAL_MAX;
 
@@ -618,11 +619,11 @@ void EnnemyAction_Roam::SetNextLocation(Enemy* ennemy)
 	if (candZ < m_minZ) candZ = m_minZ;
 	if (candZ > m_maxZ) candZ = m_maxZ;
 
-	// si la candidate est très proche, on génère à nouveau (éviter points identiques)
+	// if too close
 	const float MIN_DIST = 1.0f;
 	if (fabsf(candX - currX) < MIN_DIST && fabsf(candZ - currZ) < MIN_DIST)
 	{
-		// petit retry simple : on pousse vers une extrémité aléatoire
+		// retry
 		if (std::rand() % 2 == 0) candX = std::clamp(currX + (float)((std::rand() % 2 ? 1 : -1) * LOCAL_MAX), m_minX, m_maxX);
 		else candZ = std::clamp(currZ + (float)((std::rand() % 2 ? 1 : -1) * LOCAL_MAX), m_minZ, m_maxZ);
 	}

@@ -47,6 +47,6 @@ private:
 
 	//WinLose
 	bool m_youWin;
-	//bool m_youLose;
+	float m_chronoChangeScene;
 };
 

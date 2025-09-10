@@ -14,6 +14,7 @@ void AnimationManager::Init(float animationSpeed, GameObject* gmToAnimate)
 	m_gameObjectToAnimate = gmToAnimate;
     m_animationHisFinished = false;
     m_halfDuration = false;
+    m_thirdQuarterDuration = false;
 }
 
 void AnimationManager::Start(float deltatime)
@@ -68,6 +69,11 @@ void AnimationManager::AnimationSequence(float deltatime)
     if (m_nextIdFrame >= ((m_textureList.size() - 1) / 2))
     {
         m_halfDuration = true;
+    }
+
+    if (m_nextIdFrame >= ((m_textureList.size() - 1) * 3 / 4))
+    {
+        m_thirdQuarterDuration = true;
     }
 
     if (m_nextIdFrame >= m_textureList.size() - 1)

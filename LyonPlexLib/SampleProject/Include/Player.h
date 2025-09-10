@@ -48,7 +48,7 @@ public:
 	GameObject m_playerGameObject;
 	GameObject m_playerArm;
 
-	GameObject m_playerHeart1, m_playerHeart2, m_playerHeart3, m_gameOver, m_weaponPlaceholder;
+	GameObject m_playerHeart1, m_playerHeart2, m_playerHeart3, m_gameOver, m_weaponPlaceholder, m_selectedWeapon;
 
 	GameObject& GetGameObject() { return m_playerGameObject; };
 	void SetPlayerArm(GameObject& armGm) { m_playerArm = armGm; };
