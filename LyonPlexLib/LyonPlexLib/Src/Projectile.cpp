@@ -20,7 +20,7 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 	SetScale({ 0.2f,0.2f,0.8f });
 	auto projScale = GetScale();
 	AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x / 2, projScale.y / 2, projScale.z / 2 })));
-	m_speed = 30;
+	m_speed = 5;
 	m_damage = 1;
 
 	// rotation projectile
@@ -74,7 +74,7 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 	case AirSlash:
 	{
 		SetTag(Tag::TAG_ProjectilePlayer);
-		SetTexture(TEXTURES::WATER_NORMAL);
+		SetTexture(TEXTURES::EAU);
 		SetScale({ 2,0.1,0.8 });
 		m_speed = 70;
 		m_damage = 1;

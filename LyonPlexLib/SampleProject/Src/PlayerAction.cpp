@@ -10,7 +10,7 @@ float FPS_24 = 1 / 24;
 // IDLE (dont need to be implemented normaly with override{})
 void PlayerAction_Idle::Start(Player* player)
 {
-	
+
 	//OutputDebugStringA("\n- StartIdle\n");
 
 	// Reset des variables dynamiques (sauts, chute,...)
@@ -507,7 +507,7 @@ void PlayerAction_Attack::Update(Player* player)
 			func();
 		}
 		if (m_attackAnim.GetAnimationHisFinished())	player->m_attackFinished = true;
-		 
+
 		break;
 	case TEXTURES::IDLEARM_W2_1:
 		m_heavyAttackAnim.AnimationSequence(player->GetDeltatime());
@@ -563,7 +563,7 @@ void PlayerAction_Attack::Update(Player* player)
 }
 void PlayerAction_Attack::End(Player* player)
 {
-	
+
 	switch (player->m_currIdleMesh)
 	{
 	case TEXTURES::ARMS:
@@ -690,6 +690,8 @@ void PlayerAction_SpecialAttack::Start(Player* player)
 
 		break;
 	}
+	player->CreateProjectile(player->GetPosition(), player->GetPosition(), 2.f);
+	player->mp_gameManager->GetSoundManager()->PlaySoundPlex("swordSpecialSlash");
 
 }
 

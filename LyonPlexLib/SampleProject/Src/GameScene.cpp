@@ -15,15 +15,14 @@ void GameScene::Start()
 {
 	m_pauseIsOpen = false;
 
-	//CreateGameObject("cam", TYPE_3D, false);
-	//GameObject cam;	
-	//m_cam = cam;
+
 	m_cam.Init(mp_ecsManager, this);
 	m_cam.AddComponent<CameraComponent>(new CameraComponent());
-	//GetEcsManager()->RemoveComponent<MeshComponent>(m_cam.GetEntity());
+	GetEcsManager()->RemoveComponent<MeshComponent>(m_cam.GetEntity());
 
 	// fps cam
 	m_fpsCam.Init(m_cam, mp_sceneManager->GetWindow());
+	m_fpsCam.SetAlwaysActive(true);
 
 	m_playerWalkSpeed = 3.f;
 	m_playerRunSpeed = 6.f;
@@ -32,8 +31,8 @@ void GameScene::Start()
 	// Test player + stateMachine
 	m_playerTest.Init(mp_ecsManager, mp_sceneManager->GetGameManager(), this, m_cam);
 	SetParent(m_cam, m_playerTest);
-	
-	m_cam.SetPosition({ 0, m_playerTest.GetScale().y/2, 0 });
+
+	m_cam.SetPosition({ 0, m_playerTest.GetScale().y / 2, 0 });
 
 	RECT renderZone;
 	GetClientRect(mp_sceneManager->GetGameManager()->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
@@ -48,9 +47,6 @@ void GameScene::Start()
 
 	m_playerTest.SetPlayerArm(GetGameObjectByName("bras"));
 
-	//auto b = CreateGameObject<Boulder>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_playerTest, this);
-	//b.SetPosition({ 315, 2, 58 });
-	//b.SetScale({ 3, 3, 3 });
 
 	//CreateGameObject("Stick");
 	//XMFLOAT3 pos = { POSITION_CHAMPS.x + 2, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z + 2 };
@@ -63,25 +59,6 @@ void GameScene::Start()
 	//GetGameObjectByName("Stick").AddComponent<Tag_Object>(new Tag_Object());
 	//GetGameObjectByName("Stick").SetTag(TAG_Stick);
 	//CreateGameObject("Stick2");
-	//pos = { POSITION_CHAMPS.x - 2, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z + 2 };
-	//GetGameObjectByName("Stick2").SetPosition(pos);
-	//GetGameObjectByName("Stick2").SetScale({ 2, 2, 2 });
-	//GetGameObjectByName("Stick2").SetMesh(MESHES::STICK);
-	//GetGameObjectByName("Stick2").SetTexture(TEXTURES::HERBE);
-	//a = GetGameObjectByName("Stick2").GetScale();
-	////GetGameObjectByName("Stick2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
-	//GetGameObjectByName("Stick2").AddComponent<Tag_Object>(new Tag_Object());
-	//GetGameObjectByName("Stick2").SetTag(TAG_Stick);
-	//CreateGameObject("Stick3");
-	//pos = { POSITION_CHAMPS.x - 2, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z + 3 };
-	//GetGameObjectByName("Stick3").SetPosition(pos);
-	//GetGameObjectByName("Stick3").SetScale({ 2, 2, 2 });
-	//GetGameObjectByName("Stick3").SetMesh(MESHES::STICK);
-	//GetGameObjectByName("Stick3").SetTexture(TEXTURES::CEPHA);
-	//a = GetGameObjectByName("Stick3").GetScale();
-	////GetGameObjectByName("Stick3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
-	//GetGameObjectByName("Stick3").AddComponent<Tag_Object>(new Tag_Object());
-	//GetGameObjectByName("Stick3").SetTag(TAG_Stick);
 
 	//CreateGameObject("Rock");
 	//pos = { POSITION_CHAMPS.x - 3, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z - 2 };
@@ -114,16 +91,6 @@ void GameScene::Start()
 	//GetComponent<LightComponent>("Light1")->direction = { -1, -1, -1 };
 	//GetComponent<LightComponent>("Light1")->range = 50;
 
-	//CreateEntity("Light2");
-	//AddComponent<Type_3D>("Light2", new Type_3D());
-	//AddComponent<MeshComponent>("Light2", new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::BOIS));
-	//GetComponent<TransformComponent>("Light2")->position = { 290,3,58 };
-	//GetComponent<TransformComponent>("Light2")->scale = { 1, 1, 1 };
-	//AddComponent<LightComponent>("Light2", new LightComponent(0));
-	//GetComponent<LightComponent>("Light2")->color = { 0,1,1 };
-	//GetComponent<LightComponent>("Light2")->range = 50;
-
-
 
 
 
@@ -149,115 +116,6 @@ void GameScene::Start()
 
 
 
-
-
-
-	//CreateGameObject("solGen", MESHES::LOCAL_CUBE, TEXTURES::HERBE);
-	//GetGameObjectByName("solGen").SetTag(TAG_Floor);
-	////GetGameObjectByName("solGen").SetPosition(POSITION_CHAMPS);
-	//GetGameObjectByName("solGen").SetPosition({ 200,-8,100 });
-	//GetGameObjectByName("solGen").SetScale({ 400, 10, 200 });
-	//auto c = GetGameObjectByName("solGen").GetScale();
-	//GetGameObjectByName("solGen").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	//CreateGameObject("field", MESHES::LOCAL_CUBE, TEXTURES::GRID);
-	//GetGameObjectByName("field").SetTag(TAG_Floor);
-	//GetGameObjectByName("field").SetPosition(POSITION_CHAMPS);
-	//GetGameObjectByName("field").SetScale({ 100, 5, 50 });
-	//c = GetGameObjectByName("field").GetScale();
-	////GetGameObjectByName("field").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
-	//GetGameObjectByName("field").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	//CreateGameObject("Temple", MESHES::TEMPLE, TEXTURES::TEMPLE);
-	//GetGameObjectByName("Temple").SetTag(TAG_Floor);
-	//GetGameObjectByName("Temple").SetPosition({ 75,0,125 });
-	////GetGameObjectByName("Temple").SetScale({ 100, 5, 100 });
-	//GetGameObjectByName("Temple").SetScale({ 1.25, 1.5, 1.25 });
-	//c = GetGameObjectByName("Temple").GetScale();
-	//GetGameObjectByName("Temple").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	//CreateGameObject("Mountain", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
-	//GetGameObjectByName("Mountain").SetTag(TAG_Floor);
-	//GetGameObjectByName("Mountain").SetPosition({ 300,7,150 });
-	//GetGameObjectByName("Mountain").SetScale({ 200, 14, 100 });
-	//c = GetGameObjectByName("Mountain").GetScale();
-	//GetGameObjectByName("Mountain").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	//CreateGameObject("Mountain2", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
-	//GetGameObjectByName("Mountain2").SetTag(TAG_Floor);
-	//GetGameObjectByName("Mountain2").SetPosition({ 167.5, 2, 100 });
-	//GetGameObjectByName("Mountain2").SetScale({ 65, 25, 20 });
-	//c = GetGameObjectByName("Mountain2").GetScale();
-	//GetGameObjectByName("Mountain2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	//CreateGameObject("Mountain3", MESHES::ROCKMedium, TEXTURES::PIERRE);
-	//GetGameObjectByName("Mountain3").SetTag(TAG_Floor);
-	//GetGameObjectByName("Mountain3").SetPosition({ 125, 2, 100 });
-	//GetGameObjectByName("Mountain3").SetScale({ 10, 12, 3 });
-	//c = GetGameObjectByName("Mountain3").GetScale();
-	//GetGameObjectByName("Mountain3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	//{
-	//	CreateGameObject("RTEST", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
-	//	GetGameObjectByName("RTEST").SetTag(TAG_Floor);
-	//	GetGameObjectByName("RTEST").SetPosition({ 175, 5, 25 });
-	//	GetGameObjectByName("RTEST").SetScale({ 200, 5, 50 });
-	//	GetGameObjectByName("RTEST").AddRotation({ 10,0,0 });
-	//	c = GetGameObjectByName("RTEST").GetScale();
-	//	GetGameObjectByName("RTEST").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	//	CreateGameObject("RTEST3", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
-	//	GetGameObjectByName("RTEST3").SetTag(TAG_Floor);
-	//	GetGameObjectByName("RTEST3").SetPosition({ 275, 5, 45 });
-	//	GetGameObjectByName("RTEST3").SetScale({ 20, 5, 50 });
-	//	GetGameObjectByName("RTEST3").AddRotation({ 40,0,0 });
-	//	c = GetGameObjectByName("RTEST3").GetScale();
-	//	GetGameObjectByName("RTEST3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	//	CreateGameObject("RTEST4", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
-	//	GetGameObjectByName("RTEST4").SetTag(TAG_Floor);
-	//	GetGameObjectByName("RTEST4").SetPosition({ 50, 5, 25 });
-	//	GetGameObjectByName("RTEST4").SetScale({ 20, 5, 50 });
-	//	GetGameObjectByName("RTEST4").AddRotation({ 50,0,0 });
-	//	c = GetGameObjectByName("RTEST4").GetScale();
-	//	GetGameObjectByName("RTEST4").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	//	CreateGameObject("RTEST2", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
-	//	GetGameObjectByName("RTEST2").SetTag(TAG_Floor);
-	//	GetGameObjectByName("RTEST2").SetPosition({ 175, 2, 70 });
-	//	GetGameObjectByName("RTEST2").SetScale({ 15, 10, 50 });
-	//	GetGameObjectByName("RTEST2").AddRotation({ 10,0,-10 });
-	//	c = GetGameObjectByName("RTEST2").GetScale();
-	//	GetGameObjectByName("RTEST2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	//	CreateGameObject("Road1", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
-	//	GetGameObjectByName("Road1").SetTag(TAG_Floor);
-	//	GetGameObjectByName("Road1").SetPosition({ 175, -2, 50 });
-	//	GetGameObjectByName("Road1").SetScale({ 200, 5, 10 });
-	//	c = GetGameObjectByName("Road1").GetScale();
-	//	GetGameObjectByName("Road1").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	//	CreateGameObject("Road2", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
-	//	GetGameObjectByName("Road2").SetTag(TAG_Floor);
-	//	GetGameObjectByName("Road2").SetPosition({ 80, -2, 60 });
-	//	GetGameObjectByName("Road2").SetScale({ 10, 5, 10 });
-	//	c = GetGameObjectByName("Road2").GetScale();
-	//	GetGameObjectByName("Road2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	//	CreateGameObject("Road3", MESHES::LOCAL_CUBE, TEXTURES::CHAMP);
-	//	GetGameObjectByName("Road3").SetTag(TAG_Floor);
-	//	GetGameObjectByName("Road3").SetPosition({ 75, -2, 80 });
-	//	GetGameObjectByName("Road3").SetScale({ 75, 5, 30 });
-	//	c = GetGameObjectByName("Road3").GetScale();
-	//	GetGameObjectByName("Road3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	//	CreateGameObject("Tree", MESHES::MASTIC_1, TEXTURES::HERBE);
-	//	GetGameObjectByName("Tree").SetTag(TAG_Floor);
-	//	GetGameObjectByName("Tree").SetPosition({ 80, -2, 50 });
-	//	GetGameObjectByName("Tree").SetScale({ 50, 50, 50 });
-	//	c = GetGameObjectByName("Tree").GetScale();
-	//	GetGameObjectByName("Tree").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ c.x / 2, c.y / 2, c.z / 2 })));
-	//}
 
 
 
@@ -393,15 +251,6 @@ void GameScene::Start()
 
 
 	XMFLOAT3 position = { 30.f,-20,10 };
-	auto& oTree = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
-
-	position = { 20,-25, 20 };
-	auto& oTree2 = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
-	oTree2.SetScale({ 2.f,2.f,2.f });
-
-	position = { 20,-25, -20 };
-	auto& oTree3 = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
-	oTree3.SetScale({ 3.f,3.f,3.f });
 
 
 
@@ -745,69 +594,7 @@ void GameScene::Start()
 	GetGameObjectByName("HB_Temple 33").AddComponent<Tag_World>(new Tag_World());
 	GetGameObjectByName("HB_Temple 33").SetTag(TAG_Environment);
 
-	/*CreateGameHitbox("HB_Temple 34");
-	GetGameObjectByName("HB_Temple 34").SetPosition({ -148,22,-11 });
-	GetGameObjectByName("HB_Temple 34").SetRotation({ 0,-0.707106709,0,0.707106829 });
-	GetGameObjectByName("HB_Temple 34").SetScale({ 30,16,3 });
-	GetGameObjectByName("HB_Temple 34").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 14.950021744, 8, 1.5 })));
-	GetGameObjectByName("HB_Temple 34").AddComponent<Tag_World>(new Tag_World());
-	GetGameObjectByName("HB_Temple 34").SetTag(TAG_Environment);
 
-	CreateGameHitbox("HB_Temple 35");
-	GetGameObjectByName("HB_Temple 35").SetPosition({ -148,22,53 });
-	GetGameObjectByName("HB_Temple 35").SetRotation({ 0,-0.707106709,0,0.707106829 });
-	GetGameObjectByName("HB_Temple 35").SetScale({ 30,16,3 });
-	GetGameObjectByName("HB_Temple 35").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 14.950021744, 8, 1.5 })));
-	GetGameObjectByName("HB_Temple 35").AddComponent<Tag_World>(new Tag_World());
-	GetGameObjectByName("HB_Temple 35").SetTag(TAG_Environment);
-
-	CreateGameHitbox("HB_Temple 36");
-	GetGameObjectByName("HB_Temple 36").SetPosition({ -240,22,52 });
-	GetGameObjectByName("HB_Temple 36").SetRotation({ 0,-0.707106709,0,0.707106829 });
-	GetGameObjectByName("HB_Temple 36").SetScale({ 30,16,3 });
-	GetGameObjectByName("HB_Temple 36").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 14.950021744, 8, 1.5 })));
-	GetGameObjectByName("HB_Temple 36").AddComponent<Tag_World>(new Tag_World());
-	GetGameObjectByName("HB_Temple 36").SetTag(TAG_Environment);
-
-	CreateGameHitbox("HB_Temple 37");
-	GetGameObjectByName("HB_Temple 37").SetPosition({ -239,22,-11 });
-	GetGameObjectByName("HB_Temple 37").SetRotation({ 0,-0.707106709,0,0.707106829 });
-	GetGameObjectByName("HB_Temple 37").SetScale({ 30,16,3 });
-	GetGameObjectByName("HB_Temple 37").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 14.950021744, 8, 1.5 })));
-	GetGameObjectByName("HB_Temple 37").AddComponent<Tag_World>(new Tag_World());
-	GetGameObjectByName("HB_Temple 37").SetTag(TAG_Environment);
-
-	CreateGameHitbox("HB_Temple 38");
-	GetGameObjectByName("HB_Temple 38").SetPosition({ -123,5,76 });
-	GetGameObjectByName("HB_Temple 38").SetRotation({ 0,-0.707106709,0,0.707106829 });
-	GetGameObjectByName("HB_Temple 38").SetScale({ 30,16,3 });
-	GetGameObjectByName("HB_Temple 38").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 14.950021744, 8, 1.5 })));
-	GetGameObjectByName("HB_Temple 38").AddComponent<Tag_World>(new Tag_World());
-	GetGameObjectByName("HB_Temple 38").SetTag(TAG_Environment);
-
-	CreateGameHitbox("HB_Temple 39");
-	GetGameObjectByName("HB_Temple 39").SetPosition({ -123,5,-10 });
-	GetGameObjectByName("HB_Temple 39").SetRotation({ 0,-0.707106709,0,0.707106829 });
-	GetGameObjectByName("HB_Temple 39").SetScale({ 30,16,3 });
-	GetGameObjectByName("HB_Temple 39").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 14.950021744, 8, 1.5 })));
-	GetGameObjectByName("HB_Temple 39").AddComponent<Tag_World>(new Tag_World());
-	GetGameObjectByName("HB_Temple 39").SetTag(TAG_Environment);
-
-	CreateGameHitbox("HB_Temple 40");
-	GetGameObjectByName("HB_Temple 40").SetPosition({ -264,5,-6 });
-	GetGameObjectByName("HB_Temple 40").SetRotation({ 0,-0.707106709,0,0.707106829 });
-	GetGameObjectByName("HB_Temple 40").SetScale({ 30,16,3 });
-	GetGameObjectByName("HB_Temple 40").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 14.950021744, 8, 1.5 })));
-	GetGameObjectByName("HB_Temple 40").AddComponent<Tag_World>(new Tag_World());
-	GetGameObjectByName("HB_Temple 40").SetTag(TAG_Environment);
-
-	CreateGameHitbox("HB_Temple 41");
-	GetGameObjectByName("HB_Temple 41").SetPosition({ -265,5,80 });
-	GetGameObjectByName("HB_Temple 41").SetRotation({ 0,-0.707106709,0,0.707106829 });
-	GetGameObjectByName("HB_Temple 41").SetScale({ 30,16,3 });
-	GetGameObjectByName("HB_Temple 41").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 14.950021744, 8, 1.5 })));
-	GetGameObjectByName("HB_Temple 41").AddComponent<Tag_World>(new Tag_World());
-	GetGameObjectByName("HB_Temple 41").SetTag(TAG_Environment);*/
 
 	CreateGameHitbox("HB_Temple 42");
 	GetGameObjectByName("HB_Temple 42").SetPosition({ -275,-13,-44 });
@@ -825,53 +612,6 @@ void GameScene::Start()
 	GetGameObjectByName("HB_Temple 43").AddComponent<Tag_World>(new Tag_World());
 	GetGameObjectByName("HB_Temple 43").SetTag(TAG_Environment);
 
-	/*CreateGameHitbox("HB_Temple 44");
-	GetGameObjectByName("HB_Temple 44").SetPosition({ -114,-13,-6 });
-	GetGameObjectByName("HB_Temple 44").SetRotation({ 0,-0.707106709,0,0.707106829 });
-	GetGameObjectByName("HB_Temple 44").SetScale({ 30,16,3 });
-	GetGameObjectByName("HB_Temple 44").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 14.950021744, 8, 1.5 })));
-	GetGameObjectByName("HB_Temple 44").AddComponent<Tag_World>(new Tag_World());
-	GetGameObjectByName("HB_Temple 44").SetTag(TAG_Environment);
-
-	CreateGameHitbox("HB_Temple 45");
-	GetGameObjectByName("HB_Temple 45").SetPosition({ -113,-13,44 });
-	GetGameObjectByName("HB_Temple 45").SetRotation({ 0,-0.707106709,0,0.707106829 });
-	GetGameObjectByName("HB_Temple 45").SetScale({ 31,16,3 });
-	GetGameObjectByName("HB_Temple 45").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 15.450021744, 8, 1.5 })));
-	GetGameObjectByName("HB_Temple 45").AddComponent<Tag_World>(new Tag_World());
-	GetGameObjectByName("HB_Temple 45").SetTag(TAG_Environment);
-
-	CreateGameHitbox("HB_Temple 46");
-	GetGameObjectByName("HB_Temple 46").SetPosition({ -113,-13,86 });
-	GetGameObjectByName("HB_Temple 46").SetRotation({ 0,-0.707106709,0,0.707106829 });
-	GetGameObjectByName("HB_Temple 46").SetScale({ 30,16,3 });
-	GetGameObjectByName("HB_Temple 46").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 14.950021744, 8, 1.5 })));
-	GetGameObjectByName("HB_Temple 46").AddComponent<Tag_World>(new Tag_World());
-	GetGameObjectByName("HB_Temple 46").SetTag(TAG_Environment);
-
-	CreateGameHitbox("HB_Temple 47");
-	GetGameObjectByName("HB_Temple 47").SetPosition({ -274,-13,90 });
-	GetGameObjectByName("HB_Temple 47").SetRotation({ 0,-0.707106709,0,0.707106829 });
-	GetGameObjectByName("HB_Temple 47").SetScale({ 30,16,3 });
-	GetGameObjectByName("HB_Temple 47").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 14.950021744, 8, 1.5 })));
-	GetGameObjectByName("HB_Temple 47").AddComponent<Tag_World>(new Tag_World());
-	GetGameObjectByName("HB_Temple 47").SetTag(TAG_Environment);
-
-	CreateGameHitbox("HB_Temple 48");
-	GetGameObjectByName("HB_Temple 48").SetPosition({ -274,-13,48 });
-	GetGameObjectByName("HB_Temple 48").SetRotation({ 0,-0.707106709,0,0.707106829 });
-	GetGameObjectByName("HB_Temple 48").SetScale({ 30,16,3 });
-	GetGameObjectByName("HB_Temple 48").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 14.950021744, 8, 1.5 })));
-	GetGameObjectByName("HB_Temple 48").AddComponent<Tag_World>(new Tag_World());
-	GetGameObjectByName("HB_Temple 48").SetTag(TAG_Environment);
-
-	CreateGameHitbox("HB_Temple 49");
-	GetGameObjectByName("HB_Temple 49").SetPosition({ -275,-13,-2 });
-	GetGameObjectByName("HB_Temple 49").SetRotation({ 0,-0.707106709,0,0.707106829 });
-	GetGameObjectByName("HB_Temple 49").SetScale({ 30,16,3 });
-	GetGameObjectByName("HB_Temple 49").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 14.950021744, 8, 1.5 })));
-	GetGameObjectByName("HB_Temple 49").AddComponent<Tag_World>(new Tag_World());
-	GetGameObjectByName("HB_Temple 49").SetTag(TAG_Environment);*/
 
 	CreateGameHitbox("HB_Temple 50");
 	GetGameObjectByName("HB_Temple 50").SetPosition({ -100,-12,72 });
@@ -1082,7 +822,7 @@ void GameScene::Start()
 	GetGameObjectByName("HB_T_suite 34").SetRotation({ 0,0,0,1 });
 	GetGameObjectByName("HB_T_suite 34").SetScale({ 96,1,16 });
 	GetGameObjectByName("HB_T_suite 34").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 48, 0.5, 8 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	
+
 	CreateGameHitbox("HB_T_suite 36");
 	GetGameObjectByName("HB_T_suite 36").SetPosition({ -155.857131958,32.196475983,21.051273346 });
 	GetGameObjectByName("HB_T_suite 36").SetRotation({ 0,0,0,1 });
@@ -1166,101 +906,101 @@ void GameScene::Start()
 
 
 	// pour grimper sur temple
-	CreateGameHitbox("Next 0");
-	GetGameObjectByName("Next 0").SetPosition({ -157,-17,28 });
-	GetGameObjectByName("Next 0").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 0").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 0").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 1");
-	GetGameObjectByName("Next 1").SetPosition({ -156,-12,34 });
-	GetGameObjectByName("Next 1").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 1").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 1").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 2");
-	GetGameObjectByName("Next 2").SetPosition({ -156,-7,42 });
-	GetGameObjectByName("Next 2").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 2").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 3");
-	GetGameObjectByName("Next 3").SetPosition({ -150,-4,42 });
-	GetGameObjectByName("Next 3").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 3").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 4");
-	GetGameObjectByName("Next 4").SetPosition({ -144,-4,42 });
-	GetGameObjectByName("Next 4").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 4").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 4").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 5");
-	GetGameObjectByName("Next 5").SetPosition({ -140,-4,42 });
-	GetGameObjectByName("Next 5").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 5").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 5").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 7");
-	GetGameObjectByName("Next 7").SetPosition({ -162,-7,35 });
-	GetGameObjectByName("Next 7").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 7").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 7").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 9");
-	GetGameObjectByName("Next 9").SetPosition({ -169,-6,35 });
-	GetGameObjectByName("Next 9").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 9").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 9").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 10");
-	GetGameObjectByName("Next 10").SetPosition({ -175,-6,34 });
-	GetGameObjectByName("Next 10").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 10").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 10").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 11");
-	GetGameObjectByName("Next 11").SetPosition({ -180,-6,33 });
-	GetGameObjectByName("Next 11").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 11").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 11").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 12");
-	GetGameObjectByName("Next 12").SetPosition({ -187,-2,33 });
-	GetGameObjectByName("Next 12").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 12").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 12").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 13");
-	GetGameObjectByName("Next 13").SetPosition({ -193,4,33 });
-	GetGameObjectByName("Next 13").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 13").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 13").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 14");
-	GetGameObjectByName("Next 14").SetPosition({ -199,10,33 });
-	GetGameObjectByName("Next 14").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 14").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 14").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 15");
-	GetGameObjectByName("Next 15").SetPosition({ -206,16,34 });
-	GetGameObjectByName("Next 15").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 15").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 15").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 16");
-	GetGameObjectByName("Next 16").SetPosition({ -212,21,35 });
-	GetGameObjectByName("Next 16").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 16").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 16").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 17");
-	GetGameObjectByName("Next 17").SetPosition({ -218,27,34 });
-	GetGameObjectByName("Next 17").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 17").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 17").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 18");
-	GetGameObjectByName("Next 18").SetPosition({ -217,31,28 });
-	GetGameObjectByName("Next 18").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 18").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 18").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 19");
-	GetGameObjectByName("Next 19").SetPosition({ -151,-19,22 });
-	GetGameObjectByName("Next 19").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 19").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 19").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("Next 20");
-	GetGameObjectByName("Next 20").SetPosition({ -151,-14,29 });
-	GetGameObjectByName("Next 20").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("Next 20").SetScale({ 6,6,6 });
-	GetGameObjectByName("Next 20").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 0");
+	GetGameObjectByName("Temp 0").SetPosition({ -157,-17,28 });
+	GetGameObjectByName("Temp 0").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 0").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 0").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 1");
+	GetGameObjectByName("Temp 1").SetPosition({ -156,-12,34 });
+	GetGameObjectByName("Temp 1").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 1").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 1").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 2");
+	GetGameObjectByName("Temp 2").SetPosition({ -156,-7,42 });
+	GetGameObjectByName("Temp 2").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 2").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 3");
+	GetGameObjectByName("Temp 3").SetPosition({ -150,-4,42 });
+	GetGameObjectByName("Temp 3").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 3").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 4");
+	GetGameObjectByName("Temp 4").SetPosition({ -144,-4,42 });
+	GetGameObjectByName("Temp 4").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 4").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 4").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 5");
+	GetGameObjectByName("Temp 5").SetPosition({ -140,-4,42 });
+	GetGameObjectByName("Temp 5").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 5").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 5").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 7");
+	GetGameObjectByName("Temp 7").SetPosition({ -162,-7,35 });
+	GetGameObjectByName("Temp 7").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 7").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 7").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 9");
+	GetGameObjectByName("Temp 9").SetPosition({ -169,-6,35 });
+	GetGameObjectByName("Temp 9").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 9").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 9").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 10");
+	GetGameObjectByName("Temp 10").SetPosition({ -175,-6,34 });
+	GetGameObjectByName("Temp 10").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 10").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 10").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 11");
+	GetGameObjectByName("Temp 11").SetPosition({ -180,-6,33 });
+	GetGameObjectByName("Temp 11").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 11").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 11").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 12");
+	GetGameObjectByName("Temp 12").SetPosition({ -187,-2,33 });
+	GetGameObjectByName("Temp 12").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 12").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 12").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 13");
+	GetGameObjectByName("Temp 13").SetPosition({ -193,4,33 });
+	GetGameObjectByName("Temp 13").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 13").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 13").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 14");
+	GetGameObjectByName("Temp 14").SetPosition({ -199,10,33 });
+	GetGameObjectByName("Temp 14").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 14").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 14").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 15");
+	GetGameObjectByName("Temp 15").SetPosition({ -206,16,34 });
+	GetGameObjectByName("Temp 15").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 15").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 15").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 16");
+	GetGameObjectByName("Temp 16").SetPosition({ -212,21,35 });
+	GetGameObjectByName("Temp 16").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 16").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 16").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 17");
+	GetGameObjectByName("Temp 17").SetPosition({ -218,27,34 });
+	GetGameObjectByName("Temp 17").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 17").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 17").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 18");
+	GetGameObjectByName("Temp 18").SetPosition({ -217,31,28 });
+	GetGameObjectByName("Temp 18").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 18").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 18").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 19");
+	GetGameObjectByName("Temp 19").SetPosition({ -151,-19,22 });
+	GetGameObjectByName("Temp 19").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 19").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 19").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	CreateGameHitbox("Temp 20");
+	GetGameObjectByName("Temp 20").SetPosition({ -151,-14,29 });
+	GetGameObjectByName("Temp 20").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp 20").SetScale({ 6,6,6 });
+	GetGameObjectByName("Temp 20").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3, 3, 3 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
 	//
 
 
@@ -1294,18 +1034,44 @@ void GameScene::Start()
 	GetGameObjectByName("Boulder 0").SetPosition({ -53,-21,113 });
 	GetGameObjectByName("Boulder 0").SetRotation({ 0.583064735,-0.467740774,0.46044904,0.478790939 });
 	GetGameObjectByName("Boulder 0").SetScale({ 11,11,11 });
-	CreateGameObject("Boulder 1", 18, 4294967295);
-	GetGameObjectByName("Boulder 1").SetPosition({ -39,-21,111 });
-	GetGameObjectByName("Boulder 1").SetRotation({ 0.113225348,-0.030704228,0.993081927,-0.00505937 });
-	GetGameObjectByName("Boulder 1").SetScale({ 7,20,9 });
-	CreateGameObject("Boulder 2", 18, 4294967295);
-	GetGameObjectByName("Boulder 2").SetPosition({ -20,-19,111 });
-	GetGameObjectByName("Boulder 2").SetRotation({ 0.076485023,0.680503786,0.723926127,-0.083639987 });
-	GetGameObjectByName("Boulder 2").SetScale({ 6,14,19 });
+
+
+
+	XMFLOAT2 posXZmin = { -117 , 123 };
+	XMFLOAT2 posXZmax = { 41 , 111 };
+
+	auto& boulder1 = CreateGameObject<Boulder>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_playerTest, this, posXZmin, posXZmax);
+	boulder1.SetPosition({ -39,-21,111 });
+	boulder1.SetScale({ 7,20,9 });
+
+	auto& boulder2 = CreateGameObject<Boulder>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_playerTest, this, posXZmin, posXZmax);
+	boulder2.SetPosition({ -20,-19,111 });
+	boulder2.SetScale({ 6,14,19 });
+
+	//CreateGameObject("Boulder 1", 18, 4294967295);
+	//GetGameObjectByName("Boulder 1").SetPosition({ -39,-21,111 });
+	//GetGameObjectByName("Boulder 1").SetRotation({ 0.113225348,-0.030704228,0.993081927,-0.00505937 });
+	//GetGameObjectByName("Boulder 1").SetScale({ 7,20,9 });
+
+	//CreateGameObject("Boulder 2", 18, 4294967295);
+	//GetGameObjectByName("Boulder 2").SetPosition({ -20,-19,111 });
+	//GetGameObjectByName("Boulder 2").SetRotation({ 0.076485023,0.680503786,0.723926127,-0.083639987 });
+	//GetGameObjectByName("Boulder 2").SetScale({ 6,14,19 });
+
+
+	//GetGameObjectByName("field").SetPosition({ 3,-22,76 });
+	//GetGameObjectByName("field").SetRotation({ 0,0,0,1 });
+	//GetGameObjectByName("field").SetScale({ 121,1,71 });
+
+
+
+
+
 	CreateGameObject("BigRock", 20, 4294967295);
 	GetGameObjectByName("BigRock").SetPosition({ 9,-6,147 });
 	GetGameObjectByName("BigRock").SetRotation({ 0,-0.878817022,0,0.477158964 });
 	GetGameObjectByName("BigRock").SetScale({ 36,41,41 });
+
 
 
 	// CHAMPS
@@ -1381,37 +1147,32 @@ void GameScene::Start()
 	GetGameObjectByName("Tree 20").SetScale({ 2,2,2 });
 
 	// OLIVES COMPETENCE
+	// CASCADE
 	position = { 72,1,149 };
-	auto& oliveTree = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
+	//position = { 100,5,100 };
+	auto& oliveTree = CreateGameObject<OliveTree>(mp_ecsManager, this, position, 1);
 	oliveTree.SetScale({ 4,4,4 });
 	oliveTree.SetRotation({ -0.015740039,-0.043857157,0.012615366,0.998834133 });
-	//CreateGameObject("Olivier_trunk 23", 32, 4294967295);// 1
-	//GetGameObjectByName("Olivier_trunk 23").SetPosition({ 72,1,149 });
-	//GetGameObjectByName("Olivier_trunk 23").SetRotation({ -0.015740039,-0.043857157,0.012615366,0.998834133 });
-	//GetGameObjectByName("Olivier_trunk 23").SetScale({ 4,4,4 });
 
-	CreateGameObject("Olivier_leaves 22", 33, 4294967295);
-	GetGameObjectByName("Olivier_leaves 22").SetPosition({ 53,-9,128 });
-	GetGameObjectByName("Olivier_leaves 22").SetRotation({ -0.040849205,-0.022417387,0.671295822,0.739723504 });
-	GetGameObjectByName("Olivier_leaves 22").SetScale({ 4,4,4 });
-
-
+	// PASSAGE TEMPLE
 	position = { -14,2,-21 };
-	auto& oliveTree2 = CreateGameObject<OliveTree>(mp_ecsManager, this, position);
+	auto& oliveTree2 = CreateGameObject<OliveTree>(mp_ecsManager, this, position, 2);
 	oliveTree2.SetScale({ 6,7,7 });
 	oliveTree2.SetRotation({ 0,0.737277627,0,-0.675589979 });
-	//CreateGameObject("Olivier_trunk 21", 32, 4294967295);// 2
-	//GetGameObjectByName("Olivier_trunk 21").SetPosition({ -14,2,-21 });
-	//GetGameObjectByName("Olivier_trunk 21").SetRotation({ 0,0.737277627,0,-0.675589979 });
-	//GetGameObjectByName("Olivier_trunk 21").SetScale({ 6,7,7 });
 
-	CreateGameObject("Olivier_leaves 24", 33, 4294967295);
-	GetGameObjectByName("Olivier_leaves 24").SetPosition({ -59,-8,-17 });
-	GetGameObjectByName("Olivier_leaves 24").SetRotation({ 0.03906719,-0.74653542,-0.012860671,0.664073229 });
-	GetGameObjectByName("Olivier_leaves 24").SetScale({ 6,6,7 });
+	/*CreateGameHitbox(" 0");
+	GetGameObjectByName(" 0").SetPosition({ -14,0,-21 });
+	GetGameObjectByName(" 0").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName(" 0").SetScale({ 250,2,250 });
+	GetGameObjectByName(" 0").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 125, 1, 125 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
 
+	CreateGameHitbox(" 1");
+	GetGameObjectByName(" 1").SetPosition({ 0,0,0 });
+	GetGameObjectByName(" 1").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName(" 1").SetScale({ 1,10,1 });*/
+	//GetGameObjectByName(" 1").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 125, 1, 125 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
 
-	CreateGameHitbox("HB_LAKE 0");
+	/*CreateGameHitbox("HB_LAKE 0");
 	GetGameObjectByName("HB_LAKE 0").SetPosition({ -54,-20,113 });
 	GetGameObjectByName("HB_LAKE 0").SetRotation({ 0,0,0,1 });
 	GetGameObjectByName("HB_LAKE 0").SetScale({ 10,10,15 });
@@ -1425,7 +1186,7 @@ void GameScene::Start()
 	GetGameObjectByName("HB_LAKE 2").SetPosition({ -20,-18,111 });
 	GetGameObjectByName("HB_LAKE 2").SetRotation({ 0,0,0,1 });
 	GetGameObjectByName("HB_LAKE 2").SetScale({ 11,19,11 });
-	GetGameObjectByName("HB_LAKE 2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 5.5, 9.5, 5.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	GetGameObjectByName("HB_LAKE 2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 5.5, 9.5, 5.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));*/
 	CreateGameHitbox("HB_LAKE 3");
 	GetGameObjectByName("HB_LAKE 3").SetPosition({ 12.619031906,-19.762268066,136.884719849 });
 	GetGameObjectByName("HB_LAKE 3").SetRotation({ 0,0,0,1 });
@@ -1441,11 +1202,11 @@ void GameScene::Start()
 	GetGameObjectByName("HB_LAKE 5").SetRotation({ 0,0,0,1 });
 	GetGameObjectByName("HB_LAKE 5").SetScale({ 36,19,41 });
 	GetGameObjectByName("HB_LAKE 5").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 18, 9.5, 20.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-	CreateGameHitbox("HB_LAKE 6");
-	GetGameObjectByName("HB_LAKE 6").SetPosition({ 52.282047272,-11.43447113,128.391662598 });
-	GetGameObjectByName("HB_LAKE 6").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("HB_LAKE 6").SetScale({ 16,19,31 });
-	GetGameObjectByName("HB_LAKE 6").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 8, 9.5, 15.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	//CreateGameHitbox("HB_LAKE 6");
+	//GetGameObjectByName("HB_LAKE 6").SetPosition({ 52.282047272,-11.43447113,128.391662598 });
+	//GetGameObjectByName("HB_LAKE 6").SetRotation({ 0,0,0,1 });
+	//GetGameObjectByName("HB_LAKE 6").SetScale({ 16,19,31 });
+	//GetGameObjectByName("HB_LAKE 6").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 8, 9.5, 15.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
 
 	CreateGameHitbox("HB_UPSTREAM 1");
 	GetGameObjectByName("HB_UPSTREAM 1").SetPosition({ 72.454551697,-2.514286518,89.278663635 });
@@ -1463,6 +1224,31 @@ void GameScene::Start()
 	GetGameObjectByName("HB_UPSTREAM 3").SetScale({ 3,21,156 });
 	GetGameObjectByName("HB_UPSTREAM 3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 1.5, 10.5, 78 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
 
+
+	/*auto* a1 = &CreateGameHitbox("Temp_slope 0");
+	GetGameObjectByName("Temp_slope 0").SetPosition({ -35,-25,74 });
+	GetGameObjectByName("Temp_slope 0").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Temp_slope 0").SetScale({ 21,6,11 });
+	GetGameObjectByName("Temp_slope 0").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 10.5, 3, 5.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	a1->SetTag(TAG_Floor);
+	auto* a2 = &CreateGameHitbox("Temp_slope 1");
+	GetGameObjectByName("Temp_slope 1").SetPosition({ 11,-25,79 });
+	GetGameObjectByName("Temp_slope 1").SetRotation({ 0,0,0.267238349,0.963630497 });
+	GetGameObjectByName("Temp_slope 1").SetScale({ 26,6,16 });
+	GetGameObjectByName("Temp_slope 1").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 13, 3, 8 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	a2->SetTag(TAG_Floor);
+	auto* a3 = &CreateGameHitbox("Temp_slope 2");
+	GetGameObjectByName("Temp_slope 2").SetPosition({ -32,-23,38 });
+	GetGameObjectByName("Temp_slope 2").SetRotation({ 0.216233701,0.009440946,0.042585358,0.975366831 });
+	GetGameObjectByName("Temp_slope 2").SetScale({ 26,6,21 });
+	GetGameObjectByName("Temp_slope 2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 13, 3, 10.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	a3->SetTag(TAG_Floor);
+	auto* a4 = &CreateGameHitbox("Temp_slope 3");
+	GetGameObjectByName("Temp_slope 3").SetPosition({ 19.286569595,-21.031072617,54.787345886 });
+	GetGameObjectByName("Temp_slope 3").SetRotation({ 0,0,0.069756463,0.997564077 });
+	GetGameObjectByName("Temp_slope 3").SetScale({ 106,11,11 });
+	GetGameObjectByName("Temp_slope 3").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 53, 5.5, 5.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+	a4->SetTag(TAG_Floor);*/
 }
 
 void GameScene::Update(float deltatime)
@@ -1602,10 +1388,12 @@ void GameScene::Update(float deltatime)
 		if (m_pauseIsOpen)
 		{
 			SpawnMenu();
+			m_fpsCam.SetAlwaysActive(false);
 		}
 		else
 		{
 			RemoveMenu();
+			m_fpsCam.SetAlwaysActive(true);
 		}
 
 	}

@@ -11,6 +11,46 @@ bool CollisionSystem::Init(ECSManager* ecs)
 	m_ECS = ecs;
 	return false;
 }
+// en haut du fichier CollisionSystem.cpp (includes si nécessaire)
+#include <cstdint> // pour UINT32_MAX
+#include <cassert>
+
+// helper minimal : calcule la position "monde" en remontant les parents
+// Hypothèse : on ne prend en compte QUE la translation (addition des positions).
+static XMFLOAT3 GetWorldPosition(Entity e, ECSManager* ecs)
+{
+	XMFLOAT3 worldPos{ 0.f, 0.f, 0.f };
+
+	TransformComponent* t = ecs->GetComponent<TransformComponent>(e);
+	if (!t) return worldPos;
+
+	// accumulateur : on additionne les positions locales en remontant les parents
+	XMFLOAT3 accum = t->position;
+
+	// remonter la chaîne de parents
+	Entity curParent = t->parent;
+	// sécurité : limite de profondeur pour éviter boucle infinie
+	const int MAX_PARENT_DEPTH = 64;
+	int depth = 0;
+	while (curParent.id != UINT32_MAX && depth < MAX_PARENT_DEPTH)
+	{
+		TransformComponent* tp = ecs->GetComponent<TransformComponent>(curParent);
+		if (!tp) break;
+		// On additionne simplement la translation du parent
+		accum.x += tp->position.x;
+		accum.y += tp->position.y;
+		accum.z += tp->position.z;
+
+		// passe au parent du parent
+		curParent = tp->parent;
+		++depth;
+	}
+
+	// si on a atteint la profondeur max, tu peux ajouter un assert/log si tu veux
+	// assert(depth < MAX_PARENT_DEPTH && "Parent chain too deep or cyclic!");
+
+	return accum;
+}
 
 void CollisionSystem::Update()
 {
@@ -19,16 +59,20 @@ void CollisionSystem::Update()
 	std::vector<Entity> ents;
 	m_ECS->ForEach(mask, [&](Entity e) { ents.push_back(e); });
 
+	//std::unordered_map<uint32_t, XMMATRIX> emptyMap;
+	//const std::unordered_map<uint32_t, XMMATRIX>& worldMatrices =
+	//	(m_TransformSystem) ? m_TransformSystem->GetWorldMatrix() : emptyMap;
+
 	for (size_t i = 0; i < ents.size(); ++i)
 	{
 		for (size_t j = i + 1; j < ents.size(); ++j)
 		{
-			TryPair(ents[i], ents[j]);
+			TryPair(ents[i], ents[j]/*, worldMatrices*/);
 		}
 	}
 }
 
-void CollisionSystem::TryPair(Entity a, Entity b)
+void CollisionSystem::TryPair(Entity a, Entity b/*, const std::unordered_map<uint32_t, XMMATRIX>& worldMatrices*/)
 {
 	if (m_ECS->GetComponent<Tag_World>(a) != nullptr && m_ECS->GetComponent<Tag_World>(b) != nullptr) // ne calcul pas les collisions entre les objets immobiles du monde
 		return;
@@ -37,11 +81,166 @@ void CollisionSystem::TryPair(Entity a, Entity b)
 	auto* tb = m_ECS->GetComponent<TransformComponent>(b);
 	auto* ca = m_ECS->GetComponent<CollisionComponent>(a);
 	auto* cb = m_ECS->GetComponent<CollisionComponent>(b);
+	if (!ta || !tb || !ca || !cb) return;
 
-	XMFLOAT3 pa{ ta->position.x, ta->position.y, ta->position.z };
-	XMFLOAT3 pb{ tb->position.x, tb->position.y, tb->position.z };
+	//XMMATRIX wa = XMMatrixIdentity(), wb = XMMatrixIdentity();
+	//auto ita = worldMatrices.find(a.id);
+	//if (ita != worldMatrices.end()) wa = ita->second;
+	//else {
+	//	// fallback: compose local (scale * rot * trans) - identique à TransformSystem
+	//	XMVECTOR pos = XMLoadFloat3(&ta->position);
+	//	XMVECTOR rot = XMLoadFloat4(&ta->rotation);
+	//	XMVECTOR scl = XMLoadFloat3(&ta->scale);
+	//	wa = XMMatrixScalingFromVector(scl) * XMMatrixRotationQuaternion(rot) * XMMatrixTranslationFromVector(pos);
+	//	if (ta->parent.id != UINT32_MAX) {
+	//		// si parent pas dans worldMatrices, on laisse identity (vu comme approximation)
+	//	}
+	//}
+	//auto itb = worldMatrices.find(b.id);
+	//if (itb != worldMatrices.end()) wb = itb->second;
+	//else {
+	//	XMVECTOR pos = XMLoadFloat3(&tb->position);
+	//	XMVECTOR rot = XMLoadFloat4(&tb->rotation);
+	//	XMVECTOR scl = XMLoadFloat3(&tb->scale);
+	//	wb = XMMatrixScalingFromVector(scl) * XMMatrixRotationQuaternion(rot) * XMMatrixTranslationFromVector(pos);
+	//}
+
+	//// extraire position monde (translation)
+	//XMFLOAT3 pa, pb;
+	//{
+	//	XMVECTOR tA = wa.r[3];
+	//	XMVECTOR tB = wb.r[3];
+	//	XMStoreFloat3(&pa, tA);
+	//	XMStoreFloat3(&pb, tB);
+	//}
+
+	//// extraire scale monde : longueur des axes de la matrice (rows)
+	//XMFLOAT3 scaleA, scaleB;
+	//{
+	//	float sx, sy, sz;
+	//	sx = XMVectorGetX(XMVector3Length(wa.r[0]));
+	//	sy = XMVectorGetX(XMVector3Length(wa.r[1]));
+	//	sz = XMVectorGetX(XMVector3Length(wa.r[2]));
+	//	scaleA = { sx, sy, sz };
+
+	//	sx = XMVectorGetX(XMVector3Length(wb.r[0]));
+	//	sy = XMVectorGetX(XMVector3Length(wb.r[1]));
+	//	sz = XMVectorGetX(XMVector3Length(wb.r[2]));
+	//	scaleB = { sx, sy, sz };
+	//}
+
+	//// extraire rotation monde en quaternion (normaliser axes puis construire matrice rotation)
+	//XMFLOAT4 rotA, rotB;
+	//{
+	//	// A
+	//	XMVECTOR ax = wa.r[0], ay = wa.r[1], az = wa.r[2];
+	//	float lx = XMVectorGetX(XMVector3Length(ax)); if (lx == 0.f) lx = 1.f;
+	//	float ly = XMVectorGetX(XMVector3Length(ay)); if (ly == 0.f) ly = 1.f;
+	//	float lz = XMVectorGetX(XMVector3Length(az)); if (lz == 0.f) lz = 1.f;
+	//	XMVECTOR nx = ax / lx;
+	//	XMVECTOR ny = ay / ly;
+	//	XMVECTOR nz = az / lz;
+	//	nx = XMVectorSetW(nx, 0.f); ny = XMVectorSetW(ny, 0.f); nz = XMVectorSetW(nz, 0.f);
+	//	XMMATRIX rotMatA(nx, ny, nz, XMVectorSet(0, 0, 0, 1));
+	//	XMVECTOR qA = XMQuaternionRotationMatrix(rotMatA);
+	//	XMStoreFloat4(&rotA, qA);
+
+	//	// B
+	//	ax = wb.r[0]; ay = wb.r[1]; az = wb.r[2];
+	//	lx = XMVectorGetX(XMVector3Length(ax)); if (lx == 0.f) lx = 1.f;
+	//	ly = XMVectorGetX(XMVector3Length(ay)); if (ly == 0.f) ly = 1.f;
+	//	lz = XMVectorGetX(XMVector3Length(az)); if (lz == 0.f) lz = 1.f;
+	//	nx = ax / lx; ny = ay / ly; nz = az / lz;
+	//	nx = XMVectorSetW(nx, 0.f); ny = XMVectorSetW(ny, 0.f); nz = XMVectorSetW(nz, 0.f);
+	//	XMMATRIX rotMatB(nx, ny, nz, XMVectorSet(0, 0, 0, 1));
+	//	XMVECTOR qB = XMQuaternionRotationMatrix(rotMatB);
+	//	XMStoreFloat4(&rotB, qB);
+	//}
+
+	//XMFLOAT3 pa{ ta->position.x, ta->position.y, ta->position.z };
+	//XMFLOAT3 pb{ tb->position.x, tb->position.y, tb->position.z };
+	XMFLOAT3 pa = GetWorldPosition(a, m_ECS);
+	XMFLOAT3 pb = GetWorldPosition(b, m_ECS);
 
 	bool hit = false;
+
+	/*if (ca->shapeType == ColliderType::Sphere && cb->shapeType == ColliderType::Sphere) {
+		SphereCollider sa = std::get<SphereCollider>(ca->shape);
+		SphereCollider sb = std::get<SphereCollider>(cb->shape);
+		float sca = std::max({ fabs(scaleA.x), fabs(scaleA.y), fabs(scaleA.z) });
+		float scb = std::max({ fabs(scaleB.x), fabs(scaleB.y), fabs(scaleB.z) });
+		sa.radius *= sca;
+		sb.radius *= scb;
+		hit = SphereVsSphere(pa, sa, pb, sb);
+	}
+	else if (ca->shapeType == ColliderType::AABB && cb->shapeType == ColliderType::AABB) {
+		AABBCollider aa = std::get<AABBCollider>(ca->shape);
+		AABBCollider ab = std::get<AABBCollider>(cb->shape);
+		aa.halfSize.x *= fabs(scaleA.x); aa.halfSize.y *= fabs(scaleA.y); aa.halfSize.z *= fabs(scaleA.z);
+		ab.halfSize.x *= fabs(scaleB.x); ab.halfSize.y *= fabs(scaleB.y); ab.halfSize.z *= fabs(scaleB.z);
+		hit = AabbVsAabb(pa, aa, pb, ab);
+	}
+	else if (ca->shapeType == ColliderType::Sphere && cb->shapeType == ColliderType::AABB) {
+		SphereCollider sa = std::get<SphereCollider>(ca->shape);
+		AABBCollider ab = std::get<AABBCollider>(cb->shape);
+		float sca = std::max({ fabs(scaleA.x), fabs(scaleA.y), fabs(scaleA.z) });
+		sa.radius *= sca;
+		ab.halfSize.x *= fabs(scaleB.x); ab.halfSize.y *= fabs(scaleB.y); ab.halfSize.z *= fabs(scaleB.z);
+		hit = SphereVsAabb(pa, sa, pb, ab);
+	}
+	else if (ca->shapeType == ColliderType::AABB && cb->shapeType == ColliderType::Sphere) {
+		AABBCollider aa = std::get<AABBCollider>(ca->shape);
+		SphereCollider sb = std::get<SphereCollider>(cb->shape);
+		aa.halfSize.x *= fabs(scaleA.x); aa.halfSize.y *= fabs(scaleA.y); aa.halfSize.z *= fabs(scaleA.z);
+		float scb = std::max({ fabs(scaleB.x), fabs(scaleB.y), fabs(scaleB.z) });
+		sb.radius *= scb;
+		hit = SphereVsAabb(pb, sb, pa, aa);
+	}
+	else if (ca->shapeType == ColliderType::OBB && cb->shapeType == ColliderType::OBB) {
+		OBBCollider oa = std::get<OBBCollider>(ca->shape);
+		OBBCollider ob = std::get<OBBCollider>(cb->shape);
+		oa.orientation = rotA;
+		ob.orientation = rotB;
+		oa.halfSize.x *= fabs(scaleA.x); oa.halfSize.y *= fabs(scaleA.y); oa.halfSize.z *= fabs(scaleA.z);
+		ob.halfSize.x *= fabs(scaleB.x); ob.halfSize.y *= fabs(scaleB.y); ob.halfSize.z *= fabs(scaleB.z);
+		hit = ObbVsObb(pa, oa, pb, ob);
+	}
+	else if (ca->shapeType == ColliderType::Sphere && cb->shapeType == ColliderType::OBB) {
+		SphereCollider sa = std::get<SphereCollider>(ca->shape);
+		OBBCollider ob = std::get<OBBCollider>(cb->shape);
+		float sca = std::max({ fabs(scaleA.x), fabs(scaleA.y), fabs(scaleA.z) });
+		sa.radius *= sca;
+		ob.orientation = rotB;
+		ob.halfSize.x *= fabs(scaleB.x); ob.halfSize.y *= fabs(scaleB.y); ob.halfSize.z *= fabs(scaleB.z);
+		hit = SphereVsObb(pa, sa, pb, ob);
+	}
+	else if (ca->shapeType == ColliderType::OBB && cb->shapeType == ColliderType::Sphere) {
+		OBBCollider oa = std::get<OBBCollider>(ca->shape);
+		SphereCollider sb = std::get<SphereCollider>(cb->shape);
+		oa.orientation = rotA;
+		oa.halfSize.x *= fabs(scaleA.x); oa.halfSize.y *= fabs(scaleA.y); oa.halfSize.z *= fabs(scaleA.z);
+		float scb = std::max({ fabs(scaleB.x), fabs(scaleB.y), fabs(scaleB.z) });
+		sb.radius *= scb;
+		hit = SphereVsObb(pb, sb, pa, oa);
+	}
+	else if (ca->shapeType == ColliderType::AABB && cb->shapeType == ColliderType::OBB) {
+		AABBCollider aa = std::get<AABBCollider>(ca->shape);
+		OBBCollider ob = std::get<OBBCollider>(cb->shape);
+		aa.halfSize.x *= fabs(scaleA.x); aa.halfSize.y *= fabs(scaleA.y); aa.halfSize.z *= fabs(scaleA.z);
+		ob.orientation = rotB;
+		ob.halfSize.x *= fabs(scaleB.x); ob.halfSize.y *= fabs(scaleB.y); ob.halfSize.z *= fabs(scaleB.z);
+		hit = ObbVsAabb(pa, aa, pb, ob);
+	}
+	else if (ca->shapeType == ColliderType::OBB && cb->shapeType == ColliderType::AABB) {
+		OBBCollider oa = std::get<OBBCollider>(ca->shape);
+		AABBCollider ab = std::get<AABBCollider>(cb->shape);
+		oa.orientation = rotA;
+		oa.halfSize.x *= fabs(scaleA.x); oa.halfSize.y *= fabs(scaleA.y); oa.halfSize.z *= fabs(scaleA.z);
+		ab.halfSize.x *= fabs(scaleB.x); ab.halfSize.y *= fabs(scaleB.y); ab.halfSize.z *= fabs(scaleB.z);
+		hit = ObbVsAabb(pb, ab, pa, oa);
+	}*/
+
+
 	if (ca->shapeType == ColliderType::Sphere && cb->shapeType == ColliderType::Sphere) {
 		hit = SphereVsSphere(pa, std::get<SphereCollider>(ca->shape),
 			pb, std::get<SphereCollider>(cb->shape));

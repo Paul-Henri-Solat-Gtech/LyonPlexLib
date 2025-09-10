@@ -1,9 +1,8 @@
 #include "pch.h"
 #include "OliveTree.h"
 
-OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position)
+OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, int treeNum)
 {
-	static int treeNum = 1;
 	m_treeNum = treeNum;
 
 	InitOliveTreeGameObj(ecsManager, scene);
@@ -52,6 +51,34 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position)
 	SetPosition(position);
 	SetScale({ 1,1,1 });
 
+	const uint32_t oliveId = mp_trunkCol->GetEntity().id;
+	Scene* scenePtr = mp_scene;
+	OliveTree* self = this;
+
+	EventBus::instance().subscribe<CollisionEvent>([oliveId, scenePtr, self](CollisionEvent::Payload const& p)
+		{
+			if (p.a.id != oliveId && p.b.id != oliveId) return;
+
+			Entity otherE = (p.a.id == oliveId) ? p.b : p.a;
+			if (otherE.id == 0 || otherE.id == static_cast<uint32_t>(-1)) {
+				OutputDebugStringA("Enemy collision: otherE id invalid -> ignore\n");
+				return;
+			}
+			//if (self->mp_leavesCol)
+				//if (otherE.id == self->mp_leavesCol->GetEntity().id) return;
+
+			// get pointer (peut retourner nullptr si l'objet a été détruit)
+			GameObject* otherGO = scenePtr->GetGameObjectByID(otherE);
+			if (!otherGO) return; // évite deref null
+
+			auto tag = otherGO->GetTag();
+
+			if (tag == TAG_ProjectilePlayer)
+			{
+				self->m_isCut = true;
+			}
+		});
+
 }
 
 void OliveTree::OnUpdate(float deltatime)
@@ -61,10 +88,16 @@ void OliveTree::OnUpdate(float deltatime)
 		switch (m_treeNum)
 		{
 		case 1:
-			mp_leaves->SetPosition({ 0,0,0 });
+			mp_leaves->SetPosition({ -25 / GetScale().x, -20 / GetScale().y, -15 / GetScale().z });
+			mp_leaves->SetTransformRotation({ 90,60,0 });
+			mp_leavesCol->SetPosition({ 0, 0, 2 });
+			m_isCut = false;
 			break;
 		case 2:
-			mp_leaves->SetPosition({ 0,0,0 });
+			mp_leaves->SetPosition({ 0 / GetScale().x, -15 / GetScale().y, 50 / GetScale().z });
+			mp_leaves->SetTransformRotation({ 180,0,0 });
+			mp_leavesCol->SetPosition({ 0, 1,0 });
+			m_isCut = false;
 			break;
 		default:
 			break;

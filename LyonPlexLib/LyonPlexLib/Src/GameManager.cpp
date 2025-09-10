@@ -37,6 +37,7 @@ bool GameManager::Init()
 	m_ECS.Init(m_renderer); // A MODIFIER AUSSI => ne doit pas avoir besoin de renderer
 
 	m_collisionSystem.Init(&m_ECS);
+	m_collisionSystem.SetTransformSystem(&m_ECS.m_systemMgr.GetTransformSystem());
 
 	//m_lightSystem.Init(m_ECS, m_renderer.GetGraphicsDevice(), m_renderer.GetCommandManager());
 

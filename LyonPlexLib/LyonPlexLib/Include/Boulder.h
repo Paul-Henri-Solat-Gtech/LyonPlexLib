@@ -21,6 +21,8 @@ private:
 	GameManager* mp_gameManager = nullptr;
 	ECSManager* mp_ecs = nullptr;
 
+	GameObject* mp_collider = nullptr;
+
 	XMFLOAT2 m_posXZmin = { 0,0 };
 	XMFLOAT2 m_posXZmax = { 0,0 };
 

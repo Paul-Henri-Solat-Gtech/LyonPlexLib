@@ -4,7 +4,7 @@
 class OliveTree : public GameObject
 {
 public:
-	OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position);
+	OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, int treeNum);
 	//~OliveTree();
 
 	void OnUpdate(float deltatime) override;
