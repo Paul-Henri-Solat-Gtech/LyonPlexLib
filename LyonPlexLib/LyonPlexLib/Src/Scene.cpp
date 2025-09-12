@@ -158,7 +158,7 @@ GameObject& Scene::CreateGameHitbox(const std::string& gameObjectName)
 
 	// 2) On l'initialise
 	obj.InitHitbox(gameObjectName, mp_ecsManager, this);
-	obj.SetTag(TAG_Environment);
+	//obj.SetTag(TAG_Environment);
 	//return obj;
 	return *m_sceneGameObjects.back();
 }

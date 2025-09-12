@@ -24,7 +24,7 @@ bool SceneResources::Init(GameManager* gameManager)
 bool SceneResources::InitTextureResources(TextureManager& txtMngr)
 {
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/NoTexture.png");//1
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test3.jpg");//2
+    txtMngr.LoadTexture("../SampleProject/Ressources/Environnement3D/Batiments/Amalgate.png");//2
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test.png");//3
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/grid.png");
@@ -570,6 +570,9 @@ bool SceneResources::InitImportedMeshResources(MeshManager& meshMngr)
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/PONT.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/POTEAU_INTACT.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/PILIER_BRISE.obj");
+
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/Wall.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/Wall_Broken.obj");
 
     return true;
 }

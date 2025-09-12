@@ -592,6 +592,9 @@ namespace MESHES
 		BRIDGE,
 		PILLAR,
 		PILLAR_BROKEN,
+
+		WALL,
+		WALL_BROKEN,
 	
 		TotalMeshCount
 	};

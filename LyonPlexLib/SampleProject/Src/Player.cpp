@@ -392,15 +392,15 @@ void Player::OnUpdate(float deltatime)
 	KnockeBackManager(deltatime);
 	Movement();
 
-	Utils::log("\n\n -- BEFORE MOVE & COL --- \n");
-	Utils::log(" Velocity = X: " + std::to_string(m_velocity.x) + "  ; Y: " + std::to_string(m_velocity.y) + "  ; Z: " + std::to_string(m_velocity.z) + "\n");
-	Utils::log(" Position = X: " + std::to_string(GetPosition().x) + "  ; Y: " + std::to_string(GetPosition().y) + "  ; Z: " + std::to_string(GetPosition().z) + "\n");
+	//Utils::log("\n\n -- BEFORE MOVE & COL --- \n");
+	//Utils::log(" Velocity = X: " + std::to_string(m_velocity.x) + "  ; Y: " + std::to_string(m_velocity.y) + "  ; Z: " + std::to_string(m_velocity.z) + "\n");
+	Utils::log(" \n\n -- Player Pos --- \n Position = X: " + std::to_string(GetPosition().x) + "  ; Y: " + std::to_string(GetPosition().y) + "  ; Z: " + std::to_string(GetPosition().z) + "\n");
 
 	ApplyMovementAndCollisions(deltatime);
 
-	Utils::log("\n\n -- BEFORE MOVE & COL --- \n");
-	Utils::log(" Velocity = X: " + std::to_string(m_velocity.x) + "  ; Y: " + std::to_string(m_velocity.y) + "  ; Z: " + std::to_string(m_velocity.z) + "\n");
-	Utils::log(" Position = X: " + std::to_string(GetPosition().x) + "  ; Y: " + std::to_string(GetPosition().y) + "  ; Z: " + std::to_string(GetPosition().z) + "\n");
+	//Utils::log("\n\n -- BEFORE MOVE & COL --- \n");
+	//Utils::log(" Velocity = X: " + std::to_string(m_velocity.x) + "  ; Y: " + std::to_string(m_velocity.y) + "  ; Z: " + std::to_string(m_velocity.z) + "\n");
+	//Utils::log(" Position = X: " + std::to_string(GetPosition().x) + "  ; Y: " + std::to_string(GetPosition().y) + "  ; Z: " + std::to_string(GetPosition().z) + "\n");
 
 	InvincibilityManager(deltatime);
 }

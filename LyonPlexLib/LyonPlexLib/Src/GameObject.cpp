@@ -115,7 +115,7 @@ void GameObject::InitWater(ECSManager* ecsManager, Scene* scene, int waterNum)
 void GameObject::InitHitbox(const std::string& name, ECSManager* ecsManager, Scene* scene)
 {
 	SetName(name);
-	SetTag(TAG_None);
+	SetTag(TAG_Environment);
 	mp_ecsManager = ecsManager;
 	mp_scene = scene;
 	m_entity = mp_ecsManager->CreateEntity();
@@ -128,8 +128,8 @@ void GameObject::InitHitbox(const std::string& name, ECSManager* ecsManager, Sce
 
 	// MESH
 	//AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::GRID));
-	AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::TEMPLE));
-	GetComponent<MeshComponent>()->alpha = 0.5;
+	//AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::TEMPLE));
+	//GetComponent<MeshComponent>()->alpha = 0.5;
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());
 	//GetComponent<TransformComponent>()->position = { 0, 0, 0 };
