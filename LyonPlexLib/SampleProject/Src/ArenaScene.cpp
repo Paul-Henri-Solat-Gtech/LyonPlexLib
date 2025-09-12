@@ -57,6 +57,9 @@ void ArenaScene::Start()
 	m_fisrtEnnemyHasSpawned = false;
 	m_youWin = false;
 	m_chronoChangeScene = 5.f;
+	m_bonusIsOpen = false;
+	m_bonusCanBeSelected = false;
+	m_bonusSpawnedThisWave = false;
 
 	//WAVE HUD
 	m_waveNowHud = CreateGameObject("waveNowHud", TYPE_2D, true);
@@ -241,9 +244,12 @@ void ArenaScene::Update(float deltatime)
 			if (go) go->OnUpdate(deltatime);
 		}
 
-		if (!m_youWin) 
+		if (!m_youWin)
 		{
-			WaveSystem(deltatime);
+			if (!m_bonusCanBeSelected)
+			{
+				WaveSystem(deltatime);
+			}
 		}
 		else
 		{
@@ -253,6 +259,40 @@ void ArenaScene::Update(float deltatime)
 			{
 				ChangeScene("MainMenuScene");
 				return;
+			}
+		}
+
+		// Toute les 2 vagues (le +1 pour la fin de wave)
+		if (m_waveNow % 2 == 0 && !m_bonusIsOpen && !m_bonusCanBeSelected && m_waveFinished && !m_bonusSpawnedThisWave)
+		{
+			BonusEndWave();
+		}
+		if (m_bonusCanBeSelected)
+		{
+			if (mp_btnAddAtk->GetMouseOnBtn())
+			{
+				mp_btnAddAtk->SetScale({ 300, 350, 0 });
+			}
+			if (!mp_btnAddAtk->GetMouseOnBtn())
+			{
+				mp_btnAddAtk->SetScale({ 250, 300, 0 });
+			}
+			if (mp_btnAddAtk->GetBtnIsClicked())
+			{
+				CloseBonus();
+			}
+
+			if (mp_btnAddSpeed->GetMouseOnBtn())
+			{
+				mp_btnAddSpeed->SetScale({ 300, 350, 0 });
+			}
+			if (!mp_btnAddSpeed->GetMouseOnBtn())
+			{
+				mp_btnAddSpeed->SetScale({ 250, 300, 0 });
+			}
+			if (mp_btnAddSpeed->GetBtnIsClicked())
+			{
+				CloseBonus();
 			}
 		}
 	}
@@ -332,6 +372,7 @@ void ArenaScene::WaveSystem(float deltatime)
 				m_waveFinished = false;
 				m_fisrtEnnemyHasSpawned = false;
 				m_waveNow++;
+				m_bonusSpawnedThisWave = false;
 				OutputDebugStringA("\n [ ! Start new Wave ! ] \n");
 			}
 			else
@@ -449,4 +490,35 @@ void ArenaScene::UpdateWaveHUD()
 
 void ArenaScene::BonusEndWave()
 {
+	RECT renderZone;
+	GetClientRect(mp_sceneManager->GetGameManager()->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
+	UINT renderWidth = renderZone.right - renderZone.left;
+	UINT renderHeight = renderZone.bottom - renderZone.top;
+
+	// Buttons
+	mp_btnAddAtk = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::BTN_SHUTDOWN, "btnAddAtk");
+	mp_btnAddAtk->SetScale({ 250, 300, 0 });
+	mp_btnAddAtk->SetPosition({ 250, (float)renderHeight/2, 1 });
+
+	mp_btnAddSpeed = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::BTN_SHUTDOWN, "btnAddSpeed");
+	mp_btnAddSpeed->SetScale({ 250, 300, 0 });
+	mp_btnAddSpeed->SetPosition({ (float)renderWidth - 250, (float)renderHeight / 2, 1 });
+
+	m_bonusIsOpen = true;
+	m_bonusCanBeSelected = true;
+
+	m_fpsCam.SetAlwaysActive(false);
+
+	OutputDebugStringA("\n bonus yea \n");
+
+	m_bonusSpawnedThisWave = true;
+}
+
+void ArenaScene::CloseBonus()
+{
+	m_bonusCanBeSelected = false;
+	DestroyGameObject(GetGameObjectByName("btnAddAtk"));
+	DestroyGameObject(GetGameObjectByName("btnAddSpeed"));
+	m_fpsCam.SetAlwaysActive(true);
+	m_bonusIsOpen = false;
 }
