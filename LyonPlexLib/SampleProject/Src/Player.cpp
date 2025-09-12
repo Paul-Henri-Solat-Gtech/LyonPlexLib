@@ -310,7 +310,7 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 	m_selectedWeapon.SetMesh(MESHES::LOCAL_SQUARE);
 	m_selectedWeapon.SetTexture(TEXTURES::ATTACK1_W1_1);
 	m_selectedWeapon.SetPosition({ (float)renderWidth - 100, (float)renderHeight - 80, 0 });
-	m_selectedWeapon.SetScale({ (float)renderWidth * 0.06f, (float)renderHeight * 0.06f, 0 });
+	m_selectedWeapon.SetScale({ (float)renderWidth * 0.08f, (float)renderHeight * 0.08f, 0 });
 	m_selectedWeapon.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
 	const uint32_t myId = GetEntity().id;
@@ -417,6 +417,17 @@ void Player::OnUpdate(float deltatime)
 
 	InvincibilityManager(deltatime);
 	KnockeBackManager(deltatime);
+
+	// weapon holder
+	switch (m_currIdleMesh) 
+	{
+	case TEXTURES::IDLEARM_W1_1:
+		m_selectedWeapon.SetTexture(TEXTURES::ATTACK1_W1_1);
+		break;
+	case TEXTURES::IDLEARM_W2_1:
+		m_selectedWeapon.SetTexture(TEXTURES::ATTACK1_W2_1);
+		break;
+	}
 }
 
 

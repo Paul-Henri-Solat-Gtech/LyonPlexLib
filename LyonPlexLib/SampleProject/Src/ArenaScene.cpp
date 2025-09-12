@@ -92,6 +92,14 @@ void ArenaScene::Start()
 	GetGameObjectByName("Stick").AddComponent<Tag_Object>(new Tag_Object());
 	GetGameObjectByName("Stick").SetTag(TAG_Stick);
 
+	CreateGameObject("Rock");
+	GetGameObjectByName("Rock").SetPosition({ 0, -10, 50 });
+	GetGameObjectByName("Rock").SetScale({ 8, 8, 8 });
+	GetGameObjectByName("Rock").SetMesh(MESHES::ROCKLM3);
+	GetGameObjectByName("Rock").SetTexture(TEXTURES::GroundMountain);
+	GetGameObjectByName("Rock").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("Rock").SetTag(TAG_Rock);
+
 	//LIGHT
 	CreateEntity("WorldLight");
 	AddComponent<Type_3D>("WorldLight", new Type_3D());
