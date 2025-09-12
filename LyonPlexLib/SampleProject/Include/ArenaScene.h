@@ -21,6 +21,8 @@ public:
 
 	void UpdateWaveHUD();
 
+	void BonusEndWave();
+
 private:
 	//Camera
 	GameObject m_cam;

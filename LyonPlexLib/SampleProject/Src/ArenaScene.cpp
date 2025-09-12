@@ -89,6 +89,16 @@ void ArenaScene::Start()
 	GetGameObjectByName("Stick").AddComponent<Tag_Object>(new Tag_Object());
 	GetGameObjectByName("Stick").SetTag(TAG_Stick);
 
+	//LIGHT
+	CreateEntity("WorldLight");
+	AddComponent<Type_3D>("WorldLight", new Type_3D());
+	AddComponent<MeshComponent>("WorldLight", new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::NOTEXTURE));
+	GetComponent<TransformComponent>("WorldLight")->position = { 290,3,58 };
+	GetComponent<TransformComponent>("WorldLight")->scale = { 1, 1, 1 };
+	AddComponent<LightComponent>("WorldLight", new LightComponent(0));
+	GetComponent<LightComponent>("WorldLight")->color = { 1,1,1 };
+	GetComponent<LightComponent>("WorldLight")->range = 50;
+
 	//SCENE
 	{
 		CreateGameObject("skybox", 2, 0);
@@ -435,4 +445,8 @@ void ArenaScene::UpdateWaveHUD()
 	default:
 		break;
 	}
+}
+
+void ArenaScene::BonusEndWave()
+{
 }
