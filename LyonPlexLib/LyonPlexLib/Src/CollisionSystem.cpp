@@ -37,9 +37,14 @@ static XMFLOAT3 GetWorldPosition(Entity e, ECSManager* ecs)
 		TransformComponent* tp = ecs->GetComponent<TransformComponent>(curParent);
 		if (!tp) break;
 		// On additionne simplement la translation du parent
-		accum.x += tp->position.x * tp->scale.x;
-		accum.y += tp->position.y * tp->scale.y; // ATTENTION
-		accum.z += tp->position.z * tp->scale.z;
+		accum.x *= tp->scale.x;
+		accum.y *= tp->scale.y;
+		accum.z *= tp->scale.z;
+
+
+		accum.x += tp->position.x /** tp->scale.x*/;
+		accum.y += tp->position.y /** tp->scale.y*/; // ATTENTION
+		accum.z += tp->position.z /** tp->scale.z*/;
 
 		// passe au parent du parent
 		curParent = tp->parent;

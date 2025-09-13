@@ -48,13 +48,16 @@ void GameObject::InitOliveTreeGameObj(ECSManager* ecsManager, Scene* scene)
 	std::string name = "OliveTree" + std::to_string(treeCount++);
 	Utils::log("\nOlive tree created : " + name + "\n");
 	SetName(name);
-	SetTag(TAG_None);
+	SetTag(TAG_Environment);
 	mp_ecsManager = ecsManager;
 	mp_scene = scene;
 	m_entity = mp_ecsManager->CreateEntity();
 
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());
+
+	// Tag monde (collisions)
+	AddComponent<Tag_World>(new Tag_World);
 }
 void GameObject::InitPlayerGameObj(ECSManager* ecsManager, Scene* scene)
 {
@@ -93,8 +96,9 @@ void GameObject::Init(const std::string& name, ECSManager* ecsManager, Scene* sc
 
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());
-	//GetComponent<TransformComponent>()->position = { 0, 0, 0 };
-	//GetComponent<TransformComponent>()->dirty = true;
+
+	// Tag monde (collisions)
+	AddComponent<Tag_World>(new Tag_World);
 }
 void GameObject::InitWater(ECSManager* ecsManager, Scene* scene, int waterNum)
 {
@@ -130,10 +134,12 @@ void GameObject::InitHitbox(const std::string& name, ECSManager* ecsManager, Sce
 	//AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::GRID));
 	//AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::TEMPLE));
 	//GetComponent<MeshComponent>()->alpha = 0.5;
+	
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());
-	//GetComponent<TransformComponent>()->position = { 0, 0, 0 };
-	//GetComponent<TransformComponent>()->dirty = true;
+
+	// Tag monde (collisions)
+	AddComponent<Tag_World>(new Tag_World);
 }
 void GameObject::InitWater(const std::string& gameObjectName, ECSManager* ecsManager, Scene* scene, int waterNum)
 {

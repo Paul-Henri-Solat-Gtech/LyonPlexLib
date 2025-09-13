@@ -569,11 +569,11 @@ void Player::ApplyMovementAndCollisions(float dt)
 			});
 	}
 
-	// déplacement demandé
+	// deplacement 
 	XMVECTOR totalDisp = XMLoadFloat3(&m_velocity) * dt;
 	float remaining = 1.0f;
 
-	// --- PASS 1 : push-out des pénétrations
+	// --- PASS 1 : push-out des penerations
 	for (auto& e : candidates) {
 		GameObject* otherGO = mp_scene->GetGameObjectByID(e);
 		if (!otherGO) continue;

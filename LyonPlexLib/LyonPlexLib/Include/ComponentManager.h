@@ -11,9 +11,9 @@ public:
     void AddComponent(Entity entity, T* component)
     {
         auto& storage = m_components[entity.id];
-        assert((storage.mask & component->mask) == 0 && "Component already exists");
-        //if ((storage.mask & component->mask) == 1)
-        //    return;
+        //assert((storage.mask & component->mask) == 0 && "Component already exists");
+        if ((storage.mask & component->mask) == 1)
+            return;
         storage.mask |= component->mask;
         storage.data.push_back(component);
     }

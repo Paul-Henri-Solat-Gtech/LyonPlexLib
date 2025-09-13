@@ -10,7 +10,6 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 	mp_trunk = &scene->CreateGameObject("olive_trunk", MESHES::OLIVIER_1_TRONC);
 	scene->SetParent(*mp_trunk, *this);
 
-	mp_trunk->SetTag(TAG_Environment);
 	mp_trunk->SetPosition({ 0,0,0 });
 	mp_trunk->SetRotation({ 0,0,0,1 });
 	mp_trunk->SetScale({ 1,1,1 });
@@ -52,6 +51,7 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 	SetScale({ 1,1,1 });
 
 	const uint32_t oliveId = mp_trunkCol->GetEntity().id;
+	//const uint32_t oliveId = mp_leavesCol->GetEntity().id;
 	Scene* scenePtr = mp_scene;
 	OliveTree* self = this;
 
@@ -72,6 +72,9 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 			if (!otherGO) return; // évite deref null
 
 			auto tag = otherGO->GetTag();
+
+			if (tag == TAG_Environment)
+				return;
 
 			if (tag == TAG_ProjectilePlayer)
 			{
