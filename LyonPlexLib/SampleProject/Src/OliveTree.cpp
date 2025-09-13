@@ -51,7 +51,6 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 	SetScale({ 1,1,1 });
 
 	const uint32_t oliveId = mp_trunkCol->GetEntity().id;
-	//const uint32_t oliveId = mp_leavesCol->GetEntity().id;
 	Scene* scenePtr = mp_scene;
 	OliveTree* self = this;
 
@@ -64,8 +63,6 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 				OutputDebugStringA("Enemy collision: otherE id invalid -> ignore\n");
 				return;
 			}
-			//if (self->mp_leavesCol)
-				//if (otherE.id == self->mp_leavesCol->GetEntity().id) return;
 
 			// get pointer (peut retourner nullptr si l'objet a été détruit)
 			GameObject* otherGO = scenePtr->GetGameObjectByID(otherE);
