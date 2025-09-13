@@ -47,7 +47,7 @@ void DevScene::Start()
 	GetComponent<LightComponent>("Light")->direction = { 0, 0, 0 };
 	GetComponent<LightComponent>("Light")->range = 1000;
 
-	
+
 	CreateGameObject("Map");
 	auto a = GetGameObjectByName("Map");
 	a.SetMesh(MESHES::MAP);
@@ -58,6 +58,37 @@ void DevScene::Start()
 	GetGameObjectByName("Temple").SetPosition({ -194,-6,21 });
 	GetGameObjectByName("Temple").SetRotation({ 0,0,0,1 });
 	GetGameObjectByName("Temple").SetScale({ 2,2,2 });
+
+	CreateWaterGameObject("Pond");
+	GetGameObjectByName("Pond").SetPosition({ 0, -20, 51 });
+	GetGameObjectByName("Pond").SetScale({ 156 / 2, 1, 211 / 2 });
+
+	CreateWaterGameObject("River_Down");
+	GetGameObjectByName("River_Down").SetPosition({ -36, -20, -135 });
+	GetGameObjectByName("River_Down").SetScale({ 66 / 2, 0, 191 / 2 });
+
+	CreateWaterGameObject("Upstream1");
+	GetGameObjectByName("Upstream1").SetPosition({ 210.061187744,5.760955811,86.885452271 });
+	GetGameObjectByName("Upstream1").SetScale({ 146 / 2, 1, 81 / 2 });
+
+	CreateWaterGameObject("Upstream2");
+	GetGameObjectByName("Upstream2").SetPosition({ 298.327270508,5.760955811,110.388473511 });
+	GetGameObjectByName("Upstream2").SetScale({ (31 / 2) + 0.3, 1, 111 / 2 });
+
+	CreateWaterGameObject("Upstream3");
+	GetGameObjectByName("Upstream3").SetPosition({ 108.698951721,4.792763233,89.521156311 });
+	GetGameObjectByName("Upstream3").SetRotation({ 0,0,0.017452406,0.99984771 });
+	GetGameObjectByName("Upstream3").SetScale({ (57 / 2) + 0.4, 1, 106 / 2 });
+
+	CreateWaterGameObject("Waterfall1");
+	GetGameObjectByName("Waterfall1").SetPosition({ 70.089347839,-0.307572514,87.035491943 });
+	GetGameObjectByName("Waterfall1").SetRotation({ 0,0,0.190808997,0.981627226 });
+	GetGameObjectByName("Waterfall1").SetScale({ 22 / 2, 1, 101 / 2 });
+
+	CreateWaterGameObject("Waterfall2");
+	GetGameObjectByName("Waterfall2").SetPosition({ 55.362827301,-12.083078384,88.724006653 });
+	GetGameObjectByName("Waterfall2").SetRotation({ 0,0,0.49999994,0.866025507 });
+	GetGameObjectByName("Waterfall2").SetScale({ 18 / 2, 1, 101 / 2 });
 
 
 
@@ -227,7 +258,7 @@ void DevScene::Start()
 	GetGameObjectByName("HB_Temple 33").SetRotation({ 0,0,0,1 });
 	GetGameObjectByName("HB_Temple 33").SetScale({ 30,16,3 });
 	GetGameObjectByName("HB_Temple 33").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 14.950021744, 8, 1.5 })));
-	
+
 	CreateGameHitbox("HB_Temple 42");
 	GetGameObjectByName("HB_Temple 42").SetPosition({ -275,-13,-44 });
 	GetGameObjectByName("HB_Temple 42").SetRotation({ 0,-0.707106709,0,0.707106829 });
@@ -238,7 +269,7 @@ void DevScene::Start()
 	GetGameObjectByName("HB_Temple 43").SetRotation({ 0,-0.707106709,0,0.707106829 });
 	GetGameObjectByName("HB_Temple 43").SetScale({ 30,16,3 });
 	GetGameObjectByName("HB_Temple 43").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 14.950021744, 8, 1.5 })));
-	
+
 	CreateGameHitbox("HB_Temple 50");
 	GetGameObjectByName("HB_Temple 50").SetPosition({ -100,-12,72 });
 	GetGameObjectByName("HB_Temple 50").SetRotation({ 0,0,0,1 });
@@ -259,7 +290,7 @@ void DevScene::Start()
 	GetGameObjectByName("HB_Temple 53").SetRotation({ 0,0,0,1 });
 	GetGameObjectByName("HB_Temple 53").SetScale({ 3,16,86 });
 	GetGameObjectByName("HB_Temple 53").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 1.5, 8, 43 })));
-	
+
 	CreateGameHitbox("HB_Temple 54");
 	GetGameObjectByName("HB_Temple 54").SetPosition({ -123,4,42 });
 	GetGameObjectByName("HB_Temple 54").SetRotation({ 0,0,0,1 });
@@ -449,7 +480,7 @@ void DevScene::Start()
 	GetGameObjectByName("HB_T_suite 37").SetScale({ 19,1,66 });
 	GetGameObjectByName("HB_T_suite 37").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 9.5, 0.5, 33 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
 
-	
+
 	CreateGameHitbox("HB_T_suite2 4");
 	GetGameObjectByName("HB_T_suite2 4").SetPosition({ -274.899505615,-11.484270096,-2.228993893 });
 	GetGameObjectByName("HB_T_suite2 4").SetRotation({ 0,0,0,1 });

@@ -92,96 +92,6 @@ void GameScene::Start()
 
 
 
-	//XMFLOAT2 posXZmin = { POSITION_CHAMPS.x - 45 , POSITION_CHAMPS.z - 20 };
-	//XMFLOAT2 posXZmax = { POSITION_CHAMPS.x + 45 , POSITION_CHAMPS.z + 20 };
-	//auto boulder = CreateGameObject<Boulder>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_playerTest, this, posXZmin, posXZmax);
-	//boulder.SetPosition(POSITION_CHAMPS);
-	//boulder.GetPosition().y += 5;
-	////boulder.SetScale({ 3, 3, 3 });
-
-
-	//auto boulder2 = CreateGameObject<Boulder>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_playerTest, this, posXZmin, posXZmax);
-	//boulder2.SetPosition({ POSITION_CHAMPS.x - 5, POSITION_CHAMPS.y + 5, POSITION_CHAMPS.z - 10 });
-	//boulder2.SetScale({ 3, 3, 3 });
-
-
-	//auto boulder3 = CreateGameObject<Boulder>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_playerTest, this, posXZmin, posXZmax);
-	//boulder3.SetPosition({ POSITION_CHAMPS.x + 5, POSITION_CHAMPS.y + 5, POSITION_CHAMPS.z + 10 });
-	//boulder3.SetScale({ 3, 5, 2 });
-	//boulder3.SetTransformRotation(XMFLOAT3(15, 0, 0));
-
-
-
-
-
-
-
-	///*CreateGameObject("Pond", MESHES::LOCAL_CUBE, TEXTURES::EAU);
-	//GetGameObjectByName("Pond").SetTag(TAG_Floor);
-	//GetGameObjectByName("Pond").SetPosition({ 180, -2, 150 });
-	//GetGameObjectByName("Pond").SetScale({ 40, 5, 80 });
-	//c = GetGameObjectByName("Pond").GetScale();
-	//GetGameObjectByName("Pond").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	//CreateGameObject("DownStream", MESHES::LOCAL_CUBE, TEXTURES::EAU);
-	//GetGameObjectByName("DownStream").SetTag(TAG_Floor);
-	//GetGameObjectByName("DownStream").SetPosition({ 140, -2, 80 });
-	//GetGameObjectByName("DownStream").SetScale({ 20, 5, 160 });
-	//c = GetGameObjectByName("DownStream").GetScale();
-	//GetGameObjectByName("DownStream").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));*/
-
-	//CreateGameObject("Waterfall", MESHES::LOCAL_CUBE, TEXTURES::EAU);
-	//GetGameObjectByName("Waterfall").SetTag(TAG_Floor);
-	//GetGameObjectByName("Waterfall").SetPosition({ 199.5, 7.5, 150 });
-	//GetGameObjectByName("Waterfall").SetScale({ 1, 15, 40 });
-	//c = GetGameObjectByName("Waterfall").GetScale();
-	//GetGameObjectByName("Waterfall").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	////CreateGameObject("UpStream", MESHES::LOCAL_CUBE, TEXTURES::EAU);
-	////GetGameObjectByName("UpStream").SetTag(TAG_Floor);
-	////GetGameObjectByName("UpStream").SetPosition({ 220, 14, 150 });
-	////GetGameObjectByName("UpStream").SetScale({ 40, 2, 40 });
-	////c = GetGameObjectByName("UpStream").GetScale();
-	////GetGameObjectByName("UpStream").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	////CreateGameObject("UpStream1", MESHES::LOCAL_CUBE, TEXTURES::EAU);
-	////GetGameObjectByName("UpStream1").SetTag(TAG_Floor);
-	////GetGameObjectByName("UpStream1").SetPosition({ 280, 14, 150 });
-	////GetGameObjectByName("UpStream1").SetScale({ 80, 2, 20 });
-	////c = GetGameObjectByName("UpStream1").GetScale();
-	////GetGameObjectByName("UpStream1").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-	////CreateGameObject("UpStream2", MESHES::LOCAL_CUBE, TEXTURES::EAU);
-	////GetGameObjectByName("UpStream2").SetTag(TAG_Floor);
-	////GetGameObjectByName("UpStream2").SetPosition({ 330, 14, 180 });
-	////GetGameObjectByName("UpStream2").SetScale({ 20, 2, 80 });
-	////c = GetGameObjectByName("UpStream2").GetScale();
-	////GetGameObjectByName("UpStream2").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ c.x / 2, c.y / 2, c.z / 2 })));
-
-
-	//CreateWaterGameObject("Pond");
-	//GetGameObjectByName("Pond").SetPosition({ 180, 1, 150 });
-	//GetGameObjectByName("Pond").SetScale({ 20, 0.5, 40 });
-
-	//CreateWaterGameObject("DownStream");
-	//GetGameObjectByName("DownStream").SetPosition({ 140, 1, 80 });
-	//GetGameObjectByName("DownStream").SetScale({ 10, 0.5, 80 });
-
-	////CreateWaterGameObject("Waterfall");
-	////GetGameObjectByName("Waterfall").SetPosition({ 199.5, 7.5, 150 });
-	////GetGameObjectByName("Waterfall").SetScale({ 1, 15, 40 });
-
-	//CreateWaterGameObject("UpStream");
-	//GetGameObjectByName("UpStream").SetPosition({ 220, 14.5, 150 });
-	//GetGameObjectByName("UpStream").SetScale({ 20, 1, 20 });
-
-	//CreateWaterGameObject("UpStream1");
-	//GetGameObjectByName("UpStream1").SetPosition({ 280, 14.5, 150 });
-	//GetGameObjectByName("UpStream1").SetScale({ 40, 1, 10 });
-
-	//CreateWaterGameObject("UpStream2");
-	//GetGameObjectByName("UpStream2").SetPosition({ 330, 14.5, 180 });
-	//GetGameObjectByName("UpStream2").SetScale({ 10, 1, 40 });
 
 	//portal = &CreateGameObject<Portals>(m_playerTest, this, 3);
 	//portal->SetPosition({ 335, 2, 50 });
@@ -199,6 +109,40 @@ void GameScene::Start()
 	GetGameObjectByName("Temple").SetPosition({ -194,-6,21 });
 	GetGameObjectByName("Temple").SetRotation({ 0,0,0,1 });
 	GetGameObjectByName("Temple").SetScale({ 2,2,2 });
+
+
+
+	CreateWaterGameObject("Pond");
+	GetGameObjectByName("Pond").SetPosition({ 0, -20, 51 });
+	GetGameObjectByName("Pond").SetScale({ 156 / 2, 1, 211 / 2 });
+
+	CreateWaterGameObject("River_Down");
+	GetGameObjectByName("River_Down").SetPosition({ -36, -20, -135 });
+	GetGameObjectByName("River_Down").SetScale({ 66 / 2, 0, 191 / 2 });
+
+	CreateWaterGameObject("Upstream1");
+	GetGameObjectByName("Upstream1").SetPosition({ 210.061187744,5.760955811,86.885452271 });
+	GetGameObjectByName("Upstream1").SetScale({ 146 / 2, 1, 81 / 2 });
+
+	CreateWaterGameObject("Upstream2");
+	GetGameObjectByName("Upstream2").SetPosition({ 298.327270508,5.760955811,110.388473511 });
+	GetGameObjectByName("Upstream2").SetScale({ (31 / 2) + 0.3, 1, 111 / 2 });
+
+	CreateWaterGameObject("Upstream3");
+	GetGameObjectByName("Upstream3").SetPosition({ 108.698951721,4.792763233,89.521156311 });
+	GetGameObjectByName("Upstream3").SetRotation({ 0,0,0.017452406,0.99984771 });
+	GetGameObjectByName("Upstream3").SetScale({ (57 / 2) + 0.4, 1, 106 / 2 });
+
+	CreateWaterGameObject("Waterfall1");
+	GetGameObjectByName("Waterfall1").SetPosition({ 70.089347839,-0.307572514,87.035491943 });
+	GetGameObjectByName("Waterfall1").SetRotation({ 0,0,0.190808997,0.981627226 });
+	GetGameObjectByName("Waterfall1").SetScale({ 22 / 2, 1, 101 / 2 });
+
+	CreateWaterGameObject("Waterfall2");
+	GetGameObjectByName("Waterfall2").SetPosition({ 55.362827301,-12.083078384,88.724006653 });
+	GetGameObjectByName("Waterfall2").SetRotation({ 0,0,0.49999994,0.866025507 });
+	GetGameObjectByName("Waterfall2").SetScale({ 18 / 2, 1, 101 / 2 });
+
 
 	CreateGameObject("repere 1", MESHES::LOCAL_CUBE, 0);
 	GetGameObjectByName("repere 1").SetPosition({ -72,-16,116 });
@@ -241,11 +185,6 @@ void GameScene::Start()
 	GetGameObjectByName("HB 4").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 78, 1, 208 })));
 	GetGameObjectByName("HB 4").AddComponent<Tag_World>(new Tag_World());
 	GetGameObjectByName("HB 4").SetTag(TAG_Environment);
-
-
-	XMFLOAT3 position = { 30.f,-20,10 };
-
-
 
 
 	CreateGameHitbox("HB 5");// RockWall
@@ -1142,8 +1081,9 @@ void GameScene::Start()
 
 	// OLIVES COMPETENCE
 	// CASCADE
-	position = { 72,1,149 };
-	//position = { 100,5,100 };
+
+
+	XMFLOAT3 position = { 72,1,149 };
 	auto& oliveTree = CreateGameObject<OliveTree>(mp_ecsManager, this, position, 1);
 	oliveTree.SetScale({ 4,4,4 });
 	oliveTree.SetRotation({ -0.015740039,-0.043857157,0.012615366,0.998834133 });
