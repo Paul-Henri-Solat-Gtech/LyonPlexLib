@@ -96,6 +96,13 @@ void GameScene::Start()
 	amalgateRock.AddComponent<Tag_Object>(new Tag_Object());
 	amalgateRock.SetTag(TAG_Rock);
 
+	CreateGameObject("skybox", 2, 0);
+	GetGameObjectByName("skybox").SetPosition({ 0,0,0 });
+	GetGameObjectByName("skybox").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("skybox").SetScale({ -1000,-1000,-1000 });
+	GetGameObjectByName("skybox").SetMesh(MESHES::LOCAL_SPHERE);
+	GetGameObjectByName("skybox").SetTexture(TEXTURES::SKYBOX);
+
 	/*CreateGameObject("Next 0", 2, 0);
 	GetGameObjectByName("Next 0").SetPosition({ -82,-17,94 });		// REPERE EMPLACEMENT
 	GetGameObjectByName("Next 0").SetRotation({ 0,0,0,1 });

@@ -91,7 +91,6 @@ void PlayerAction_Idle::Start(Player* player)
 			m_idleAnim.AddFrame(TEXTURES::IDLEARM_W2_9);
 			m_idleAnim.AddFrame(TEXTURES::IDLEARM_W2_10);
 			m_idleAnim.AddFrame(TEXTURES::IDLEARM_W2_11);
-			m_idleAnim.AddFrame(TEXTURES::IDLEARM_W2_12);
 		}
 		break;
 
@@ -318,10 +317,6 @@ void PlayerAction_Attack::Start(Player* player)
 			m_heavyAttackAnim.AddFrame(TEXTURES::ATTACK1_W2_37);
 			m_heavyAttackAnim.AddFrame(TEXTURES::ATTACK1_W2_38);
 			m_heavyAttackAnim.AddFrame(TEXTURES::ATTACK1_W2_39);
-			m_heavyAttackAnim.AddFrame(TEXTURES::ATTACK1_W2_40);
-			m_heavyAttackAnim.AddFrame(TEXTURES::ATTACK1_W2_41);
-			m_heavyAttackAnim.AddFrame(TEXTURES::ATTACK1_W2_42);
-			m_heavyAttackAnim.AddFrame(TEXTURES::ATTACK1_W2_43);
 			break;
 		case 2:
 			m_heavyAttackAnim.Init(FPS_24, &player->GetPlayerArm());
@@ -371,6 +366,7 @@ void PlayerAction_Attack::Start(Player* player)
 			m_heavyAttackAnim.AddFrame(TEXTURES::ATTACK2_W2_44);
 			m_heavyAttackAnim.AddFrame(TEXTURES::ATTACK2_W2_45);
 			m_heavyAttackAnim.AddFrame(TEXTURES::ATTACK2_W2_46);
+			m_heavyAttackAnim.AddFrame(TEXTURES::ATTACK2_W2_47);
 			break;
 		case 3:
 			m_heavyAttackAnim.Init(FPS_24, &player->GetPlayerArm());
@@ -399,6 +395,7 @@ void PlayerAction_Attack::Start(Player* player)
 			m_heavyAttackAnim.AddFrame(TEXTURES::ATTACK3_W2_23);
 			m_heavyAttackAnim.AddFrame(TEXTURES::ATTACK3_W2_24);
 			m_heavyAttackAnim.AddFrame(TEXTURES::ATTACK3_W2_25);
+			m_heavyAttackAnim.AddFrame(TEXTURES::ATTACK3_W2_26);
 			break;
 		default:
 			break;
