@@ -85,23 +85,40 @@ void OliveTree::OnUpdate(float deltatime)
 {
 	if (m_isCut)
 	{
+		GameObject* cut_trunkCol = nullptr;
 		switch (m_treeNum)
 		{
 		case 1:
-			mp_leaves->SetPosition({ -25 / GetScale().x, -20 / GetScale().y, -15 / GetScale().z });
-			mp_leaves->SetTransformRotation({ 90,60,0 });
-			mp_leavesCol->SetPosition({ 0, 0, 1 });
+			mp_leaves->SetPosition({ -25 / GetScale().x, -12 / GetScale().y, -15 / GetScale().z });
+			//mp_leaves->SetTransformRotation({ 90,60,0 });
+			mp_leaves->SetTransformRotation({ 180,0,0 });
+			mp_leavesCol->SetPosition({ 0, 0.5, 0 });
+
+			cut_trunkCol = &mp_scene->CreateGameHitbox();
+			cut_trunkCol->SetPosition({ 49,-6.09082365,131 });
+			cut_trunkCol->SetRotation({ 0,0,0,1 });
+			cut_trunkCol->SetScale({ 7,6,9 });
+			cut_trunkCol->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3.5,3,4.5 })));
+
 			m_isCut = false;
 			break;
 		case 2:
-			mp_leaves->SetPosition({ 0 / GetScale().x, -15 / GetScale().y, 50 / GetScale().z });
+			mp_leaves->SetPosition({ 0 / GetScale().x, -15 / GetScale().y, 55.f / GetScale().z });
 			mp_leaves->SetTransformRotation({ 180,0,0 });
-			mp_leavesCol->SetPosition({ 0, 1,0 });
+			mp_leavesCol->SetPosition({ 0, 0.5, 0 });
+
+			cut_trunkCol = &mp_scene->CreateGameHitbox();
+			cut_trunkCol->SetPosition({ -66.287994385,-1.48188591,-24.33288002 });
+			cut_trunkCol->SetRotation({ 0,0,0,1 });
+			cut_trunkCol->SetScale({ 16,8,10 });
+			cut_trunkCol->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 8,5.5,5 })));
+
 			m_isCut = false;
 			break;
 		default:
 			break;
 		}
+
 	}
 
 }

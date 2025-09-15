@@ -119,6 +119,11 @@ void PlayerAction_Move::Start(Player* player)
 	m_canMoveArm = true;
 	m_cooldownArmMovement = 0.5f;
 	m_cooldownArmMovementActual = m_cooldownArmMovement;
+	
+	
+	static XMFLOAT3 startPos = player->GetPlayerArm().GetPosition();
+
+	m_defaultPos = startPos;
 }
 void PlayerAction_Move::Update(Player* player)
 {
@@ -130,6 +135,7 @@ void PlayerAction_Move::Update(Player* player)
 	{
 		//OutputDebugStringA("UP");
 		player->GetPlayerArm().GetComponent<TransformComponent>()->SetRotation(0, 0, 180 + 5);
+		player->GetPlayerArm().GetPosition().x = m_defaultPos.x + 100;
 		m_armIsUp = true;
 		m_canMoveArm = false;
 	}
@@ -137,6 +143,7 @@ void PlayerAction_Move::Update(Player* player)
 	{
 		//OutputDebugStringA("DOWN");
 		player->GetPlayerArm().GetComponent<TransformComponent>()->SetRotation(0, 0, 180 - 5);
+		player->GetPlayerArm().GetPosition().x = m_defaultPos.x - 100;
 		m_armIsUp = false;
 		m_canMoveArm = false;
 	}
@@ -158,6 +165,7 @@ void PlayerAction_Move::End(Player* player)
 	//OutputDebugStringA("\nEnd Moving State\n");
 	player->GetPlayerArm().GetComponent<TransformComponent>()->SetRotation(0, 0, 180);
 	player->GetPlayerArm().SetTexture(player->m_currIdleMesh);
+	player->GetPlayerArm().GetPosition() = m_defaultPos;
 }
 
 
@@ -182,7 +190,7 @@ void PlayerAction_Attack::Start(Player* player)
 		switch (player->m_slashAttackNb)
 		{
 		case 1:
-			m_attackAnim.Init(FPS_24 * 43 * player->GetDeltatime(), &player->GetPlayerArm());
+			m_attackAnim.Init(FPS_24/* * 43*/ * player->GetDeltatime(), &player->GetPlayerArm());
 			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_1);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_2);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_3);
@@ -213,7 +221,7 @@ void PlayerAction_Attack::Start(Player* player)
 			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_28);
 			break;
 		case 2:
-			m_attackAnim.Init(FPS_24 * 25 * player->GetDeltatime(), &player->GetPlayerArm());
+			m_attackAnim.Init(FPS_24 /** 25*/ * player->GetDeltatime(), &player->GetPlayerArm());
 			m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_1);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_2);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_3);
@@ -234,7 +242,7 @@ void PlayerAction_Attack::Start(Player* player)
 			m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_18);
 			break;
 		case 3:
-			m_attackAnim.Init(FPS_24, &player->GetPlayerArm());
+			m_attackAnim.Init(FPS_24* player->GetDeltatime(), &player->GetPlayerArm());
 			m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_1);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_2);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_3);
