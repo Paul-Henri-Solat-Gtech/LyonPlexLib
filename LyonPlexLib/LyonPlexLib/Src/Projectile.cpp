@@ -55,7 +55,7 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 	case Rock:
 	{
 		SetTag(Tag::TAG_Projectile);
-		SetTexture(TEXTURES::WATER_NORMAL);
+		SetTexture(TEXTURES::EAU);
 		SetScale({ 2,2,2 });
 		projScale = GetScale();
 		
