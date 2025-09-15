@@ -219,22 +219,6 @@ void PlayerAction_Attack::Start(Player* player)
 			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_26);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_27);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_28);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_29);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_30);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_31);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_32);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_33);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_34);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_35);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_36);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_37);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_38);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_39);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_40);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_41);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_42);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_43);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_44);
 			break;
 		case 2:
 			m_attackAnim.Init(FPS_24 /** 25*/ * player->GetDeltatime(), &player->GetPlayerArm());
