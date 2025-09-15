@@ -26,6 +26,7 @@ public:
 
 	bool m_canMoveArm,m_armIsUp;
 	float m_cooldownArmMovement, m_cooldownArmMovementActual;
+	XMFLOAT3 m_defaultPos{ 0,0,0 };
 };
 
 class PlayerAction_Jump : public Action<Player>

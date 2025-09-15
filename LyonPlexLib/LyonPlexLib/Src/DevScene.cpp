@@ -69,26 +69,26 @@ void DevScene::Start()
 
 	CreateWaterGameObject("Upstream1");
 	GetGameObjectByName("Upstream1").SetPosition({ 210.061187744,5.760955811,86.885452271 });
-	GetGameObjectByName("Upstream1").SetScale({ 146 / 2, 1, 81 / 2 });
+	GetGameObjectByName("Upstream1").SetScale({ 146 / 2, 0, 81 / 2 });
 
 	CreateWaterGameObject("Upstream2");
 	GetGameObjectByName("Upstream2").SetPosition({ 298.327270508,5.760955811,110.388473511 });
-	GetGameObjectByName("Upstream2").SetScale({ (31 / 2) + 0.3, 1, 111 / 2 });
+	GetGameObjectByName("Upstream2").SetScale({ (31 / 2) + 0.3, 0, 111 / 2 });
 
 	CreateWaterGameObject("Upstream3");
 	GetGameObjectByName("Upstream3").SetPosition({ 108.698951721,4.792763233,89.521156311 });
 	GetGameObjectByName("Upstream3").SetRotation({ 0,0,0.017452406,0.99984771 });
-	GetGameObjectByName("Upstream3").SetScale({ (57 / 2) + 0.4, 1, 106 / 2 });
+	GetGameObjectByName("Upstream3").SetScale({ (57 / 2) + 0.4, 0, 106 / 2 });
 
 	CreateWaterGameObject("Waterfall1");
 	GetGameObjectByName("Waterfall1").SetPosition({ 70.089347839,-0.307572514,87.035491943 });
 	GetGameObjectByName("Waterfall1").SetRotation({ 0,0,0.190808997,0.981627226 });
-	GetGameObjectByName("Waterfall1").SetScale({ 22 / 2, 1, 101 / 2 });
+	GetGameObjectByName("Waterfall1").SetScale({ 22 / 2, 0, 101 / 2 });
 
 	CreateWaterGameObject("Waterfall2");
 	GetGameObjectByName("Waterfall2").SetPosition({ 55.362827301,-12.083078384,88.724006653 });
 	GetGameObjectByName("Waterfall2").SetRotation({ 0,0,0.49999994,0.866025507 });
-	GetGameObjectByName("Waterfall2").SetScale({ 18 / 2, 1, 101 / 2 });
+	GetGameObjectByName("Waterfall2").SetScale({ 18 / 2, 0, 101 / 2 });
 
 
 
@@ -754,19 +754,26 @@ void DevScene::Start()
 	GetGameObjectByName("Olivier_trunk 23").SetPosition({ 72,1,149 });
 	GetGameObjectByName("Olivier_trunk 23").SetRotation({ -0.015740039,-0.043857157,0.012615366,0.998834133 });
 	GetGameObjectByName("Olivier_trunk 23").SetScale({ 4,4,4 });
-	CreateGameObject("Olivier_leaves 22", MESHES::OLIVIER_1_FEUILLES, 4294967295);
-	GetGameObjectByName("Olivier_leaves 22").SetPosition({ 53,-9,128 });
-	GetGameObjectByName("Olivier_leaves 22").SetRotation({ -0.040849205,-0.022417387,0.671295822,0.739723504 });
-	GetGameObjectByName("Olivier_leaves 22").SetScale({ 4,4,4 });
+	auto& leaves1 = CreateGameObject("Olivier_leaves 22", MESHES::OLIVIER_1_FEUILLES, 4294967295);
+	SetParent(leaves1, GetGameObjectByName("Olivier_trunk 23"));
+	//leaves1.SetScale({ 4,4,4 });
+	leaves1.SetPosition({ -25 / 4, -12 / 4, -15 / 4 });
+	leaves1.SetTransformRotation({ 180,0,0 });
 
+	//leaves1.SetPosition({ 53,-9,128 });
+	//leaves1.SetRotation({ -0.040849205,-0.022417387,0.671295822,0.739723504 });
 	CreateGameObject("Olivier_trunk 21", MESHES::OLIVIER_1_TRONC, 4294967295);// 2
 	GetGameObjectByName("Olivier_trunk 21").SetPosition({ -14,2,-21 });
 	GetGameObjectByName("Olivier_trunk 21").SetRotation({ 0,0.737277627,0,-0.675589979 });
 	GetGameObjectByName("Olivier_trunk 21").SetScale({ 6,7,7 });
-	CreateGameObject("Olivier_leaves 24", MESHES::OLIVIER_1_FEUILLES, 4294967295);
-	GetGameObjectByName("Olivier_leaves 24").SetPosition({ -59,-8,-17 });
-	GetGameObjectByName("Olivier_leaves 24").SetRotation({ 0.03906719,-0.74653542,-0.012860671,0.664073229 });
-	GetGameObjectByName("Olivier_leaves 24").SetScale({ 6,6,7 });
+	auto& leaves2 = CreateGameObject("Olivier_leaves 24", MESHES::OLIVIER_1_FEUILLES, 4294967295);
+	SetParent(leaves2, GetGameObjectByName("Olivier_trunk 21"));
+	//leaves2.SetScale({ 6,6,7 });
+	leaves2.SetPosition({ 0 / 6, -15 / 6, 55.f / 7 });
+	leaves2.SetTransformRotation({ 180,0,0 });
+	//GetGameObjectByName("Olivier_leaves 24").SetPosition({ -59,-8,-17 });
+	//GetGameObjectByName("Olivier_leaves 24").SetRotation({ 0.03906719,-0.74653542,-0.012860671,0.664073229 });
+	//GetGameObjectByName("Olivier_leaves 24").SetScale({ 6,6,7 });
 
 	CreateGameObject("Repere 7", 2, 0);
 	GetGameObjectByName("Repere 7").SetPosition({ -140.966171265,-16.733043671,75.524360657 });

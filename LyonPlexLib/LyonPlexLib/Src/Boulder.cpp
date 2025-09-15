@@ -35,13 +35,13 @@ void Boulder::OnUpdate(float deltatime)
 	{
 		float dist = Utils::lerp(0, m_slideDistLeft, 0.05);
 		MoveInDirection({ m_dir.x, m_dir.y, m_dir.z }, dist);
-
+		mp_collider->GetComponent<TransformComponent>()->dirty = true;
 		m_slideDistLeft -= dist;
 	}
 
 	if (GetPosition().x < m_posXZmin.x)	GetPosition().x = m_posXZmin.x;
 	if (GetPosition().x > m_posXZmax.x)	GetPosition().x = m_posXZmax.x;
-	if (GetPosition().z < m_posXZmin.y)	GetPosition().z = m_posXZmin.y;
+	if (GetPosition().z < m_posXZmin.y)	GetPosition().z = m_posXZmin.y; // QUE X ET Z ICI MAIS UN FLOAT2 RENVOI "x et  y" DONC Y = Z ICI
 	if (GetPosition().z > m_posXZmax.y)	GetPosition().z = m_posXZmax.y;
 
 }

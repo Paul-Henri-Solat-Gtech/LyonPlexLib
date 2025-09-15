@@ -60,16 +60,20 @@ void GameScene::Start()
 	//GetGameObjectByName("Stick").SetTag(TAG_Stick);
 	//CreateGameObject("Stick2");
 
-	//CreateGameObject("Rock");
-	//pos = { POSITION_CHAMPS.x - 3, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z - 2 };
-	//GetGameObjectByName("Rock").SetPosition(pos);
-	//GetGameObjectByName("Rock").SetScale({ 0.2, 0.2, 0.2 });
-	//GetGameObjectByName("Rock").SetMesh(MESHES::ROCKBIG);
-	//GetGameObjectByName("Rock").SetTexture(TEXTURES::CEPHA);
-	//a = GetGameObjectByName("Rock").GetScale();
-	////GetGameObjectByName("Rock").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
-	//GetGameObjectByName("Rock").AddComponent<Tag_Object>(new Tag_Object());
-	//GetGameObjectByName("Rock").SetTag(TAG_Rock);
+	auto& amalgateRock = CreateGameObject("Rock");
+	XMFLOAT3 pos = { -82,-17,94 };
+	amalgateRock.SetPosition(pos);
+	amalgateRock.SetScale({ 0.2, 0.2, 0.2 });
+	amalgateRock.SetMesh(MESHES::ROCKBIG);
+	auto scale = amalgateRock.GetScale();
+	amalgateRock.AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ scale.x / 2, scale.y / 2, scale.z / 2 })));
+	amalgateRock.AddComponent<Tag_Object>(new Tag_Object());
+	amalgateRock.SetTag(TAG_Rock);
+
+	/*CreateGameObject("Next 0", 2, 0);
+	GetGameObjectByName("Next 0").SetPosition({ -82,-17,94 });		// REPERE EMPLACEMENT
+	GetGameObjectByName("Next 0").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Next 0").SetScale({ 1,1,1 });*/
 
 
 	// Audio
@@ -100,7 +104,7 @@ void GameScene::Start()
 	//portal->SetTexture(TEXTURES::EAU);
 
 	CreateGameObject("Map");
-	auto a = GetGameObjectByName("Map");
+	auto& a = GetGameObjectByName("Map");
 	a.SetMesh(MESHES::MAP);
 	a.SetPosition({ 0,0,0 });
 	a.SetScale({ 2,2,2 });
@@ -110,15 +114,6 @@ void GameScene::Start()
 	GetGameObjectByName("Temple").SetRotation({ 0,0,0,1 });
 	GetGameObjectByName("Temple").SetScale({ 2,2,2 });
 
-
-
-	CreateWaterGameObject("Pond");
-	GetGameObjectByName("Pond").SetPosition({ 0, -20, 51 });
-	GetGameObjectByName("Pond").SetScale({ 156 / 2, 1, 211 / 2 });
-
-	CreateWaterGameObject("River_Down");
-	GetGameObjectByName("River_Down").SetPosition({ -36, -20, -135 });
-	GetGameObjectByName("River_Down").SetScale({ 66 / 2, 0, 191 / 2 });
 
 	CreateWaterGameObject("Upstream1");
 	GetGameObjectByName("Upstream1").SetPosition({ 210.061187744,5.760955811,86.885452271 });
@@ -142,6 +137,15 @@ void GameScene::Start()
 	GetGameObjectByName("Waterfall2").SetPosition({ 55.362827301,-12.083078384,88.724006653 });
 	GetGameObjectByName("Waterfall2").SetRotation({ 0,0,0.49999994,0.866025507 });
 	GetGameObjectByName("Waterfall2").SetScale({ 18 / 2, 1, 101 / 2 });
+
+	CreateWaterGameObject("Pond");
+	GetGameObjectByName("Pond").SetPosition({ 0, -20, 51 });
+	GetGameObjectByName("Pond").SetScale({ 156 / 2, 1, 211 / 2 });
+
+	CreateWaterGameObject("River_Down");
+	GetGameObjectByName("River_Down").SetPosition({ -36, -20, -135 });
+	GetGameObjectByName("River_Down").SetScale({ 66 / 2, 0, 191 / 2 });
+
 
 
 	CreateGameObject("repere 1", MESHES::LOCAL_CUBE, 0);
@@ -969,13 +973,24 @@ void GameScene::Start()
 	GetGameObjectByName("Boulder 0").SetScale({ 11,11,11 });
 
 
+	CreateGameObject("repere_lake", 2, 0);
+	GetGameObjectByName("repere_lake").SetPosition({ -117,-20,123 });
+	GetGameObjectByName("repere_lake").SetScale({ 240,1,70 });
+	GetGameObjectByName("repere_lake").GetComponent<MeshComponent>()->alpha = 0.3;
 
-	XMFLOAT2 posXZmin = { -117 , 123 };
-	XMFLOAT2 posXZmax = { 41 , 111 };
+	//XMFLOAT2 posXZmin = { -117 , 123 };
+	XMFLOAT2 posXZmin = { -40 , 45 };
+	//XMFLOAT2 posXZmax = { 41 , 111 };
+	XMFLOAT2 posXZmax = { 40 , 113.5 };
+
+	CreateGameObject("Next 0", 2, 0);
+	GetGameObjectByName("Next 0").SetPosition({ -8,-14,78 });
+	GetGameObjectByName("Next 0").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Next 0").SetScale({ 86,1,71 });
 
 	auto& boulder1 = CreateGameObject<Boulder>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_playerTest, this, posXZmin, posXZmax);
 	boulder1.SetPosition({ -39,-21,111 });
-	boulder1.SetScale({ 7,20,9 });
+	boulder1.SetScale({ 7,18,9 });
 
 	auto& boulder2 = CreateGameObject<Boulder>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_playerTest, this, posXZmin, posXZmax);
 	boulder2.SetPosition({ -20,-19,111 });
