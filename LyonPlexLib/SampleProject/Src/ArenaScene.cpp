@@ -415,7 +415,7 @@ void ArenaScene::SpawnPortal()
 {
 	int nbEnnemy = 3 + m_waveNow;
 
-	m_portal = &CreateGameObject<Portals>(m_player, this, nbEnnemy);
+	m_portal = &CreateGameObject<Portals>(m_player, this, nbEnnemy,-10);
 	m_portal->SetPosition({ 30, -10, 30 });
 
 	m_portalNbSpawned++;

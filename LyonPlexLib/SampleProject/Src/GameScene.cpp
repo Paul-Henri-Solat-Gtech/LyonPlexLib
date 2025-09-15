@@ -30,6 +30,7 @@ void GameScene::Start()
 
 	// Test player + stateMachine
 	m_playerTest.Init(mp_ecsManager, mp_sceneManager->GetGameManager(), this, m_cam);
+	m_playerTest.SetPosition({ 250,-15,-115 });
 	SetParent(m_cam, m_playerTest);
 
 	m_cam.SetPosition({ 0, m_playerTest.GetScale().y / 2, 0 });
@@ -47,6 +48,31 @@ void GameScene::Start()
 
 	m_playerTest.SetPlayerArm(GetGameObjectByName("bras"));
 
+	//Init Portals
+	m_p1Spawned = false;
+	m_p2Spawned = false;
+	m_p3Spawned = false;
+
+	m_p1Finished = false;
+	m_p2Finished = false;
+	m_p3Finished = false;
+
+	//object / weapon
+	CreateGameObject("Stick");
+	GetGameObjectByName("Stick").SetPosition({ 230,-19,-115 });
+	GetGameObjectByName("Stick").SetScale({ 5, 5, 5 });
+	GetGameObjectByName("Stick").SetMesh(MESHES::STICK);
+	GetGameObjectByName("Stick").SetTexture(TEXTURES::HERBE);
+	GetGameObjectByName("Stick").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("Stick").SetTag(TAG_Stick);
+
+	CreateGameObject("RockObj");
+	GetGameObjectByName("RockObj").SetPosition({ 230,-19,-130 });
+	GetGameObjectByName("RockObj").SetScale({ 5, 5, 5 });
+	GetGameObjectByName("RockObj").SetMesh(MESHES::ROCKLM1);
+	GetGameObjectByName("RockObj").SetTexture(TEXTURES::GroundMountain);
+	GetGameObjectByName("RockObj").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("RockObj").SetTag(TAG_Rock);
 
 	//CreateGameObject("Stick");
 	//XMFLOAT3 pos = { POSITION_CHAMPS.x + 2, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z + 2 };
@@ -93,8 +119,8 @@ void GameScene::Start()
 	GetComponent<LightComponent>("Light")->direction = { 0, 0, 0 };
 	GetComponent<LightComponent>("Light")->range = 1000;
 
-
-
+	//portal test
+	PortalSystem();
 
 
 	//portal = &CreateGameObject<Portals>(m_playerTest, this, 3);
@@ -3639,6 +3665,8 @@ void GameScene::Update(float deltatime)
 	//// PlayerState
 	m_playerTest.OnUpdate(deltatime);
 
+	//Portal System
+	PortalSystem();
 
 	////if (m_enemyTest.GetGameObject().alive)
 	//if (m_playerTest.m_closestEnemy)
@@ -3710,3 +3738,44 @@ void GameScene::RemoveMenu()
 	DestroyGameObject(GetGameObjectByName("pauseMenu"));
 	DestroyGameObject(GetGameObjectByName("btnMainMenu"));
 }
+
+void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy)
+{
+	//auto* newPortal = &CreateGameObject<Portals>(m_player, this, nbEnemy);
+	m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, -17, EnemyType::Crabe);
+	m_portal->SetPosition(newPos);
+}
+
+void GameScene::PortalSystem()
+{
+	if (GetEnnemyNb() <= 0 && !m_p1Spawned)
+	{
+		SpawnPortal({ 190,-15,-115 }, 1);
+		m_p1Spawned = true;
+		OutputDebugStringA("\n First wave \n");
+	}
+	if (m_p1Spawned && !m_p1Finished)
+	{
+		if (m_portal->SpawnIsFinished())
+		{
+			m_p1Finished = true;
+		}
+	}
+
+	if (GetEnnemyNb() <= 0 && m_p1Finished && !m_p2Spawned)
+	{
+		SpawnPortal({ 110,-15,-125 }, 2);
+		m_p2Spawned = true;
+		OutputDebugStringA("\n Second wave \n");
+	}
+	if (m_p2Spawned && !m_p2Finished)
+	{
+		if (m_portal->SpawnIsFinished())
+		{
+			m_p2Finished = true;
+		}
+	}
+
+
+}
+
