@@ -28,7 +28,6 @@ void HealingRock::OnUpdate(float deltatime)
 		LookAt(m_playerGm);
 		m_lifetime -= 1 * deltatime;
 	}
-
 }
 
 void HealingRock::Destroy()

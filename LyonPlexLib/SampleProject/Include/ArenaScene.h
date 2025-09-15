@@ -21,6 +21,10 @@ public:
 
 	void UpdateWaveHUD();
 
+	void BonusEndWave();
+
+	void CloseBonus();
+
 private:
 	//Camera
 	GameObject m_cam;
@@ -30,9 +34,12 @@ private:
 	Player m_player;
 
 	//Pause menu
-	bool m_pauseIsOpen;
+	bool m_pauseIsOpen, m_bonusIsOpen, m_bonusCanBeSelected, m_bonusSpawnedThisWave;
 	GameObject pauseMenu;
 	Button* mp_btnMainMenu;
+	Button* mp_btnAddAtk;
+	Button* mp_btnAddSpeed;
+	Button* mp_btnAddJump;
 
 	//Wave
 	int m_waveNow, m_waveMax;
@@ -47,6 +54,6 @@ private:
 
 	//WinLose
 	bool m_youWin;
-	//bool m_youLose;
+	float m_chronoChangeScene;
 };
 

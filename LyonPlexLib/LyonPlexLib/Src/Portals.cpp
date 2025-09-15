@@ -13,6 +13,7 @@ Portals::Portals(GameObject& gameObjectPlayer, Scene* scene, int ennemyNb) : m_p
 	SetMesh(MESHES::LOCAL_SQUARE);
 	SetTexture(TEXTURES::PORTAL);
 	GetComponent<MeshComponent>()->ColorPatchUp();
+	GetComponent<MeshComponent>()->alpha = 0.95f;
 	SetScale({3,3,1});
 }
 

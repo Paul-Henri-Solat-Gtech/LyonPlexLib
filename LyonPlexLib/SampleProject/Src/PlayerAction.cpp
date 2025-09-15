@@ -105,7 +105,6 @@ void PlayerAction_Idle::Update(Player* player)
 	m_idleAnim.Loop(player->GetDeltatime());
 	//PlayerMovement(player);
 }
-
 void PlayerAction_Idle::End(Player* player)
 {
 	//OutputDebugStringA("\nEndIdle -\n");
@@ -586,7 +585,7 @@ void PlayerAction_Attack::End(Player* player)
 // JUMP 
 void PlayerAction_Jump::Start(Player* player)
 {
-	OutputDebugStringA("\n- StartJump\n");
+	//OutputDebugStringA("\n- StartJump\n");
 	//if (player->m_jumpProgress == 0)
 	//{
 	//	player->m_jumpPosY = player->GetGameObject().GetComponent<TransformComponent>()->position.y;
@@ -605,8 +604,7 @@ void PlayerAction_Jump::Update(Player* player)
 }
 void PlayerAction_Jump::End(Player* player)
 {
-	OutputDebugStringA("\nEndJump -\n");
-
+	//OutputDebugStringA("\nEndJump -\n");
 }
 
 

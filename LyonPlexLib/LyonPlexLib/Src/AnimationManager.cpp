@@ -14,6 +14,7 @@ void AnimationManager::Init(float animationSpeed, GameObject* gmToAnimate)
 	m_gameObjectToAnimate = gmToAnimate;
     m_animationHisFinished = false;
     m_halfDuration = false;
+    m_thirdQuarterDuration = false;
 }
 
 void AnimationManager::Start(float deltatime)
@@ -70,6 +71,11 @@ void AnimationManager::AnimationSequence(float deltatime)
         m_halfDuration = true;
     }
 
+    if (m_nextIdFrame >= ((m_textureList.size() - 1) * 3 / 4))
+    {
+        m_thirdQuarterDuration = true;
+    }
+
     if (m_nextIdFrame >= m_textureList.size() - 1)
     {
         m_animationHisFinished = true;
@@ -105,16 +111,4 @@ void AnimationManager::AnimationSystem()
 
     // 4) set next id frame
     m_nextIdFrame++;
-}
-
-void AnimationManager::Play()
-{
-    if (m_textureList.empty() || !m_gameObjectToAnimate)
-        return;
-
-    m_nextIdFrame = 0;
-    m_frameCooldown = m_frameOriginalCooldown;
-    m_actualTexture = m_textureList[0];
-    m_gameObjectToAnimate->SetTexture(m_actualTexture);
-    m_animationHisFinished = false;
 }

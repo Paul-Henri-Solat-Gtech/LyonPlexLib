@@ -48,7 +48,7 @@ public:
 	GameObject m_playerGameObject;
 	GameObject m_playerArm;
 
-	GameObject m_playerHeart1, m_playerHeart2, m_playerHeart3, m_gameOver, m_weaponPlaceholder;
+	GameObject m_playerHeart1, m_playerHeart2, m_playerHeart3, m_gameOver, m_weaponPlaceholder, m_selectedWeapon;
 
 	GameObject& GetGameObject() { return m_playerGameObject; };
 	void SetPlayerArm(GameObject& armGm) { m_playerArm = armGm; };
@@ -104,7 +104,7 @@ public:
 	bool m_isPickingUp = false;
 	bool m_isFalling = false;
 	bool m_isOnGround = false;
-	int m_coyoteFrames = 0; // initialise ‡ 0
+	int m_coyoteFrames = 0; // initialise ÅE0
 	static constexpr int COYOTE_MAX_FRAMES = 4; // ajustez le feeling (2-6)
 
 	int m_currIdleMesh = TEXTURES::ARMS;
@@ -116,8 +116,18 @@ public:
 	Scene* mp_scene = nullptr;
 
 	//knockback
-	bool m_isKnockedback = false;
-	XMFLOAT3 m_knockbackVelocity = { 0,0,0 };
+	//XMFLOAT3 m_knockbackDir = { 0,0,0 };
+	//float m_knockbackDist = 0;
+	//float m_knockbackSpeed = 20.0f;
+	struct KnockbackState
+	{
+		XMFLOAT3 dir;    // direction horizontale
+		float speed;     // vitesse horizontale
+		float distLeft;  // distance restante
+		float upward;    // vitesse verticale temporaire
+		bool active;
+	};
+	KnockbackState m_knockback;
 
 private:
 

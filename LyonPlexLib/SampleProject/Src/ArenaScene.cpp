@@ -16,7 +16,6 @@ void ArenaScene::Start()
 	m_cam.AddComponent<CameraComponent>(new CameraComponent());
 	GetGameObjectByName("cam").SetPosition({ 0, 0, 0.5f });
 
-
 	m_fpsCam.Init(m_cam, mp_sceneManager->GetWindow());
 
 	SetParent("cam", "player");
@@ -57,6 +56,10 @@ void ArenaScene::Start()
 	m_portalHasSpawned = false;
 	m_fisrtEnnemyHasSpawned = false;
 	m_youWin = false;
+	m_chronoChangeScene = 5.f;
+	m_bonusIsOpen = false;
+	m_bonusCanBeSelected = false;
+	m_bonusSpawnedThisWave = false;
 
 	//WAVE HUD
 	m_waveNowHud = CreateGameObject("waveNowHud", TYPE_2D, true);
@@ -89,12 +92,23 @@ void ArenaScene::Start()
 	GetGameObjectByName("Stick").AddComponent<Tag_Object>(new Tag_Object());
 	GetGameObjectByName("Stick").SetTag(TAG_Stick);
 
-	//PORTALS
-	//Use pos : y ~ -10 Xmax Xmin getmainmoutain size
-	//m_portal = &CreateGameObject<Portals>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player, this);
-	//m_portal->SetPosition({ 30, -10, 30 });
-	//m_portal->SetScale({ 1, 1, 0.5 });
-	//m_portal->SetTexture(TEXTURES::EAU);
+	CreateGameObject("Rock");
+	GetGameObjectByName("Rock").SetPosition({ 0, -10, 50 });
+	GetGameObjectByName("Rock").SetScale({ 8, 8, 8 });
+	GetGameObjectByName("Rock").SetMesh(MESHES::ROCKLM3);
+	GetGameObjectByName("Rock").SetTexture(TEXTURES::GroundMountain);
+	GetGameObjectByName("Rock").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("Rock").SetTag(TAG_Rock);
+
+	//LIGHT
+	CreateEntity("WorldLight");
+	AddComponent<Type_3D>("WorldLight", new Type_3D());
+	AddComponent<MeshComponent>("WorldLight", new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::NOTEXTURE));
+	GetComponent<TransformComponent>("WorldLight")->position = { 290,3,58 };
+	GetComponent<TransformComponent>("WorldLight")->scale = { 1, 1, 1 };
+	AddComponent<LightComponent>("WorldLight", new LightComponent(0));
+	GetComponent<LightComponent>("WorldLight")->color = { 1,1,1 };
+	GetComponent<LightComponent>("WorldLight")->range = 50;
 
 	//SCENE
 	{
@@ -238,9 +252,56 @@ void ArenaScene::Update(float deltatime)
 			if (go) go->OnUpdate(deltatime);
 		}
 
-		if (!m_youWin) 
+		if (!m_youWin)
 		{
-			WaveSystem(deltatime);
+			if (!m_bonusCanBeSelected)
+			{
+				WaveSystem(deltatime);
+			}
+		}
+		else
+		{
+			m_chronoChangeScene -= 1.f * deltatime;
+
+			if (m_chronoChangeScene <= 0)
+			{
+				ChangeScene("MainMenuScene");
+				return;
+			}
+		}
+
+		// Toute les 2 vagues (le +1 pour la fin de wave)
+		if (m_waveNow % 2 == 0 && !m_bonusIsOpen && !m_bonusCanBeSelected && m_waveFinished && !m_bonusSpawnedThisWave)
+		{
+			BonusEndWave();
+		}
+		if (m_bonusCanBeSelected)
+		{
+			if (mp_btnAddAtk->GetMouseOnBtn())
+			{
+				mp_btnAddAtk->SetScale({ 300, 350, 0 });
+			}
+			if (!mp_btnAddAtk->GetMouseOnBtn())
+			{
+				mp_btnAddAtk->SetScale({ 250, 300, 0 });
+			}
+			if (mp_btnAddAtk->GetBtnIsClicked())
+			{
+				CloseBonus();
+			}
+
+			if (mp_btnAddSpeed->GetMouseOnBtn())
+			{
+				mp_btnAddSpeed->SetScale({ 300, 350, 0 });
+			}
+			if (!mp_btnAddSpeed->GetMouseOnBtn())
+			{
+				mp_btnAddSpeed->SetScale({ 250, 300, 0 });
+			}
+			if (mp_btnAddSpeed->GetBtnIsClicked())
+			{
+				CloseBonus();
+			}
 		}
 	}
 }
@@ -285,9 +346,9 @@ void ArenaScene::WeaponSystem()
 
 void ArenaScene::WaveSystem(float deltatime)
 {
-	if (m_waveNow < m_waveMax) 
+	if (m_waveNow <= m_waveMax) 
 	{
-		if (m_waveStarted && !m_waveFinished && /*m_portalNbSpawned <= 0 &&*/ !m_portalHasSpawned)
+		if (m_waveStarted && !m_waveFinished && !m_portalHasSpawned)
 		{
 			OutputDebugStringA("\n [ ! Lets go ! ] \n");
 			UpdateWaveHUD();
@@ -319,6 +380,7 @@ void ArenaScene::WaveSystem(float deltatime)
 				m_waveFinished = false;
 				m_fisrtEnnemyHasSpawned = false;
 				m_waveNow++;
+				m_bonusSpawnedThisWave = false;
 				OutputDebugStringA("\n [ ! Start new Wave ! ] \n");
 			}
 			else
@@ -331,6 +393,20 @@ void ArenaScene::WaveSystem(float deltatime)
 	else
 	{
 		OutputDebugStringA("\n [ ! You WIN ! ] \n");
+
+		RECT renderZone;
+		GetClientRect(mp_sceneManager->GetGameManager()->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
+		UINT renderWidth = renderZone.right - renderZone.left;
+		UINT renderHeight = renderZone.bottom - renderZone.top;
+
+		CreateGameObject("Win", TYPE_2D, true);
+		auto& win = GetGameObjectByName("Win");
+		win.SetMesh(MESHES::LOCAL_SQUARE);
+		win.SetTexture(TEXTURES::WINSCREEN);
+		win.SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2, 0 });
+		win.SetScale({ (float)renderWidth * 0.4f, (float)renderHeight * 0.4f, 0 });
+		win.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
 		m_youWin = true;
 	}
 }
@@ -341,8 +417,6 @@ void ArenaScene::SpawnPortal()
 
 	m_portal = &CreateGameObject<Portals>(m_player, this, nbEnnemy);
 	m_portal->SetPosition({ 30, -10, 30 });
-	//m_portal->SetScale({ 1, 1, 0.5 });
-	//m_portal->SetTexture(TEXTURES::PORTAL);
 
 	m_portalNbSpawned++;
 }
@@ -420,4 +494,39 @@ void ArenaScene::UpdateWaveHUD()
 	default:
 		break;
 	}
+}
+
+void ArenaScene::BonusEndWave()
+{
+	RECT renderZone;
+	GetClientRect(mp_sceneManager->GetGameManager()->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
+	UINT renderWidth = renderZone.right - renderZone.left;
+	UINT renderHeight = renderZone.bottom - renderZone.top;
+
+	// Buttons
+	mp_btnAddAtk = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::BTN_SHUTDOWN, "btnAddAtk");
+	mp_btnAddAtk->SetScale({ 250, 300, 0 });
+	mp_btnAddAtk->SetPosition({ 250, (float)renderHeight/2, 1 });
+
+	mp_btnAddSpeed = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::BTN_SHUTDOWN, "btnAddSpeed");
+	mp_btnAddSpeed->SetScale({ 250, 300, 0 });
+	mp_btnAddSpeed->SetPosition({ (float)renderWidth - 250, (float)renderHeight / 2, 1 });
+
+	m_bonusIsOpen = true;
+	m_bonusCanBeSelected = true;
+
+	m_fpsCam.SetAlwaysActive(false);
+
+	OutputDebugStringA("\n bonus yea \n");
+
+	m_bonusSpawnedThisWave = true;
+}
+
+void ArenaScene::CloseBonus()
+{
+	m_bonusCanBeSelected = false;
+	DestroyGameObject(GetGameObjectByName("btnAddAtk"));
+	DestroyGameObject(GetGameObjectByName("btnAddSpeed"));
+	m_fpsCam.SetAlwaysActive(true);
+	m_bonusIsOpen = false;
 }

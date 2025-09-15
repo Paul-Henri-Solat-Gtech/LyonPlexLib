@@ -34,7 +34,7 @@ void MainMenuScene::Start()
 	mp_buttonArene->SetPosition({ 350, ((float)renderHeight / 2) + 130, 0 });
 
 	mp_buttonQuit = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::BTN_SHUTDOWN, "btnquit");
-	mp_buttonQuit->SetScale({ 10, 10, 1 });
+	mp_buttonQuit->SetScale({ 30, 30, 1 });
 	mp_buttonQuit->SetPosition({ (float)renderWidth - 70, (float)renderHeight - 70, 0 });
 	
 	// Background
@@ -109,11 +109,11 @@ void MainMenuScene::Update(float deltatime)
 	//QUIT
 	if (mp_buttonQuit->GetMouseOnBtn() && !m_sceneHasChanged)
 	{
-		mp_buttonQuit->SetScale({ 40, 40, 1 });
+		mp_buttonQuit->SetScale({ 50, 50, 1 });
 	}
 	if (!mp_buttonQuit->GetMouseOnBtn() && !m_sceneHasChanged)
 	{
-		mp_buttonQuit->SetScale({ 20, 20, 1 });
+		mp_buttonQuit->SetScale({ 30, 30, 1 });
 	}
 	if (mp_buttonQuit->GetBtnIsClicked() && !m_sceneHasChanged)
 	{
