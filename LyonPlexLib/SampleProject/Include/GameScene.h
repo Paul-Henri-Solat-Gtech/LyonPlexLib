@@ -16,12 +16,23 @@ public:
 
 	void RemoveMenu();
 
+	void SpawnPortal(XMFLOAT3 newPos, int nbEnemy);
+
+	void PortalSystem();
+
 private:
 	Player m_playerTest;
 	//Enemy m_enemyTest;
-	Portals* portal = nullptr;
 
-	GameObject m_player;
+
+	//Portals for the lvl1
+	Portals* m_portal = nullptr;
+
+	// firstPortalHasSpawned = p_1Spawned
+	bool m_p1Spawned, m_p2Spawned, m_p3Spawned;
+	bool m_p1Finished, m_p2Finished, m_p3Finished;
+
+	//GameObject m_player;
 	GameObject m_cam;
 	FpsCamera m_fpsCam;
 

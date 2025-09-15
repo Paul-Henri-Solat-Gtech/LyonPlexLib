@@ -211,6 +211,22 @@ void PlayerAction_Attack::Start(Player* player)
 			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_26);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_27);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_28);
+			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_29);
+			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_30);
+			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_31);
+			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_32);
+			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_33);
+			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_34);
+			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_35);
+			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_36);
+			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_37);
+			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_38);
+			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_39);
+			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_40);
+			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_41);
+			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_42);
+			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_43);
+			m_attackAnim.AddFrame(TEXTURES::ATTACK1_W1_44);
 			break;
 		case 2:
 			m_attackAnim.Init(FPS_24 * 25 * player->GetDeltatime(), &player->GetPlayerArm());
@@ -251,12 +267,12 @@ void PlayerAction_Attack::Start(Player* player)
 			m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_14);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_15);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_16);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_17);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_18);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_19);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_20);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_21);
-			m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_22);
+			//m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_17);
+			//m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_18);
+			//m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_19);
+			//m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_20);
+			//m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_21);
+			//m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_22);
 			break;
 		default:
 			break;
@@ -404,41 +420,6 @@ void PlayerAction_Attack::Start(Player* player)
 	}
 
 
-	//ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
-	//auto& ecs = player->mp_gameManager->GetECSManager();
-	//float closest = 100;
-	//ecs.ForEach(mask, [&](Entity e)
-	//	{
-	//		Utils::Vector3 newVec;
-	//		auto& playerPos = player->GetPosition();
-	//		auto* tc = ecs.GetComponent<TransformComponent>(e);
-
-	//		newVec.x = playerPos.x - tc->position.x;
-	//		newVec.y = playerPos.y - tc->position.y;
-	//		newVec.z = playerPos.z - tc->position.z;
-
-	//		float length = newVec.length();
-
-	//		if (length < 3.0f)
-	//		{
-	//			if (length < closest)
-	//			{
-	//				closest = length;
-	//				//player->m_closestEnemy = static_cast<Enemy*>(player->mp_scene->GetGameObjectByID(e));
-	//				GameObject& go = player->mp_scene->GetGameObjectByID(e);
-	//				Enemy* e = dynamic_cast<Enemy*>(&go);
-	//				if (e) {
-	//					player->m_closestEnemy = e;
-	//				}
-	//				else {
-	//					// pas d’ennemi valide sous cet ID
-	//				}
-
-	//			}
-	//		}
-	//	});
-
-
 	player->m_slashAttackNb++;
 	if (player->m_slashAttackNb > 3)
 	{
@@ -570,6 +551,7 @@ void PlayerAction_Attack::End(Player* player)
 		break;
 
 	case TEXTURES::IDLEARM_W1_1:
+		//player->GetPlayerArm().SetMesh(TEXTURES::IDLEARM_W1_1);
 		break;
 	case TEXTURES::IDLEARM_W2_1:
 		break;
@@ -578,6 +560,7 @@ void PlayerAction_Attack::End(Player* player)
 	m_pushBoulder = false;
 
 	player->GetPlayerArm().SetTexture(player->m_currIdleMesh);
+	//player->GetPlayerArm().SetMesh(TEXTURES::IDLEARM_W1_1);
 	//OutputDebugStringA("-EndSlash");
 }
 
