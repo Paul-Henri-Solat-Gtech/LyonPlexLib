@@ -573,6 +573,7 @@ bool SceneResources::InitImportedMeshResources(MeshManager& meshMngr)
 
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/Wall.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/Wall_Broken.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/Wall_Doorway.obj");
 
     return true;
 }

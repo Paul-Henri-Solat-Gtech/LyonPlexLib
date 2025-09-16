@@ -528,35 +528,48 @@ void PlayerAction_Attack::Update(Player* player)
 		{
 			ComponentMask mask = (1ULL << Tag_Boulder::StaticTypeID);
 			auto& ecs = player->mp_gameManager->GetECSManager();
-			float closest = 10;
+			float closest = 25;
 			ecs.ForEach(mask, [&](Entity e)
 				{
+					GameObject& go = *player->mp_scene->GetGameObjectByID(e);
+					Boulder* boulder = dynamic_cast<Boulder*>(&go);
+
+					auto& boulderCollider = *boulder->GetColliderGameObject();
+
 					Utils::Vector3 newVec;
 					auto& playerPos = player->GetPosition();
-					auto* tc = ecs.GetComponent<TransformComponent>(e);
+					auto* tc1 = ecs.GetComponent<TransformComponent>(e);
+					auto* tc2 = ecs.GetComponent<TransformComponent>(boulderCollider.GetEntity());
 
-					newVec.x = tc->position.x - playerPos.x;
-					newVec.y = tc->position.y - playerPos.y;
-					newVec.z = tc->position.z - playerPos.z;
+					newVec.x = tc1->position.x - playerPos.x;
+					newVec.y = tc1->position.y - playerPos.y;
+					newVec.z = tc1->position.z - playerPos.z;
 
 					float length = newVec.length();
-					//if (length < 3.0f)
-					if (length < ecs.GetComponent<CollisionComponent>(player->GetEntity())->BoundingSphereRadius() * 4 * ((tc->scale.x + tc->scale.z) / 2))
-					{
-						if (length < closest)
-						{
-							closest = length;
 
-							GameObject& go = *player->mp_scene->GetGameObjectByID(e);
-							Boulder* e = dynamic_cast<Boulder*>(&go);
-							if (e) {
+					float dist = length - ecs.GetComponent<CollisionComponent>(player->GetEntity())->BoundingSphereRadius() - ((tc2->scale.x + tc2->scale.z) / 2);
+
+					bool close = false;
+
+					if (newVec.x)
+
+					//if (length < ecs.GetComponent<CollisionComponent>(player->GetEntity())->BoundingSphereRadius() * 4 * ((tc1->scale.x + tc1->scale.z) / 2))
+					if (dist < 12)
+					{
+						//if (length < closest)
+						if (dist < closest)
+						{
+							//closest = length;
+							closest = dist;
+
+							//GameObject& go = *player->mp_scene->GetGameObjectByID(e);
+							//Boulder* boulder = dynamic_cast<Boulder*>(&go);
+							if (boulder) {
 								Utils::Vector3 normVec = newVec.normalized();
-								//player->m_closestEnemy = e;
-								//m_enemyHit = true;
-								e->GetPushed(normVec);
+								boulder->GetPushed(normVec);
 							}
 							else {
-								// pas d’ennemi valide sous cet ID
+								// pas de boulder a portee
 							}
 						}
 					}

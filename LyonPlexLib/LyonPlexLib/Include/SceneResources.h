@@ -676,6 +676,7 @@ namespace MESHES
 
 		WALL,
 		WALL_BROKEN,
+		WALL_DOORWAY,
 
 		TotalMeshCount
 	};
