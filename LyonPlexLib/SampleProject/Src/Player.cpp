@@ -539,6 +539,7 @@ void Player::ApplyMovementAndCollisions(float dt)
 		mp_scene->GetEcsManager()->ForEach(mask, [&](Entity e)
 			{
 				if (e.id == GetEntity().id) return;
+				if ((mp_ecsManager->GetComponentMask(e) & (1u << Tag_Enemy::StaticTypeID)) == (1u << Tag_Enemy::StaticTypeID)) return;
 
 				GameObject* otherGO = mp_scene->GetGameObjectByID(e);
 				if (!otherGO) return;

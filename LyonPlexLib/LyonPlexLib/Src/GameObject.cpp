@@ -57,6 +57,7 @@ void GameObject::InitOliveTreeGameObj(ECSManager* ecsManager, Scene* scene)
 	AddComponent<TransformComponent>(new TransformComponent());
 
 	// Tag monde (collisions)
+	//AddComponent<Tag_OliveTree>(new Tag_OliveTree);
 	AddComponent<Tag_World>(new Tag_World);
 }
 void GameObject::InitPlayerGameObj(ECSManager* ecsManager, Scene* scene)
