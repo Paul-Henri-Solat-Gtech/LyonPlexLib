@@ -13,8 +13,6 @@ void MainMenuScene::Start()
 	UINT renderWidth = renderZone.right - renderZone.left;
 	UINT renderHeight = renderZone.bottom - renderZone.top;
 
-
-
 	// Title
 	auto& gmTitle = CreateGameObject("Title", TYPE_2D, true);
 	//m_playerHeart1 = mp_scene->GetGameObjectByName("Heart1");
@@ -49,6 +47,9 @@ void MainMenuScene::Start()
 	m_sceneHasChanged = false;
 	m_btnStartSelected = false;
 	m_btnArenaSelected = false;
+
+	// Music
+	PlayMusicPlex("ArmonizerTheme");
 }
 
 void MainMenuScene::Update(float deltatime)

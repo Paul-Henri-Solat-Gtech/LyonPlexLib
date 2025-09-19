@@ -26,5 +26,7 @@ private:
 
 	bool m_chooseEnemy;
 	EnemyType m_choosedEnemy;
+
+	float m_rotation;
 };
 

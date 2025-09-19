@@ -48,16 +48,15 @@ void GameScene::Start()
 
 	m_playerTest.SetPlayerArm(GetGameObjectByName("bras"));
 
-	////Init Portals No need to put false its default
+	////Init Portals No need to put -> false its default
 	//m_p1Spawned = false;
-	//m_p2Spawned = false;
-	//m_p3Spawned = false;
-	//m_p4Spawned = false;
-
+	//..
 	//m_p1Finished = false;
-	//m_p2Finished = false;
-	//m_p3Finished = false;
-	//m_p4Finished = false;
+	//..
+
+	//win
+	m_youWin = false;
+	m_chronoChangeScene = 5.f;
 
 	//object / weapon
 	CreateGameObject("Stick");
@@ -111,12 +110,8 @@ void GameScene::Start()
 	GetGameObjectByName("Next 0").SetScale({ 1,1,1 });*/
 
 
-	// Audio
-	CreateSoundPlex("slash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
-	CreateSoundPlex("Corrosion", L"../LyonPlexLib/Ressources/Corrosion.wav");
-	CreateSoundPlex("deathScream", L"../SampleProject/Ressources/Sounds/deathScreamBBB3.wav");
-	CreateSoundPlex("HUGH", L"../SampleProject/Ressources/Sounds/HUGH.wav");
-	PlayMusicPlex("Corrosion");
+	// Music
+	PlayMusicPlex("ArmonizerTheme");
 
 
 	CreateEntity("Light");
@@ -3714,6 +3709,17 @@ void GameScene::Update(float deltatime)
 		ChangeScene("DevScene");
 		return;
 	}
+
+	if (m_youWin)
+	{
+		m_chronoChangeScene -= 1.f * deltatime;
+
+		if (m_chronoChangeScene <= 0)
+		{
+			ChangeScene("MainMenuScene");
+			return;
+		}
+	}
 }
 
 void GameScene::Release()
@@ -3750,8 +3756,21 @@ void GameScene::RemoveMenu()
 
 void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy)
 {
-	//auto* newPortal = &CreateGameObject<Portals>(m_player, this, nbEnemy);
-	m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, -17, EnemyType::Crabe);
+	m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, -17);
+	m_portal->SetPosition(newPos);
+}
+
+void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy, EnemyType enemyType)
+{
+	if (enemyType == EnemyType::GolemBoss)
+	{
+		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, -5, enemyType);
+	}
+	else
+	{
+		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, -17, enemyType);
+	}
+	
 	m_portal->SetPosition(newPos);
 }
 
@@ -3760,7 +3779,7 @@ void GameScene::PortalSystem()
 	//1
 	if (GetEnnemyNb() <= 0 && !m_p1Spawned)
 	{
-		SpawnPortal({ 190,-15,-115 }, 1);
+		SpawnPortal({ 190,-15,-115 }, 1, EnemyType::Crabe);
 		m_p1Spawned = true;
 		OutputDebugStringA("\n First wave \n");
 	}
@@ -3769,14 +3788,16 @@ void GameScene::PortalSystem()
 		if (m_portal->SpawnIsFinished())
 		{
 			m_p1Finished = true;
+			
 		}
 	}
 	//2
 	if (GetEnnemyNb() <= 0 && m_p1Finished && !m_p2Spawned)
 	{
-		SpawnPortal({ 110,-15,-125 }, 3);
+		SpawnPortal({ 110,-15,-125 }, 3, EnemyType::Crabe);
 		m_p2Spawned = true;
 		OutputDebugStringA("\n Second wave \n");
+		PlayMusicPlex("TheCrimsonTideClashfight");
 	}
 	if (m_p2Spawned && !m_p2Finished)
 	{
@@ -3788,7 +3809,7 @@ void GameScene::PortalSystem()
 	//3
 	if (GetEnnemyNb() <= 0 && m_p2Finished && !m_p3Spawned)
 	{
-		SpawnPortal({ -70,-15,-180 }, 3);
+		SpawnPortal({ -70,-15,-180 }, 3, EnemyType::Crabe);
 		m_p3Spawned = true;
 		OutputDebugStringA("\n third wave \n");
 	}
@@ -3802,7 +3823,7 @@ void GameScene::PortalSystem()
 	//4
 	if (GetEnnemyNb() <= 0 && m_p3Finished && !m_p4Spawned)
 	{
-		SpawnPortal({ -170,-15,-90 }, 5);
+		SpawnPortal({ -170,-15,-90 }, 5, EnemyType::Crabe);
 		m_p4Spawned = true;
 		OutputDebugStringA("\n fourth wave \n");
 	}
@@ -3816,7 +3837,7 @@ void GameScene::PortalSystem()
 	//5
 	if (GetEnnemyNb() <= 0 && m_p4Finished && !m_p5Spawned)
 	{
-		SpawnPortal({ -180,-15,-10 }, 5);
+		SpawnPortal({ -180,-15,-10 }, 5, EnemyType::CrabeImmobile);
 		m_p5Spawned = true;
 		OutputDebugStringA("\n fifth wave \n");
 	}
@@ -3826,6 +3847,40 @@ void GameScene::PortalSystem()
 		{
 			m_p5Finished = true;
 		}
+	}
+	//BOSS
+	if (GetEnnemyNb() <= 0 && m_p5Finished && !m_pBossSpawned)
+	{
+		SpawnPortal({ -180,-15,-10 }, 1, EnemyType::GolemBoss);
+		m_pBossSpawned = true;
+		PlayMusicPlex("TheAlphaGolem");
+		OutputDebugStringA("\n Boss wave \n");
+	}
+	if (m_pBossSpawned && !m_pBossFinished)
+	{
+		if (m_portal->SpawnIsFinished())
+		{
+			m_pBossFinished = true;
+		}
+	}
+	//WIN
+	if (GetEnnemyNb() <= 0 && m_pBossFinished && !m_youWin)
+	{
+		OutputDebugStringA("\n [ ! You WIN ! ] \n");
+
+		RECT renderZone;
+		GetClientRect(mp_sceneManager->GetGameManager()->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
+		UINT renderWidth = renderZone.right - renderZone.left;
+		UINT renderHeight = renderZone.bottom - renderZone.top;
+		CreateGameObject("Win", TYPE_2D, true);
+		auto& win = GetGameObjectByName("Win");
+		win.SetMesh(MESHES::LOCAL_SQUARE);
+		win.SetTexture(TEXTURES::WINSCREEN);
+		win.SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2, 0 });
+		win.SetScale({ (float)renderWidth * 0.4f, (float)renderHeight * 0.4f, 0 });
+		win.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
+		m_youWin = true;
 	}
 }
 

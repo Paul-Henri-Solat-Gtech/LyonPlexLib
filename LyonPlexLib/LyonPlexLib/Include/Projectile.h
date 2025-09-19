@@ -4,6 +4,7 @@ enum ProjectileType
 {
 	Laser,
 	Rock,
+	BigRock,
 	AirSlash,
 
 	ProjectileTypeCount

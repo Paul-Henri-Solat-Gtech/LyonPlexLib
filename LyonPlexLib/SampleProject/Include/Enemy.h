@@ -12,6 +12,7 @@ enum EnemyType
 	Crabe,
 	Golem,
 	CrabeImmobile,
+	GolemBoss,
 
 	EnemyTypeCount
 };

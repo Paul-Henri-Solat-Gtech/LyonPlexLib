@@ -212,8 +212,8 @@ float4 PSMain(VSOutput input) : SV_TARGET
 
     // 3) Effet d'Èclat selon l'inclinaison (faux fresnel)
     float fresnel = pow(1 - saturate(N.y), 3);
-    float3 colorNear = baseColor * 0.8; // zones ìplatesî
-    float3 colorSlope = baseColor * 1.2; // zones ìinclinÈesî
+    float3 colorNear = baseColor * 0.8; // zones ìplatesÅE
+    float3 colorSlope = baseColor * 1.2; // zones ìinclinÈesÅE
     float3 finalColor = lerp(colorNear, colorSlope, fresnel);
 
     // 4) Retourne la couleur finale

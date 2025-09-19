@@ -55,7 +55,7 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 	case Rock:
 	{
 		SetTag(Tag::TAG_Projectile);
-		SetTexture(TEXTURES::EAU);
+		SetTexture(TEXTURES::PIERRE);
 		SetScale({ 2,2,2 });
 		projScale = GetScale();
 		
@@ -65,6 +65,33 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 		case 0:
 			SetMesh(MESHES::ROCKBIG);
 			AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x * 3 / 2, projScale.y * 5/ 2, projScale.z * 3 / 2 })));
+			break;
+		case 1:
+			SetMesh(MESHES::ROCKMedium);
+			AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x * 3 / 2, projScale.y * 2 / 2, projScale.z * 2 / 2 })));
+			break;
+		case 2:
+			SetMesh(MESHES::ROCKLM2);
+			AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x * 2 / 2, projScale.y * 1 / 2, projScale.z * 1.5f / 2 })));
+			break;
+		}
+
+		Laube(posStart, posTarget);
+		break;
+	}
+	case BigRock:
+	{
+		SetTag(Tag::TAG_Projectile);
+		SetTexture(TEXTURES::PIERRE);
+		SetScale({ 8,8,8 });
+		projScale = GetScale();
+
+		int r = RandNumber(2);
+		switch (r)
+		{
+		case 0:
+			SetMesh(MESHES::ROCKBIG);
+			AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x * 3 / 2, projScale.y * 5 / 2, projScale.z * 3 / 2 })));
 			break;
 		case 1:
 			SetMesh(MESHES::ROCKMedium);
@@ -123,6 +150,7 @@ void Projectile::OnUpdate(float deltatime)
 
 		break;
 	case Rock:
+	case BigRock:
 	{
 		// integration simple Euler pour laube
 		m_laubeVelocity.y -= m_laubeGravity * deltatime;

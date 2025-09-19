@@ -160,7 +160,7 @@ float4 PSMain(PSInput input) : SV_Target
 
     float3 lit = baseColor * accum;
     if (useQuick)
-        lit = pow(lit, 1.0 / GAMMA);
+       lit = pow(lit, 1.0 / GAMMA);
 
     return float4(lit, outAlpha);
 }

@@ -43,6 +43,9 @@ void ArenaScene::Start()
 
 	m_player.SetPlayerArm(GetGameObjectByName("bras"));
 
+	// MUSIC
+	PlayMusicPlex("TheCrimsonTideClashArena");
+
 	//MENU PAUSE
 	m_pauseIsOpen = false;
 

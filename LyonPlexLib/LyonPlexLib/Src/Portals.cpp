@@ -16,6 +16,7 @@ Portals::Portals(GameObject& gameObjectPlayer, Scene* scene, int ennemyNb, float
 	GetComponent<MeshComponent>()->ColorPatchUp();
 	GetComponent<MeshComponent>()->alpha = 0.95f;
 	SetScale({3,3,1});
+	m_rotation = GetRotation().z;
 }
 
 Portals::Portals(GameObject& gameObjectPlayer, Scene* scene, int ennemyNb, float groundY, EnemyType enemyType) : m_playerGm(gameObjectPlayer)
@@ -39,11 +40,10 @@ void Portals::OnUpdate(float deltatime)
 {
 	m_timer += deltatime;
 
-	GetComponent<TransformComponent>()->AddRotation(0.f,0.f,0.1f);
+	//GetComponent<TransformComponent>()->AddRotation(0.f,0.f,0.1f);
 	LookAt(m_playerGm);
-	auto rotZ = GetRotation().z;
-	rotZ += 5;
-	AddRotation({0,0,rotZ});
+	m_rotation += 70 * deltatime;
+	AddRotation({0,0,m_rotation});
 
 	if (m_timer > 1.5 && m_capacity > 0)
 	{

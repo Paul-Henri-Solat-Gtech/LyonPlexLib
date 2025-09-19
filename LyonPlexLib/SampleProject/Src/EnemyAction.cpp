@@ -28,6 +28,7 @@ void EnnemyAction_Idle::Start(Enemy* ennemy)
 		break;
 	}
 	case EnemyType::Golem:
+	case EnemyType::GolemBoss:
 	{
 		m_idleAnim.AddFrame(TEXTURES::GOLEM_IDLE_1);
 		m_idleAnim.AddFrame(TEXTURES::GOLEM_IDLE_2);
@@ -87,6 +88,7 @@ void EnnemyAction_Move::Start(Enemy* ennemy)
 		}
 		break;
 		case EnemyType::Golem:
+		case EnemyType::GolemBoss:
 		{
 			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_1);
 			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_2);
@@ -146,6 +148,7 @@ void EnnemyAction_Move::End(Enemy* ennemy)
 			ennemy->SetTexture(TEXTURES::CRABE_IDLE_1);
 			break;
 		case EnemyType::Golem:
+		case EnemyType::GolemBoss:
 			ennemy->SetTexture(TEXTURES::GOLEM_IDLE_1);
 			break;
 	}
@@ -198,6 +201,7 @@ void EnnemyAction_Shoot::End(Enemy* ennemy)
 		ennemy->SetTexture(TEXTURES::CRABE_IDLE_1);
 		break;
 	case EnemyType::Golem:
+	case EnemyType::GolemBoss:
 		ennemy->SetTexture(TEXTURES::GOLEM_IDLE_1);
 		break;
 	}
@@ -240,6 +244,7 @@ void EnnemyAction_Shoot::InitShootAnimation(Enemy* ennemy)
 		break;
 
 	case EnemyType::Golem:
+	case EnemyType::GolemBoss:
 		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_1);
 		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_2);
 		m_shootAnim.AddFrame(TEXTURES::GOLEM_ATTACK_3);
@@ -310,6 +315,7 @@ void EnnemyAction_MeleeAttack::Start(Enemy* ennemy)
 	}
 	break;
 	case EnemyType::Golem:
+	case EnemyType::GolemBoss:
 	{
 		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_1);
 		m_atkAnim.AddFrame(TEXTURES::GOLEM_ATTACK_2);
@@ -365,6 +371,7 @@ void EnnemyAction_MeleeAttack::End(Enemy* ennemy)
 		ennemy->SetTexture(TEXTURES::CRABE_IDLE_1);
 		break;
 	case EnemyType::Golem:
+	case EnemyType::GolemBoss:
 		ennemy->SetTexture(TEXTURES::GOLEM_IDLE_1);
 		break;
 	}

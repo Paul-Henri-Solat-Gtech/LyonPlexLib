@@ -21,11 +21,12 @@ void HealingRock::OnUpdate(float deltatime)
 	if (m_lifetime <= 0)
 	{
 		Destroy();
-		return;
+		//return;
 	}
 	else
 	{
 		LookAt(m_playerGm);
+
 		m_lifetime -= 1 * deltatime;
 	}
 }
