@@ -1,7 +1,4 @@
-﻿#include "GameObject.h"
-#include "GameObject.h"
-#include "GameObject.h"
-#include "pch.h"
+﻿#include "pch.h"
 #include "GameObject.h"
 
 void GameObject::Init(const std::string& name, ECSManager* ecsManager, Scene* scene)

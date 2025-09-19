@@ -1,22 +1,43 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "CollisionSystem.h"
 #include "ECSManager.h"
 
 #undef max
 #undef min
 
+//inline bool HasAny(ComponentMask mask, uint64_t flags) { return (mask & flags) != 0; }
+//inline bool HasAll(ComponentMask mask, uint64_t flags) { return (mask & flags) == flags; }
+//inline bool Has(ComponentMask mask, uint64_t flags) { return HasAll(mask, flags); }
+//
+//constexpr ComponentMask mask_TAG_Player = 1ULL << Tag_Player::StaticTypeID;
+//constexpr ComponentMask mask_TAG_Object = 1ULL << Tag_Object::StaticTypeID;
+//constexpr ComponentMask mask_TAG_World = 1ULL << Tag_World::StaticTypeID;
+//constexpr ComponentMask mask_TAG_Enemy = 1ULL << Tag_Enemy::StaticTypeID;
+//constexpr ComponentMask mask_TAG_Projectile = 1ULL << Tag_Projectile::StaticTypeID;
+//constexpr ComponentMask mask_TAG_Boulder = 1ULL << Tag_Boulder::StaticTypeID;
+//constexpr ComponentMask mask_TAG_OliveTree = 1ULL << Tag_OliveTree::StaticTypeID;
+//constexpr ComponentMask mask_TAG_HealingRock = 1ULL << Tag_HealingRock::StaticTypeID;
+//
+//constexpr ComponentMask allTags =
+//mask_TAG_World
+//| mask_TAG_Enemy
+//| mask_TAG_Projectile
+//| mask_TAG_Object
+//| mask_TAG_Boulder
+//| mask_TAG_OliveTree
+//| mask_TAG_HealingRock;
 
 bool CollisionSystem::Init(ECSManager* ecs)
 {
 	m_ECS = ecs;
 	return false;
 }
-//// en haut du fichier CollisionSystem.cpp (includes si nécessaire)
+//// en haut du fichier CollisionSystem.cpp (includes si né¦—essaire)
 //#include <cstdint> // pour UINT32_MAX
 //#include <cassert>
 
 // helper minimal : calcule la position "monde" en remontant les parents
-// Hypothèse : on ne prend en compte QUE la translation (addition des positions).
+// Hypothé‘še : on ne prend en compte QUE la translation (addition des positions).
 static XMFLOAT3 GetWorldPosition(Entity e, ECSManager* ecs)
 {
 	XMFLOAT3 worldPos{ 0.f, 0.f, 0.f };
@@ -27,9 +48,9 @@ static XMFLOAT3 GetWorldPosition(Entity e, ECSManager* ecs)
 	// accumulateur : on additionne les positions locales en remontant les parents
 	XMFLOAT3 accum = t->position;
 
-	// remonter la chaîne de parents
+	// remonter la chaçµœe de parents
 	Entity curParent = t->parent;
-	// sécurité : limite de profondeur pour éviter boucle infinie
+	// sé¦—uritãƒ»: limite de profondeur pour é¨…iter boucle infinie
 	const int MAX_PARENT_DEPTH = 64;
 	int depth = 0;
 	while (curParent.id != UINT32_MAX && depth < MAX_PARENT_DEPTH)
@@ -60,27 +81,83 @@ static XMFLOAT3 GetWorldPosition(Entity e, ECSManager* ecs)
 void CollisionSystem::Update()
 {
 	// collecte entities avec Transform + Collision
-	auto mask = (1ULL << Transform_ID) | (1ULL << Collision_ID);
+	ComponentMask mask = (1ULL << Transform_ID) | (1ULL << Collision_ID);
+	ComponentMask excludeMask = mask_TAG_Object | mask_TAG_World | mask_TAG_Boulder;
 	std::vector<Entity> ents;
-	m_ECS->ForEach(mask, [&](Entity e) { ents.push_back(e); });
+	m_ECS->ForEach(mask, excludeMask, [&](Entity e) { ents.push_back(e); });
 
-	//std::unordered_map<uint32_t, XMMATRIX> emptyMap;
-	//const std::unordered_map<uint32_t, XMMATRIX>& worldMatrices =
-	//	(m_TransformSystem) ? m_TransformSystem->GetWorldMatrix() : emptyMap;
+	//std::unordered_map<ComponentMask, XMMATRIX> emptyMap;
+	//const std::unordered_map<ComponentMask, XMMATRIX>& worldMatrices =
+	//    (m_TransformSystem) ? m_TransformSystem->GetWorldMatrix() : emptyMap;
 
-	for (size_t i = 0; i < ents.size(); ++i)
-	{
-		for (size_t j = i + 1; j < ents.size(); ++j)
-		{
-			TryPair(ents[i], ents[j]/*, worldMatrices*/);
+	//double globalStart = Utils::getTimeSeconds();
+	//double sumPairs = 0.0;
+	//std::vector<double> pairDurations;
+
+	for (size_t i = 0; i < ents.size(); ++i) {
+		for (size_t j = i + 1; j < ents.size(); ++j) {
+			//double t0 = Utils::getTimeSeconds();
+			TryPair(ents[i], ents[j]);
+			//double t1 = Utils::getTimeSeconds();
+			//double d = t1 - t0;
+			//pairDurations.push_back(d);
+			//sumPairs += d;
 		}
 	}
+	//double globalEnd = Utils::getTimeSeconds();
+
+	//// log hors boucle
+	//for (auto d : pairDurations) {
+	//    // si tu veux dÃ©tailler, mais faire Ã§a aprÃ¨s la mesure
+	//    Utils::log("Chrono : " + std::to_string(d) + "\n");
+	//}
+	//Utils::log("ChronoGLOBAL : " + std::to_string(globalEnd - globalStart)
+	//    + " - sumPairs : " + std::to_string(sumPairs)
+	//    + " - entsToTest : " + std::to_string(ents.size()) + "\n");
 }
 
 void CollisionSystem::TryPair(Entity a, Entity b/*, const std::unordered_map<uint32_t, XMMATRIX>& worldMatrices*/)
 {
-	if (m_ECS->GetComponent<Tag_World>(a) != nullptr && m_ECS->GetComponent<Tag_World>(b) != nullptr) // ne calcul pas les collisions entre les objets immobiles du monde
-		return;
+	ComponentMask mask_A = m_ECS->GetComponentMask(a);
+	ComponentMask mask_B = m_ECS->GetComponentMask(b);
+
+
+	if (!HasAny(mask_A, mask_TAG_Player | mask_TAG_Projectile | mask_TAG_Enemy | mask_TAG_OliveTree | mask_TAG_HealingRock)) return;
+	if (!HasAny(mask_B, mask_TAG_Player | mask_TAG_Projectile | mask_TAG_Enemy | mask_TAG_OliveTree | mask_TAG_HealingRock)) return;
+
+
+	if (Has(mask_A, mask_TAG_Player))
+	{
+		if (!HasAny(mask_B, mask_TAG_Projectile | mask_TAG_HealingRock))
+			return;
+	}
+	else if (Has(mask_B, mask_TAG_Player))
+	{
+		if (!HasAny(mask_A, mask_TAG_Projectile | mask_TAG_HealingRock))
+			return;
+	}
+
+	if (Has(mask_A, mask_TAG_Enemy))
+	{
+		if (!Has(mask_B, mask_TAG_Projectile))
+			return;
+	}
+	else if (Has(mask_B, mask_TAG_Enemy))
+	{
+		if (!Has(mask_A, mask_TAG_Projectile))
+			return;
+	}
+
+	if (Has(mask_A, mask_TAG_OliveTree))
+	{
+		if (!Has(mask_B, mask_TAG_Projectile))
+			return;
+	}
+	else if (Has(mask_B, mask_TAG_OliveTree))
+	{
+		if (!Has(mask_A, mask_TAG_Projectile))
+			return;
+	}
 
 	auto* ta = m_ECS->GetComponent<TransformComponent>(a);
 	auto* tb = m_ECS->GetComponent<TransformComponent>(b);
@@ -92,7 +169,7 @@ void CollisionSystem::TryPair(Entity a, Entity b/*, const std::unordered_map<uin
 	//auto ita = worldMatrices.find(a.id);
 	//if (ita != worldMatrices.end()) wa = ita->second;
 	//else {
-	//	// fallback: compose local (scale * rot * trans) - identique à TransformSystem
+	//	// fallback: compose local (scale * rot * trans) - identique ãƒ»TransformSystem
 	//	XMVECTOR pos = XMLoadFloat3(&ta->position);
 	//	XMVECTOR rot = XMLoadFloat4(&ta->rotation);
 	//	XMVECTOR scl = XMLoadFloat3(&ta->scale);
@@ -332,7 +409,7 @@ bool CollisionSystem::SphereVsAabb(XMFLOAT3 pc, SphereCollider s, XMFLOAT3 pa, A
 bool CollisionSystem::ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBCollider b2)
 {
 
-	// 3 axes locaux de chaque boîte
+	// 3 axes locaux de chaque boç¾¡e
 	XMMATRIX R1 = XMMatrixRotationQuaternion(XMLoadFloat4(&b1.orientation));
 	XMMATRIX R2 = XMMatrixRotationQuaternion(XMLoadFloat4(&b2.orientation));
 	XMVECTOR A[3] = { R1.r[0], R1.r[1], R1.r[2] };
@@ -353,7 +430,7 @@ bool CollisionSystem::ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBColl
 		}
 	}
 
-	// vecteur distance projeté sur A[]
+	// vecteur distance projetãƒ»sur A[]
 	XMVECTOR tvec = C2 - C1;
 	float t[3] = {
 		XMVectorGetX(XMVector3Dot(tvec, A[0])),
@@ -361,7 +438,7 @@ bool CollisionSystem::ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBColl
 		XMVectorGetX(XMVector3Dot(tvec, A[2]))
 	};
 
-	// 1–3 : axes A0, A1, A2
+	// 1ãƒ» : axes A0, A1, A2
 	for (int i = 0; i < 3; ++i) {
 		float ra = (&b1.halfSize.x)[i];
 		float rb = b2.halfSize.x * AbsR[i][0]
@@ -369,7 +446,7 @@ bool CollisionSystem::ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBColl
 			+ b2.halfSize.z * AbsR[i][2];
 		if (std::abs(t[i]) > ra + rb) return false;
 	}
-	// 4–6 : axes B0, B1, B2
+	// 4ãƒ» : axes B0, B1, B2
 	for (int j = 0; j < 3; ++j) {
 		float ra = b1.halfSize.x * AbsR[0][j]
 			+ b1.halfSize.y * AbsR[1][j]
@@ -378,7 +455,7 @@ bool CollisionSystem::ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBColl
 		float rb = (&b2.halfSize.x)[j];
 		if (tj > ra + rb) return false;
 	}
-	// 7–15 : A_i × B_j
+	// 7ãƒ»5 : A_i ï¾— B_j
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
 			float ra = (&b1.halfSize.x)[(i + 1) % 3] * AbsR[(i + 2) % 3][j]
@@ -394,11 +471,11 @@ bool CollisionSystem::ObbVsObb(XMFLOAT3 p1, OBBCollider b1, XMFLOAT3 p2, OBBColl
 
 	return true;
 }
-// 4) Sphere vs OBB (on ramène le centre sphère en espace local OBB)
+// 4) Sphere vs OBB (on raméˆ©e le centre sphé‘½e en espace local OBB)
 bool CollisionSystem::SphereVsObb(XMFLOAT3 ps, SphereCollider s,
 	XMFLOAT3 p, OBBCollider b)
 {
-	// centre sphère en monde
+	// centre sphé‘½e en monde
 	XMVECTOR C = XMLoadFloat3(&ps) + XMLoadFloat3(&s.offset);
 	// inverser la rotation de l'OBB
 	XMVECTOR invQ = XMQuaternionInverse(XMLoadFloat4(&b.orientation));
@@ -408,12 +485,12 @@ bool CollisionSystem::SphereVsObb(XMFLOAT3 ps, SphereCollider s,
 	//qb = XMQuaternionNormalize(qb);
 	//XMVECTOR invQ = XMQuaternionInverse(qb);
 
-	// centre sphère en espace local OBB
+	// centre sphé‘½e en espace local OBB
 	XMVECTOR localC = XMVector3Rotate(C - XMLoadFloat3(&p), invQ);
 	XMFLOAT3 lc;
 	XMStoreFloat3(&lc, localC);
 
-	// clamp sur la boîte alignée aux axes
+	// clamp sur la boç¾¡e aligné¦¥ aux axes
 	float cx = std::max(-b.halfSize.x, std::min(lc.x, b.halfSize.x));
 	float cy = std::max(-b.halfSize.y, std::min(lc.y, b.halfSize.y));
 	float cz = std::max(-b.halfSize.z, std::min(lc.z, b.halfSize.z));
@@ -422,15 +499,15 @@ bool CollisionSystem::SphereVsObb(XMFLOAT3 ps, SphereCollider s,
 	return dx * dx + dy * dy + dz * dz <= s.radius * s.radius;
 }
 
-// 5) OBB vs AABB (on applique SAT en traitant l’AABB comme OBB non orientée)
+// 5) OBB vs AABB (on applique SAT en traitant lä½†ABB comme OBB non orienté¦¥)
 bool CollisionSystem::ObbVsAabb(XMFLOAT3 paabb, AABBCollider a,
 	XMFLOAT3 pobb, OBBCollider b)
 {
-	// transformer l’AABB en OBB : orientation = identity, offset = a.offset
+	// transformer lä½†ABB en OBB : orientation = identity, offset = a.offset
 	OBBCollider boxA;
 	boxA.halfSize = a.halfSize;
 	boxA.offset = a.offset;
 	boxA.orientation = { 0, 0, 0, 1 };
-	// et appeler directement ObbVsObb avec centres échangés si besoin
+	// et appeler directement ObbVsObb avec centres é¦—hangé§¸ si besoin
 	return ObbVsObb(pobb, b, paabb, boxA);
 }

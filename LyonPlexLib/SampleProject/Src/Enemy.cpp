@@ -334,6 +334,48 @@ void Enemy::SetStateMachine()
 		}
 	}
 		break;
+	case EnemyType::CrabeImmobile:
+	{
+		// Enemy Properties >
+
+		m_life = 3;
+		m_moveSpeed = 5.f;
+		m_reloadSpeed = 2.f;
+		SetTexture(TEXTURES::CRABE_IDLE_1);
+		SetScale({ 4,4,4 });
+		SetPosition({ GetPosition().x,GetPosition().y - 10, GetPosition().z });
+
+		// Enemy States >
+
+		// --- IDLE ---
+		{
+			auto* sIdle = m_stateMachine.CreateBehaviour(State::Idle);
+			sIdle->AddAction(new EnnemyAction_Idle());
+			//-> FLEE TRANSITION
+			{
+				auto transition = sIdle->CreateTransition(State::Shoot);
+				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsVeryNear>();
+				//transition->AddCondition<PlayerCondition_IsAttacking>();
+			}
+			//-> SHOOT TRANSITION
+			{
+				auto transition = sIdle->CreateTransition(State::Shoot);
+				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
+			}
+		}
+
+		// --- SHOOT ---
+		{
+			auto* sShoot = m_stateMachine.CreateBehaviour(State::Shoot);
+			sShoot->AddAction(new EnnemyAction_Shoot());
+			//-> ROAM TRANSITION
+			{
+				auto transition = sShoot->CreateTransition(State::Idle);
+				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNotNear>();
+			}
+		}
+	}
+		break;
 	default:
 	{
 		// Enemy Properties >

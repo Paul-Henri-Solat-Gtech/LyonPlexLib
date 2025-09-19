@@ -71,6 +71,11 @@ int GameManager::Run()
 	// Delatime
 	double t = Utils::getTimeSeconds();
 
+	// Test lag ->
+	//double fpsDebugStart = t;
+	//double fpsDebugEnd = Utils::getTimeSeconds();
+	//Utils::log("\nChrono : " + std::to_string(fpsDebugEnd - fpsDebugStart) + "\n");
+
 	while (m_isRunning)
 	{
 		// Delatime
@@ -95,8 +100,8 @@ int GameManager::Run()
 		//m_renderer.Update();
 		m_ECS.m_systemMgr.UpdateAll(m_deltaTime);
 		m_sceneManager.UpdateScene(m_deltaTime);
-		m_collisionSystem.Update();
 
+		m_collisionSystem.Update();
 
 
 		//m_lightSystem.Update(m_ECS, m_deltaTime);

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "EntityManager.h"
 #include "ComponentManager.h"
@@ -62,6 +62,20 @@ public:
         }
     }
 
+    // meme fonction avec l'option d'exclure certains bits du bitMask, par exemple pour vérifier des tags
+    template<typename Func>
+    void ForEach(ComponentMask includeMask, ComponentMask excludeMask, Func func)
+    {
+        for (auto id : m_entityMgr.GetAll())
+        {
+            Entity entity{ id };
+            ComponentMask m = m_componentMgr.GetMask(entity);
+            if ((m & includeMask) == includeMask && (m & excludeMask) == 0)
+            {
+                func(entity);
+            }
+        }
+    }
 
     // Process all queued destructions at end of frame
     void EndFrame();

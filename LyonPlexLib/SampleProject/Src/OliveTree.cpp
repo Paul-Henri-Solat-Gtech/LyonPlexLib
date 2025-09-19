@@ -34,7 +34,7 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 	mp_trunkCol->SetPosition({ 0.115241952,1.324885845,0.244909346 });
 	mp_trunkCol->SetScale({ 1.700000286,3,2 });
 	mp_trunkCol->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB()));
-
+	mp_trunkCol->AddComponent<Tag_OliveTree>(new Tag_OliveTree);
 
 	mp_leavesCol = &scene->CreateGameObject("test 2", TYPE_3D_TRANSPARENT);
 	scene->SetParent(*mp_leavesCol, *mp_leaves);
@@ -64,7 +64,7 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 				return;
 			}
 
-			// get pointer (peut retourner nullptr si l'objet a été détruit)
+			// get pointer (peut retourner nullptr si l'objet a étEdétruit)
 			GameObject* otherGO = scenePtr->GetGameObjectByID(otherE);
 			if (!otherGO) return; // évite deref null
 

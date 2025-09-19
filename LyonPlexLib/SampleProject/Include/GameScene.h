@@ -29,8 +29,8 @@ private:
 	Portals* m_portal = nullptr;
 
 	// firstPortalHasSpawned = p_1Spawned
-	bool m_p1Spawned, m_p2Spawned, m_p3Spawned;
-	bool m_p1Finished, m_p2Finished, m_p3Finished;
+	bool m_p1Spawned, m_p2Spawned, m_p3Spawned, m_p4Spawned, m_p5Spawned;
+	bool m_p1Finished, m_p2Finished, m_p3Finished, m_p4Finished, m_p5Finished;
 
 	//GameObject m_player;
 	GameObject m_cam;

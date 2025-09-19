@@ -48,14 +48,16 @@ void GameScene::Start()
 
 	m_playerTest.SetPlayerArm(GetGameObjectByName("bras"));
 
-	//Init Portals
-	m_p1Spawned = false;
-	m_p2Spawned = false;
-	m_p3Spawned = false;
+	////Init Portals No need to put false its default
+	//m_p1Spawned = false;
+	//m_p2Spawned = false;
+	//m_p3Spawned = false;
+	//m_p4Spawned = false;
 
-	m_p1Finished = false;
-	m_p2Finished = false;
-	m_p3Finished = false;
+	//m_p1Finished = false;
+	//m_p2Finished = false;
+	//m_p3Finished = false;
+	//m_p4Finished = false;
 
 	//object / weapon
 	CreateGameObject("Stick");
@@ -3755,6 +3757,7 @@ void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy)
 
 void GameScene::PortalSystem()
 {
+	//1
 	if (GetEnnemyNb() <= 0 && !m_p1Spawned)
 	{
 		SpawnPortal({ 190,-15,-115 }, 1);
@@ -3768,10 +3771,10 @@ void GameScene::PortalSystem()
 			m_p1Finished = true;
 		}
 	}
-
+	//2
 	if (GetEnnemyNb() <= 0 && m_p1Finished && !m_p2Spawned)
 	{
-		SpawnPortal({ 110,-15,-125 }, 2);
+		SpawnPortal({ 110,-15,-125 }, 3);
 		m_p2Spawned = true;
 		OutputDebugStringA("\n Second wave \n");
 	}
@@ -3782,7 +3785,47 @@ void GameScene::PortalSystem()
 			m_p2Finished = true;
 		}
 	}
-
-
+	//3
+	if (GetEnnemyNb() <= 0 && m_p2Finished && !m_p3Spawned)
+	{
+		SpawnPortal({ -70,-15,-180 }, 3);
+		m_p3Spawned = true;
+		OutputDebugStringA("\n third wave \n");
+	}
+	if (m_p3Spawned && !m_p3Finished)
+	{
+		if (m_portal->SpawnIsFinished())
+		{
+			m_p3Finished = true;
+		}
+	}
+	//4
+	if (GetEnnemyNb() <= 0 && m_p3Finished && !m_p4Spawned)
+	{
+		SpawnPortal({ -170,-15,-90 }, 5);
+		m_p4Spawned = true;
+		OutputDebugStringA("\n fourth wave \n");
+	}
+	if (m_p4Spawned && !m_p4Finished)
+	{
+		if (m_portal->SpawnIsFinished())
+		{
+			m_p4Finished = true;
+		}
+	}
+	//5
+	if (GetEnnemyNb() <= 0 && m_p4Finished && !m_p5Spawned)
+	{
+		SpawnPortal({ -180,-15,-10 }, 5);
+		m_p5Spawned = true;
+		OutputDebugStringA("\n fifth wave \n");
+	}
+	if (m_p5Spawned && !m_p5Finished)
+	{
+		if (m_portal->SpawnIsFinished())
+		{
+			m_p5Finished = true;
+		}
+	}
 }
 
