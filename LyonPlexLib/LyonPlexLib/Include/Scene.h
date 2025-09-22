@@ -39,14 +39,15 @@ public:
 	Entity* GetEntity(const std::string& entityName);//(a enlever)
 
 	GameObject& CreateGameObject(const std::string& gameObjectName);
-	GameObject& CreateGameObject(const std::string& gameObjectName, uint32_t meshId, uint32_t textureId = UINT32_MAX);
+	//GameObject& CreateGameObject(const std::string& gameObjectName, uint32_t meshId, uint32_t textureId = UINT32_MAX);
+	GameObject* CreateGameObject(const std::string& gameObjectName, uint32_t meshId, uint32_t textureId = UINT32_MAX);
 	GameObject& CreateWaterGameObject();
 	GameObject& CreateWaterGameObject(const std::string& gameObjectName);
 	GameObject& CreateGameObject(const std::string& gameObjectName, /*std::vector<std::unique_ptr<GameObject>>& sceneGameObjects,*/ DimensionalType type, bool useMesh = true);
 	GameObject& CreateBoulder(const std::string& gameObjectName, DimensionalType type, bool useMesh);
 	GameObject& CreateGameHitbox(const std::string& gameObjectName = "");
 
-	GameObject& GetGameObjectByName(const std::string& gameObjectName);
+	//GameObject& GetGameObjectByName(const std::string& gameObjectName);
 	GameObject* FindGameObjectByName(const std::string& name);
 	GameObject& GetGameObjectByTag(Tag gameObjectTag);
 	GameObject* GetGameObjectByID(Entity entityID);

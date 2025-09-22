@@ -6,6 +6,7 @@
 using ComponentMask = uint64_t; // assume up to 64 component types
 
 
+
 enum ComponentID
 {
 	// Comopnents
@@ -429,3 +430,26 @@ struct Tag_HealingRock : public Component
 		typeID = StaticTypeID;
 	}
 };
+
+
+inline bool HasAny(ComponentMask mask, uint64_t flags) { return (mask & flags) != 0; }
+inline bool HasAll(ComponentMask mask, uint64_t flags) { return (mask & flags) == flags; }
+inline bool Has(ComponentMask mask, uint64_t flags) { return HasAll(mask, flags); }
+
+constexpr ComponentMask mask_TAG_Player = 1ULL << Tag_Player::StaticTypeID;
+constexpr ComponentMask mask_TAG_Object = 1ULL << Tag_Object::StaticTypeID;
+constexpr ComponentMask mask_TAG_World = 1ULL << Tag_World::StaticTypeID;
+constexpr ComponentMask mask_TAG_Enemy = 1ULL << Tag_Enemy::StaticTypeID;
+constexpr ComponentMask mask_TAG_Projectile = 1ULL << Tag_Projectile::StaticTypeID;
+constexpr ComponentMask mask_TAG_Boulder = 1ULL << Tag_Boulder::StaticTypeID;
+constexpr ComponentMask mask_TAG_OliveTree = 1ULL << Tag_OliveTree::StaticTypeID;
+constexpr ComponentMask mask_TAG_HealingRock = 1ULL << Tag_HealingRock::StaticTypeID;
+
+constexpr ComponentMask allTags =
+mask_TAG_World
+| mask_TAG_Enemy
+| mask_TAG_Projectile
+| mask_TAG_Object
+| mask_TAG_Boulder
+| mask_TAG_OliveTree
+| mask_TAG_HealingRock;

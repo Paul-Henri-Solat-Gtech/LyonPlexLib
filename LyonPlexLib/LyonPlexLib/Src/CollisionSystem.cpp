@@ -5,36 +5,27 @@
 #undef max
 #undef min
 
-inline bool HasAny(ComponentMask mask, uint64_t flags) { return (mask & flags) != 0; }
-inline bool HasAll(ComponentMask mask, uint64_t flags) { return (mask & flags) == flags; }
-inline bool Has(ComponentMask mask, uint64_t flags) { return HasAll(mask, flags); }
-
-//constexpr ComponentMask mask_TAG_Player = (1ULL << Tag_Player_ID);
-//constexpr ComponentMask mask_TAG_Object = 1ULL << Tag_Object_ID;
-//constexpr ComponentMask mask_TAG_World = 1ULL << Tag_World_ID;
-//constexpr ComponentMask mask_TAG_Enemy = 1ULL << Tag_Enemy_ID;
-//constexpr ComponentMask mask_TAG_Projectile = 1ULL << Tag_Projectile_ID;
-//constexpr ComponentMask mask_TAG_Boulder = 1ULL << Tag_Boulder_ID;
-//constexpr ComponentMask mask_TAG_OliveTree = 1ULL << Tag_OliveTree_ID;
-//constexpr ComponentMask mask_TAG_HealingRock = 1ULL << Tag_HealingRock_ID;
-
-constexpr ComponentMask mask_TAG_Player = 1ULL << Tag_Player::StaticTypeID;
-constexpr ComponentMask mask_TAG_Object = 1ULL << Tag_Object::StaticTypeID;
-constexpr ComponentMask mask_TAG_World = 1ULL << Tag_World::StaticTypeID;
-constexpr ComponentMask mask_TAG_Enemy = 1ULL << Tag_Enemy::StaticTypeID;
-constexpr ComponentMask mask_TAG_Projectile = 1ULL << Tag_Projectile::StaticTypeID;
-constexpr ComponentMask mask_TAG_Boulder = 1ULL << Tag_Boulder::StaticTypeID;
-constexpr ComponentMask mask_TAG_OliveTree = 1ULL << Tag_OliveTree::StaticTypeID;
-constexpr ComponentMask mask_TAG_HealingRock = 1ULL << Tag_HealingRock::StaticTypeID;
-
-constexpr ComponentMask allTags =
-mask_TAG_World
-| mask_TAG_Enemy
-| mask_TAG_Projectile
-| mask_TAG_Object
-| mask_TAG_Boulder
-| mask_TAG_OliveTree
-| mask_TAG_HealingRock;
+//inline bool HasAny(ComponentMask mask, uint64_t flags) { return (mask & flags) != 0; }
+//inline bool HasAll(ComponentMask mask, uint64_t flags) { return (mask & flags) == flags; }
+//inline bool Has(ComponentMask mask, uint64_t flags) { return HasAll(mask, flags); }
+//
+//constexpr ComponentMask mask_TAG_Player = 1ULL << Tag_Player::StaticTypeID;
+//constexpr ComponentMask mask_TAG_Object = 1ULL << Tag_Object::StaticTypeID;
+//constexpr ComponentMask mask_TAG_World = 1ULL << Tag_World::StaticTypeID;
+//constexpr ComponentMask mask_TAG_Enemy = 1ULL << Tag_Enemy::StaticTypeID;
+//constexpr ComponentMask mask_TAG_Projectile = 1ULL << Tag_Projectile::StaticTypeID;
+//constexpr ComponentMask mask_TAG_Boulder = 1ULL << Tag_Boulder::StaticTypeID;
+//constexpr ComponentMask mask_TAG_OliveTree = 1ULL << Tag_OliveTree::StaticTypeID;
+//constexpr ComponentMask mask_TAG_HealingRock = 1ULL << Tag_HealingRock::StaticTypeID;
+//
+//constexpr ComponentMask allTags =
+//mask_TAG_World
+//| mask_TAG_Enemy
+//| mask_TAG_Projectile
+//| mask_TAG_Object
+//| mask_TAG_Boulder
+//| mask_TAG_OliveTree
+//| mask_TAG_HealingRock;
 
 //constexpr ComponentMask tagList[] = {
 //	mask_TAG_World,
@@ -99,40 +90,45 @@ static XMFLOAT3 GetWorldPosition(Entity e, ECSManager* ecs)
 
 void CollisionSystem::Update()
 {
+	//double fpsDebugStart = Utils::getTimeSeconds();
+
 	// collecte entities avec Transform + Collision
 	ComponentMask mask = (1ULL << Transform_ID) | (1ULL << Collision_ID);
 	ComponentMask excludeMask = mask_TAG_Object | mask_TAG_World | mask_TAG_Boulder;
 	std::vector<Entity> ents;
 	m_ECS->ForEach(mask, excludeMask, [&](Entity e) { ents.push_back(e); });
 
+	//double fpsDebugEnd = Utils::getTimeSeconds();
+	//Utils::log("\nChrono Collisions : " + std::to_string(fpsDebugEnd - fpsDebugStart) + "\n");
+
 	//std::unordered_map<ComponentMask, XMMATRIX> emptyMap;
 	//const std::unordered_map<ComponentMask, XMMATRIX>& worldMatrices =
 	//	(m_TransformSystem) ? m_TransformSystem->GetWorldMatrix() : emptyMap;
 
-	double globalStart = Utils::getTimeSeconds();
-	double sumPairs = 0.0;
-	std::vector<double> pairDurations;
+	//double globalStart = Utils::getTimeSeconds();
+	//double sumPairs = 0.0;
+	//std::vector<double> pairDurations;
 
 	for (size_t i = 0; i < ents.size(); ++i) {
 		for (size_t j = i + 1; j < ents.size(); ++j) {
-			double t0 = Utils::getTimeSeconds();
+			//double t0 = Utils::getTimeSeconds();
 			TryPair(ents[i], ents[j]);
-			double t1 = Utils::getTimeSeconds();
-			double d = t1 - t0;
-			pairDurations.push_back(d);
-			sumPairs += d;
+			//double t1 = Utils::getTimeSeconds();
+			//double d = t1 - t0;
+			//pairDurations.push_back(d);
+			//sumPairs += d;
 		}
 	}
-	double globalEnd = Utils::getTimeSeconds();
+	//double globalEnd = Utils::getTimeSeconds();
 
-	// log hors boucle
-	for (auto d : pairDurations) {
-		// si tu veux détailler, mais faire ça *après* la mesure
-		Utils::log("Chrono : " + std::to_string(d) + "\n");
-	}
-	Utils::log("ChronoGLOBAL : " + std::to_string(globalEnd - globalStart)
-		+ " - sumPairs : " + std::to_string(sumPairs)
-		+ " - entsToTest : " + std::to_string(ents.size()) + "\n");
+	//// log hors boucle
+	//for (auto d : pairDurations) {
+	//	// si tu veux détailler, mais faire ça *après* la mesure
+	//	Utils::log("Chrono : " + std::to_string(d) + "\n");
+	//}
+	//Utils::log("ChronoGLOBAL : " + std::to_string(globalEnd - globalStart)
+	//	+ " - sumPairs : " + std::to_string(sumPairs)
+	//	+ " - entsToTest : " + std::to_string(ents.size()) + "\n");
 }
 
 
@@ -142,18 +138,18 @@ void CollisionSystem::TryPair(Entity a, Entity b/*, const std::unordered_map<Com
 	ComponentMask mask_B = m_ECS->GetComponentMask(b);
 
 
-	if (!HasAny(mask_A, mask_TAG_Player | mask_TAG_Projectile | mask_TAG_Enemy | mask_TAG_OliveTree)) return;
-	if (!HasAny(mask_B, mask_TAG_Player | mask_TAG_Projectile | mask_TAG_Enemy | mask_TAG_OliveTree)) return;
+	if (!HasAny(mask_A, mask_TAG_Player | mask_TAG_Projectile | mask_TAG_Enemy | mask_TAG_OliveTree | mask_TAG_HealingRock)) return;
+	if (!HasAny(mask_B, mask_TAG_Player | mask_TAG_Projectile | mask_TAG_Enemy | mask_TAG_OliveTree | mask_TAG_HealingRock)) return;
 
 
 	if (Has(mask_A, mask_TAG_Player))
 	{
-		if(!Has(mask_B, mask_TAG_Projectile))
+		if(!HasAny(mask_B, mask_TAG_Projectile | mask_TAG_HealingRock))
 			return;
 	}
 	else if (Has(mask_B, mask_TAG_Player))
 	{
-		if(!Has(mask_A, mask_TAG_Projectile))
+		if(!HasAny(mask_A, mask_TAG_Projectile | mask_TAG_HealingRock))
 			return;
 	}
 
@@ -175,6 +171,17 @@ void CollisionSystem::TryPair(Entity a, Entity b/*, const std::unordered_map<Com
 			return;
 	}
 	else if (Has(mask_B, mask_TAG_OliveTree))
+	{
+		if(!Has(mask_A, mask_TAG_Projectile))
+			return;
+	}
+
+	if (Has(mask_A, mask_TAG_HealingRock))
+	{
+		if(!Has(mask_B, mask_TAG_Projectile))
+			return;
+	}
+	else if (Has(mask_B, mask_TAG_HealingRock))
 	{
 		if(!Has(mask_A, mask_TAG_Projectile))
 			return;

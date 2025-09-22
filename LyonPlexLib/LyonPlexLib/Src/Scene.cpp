@@ -30,7 +30,7 @@ void Scene::Update(float deltatime)
 void Scene::Release()
 {
 	m_waveCount = 0;
-	m_sceneEntities.clear();
+	//m_sceneEntities.clear();
 	m_sceneGameObjects.clear();
 	mp_ecsManager->ClearAllEntities();
 }
@@ -40,41 +40,41 @@ void Scene::ChangeScene(std::string sceneName)
 	mp_sceneManager->SetScene(sceneName);
 }
 
-void Scene::AddEntityToScene(Entity entity, const std::string& entityName)
-{
-	SceneEntity newEntity;
-	newEntity.entity = entity;
-	newEntity.name = entityName;
+//void Scene::AddEntityToScene(Entity entity, const std::string& entityName)
+//{
+//	SceneEntity newEntity;
+//	newEntity.entity = entity;
+//	newEntity.name = entityName;
+//
+//	m_sceneEntities.push_back(newEntity);
+//}
 
-	m_sceneEntities.push_back(newEntity);
-}
+//SceneEntity Scene::CreateEntity(const std::string& entityName)
+//{
+//	Entity newEntity = mp_ecsManager->CreateEntity();
+//
+//	AddEntityToScene(newEntity, entityName);
+//
+//	//	Adding basics component(s) for any entity in scene & default parameters :
+//	//	TRANSFORM
+//	AddComponent<TransformComponent>(entityName, new TransformComponent());
+//	GetComponent<TransformComponent>(entityName)->position = { 0, 0, 0 };
+//	//	... Add other component here if needed
+//
+//	return SceneEntity();
+//}
 
-SceneEntity Scene::CreateEntity(const std::string& entityName)
-{
-	Entity newEntity = mp_ecsManager->CreateEntity();
-
-	AddEntityToScene(newEntity, entityName);
-
-	//	Adding basics component(s) for any entity in scene & default parameters :
-	//	TRANSFORM
-	AddComponent<TransformComponent>(entityName, new TransformComponent());
-	GetComponent<TransformComponent>(entityName)->position = { 0, 0, 0 };
-	//	... Add other component here if needed
-
-	return SceneEntity();
-}
-
-Entity* Scene::GetEntity(const std::string& entityName)
-{
-	for (auto& entity : m_sceneEntities)
-	{
-		if (entity.name == entityName)
-		{
-			return &entity.entity;
-		}
-	}
-	return nullptr;
-}
+//Entity* Scene::GetEntity(const std::string& entityName)
+//{
+//	for (auto& entity : m_sceneEntities)
+//	{
+//		if (entity.name == entityName)
+//		{
+//			return &entity.entity;
+//		}
+//	}
+//	return nullptr;
+//}
 
 GameObject& Scene::CreateGameObject(const std::string& gameObjectName)
 {
@@ -88,17 +88,29 @@ GameObject& Scene::CreateGameObject(const std::string& gameObjectName)
 	//return obj;
 	return *m_sceneGameObjects.back();
 }
-GameObject& Scene::CreateGameObject(const std::string& gameObjectName, uint32_t meshId, uint32_t textureId)
+//GameObject& Scene::CreateGameObject(const std::string& gameObjectName, uint32_t meshId, uint32_t textureId)
+//{
+//
+//	// 1) On construit l'objet en place dans le vector
+//	m_sceneGameObjects.emplace_back(std::make_unique<GameObject>());
+//	auto& obj = *m_sceneGameObjects.back();
+//
+//	// 2) On l'initialise
+//	obj.Init(gameObjectName, mp_ecsManager, this, meshId, textureId);
+//	//return obj;
+//	return *m_sceneGameObjects.back();
+//}
+GameObject* Scene::CreateGameObject(const std::string& gameObjectName, uint32_t meshId, uint32_t textureId)
 {
+	Utils::log("\nCreateGameObject: #" + std::to_string(m_sceneGameObjects.size()) + " name = " + gameObjectName);
 
-	// 1) On construit l'objet en place dans le vector
-	m_sceneGameObjects.emplace_back(std::make_unique<GameObject>());
-	auto& obj = *m_sceneGameObjects.back();
+	// crée localement
+	auto uptr = std::make_unique<GameObject>();
+	uptr->Init(gameObjectName, mp_ecsManager, this, meshId, textureId);
 
-	// 2) On l'initialise
-	obj.Init(gameObjectName, mp_ecsManager, this, meshId, textureId);
-	//return obj;
-	return *m_sceneGameObjects.back();
+	// place dans le vector une fois totalement initialisé
+	m_sceneGameObjects.push_back(std::move(uptr));
+	return m_sceneGameObjects.back().get();
 }
 
 GameObject& Scene::CreateWaterGameObject()
@@ -163,20 +175,40 @@ GameObject& Scene::CreateGameHitbox(const std::string& gameObjectName)
 	return *m_sceneGameObjects.back();
 }
 
-GameObject& Scene::GetGameObjectByName(const std::string& gameObjectName)
-{
-	for (auto& gameObject : m_sceneGameObjects) 
-	{
-		if (gameObject.get()->GetName() == gameObjectName)
-		{
-			return *gameObject;
+//GameObject& Scene::GetGameObjectByName(const std::string& gameObjectName)
+//{
+//	for (auto& gameObject : m_sceneGameObjects) 
+//	{
+//		if (gameObject.get()->GetName() == gameObjectName)
+//		{
+//			return *gameObject;
+//		}
+//	}
+//}
+//GameObject* Scene::FindGameObjectByName(const std::string& name) {
+//	for (auto& uptr : m_sceneGameObjects)
+//		if (uptr->GetName() == name)
+//			return uptr.get();
+//	return nullptr;
+//}
+GameObject* Scene::FindGameObjectByName(const std::string& name) {
+	thread_local int depth = 0;
+	++depth;
+	if (depth > 1000) { // seuil de sécurité
+		--depth;
+		OutputDebugStringA("Recursion/re-entrée suspecte dans FindGameObjectByName\n");
+		__debugbreak(); // s'arrête dans le debugger
+		return nullptr;
+	}
+
+	for (auto& uptr : m_sceneGameObjects) {
+		if (uptr->GetName() == name) {
+			--depth;
+			return uptr.get();
 		}
 	}
-}
-GameObject* Scene::FindGameObjectByName(const std::string& name) {
-	for (auto& uptr : m_sceneGameObjects)
-		if (uptr->GetName() == name)
-			return uptr.get();
+
+	--depth;
 	return nullptr;
 }
 
@@ -251,11 +283,14 @@ void Scene::EndUpdate()
 
 void Scene::SetParent(const std::string& gameObjectNameChild, const std::string& gameObjectNameParent)
 {
-	GameObject& objChild = GetGameObjectByName(gameObjectNameChild);
-	GameObject& objParent = GetGameObjectByName(gameObjectNameParent);
+	//GameObject& objChild = GetGameObjectByName(gameObjectNameChild);
+	GameObject& objChild = *FindGameObjectByName(gameObjectNameChild);
+	//GameObject& objParent = GetGameObjectByName(gameObjectNameParent);
+	GameObject& objParent = *FindGameObjectByName(gameObjectNameParent);
 
-	//objChild.GetComponent<TransformComponent>()->parent = { objParent.GetEntity()->id };
-	GetGameObjectByName(gameObjectNameChild).GetComponent<TransformComponent>()->parent = { GetGameObjectByName(gameObjectNameParent).GetEntity().id };
+	objChild.GetComponent<TransformComponent>()->parent = { objParent.GetEntity().id };
+	//GetGameObjectByName(gameObjectNameChild.GetComponent<TransformComponent>()->parent = { GetGameObjectByName(gameObjectNameParent.GetEntity().id };
+	//FindGameObjectByName(gameObjectNameChild)->GetComponent<TransformComponent>()->parent = { FindGameObjectByName(gameObjectNameParent)->GetEntity().id };
 
 }
 

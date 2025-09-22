@@ -55,6 +55,7 @@ public:
 	void CollisionManager();
 
 	void SetMoveSpeed(float speedValue) { m_moveSpeed = speedValue; };
+	void SetSpawnPos(XMFLOAT3 position) { m_spawnPos = position; };
 	
 	float GetMoveSpeed() { return m_moveSpeed; };
 
@@ -67,6 +68,7 @@ private:
 	GameObject& m_playerGm;
 	float m_deltatime;
 
+	XMFLOAT3 m_spawnPos;
 	int m_life;
 	float m_moveSpeed = 2.f;
 	float m_reloadSpeed = 2.f;

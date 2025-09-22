@@ -5,8 +5,9 @@ namespace TEXTURES
 	enum TEXTURES
 	{
 		NOTEXTURE,
-		TEST3,
-		TEST,
+		AMALGATE,
+		ALGUE,
+		ALGUE1,
 		ARMS,
 		GRID,
 		BOIS,

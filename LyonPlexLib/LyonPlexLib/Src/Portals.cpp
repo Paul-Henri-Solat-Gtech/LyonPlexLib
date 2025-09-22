@@ -53,18 +53,21 @@ void Portals::OnUpdate(float deltatime)
 		{
 			auto& newEnemy = mp_scene->CreateGameObject<Enemy>(mp_ecs, mp_gameManager, m_playerGm, mp_scene, EnemyType::Crabe);
 			newEnemy.SetPosition({ posX, newEnemy.GetPosition().y, posZ});
+			newEnemy.SetSpawnPos(GetPosition());
 			break;
 		}
 		case 2: 
 		{
 			auto& newEnemy = mp_scene->CreateGameObject<Enemy>(mp_ecs, mp_gameManager, m_playerGm, mp_scene, EnemyType::Crabe);
 			newEnemy.SetPosition({ posX, newEnemy.GetPosition().y, posZ });
+			newEnemy.SetSpawnPos(GetPosition());
 			break;
 		}
 		case 3: 
 		{
 			auto& newEnemy = mp_scene->CreateGameObject<Enemy>(mp_ecs, mp_gameManager, m_playerGm, mp_scene, EnemyType::Golem);
 			newEnemy.SetPosition({ posX, newEnemy.GetPosition().y, posZ });
+			newEnemy.SetSpawnPos(GetPosition());
 			break;
 		}
 		}

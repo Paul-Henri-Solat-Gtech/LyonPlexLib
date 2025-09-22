@@ -27,10 +27,16 @@ public:
 
 	std::string FloatToStringNoTrailingZeros(float value);
 
+	void CreateAdditionalHitboxes();
+
+	void CreateWeeds();
+
+	void CreateGrass();
+
 private:
-	GameObject m_placingModule; int m_curMeshID = 2; int m_curTexID = 0;
-	GameObject m_camera;
-	GameObject m_placingHitbox;
+	GameObject* m_placingModule; int m_curMeshID = 2; int m_curTexID = 0;
+	GameObject* m_camera;
+	GameObject* m_placingHitbox;
 
 	float m_zoomOffset = 0.0f;            // cumulative zoom offset
 	float m_zoomSensitivity = 1.f;      // adjust zoom speed

@@ -54,6 +54,14 @@ void Render3D::Resize(int w, int h)
 
 void Render3D::RecordCommands()
 {
+	std::vector<uint32_t> entitiesToDraw;
+
+	ComponentMask meshMask = (1ULL << MeshComponent::StaticTypeID);
+	m_ECS->ForEach(meshMask, [&](Entity ent)
+		{
+			entitiesToDraw.push_back(ent.id);
+		});
+
 
 	// Ensure size of global buffer
 	UINT currentCount = static_cast<UINT>(m_ECS->GetEntityCount());
@@ -108,8 +116,9 @@ void Render3D::RecordCommands()
 	cmdList->RSSetScissorRects(1, &scissorRect);
 
 
-	ComponentMask loaded3DMask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D::StaticTypeID);
-	m_ECS->ForEach(loaded3DMask, [&](Entity ent)
+	ComponentMask loaded3DMask =/* (1ULL << MeshComponent::StaticTypeID) |*/ (1ULL << Type_3D::StaticTypeID);
+	//m_ECS->ForEach(loaded3DMask, [&](Entity ent)
+	m_ECS->ForEach(loaded3DMask, entitiesToDraw, [&](Entity ent)
 		{
 
 			UpdateAndBindCB(ent);
@@ -158,8 +167,9 @@ void Render3D::RecordCommands()
 		});
 
 
-	ComponentMask mask3D = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_3D_Transparent::StaticTypeID);
-	m_ECS->ForEach(mask3D, [&](Entity ent)
+	ComponentMask mask3D = /*(1ULL << MeshComponent::StaticTypeID) |*/ (1ULL << Type_3D_Transparent::StaticTypeID);
+	//m_ECS->ForEach(mask3D, [&](Entity ent)
+	m_ECS->ForEach(mask3D, entitiesToDraw, [&](Entity ent)
 		{
 			UpdateAndBindCB(ent);
 
@@ -215,6 +225,7 @@ void Render3D::RecordCommands()
 
 	ComponentMask maskWave = 1ULL << WaveComponent::StaticTypeID;
 	m_ECS->ForEach(maskWave, [&](Entity ent)
+	//m_ECS->ForEach(maskWave, entitiesToDraw, [&](Entity ent)
 		{
 			if (!m_waveManager)
 				return;

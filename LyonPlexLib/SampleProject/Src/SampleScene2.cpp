@@ -16,47 +16,47 @@ void SampleScene2::Start()
 	//GetComponent<TransformComponent>("temple")->position = { 0, 0, 0 };
 	//GetComponent<TransformComponent>("temple")->scale = { 1, 1, 1 };
 
-	CreateEntity("cephaTree");
-	AddComponent<Type_3D>("cephaTree", new Type_3D());
-	AddComponent<MeshComponent>("cephaTree", new MeshComponent(MESHES::CEPHA_1));
-	GetComponent<TransformComponent>("cephaTree")->position = { -2, 0, 0 };
-	GetComponent<TransformComponent>("cephaTree")->scale = { 0.5, 0.5, 0.5 };
+	//CreateEntity("cephaTree");
+	//AddComponent<Type_3D>("cephaTree", new Type_3D());
+	//AddComponent<MeshComponent>("cephaTree", new MeshComponent(MESHES::CEPHA_1));
+	//GetComponent<TransformComponent>("cephaTree")->position = { -2, 0, 0 };
+	//GetComponent<TransformComponent>("cephaTree")->scale = { 0.5, 0.5, 0.5 };
 
 
-	CreateEntity("TEST");
-	AddComponent<Type_3D>("TEST", new Type_3D());
-	AddComponent<MeshComponent>("TEST", new MeshComponent(MESHES::LOCAL_SQUARE, TEXTURES::NOTEXTURE));
-	GetComponent<TransformComponent>("TEST")->position = { -1, 3, -3 };
-	GetComponent<TransformComponent>("TEST")->scale = { 1, 1, 1 };
+	//CreateEntity("TEST");
+	//AddComponent<Type_3D>("TEST", new Type_3D());
+	//AddComponent<MeshComponent>("TEST", new MeshComponent(MESHES::LOCAL_SQUARE, TEXTURES::NOTEXTURE));
+	//GetComponent<TransformComponent>("TEST")->position = { -1, 3, -3 };
+	//GetComponent<TransformComponent>("TEST")->scale = { 1, 1, 1 };
 
-	CreateEntity("cubeEXT");
-	AddComponent<Type_3D>("cubeEXT", new Type_3D());
-	AddComponent<MeshComponent>("cubeEXT", new MeshComponent(5, TEXTURES::ARMS));
-	GetComponent<TransformComponent>("cubeEXT")->position = { 0, 0, 0 };
-	GetComponent<TransformComponent>("cubeEXT")->scale = { 1, 1, 0.5 };
+	//CreateEntity("cubeEXT");
+	//AddComponent<Type_3D>("cubeEXT", new Type_3D());
+	//AddComponent<MeshComponent>("cubeEXT", new MeshComponent(5, TEXTURES::ARMS));
+	//GetComponent<TransformComponent>("cubeEXT")->position = { 0, 0, 0 };
+	//GetComponent<TransformComponent>("cubeEXT")->scale = { 1, 1, 0.5 };
 
-	CreateEntity("bras");
-	AddComponent<Type_2D>("bras", new Type_2D());
-	AddComponent<MeshComponent>("bras", new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::ARMS));
-	GetComponent<TransformComponent>("bras")->position = { 400, 500, 0 };
-	GetComponent<TransformComponent>("bras")->scale = { 800, 500, 0 };
-	GetComponent<TransformComponent>("bras")->SetRotation(0, 0, 180);
-	GetComponent<TransformComponent>("bras")->dirty = true;
-
-
+	//CreateEntity("bras");
+	//AddComponent<Type_2D>("bras", new Type_2D());
+	//AddComponent<MeshComponent>("bras", new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::ARMS));
+	//GetComponent<TransformComponent>("bras")->position = { 400, 500, 0 };
+	//GetComponent<TransformComponent>("bras")->scale = { 800, 500, 0 };
+	//GetComponent<TransformComponent>("bras")->SetRotation(0, 0, 180);
+	//GetComponent<TransformComponent>("bras")->dirty = true;
 
 
-	CreateEntity("stick");
-	AddComponent<Type_3D>("stick", new Type_3D());
-	AddComponent<MeshComponent>("stick", new MeshComponent(MESHES::STICK, TEXTURES::HERBE));
-	GetComponent<TransformComponent>("stick")->position = { 0, 0, 0 };
-	GetComponent<TransformComponent>("stick")->scale = { 1, 1, 1 };
-	
-	CreateEntity("grass");
-	AddComponent<Type_3D>("grass", new Type_3D());
-	AddComponent<MeshComponent>("grass", new MeshComponent(MESHES::GRASS, TEXTURES::HERBE));
-	GetComponent<TransformComponent>("grass")->position = { 0, 0, 2 };
-	GetComponent<TransformComponent>("grass")->scale = { 1, 1, 1 };
+
+
+	//CreateEntity("stick");
+	//AddComponent<Type_3D>("stick", new Type_3D());
+	//AddComponent<MeshComponent>("stick", new MeshComponent(MESHES::STICK, TEXTURES::HERBE));
+	//GetComponent<TransformComponent>("stick")->position = { 0, 0, 0 };
+	//GetComponent<TransformComponent>("stick")->scale = { 1, 1, 1 };
+	//
+	//CreateEntity("grass");
+	//AddComponent<Type_3D>("grass", new Type_3D());
+	//AddComponent<MeshComponent>("grass", new MeshComponent(MESHES::GRASS, TEXTURES::HERBE));
+	//GetComponent<TransformComponent>("grass")->position = { 0, 0, 2 };
+	//GetComponent<TransformComponent>("grass")->scale = { 1, 1, 1 };
 	
 	//CreateEntity("road_straight");
 	//AddComponent<Type_3D>("road_straight", new Type_3D());
@@ -73,26 +73,26 @@ void SampleScene2::Start()
 
 
 
-	CreateEntity("Light1");
-	AddComponent<Type_3D>("Light1", new Type_3D());
-	AddComponent<MeshComponent>("Light1", new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::BOIS));
-	GetComponent<TransformComponent>("Light1")->position = { 0, 3, 0 };
-	GetComponent<TransformComponent>("Light1")->scale = { 1, 1, 1 };
-	AddComponent<LightComponent>("Light1", new LightComponent(1));
-	GetComponent<LightComponent>("Light1")->color = { 1,1,1 };
-	GetComponent<LightComponent>("Light1")->intensity = 1.0f;
-	GetComponent<LightComponent>("Light1")->direction = { -1, -1, -1 };
-	GetComponent<LightComponent>("Light1")->range = 500;
+	//CreateEntity("Light1");
+	//AddComponent<Type_3D>("Light1", new Type_3D());
+	//AddComponent<MeshComponent>("Light1", new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::BOIS));
+	//GetComponent<TransformComponent>("Light1")->position = { 0, 3, 0 };
+	//GetComponent<TransformComponent>("Light1")->scale = { 1, 1, 1 };
+	//AddComponent<LightComponent>("Light1", new LightComponent(1));
+	//GetComponent<LightComponent>("Light1")->color = { 1,1,1 };
+	//GetComponent<LightComponent>("Light1")->intensity = 1.0f;
+	//GetComponent<LightComponent>("Light1")->direction = { -1, -1, -1 };
+	//GetComponent<LightComponent>("Light1")->range = 500;
 
 }
 
 void SampleScene2::Update(float deltatime)
 {
 	//GetComponent<TransformComponent>("cube2D")->AddRotation(0 ,-20 * deltatime, 0);
-	//GetComponent<TransformComponent>("temple")->AddRotation(0 ,15 * deltatime, 0);
-	GetComponent<TransformComponent>("cephaTree")->AddRotation(0 ,50 * deltatime, 0);
-	GetComponent<TransformComponent>("cubeEXT")->AddRotation(0 ,25 * deltatime, 0);
-	GetComponent<TransformComponent>("Light1")->AddRotation(0 ,25 * deltatime, 0);
+	////GetComponent<TransformComponent>("temple")->AddRotation(0 ,15 * deltatime, 0);
+	//GetComponent<TransformComponent>("cephaTree")->AddRotation(0 ,50 * deltatime, 0);
+	//GetComponent<TransformComponent>("cubeEXT")->AddRotation(0 ,25 * deltatime, 0);
+	//GetComponent<TransformComponent>("Light1")->AddRotation(0 ,25 * deltatime, 0);
 
 	//Input
 	m_freeCam.Update(deltatime);

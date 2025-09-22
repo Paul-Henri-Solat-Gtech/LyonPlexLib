@@ -76,6 +76,34 @@ public:
         }
     }
 
+    //  call func for each entity matching mask
+    template<typename Func>
+    void ForEach(ComponentMask mask, std::vector<uint32_t> entityList, Func func)
+    {
+        for (auto id : entityList)
+        {
+            Entity entity{ id };
+            if ((m_componentMgr.GetMask(entity) & mask) == mask) 
+            {
+                func(entity);
+            }
+        }
+    }
+    // meme fonction avec l'option d'exclure certains bits du bitMask, par exemple pour vérifier des tags
+    template<typename Func>
+    void ForEach(ComponentMask includeMask, ComponentMask excludeMask, std::vector<uint32_t> entityList, Func func)
+    {
+        for (auto id : entityList)
+        {
+            Entity entity{ id };
+            ComponentMask m = m_componentMgr.GetMask(entity);
+            if ((m & includeMask) == includeMask && (m & excludeMask) == 0)
+            {
+                func(entity);
+            }
+        }
+    }
+
     // Process all queued destructions at end of frame
     void EndFrame();
 

@@ -7,7 +7,7 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 
 	InitOliveTreeGameObj(ecsManager, scene);
 
-	mp_trunk = &scene->CreateGameObject("olive_trunk", MESHES::OLIVIER_1_TRONC);
+	mp_trunk = scene->CreateGameObject("olive_trunk", MESHES::OLIVIER_1_TRONC);
 	scene->SetParent(*mp_trunk, *this);
 
 	mp_trunk->SetPosition({ 0,0,0 });
@@ -15,7 +15,7 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 	mp_trunk->SetScale({ 1,1,1 });
 	//mp_trunk->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 0.850000143,2,1 }, { 0,0.2164395,0,0.976296067 }, { 0.115241952,1.324885845,0.244909346 })));
 
-	mp_leaves = &scene->CreateGameObject("olive_leaves", MESHES::OLIVIER_1_FEUILLES);
+	mp_leaves = scene->CreateGameObject("olive_leaves", MESHES::OLIVIER_1_FEUILLES);
 	scene->SetParent(*mp_leaves, *mp_trunk);
 
 	mp_leaves->SetTag(TAG_Environment);
@@ -34,7 +34,7 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 	mp_trunkCol->SetPosition({ 0.115241952,1.324885845,0.244909346 });
 	mp_trunkCol->SetScale({ 1.700000286,3,2 });
 	mp_trunkCol->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB()));
-	mp_trunkCol->AddComponent<Tag_OliveTree>(new Tag_OliveTree);;
+	mp_trunkCol->AddComponent<Tag_OliveTree>(new Tag_OliveTree);
 
 
 	mp_leavesCol = &scene->CreateGameObject("test 2", TYPE_3D_TRANSPARENT);

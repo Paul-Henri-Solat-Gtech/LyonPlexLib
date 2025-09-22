@@ -25,7 +25,9 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
 {
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/NoTexture.png");//1
     txtMngr.LoadTexture("../SampleProject/Ressources/Environnement3D/Batiments/Amalgate.png");//2
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Test.png");//3
+    //txtMngr.LoadTexture("../SampleProject/Ressources/Divers/ALGUE.jpg");//3
+    txtMngr.LoadTexture("../SampleProject/Ressources/Divers/ALGUE.png");//3
+    txtMngr.LoadTexture("../SampleProject/Ressources/Divers/ALGUE1.png");//3
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/grid.png");
     txtMngr.LoadTexture("../LyonPlexLib/Ressources/bois.jpg");
