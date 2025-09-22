@@ -18,7 +18,7 @@ void ArenaScene::Start()
 
 	m_fpsCam.Init(m_cam, mp_sceneManager->GetWindow());
 
-	SetParent("cam", "player");
+	
 
 	m_fpsCam.SetAlwaysActive(true);
 
@@ -26,7 +26,7 @@ void ArenaScene::Start()
 	m_player.Init(mp_ecsManager, mp_sceneManager->GetGameManager(), this, m_cam);
 	SetParent(*FindGameObjectByName("cam"), m_player);
 	m_player.SetPosition({ 0,0,0 });
-
+	//SetParent("cam", "player");
 	//PLAYER ARMS
 	CreateGameObject("bras", TYPE_2D, true);
 	FindGameObjectByName("bras")->SetMesh(MESHES::LOCAL_SQUARE);
@@ -35,7 +35,7 @@ void ArenaScene::Start()
 	FindGameObjectByName("bras")->SetScale({ (float)renderWidth * 0.45f, (float)renderHeight * 0.45f, 0 });
 	FindGameObjectByName("bras")->GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
-	//m_player.SetPlayerArm(FindGameObjectByName("bras"));
+	m_player.SetPlayerArm(*FindGameObjectByName("bras"));
 
 	// MUSIC
 	PlayMusicPlex("TheCrimsonTideClashArena");
@@ -98,15 +98,16 @@ void ArenaScene::Start()
 	FindGameObjectByName("Rock")->SetTag(TAG_Rock);
 
 	//LIGHT
-	CreateGameObject("Light");
-	auto* light = FindGameObjectByName("Light");
+	CreateGameObject("WorldLight");
+	auto* light = FindGameObjectByName("WorldLight");
 
 	light->AddComponent<Type_3D>(new Type_3D());
 	light->AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::BOIS));
-	GetComponent<TransformComponent>("WorldLight")->position = { 290,3,58 };
+	//GetComponent<TransformComponent>("WorldLight")->position = { 290,3,58 };
+	light->SetPosition({ 290,3,58 });
 	light->AddComponent<LightComponent>(new LightComponent(0));
-	GetComponent<TransformComponent>("WorldLight")->scale = { 1, 1, 1 };
-	GetComponent<LightComponent>("WorldLight")->color = { 1,1,1 };
+	light->SetScale( { 1, 1, 1 });
+	light->GetComponent<LightComponent>()->color = {1,1,1};
 	light->GetComponent<LightComponent>()->range = 50;
 
 	//SCENE

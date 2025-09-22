@@ -1034,23 +1034,23 @@ void GameScene::Start()
 
 
 		// CHAMPS
-		CreateGameObject("Champs 0", 2, 33);
+		CreateGameObject("Champs 0", 2, TEXTURES::GroundMountain);
 		FindGameObjectByName("Champs 0")->SetPosition({ 239,-20,-131 });
 		FindGameObjectByName("Champs 0")->SetRotation({ 0,0,0,1 });
 		FindGameObjectByName("Champs 0")->SetScale({ 150,2,100 });
-		CreateGameObject("Maison", 4, 1);
+		CreateGameObject("Maison", 4, TEXTURES::AMALGATE);
 		FindGameObjectByName("Maison")->SetPosition({ 178,-19,-94 });
 		FindGameObjectByName("Maison")->SetRotation({ 0,0,0,1 });
 		FindGameObjectByName("Maison")->SetScale({ 2,2,2 });
-		CreateGameObject("Champs 2", 2, 7);
+		CreateGameObject("Champs 2", 2, TEXTURES::CHAMP);
 		FindGameObjectByName("Champs 2")->SetPosition({ 253,-19,-99 });
 		FindGameObjectByName("Champs 2")->SetRotation({ 0,0,0,1 });
 		FindGameObjectByName("Champs 2")->SetScale({ 110,2,25 });
-		CreateGameObject("Champs 3", 2, 7);
+		CreateGameObject("Champs 3", 2, TEXTURES::CHAMP);
 		FindGameObjectByName("Champs 3")->SetPosition({ 253,-19,-132 });
 		FindGameObjectByName("Champs 3")->SetRotation({ 0,0,0,1 });
 		FindGameObjectByName("Champs 3")->SetScale({ 110,2,25 });
-		CreateGameObject("Champs 4", 2, 7);
+		CreateGameObject("Champs 4", 2, TEXTURES::CHAMP);
 		FindGameObjectByName("Champs 4")->SetPosition({ 253,-19,-164 });
 		FindGameObjectByName("Champs 4")->SetRotation({ 0,0,0,1 });
 		FindGameObjectByName("Champs 4")->SetScale({ 110,2,25 });
