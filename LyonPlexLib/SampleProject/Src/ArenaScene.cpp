@@ -27,12 +27,6 @@ void ArenaScene::Start()
 	SetParent(GetGameObjectByName("cam"), m_player);
 	m_player.SetPosition({ 0,0,0 });
 
-	//SOUNDS
-	//mp_sceneManager->GetGameManager()->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
-	//mp_sceneManager->GetGameManager()->GetSoundManager()->CreateSound("swordSpecialSlash", L"../LyonPlexLib/Ressources/swordSpecialSlash.wav");
-	//mp_sceneManager->GetGameManager()->GetSoundManager()->CreateSound("deathScream", L"../SampleProject/Ressources/Sounds/deathScreamBBB3.wav");
-	//mp_sceneManager->GetGameManager()->GetSoundManager()->CreateSound("HUGH", L"../SampleProject/Ressources/Sounds/HUGH.wav");
-
 	//PLAYER ARMS
 	CreateGameObject("bras", TYPE_2D, true);
 	GetGameObjectByName("bras").SetMesh(MESHES::LOCAL_SQUARE);
@@ -303,6 +297,8 @@ void ArenaScene::Update(float deltatime)
 			}
 			if (mp_btnAddSpeed->GetBtnIsClicked())
 			{
+				m_player.SetMoveSpeed(m_player.GetMoveSpeed() + 50);
+				m_player.SetRunSpeed(m_player.GetRunSpeed() + 50);
 				CloseBonus();
 			}
 		}
@@ -507,11 +503,11 @@ void ArenaScene::BonusEndWave()
 	UINT renderHeight = renderZone.bottom - renderZone.top;
 
 	// Buttons
-	mp_btnAddAtk = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::BTN_SHUTDOWN, "btnAddAtk");
+	mp_btnAddAtk = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::ScrollAtk, "btnAddAtk");
 	mp_btnAddAtk->SetScale({ 250, 300, 0 });
 	mp_btnAddAtk->SetPosition({ 250, (float)renderHeight/2, 1 });
 
-	mp_btnAddSpeed = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::BTN_SHUTDOWN, "btnAddSpeed");
+	mp_btnAddSpeed = &CreateGameObject<Button>(this, mp_sceneManager->GetWindow(), TEXTURES::ScrollSpeed, "btnAddSpeed");
 	mp_btnAddSpeed->SetScale({ 250, 300, 0 });
 	mp_btnAddSpeed->SetPosition({ (float)renderWidth - 250, (float)renderHeight / 2, 1 });
 

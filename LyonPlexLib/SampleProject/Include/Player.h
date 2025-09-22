@@ -57,7 +57,9 @@ public:
 
 	void SetMoveSpeed(float speedValue) { m_moveSpeed = speedValue; };
 	float GetRunSpeed() { return m_runSpeed; };
+	void SetRunSpeed(float speedValue) { m_runSpeed = speedValue; };
 	float GetWalkSpeed() { return m_walkSpeed; };
+	void SetWalkSpeed(float speedValue) { m_walkSpeed = speedValue; };
 	float GetMoveSpeed() { return m_moveSpeed; };
 
 	float GetDeltatime() { return m_deltatime; };
@@ -132,6 +134,7 @@ public:
 private:
 
 	std::vector<Projectile>m_projectileList;
+	UINT m_renderWidth, m_renderHeight;
 
 protected:
 	friend class PlayerAction_Idle;

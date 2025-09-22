@@ -78,6 +78,8 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/bgArmonizer.png");
     txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/WINSCREEN.png");
     txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/LOSESCREEN.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/ScrollSpeed.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/ScrollAtk.png");
 
     // CRABE IDLE
     {

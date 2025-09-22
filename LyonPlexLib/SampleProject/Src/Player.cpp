@@ -265,6 +265,9 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 	UINT renderWidth = renderZone.right - renderZone.left;
 	UINT renderHeight = renderZone.bottom - renderZone.top;
 
+	m_renderWidth = renderWidth;
+	m_renderHeight = renderHeight;
+
 	mp_scene->CreateGameObject("Heart1", TYPE_2D, true);
 	m_playerHeart1 = mp_scene->GetGameObjectByName("Heart1");
 	m_playerHeart1.SetMesh(MESHES::LOCAL_SQUARE);
@@ -417,9 +420,13 @@ void Player::OnUpdate(float deltatime)
 	{
 	case TEXTURES::IDLEARM_W1_1:
 		m_selectedWeapon.SetTexture(TEXTURES::ATTACK1_W1_1);
+		m_playerArm.SetScale({ (float)m_renderWidth * 0.45f, (float)m_renderHeight * 0.45f, 0 });
+		m_playerArm.SetPosition({ (float)m_renderWidth / 2, (float)m_renderHeight / 2 + (float)m_renderHeight / 4, 0 });
 		break;
 	case TEXTURES::IDLEARM_W2_1:
 		m_selectedWeapon.SetTexture(TEXTURES::ATTACK1_W2_1);
+		m_playerArm.SetScale({ (float)m_renderWidth * 1, (float)m_renderHeight * 0.45f, 0 });
+		m_playerArm.SetPosition({ (float)m_renderWidth / 3, (float)m_renderHeight / 2 + (float)m_renderHeight / 6, 0 });
 		break;
 	}
 }

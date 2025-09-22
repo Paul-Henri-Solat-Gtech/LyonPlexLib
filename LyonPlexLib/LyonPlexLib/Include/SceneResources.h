@@ -59,6 +59,8 @@ namespace TEXTURES
 		BGMAINMENU,
 		WINSCREEN,
 		LOSESCREEN,
+		ScrollSpeed,
+		ScrollAtk,
 
 		//CRABE IDLE
 		CRABE_IDLE_1,
