@@ -366,6 +366,17 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 				}
 				break;
 			}
+			case TAG_Enemy:
+			{
+				if (self && self->m_hp > 0 && !self->m_isInvincible)
+				{
+					self->m_hp--;
+					self->HpUpdate();
+					self->m_isInvincible = true;
+					OutputDebugStringA("\n -1hp aie \n");
+				}
+				break;
+			}
 			default:
 				break;
 			}

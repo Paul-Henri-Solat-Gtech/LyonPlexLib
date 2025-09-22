@@ -14,7 +14,7 @@ enum DimensionalType
 enum Tag
 {
 	TAG_None,
-	//TAG_Enemy,
+	TAG_Enemy,
 	//TAG_Player, 
 	TAG_Object,
 	TAG_Camera,

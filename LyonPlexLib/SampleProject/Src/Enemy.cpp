@@ -18,6 +18,7 @@ Enemy::~Enemy()
 void Enemy::Init(GameManager* gameManager)
 {
 	AddComponent<Tag_Enemy>(new Tag_Enemy());
+	SetTag(Tag::TAG_Enemy);
 	SetMesh(MESHES::LOCAL_SQUARE);
 
 	GetComponent<MeshComponent>()->ColorPatchUp();
@@ -183,7 +184,7 @@ void Enemy::SetStateMachine()
 
 		m_life = 3;
 		m_moveSpeed = 7.f;
-		m_reloadSpeed = 2.f;
+		m_reloadSpeed = 1.f;
 		SetTexture(TEXTURES::CRABE_IDLE_1);
 		SetScale({ 4,4,4 });
 		SetPosition({ GetPosition().x,GetPosition().y - 10, GetPosition().z });
@@ -346,7 +347,7 @@ void Enemy::SetStateMachine()
 
 		m_life = 3;
 		m_moveSpeed = 5.f;
-		m_reloadSpeed = 2.f;
+		m_reloadSpeed = 1.f;
 		SetTexture(TEXTURES::CRABE_IDLE_1);
 		SetScale({ 4,4,4 });
 		SetPosition({ GetPosition().x,GetPosition().y - 10, GetPosition().z });
