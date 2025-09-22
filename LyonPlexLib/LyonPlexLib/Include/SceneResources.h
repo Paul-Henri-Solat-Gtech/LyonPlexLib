@@ -61,6 +61,8 @@ namespace TEXTURES
 		LOSESCREEN,
 		ScrollSpeed,
 		ScrollAtk,
+		WeaponWoodIcon,
+		WeaponRockIcon,
 
 		//CRABE IDLE
 		CRABE_IDLE_1,

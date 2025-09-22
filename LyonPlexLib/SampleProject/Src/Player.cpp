@@ -419,15 +419,19 @@ void Player::OnUpdate(float deltatime)
 	switch (m_currIdleMesh) 
 	{
 	case TEXTURES::IDLEARM_W1_1:
-		m_selectedWeapon.SetTexture(TEXTURES::ATTACK1_W1_1);
+		m_selectedWeapon.SetTexture(TEXTURES::WeaponWoodIcon);
+		m_selectedWeapon.SetScale({ (float)m_renderWidth * 0.06f, (float)m_renderHeight * 0.06f, 0 });
 		m_playerArm.SetScale({ (float)m_renderWidth * 0.45f, (float)m_renderHeight * 0.45f, 0 });
 		m_playerArm.SetPosition({ (float)m_renderWidth / 2, (float)m_renderHeight / 2 + (float)m_renderHeight / 4, 0 });
 		break;
 	case TEXTURES::IDLEARM_W2_1:
-		m_selectedWeapon.SetTexture(TEXTURES::ATTACK1_W2_1);
+		m_selectedWeapon.SetTexture(TEXTURES::WeaponRockIcon);
+		m_selectedWeapon.SetScale({ (float)m_renderWidth * 0.06f, (float)m_renderHeight * 0.06f, 0 });
 		m_playerArm.SetScale({ (float)m_renderWidth * 1, (float)m_renderHeight * 0.45f, 0 });
 		m_playerArm.SetPosition({ (float)m_renderWidth / 3, (float)m_renderHeight / 2 + (float)m_renderHeight / 6, 0 });
 		break;
+	//default:
+	//	break;
 	}
 }
 
