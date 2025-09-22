@@ -60,20 +60,20 @@ void GameScene::Start()
 
 	//object / weapon
 	CreateGameObject("Stick");
-	GetGameObjectByName("Stick").SetPosition({ 230,-19,-115 });
-	GetGameObjectByName("Stick").SetScale({ 5, 5, 5 });
-	GetGameObjectByName("Stick").SetMesh(MESHES::STICK);
-	GetGameObjectByName("Stick").SetTexture(TEXTURES::HERBE);
-	GetGameObjectByName("Stick").AddComponent<Tag_Object>(new Tag_Object());
-	GetGameObjectByName("Stick").SetTag(TAG_Stick);
+	FindGameObjectByName("Stick")->SetPosition({ 230,-19,-115 });
+	FindGameObjectByName("Stick")->SetScale({ 5, 5, 5 });
+	FindGameObjectByName("Stick")->SetMesh(MESHES::STICK);
+	FindGameObjectByName("Stick")->SetTexture(TEXTURES::HERBE);
+	FindGameObjectByName("Stick")->AddComponent<Tag_Object>(new Tag_Object());
+	FindGameObjectByName("Stick")->SetTag(TAG_Stick);
 
 	CreateGameObject("RockObj");
-	GetGameObjectByName("RockObj").SetPosition({ 230,-19,-130 });
-	GetGameObjectByName("RockObj").SetScale({ 5, 5, 5 });
-	GetGameObjectByName("RockObj").SetMesh(MESHES::ROCKLM1);
-	GetGameObjectByName("RockObj").SetTexture(TEXTURES::GroundMountain);
-	GetGameObjectByName("RockObj").AddComponent<Tag_Object>(new Tag_Object());
-	GetGameObjectByName("RockObj").SetTag(TAG_Rock);
+	FindGameObjectByName("RockObj")->SetPosition({ 230,-19,-130 });
+	FindGameObjectByName("RockObj")->SetScale({ 5, 5, 5 });
+	FindGameObjectByName("RockObj")->SetMesh(MESHES::ROCKLM1);
+	FindGameObjectByName("RockObj")->SetTexture(TEXTURES::GroundMountain);
+	FindGameObjectByName("RockObj")->AddComponent<Tag_Object>(new Tag_Object());
+	FindGameObjectByName("RockObj")->SetTag(TAG_Rock);
 
 	CreateGameObject("Stick");
 	XMFLOAT3 pos = { -82,-17,85 };
@@ -85,7 +85,7 @@ void GameScene::Start()
 	//FindGameObjectByName("Stick")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
 	FindGameObjectByName("Stick")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("Stick")->SetTag(TAG_Stick);
-	CreateGameObject("Stick2");
+	
 
 	auto& amalgateRock = CreateGameObject("Rock");
 	pos = { -82,-17,94 };
@@ -98,11 +98,11 @@ void GameScene::Start()
 	amalgateRock.SetTag(TAG_Rock);
 
 	CreateGameObject("skybox", 2, 0);
-	GetGameObjectByName("skybox").SetPosition({ 0,0,0 });
-	GetGameObjectByName("skybox").SetRotation({ 0,0,0,1 });
-	GetGameObjectByName("skybox").SetScale({ -1000,-1000,-1000 });
-	GetGameObjectByName("skybox").SetMesh(MESHES::LOCAL_SPHERE);
-	GetGameObjectByName("skybox").SetTexture(TEXTURES::SKYBOX);
+	FindGameObjectByName("skybox")->SetPosition({ 0,0,0 });
+	FindGameObjectByName("skybox")->SetRotation({ 0,0,0,1 });
+	FindGameObjectByName("skybox")->SetScale({ -1000,-1000,-1000 });
+	FindGameObjectByName("skybox")->SetMesh(MESHES::LOCAL_SPHERE);
+	FindGameObjectByName("skybox")->SetTexture(TEXTURES::SKYBOX);
 
 	/*CreateGameObject("Next 0", 2, 0);
 	FindGameObjectByName("Next 0")->SetPosition({ -82,-17,94 });		// REPERE EMPLACEMENT
@@ -4825,8 +4825,8 @@ void GameScene::SpawnMenu()
 
 void GameScene::RemoveMenu()
 {
-	DestroyGameObject(GetGameObjectByName("pauseMenu"));
-	DestroyGameObject(GetGameObjectByName("btnMainMenu"));
+	DestroyGameObject(*FindGameObjectByName("pauseMenu"));
+	DestroyGameObject(*FindGameObjectByName("btnMainMenu"));
 }
 
 void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy)
@@ -4948,7 +4948,7 @@ void GameScene::PortalSystem()
 		UINT renderWidth = renderZone.right - renderZone.left;
 		UINT renderHeight = renderZone.bottom - renderZone.top;
 		CreateGameObject("Win", TYPE_2D, true);
-		auto& win = GetGameObjectByName("Win");
+		auto& win = *FindGameObjectByName("Win");
 		win.SetMesh(MESHES::LOCAL_SQUARE);
 		win.SetTexture(TEXTURES::WINSCREEN);
 		win.SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2, 0 });
