@@ -133,6 +133,14 @@ void Render2D::Resize(int width, int height)
 
 void Render2D::RecordCommands()
 {
+	std::vector<uint32_t> entitiesToDraw;
+
+	ComponentMask meshMask = (1ULL << MeshComponent::StaticTypeID);
+	m_ECS->ForEach(meshMask, [&](Entity ent)
+		{
+			entitiesToDraw.push_back(ent.id);
+		});
+
 	// Ensure size of global buffer
 	UINT currentCount = static_cast<UINT>(m_ECS->GetEntityCount());
 	EnsureCapacity(currentCount);
@@ -182,8 +190,10 @@ void Render2D::RecordCommands()
 
 
 	// 7) Boucle sur tes quads (MeshComponent)
-	ComponentMask mask = (1ULL << MeshComponent::StaticTypeID) | (1ULL << Type_2D::StaticTypeID);
-	m_ECS->ForEach(mask, [&](Entity ent) {
+	ComponentMask mask =/* (1ULL << MeshComponent::StaticTypeID) |*/ (1ULL << Type_2D::StaticTypeID);
+	//m_ECS->ForEach(mask, [&](Entity ent) 
+	m_ECS->ForEach(mask, entitiesToDraw, [&](Entity ent)
+		{
 		auto* tc = m_ECS->GetComponent<TransformComponent>(ent);
 		if (!tc)
 			return;

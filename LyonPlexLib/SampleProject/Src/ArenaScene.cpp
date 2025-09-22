@@ -35,7 +35,7 @@ void ArenaScene::Start()
 	GetGameObjectByName("bras").SetScale({ (float)renderWidth * 0.45f, (float)renderHeight * 0.45f, 0 });
 	GetGameObjectByName("bras").GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
-	m_player.SetPlayerArm(GetGameObjectByName("bras"));
+	//m_player.SetPlayerArm(GetGameObjectByName("bras"));
 
 	// MUSIC
 	PlayMusicPlex("TheCrimsonTideClashArena");

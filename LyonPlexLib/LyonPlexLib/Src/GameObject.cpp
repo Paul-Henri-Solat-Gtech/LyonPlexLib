@@ -54,6 +54,7 @@ void GameObject::InitOliveTreeGameObj(ECSManager* ecsManager, Scene* scene)
 	AddComponent<TransformComponent>(new TransformComponent());
 
 	// Tag monde (collisions)
+	//AddComponent<Tag_OliveTree>(new Tag_OliveTree);
 	AddComponent<Tag_World>(new Tag_World);
 }
 void GameObject::InitPlayerGameObj(ECSManager* ecsManager, Scene* scene)
@@ -67,10 +68,10 @@ void GameObject::InitPlayerGameObj(ECSManager* ecsManager, Scene* scene)
 	//	Adding basics component(s) for any entity in scene & default parameters :
 
 	// TYPE
-	AddComponent<Type_3D>(new Type_3D());
+	//AddComponent<Type_3D>(new Type_3D());
 
 	// MESH
-	AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE));
+	//AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE));
 
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());
@@ -129,9 +130,9 @@ void GameObject::InitHitbox(const std::string& name, ECSManager* ecsManager, Sce
 
 	// MESH
 	//AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::GRID));
-	AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::TEMPLE));
-	GetComponent<MeshComponent>()->alpha = 0.5;
-	
+	//AddComponent<MeshComponent>(new MeshComponent(MESHES::LOCAL_CUBE, TEXTURES::TEMPLE));
+	//GetComponent<MeshComponent>()->alpha = 0.5;
+	//
 	//	TRANSFORM
 	AddComponent<TransformComponent>(new TransformComponent());
 
