@@ -75,17 +75,141 @@ void GameScene::Start()
 	GetGameObjectByName("RockObj").AddComponent<Tag_Object>(new Tag_Object());
 	GetGameObjectByName("RockObj").SetTag(TAG_Rock);
 
-	//CreateGameObject("Stick");
-	//XMFLOAT3 pos = { POSITION_CHAMPS.x + 2, POSITION_CHAMPS.y + 3, POSITION_CHAMPS.z + 2 };
-	//GetGameObjectByName("Stick").SetPosition(pos);
-	//GetGameObjectByName("Stick").SetScale({ 1, 1, 1 });
-	//GetGameObjectByName("Stick").SetMesh(MESHES::STICK);
-	//GetGameObjectByName("Stick").SetTexture(TEXTURES::HERBE);
-	//auto a = GetGameObjectByName("Stick").GetScale();
-	////GetGameObjectByName("Stick").AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
-	//GetGameObjectByName("Stick").AddComponent<Tag_Object>(new Tag_Object());
-	//GetGameObjectByName("Stick").SetTag(TAG_Stick);
-	//CreateGameObject("Stick2");
+	CreateGameObject("Stick22");
+	GetGameObjectByName("Stick22").SetPosition({ 42.576702118f,-19.534738541f,-200.028411865f });
+	GetGameObjectByName("Stick22").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Stick22").SetScale({ 11,11,11 });
+	GetGameObjectByName("Stick22").SetMesh(MESHES::STICK);
+	GetGameObjectByName("Stick22").SetTexture(TEXTURES::HERBE);
+	GetGameObjectByName("Stick22").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("Stick22").SetTag(TAG_Stick);
+
+	CreateGameObject("Stick23");
+	GetGameObjectByName("Stick23").SetPosition({ -171.980514526f,-19.534738541f,-173.504760742f });
+	GetGameObjectByName("Stick23").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Stick23").SetScale({ 11,11,11 });
+	GetGameObjectByName("Stick23").SetMesh(MESHES::STICK);
+	GetGameObjectByName("Stick23").SetTexture(TEXTURES::HERBE);
+	GetGameObjectByName("Stick23").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("Stick23").SetTag(TAG_Stick);
+
+	CreateGameObject("Stick24");
+	GetGameObjectByName("Stick24").SetPosition({ -76.949920654f,-18.654970169f,62.621471405f });
+	GetGameObjectByName("Stick24").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Stick24").SetScale({ 11,11,11 });
+	GetGameObjectByName("Stick24").SetMesh(MESHES::STICK);
+	GetGameObjectByName("Stick24").SetTexture(TEXTURES::HERBE);
+	GetGameObjectByName("Stick24").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("Stick24").SetTag(TAG_Stick);
+
+	CreateGameObject("Stick25");
+	GetGameObjectByName("Stick25").SetPosition({ -72.906494141f,-18.501369476f,15.611557961f });
+	GetGameObjectByName("Stick25").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Stick25").SetScale({ 11,11,11 });
+	GetGameObjectByName("Stick25").SetMesh(MESHES::STICK);
+	GetGameObjectByName("Stick25").SetTexture(TEXTURES::HERBE);
+	GetGameObjectByName("Stick25").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("Stick25").SetTag(TAG_Stick);
+
+	CreateGameObject("Stick26");
+	GetGameObjectByName("Stick26").SetPosition({ 98.660964966f,5.673445225f,0.495587826f });
+	GetGameObjectByName("Stick26").SetRotation({ 0,0,0,1 });
+	GetGameObjectByName("Stick26").SetScale({ 11,11,11 });
+	GetGameObjectByName("Stick26").SetMesh(MESHES::STICK);
+	GetGameObjectByName("Stick26").SetTexture(TEXTURES::HERBE);
+	GetGameObjectByName("Stick26").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("Stick26").SetTag(TAG_Stick);
+
+	// ROCKS / AMALGATE (mesh == 17) Next 27..36
+	CreateGameObject("RockObj27");
+	GetGameObjectByName("RockObj27").SetPosition({ -220.121109009f,-17.837585449f,23.317188263f });
+	GetGameObjectByName("RockObj27").SetRotation({ -0.000000003f,0,0,1 });
+	GetGameObjectByName("RockObj27").SetScale({ 0.599999905f,0.399999917f,0.599999905f });
+	GetGameObjectByName("RockObj27").SetMesh(MESHES::ROCKLM1);
+	GetGameObjectByName("RockObj27").SetTexture(TEXTURES::GroundMountain);
+	GetGameObjectByName("RockObj27").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("RockObj27").SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj28");
+	GetGameObjectByName("RockObj28").SetPosition({ -232.830734253f,-17.837585449f,-59.418899536f });
+	GetGameObjectByName("RockObj28").SetRotation({ -0.000000003f,0,0,1 });
+	GetGameObjectByName("RockObj28").SetScale({ 0.599999905f,0.399999917f,0.599999905f });
+	GetGameObjectByName("RockObj28").SetMesh(MESHES::ROCKLM1);
+	GetGameObjectByName("RockObj28").SetTexture(TEXTURES::GroundMountain);
+	GetGameObjectByName("RockObj28").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("RockObj28").SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj29");
+	GetGameObjectByName("RockObj29").SetPosition({ -200.757843018f,-17.261896133f,44.203128815f });
+	GetGameObjectByName("RockObj29").SetRotation({ 0.58181572f,-0.153933644f,0.244918793f,0.760137975f });
+	GetGameObjectByName("RockObj29").SetScale({ 1.899999976f,1.700000167f,1.899999976f });
+	GetGameObjectByName("RockObj29").SetMesh(MESHES::ROCKLM1);
+	GetGameObjectByName("RockObj29").SetTexture(TEXTURES::GroundMountain);
+	GetGameObjectByName("RockObj29").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("RockObj29").SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj30");
+	GetGameObjectByName("RockObj30").SetPosition({ -137.691513062f,-17.261896133f,1.127504706f });
+	GetGameObjectByName("RockObj30").SetRotation({ 0.58181572f,-0.153933644f,0.244918793f,0.760137975f });
+	GetGameObjectByName("RockObj30").SetScale({ 1.599999905f,1.400000095f,1.599999905f });
+	GetGameObjectByName("RockObj30").SetMesh(MESHES::ROCKLM1);
+	GetGameObjectByName("RockObj30").SetTexture(TEXTURES::GroundMountain);
+	GetGameObjectByName("RockObj30").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("RockObj30").SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj31");
+	GetGameObjectByName("RockObj31").SetPosition({ -147.615631104f,-17.619777679f,42.247142792f });
+	GetGameObjectByName("RockObj31").SetRotation({ 0.58181572f,-0.153933644f,0.244918793f,0.760137975f });
+	GetGameObjectByName("RockObj31").SetScale({ 1.199999809f,1.f,1.199999809f });
+	GetGameObjectByName("RockObj31").SetMesh(MESHES::ROCKLM1);
+	GetGameObjectByName("RockObj31").SetTexture(TEXTURES::GroundMountain);
+	GetGameObjectByName("RockObj31").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("RockObj31").SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj32");
+	GetGameObjectByName("RockObj32").SetPosition({ -190.05670166f,-17.619777679f,-0.854459167f });
+	GetGameObjectByName("RockObj32").SetRotation({ 0.58181572f,-0.153933644f,0.244918793f,0.760137975f });
+	GetGameObjectByName("RockObj32").SetScale({ 1.999999881f,1.800000191f,1.999999881f });
+	GetGameObjectByName("RockObj32").SetMesh(MESHES::ROCKLM1);
+	GetGameObjectByName("RockObj32").SetTexture(TEXTURES::GroundMountain);
+	GetGameObjectByName("RockObj32").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("RockObj32").SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj33");
+	GetGameObjectByName("RockObj33").SetPosition({ -241.102172852f,-17.619777679f,-0.687011302f });
+	GetGameObjectByName("RockObj33").SetRotation({ 0.58181572f,-0.153933644f,0.244918793f,0.760137975f });
+	GetGameObjectByName("RockObj33").SetScale({ 1.999999881f,1.800000191f,1.999999881f });
+	GetGameObjectByName("RockObj33").SetMesh(MESHES::ROCKLM1);
+	GetGameObjectByName("RockObj33").SetTexture(TEXTURES::GroundMountain);
+	GetGameObjectByName("RockObj33").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("RockObj33").SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj34");
+	GetGameObjectByName("RockObj34").SetPosition({ -125.511520386f,-18.194963455f,116.781829834f });
+	GetGameObjectByName("RockObj34").SetRotation({ 0.172455788f,-0.08005701f,0.46663034f,0.8637743f });
+	GetGameObjectByName("RockObj34").SetScale({ 0.799999475f,0.599999666f,0.799999475f });
+	GetGameObjectByName("RockObj34").SetMesh(MESHES::ROCKLM1);
+	GetGameObjectByName("RockObj34").SetTexture(TEXTURES::GroundMountain);
+	GetGameObjectByName("RockObj34").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("RockObj34").SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj35");
+	GetGameObjectByName("RockObj35").SetPosition({ -279.198638916f,-1.491132617f,107.217277527f });
+	GetGameObjectByName("RockObj35").SetRotation({ 0.172455788f,-0.08005701f,0.46663034f,0.8637743f });
+	GetGameObjectByName("RockObj35").SetScale({ 0.799999475f,0.599999666f,0.799999475f });
+	GetGameObjectByName("RockObj35").SetMesh(MESHES::ROCKLM1);
+	GetGameObjectByName("RockObj35").SetTexture(TEXTURES::GroundMountain);
+	GetGameObjectByName("RockObj35").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("RockObj35").SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj36");
+	GetGameObjectByName("RockObj36").SetPosition({ -137.463684082f,15.442399025f,-30.732748032f });
+	GetGameObjectByName("RockObj36").SetRotation({ 0.172455788f,-0.08005701f,0.46663034f,0.8637743f });
+	GetGameObjectByName("RockObj36").SetScale({ 0.799999475f,0.599999666f,0.799999475f });
+	GetGameObjectByName("RockObj36").SetMesh(MESHES::ROCKLM1);
+	GetGameObjectByName("RockObj36").SetTexture(TEXTURES::GroundMountain);
+	GetGameObjectByName("RockObj36").AddComponent<Tag_Object>(new Tag_Object());
+	GetGameObjectByName("RockObj36").SetTag(TAG_Rock);
 
 	auto& amalgateRock = CreateGameObject("Rock");
 	XMFLOAT3 pos = { -82,-17,94 };

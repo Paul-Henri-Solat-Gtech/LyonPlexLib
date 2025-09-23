@@ -31,8 +31,6 @@ private:
 
 	//Portals for the lvl1
 	Portals* m_portal = nullptr;
-
-	// firstPortalHasSpawned = p_1Spawned
 	bool m_p1Spawned, m_p2Spawned, m_p3Spawned, m_p4Spawned, m_p5Spawned, m_pBossSpawned;
 	bool m_p1Finished, m_p2Finished, m_p3Finished, m_p4Finished, m_p5Finished, m_pBossFinished;
 
