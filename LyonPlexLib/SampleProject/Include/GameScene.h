@@ -5,6 +5,12 @@
 #include "Portals.h"
 #include "FpsCamera.h"
 
+struct portal 
+{
+	bool hasSpawned = false;
+	bool isFinished = false;
+};
+
 class GameScene : public Scene
 {
 public:
@@ -35,7 +41,7 @@ private:
 	bool m_youWin;
 	float m_chronoChangeScene;
 
-	//Portals for the lvl1
+	//Portals for the lvl1 -> utiliser la struct
 	Portals* m_portal = nullptr;
 	bool m_p1Spawned, m_p2Spawned, m_p3Spawned, m_p4Spawned, m_p5Spawned, m_pBossSpawned;
 	bool m_p1Finished, m_p2Finished, m_p3Finished, m_p4Finished, m_p5Finished, m_pBossFinished;
