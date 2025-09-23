@@ -6,6 +6,7 @@
 using ComponentMask = uint64_t; // assume up to 64 component types
 
 
+
 enum ComponentID
 {
 	// Comopnents
@@ -430,6 +431,7 @@ struct Tag_HealingRock : public Component
 		typeID = StaticTypeID;
 	}
 };
+
 
 inline bool HasAny(ComponentMask mask, uint64_t flags) { return (mask & flags) != 0; }
 inline bool HasAll(ComponentMask mask, uint64_t flags) { return (mask & flags) == flags; }

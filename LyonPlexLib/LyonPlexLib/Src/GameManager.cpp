@@ -82,6 +82,7 @@ int GameManager::Run()
 		m_deltaTime = Utils::getTimeSeconds() - t;
 		t = Utils::getTimeSeconds();
 
+		//double fpsDebugStart = Utils::getTimeSeconds();
 
 		// 1) Gestion des messages Windows
 		//ProcessMessage();
@@ -103,6 +104,7 @@ int GameManager::Run()
 
 		m_collisionSystem.Update();
 
+		//double debugCol = Utils::getTimeSeconds() - fpsDebugStart;
 
 		//m_lightSystem.Update(m_ECS, m_deltaTime);
 
@@ -121,6 +123,15 @@ int GameManager::Run()
 		m_renderer.SynchroGPUCPU();
 
 		m_ECS.EndFrame();
+
+		/*
+		double debugRender = Utils::getTimeSeconds() - fpsDebugStart - debugCol ;
+		double fpsDebugEnd = Utils::getTimeSeconds();
+		Utils::log(
+			"\nChrono_Col : " + std::to_string(debugCol) + "\n"
+			+ "Chrono_Render : " + std::to_string(debugRender) + "\n"
+			+ "Chrono_ALL : " + std::to_string(fpsDebugEnd - fpsDebugStart) + "\n"
+		);*/
 
 		LimitFPS(120); //environ 60fps in game car 2 boucle de rendu
 	}

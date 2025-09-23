@@ -20,7 +20,7 @@ public:
     EventBus(EventBus const&) = delete;
     EventBus& operator=(EventBus const&) = delete;
 
-    // Inscription ・un type d弾venement E
+    // Inscription a un type d'evenement E
     template<typename E>
     void subscribe(std::function<void(typename E::Payload const&)> cb) {
         std::lock_guard<std::mutex> lock(_mtx);
@@ -30,7 +30,7 @@ public:
             });
     }
 
-    // Publication d置n evenement E
+    // Publication d'un evenement E
     template<typename E>
     void publish(typename E::Payload const& payload) {
         std::lock_guard<std::mutex> lock(_mtx);

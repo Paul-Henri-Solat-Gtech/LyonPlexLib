@@ -5,27 +5,6 @@
 #undef max
 #undef min
 
-//inline bool HasAny(ComponentMask mask, uint64_t flags) { return (mask & flags) != 0; }
-//inline bool HasAll(ComponentMask mask, uint64_t flags) { return (mask & flags) == flags; }
-//inline bool Has(ComponentMask mask, uint64_t flags) { return HasAll(mask, flags); }
-//
-//constexpr ComponentMask mask_TAG_Player = 1ULL << Tag_Player::StaticTypeID;
-//constexpr ComponentMask mask_TAG_Object = 1ULL << Tag_Object::StaticTypeID;
-//constexpr ComponentMask mask_TAG_World = 1ULL << Tag_World::StaticTypeID;
-//constexpr ComponentMask mask_TAG_Enemy = 1ULL << Tag_Enemy::StaticTypeID;
-//constexpr ComponentMask mask_TAG_Projectile = 1ULL << Tag_Projectile::StaticTypeID;
-//constexpr ComponentMask mask_TAG_Boulder = 1ULL << Tag_Boulder::StaticTypeID;
-//constexpr ComponentMask mask_TAG_OliveTree = 1ULL << Tag_OliveTree::StaticTypeID;
-//constexpr ComponentMask mask_TAG_HealingRock = 1ULL << Tag_HealingRock::StaticTypeID;
-//
-//constexpr ComponentMask allTags =
-//mask_TAG_World
-//| mask_TAG_Enemy
-//| mask_TAG_Projectile
-//| mask_TAG_Object
-//| mask_TAG_Boulder
-//| mask_TAG_OliveTree
-//| mask_TAG_HealingRock;
 
 bool CollisionSystem::Init(ECSManager* ecs)
 {
@@ -80,15 +59,20 @@ static XMFLOAT3 GetWorldPosition(Entity e, ECSManager* ecs)
 
 void CollisionSystem::Update()
 {
+	//double fpsDebugStart = Utils::getTimeSeconds();
+
 	// collecte entities avec Transform + Collision
 	ComponentMask mask = (1ULL << Transform_ID) | (1ULL << Collision_ID);
 	ComponentMask excludeMask = mask_TAG_Object | mask_TAG_World | mask_TAG_Boulder;
 	std::vector<Entity> ents;
 	m_ECS->ForEach(mask, excludeMask, [&](Entity e) { ents.push_back(e); });
 
+	//double fpsDebugEnd = Utils::getTimeSeconds();
+	//Utils::log("\nChrono Collisions : " + std::to_string(fpsDebugEnd - fpsDebugStart) + "\n");
+
 	//std::unordered_map<ComponentMask, XMMATRIX> emptyMap;
 	//const std::unordered_map<ComponentMask, XMMATRIX>& worldMatrices =
-	//    (m_TransformSystem) ? m_TransformSystem->GetWorldMatrix() : emptyMap;
+	//	(m_TransformSystem) ? m_TransformSystem->GetWorldMatrix() : emptyMap;
 
 	//double globalStart = Utils::getTimeSeconds();
 	//double sumPairs = 0.0;
@@ -108,7 +92,7 @@ void CollisionSystem::Update()
 
 	//// log hors boucle
 	//for (auto d : pairDurations) {
-	//    // si tu veux détailler, mais faire ça après la mesure
+	//    // si tu veux detailler, mais faire ca apres la mesure
 	//    Utils::log("Chrono : " + std::to_string(d) + "\n");
 	//}
 	//Utils::log("ChronoGLOBAL : " + std::to_string(globalEnd - globalStart)
@@ -116,7 +100,8 @@ void CollisionSystem::Update()
 	//    + " - entsToTest : " + std::to_string(ents.size()) + "\n");
 }
 
-void CollisionSystem::TryPair(Entity a, Entity b/*, const std::unordered_map<uint32_t, XMMATRIX>& worldMatrices*/)
+
+void CollisionSystem::TryPair(Entity a, Entity b/*, const std::unordered_map<ComponentMask, XMMATRIX>& worldMatrices*/)
 {
 	ComponentMask mask_A = m_ECS->GetComponentMask(a);
 	ComponentMask mask_B = m_ECS->GetComponentMask(b);
@@ -332,25 +317,7 @@ void CollisionSystem::TryPair(Entity a, Entity b/*, const std::unordered_map<uin
 		hit = ObbVsAabb(pb, ab, pa, oa);
 	}*/
 
-
-	if (ca->shapeType == ColliderType::Sphere && cb->shapeType == ColliderType::Sphere) {
-		hit = SphereVsSphere(pa, std::get<SphereCollider>(ca->shape),
-			pb, std::get<SphereCollider>(cb->shape));
-	}
-	else if (ca->shapeType == ColliderType::AABB && cb->shapeType == ColliderType::AABB) {
-		hit = AabbVsAabb(pa, std::get<AABBCollider>(ca->shape),
-			pb, std::get<AABBCollider>(cb->shape));
-	}
-	else if (ca->shapeType == ColliderType::Sphere && cb->shapeType == ColliderType::AABB) {
-		hit = SphereVsAabb(pa, std::get<SphereCollider>(ca->shape),
-			pb, std::get<AABBCollider>(cb->shape));
-	}
-	else if (ca->shapeType == ColliderType::AABB && cb->shapeType == ColliderType::Sphere) {
-		hit = SphereVsAabb(pb, std::get<SphereCollider>(cb->shape),
-			pa, std::get<AABBCollider>(ca->shape));
-	}
-	// OBB
-	else if (ca->shapeType == ColliderType::OBB && cb->shapeType == ColliderType::OBB) {
+	if (ca->shapeType == ColliderType::OBB && cb->shapeType == ColliderType::OBB) {
 		std::get<OBBCollider>(ca->shape).orientation = ta->rotation;
 		std::get<OBBCollider>(cb->shape).orientation = tb->rotation;
 		hit = ObbVsObb(pa, std::get<OBBCollider>(ca->shape),
@@ -375,6 +342,22 @@ void CollisionSystem::TryPair(Entity a, Entity b/*, const std::unordered_map<uin
 		std::get<OBBCollider>(ca->shape).orientation = ta->rotation;
 		hit = ObbVsAabb(pb, std::get<AABBCollider>(cb->shape), pa,
 			std::get<OBBCollider>(ca->shape));
+	}
+	else if (ca->shapeType == ColliderType::Sphere && cb->shapeType == ColliderType::Sphere) {
+		hit = SphereVsSphere(pa, std::get<SphereCollider>(ca->shape),
+			pb, std::get<SphereCollider>(cb->shape));
+	}
+	else if (ca->shapeType == ColliderType::AABB && cb->shapeType == ColliderType::AABB) {
+		hit = AabbVsAabb(pa, std::get<AABBCollider>(ca->shape),
+			pb, std::get<AABBCollider>(cb->shape));
+	}
+	else if (ca->shapeType == ColliderType::Sphere && cb->shapeType == ColliderType::AABB) {
+		hit = SphereVsAabb(pa, std::get<SphereCollider>(ca->shape),
+			pb, std::get<AABBCollider>(cb->shape));
+	}
+	else if (ca->shapeType == ColliderType::AABB && cb->shapeType == ColliderType::Sphere) {
+		hit = SphereVsAabb(pb, std::get<SphereCollider>(cb->shape),
+			pa, std::get<AABBCollider>(ca->shape));
 	}
 
 	if (hit)

@@ -5,8 +5,9 @@ namespace TEXTURES
 	enum TEXTURES
 	{
 		NOTEXTURE,
-		TEST3,
-		TEST,
+		AMALGATE,
+		ALGUE,
+		ALGUE1,
 		ARMS,
 		GRID,
 		BOIS,
@@ -671,6 +672,7 @@ namespace MESHES
 
 		WALL,
 		WALL_BROKEN,
+		WALL_DOORWAY,
 
 		TotalMeshCount
 	};

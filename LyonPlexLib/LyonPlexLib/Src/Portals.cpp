@@ -65,24 +65,27 @@ void Portals::OnUpdate(float deltatime)
 
 			switch (randEnemy)
 			{
-			case 1:
-			{
-				auto& newEnemy = mp_scene->CreateGameObject<Enemy>(mp_ecs, mp_gameManager, m_playerGm, mp_scene, EnemyType::Crabe);
-				newEnemy.SetPosition({ posX, m_groundY, posZ });
-				break;
-			}
-			case 2:
-			{
-				auto& newEnemy = mp_scene->CreateGameObject<Enemy>(mp_ecs, mp_gameManager, m_playerGm, mp_scene, EnemyType::Crabe);
-				newEnemy.SetPosition({ posX, m_groundY, posZ });
-				break;
-			}
-			case 3:
-			{
-				auto& newEnemy = mp_scene->CreateGameObject<Enemy>(mp_ecs, mp_gameManager, m_playerGm, mp_scene, EnemyType::Golem);
-				newEnemy.SetPosition({ posX, m_groundY + newEnemy.GetScale().y / 2, posZ });
-				break;
-			}
+				case 1: 
+				{
+					auto& newEnemy = mp_scene->CreateGameObject<Enemy>(mp_ecs, mp_gameManager, m_playerGm, mp_scene, EnemyType::Crabe);
+					newEnemy.SetPosition({ posX, newEnemy.GetPosition().y, posZ});
+					newEnemy.SetSpawnPos(GetPosition());
+					break;
+				}
+				case 2: 
+				{
+					auto& newEnemy = mp_scene->CreateGameObject<Enemy>(mp_ecs, mp_gameManager, m_playerGm, mp_scene, EnemyType::Crabe);
+					newEnemy.SetPosition({ posX, newEnemy.GetPosition().y, posZ });
+					newEnemy.SetSpawnPos(GetPosition());
+					break;
+				}
+				case 3: 
+				{
+					auto& newEnemy = mp_scene->CreateGameObject<Enemy>(mp_ecs, mp_gameManager, m_playerGm, mp_scene, EnemyType::Golem);
+					newEnemy.SetPosition({ posX, newEnemy.GetPosition().y, posZ });
+					newEnemy.SetSpawnPos(GetPosition());
+					break;
+				}
 			}
 		}
 		else
@@ -91,7 +94,6 @@ void Portals::OnUpdate(float deltatime)
 			auto& newEnemy = mp_scene->CreateGameObject<Enemy>(mp_ecs, mp_gameManager, m_playerGm, mp_scene, m_choosedEnemy);
 			newEnemy.SetPosition({ posX, m_groundY, posZ });
 		}
-
 
 		XMFLOAT3 test = { GetScale().x - 0.25f, GetScale().y -0.25f, 1};
 		SetScale(test);

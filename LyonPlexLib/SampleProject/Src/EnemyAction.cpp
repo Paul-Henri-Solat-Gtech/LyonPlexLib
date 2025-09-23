@@ -546,7 +546,7 @@ void EnnemyAction_Roam::Update(Enemy* ennemy)
 	m_moveAnim.AnimationSequence(ennemy->GetDeltatime());
 
 	// position courante
-	XMFLOAT3 pos = ennemy->GetPosition();
+	XMFLOAT3 pos = ennemy->m_spawnPos;
 
 	// vecteur direction vers la cible (XZ)
 	float dx = m_nextPosition.x - pos.x;

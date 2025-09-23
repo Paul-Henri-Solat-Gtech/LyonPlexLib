@@ -14,6 +14,8 @@ public:
 
 	void GetPushed(Utils::Vector3 dir);
 
+	GameObject* GetColliderGameObject() { return mp_collider; }
+
 	void SetScale(XMFLOAT3 scl);
 
 	GameObject& m_playerGm;

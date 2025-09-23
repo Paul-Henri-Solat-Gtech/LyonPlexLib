@@ -79,7 +79,6 @@ bool PlayerCondition_IsCloseToObject::OnTest(Player* owner)
 
 			float length = newVec.length();
 
-			//if (length < 5.0f)
 			if (length < ecs.GetComponent<CollisionComponent>(owner->GetEntity())->BoundingSphereRadius() * 3)
 			{
 				if (length < closest)

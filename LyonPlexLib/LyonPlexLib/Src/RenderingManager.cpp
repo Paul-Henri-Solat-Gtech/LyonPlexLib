@@ -75,7 +75,7 @@ void RenderingManager::RecordCommands()
 		frameIdx,
 		m_descriptorManager.GetRtvDescriptorSize()
 	);
-	const float clearColor[] = { 0.1f, 0.8f, 0.3f, 1.0f };
+	const float clearColor[] = { 0.05f, 0.1f, 1.f, 1.0f };
 	m_commandManager.GetCommandList()->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 
 	// Clear DSV

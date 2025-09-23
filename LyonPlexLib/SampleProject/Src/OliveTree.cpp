@@ -7,7 +7,7 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 
 	InitOliveTreeGameObj(ecsManager, scene);
 
-	mp_trunk = &scene->CreateGameObject("olive_trunk", MESHES::OLIVIER_1_TRONC);
+	mp_trunk = scene->CreateGameObject("olive_trunk", MESHES::OLIVIER_1_TRONC);
 	scene->SetParent(*mp_trunk, *this);
 
 	mp_trunk->SetPosition({ 0,0,0 });
@@ -15,7 +15,7 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 	mp_trunk->SetScale({ 1,1,1 });
 	//mp_trunk->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 0.850000143,2,1 }, { 0,0.2164395,0,0.976296067 }, { 0.115241952,1.324885845,0.244909346 })));
 
-	mp_leaves = &scene->CreateGameObject("olive_leaves", MESHES::OLIVIER_1_FEUILLES);
+	mp_leaves = scene->CreateGameObject("olive_leaves", MESHES::OLIVIER_1_FEUILLES);
 	scene->SetParent(*mp_leaves, *mp_trunk);
 
 	mp_leaves->SetTag(TAG_Environment);
@@ -64,9 +64,9 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 				return;
 			}
 
-			// get pointer (peut retourner nullptr si l'objet a étEdétruit)
+			// get pointer (peut retourner nullptr si l'objet a ï¿½tï¿½Edï¿½truit)
 			GameObject* otherGO = scenePtr->GetGameObjectByID(otherE);
-			if (!otherGO) return; // évite deref null
+			if (!otherGO) return; // ï¿½vite deref null
 
 			auto tag = otherGO->GetTag();
 
@@ -78,48 +78,206 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 				self->m_isCut = true;
 			}
 		});
-
+	startPos = mp_leaves->GetPosition();
 }
 
 void OliveTree::OnUpdate(float deltatime)
 {
 	if (m_isCut)
 	{
-		GameObject* cut_trunkCol = nullptr;
+		timer += deltatime;
+
 		switch (m_treeNum)
 		{
 		case 1:
-			mp_leaves->SetPosition({ -25 / GetScale().x, -12 / GetScale().y, -15 / GetScale().z });
-			//mp_leaves->SetTransformRotation({ 90,60,0 });
-			mp_leaves->SetTransformRotation({ 180,0,0 });
-			mp_leavesCol->SetPosition({ 0, 0.5, 0 });
 
-			cut_trunkCol = &mp_scene->CreateGameHitbox();
-			cut_trunkCol->SetPosition({ 49,-6.09082365,131 });
-			cut_trunkCol->SetRotation({ 0,0,0,1 });
-			cut_trunkCol->SetScale({ 7,6,9 });
-			cut_trunkCol->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3.5,3,4.5 })));
 
-			m_isCut = false;
+
+			switch (phase)
+			{
+			case 1: // Saute
+				mp_leaves->GetPosition().y += 10 * deltatime * deltatime / timer;
+				//mp_leaves->GetComponent<TransformComponent>()->dirty = true;
+
+				rotationDeg += degCount++ * deltatime * 2;
+				mp_leaves->AddRotation({ 0, 0,degCount++ * deltatime * 2 });
+				mp_leaves->GetPosition().x -= 3 * deltatime;
+
+				if (timer > 0.5)
+					phase++;
+
+				break;
+			case 2: // Tombe
+
+				if (mp_leaves->GetPosition().x > -25 / GetScale().x)
+				{
+					mp_leaves->GetPosition().x -= 4 * deltatime;
+				}
+				else
+					xOK = true;
+
+				if (mp_leaves->GetPosition().y > -12 / GetScale().y)
+				{
+					mp_leaves->GetPosition().y -= 5 * deltatime;
+				}
+				else
+					yOK = true;
+
+				if (mp_leaves->GetPosition().z > -15 / GetScale().z)
+				{
+					mp_leaves->GetPosition().z -= 5 * deltatime;
+				}
+				else
+					zOK = true;
+				if (timer > 0.6)
+				{
+					rotationDeg += degCount++ * deltatime * 2;
+
+					if (rotationDeg < 180)
+					{
+						mp_leaves->AddRotation({ 0, 0,degCount++ * deltatime * 2 });
+					}
+					else
+						rotOK = true;
+				}
+
+				mp_leaves->GetComponent<TransformComponent>()->dirty = true;
+				if (xOK && yOK && zOK && rotOK)
+					phase++;
+
+				break;
+			case 3: // Stop
+
+				mp_leaves->SetPosition({ -25 / GetScale().x, -12 / GetScale().y, -15 / GetScale().z });
+				//mp_leaves->SetTransformRotation({ 180,0,0 });
+				mp_leaves->SetTransformRotation({ 0,0,180 });
+				mp_leavesCol->SetPosition({ 0, 0.5, 0 });
+
+				cut_trunkCol = &mp_scene->CreateGameHitbox();
+				cut_trunkCol->SetPosition({ 49,-6.09082365,131 });
+				cut_trunkCol->SetRotation({ 0,0,0,1 });
+				cut_trunkCol->SetScale({ 7,6,9 });
+				cut_trunkCol->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3.5,3,4.5 })));
+
+				m_isCut = false;
+				m_endCut1 = true;
+				timer = 0;
+				break;
+
+			default:
+				break;
+			}
+
 			break;
+
 		case 2:
-			mp_leaves->SetPosition({ 0 / GetScale().x, -15 / GetScale().y, 55.f / GetScale().z });
-			mp_leaves->SetTransformRotation({ 180,0,0 });
-			mp_leavesCol->SetPosition({ 0, 0.5, 0 });
 
-			cut_trunkCol = &mp_scene->CreateGameHitbox();
-			cut_trunkCol->SetPosition({ -66.287994385,-1.48188591,-24.33288002 });
-			cut_trunkCol->SetRotation({ 0,0,0,1 });
-			cut_trunkCol->SetScale({ 16,8,10 });
-			cut_trunkCol->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 8,5.5,5 })));
+			switch (phase)
+			{
+			case 1: // Saute
+				mp_leaves->GetPosition().y += 10 * deltatime * deltatime / timer;
+				mp_leaves->GetComponent<TransformComponent>()->dirty = true;
 
-			m_isCut = false;
+				rotationDeg += degCount++ * deltatime * 2;
+				mp_leaves->AddRotation({ degCount++ * deltatime * 2 ,0 ,0 });
+				mp_leaves->GetPosition().z += 3 * deltatime;
+
+				if (timer > 0.5)
+					phase++;
+
+				break;
+			case 2: // Tombe
+
+				xOK = true;
+
+				if (mp_leaves->GetPosition().y > -15 / GetScale().y)
+				{
+					mp_leaves->GetPosition().y -= 5 * deltatime;
+				}
+				else
+					yOK = true;
+
+				if (mp_leaves->GetPosition().z < 55 / GetScale().z)
+				{
+					mp_leaves->GetPosition().z += 4 * deltatime;
+				}
+				else
+					zOK = true;
+
+				if (timer > 0.7)
+				{
+					//static int degCount = 0;
+					rotationDeg += degCount++ * deltatime * 2;
+
+					if (rotationDeg < 180)
+					{
+						mp_leaves->AddRotation({ degCount++ * deltatime * 2, 0, 0 });
+					}
+					else
+						rotOK = true;
+				}
+
+				mp_leaves->GetComponent<TransformComponent>()->dirty = true;
+				if (xOK && yOK && zOK && rotOK)
+					phase++;
+
+				break;
+			case 3: // Stop
+
+
+				mp_leaves->SetPosition({ 0 / GetScale().x, -15 / GetScale().y, 55.f / GetScale().z });
+				mp_leaves->SetTransformRotation({ 180,0,0 });
+				mp_leavesCol->SetPosition({ 0, 0.5, 0 });
+
+				cut_trunkCol = &mp_scene->CreateGameHitbox();
+				cut_trunkCol->SetPosition({ -66.287994385,-1.48188591,-24.33288002 });
+				cut_trunkCol->SetRotation({ 0,0,0,1 });
+				cut_trunkCol->SetScale({ 16,8,10 });
+				cut_trunkCol->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 8,5.5,5 })));
+
+				m_isCut = false;
+				m_endCut2 = true;
+				timer = 0;
+				break;
+			default:
+				break;
+			}
 			break;
+
 		default:
 			break;
 		}
 
 	}
+
+	//if (m_endCut1)
+	//{
+	//	mp_leaves->SetPosition({ -25 / GetScale().x, -12 / GetScale().y, -15 / GetScale().z });
+	//	mp_leaves->SetTransformRotation({ 180,0,0 });
+	//	//mp_leavesCol->SetPosition({ 0, 0.5, 0 });
+	//	mp_leavesCol->SetPosition({ 0, 5, 0 });
+
+	//	cut_trunkCol = &mp_scene->CreateGameHitbox();
+	//	cut_trunkCol->SetPosition({ 49,-6.09082365,131 });
+	//	cut_trunkCol->SetRotation({ 0,0,0,1 });
+	//	cut_trunkCol->SetScale({ 7,6,9 });
+	//	cut_trunkCol->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3.5,3,4.5 })));
+	//	m_endCut1 = false;
+	//}
+
+	//if (m_endCut2)
+	//{
+	//	mp_leaves->SetPosition({ 0 / GetScale().x, -15 / GetScale().y, 55.f / GetScale().z });
+	//	mp_leaves->SetTransformRotation({ 180,0,0 });
+	//	mp_leavesCol->SetPosition({ 0, 0.5, 0 });
+
+	//	cut_trunkCol = &mp_scene->CreateGameHitbox();
+	//	cut_trunkCol->SetPosition({ -66.287994385,-1.48188591,-24.33288002 });
+	//	cut_trunkCol->SetRotation({ 0,0,0,1 });
+	//	cut_trunkCol->SetScale({ 16,8,10 });
+	//	cut_trunkCol->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 8,5.5,5 })));
+	//	m_endCut2 = false;
+	//}
 
 }
 
@@ -141,15 +299,15 @@ void OliveTree::SetScale(XMFLOAT3 scl)
 
 	auto& colTrunk = std::get<OBBCollider>(mp_trunkCol->GetComponent<CollisionComponent>()->shape);
 
-	colTrunk.halfSize.x = 1.700000286f * scl.x/* * scl.x*/ / 2;
-	colTrunk.halfSize.y = 3 * scl.y /** scl.y*/ / 2;
-	colTrunk.halfSize.z = 2 * scl.z /** scl.z*/ / 2;
+	colTrunk.halfSize.x = 1.700000286f * scl.x / 2;
+	colTrunk.halfSize.y = 3 * scl.y / 2;
+	colTrunk.halfSize.z = 2 * scl.z / 2;
 
 	auto& colLeaves = std::get<OBBCollider>(mp_leavesCol->GetComponent<CollisionComponent>()->shape);
 
-	colLeaves.halfSize.x = 2 * scl.x /** scl.x*/;
-	colLeaves.halfSize.y = 2 * scl.y /** scl.y*/;
-	colLeaves.halfSize.z = 4.5 * scl.z /** scl.z*/;
+	colLeaves.halfSize.x = 2 * scl.x;
+	colLeaves.halfSize.y = 2 * scl.y;
+	colLeaves.halfSize.z = 4.5 * scl.z;
 
 
 };

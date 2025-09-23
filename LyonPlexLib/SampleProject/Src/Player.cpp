@@ -269,7 +269,7 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 	m_renderHeight = renderHeight;
 
 	mp_scene->CreateGameObject("Heart1", TYPE_2D, true);
-	m_playerHeart1 = mp_scene->GetGameObjectByName("Heart1");
+	m_playerHeart1 = *mp_scene->FindGameObjectByName("Heart1");
 	m_playerHeart1.SetMesh(MESHES::LOCAL_SQUARE);
 	m_playerHeart1.SetTexture(TEXTURES::heart_full);
 	m_playerHeart1.SetPosition({ 120, (float)renderHeight / 6, 0 });
@@ -277,7 +277,7 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 	m_playerHeart1.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
 	mp_scene->CreateGameObject("Heart2", TYPE_2D, true);
-	m_playerHeart2 = mp_scene->GetGameObjectByName("Heart2");
+	m_playerHeart2 = *mp_scene->FindGameObjectByName("Heart2");
 	m_playerHeart2.SetMesh(MESHES::LOCAL_SQUARE);
 	m_playerHeart2.SetTexture(TEXTURES::heart_full);
 	m_playerHeart2.SetPosition({ 240, (float)renderHeight / 6, 0 });
@@ -285,7 +285,7 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 	m_playerHeart2.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
 	mp_scene->CreateGameObject("Heart3", TYPE_2D, true);
-	m_playerHeart3 = mp_scene->GetGameObjectByName("Heart3");
+	m_playerHeart3 = *mp_scene->FindGameObjectByName("Heart3");
 	m_playerHeart3.SetMesh(MESHES::LOCAL_SQUARE);
 	m_playerHeart3.SetTexture(TEXTURES::heart_full);
 	m_playerHeart3.SetPosition({ 360, (float)renderHeight / 6, 0 });
@@ -294,7 +294,7 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 
 	// PlaceHolder weapon
 	mp_scene->CreateGameObject("WeaponPLaceholder", TYPE_2D, true);
-	m_weaponPlaceholder = mp_scene->GetGameObjectByName("WeaponPLaceholder");
+	m_weaponPlaceholder = *mp_scene->FindGameObjectByName("WeaponPLaceholder");
 	m_weaponPlaceholder.SetMesh(MESHES::LOCAL_SQUARE);
 	m_weaponPlaceholder.SetTexture(TEXTURES::Weapon_placeholder);
 	m_weaponPlaceholder.SetPosition({ (float)renderWidth - 100, (float)renderHeight - 80, 0 });
@@ -303,7 +303,7 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 
 	// Selected Weapon
 	mp_scene->CreateGameObject("WeaponSelected", TYPE_2D, true);
-	m_selectedWeapon = mp_scene->GetGameObjectByName("WeaponSelected");
+	m_selectedWeapon = *mp_scene->FindGameObjectByName("WeaponSelected");
 	m_selectedWeapon.SetMesh(MESHES::LOCAL_SQUARE);
 	m_selectedWeapon.SetTexture(TEXTURES::ATTACK1_W1_1);
 	m_selectedWeapon.SetPosition({ (float)renderWidth - 100, (float)renderHeight - 80, 0 });
@@ -1374,13 +1374,13 @@ void Player::DeathManager()
 	UINT renderWidth = renderZone.right - renderZone.left;
 	UINT renderHeight = renderZone.bottom - renderZone.top;
 
-	mp_scene->CreateGameObject("gameOver", TYPE_2D, true);
-	m_gameOver = mp_scene->GetGameObjectByName("gameOver");
-	m_gameOver.SetMesh(MESHES::LOCAL_SQUARE);
-	m_gameOver.SetTexture(TEXTURES::LOSESCREEN);
-	m_gameOver.SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2, 0 });
-	m_gameOver.SetScale({ (float)renderWidth * 0.4f, (float)renderHeight * 0.4f, 0 });
-	m_gameOver.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+	//mp_scene->CreateGameObject("gameOver", TYPE_2D, true);
+	//m_gameOver = mp_scene->GetGameObjectByName("gameOver");
+	//m_gameOver.SetMesh(MESHES::LOCAL_SQUARE);
+	//m_gameOver.SetTexture(TEXTURES::LOSESCREEN);
+	//m_gameOver.SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2, 0 });
+	//m_gameOver.SetScale({ (float)renderWidth * 0.4f, (float)renderHeight * 0.4f, 0 });
+	//m_gameOver.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 }
 
 void Player::InvincibilityManager(float deltatime)

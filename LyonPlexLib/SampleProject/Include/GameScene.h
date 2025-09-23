@@ -22,6 +22,12 @@ public:
 	void PortalSystem();
 
 private:
+	void CreateWeeds();
+	void CreateAdditionalHitboxes();
+
+	void CreateGrass();
+
+
 	Player m_playerTest;
 	//Enemy m_enemyTest;
 

@@ -5,8 +5,10 @@ void MainMenuScene::Start()
 {
 	// Camera
 	CreateGameObject("camera2", TYPE_3D, false);
+	FindGameObjectByName("camera2")->AddComponent<CameraComponent>(new CameraComponent());
+	FindGameObjectByName("camera2")->SetPosition({ 0, 0, 0.5f });/*
 	GetGameObjectByName("camera2").AddComponent<CameraComponent>(new CameraComponent());
-	GetGameObjectByName("camera2").SetPosition({ 0, 0, 0.5f });
+	GetGameObjectByName("camera2").SetPosition({ 0, 0, 0.5f });*/
 
 	RECT renderZone;
 	GetClientRect(GetSceneManager()->GetGameManager()->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);
