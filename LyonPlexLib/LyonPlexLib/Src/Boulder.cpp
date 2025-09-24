@@ -12,20 +12,16 @@ Boulder::Boulder(ECSManager* ecsManager, GameManager* gameManager, GameObject& g
 
 	SetMesh(MESHES::ROCKLM1);
 	AddComponent<Tag_Boulder>(new Tag_Boulder());
+	SetTag(TAG_Boulder);
 
-	//AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 1.01, 0.6, 0.7 }, { 0, 0,0,1 }, { -0.1, 0.05, -0.01 })));
 
-	mp_collider = &scene->CreateGameObject("boulderCol", TYPE_3D_TRANSPARENT);
+	mp_collider = &scene->CreateGameHitbox("boulderCol");
 	scene->SetParent(*mp_collider, *this);
 
 	mp_collider->SetTag(TAG_Environment);
-	mp_collider->GetComponent<MeshComponent>()->alpha = 0.4;
-	mp_collider->SetTexture(TEXTURES::GRID);
-	//mp_collider->SetPosition({ -0.1,0.05,-0.01 });
 	mp_collider->SetPosition({ 0,0,0 });
 	mp_collider->SetScale({ 2.02,1.1,1.1 });
-	//mp_collider->SetScale({ 4.04,1.2,1.4 });
-	mp_collider->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB(/*{1.01, 0.55, 0.55}*/)));
+	mp_collider->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB()));
 }
 
 void Boulder::OnUpdate(float deltatime)

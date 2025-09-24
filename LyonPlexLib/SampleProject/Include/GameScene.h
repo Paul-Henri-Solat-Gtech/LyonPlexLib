@@ -22,10 +22,10 @@ public:
 	void PortalSystem();
 
 private:
-	void CreateWeeds();
+	//void CreateWeeds();
 	void CreateAdditionalHitboxes();
 
-	void CreateGrass();
+	//void CreateGrass();
 
 
 	Player m_playerTest;

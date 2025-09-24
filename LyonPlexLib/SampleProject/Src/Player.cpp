@@ -239,7 +239,6 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 	SetScale({ 1, 4, 1 });
 	SetPosition({ -60,60,60 });
 
-
 	mp_gameManager = gameManager;
 	mp_scene = scene;
 	mp_cameraGO = &cameraGO;
@@ -445,6 +444,16 @@ void Player::OnUpdate(float deltatime)
 	//	break;
 	}
 }
+
+
+
+
+
+
+
+
+// Collisions & mouvement joueur
+
 
 
 XMFLOAT3 ComputeChildEntityPos(Entity childEntity, ECSManager& ecs, Scene* scene)

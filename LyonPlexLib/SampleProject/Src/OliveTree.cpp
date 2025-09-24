@@ -22,15 +22,14 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 	mp_leaves->SetPosition({ 0.155318305,4.349291325,-0.093118094 }); // LOCAL POS
 	mp_leaves->SetRotation({ 0,0,-0.034899499,0.999390841 });		  // LOCAL ROTA
 	mp_leaves->SetScale({ 1,1,1 });
-	//mp_leaves->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 2,2,4.5 }, { 0,0,0,1 }, { -0.192756951,0.626702487,0.129970118 }/*{0,0,0}*/)));
-
 
 	mp_trunkCol = &scene->CreateGameObject("test 1", TYPE_3D_TRANSPARENT);
 	scene->SetParent(*mp_trunkCol, *mp_trunk);
 
 	mp_trunkCol->SetTag(TAG_Environment);
-	mp_trunkCol->GetComponent<MeshComponent>()->alpha = 0.4;
-	mp_trunkCol->SetTexture(TEXTURES::GRID);
+	//mp_trunkCol->GetComponent<MeshComponent>()->alpha = 0.4;
+	//mp_trunkCol->SetTexture(TEXTURES::GRID);
+	scene->GetEcsManager()->RemoveComponent<MeshComponent>(mp_trunkCol->GetEntity());
 	mp_trunkCol->SetPosition({ 0.115241952,1.324885845,0.244909346 });
 	mp_trunkCol->SetScale({ 1.700000286,3,2 });
 	mp_trunkCol->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB()));
@@ -40,8 +39,9 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 	scene->SetParent(*mp_leavesCol, *mp_leaves);
 
 	mp_leavesCol->SetTag(TAG_Environment);
-	mp_leavesCol->GetComponent<MeshComponent>()->alpha = 0.4;
-	mp_leavesCol->SetTexture(TEXTURES::GRID);
+	//mp_leavesCol->GetComponent<MeshComponent>()->alpha = 0.4;
+	//mp_leavesCol->SetTexture(TEXTURES::GRID);
+	scene->GetEcsManager()->RemoveComponent<MeshComponent>(mp_leavesCol->GetEntity());
 	mp_leavesCol->SetPosition({ -0.192756951,0.626702487,0.129970118 });
 	mp_leavesCol->SetRotation({ 0,0,0,1 });
 	mp_leavesCol->SetScale({ 4,4,9 });

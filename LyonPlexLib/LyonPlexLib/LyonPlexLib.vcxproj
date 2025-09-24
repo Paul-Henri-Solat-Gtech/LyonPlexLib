@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Action.h" />
+    <ClInclude Include="Include\AdditionnalSceneObjects.h" />
     <ClInclude Include="Include\AnimationManager.h" />
     <ClInclude Include="Include\Behaviour.h" />
     <ClInclude Include="Include\Button.h" />
@@ -77,6 +78,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\AdditionnalSceneObjects.cpp" />
     <ClCompile Include="Src\AnimationManager.cpp" />
     <ClCompile Include="Src\Button.cpp" />
     <ClCompile Include="Src\FpsCamera.cpp" />

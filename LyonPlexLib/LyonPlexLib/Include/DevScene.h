@@ -29,9 +29,6 @@ public:
 
 	void CreateAdditionalHitboxes();
 
-	void CreateWeeds();
-
-	void CreateGrass();
 
 private:
 	GameObject* m_placingModule; int m_curMeshID = 2; int m_curTexID = 0;

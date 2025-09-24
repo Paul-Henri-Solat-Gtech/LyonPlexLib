@@ -118,8 +118,8 @@ void PlayerAction_Move::Start(Player* player)
 	m_canMoveArm = true;
 	m_cooldownArmMovement = 0.5f;
 	m_cooldownArmMovementActual = m_cooldownArmMovement;
-	
-	
+
+
 	static XMFLOAT3 startPos = player->GetPlayerArm().GetPosition();
 
 	m_defaultPos = startPos;
@@ -241,7 +241,7 @@ void PlayerAction_Attack::Start(Player* player)
 			m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_18);
 			break;
 		case 3:
-			m_attackAnim.Init(FPS_24* player->GetDeltatime(), &player->GetPlayerArm());
+			m_attackAnim.Init(FPS_24 * player->GetDeltatime(), &player->GetPlayerArm());
 			m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_1);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_2);
 			m_attackAnim.AddFrame(TEXTURES::ATTACK3_W1_3);
@@ -484,19 +484,21 @@ void PlayerAction_Attack::Update(Player* player)
 		{
 			func();
 		}
-		if (m_heavyAttackAnim.GetAnimationHisFinished()) player->m_attackFinished = true;
 
-		if (m_pushBoulder == false)
+		if (m_heavyAttackAnim.GetAnimationQuarterDuration() && m_pushBoulder == false)
 		{
-			ComponentMask mask = (1ULL << Tag_Boulder::StaticTypeID);
+			//ComponentMask mask = (1ULL << Tag_Boulder::StaticTypeID) | (1ULL << Tag_BreakableWall::StaticTypeID);
+			ComponentMask mask = mask_TAG_Boulder;
 			auto& ecs = player->mp_gameManager->GetECSManager();
 			float closest = 25;
 			ecs.ForEach(mask, [&](Entity e)
 				{
+
 					GameObject& go = *player->mp_scene->GetGameObjectByID(e);
 					Boulder* boulder = dynamic_cast<Boulder*>(&go);
 
 					auto& boulderCollider = *boulder->GetColliderGameObject();
+
 
 					Utils::Vector3 newVec;
 					auto& playerPos = player->GetPosition();
@@ -511,11 +513,6 @@ void PlayerAction_Attack::Update(Player* player)
 
 					float dist = length - ecs.GetComponent<CollisionComponent>(player->GetEntity())->BoundingSphereRadius() - ((tc2->scale.x + tc2->scale.z) / 2);
 
-					bool close = false;
-
-					if (newVec.x)
-
-					//if (length < ecs.GetComponent<CollisionComponent>(player->GetEntity())->BoundingSphereRadius() * 4 * ((tc1->scale.x + tc1->scale.z) / 2))
 					if (dist < 12)
 					{
 						//if (length < closest)
@@ -535,9 +532,46 @@ void PlayerAction_Attack::Update(Player* player)
 							}
 						}
 					}
+
+				});
+
+			mask = mask_TAG_BreakableWall;
+			ecs.ForEach(mask, [&](Entity e)
+				{
+
+					GameObject& go = *player->mp_scene->GetGameObjectByID(e);
+
+					Utils::Vector3 newVec;
+					auto& playerPos = player->GetPosition();
+					auto* tc1 = ecs.GetComponent<TransformComponent>(e);
+					auto* tc2 = ecs.GetComponent<TransformComponent>(go.GetEntity());
+
+					newVec.x = tc1->position.x - playerPos.x;
+					newVec.y = tc1->position.y - playerPos.y;
+					newVec.z = tc1->position.z - playerPos.z;
+
+					float length = newVec.length();
+
+
+					if (length < 15)
+					{
+						if (length < closest)
+						{
+							closest = length;
+
+							if (&go) {
+								//PLAY SOUND !!
+								player->mp_scene->DestroyGameObject(go);
+							}
+							else {
+								// pas de mur a portee
+							}
+						}
+					}
 				});
 			m_pushBoulder = true;
 		}
+		if (m_heavyAttackAnim.GetAnimationHisFinished()) player->m_attackFinished = true;
 
 		break;
 	}

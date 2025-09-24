@@ -28,6 +28,9 @@ enum Tag
 	TAG_ProjectilePlayer,
 	TAG_HealingRock,
 
+	TAG_BreakableWall,
+	TAG_Boulder,
+
 	TagCount
 };
 
