@@ -124,6 +124,7 @@ public:
 	//Ennemy & gamepley
 	void SetEnnemyNb(int value) { m_ennemyNb = value; };
 	int GetEnnemyNb() { return m_ennemyNb; };
+	void SetEnnemyNbDebugOnly(int nbEnnemy) { m_ennemyNb = nbEnnemy; };
 
 	void SetPortalNb(int value) { m_portalNb = value; };
 	int GetPortalNb() { return m_portalNb; };

@@ -377,10 +377,14 @@ void Enemy::SetStateMachine()
 			}			
 			//-> SHOOT TRANSITION
 			{
-				auto transition = sShoot->CreateTransition(State::Shoot);
+				auto transition = sShoot->CreateTransition(State::Idle);
 				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsVeryNear>();
-				//transition->AddCondition<PlayerCondition_IsAttacking>();
 			}
+			////-> SHOOT TRANSITION
+			//{
+			//	auto transition = sShoot->CreateTransition(State::Shoot);
+			//	auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
+			//}
 		}
 	}
 		break;

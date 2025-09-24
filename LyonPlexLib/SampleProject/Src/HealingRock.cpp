@@ -25,7 +25,7 @@ void HealingRock::OnUpdate(float deltatime)
 	}
 	else
 	{
-		LookAt(m_playerGm);
+		//LookAt(m_playerGm);
 
 		m_lifetime -= 1 * deltatime;
 	}

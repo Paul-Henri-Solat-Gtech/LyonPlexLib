@@ -4822,7 +4822,10 @@ void GameScene::Update(float deltatime)
 	{
 		StopMusicPlex();
 	}
-
+	if (InputManager::GetKeyIsReleased('K'))
+	{
+		SetEnnemyNbDebugOnly(0);
+	}
 
 	//if (std::fmod(m_spawnTimer, 150.0f) == 0)
 	//{
@@ -4961,109 +4964,361 @@ void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy)
 
 void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy, EnemyType enemyType)
 {
-	if (enemyType == EnemyType::GolemBoss)
+	if (m_pl20.isFinished)
 	{
-		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, -5, enemyType);
+		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, 45, enemyType);
 	}
-	else
+	if (m_pl19.isFinished && !m_pl20.isFinished)
+	{
+		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, 34, enemyType);
+	}
+	if (m_pl16.isFinished && !m_pl19.isFinished)
+	{
+		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, 17, enemyType);
+	}
+	if (m_pl9.isFinished && !m_pl16.isFinished)
+	{
+		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, 0, enemyType);
+	}
+	if (m_pl8.isFinished && !m_pl9.isFinished)
+	{
+		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, 6, enemyType);
+	}
+	if(!m_pl8.isFinished)
 	{
 		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, -17, enemyType);
 	}
+
 	
 	m_portal->SetPosition(newPos);
 }
 
 void GameScene::PortalSystem()
 {
-	//1
-	if (GetEnnemyNb() <= 0 && !m_p1Spawned)
+	// 1
+	if (GetEnnemyNb() <= 0 && !m_pl1.hasSpawned)
 	{
-		SpawnPortal({ 190,-15,-115 }, 1, EnemyType::Crabe);
-		m_p1Spawned = true;
-		OutputDebugStringA("\n First wave \n");
+		SpawnPortal({ 172.f, -17.f, -117.f }, 1, EnemyType::Crabe);
+		m_pl1.hasSpawned = true;
+		OutputDebugStringA("\n Wave 1 \n");
 	}
-	if (m_p1Spawned && !m_p1Finished)
+	if (m_pl1.hasSpawned && !m_pl1.isFinished)
 	{
-		if (m_portal->SpawnIsFinished())
+		if (m_portal && m_portal->SpawnIsFinished())
 		{
-			m_p1Finished = true;
-			
+			m_pl1.isFinished = true;
 		}
 	}
-	//2
-	if (GetEnnemyNb() <= 0 && m_p1Finished && !m_p2Spawned)
+
+	// 2
+	if (GetEnnemyNb() <= 0 && m_pl1.isFinished && !m_pl2.hasSpawned)
 	{
-		SpawnPortal({ 110,-15,-125 }, 3, EnemyType::Crabe);
-		m_p2Spawned = true;
-		OutputDebugStringA("\n Second wave \n");
-		PlayMusicPlex("TheCrimsonTideClashfight");
+		SpawnPortal({ 83.f, -17.f, -162.f }, 2, EnemyType::Crabe);
+		m_pl2.hasSpawned = true;
+		OutputDebugStringA("\n Wave 2 \n");
 	}
-	if (m_p2Spawned && !m_p2Finished)
+	if (m_pl2.hasSpawned && !m_pl2.isFinished)
 	{
-		if (m_portal->SpawnIsFinished())
+		if (m_portal && m_portal->SpawnIsFinished())
 		{
-			m_p2Finished = true;
+			m_pl2.isFinished = true;
 		}
 	}
-	//3
-	if (GetEnnemyNb() <= 0 && m_p2Finished && !m_p3Spawned)
+
+	// 3
+	if (GetEnnemyNb() <= 0 && m_pl2.isFinished && !m_pl3.hasSpawned)
 	{
-		SpawnPortal({ -70,-15,-180 }, 3, EnemyType::Crabe);
-		m_p3Spawned = true;
-		OutputDebugStringA("\n third wave \n");
+		SpawnPortal({ -3.f, -17.f, -149.f }, 1, EnemyType::Crabe);
+		m_pl3.hasSpawned = true;
+		OutputDebugStringA("\n Wave 3 \n");
 	}
-	if (m_p3Spawned && !m_p3Finished)
+	if (m_pl3.hasSpawned && !m_pl3.isFinished)
 	{
-		if (m_portal->SpawnIsFinished())
+		if (m_portal && m_portal->SpawnIsFinished())
 		{
-			m_p3Finished = true;
+			m_pl3.isFinished = true;
 		}
 	}
-	//4
-	if (GetEnnemyNb() <= 0 && m_p3Finished && !m_p4Spawned)
+
+	// 4
+	if (GetEnnemyNb() <= 0 && m_pl3.isFinished && !m_pl4.hasSpawned)
 	{
-		SpawnPortal({ -170,-15,-90 }, 5, EnemyType::Crabe);
-		m_p4Spawned = true;
-		OutputDebugStringA("\n fourth wave \n");
+		SpawnPortal({ -125.f, -17.f, -159.f }, 1, EnemyType::Crabe);
+		m_pl4.hasSpawned = true;
+		OutputDebugStringA("\n Wave 4 \n");
 	}
-	if (m_p4Spawned && !m_p4Finished)
+	if (m_pl4.hasSpawned && !m_pl4.isFinished)
 	{
-		if (m_portal->SpawnIsFinished())
+		if (m_portal && m_portal->SpawnIsFinished())
 		{
-			m_p4Finished = true;
+			m_pl4.isFinished = true;
 		}
 	}
-	//5
-	if (GetEnnemyNb() <= 0 && m_p4Finished && !m_p5Spawned)
+
+	// 5
+	if (GetEnnemyNb() <= 0 && m_pl4.isFinished && !m_pl5.hasSpawned)
 	{
-		SpawnPortal({ -180,-15,-10 }, 5, EnemyType::CrabeImmobile);
-		m_p5Spawned = true;
-		OutputDebugStringA("\n fifth wave \n");
+		SpawnPortal({ -235.f, -17.f, -128.f }, 1, EnemyType::CrabeImmobile);
+		m_pl5.hasSpawned = true;
+		OutputDebugStringA("\n Wave 5 \n");
 	}
-	if (m_p5Spawned && !m_p5Finished)
+	if (m_pl5.hasSpawned && !m_pl5.isFinished)
 	{
-		if (m_portal->SpawnIsFinished())
+		if (m_portal && m_portal->SpawnIsFinished())
 		{
-			m_p5Finished = true;
+			m_pl5.isFinished = true;
 		}
 	}
-	//BOSS
-	if (GetEnnemyNb() <= 0 && m_p5Finished && !m_pBossSpawned)
+
+	// 6 (Next 6)
+	if (GetEnnemyNb() <= 0 && m_pl5.isFinished && !m_pl6.hasSpawned)
 	{
-		SpawnPortal({ -180,-15,-10 }, 1, EnemyType::GolemBoss);
-		m_pBossSpawned = true;
+		SpawnPortal({ -194.f, -17.f, 27.f }, 1, EnemyType::CrabeImmobile);
+		m_pl6.hasSpawned = true;
+		OutputDebugStringA("\n Wave 6 \n");
+	}
+	if (m_pl6.hasSpawned && !m_pl6.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl6.isFinished = true;
+		}
+	}
+
+	// 7 (Next 7)
+	if (GetEnnemyNb() <= 0 && m_pl6.isFinished && !m_pl7.hasSpawned)
+	{
+		SpawnPortal({ -149.f, -17.f, 80.f }, 1, EnemyType::CrabeImmobile);
+		m_pl7.hasSpawned = true;
+		OutputDebugStringA("\n Wave 7 \n");
+	}
+	if (m_pl7.hasSpawned && !m_pl7.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl7.isFinished = true;
+		}
+	}
+
+	// 8 (Next 8)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl7.isFinished && !m_pl8.hasSpawned)
+	{
+		SpawnPortal({ -70.f, -17.f, 135.f }, 1, EnemyType::CrabeImmobile);
+		m_pl8.hasSpawned = true;
+		OutputDebugStringA("\n Wave 8 \n");
+	}
+	if (m_pl8.hasSpawned && !m_pl8.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl8.isFinished = true;
+		}
+	}
+
+	// 9 (Next 9)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl8.isFinished && !m_pl9.hasSpawned)
+	{
+		SpawnPortal({ 4.f, 6.f, 7.f }, 1, EnemyType::CrabeImmobile);
+		m_pl9.hasSpawned = true;
+		OutputDebugStringA("\n Wave 9 \n");
+	}
+	if (m_pl9.hasSpawned && !m_pl9.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl9.isFinished = true;
+		}
+	}
+
+	// 10 (Next 10)
+	//if (GetEnnemyNb() <= 0 && m_pl9.isFinished && !m_pl10.hasSpawned)
+	//{
+	//	SpawnPortal({ 126.f, 7.f, 16.f }, 1, EnemyType::CrabeImmobile);
+	//	m_pl10.hasSpawned = true;
+	//	OutputDebugStringA("\n Wave 10 \n");
+	//}
+	//if (m_pl10.hasSpawned && !m_pl10.isFinished)
+	//{
+	//	if (m_portal && m_portal->SpawnIsFinished())
+	//	{
+	//		m_pl10.isFinished = true;
+	//	}
+	//}
+
+	// 11 (Next 11)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl9.isFinished && !m_pl11.hasSpawned)
+	{
+		SpawnPortal({ -137.f, -1.f, -64.f }, 1, EnemyType::CrabeImmobile);
+		m_pl11.hasSpawned = true;
+		OutputDebugStringA("\n Wave 11 \n");
+	}
+	if (m_pl11.hasSpawned && !m_pl11.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl11.isFinished = true;
+		}
+	}
+
+	// 12 (Next 12)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl11.isFinished && !m_pl12.hasSpawned)
+	{
+		SpawnPortal({ -249.f, -1.f, -63.f }, 1, EnemyType::CrabeImmobile);
+		m_pl12.hasSpawned = true;
+		OutputDebugStringA("\n Wave 12 \n");
+	}
+	if (m_pl12.hasSpawned && !m_pl12.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl12.isFinished = true;
+		}
+	}
+
+	// 13 (Next 13)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl12.isFinished && !m_pl13.hasSpawned)
+	{
+		SpawnPortal({ -256.f, -1.f, 58.f }, 1, EnemyType::CrabeImmobile);
+		m_pl13.hasSpawned = true;
+		OutputDebugStringA("\n Wave 13 \n");
+	}
+	if (m_pl13.hasSpawned && !m_pl13.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl13.isFinished = true;
+		}
+	}
+
+	// 14 (Next 14)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl13.isFinished && !m_pl14.hasSpawned)
+	{
+		SpawnPortal({ -147.f, -1.f, 80.f }, 1, EnemyType::CrabeImmobile);
+		m_pl14.hasSpawned = true;
+		OutputDebugStringA("\n Wave 14 \n");
+	}
+	if (m_pl14.hasSpawned && !m_pl14.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl14.isFinished = true;
+		}
+	}
+
+	// 15 (Next 15)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl14.isFinished && !m_pl15.hasSpawned)
+	{
+		SpawnPortal({ -133.f, -1.f, -24.f }, 1, EnemyType::CrabeImmobile);
+		m_pl15.hasSpawned = true;
+		OutputDebugStringA("\n Wave 15 \n");
+	}
+	if (m_pl15.hasSpawned && !m_pl15.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl15.isFinished = true;
+		}
+	}
+
+	// 16 (Next 16)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl15.isFinished && !m_pl16.hasSpawned)
+	{
+		SpawnPortal({ -244.f, -1.f, -37.f }, 1, EnemyType::CrabeImmobile);
+		m_pl16.hasSpawned = true;
+		OutputDebugStringA("\n Wave 16 \n");
+	}
+	if (m_pl16.hasSpawned && !m_pl16.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl16.isFinished = true;
+		}
+	}
+
+	// 17 (Next 17)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl16.isFinished && !m_pl17.hasSpawned)
+	{
+		SpawnPortal({ -260.200744629f, 16.591583252f, 87.960067749f }, 1, EnemyType::CrabeImmobile);
+		m_pl17.hasSpawned = true;
+		OutputDebugStringA("\n Wave 17 \n");
+	}
+	if (m_pl17.hasSpawned && !m_pl17.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl17.isFinished = true;
+		}
+	}
+
+	// 18 (Next 18)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl17.isFinished && !m_pl18.hasSpawned)
+	{
+		SpawnPortal({ -132.718688965f, 16.591583252f, 78.109970093f }, 1, EnemyType::CrabeImmobile);
+		m_pl18.hasSpawned = true;
+		OutputDebugStringA("\n Wave 18 \n");
+	}
+	if (m_pl18.hasSpawned && !m_pl18.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl18.isFinished = true;
+		}
+	}
+
+	// 19 (Next 19)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl18.isFinished && !m_pl19.hasSpawned)
+	{
+		SpawnPortal({ -151.561935425f, 16.591583252f, -46.297023773f }, 1, EnemyType::CrabeImmobile);
+		m_pl19.hasSpawned = true;
+		OutputDebugStringA("\n Wave 19 \n");
+	}
+	if (m_pl19.hasSpawned && !m_pl19.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl19.isFinished = true;
+		}
+	}
+
+	// 20 (Next 20)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl19.isFinished && !m_pl20.hasSpawned)
+	{
+		SpawnPortal({ -156.43270874f, 33.940738678f, -17.962259293f }, 1, EnemyType::CrabeImmobile);
+		m_pl20.hasSpawned = true;
+		OutputDebugStringA("\n Wave 20 \n");
+	}
+	if (m_pl20.hasSpawned && !m_pl20.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl20.isFinished = true;
+		}
+	}
+
+	// 21 (Next 21) BOSS
+	if (GetEnnemyNb() <= 0 && m_pl20.isFinished && !m_pl21.hasSpawned)
+	{
+		SpawnPortal({ -195.661529541f, 31.936805725f, 21.764213562f }, 1, EnemyType::GolemBoss);
+		m_pl21.hasSpawned = true;
 		PlayMusicPlex("TheAlphaGolem");
-		OutputDebugStringA("\n Boss wave \n");
+		OutputDebugStringA("\n Wave 21 boss \n");
 	}
-	if (m_pBossSpawned && !m_pBossFinished)
+	if (m_pl21.hasSpawned && !m_pl21.isFinished)
 	{
-		if (m_portal->SpawnIsFinished())
+		if (m_portal && m_portal->SpawnIsFinished())
 		{
-			m_pBossFinished = true;
+			m_pl21.isFinished = true;
 		}
 	}
+
+	// Ground fall
+	if (m_pl21.isFinished)
+	{
+
+	}
+
 	//WIN
-	if (GetEnnemyNb() <= 0 && m_pBossFinished && !m_youWin)
+	if (GetEnnemyNb() <= 0 && m_pl21.isFinished /*m_plboss.isFinished*/ && !m_youWin)
 	{
 		OutputDebugStringA("\n [ ! You WIN ! ] \n");
 
