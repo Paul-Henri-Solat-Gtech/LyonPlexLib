@@ -63,7 +63,7 @@ void GameScene::Start()
 	FindGameObjectByName("Stick")->SetPosition({ 230,-19,-115 });
 	FindGameObjectByName("Stick")->SetScale({ 5, 5, 5 });
 	FindGameObjectByName("Stick")->SetMesh(MESHES::STICK);
-	FindGameObjectByName("Stick")->SetTexture(TEXTURES::HERBE);
+	FindGameObjectByName("Stick")->SetTexture(TEXTURES::WOOD);
 	FindGameObjectByName("Stick")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("Stick")->SetTag(TAG_Stick);
 
@@ -71,7 +71,7 @@ void GameScene::Start()
 	FindGameObjectByName("RockObj")->SetPosition({ 230,-19,-130 });
 	FindGameObjectByName("RockObj")->SetScale({ 5, 5, 5 });
 	FindGameObjectByName("RockObj")->SetMesh(MESHES::ROCKLM1);
-	FindGameObjectByName("RockObj")->SetTexture(TEXTURES::GroundMountain);
+	FindGameObjectByName("RockObj")->SetTexture(TEXTURES::AMALGATE);
 	FindGameObjectByName("RockObj")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("RockObj")->SetTag(TAG_Rock);
 
@@ -80,7 +80,7 @@ void GameScene::Start()
 	FindGameObjectByName("Stick22")->SetRotation({ 0,0,0,1 });
 	FindGameObjectByName("Stick22")->SetScale({ 11,11,11 });
 	FindGameObjectByName("Stick22")->SetMesh(MESHES::STICK);
-	FindGameObjectByName("Stick22")->SetTexture(TEXTURES::HERBE);
+	FindGameObjectByName("Stick22")->SetTexture(TEXTURES::WOOD);
 	FindGameObjectByName("Stick22")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("Stick22")->SetTag(TAG_Stick);
 
@@ -89,7 +89,7 @@ void GameScene::Start()
 	FindGameObjectByName("Stick23")->SetRotation({ 0,0,0,1 });
 	FindGameObjectByName("Stick23")->SetScale({ 11,11,11 });
 	FindGameObjectByName("Stick23")->SetMesh(MESHES::STICK);
-	FindGameObjectByName("Stick23")->SetTexture(TEXTURES::HERBE);
+	FindGameObjectByName("Stick23")->SetTexture(TEXTURES::WOOD);
 	FindGameObjectByName("Stick23")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("Stick23")->SetTag(TAG_Stick);
 
@@ -98,7 +98,7 @@ void GameScene::Start()
 	FindGameObjectByName("Stick24")->SetRotation({ 0,0,0,1 });
 	FindGameObjectByName("Stick24")->SetScale({ 11,11,11 });
 	FindGameObjectByName("Stick24")->SetMesh(MESHES::STICK);
-	FindGameObjectByName("Stick24")->SetTexture(TEXTURES::HERBE);
+	FindGameObjectByName("Stick24")->SetTexture(TEXTURES::WOOD);
 	FindGameObjectByName("Stick24")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("Stick24")->SetTag(TAG_Stick);
 
@@ -107,7 +107,7 @@ void GameScene::Start()
 	FindGameObjectByName("Stick25")->SetRotation({ 0,0,0,1 });
 	FindGameObjectByName("Stick25")->SetScale({ 11,11,11 });
 	FindGameObjectByName("Stick25")->SetMesh(MESHES::STICK);
-	FindGameObjectByName("Stick25")->SetTexture(TEXTURES::HERBE);
+	FindGameObjectByName("Stick25")->SetTexture(TEXTURES::WOOD);
 	FindGameObjectByName("Stick25")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("Stick25")->SetTag(TAG_Stick);
 
@@ -116,7 +116,7 @@ void GameScene::Start()
 	FindGameObjectByName("Stick26")->SetRotation({ 0,0,0,1 });
 	FindGameObjectByName("Stick26")->SetScale({ 11,11,11 });
 	FindGameObjectByName("Stick26")->SetMesh(MESHES::STICK);
-	FindGameObjectByName("Stick26")->SetTexture(TEXTURES::HERBE);
+	FindGameObjectByName("Stick26")->SetTexture(TEXTURES::WOOD);
 	FindGameObjectByName("Stick26")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("Stick26")->SetTag(TAG_Stick);
 
@@ -126,7 +126,7 @@ void GameScene::Start()
 	FindGameObjectByName("RockObj27")->SetRotation({ -0.000000003f,0,0,1 });
 	FindGameObjectByName("RockObj27")->SetScale({ 0.599999905f,0.399999917f,0.599999905f });
 	FindGameObjectByName("RockObj27")->SetMesh(MESHES::ROCKLM1);
-	FindGameObjectByName("RockObj27")->SetTexture(TEXTURES::GroundMountain);
+	FindGameObjectByName("RockObj27")->SetTexture(TEXTURES::AMALGATE);
 	FindGameObjectByName("RockObj27")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("RockObj27")->SetTag(TAG_Rock);
 
@@ -135,7 +135,7 @@ void GameScene::Start()
 	FindGameObjectByName("RockObj28")->SetRotation({ -0.000000003f,0,0,1 });
 	FindGameObjectByName("RockObj28")->SetScale({ 0.599999905f,0.399999917f,0.599999905f });
 	FindGameObjectByName("RockObj28")->SetMesh(MESHES::ROCKLM1);
-	FindGameObjectByName("RockObj28")->SetTexture(TEXTURES::GroundMountain);
+	FindGameObjectByName("RockObj28")->SetTexture(TEXTURES::AMALGATE);
 	FindGameObjectByName("RockObj28")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("RockObj28")->SetTag(TAG_Rock);
 
@@ -144,7 +144,7 @@ void GameScene::Start()
 	FindGameObjectByName("RockObj29")->SetRotation({ 0.58181572f,-0.153933644f,0.244918793f,0.760137975f });
 	FindGameObjectByName("RockObj29")->SetScale({ 1.899999976f,1.700000167f,1.899999976f });
 	FindGameObjectByName("RockObj29")->SetMesh(MESHES::ROCKLM1);
-	FindGameObjectByName("RockObj29")->SetTexture(TEXTURES::GroundMountain);
+	FindGameObjectByName("RockObj29")->SetTexture(TEXTURES::AMALGATE);
 	FindGameObjectByName("RockObj29")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("RockObj29")->SetTag(TAG_Rock);
 
@@ -153,7 +153,7 @@ void GameScene::Start()
 	FindGameObjectByName("RockObj30")->SetRotation({ 0.58181572f,-0.153933644f,0.244918793f,0.760137975f });
 	FindGameObjectByName("RockObj30")->SetScale({ 1.599999905f,1.400000095f,1.599999905f });
 	FindGameObjectByName("RockObj30")->SetMesh(MESHES::ROCKLM1);
-	FindGameObjectByName("RockObj30")->SetTexture(TEXTURES::GroundMountain);
+	FindGameObjectByName("RockObj30")->SetTexture(TEXTURES::AMALGATE);
 	FindGameObjectByName("RockObj30")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("RockObj30")->SetTag(TAG_Rock);
 
@@ -162,7 +162,7 @@ void GameScene::Start()
 	FindGameObjectByName("RockObj31")->SetRotation({ 0.58181572f,-0.153933644f,0.244918793f,0.760137975f });
 	FindGameObjectByName("RockObj31")->SetScale({ 1.199999809f,1.f,1.199999809f });
 	FindGameObjectByName("RockObj31")->SetMesh(MESHES::ROCKLM1);
-	FindGameObjectByName("RockObj31")->SetTexture(TEXTURES::GroundMountain);
+	FindGameObjectByName("RockObj31")->SetTexture(TEXTURES::AMALGATE);
 	FindGameObjectByName("RockObj31")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("RockObj31")->SetTag(TAG_Rock);
 
@@ -171,7 +171,7 @@ void GameScene::Start()
 	FindGameObjectByName("RockObj32")->SetRotation({ 0.58181572f,-0.153933644f,0.244918793f,0.760137975f });
 	FindGameObjectByName("RockObj32")->SetScale({ 1.999999881f,1.800000191f,1.999999881f });
 	FindGameObjectByName("RockObj32")->SetMesh(MESHES::ROCKLM1);
-	FindGameObjectByName("RockObj32")->SetTexture(TEXTURES::GroundMountain);
+	FindGameObjectByName("RockObj32")->SetTexture(TEXTURES::AMALGATE);
 	FindGameObjectByName("RockObj32")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("RockObj32")->SetTag(TAG_Rock);
 
@@ -180,7 +180,7 @@ void GameScene::Start()
 	FindGameObjectByName("RockObj33")->SetRotation({ 0.58181572f,-0.153933644f,0.244918793f,0.760137975f });
 	FindGameObjectByName("RockObj33")->SetScale({ 1.999999881f,1.800000191f,1.999999881f });
 	FindGameObjectByName("RockObj33")->SetMesh(MESHES::ROCKLM1);
-	FindGameObjectByName("RockObj33")->SetTexture(TEXTURES::GroundMountain);
+	FindGameObjectByName("RockObj33")->SetTexture(TEXTURES::AMALGATE);
 	FindGameObjectByName("RockObj33")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("RockObj33")->SetTag(TAG_Rock);
 
@@ -189,7 +189,7 @@ void GameScene::Start()
 	FindGameObjectByName("RockObj34")->SetRotation({ 0.172455788f,-0.08005701f,0.46663034f,0.8637743f });
 	FindGameObjectByName("RockObj34")->SetScale({ 0.799999475f,0.599999666f,0.799999475f });
 	FindGameObjectByName("RockObj34")->SetMesh(MESHES::ROCKLM1);
-	FindGameObjectByName("RockObj34")->SetTexture(TEXTURES::GroundMountain);
+	FindGameObjectByName("RockObj34")->SetTexture(TEXTURES::AMALGATE);
 	FindGameObjectByName("RockObj34")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("RockObj34")->SetTag(TAG_Rock);
 
@@ -198,7 +198,7 @@ void GameScene::Start()
 	FindGameObjectByName("RockObj35")->SetRotation({ 0.172455788f,-0.08005701f,0.46663034f,0.8637743f });
 	FindGameObjectByName("RockObj35")->SetScale({ 0.799999475f,0.599999666f,0.799999475f });
 	FindGameObjectByName("RockObj35")->SetMesh(MESHES::ROCKLM1);
-	FindGameObjectByName("RockObj35")->SetTexture(TEXTURES::GroundMountain);
+	FindGameObjectByName("RockObj35")->SetTexture(TEXTURES::AMALGATE);
 	FindGameObjectByName("RockObj35")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("RockObj35")->SetTag(TAG_Rock);
 
@@ -207,7 +207,7 @@ void GameScene::Start()
 	FindGameObjectByName("RockObj36")->SetRotation({ 0.172455788f,-0.08005701f,0.46663034f,0.8637743f });
 	FindGameObjectByName("RockObj36")->SetScale({ 0.799999475f,0.599999666f,0.799999475f });
 	FindGameObjectByName("RockObj36")->SetMesh(MESHES::ROCKLM1);
-	FindGameObjectByName("RockObj36")->SetTexture(TEXTURES::GroundMountain);
+	FindGameObjectByName("RockObj36")->SetTexture(TEXTURES::AMALGATE);
 	FindGameObjectByName("RockObj36")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("RockObj36")->SetTag(TAG_Rock);
 
@@ -4796,11 +4796,20 @@ void GameScene::Update(float deltatime)
 		}
 	}
 
-	if (m_playerTest.IsAlive() || m_pauseIsOpen)
-	{
-		m_fpsCam.Update(deltatime);
-	}
 
+	//Pause menu
+	if (InputManager::GetKeyIsReleased(VK_ESCAPE))
+	{
+		m_pauseIsOpen = !m_pauseIsOpen;
+		if (m_pauseIsOpen)
+		{
+			SpawnMenu();
+		}
+		else
+		{
+			RemoveMenu();
+		}
+	}
 	if (m_pauseIsOpen)
 	{
 		if (mp_btnMainMenu->GetMouseOnBtn())
@@ -4817,109 +4826,76 @@ void GameScene::Update(float deltatime)
 			return;
 		}
 	}
-
-	if (InputManager::GetKeyIsReleased('N'))
+	else
 	{
-		StopMusicPlex();
-	}
-	if (InputManager::GetKeyIsReleased('K'))
-	{
-		SetEnnemyNbDebugOnly(0);
-	}
-
-	//if (std::fmod(m_spawnTimer, 150.0f) == 0)
-	//{
-	//	// IL FAUT POUVOIR CREER DES ENEMY SANS GAMEOBJECT OU AU MOINS SANS NOM STD::STRING
-
-	//	//Enemy* newEnemy = new Enemy(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player);
-
-	//	auto& newEnemy = CreateGameObject<Enemy>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player, this);
-
-	//	float posX = Utils::randomFloat(-24, 24);
-	//	float posZ = Utils::randomFloat(-24, 24);
-	//	newEnemy->SetPosition({ posX, 1, posZ });
-	//	newEnemy.SetTexture(TEXTURES::iceCream);
-	//	//newEnemy->AddComponent<Tag_Enemy>(new Tag_Enemy());
-	//}
-
-	//m_spawnTimer++;
-
-	//portal->OnUdpdate(deltatime);
-
-	//// Enemies
-	//ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
-	//auto& ecs = mp_ecsManager;
-	//float closest = 100;
-	//ecs->ForEach(mask, [&](Entity e)
-	//	{
-	//		GetGameObjectByID(e).OnUdpdate(deltatime);
-	//	});
-	//// Projectiles
-	//mask = (1ULL << Tag_Projectile::StaticTypeID);
-	//ecs->ForEach(mask, [&](Entity e)
-	//	{
-	//		GetGameObjectByID(e).OnUdpdate(deltatime);
-	//	});
-
-
-
-	for (auto& gameObject : m_sceneGameObjects)
-	{
-		gameObject.get()->OnUpdate(deltatime);
-	}
-
-	//// PlayerState
-	m_playerTest.OnUpdate(deltatime);
-
-	//Portal System
-	PortalSystem();
-
-	////if (m_enemyTest.GetGameObject().alive)
-	//if (m_playerTest.m_closestEnemy)
-	//	m_enemyTest.OnUdpdate(deltatime);
-
-	if (InputManager::GetKeyIsPressed('R'))
-	{
-		//FindGameObjectByName("player")->SetPosition({ 45, 3, -60 });
-	}
-
-	if (InputManager::GetKeyIsReleased('T'))
-	{
-		OutputDebugStringA(("\nPlayer State : " + std::string(m_playerTest.GetCurrentStateName())).c_str());
-	}
-
-	if (InputManager::GetKeyIsReleased(VK_ESCAPE))
-	{
-		m_pauseIsOpen = !m_pauseIsOpen;
-
-		if (m_pauseIsOpen)
+		if (m_playerTest.IsAlive() || m_pauseIsOpen)
 		{
-			SpawnMenu();
-			m_fpsCam.SetAlwaysActive(false);
-		}
-		else
-		{
-			RemoveMenu();
-			m_fpsCam.SetAlwaysActive(true);
+			m_fpsCam.Update(deltatime);
 		}
 
-	}
-
-	// Change scene [ALLWAYS AT THE END SO THERE IS NO OTHER CODE RUNNING AFTER IN THIS SCENE]
-	if (InputManager::GetKeyIsReleased('A'))
-	{
-		ChangeScene("DevScene");
-		return;
-	}
-
-	if (m_youWin)
-	{
-		m_chronoChangeScene -= 1.f * deltatime;
-
-		if (m_chronoChangeScene <= 0)
+		if (InputManager::GetKeyIsReleased('N'))
 		{
-			ChangeScene("MainMenuScene");
+			StopMusicPlex();
+		}
+		if (InputManager::GetKeyIsReleased('K'))
+		{
+			SetEnnemyNbDebugOnly(0);
+		}
+
+		for (auto& gameObject : m_sceneGameObjects)
+		{
+			gameObject.get()->OnUpdate(deltatime);
+		}
+
+		//// PlayerState
+		m_playerTest.OnUpdate(deltatime);
+
+		//Portal System
+		PortalSystem();
+
+		if (InputManager::GetKeyIsPressed('R'))
+		{
+			//FindGameObjectByName("player")->SetPosition({ 45, 3, -60 });
+		}
+
+		if (InputManager::GetKeyIsReleased('T'))
+		{
+			OutputDebugStringA(("\nPlayer State : " + std::string(m_playerTest.GetCurrentStateName())).c_str());
+		}
+
+		if (InputManager::GetKeyIsReleased(VK_ESCAPE))
+		{
+			m_pauseIsOpen = !m_pauseIsOpen;
+
+			if (m_pauseIsOpen)
+			{
+				SpawnMenu();
+				m_fpsCam.SetAlwaysActive(false);
+			}
+			else
+			{
+				RemoveMenu();
+				m_fpsCam.SetAlwaysActive(true);
+			}
+
+		}
+
+		// Change scene [ALLWAYS AT THE END SO THERE IS NO OTHER CODE RUNNING AFTER IN THIS SCENE]
+		if (InputManager::GetKeyIsReleased('A'))
+		{
+			ChangeScene("DevScene");
 			return;
+		}
+
+		if (m_youWin)
+		{
+			m_chronoChangeScene -= 1.f * deltatime;
+
+			if (m_chronoChangeScene <= 0)
+			{
+				ChangeScene("MainMenuScene");
+				return;
+			}
 		}
 	}
 }
@@ -4948,12 +4924,14 @@ void GameScene::SpawnMenu()
 	mp_btnMainMenu->SetScale({ 120, 50, 0 });
 	auto posPauseMenu = FindGameObjectByName("pauseMenu")->GetPosition();
 	mp_btnMainMenu->SetPosition({ posPauseMenu.x,posPauseMenu.y + 140,posPauseMenu.z });
+	m_fpsCam.SetAlwaysActive(false);
 }
 
 void GameScene::RemoveMenu()
 {
 	DestroyGameObject(*FindGameObjectByName("pauseMenu"));
 	DestroyGameObject(*FindGameObjectByName("btnMainMenu"));
+	m_fpsCam.SetAlwaysActive(true);
 }
 
 void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy)

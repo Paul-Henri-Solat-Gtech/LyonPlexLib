@@ -392,7 +392,7 @@ void Enemy::SetStateMachine()
 	{
 		// Enemy Properties >
 
-		m_life = 10;
+		m_life = 15;
 		m_moveSpeed = 0.5f;
 		m_reloadSpeed = 3.f;
 		SetTexture(TEXTURES::GOLEM_IDLE_1);

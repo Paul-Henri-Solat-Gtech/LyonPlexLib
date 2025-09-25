@@ -86,6 +86,7 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/WeaponRock.png");
     txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/laser.png");
     txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/air.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/wood.png");
 
     // CRABE IDLE
     {

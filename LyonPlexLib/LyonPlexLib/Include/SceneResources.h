@@ -66,6 +66,7 @@ namespace TEXTURES
 		WeaponRockIcon,
 		LASER,
 		AIR,
+		WOOD,
 
 		//CRABE IDLE
 		CRABE_IDLE_1,
