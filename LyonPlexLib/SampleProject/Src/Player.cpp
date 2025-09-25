@@ -305,9 +305,9 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 	mp_scene->CreateGameObject("WeaponSelected", TYPE_2D, true);
 	m_selectedWeapon = *mp_scene->FindGameObjectByName("WeaponSelected");
 	m_selectedWeapon.SetMesh(MESHES::LOCAL_SQUARE);
-	m_selectedWeapon.SetTexture(TEXTURES::ATTACK1_W1_1);
+	m_selectedWeapon.SetTexture(TEXTURES::IDLEARM_1);
 	m_selectedWeapon.SetPosition({ (float)renderWidth - 100, (float)renderHeight - 80, 0 });
-	m_selectedWeapon.SetScale({ (float)renderWidth * 0.08f, (float)renderHeight * 0.08f, 0 });
+	m_selectedWeapon.SetScale({ (float)renderWidth * 0.06f, (float)renderHeight * 0.06f, 0 });
 	m_selectedWeapon.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
 
 	const uint32_t myId = GetEntity().id;

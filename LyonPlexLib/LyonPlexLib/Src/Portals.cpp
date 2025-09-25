@@ -33,7 +33,15 @@ Portals::Portals(GameObject& gameObjectPlayer, Scene* scene, int ennemyNb, float
 	SetTexture(TEXTURES::PORTAL);
 	GetComponent<MeshComponent>()->ColorPatchUp();
 	GetComponent<MeshComponent>()->alpha = 0.95f;
-	SetScale({ 3,3,1 });
+	if (enemyType == EnemyType::GolemBoss)
+	{
+		SetScale({ 30,30,1 });
+	}
+	else
+	{
+		SetScale({ 3,3,1 });
+	}
+	
 }
 
 void Portals::OnUpdate(float deltatime)

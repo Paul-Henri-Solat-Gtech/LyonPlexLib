@@ -64,6 +64,8 @@ namespace TEXTURES
 		ScrollAtk,
 		WeaponWoodIcon,
 		WeaponRockIcon,
+		LASER,
+		AIR,
 
 		//CRABE IDLE
 		CRABE_IDLE_1,

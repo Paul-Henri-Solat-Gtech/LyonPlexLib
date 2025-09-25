@@ -4966,7 +4966,7 @@ void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy, EnemyType enemyType)
 {
 	if (m_pl20.isFinished)
 	{
-		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, 45, enemyType);
+		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, 44, enemyType);
 	}
 	if (m_pl19.isFinished && !m_pl20.isFinished)
 	{
@@ -5028,7 +5028,7 @@ void GameScene::PortalSystem()
 	// 3
 	if (GetEnnemyNb() <= 0 && m_pl2.isFinished && !m_pl3.hasSpawned)
 	{
-		SpawnPortal({ -3.f, -17.f, -149.f }, 1, EnemyType::Crabe);
+		SpawnPortal({ -3.f, -17.f, -149.f }, 3, EnemyType::Crabe);
 		m_pl3.hasSpawned = true;
 		OutputDebugStringA("\n Wave 3 \n");
 	}
@@ -5318,7 +5318,7 @@ void GameScene::PortalSystem()
 	}
 
 	//WIN
-	if (GetEnnemyNb() <= 0 && m_pl21.isFinished /*m_plboss.isFinished*/ && !m_youWin)
+	if (GetEnnemyNb() <= 0 && m_pl21.isFinished && !m_youWin)
 	{
 		OutputDebugStringA("\n [ ! You WIN ! ] \n");
 
@@ -9424,8 +9424,8 @@ void GameScene::CreateAdditionalHitboxes()
 	CreateGameObject("tmplRoof 0", 40, 4294967295);
 	FindGameObjectByName("tmplRoof 0")->SetPosition({ -195.431732178,29.433662415,22.693534851 });
 	FindGameObjectByName("tmplRoof 0")->SetRotation({ 0,0,-0.707106948,-0.70710659 });
-	FindGameObjectByName("tmplRoof 0")->SetScale({ 1,8.200000763,10 });
-
+	FindGameObjectByName("tmplRoof 0")->SetScale({ 2,8.200000763,10 });
+	FindGameObjectByName("tmplRoof 0")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 2,40,40 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
 
 	CreateGameObject("HB_river 1", 18, 4294967295);
 	FindGameObjectByName("HB_river 1")->SetPosition({ -34.95501709,16.350923538,-54.669914246 });
