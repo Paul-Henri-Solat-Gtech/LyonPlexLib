@@ -78,7 +78,7 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 			break;
 		}
 
-		Laube(posStart, posTarget);
+		Lobe(posStart, posTarget);
 		break;
 	}
 	case BigRock:
@@ -105,7 +105,7 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 			break;
 		}
 
-		Laube(posStart, posTarget);
+		Lobe(posStart, posTarget);
 		break;
 	}
 	case AirSlash:
@@ -193,7 +193,7 @@ void Projectile::Destroy()
 	mp_scene->DestroyGameObject(*this);
 }
 
-void Projectile::Laube(XMFLOAT3 posStart, XMFLOAT3 posTarget)
+void Projectile::Lobe(XMFLOAT3 posStart, XMFLOAT3 posTarget)
 {
 	// displacement
 	XMFLOAT3 d = { posTarget.x - posStart.x, posTarget.y - posStart.y, posTarget.z - posStart.z };

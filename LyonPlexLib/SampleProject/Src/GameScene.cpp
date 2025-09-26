@@ -4842,9 +4842,20 @@ void GameScene::Update(float deltatime)
 			SetEnnemyNbDebugOnly(0);
 		}
 
-		for (auto& gameObject : m_sceneGameObjects)
+		//for (auto& gameObject : m_sceneGameObjects)
+		//{
+		//	gameObject.get()->OnUpdate(deltatime);
+		//}
+
+		std::vector<GameObject*> snapshot;
+		snapshot.reserve(m_sceneGameObjects.size());
+		for (auto& up : m_sceneGameObjects)
 		{
-			gameObject.get()->OnUpdate(deltatime);
+			if (up) snapshot.push_back(up.get());
+		}
+		for (auto* go : snapshot)
+		{
+			if (go) go->OnUpdate(deltatime);
 		}
 
 		//// PlayerState
