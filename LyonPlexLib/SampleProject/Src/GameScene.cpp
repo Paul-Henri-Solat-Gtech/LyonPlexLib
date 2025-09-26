@@ -86,7 +86,7 @@ void GameScene::Start()
 	//FindGameObjectByName("Stick")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
 	FindGameObjectByName("Stick")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("Stick")->SetTag(TAG_Stick);
-	
+
 
 	auto& amalgateRock = CreateGameObject("Rock");
 	pos = { -82,-17,94 };
@@ -113,7 +113,12 @@ void GameScene::Start()
 
 	// Music
 	PlayMusicPlex("ArmonizerTheme");
+	SetVolume("ArmonizerTheme", 0.2);
 
+	//PlayMusicPlex("Environment");
+
+	PlaySoundPlex("River");
+	SetVolume("River", 0.5);
 
 	CreateGameObject("Light");
 	auto* light = FindGameObjectByName("Light");
@@ -1019,22 +1024,12 @@ void GameScene::Start()
 		oliveTree2.SetScale({ 6,7,7 });
 		oliveTree2.SetRotation({ 0,0.737277627,0,-0.675589979 });
 
-		
+
 		CreateGameHitbox("HB_LAKE 0");
 		FindGameObjectByName("HB_LAKE 0")->SetPosition({ -54,-20,113 });
 		FindGameObjectByName("HB_LAKE 0")->SetRotation({ 0,0,0,1 });
 		FindGameObjectByName("HB_LAKE 0")->SetScale({ 10,10,15 });
 		FindGameObjectByName("HB_LAKE 0")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 5, 5, 7.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-		/*CreateGameHitbox("HB_LAKE 1");
-		FindGameObjectByName("HB_LAKE 1")->SetPosition({ -38,-18,112 });
-		FindGameObjectByName("HB_LAKE 1")->SetRotation({ 0,0,0,1 });
-		FindGameObjectByName("HB_LAKE 1")->SetScale({ 11,12,11 });
-		FindGameObjectByName("HB_LAKE 1")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 5.5, 6, 5.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-		CreateGameHitbox("HB_LAKE 2");
-		FindGameObjectByName("HB_LAKE 2")->SetPosition({ -20,-18,111 });
-		FindGameObjectByName("HB_LAKE 2")->SetRotation({ 0,0,0,1 });
-		FindGameObjectByName("HB_LAKE 2")->SetScale({ 11,19,11 });
-		FindGameObjectByName("HB_LAKE 2")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 5.5, 9.5, 5.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));*/
 		CreateGameHitbox("HB_LAKE 3");
 		FindGameObjectByName("HB_LAKE 3")->SetPosition({ 12.619031906,-19.762268066,136.884719849 });
 		FindGameObjectByName("HB_LAKE 3")->SetRotation({ 0,0,0,1 });
@@ -1050,11 +1045,16 @@ void GameScene::Start()
 		FindGameObjectByName("HB_LAKE 5")->SetRotation({ 0,0,0,1 });
 		FindGameObjectByName("HB_LAKE 5")->SetScale({ 36,19,41 });
 		FindGameObjectByName("HB_LAKE 5")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 18, 9.5, 20.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-		//CreateGameHitbox("HB_LAKE 6");
-		//FindGameObjectByName("HB_LAKE 6")->SetPosition({ 52.282047272,-11.43447113,128.391662598 });
-		//FindGameObjectByName("HB_LAKE 6")->SetRotation({ 0,0,0,1 });
-		//FindGameObjectByName("HB_LAKE 6")->SetScale({ 16,19,31 });
-		//FindGameObjectByName("HB_LAKE 6")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 8, 9.5, 15.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+		CreateGameHitbox("HB_LK 0");
+		FindGameObjectByName("HB_LK 0")->SetPosition({ -71,-23,94 });
+		FindGameObjectByName("HB_LK 0")->SetRotation({ 0,0.173648179,0,0.984807849 });
+		FindGameObjectByName("HB_LK 0")->SetScale({ 11,6,43 });
+		FindGameObjectByName("HB_LK 0")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 5.5, 3, 21.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+		CreateGameHitbox("HB_LK 1");
+		FindGameObjectByName("HB_LK 1")->SetPosition({ -73,-23,110 });
+		FindGameObjectByName("HB_LK 1")->SetRotation({ 0,0.173648179,0,0.984807849 });
+		FindGameObjectByName("HB_LK 1")->SetScale({ 4,6,10 });
+		FindGameObjectByName("HB_LK 1")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 2, 3, 5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
 
 		CreateGameHitbox("HB_UPSTREAM 1");
 		FindGameObjectByName("HB_UPSTREAM 1")->SetPosition({ 72.454551697,-2.514286518,89.278663635 });
@@ -4497,17 +4497,18 @@ void GameScene::Start()
 	}
 
 
+	//AdditionnalSceneObjects::CreateFirstObjects(this);
 
-
+	init2 = false;
+	weedsCreated = false;
 }
 
 void GameScene::Update(float deltatime)
 {
 	// Creation de topus les objets de la scene qui ne pouvaient pas etre crees dans la fonciton Start
-	static bool init2 = false;
+
 	if (!init2)
 	{
-		static bool weedsCreated = false;
 		//CreateWeeds();
 		CreateAdditionalHitboxes();
 		if (weedsCreated)
@@ -4519,8 +4520,8 @@ void GameScene::Update(float deltatime)
 
 		weedsCreated = true;
 	}
-		m_playerTest.SetTransformRotation({ 0,90,0 });
-		m_cam.SetTransformRotation({ 0,90,0 });
+	m_playerTest.SetTransformRotation({ 0,90,0 });
+	m_cam.SetTransformRotation({ 0,90,0 });
 
 	//debug fps
 	// inside main loop, each frame
@@ -4736,7 +4737,7 @@ void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy, EnemyType enemyType)
 	{
 		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, -17, enemyType);
 	}
-	
+
 	m_portal->SetPosition(newPos);
 }
 
@@ -4754,7 +4755,7 @@ void GameScene::PortalSystem()
 		if (m_portal->SpawnIsFinished())
 		{
 			m_p1Finished = true;
-			
+
 		}
 	}
 	//2
@@ -4764,6 +4765,7 @@ void GameScene::PortalSystem()
 		m_p2Spawned = true;
 		OutputDebugStringA("\n Second wave \n");
 		PlayMusicPlex("TheCrimsonTideClashfight");
+		SetVolume("TheCrimsonTideClashfight", 0.6);
 	}
 	if (m_p2Spawned && !m_p2Finished)
 	{
@@ -4820,6 +4822,7 @@ void GameScene::PortalSystem()
 		SpawnPortal({ -180,-15,-10 }, 1, EnemyType::GolemBoss);
 		m_pBossSpawned = true;
 		PlayMusicPlex("TheAlphaGolem");
+		SetVolume("TheAlphaGolem", 0.6);
 		OutputDebugStringA("\n Boss wave \n");
 	}
 	if (m_pBossSpawned && !m_pBossFinished)

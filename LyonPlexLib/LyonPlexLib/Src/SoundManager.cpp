@@ -53,7 +53,6 @@ void SoundManager::PlaySoundPlex(std::string soundName)
         {
             auto inst = savedSound.sound->CreateInstance();
             if (!inst) break;
-
             inst->Play();
             m_instancesByName[soundName].push_back(inst.get());
             m_activeSoundInstances.push_back(std::move(inst));
@@ -67,7 +66,7 @@ void SoundManager::PlaySoundPlex(std::string soundName)
 void SoundManager::PlayMusicPlex(std::string musicName)
 {
     // Stop la musique en cours
-    StopMusic();
+    //StopMusic();
 
     for (auto& snd : m_soundsList)
     {

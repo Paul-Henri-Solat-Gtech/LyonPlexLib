@@ -27,7 +27,7 @@ void IntroScene::Start()
 
 	m_sceneHasChanged = false;
 	m_soundHasBeenPlayed = false;
-	m_introTime = 6;
+	m_introTime = 4;
 
 	// sounds
 	//GetSceneManager()->GetGameManager()->GetSoundManager()->CreateSound("roar", L"../LyonPlexLib/Ressources/Roar.wav");

@@ -39,6 +39,7 @@ void ArenaScene::Start()
 
 	// MUSIC
 	PlayMusicPlex("TheCrimsonTideClashArena");
+	SetVolume("TheCrimsonTideClashArena", 0.8);
 
 	//MENU PAUSE
 	m_pauseIsOpen = false;

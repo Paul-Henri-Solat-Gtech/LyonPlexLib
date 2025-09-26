@@ -62,7 +62,17 @@ void DevScene::Start()
 
 	AdditionnalSceneObjects::CreateFirstObjects(this);
 
-	// PAS PLUS DE GAMEOBJECTS DANS CETTE FONCTION SINON CA PLANTE
+	CreateGameObject("BigOLIVE", 32, 4294967295);
+	FindGameObjectByName("BigOLIVE")->SetPosition({ -13.425217628,27.63675499,-20.910137177 });
+	FindGameObjectByName("BigOLIVE")->SetRotation({ 0,-0.725374341,0,0.688354611 });
+	FindGameObjectByName("BigOLIVE")->SetScale({ 8,8,8 });
+	CreateGameObject("SmallOLIVE", 32, 4294967295);
+	FindGameObjectByName("SmallOLIVE")->SetPosition({ 72.241355896,13.902094841,148.184280396 });
+	FindGameObjectByName("SmallOLIVE")->SetRotation({ 0,-0.061048683,0,0.998134851 });
+	FindGameObjectByName("SmallOLIVE")->SetScale({ 4,4,4 });
+
+
+
 
 	// TEST TOUS LES MESHS
 	//int i = MESHES::Temple;
@@ -89,14 +99,14 @@ void DevScene::Start()
 	OutputDebugStringA("\Quadrillage : ON \n");
 	m_QuadrillageModeIsOn = true;
 	m_QuadrillageUnitaireIsOn = true;
-	// Test
 
 }
 
 void DevScene::Update(float deltatime)
 {
-	static bool init2 = false;
 
+
+	static bool init2 = false;
 	if (!init2)
 	{
 		static bool weedsCreated = false;
@@ -131,21 +141,24 @@ void DevScene::Update(float deltatime)
 	// Movements
 	if (InputManager::GetKeyIsPressed(VK_SHIFT))
 	{
-		m_camSpeed = m_camRunSpeed;
+		//m_camSpeed = m_camRunSpeed;
+		m_camSpeed = m_camWalkSpeed * 1.5;
 		m_scaleSpeed = 5;
 		m_zoomSensitivity = 10;
 	}
 	else if (slow)
 	{
-		m_camSpeed = m_camWalkSpeed / 30;
+		m_camSpeed = m_camWalkSpeed / 4;
 		m_scaleSpeed = 0.1;
 		m_zoomSensitivity = 0.1;
+		m_sensitivity = 0.015;
 	}
 	else
 	{
-		m_camSpeed = m_camWalkSpeed;
+		m_camSpeed = m_camWalkSpeed / 2;
 		m_scaleSpeed = 1;
 		m_zoomSensitivity = 1;
+		m_sensitivity = 0.03;
 	}
 
 	// cam rotate(prototype)
@@ -638,7 +651,7 @@ void DevScene::CameraDevSystem(float deltatime)
 		int dx = cur.x - m_lastMousePos.x;
 		int dy = cur.y - m_lastMousePos.y;
 		m_orbitYaw += dx * m_sensitivity;
-		m_orbitPitch += -dy * m_sensitivity; // inverser si necessaire selon sens
+		m_orbitPitch += /*-*/dy * m_sensitivity; // inverser si necessaire selon sens
 		m_orbitPitch = std::clamp(m_orbitPitch, -89.0f, +89.0f);
 		if (m_orbitYaw >= 360.0f) m_orbitYaw -= 360.0f;
 		else if (m_orbitYaw < 0.0f) m_orbitYaw += 360.0f;
@@ -828,10 +841,10 @@ void DevScene::CreateAdditionalHitboxes()
 	//FindGameObjectByName("temple_roof 0")->SetRotation({ 0,0,0,1 });
 	//FindGameObjectByName("temple_roof 0")->SetScale({ 63,1,66 });
 
-	CreateGameObject("tmplRoof 0", 40, 4294967295);
-	FindGameObjectByName("tmplRoof 0")->SetPosition({ -195.431732178,29.433662415,22.693534851 });
-	FindGameObjectByName("tmplRoof 0")->SetRotation({ 0,0,-0.707106948,-0.70710659 });
-	FindGameObjectByName("tmplRoof 0")->SetScale({ 1,8.200000763,10 });
+	CreateGameObject("tmplRoof", 40, 4294967295);
+	FindGameObjectByName("tmplRoof")->SetPosition({ -195.431732178,29.433662415,22.693534851 });
+	FindGameObjectByName("tmplRoof")->SetRotation({ 0,0,-0.707106948,-0.70710659 });
+	FindGameObjectByName("tmplRoof")->SetScale({ 1,8.200000763,10 });
 
 
 	CreateGameObject("HB_river 1", 18, 4294967295);

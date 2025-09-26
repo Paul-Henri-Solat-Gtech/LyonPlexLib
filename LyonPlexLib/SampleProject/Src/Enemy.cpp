@@ -67,7 +67,21 @@ void Enemy::TakeDamage()
 		alive = false;
 
 		if (mp_gameManager) {
-			if (auto* sm = mp_gameManager->GetSoundManager()) {
+			if (auto* sm = mp_gameManager->GetSoundManager()) 
+			{
+				switch (m_type)
+				{
+				case Crabe:
+				case CrabeImmobile:
+					sm->PlaySoundPlex("Crabe_Degats_Lourds");
+					break;
+				case Golem:
+				case GolemBoss:
+					sm->PlaySoundPlex("Golem_Degats_Lourds");
+					break;
+				default:
+					break;
+				}
 				//sm->PlaySoundPlex("deathScream");
 			}
 		}
@@ -79,8 +93,21 @@ void Enemy::TakeDamage()
 	{
 		if (mp_gameManager) {
 			auto* sm = mp_gameManager->GetSoundManager();
-			if (sm && sm->IsAlive()) {   // ajoute un flag m_alive
-				sm->PlaySoundPlex("HUGH");
+			if (sm && sm->IsAlive()) 
+			{   // ajoute un flag m_alive
+				switch (m_type)
+				{
+				case Crabe:
+				case CrabeImmobile:
+					sm->PlaySoundPlex("Crabe_Degats");
+					break;
+				case Golem:
+				case GolemBoss:
+					sm->PlaySoundPlex("Golem_Degats");
+					break;
+				default:
+					break;
+				}
 			}
 		}
 	}

@@ -109,7 +109,7 @@ public:
 	int m_coyoteFrames = 0; // initialise ÅE0
 	static constexpr int COYOTE_MAX_FRAMES = 4; // ajustez le feeling (2-6)
 
-	int m_currIdleMesh = TEXTURES::ARMS;
+	int m_currIdleText = TEXTURES::ARMS;
 
 	std::vector<Entity> m_objectsCollidingWithPlayer;
 

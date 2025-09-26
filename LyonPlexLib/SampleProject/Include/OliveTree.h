@@ -33,6 +33,6 @@ private:
 	XMFLOAT3 startPos = { 0,0,0 };
 	float timer = 0.0f;
 
-
+	bool treeSound = false;
 };
 

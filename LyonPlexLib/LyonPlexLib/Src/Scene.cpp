@@ -33,6 +33,7 @@ void Scene::Release()
 	//m_sceneEntities.clear();
 	m_sceneGameObjects.clear();
 	mp_ecsManager->ClearAllEntities();
+	mp_sceneManager->GetGameManager()->GetSoundManager()->StopMusic();
 }
 
 void Scene::ChangeScene(std::string sceneName)
@@ -373,6 +374,10 @@ void Scene::PlaySoundPlex(const std::string& soundName)
 void Scene::PlayMusicPlex(const std::string& musicName) 
 {
 	mp_sceneManager->GetGameManager()->GetSoundManager()->PlayMusicPlex(musicName);
+}
+void Scene::SetVolume(const std::string& musicName, float volume) 
+{
+	mp_sceneManager->GetGameManager()->GetSoundManager()->SetVolume(musicName, volume);
 }
 void Scene::StopMusicPlex()
 {

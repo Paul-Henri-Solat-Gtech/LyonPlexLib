@@ -523,15 +523,15 @@ void AdditionnalSceneObjects::CreateFirstObjects(Scene* scene)
 
 
 
-		scene->CreateGameObject("repere 1", MESHES::LOCAL_CUBE, 0);
-		scene->FindGameObjectByName("repere 1")->SetPosition({ -72,-16,116 });
-		scene->FindGameObjectByName("repere 1")->SetRotation({ 0,0,0,1 });
-		scene->FindGameObjectByName("repere 1")->SetScale({ 1,5,1 });
+		//scene->CreateGameObject("repere 1", MESHES::LOCAL_CUBE, 0);
+		//scene->FindGameObjectByName("repere 1")->SetPosition({ -72,-16,116 });
+		//scene->FindGameObjectByName("repere 1")->SetRotation({ 0,0,0,1 });
+		//scene->FindGameObjectByName("repere 1")->SetScale({ 1,5,1 });
 
-		scene->CreateGameObject("repere 2", MESHES::LOCAL_CUBE, 0);
-		scene->FindGameObjectByName("repere 2")->SetPosition({ 235,-17,-68 });
-		scene->FindGameObjectByName("repere 2")->SetRotation({ 0,0,0,1 });
-		scene->FindGameObjectByName("repere 2")->SetScale({ 1,5,1 });
+		//scene->CreateGameObject("repere 2", MESHES::LOCAL_CUBE, 0);
+		//scene->FindGameObjectByName("repere 2")->SetPosition({ 235,-17,-68 });
+		//scene->FindGameObjectByName("repere 2")->SetRotation({ 0,0,0,1 });
+		//scene->FindGameObjectByName("repere 2")->SetScale({ 1,5,1 });
 
 		scene->CreateGameHitbox("HB 1"); // start zone 1
 		scene->FindGameObjectByName("HB 1")->SetPosition({ 220,-23,-132 });
@@ -694,10 +694,11 @@ void AdditionnalSceneObjects::CreateFirstObjects(Scene* scene)
 		scene->FindGameObjectByName("Tree 12")->SetRotation({ 0,0.15643461,0,0.987688363 });
 		scene->FindGameObjectByName("Tree 12")->SetScale({ 7,7,7 });
 
-		scene->CreateGameObject("Olivier_trunk 13", MESHES::OLIVIER_1, 4294967295);
-		scene->FindGameObjectByName("Olivier_trunk 13")->SetPosition({ -79,2,-115 });
-		scene->FindGameObjectByName("Olivier_trunk 13")->SetRotation({ 0,0.656059146,0,0.754709542 });
-		scene->FindGameObjectByName("Olivier_trunk 13")->SetScale({ 7,7,7 });
+		scene->CreateGameObject("Olivier_big", MESHES::OLIVIER_1, 4294967295);
+		scene->FindGameObjectByName("Olivier_big")->SetPosition({ -79,-22,-115 });
+		scene->FindGameObjectByName("Olivier_big")->SetRotation({ 0,0.656059146,0,0.754709542 });
+		scene->FindGameObjectByName("Olivier_big")->SetScale({ 7,7,7 });
+
 
 		scene->CreateGameObject("Tree 16", MESHES::OLIVIER_2, 4294967295);
 		scene->FindGameObjectByName("Tree 16")->SetPosition({ -47,6,-232 });
@@ -2387,6 +2388,12 @@ void AdditionnalSceneObjects::CreateFirstObjects(Scene* scene)
 
 		// TREES & BUSHEES
 		{
+
+			scene->CreateGameObject("rockUnderTree", 20, 4294967295);
+			scene->FindGameObjectByName("rockUnderTree")->SetPosition({ -61.167160034,-17.685249329,-220.61895752 });
+			scene->FindGameObjectByName("rockUnderTree")->SetRotation({ 0,-0.981627166,0,0.190809086 });
+			scene->FindGameObjectByName("rockUnderTree")->SetScale({ 6,6,6 });
+
 			scene->CreateGameObject("Trees&Bushes 0", 2, 0);
 			scene->FindGameObjectByName("Trees&Bushes 0")->SetPosition({ -11.156254768,-17.550384521,-156.418807983 });
 			scene->FindGameObjectByName("Trees&Bushes 0")->SetRotation({ 0,0,0,1 });

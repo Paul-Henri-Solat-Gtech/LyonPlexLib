@@ -70,6 +70,7 @@ public:
 	void CreateSoundPlex(const std::string& soundName, const std::wstring& soundPath);
 	void PlaySoundPlex(const std::string& soundName);
 	void PlayMusicPlex(const std::string& musicName);
+	void SetVolume(const std::string& musicName, float volume);
 	void StopMusicPlex();
 
 	// Component Entity (a enelver)

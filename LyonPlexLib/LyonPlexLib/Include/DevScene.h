@@ -60,7 +60,7 @@ private:
 
 	float  m_orbitRadius = 5.0f;   // present
 	float  m_orbitHeight = 1.0f;   // peut rester pour initial fallback, mais on recalcule via pitch
-	float  m_sensitivity = 0.2f;   // degree par pixel horizontal
+	float  m_sensitivity = 0.1f;   // degree par pixel horizontal
 	HWND   m_hWnd = nullptr;       // handle de la fenetre, initialiser
 
 	// edit mode

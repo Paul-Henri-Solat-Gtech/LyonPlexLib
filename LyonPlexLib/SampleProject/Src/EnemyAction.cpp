@@ -50,7 +50,7 @@ void EnnemyAction_Idle::Start(Enemy* ennemy)
 		m_idleAnim.AddFrame(TEXTURES::GOLEM_IDLE_18);
 		m_idleAnim.AddFrame(TEXTURES::GOLEM_IDLE_19);
 		m_idleAnim.AddFrame(TEXTURES::GOLEM_IDLE_20);
-	break;
+		break;
 	}
 	}
 }
@@ -68,71 +68,90 @@ void EnnemyAction_Move::Start(Enemy* ennemy)
 	// move frames (switch case enemy type)
 	switch (ennemy->m_type)
 	{
-		case EnemyType::Crabe:
-		{
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_1);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_2);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_3);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_4);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_5);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_6);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_7);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_8);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_9);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_10);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_11);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_12);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_13);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_14);
+	case EnemyType::Crabe:
+	{
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_1);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_2);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_3);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_4);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_5);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_6);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_7);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_8);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_9);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_10);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_11);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_12);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_13);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_14);
 
-		}
-		break;
-		case EnemyType::Golem:
-		case EnemyType::GolemBoss:
-		{
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_1);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_2);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_3);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_4);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_5);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_6);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_7);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_8);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_9);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_10);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_11);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_12);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_13);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_14);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_15);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_16);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_17);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_18);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_19);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_20);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_21);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_22);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_23);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_24);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_25);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_26);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_27);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_28);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_29);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_30);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_31);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_32);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_33);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_34);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_35);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_36);
-		}
-		break;
+		auto* sm = ennemy->mp_scene->GetSceneManager()->GetGameManager()->GetSoundManager();
+		sm->PlaySoundPlex("Crabe_mvmt");
+	}
+	break;
+	case EnemyType::Golem:
+	case EnemyType::GolemBoss:
+	{
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_1);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_2);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_3);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_4);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_5);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_6);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_7);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_8);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_9);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_10);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_11);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_12);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_13);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_14);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_15);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_16);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_17);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_18);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_19);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_20);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_21);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_22);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_23);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_24);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_25);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_26);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_27);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_28);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_29);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_30);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_31);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_32);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_33);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_34);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_35);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_36);
+
+		auto* sm = ennemy->mp_scene->GetSceneManager()->GetGameManager()->GetSoundManager();
+		sm->PlaySoundPlex("Golem_mvmt");
+	}
+	break;
 	}
 
 }
 void EnnemyAction_Move::Update(Enemy* ennemy)
 {
+	// SOUND ICI OU DANS LE START ?
+	//switch (ennemy->m_type)
+	//{
+	//case EnemyType::Crabe:
+	//	auto* sm = ennemy->mp_scene->GetSceneManager()->GetGameManager()->GetSoundManager();
+	//	sm->PlaySoundPlex("Crabe_mvmt");
+	//	break;
+	//case EnemyType::Golem:
+	//case EnemyType::GolemBoss:
+	//	auto* sm = ennemy->mp_scene->GetSceneManager()->GetGameManager()->GetSoundManager();
+	//	sm->PlaySoundPlex("Golem_mvmt");
+	//	break;
+	//}
+
 	//OutputDebugStringA("ENEMY IS MOVING !");
 	//ennemy->SetPosition({ ennemy->GetPosition().x + 0.5f * ennemy->m_deltatime, ennemy->GetPosition().y, ennemy->GetPosition().z });
 	m_moveAnim.AnimationSequence(ennemy->GetDeltatime());
@@ -144,13 +163,13 @@ void EnnemyAction_Move::End(Enemy* ennemy)
 	//OutputDebugStringA("ENEMY STOP MOVING !-");
 	switch (ennemy->m_type)
 	{
-		case EnemyType::Crabe:
-			ennemy->SetTexture(TEXTURES::CRABE_IDLE_1);
-			break;
-		case EnemyType::Golem:
-		case EnemyType::GolemBoss:
-			ennemy->SetTexture(TEXTURES::GOLEM_IDLE_1);
-			break;
+	case EnemyType::Crabe:
+		ennemy->SetTexture(TEXTURES::CRABE_IDLE_1);
+		break;
+	case EnemyType::Golem:
+	case EnemyType::GolemBoss:
+		ennemy->SetTexture(TEXTURES::GOLEM_IDLE_1);
+		break;
 	}
 }
 
@@ -383,64 +402,64 @@ void EnnemyAction_Flee::Start(Enemy* ennemy)
 	// shoot frames (switch case enemy type
 	switch (ennemy->m_type)
 	{
-		case EnemyType::Crabe:
-		{
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_14);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_13);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_12);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_11);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_10);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_9);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_8);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_7);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_6);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_5);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_4);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_3);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_2);
-			m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_1);
-		}
-		break;
-		case EnemyType::Golem:
-		{
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_36);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_35);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_34);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_33);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_32);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_31);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_30);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_29);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_28);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_27);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_26);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_25);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_24);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_23);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_22);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_21);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_20);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_19);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_18);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_17);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_16);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_15);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_14);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_13);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_12);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_11);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_10);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_9);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_8);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_7);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_6);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_5);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_4);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_3);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_2);
-			m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_1);
-		}
-		break;
+	case EnemyType::Crabe:
+	{
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_14);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_13);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_12);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_11);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_10);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_9);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_8);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_7);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_6);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_5);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_4);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_3);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_2);
+		m_moveAnim.AddFrame(TEXTURES::CRABE_WALK_1);
+	}
+	break;
+	case EnemyType::Golem:
+	{
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_36);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_35);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_34);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_33);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_32);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_31);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_30);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_29);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_28);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_27);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_26);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_25);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_24);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_23);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_22);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_21);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_20);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_19);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_18);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_17);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_16);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_15);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_14);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_13);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_12);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_11);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_10);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_9);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_8);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_7);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_6);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_5);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_4);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_3);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_2);
+		m_moveAnim.AddFrame(TEXTURES::GOLEM_WALK_1);
+	}
+	break;
 	}
 }
 void EnnemyAction_Flee::Update(Enemy* ennemy)

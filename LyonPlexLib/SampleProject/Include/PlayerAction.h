@@ -57,6 +57,9 @@ public:
 	void Start(Player* player) override;
 	void Update(Player* player) override;
 	void End(Player* player) override;
+
+	AnimationManager m_attackAnim;
+	bool m_slashThrown = false;
 };
 
 class PlayerAction_Fall : public Action<Player>
@@ -69,6 +72,7 @@ public:
 
 class PlayerAction_PickUp : public Action<Player>
 {
+	XMFLOAT3 m_defaultPos;
 public:
 	void Start(Player* player) override;
 	void Update(Player* player) override;

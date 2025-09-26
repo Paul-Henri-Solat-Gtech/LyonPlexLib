@@ -46,6 +46,9 @@ void Boulder::GetPushed(Utils::Vector3 dir)
 {
 	m_dir = dir;
 	m_slideDistLeft = m_slideDistance;
+
+	auto* sm = mp_gameManager->GetSoundManager();
+	sm->PlaySoundPlex("Boulder");
 }
 
 

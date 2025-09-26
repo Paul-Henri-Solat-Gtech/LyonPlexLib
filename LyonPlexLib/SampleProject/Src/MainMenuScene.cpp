@@ -52,6 +52,7 @@ void MainMenuScene::Start()
 
 	// Music
 	PlayMusicPlex("ArmonizerTheme");
+	SetVolume("ArmonizerTheme", 0.1);
 }
 
 void MainMenuScene::Update(float deltatime)

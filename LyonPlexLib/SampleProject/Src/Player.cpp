@@ -209,22 +209,26 @@ Player::Player() : m_stateMachine(this, State::Count)
 		{
 			auto transition = sSpecialAttack->CreateTransition(State::Idle);
 			auto condition = transition->AddCondition<PlayerCondition_IsNotMoving>();
+			transition->AddCondition<PlayerCondition_AttackFinished>();
 		}
 		//-> MOVE TRANSITION
 		{
 			auto transition = sSpecialAttack->CreateTransition(State::Move);
 			auto condition = transition->AddCondition<PlayerCondition_IsMoving>();
+			transition->AddCondition<PlayerCondition_AttackFinished>();
 		}
 		//-> FALL TRANSITION
 		{
 			auto transition = sSpecialAttack->CreateTransition(State::Fall);
 			auto condition = transition->AddCondition<PlayerCondition_IsNotOnGround>();
+			transition->AddCondition<PlayerCondition_AttackFinished>();
 		}
 		//-> JUMP TRANSITION
 		{
 			auto transition = sSpecialAttack->CreateTransition(State::Jump);
 			auto condition = transition->AddCondition<PlayerCondition_IsOnGround>();
 			transition->AddCondition<PlayerCondition_IsJumping>();
+			transition->AddCondition<PlayerCondition_AttackFinished>();
 		}
 	}
 
@@ -426,19 +430,19 @@ void Player::OnUpdate(float deltatime)
 	KnockeBackManager(deltatime);
 
 	// weapon holder
-	switch (m_currIdleMesh) 
+	switch (m_currIdleText) 
 	{
 	case TEXTURES::IDLEARM_W1_1:
 		m_selectedWeapon.SetTexture(TEXTURES::WeaponWoodIcon);
 		m_selectedWeapon.SetScale({ (float)m_renderWidth * 0.06f, (float)m_renderHeight * 0.06f, 0 });
 		m_playerArm.SetScale({ (float)m_renderWidth * 0.45f, (float)m_renderHeight * 0.45f, 0 });
-		m_playerArm.SetPosition({ (float)m_renderWidth / 2, (float)m_renderHeight / 2 + (float)m_renderHeight / 4, 0 });
+		//m_playerArm.SetPosition({ (float)m_renderWidth / 2, (float)m_renderHeight / 2 + (float)m_renderHeight / 4, 0 });
 		break;
 	case TEXTURES::IDLEARM_W2_1:
 		m_selectedWeapon.SetTexture(TEXTURES::WeaponRockIcon);
 		m_selectedWeapon.SetScale({ (float)m_renderWidth * 0.06f, (float)m_renderHeight * 0.06f, 0 });
 		m_playerArm.SetScale({ (float)m_renderWidth * 1, (float)m_renderHeight * 0.45f, 0 });
-		m_playerArm.SetPosition({ (float)m_renderWidth / 3, (float)m_renderHeight / 2 + (float)m_renderHeight / 6, 0 });
+		//m_playerArm.SetPosition({ (float)m_renderWidth / 3, (float)m_renderHeight / 2 + (float)m_renderHeight / 6, 0 });
 		break;
 	//default:
 	//	break;

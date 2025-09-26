@@ -17,7 +17,7 @@ void PlayerAction_Idle::Start(Player* player)
 	player->m_jumpProgress = 0.0f;
 	player->m_fallProgress = 0.0f;
 
-	switch (player->m_currIdleMesh)
+	switch (player->m_currIdleText)
 	{
 	case TEXTURES::ARMS:
 
@@ -107,7 +107,7 @@ void PlayerAction_Idle::Update(Player* player)
 void PlayerAction_Idle::End(Player* player)
 {
 	//OutputDebugStringA("\nEndIdle -\n");
-	player->GetPlayerArm().SetTexture(player->m_currIdleMesh);
+	player->GetPlayerArm().SetTexture(player->m_currIdleText);
 }
 
 
@@ -123,26 +123,27 @@ void PlayerAction_Move::Start(Player* player)
 	static XMFLOAT3 startPos = player->GetPlayerArm().GetPosition();
 
 	m_defaultPos = startPos;
+	if (player->m_currIdleText != TEXTURES::ARMS)
+		m_defaultPos.y -= 100;
+
+	//m_defaultPos = player->GetPlayerArm().GetPosition();
 }
 void PlayerAction_Move::Update(Player* player)
 {
-	//PlayerMovement(player);
 
 	//OutputDebugStringA("\n- MOVINGGG\n");
 	// Arm anim
 	if (m_canMoveArm && !m_armIsUp)
 	{
-		//OutputDebugStringA("UP");
 		player->GetPlayerArm().GetComponent<TransformComponent>()->SetRotation(0, 0, 180 + 5);
-		player->GetPlayerArm().GetPosition().x = m_defaultPos.x + 100;
+		player->GetPlayerArm().GetPosition().x = m_defaultPos.x + 50;
 		m_armIsUp = true;
 		m_canMoveArm = false;
 	}
 	if (m_canMoveArm && m_armIsUp)
 	{
-		//OutputDebugStringA("DOWN");
 		player->GetPlayerArm().GetComponent<TransformComponent>()->SetRotation(0, 0, 180 - 5);
-		player->GetPlayerArm().GetPosition().x = m_defaultPos.x - 100;
+		player->GetPlayerArm().GetPosition().x = m_defaultPos.x - 50;
 		m_armIsUp = false;
 		m_canMoveArm = false;
 	}
@@ -163,7 +164,7 @@ void PlayerAction_Move::End(Player* player)
 {
 	//OutputDebugStringA("\nEnd Moving State\n");
 	player->GetPlayerArm().GetComponent<TransformComponent>()->SetRotation(0, 0, 180);
-	player->GetPlayerArm().SetTexture(player->m_currIdleMesh);
+	player->GetPlayerArm().SetTexture(player->m_currIdleText);
 	player->GetPlayerArm().GetPosition() = m_defaultPos;
 }
 
@@ -176,7 +177,7 @@ void PlayerAction_Attack::Start(Player* player)
 	player->m_attackFinished = false;
 	m_enemyHit = false;
 
-	switch (player->m_currIdleMesh)
+	switch (player->m_currIdleText)
 	{
 	case TEXTURES::ARMS:
 		//OutputDebugStringA("\n Attaque NO Weapon \n");
@@ -184,7 +185,7 @@ void PlayerAction_Attack::Start(Player* player)
 		break;
 
 	case TEXTURES::IDLEARM_W1_1:
-		player->mp_gameManager->GetSoundManager()->PlaySoundPlex("swordSlash1"); // need to adapt sound to frame (like adding pause)
+		player->mp_gameManager->GetSoundManager()->PlaySoundPlex("WoodenSword"); // need to adapt sound to frame (like adding pause)
 		//OutputDebugStringA("\n Attaque Weapon 1\n");
 		switch (player->m_slashAttackNb)
 		{
@@ -272,7 +273,7 @@ void PlayerAction_Attack::Start(Player* player)
 		break;
 
 	case TEXTURES::IDLEARM_W2_1:
-		player->mp_gameManager->GetSoundManager()->PlaySoundPlex("swordSlash1"); // need to adapt sound to frame (like adding pause)
+		player->mp_gameManager->GetSoundManager()->PlaySoundPlex("Hammer"); // need to adapt sound to frame (like adding pause)
 		OutputDebugStringA("\n Attaque Weapon 2\n");
 		switch (player->m_slashAttackNb)
 		{
@@ -461,7 +462,7 @@ void PlayerAction_Attack::Update(Player* player)
 		};
 
 
-	switch (player->m_currIdleMesh)
+	switch (player->m_currIdleText)
 	{
 	case TEXTURES::ARMS:
 		//OutputDebugStringA("\n Attaque NO Weapon \n");
@@ -560,7 +561,9 @@ void PlayerAction_Attack::Update(Player* player)
 							closest = length;
 
 							if (&go) {
-								//PLAY SOUND !!
+
+								auto* sm = player->mp_gameManager->GetSoundManager();
+								sm->PlaySoundPlex("Golem_Degats_Lourds");
 								player->mp_scene->DestroyGameObject(go);
 							}
 							else {
@@ -580,23 +583,10 @@ void PlayerAction_Attack::Update(Player* player)
 void PlayerAction_Attack::End(Player* player)
 {
 
-	switch (player->m_currIdleMesh)
-	{
-	case TEXTURES::ARMS:
-		//OutputDebugStringA("\n Attaque NO Weapon \n");
-		break;
-
-	case TEXTURES::IDLEARM_W1_1:
-		//player->GetPlayerArm().SetMesh(TEXTURES::IDLEARM_W1_1);
-		break;
-	case TEXTURES::IDLEARM_W2_1:
-		break;
-	}
 
 	m_pushBoulder = false;
 
-	player->GetPlayerArm().SetTexture(player->m_currIdleMesh);
-	//player->GetPlayerArm().SetMesh(TEXTURES::IDLEARM_W1_1);
+	player->GetPlayerArm().SetTexture(player->m_currIdleText);
 	//OutputDebugStringA("-EndSlash");
 }
 
@@ -652,7 +642,7 @@ void PlayerAction_Fall::Update(Player* player)
 void PlayerAction_Fall::End(Player* player)
 {
 	//OutputDebugStringA("\n- END ___________________ FALLINGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG\n");
-	player->GetPlayerArm().SetTexture(player->m_currIdleMesh);
+	player->GetPlayerArm().SetTexture(player->m_currIdleText);
 }
 
 
@@ -662,27 +652,39 @@ void PlayerAction_PickUp::Start(Player* player)
 {
 	//OutputDebugStringA("\n-Start Pick Up\n");
 
-}
+	static XMFLOAT3 startPos = player->GetPlayerArm().GetPosition();
 
-void PlayerAction_PickUp::Update(Player* player)
-{
+	m_defaultPos = startPos;
+
 	switch (player->m_closestObject->GetTag())
 	{
 	case TAG_Stick:
+		if (player->m_currIdleText == TEXTURES::ARMS)
+			player->GetPlayerArm().GetPosition().y = m_defaultPos.y - 100;
+		//player->GetPlayerArm().GetPosition().y /= 2;
+
 		player->GetPlayerArm().SetTexture(TEXTURES::IDLEARM_W1_1);
-		player->m_currIdleMesh = TEXTURES::IDLEARM_W1_1;
+		player->m_currIdleText = TEXTURES::IDLEARM_W1_1;
 		player->mp_scene->DestroyGameObject(*player->m_closestObject);
 		player->m_slashAttackNb = 1;
+
 		break;
 	case TAG_Rock:
+		if (player->m_currIdleText == TEXTURES::ARMS)
+			player->GetPlayerArm().GetPosition().y = m_defaultPos.y - 100;
+
 		player->GetPlayerArm().SetTexture(TEXTURES::IDLEARM_W2_1);
-		player->m_currIdleMesh = TEXTURES::IDLEARM_W2_1;
+		player->m_currIdleText = TEXTURES::IDLEARM_W2_1;
 		player->mp_scene->DestroyGameObject(*player->m_closestObject);
 		player->m_slashAttackNb = 1;
 		break;
 	default:
 		break;
 	}
+}
+
+void PlayerAction_PickUp::Update(Player* player)
+{
 
 
 }
@@ -695,25 +697,68 @@ void PlayerAction_PickUp::End(Player* player)
 // SPECIAL SPECIAL ATTACK
 void PlayerAction_SpecialAttack::Start(Player* player)
 {
-	switch (player->m_currIdleMesh)
-	{
-	case TEXTURES::IDLEARM_W1_1:
-		player->CreateProjectile(player->GetPosition(), player->GetPosition(), 2.f);
-		player->mp_gameManager->GetSoundManager()->PlaySoundPlex("swordSpecialSlash");
-		break;
-	case TEXTURES::IDLEARM_W2_1:
 
-		break;
+	player->m_attackFinished = false;
+	m_slashThrown = false;
+
+	//OutputDebugStringA("\n SpecialAttaque Weapon 1\n");
+	if (player->m_currIdleText == TEXTURES::IDLEARM_W1_1)
+	{
+	player->mp_gameManager->GetSoundManager()->PlaySoundPlex("swordSpecialSlash");
+
+		m_attackAnim.Init(FPS_24 /** 25*/ * player->GetDeltatime(), &player->GetPlayerArm());
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_1);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_2);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_3);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_4);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_5);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_6);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_7);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_8);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_9);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_10);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_11);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_12);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_13);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_14);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_15);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_16);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_17);
+		m_attackAnim.AddFrame(TEXTURES::ATTACK2_W1_18);
+
 	}
-	player->CreateProjectile(player->GetPosition(), player->GetPosition(), 2.f);	// POUR TESTS
-	player->mp_gameManager->GetSoundManager()->PlaySoundPlex("swordSpecialSlash");	// POUR TESTS
+
+	//switch (player->m_currIdleText)
+	//{
+	//case TEXTURES::IDLEARM_W1_1:
+	//	player->CreateProjectile(player->GetPosition(), player->GetPosition(), 2.f);
+	//	player->mp_gameManager->GetSoundManager()->PlaySoundPlex("swordSpecialSlash");
+	//	break;
+	//case TEXTURES::IDLEARM_W2_1:
+
+	//	break;
+	//}
+	//player->CreateProjectile(player->GetPosition(), player->GetPosition(), 2.f);	// POUR TESTS
+	//player->mp_gameManager->GetSoundManager()->PlaySoundPlex("swordSpecialSlash");	// POUR TESTS
 
 }
 
 void PlayerAction_SpecialAttack::Update(Player* player)
 {
+	if (player->m_currIdleText == TEXTURES::IDLEARM_W1_1)
+	{
+		m_attackAnim.AnimationSequence(player->GetDeltatime());
+		if (m_attackAnim.GetAnimationHalfDuration() && m_slashThrown == false)
+		{
+			player->CreateProjectile(player->GetPosition(), player->GetPosition(), 2.f);
+			m_slashThrown = true;
+		}
+		if (m_attackAnim.GetAnimationHisFinished())	player->m_attackFinished = true;
+	}
+	else player->m_attackFinished = true;
 }
 
 void PlayerAction_SpecialAttack::End(Player* player)
 {
+	player->GetPlayerArm().SetTexture(player->m_currIdleText);
 }

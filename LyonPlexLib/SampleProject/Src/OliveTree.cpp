@@ -76,6 +76,11 @@ OliveTree::OliveTree(ECSManager* ecsManager, Scene* scene, XMFLOAT3 position, in
 			if (tag == TAG_ProjectilePlayer)
 			{
 				self->m_isCut = true;
+
+
+				auto* sm = scenePtr->GetSceneManager()->GetGameManager()->GetSoundManager();
+				sm->PlaySoundPlex("Tree_cut");
+				scenePtr->DestroyGameObject(*otherGO);
 			}
 		});
 	startPos = mp_leaves->GetPosition();
@@ -108,6 +113,13 @@ void OliveTree::OnUpdate(float deltatime)
 
 				break;
 			case 2: // Tombe
+
+				if(!treeSound)
+				{
+					auto* sm = mp_scene->GetSceneManager()->GetGameManager()->GetSoundManager();
+					sm->PlaySoundPlex("Tree_fall");
+					treeSound = true;
+				}
 
 				if (mp_leaves->GetPosition().x > -25 / GetScale().x)
 				{
@@ -188,6 +200,12 @@ void OliveTree::OnUpdate(float deltatime)
 				break;
 			case 2: // Tombe
 
+				if (!treeSound)
+				{
+					auto* sm = mp_scene->GetSceneManager()->GetGameManager()->GetSoundManager();
+					sm->PlaySoundPlex("Tree_fall");
+					treeSound = true;
+				}
 				xOK = true;
 
 				if (mp_leaves->GetPosition().y > -15 / GetScale().y)
@@ -250,34 +268,7 @@ void OliveTree::OnUpdate(float deltatime)
 
 	}
 
-	//if (m_endCut1)
-	//{
-	//	mp_leaves->SetPosition({ -25 / GetScale().x, -12 / GetScale().y, -15 / GetScale().z });
-	//	mp_leaves->SetTransformRotation({ 180,0,0 });
-	//	//mp_leavesCol->SetPosition({ 0, 0.5, 0 });
-	//	mp_leavesCol->SetPosition({ 0, 5, 0 });
 
-	//	cut_trunkCol = &mp_scene->CreateGameHitbox();
-	//	cut_trunkCol->SetPosition({ 49,-6.09082365,131 });
-	//	cut_trunkCol->SetRotation({ 0,0,0,1 });
-	//	cut_trunkCol->SetScale({ 7,6,9 });
-	//	cut_trunkCol->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3.5,3,4.5 })));
-	//	m_endCut1 = false;
-	//}
-
-	//if (m_endCut2)
-	//{
-	//	mp_leaves->SetPosition({ 0 / GetScale().x, -15 / GetScale().y, 55.f / GetScale().z });
-	//	mp_leaves->SetTransformRotation({ 180,0,0 });
-	//	mp_leavesCol->SetPosition({ 0, 0.5, 0 });
-
-	//	cut_trunkCol = &mp_scene->CreateGameHitbox();
-	//	cut_trunkCol->SetPosition({ -66.287994385,-1.48188591,-24.33288002 });
-	//	cut_trunkCol->SetRotation({ 0,0,0,1 });
-	//	cut_trunkCol->SetScale({ 16,8,10 });
-	//	cut_trunkCol->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 8,5.5,5 })));
-	//	m_endCut2 = false;
-	//}
 
 }
 
