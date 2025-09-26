@@ -5005,6 +5005,8 @@ void GameScene::PortalSystem()
 		SpawnPortal({ 83.f, -17.f, -162.f }, 2, EnemyType::Crabe);
 		m_pl2.hasSpawned = true;
 		OutputDebugStringA("\n Wave 2 \n");
+		// MUSIC
+		PlayMusicPlex("TheCrimsonTideClashfight");
 	}
 	if (m_pl2.hasSpawned && !m_pl2.isFinished)
 	{
