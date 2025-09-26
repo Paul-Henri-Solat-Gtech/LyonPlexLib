@@ -55,7 +55,6 @@ bool GameManager::Init()
 
 	// 6) Init sounds
 	m_soundManager.Init();
-	m_soundManager.CreateSound("pop", L"../LyonPlexLib/Ressources/pop.wav");
 
 	m_window.SetGameManager(this);
 

@@ -46,17 +46,18 @@ void AllScenes::StartScene(std::string sceneName)
 void AllScenes::InitAllSounds() 
 {
     //Sounds
-    mp_gameManager->GetSoundManager()->CreateSound("roar", L"../LyonPlexLib/Ressources/Roar.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("swordSpecialSlash", L"../LyonPlexLib/Ressources/swordSpecialSlash.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("roar", L"../SampleProject/Ressources/Sounds/Roar.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../SampleProject/Ressources/Sounds/swordSlash1.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("swordSpecialSlash", L"../SampleProject/Ressources/Sounds/swordSpecialSlash.wav");
     mp_gameManager->GetSoundManager()->CreateSound("deathScream", L"../SampleProject/Ressources/Sounds/deathScreamBBB3.wav");
     mp_gameManager->GetSoundManager()->CreateSound("HUGH", L"../SampleProject/Ressources/Sounds/HUGH.wav");
     mp_gameManager->GetSoundManager()->CreateSound("BEAM", L"../SampleProject/Ressources/Sounds/beam.wav");
     mp_gameManager->GetSoundManager()->CreateSound("BIP", L"../SampleProject/Ressources/Sounds/bip.wav");
     mp_gameManager->GetSoundManager()->CreateSound("heal", L"../SampleProject/Ressources/Sounds/heal.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("heal", L"../SampleProject/Ressources/Sounds/pop.wav");
     
     //Musics
-    mp_gameManager->GetSoundManager()->CreateSound("Corrosion", L"../LyonPlexLib/Ressources/Corrosion.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("Corrosion", L"../SampleProject/Ressources/Sounds/Corrosion.wav");
     mp_gameManager->GetSoundManager()->CreateSound("ArmonizerTheme", L"../SampleProject/Ressources/Sounds/ArmonizerTheme.wav");
     mp_gameManager->GetSoundManager()->CreateSound("TheCrimsonTideClashArena", L"../SampleProject/Ressources/Sounds/TheCrimsonTideClashArena.wav");
     mp_gameManager->GetSoundManager()->CreateSound("TheCrimsonTideClashfight", L"../SampleProject/Ressources/Sounds/TheCrimsonTideClashfight.wav");

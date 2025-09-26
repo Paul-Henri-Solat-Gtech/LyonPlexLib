@@ -255,10 +255,6 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 
 	m_moveSpeed = m_walkSpeed;
 
-	// sounds
-	//mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
-	//mp_gameManager->GetSoundManager()->CreateSound("swordSpecialSlash", L"../LyonPlexLib/Ressources/swordSpecialSlash.wav");
-
 	// Hearts
 	RECT renderZone;
 	GetClientRect(mp_gameManager->GetRenderingManager().GetGraphicsDevice()->GetWindow(), &renderZone);

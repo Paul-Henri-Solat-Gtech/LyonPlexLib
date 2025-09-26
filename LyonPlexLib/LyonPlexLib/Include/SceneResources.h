@@ -30,7 +30,7 @@ namespace TEXTURES
 		heart_empty,
 		heart_demi,
 		heart_full,
-		gameOver,
+		//gameOver,
 		EMPTY,
 		Weapon_placeholder,
 		PAUSEMENU,

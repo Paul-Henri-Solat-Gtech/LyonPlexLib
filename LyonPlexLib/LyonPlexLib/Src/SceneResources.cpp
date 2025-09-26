@@ -23,55 +23,55 @@ bool SceneResources::Init(GameManager* gameManager)
 
 bool SceneResources::InitTextureResources(TextureManager& txtMngr)
 {
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/NoTexture.png");//1
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/NoTexture.png");//1
     txtMngr.LoadTexture("../SampleProject/Ressources/Environnement3D/Batiments/Amalgate.png");//2
     //txtMngr.LoadTexture("../SampleProject/Ressources/Divers/ALGUE.jpg");//3
     txtMngr.LoadTexture("../SampleProject/Ressources/Divers/ALGUE.png");//3
     txtMngr.LoadTexture("../SampleProject/Ressources/Divers/ALGUE1.png");//3
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/grid.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/bois.jpg");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/eau.jpg");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/champ.jpg");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle1.jpg");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle2.jpg");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle3.jpg");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle4.jpg");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/chemin_terre.jpg");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/TestBRAS.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/grid.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/bois.jpg");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/eau.jpg");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/champ.jpg");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/parcelle1.jpg");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/parcelle2.jpg");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/parcelle3.jpg");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/parcelle4.jpg");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/chemin_terre.jpg");
     txtMngr.LoadTexture("../SampleProject/Ressources/Environnement3D/pierre.png");
     txtMngr.LoadTexture("../SampleProject/Ressources/Environnement3D/Herbe.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/pont.jpg");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/maison.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/temple.jpg");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Cepha1test.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/pont.jpg");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/maison.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/temple.jpg");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/Cepha1test.png");
     txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/icecream.png");//19
     txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/start.png");//20
     txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/stop.png");//21
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/heart-empty.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/heart-demi.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/heart-full.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/GameOver.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/Empty.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/weaponPlaceHolder.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/pauseMenuL.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/btnQuit.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/btnMainMenu.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/LyonPlexLogo.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/lightlp.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/groundmt.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/heart-empty.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/heart-demi.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/heart-full.png");
+    //txtMngr.LoadTexture("../SampleProject/Ressources/GameOver.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/Empty.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/weaponPlaceHolder.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/pauseMenuL.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/btnQuit.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/btnMainMenu.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/LyonPlexLogo.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/lightlp.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/groundmt.png");
     txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/portail.png");
     txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/titreV2.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/slash.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/zero.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/one.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/two.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/tree.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/four.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/five.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/six.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/seven.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/eight.png");
-    txtMngr.LoadTexture("../LyonPlexLib/Ressources/nine.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/slash.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/zero.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/one.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/two.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/tree.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/four.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/five.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/six.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/seven.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/eight.png");
+    txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/nine.png");
     txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/btnStart.png");
     txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/btnArena.png");
     txtMngr.LoadTexture("../SampleProject/Ressources/Image2D/closebtnV2.png");
@@ -527,7 +527,7 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
 bool SceneResources::InitImportedMeshResources(MeshManager& meshMngr)
 {
     // A MODIFIER
-    meshMngr.LoadMeshFromFile("../LyonPlexLib/Ressources/Maison.obj");
+    meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Batiments/Maison.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Objets/Baton.obj");
     meshMngr.LoadMeshFromFile("../SampleProject/Ressources/Environnement3D/Environnement/Herbe.obj");
 
