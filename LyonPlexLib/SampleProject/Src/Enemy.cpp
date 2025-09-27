@@ -404,10 +404,14 @@ void Enemy::SetStateMachine()
 			}			
 			//-> SHOOT TRANSITION
 			{
-				auto transition = sShoot->CreateTransition(State::Shoot);
+				auto transition = sShoot->CreateTransition(State::Idle);
 				auto condition = transition->AddCondition<EnnemyCondition_PlayerIsVeryNear>();
-				//transition->AddCondition<PlayerCondition_IsAttacking>();
 			}
+			////-> SHOOT TRANSITION
+			//{
+			//	auto transition = sShoot->CreateTransition(State::Shoot);
+			//	auto condition = transition->AddCondition<EnnemyCondition_PlayerIsNear>();
+			//}
 		}
 	}
 		break;
@@ -415,7 +419,7 @@ void Enemy::SetStateMachine()
 	{
 		// Enemy Properties >
 
-		m_life = 10;
+		m_life = 15;
 		m_moveSpeed = 0.5f;
 		m_reloadSpeed = 3.f;
 		SetTexture(TEXTURES::GOLEM_IDLE_1);

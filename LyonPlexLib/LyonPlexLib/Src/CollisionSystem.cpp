@@ -150,7 +150,7 @@ void CollisionSystem::TryPair(Entity a, Entity b/*, const std::unordered_map<Com
 	}
 	else if (Has(mask_B, mask_TAG_HealingRock))
 	{
-		if (!HasAny(mask_A,  mask_TAG_Player))
+		if (!HasAny(mask_A, mask_TAG_Player))
 			return;
 	}
 

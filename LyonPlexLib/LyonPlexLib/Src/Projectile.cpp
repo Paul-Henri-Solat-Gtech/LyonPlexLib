@@ -43,12 +43,14 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 	case Laser:
 	{
 		SetTag(Tag::TAG_Projectile);
-		SetTexture(TEXTURES::BTN_QUIT);
+		SetTexture(TEXTURES::LASER);
+		GetComponent<MeshComponent>()->ColorPatchUp();
+		GetComponent<MeshComponent>()->alpha = 0.95f;
 		SetScale({ 0.2f, 0.2f, 0.8f });
 		projScale = GetScale();
 
 		AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x / 2, projScale.y / 2, projScale.z / 2 })));
-		m_speed = 30;
+		m_speed = 40;
 		m_damage = 1;
 		break;
 	}
@@ -76,7 +78,7 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 			break;
 		}
 
-		Laube(posStart, posTarget);
+		Lobe(posStart, posTarget);
 		break;
 	}
 	case BigRock:
@@ -103,18 +105,20 @@ void Projectile::InitProjectile( XMFLOAT3 posStart, XMFLOAT3 posTarget)
 			break;
 		}
 
-		Laube(posStart, posTarget);
+		Lobe(posStart, posTarget);
 		break;
 	}
 	case AirSlash:
 	{
 		SetTag(Tag::TAG_ProjectilePlayer);
-		SetTexture(TEXTURES::EAU);
-		SetScale({ 2,0.1,0.8 });
+		SetTexture(TEXTURES::AIR);
+		GetComponent<MeshComponent>()->ColorPatchUp();
+		GetComponent<MeshComponent>()->alpha = 0.95f;
+		SetScale({ 1.5f,0.1,0.8 });
 		projScale = GetScale();
 
 		AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ projScale.x / 2, projScale.y / 2, projScale.z / 2 })));
-		m_speed = 70;
+		m_speed = 100;
 		m_damage = 1;
 		break;
 	}
@@ -189,7 +193,7 @@ void Projectile::Destroy()
 	mp_scene->DestroyGameObject(*this);
 }
 
-void Projectile::Laube(XMFLOAT3 posStart, XMFLOAT3 posTarget)
+void Projectile::Lobe(XMFLOAT3 posStart, XMFLOAT3 posTarget)
 {
 	// displacement
 	XMFLOAT3 d = { posTarget.x - posStart.x, posTarget.y - posStart.y, posTarget.z - posStart.z };

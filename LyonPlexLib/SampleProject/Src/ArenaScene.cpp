@@ -49,7 +49,7 @@ void ArenaScene::Start()
 	m_waveMax = 5;
 	m_waveFinished = false;
 	m_waveStarted = true;
-	m_cooldownNextWave = 5.f;
+	m_cooldownNextWave = 3.f;
 	m_portalNbSpawned = 0;
 	m_portalHasSpawned = false;
 	m_fisrtEnnemyHasSpawned = false;

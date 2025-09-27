@@ -49,11 +49,17 @@ void GameScene::Start()
 
 	m_playerTest.SetPlayerArm(*FindGameObjectByName("bras"));
 
-	////Init Portals No need to put -> false its default
-	//m_p1Spawned = false;
-	//..
-	//m_p1Finished = false;
-	//..
+	// Music
+	PlayMusicPlex("ArmonizerTheme");
+	m_soundTest = PlaySoundPlex("ambianceTest",true);
+	if (m_soundTest) m_soundTest->SetVolume(30.f);
+	
+
+	// Music
+
+	// SetVolume("River", 0.2);
+	// PlayMusicPlex("River");
+
 
 	//win
 	m_youWin = false;
@@ -64,7 +70,7 @@ void GameScene::Start()
 	FindGameObjectByName("Stick")->SetPosition({ 230,-19,-115 });
 	FindGameObjectByName("Stick")->SetScale({ 5, 5, 5 });
 	FindGameObjectByName("Stick")->SetMesh(MESHES::STICK);
-	FindGameObjectByName("Stick")->SetTexture(TEXTURES::HERBE);
+	FindGameObjectByName("Stick")->SetTexture(TEXTURES::WOOD);
 	FindGameObjectByName("Stick")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("Stick")->SetTag(TAG_Stick);
 
@@ -72,24 +78,148 @@ void GameScene::Start()
 	FindGameObjectByName("RockObj")->SetPosition({ 230,-19,-130 });
 	FindGameObjectByName("RockObj")->SetScale({ 5, 5, 5 });
 	FindGameObjectByName("RockObj")->SetMesh(MESHES::ROCKLM1);
-	FindGameObjectByName("RockObj")->SetTexture(TEXTURES::GroundMountain);
+	FindGameObjectByName("RockObj")->SetTexture(TEXTURES::AMALGATE);
 	FindGameObjectByName("RockObj")->AddComponent<Tag_Object>(new Tag_Object());
 	FindGameObjectByName("RockObj")->SetTag(TAG_Rock);
 
-	CreateGameObject("Stick");
-	XMFLOAT3 pos = { -82,-17,85 };
-	FindGameObjectByName("Stick")->SetPosition(pos);
-	FindGameObjectByName("Stick")->SetScale({ 1, 1, 1 });
-	FindGameObjectByName("Stick")->SetMesh(MESHES::STICK);
-	FindGameObjectByName("Stick")->SetTexture(TEXTURES::HERBE);
-	auto a = FindGameObjectByName("Stick")->GetScale();
-	//FindGameObjectByName("Stick")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeAABB({ a.x / 2, a.y / 2, a.z / 2 })));
-	FindGameObjectByName("Stick")->AddComponent<Tag_Object>(new Tag_Object());
-	FindGameObjectByName("Stick")->SetTag(TAG_Stick);
+	CreateGameObject("Stick22");
+	FindGameObjectByName("Stick22")->SetPosition({ 42.576702118f,-19.534738541f,-200.028411865f });
+	FindGameObjectByName("Stick22")->SetRotation({ 0,0,0,1 });
+	FindGameObjectByName("Stick22")->SetScale({ 11,11,11 });
+	FindGameObjectByName("Stick22")->SetMesh(MESHES::STICK);
+	FindGameObjectByName("Stick22")->SetTexture(TEXTURES::WOOD);
+	FindGameObjectByName("Stick22")->AddComponent<Tag_Object>(new Tag_Object());
+	FindGameObjectByName("Stick22")->SetTag(TAG_Stick);
 
+	CreateGameObject("Stick23");
+	FindGameObjectByName("Stick23")->SetPosition({ -171.980514526f,-19.534738541f,-173.504760742f });
+	FindGameObjectByName("Stick23")->SetRotation({ 0,0,0,1 });
+	FindGameObjectByName("Stick23")->SetScale({ 11,11,11 });
+	FindGameObjectByName("Stick23")->SetMesh(MESHES::STICK);
+	FindGameObjectByName("Stick23")->SetTexture(TEXTURES::WOOD);
+	FindGameObjectByName("Stick23")->AddComponent<Tag_Object>(new Tag_Object());
+	FindGameObjectByName("Stick23")->SetTag(TAG_Stick);
+
+	CreateGameObject("Stick24");
+	FindGameObjectByName("Stick24")->SetPosition({ -76.949920654f,-18.654970169f,62.621471405f });
+	FindGameObjectByName("Stick24")->SetRotation({ 0,0,0,1 });
+	FindGameObjectByName("Stick24")->SetScale({ 11,11,11 });
+	FindGameObjectByName("Stick24")->SetMesh(MESHES::STICK);
+	FindGameObjectByName("Stick24")->SetTexture(TEXTURES::WOOD);
+	FindGameObjectByName("Stick24")->AddComponent<Tag_Object>(new Tag_Object());
+	FindGameObjectByName("Stick24")->SetTag(TAG_Stick);
+
+	CreateGameObject("Stick25");
+	FindGameObjectByName("Stick25")->SetPosition({ -72.906494141f,-18.501369476f,15.611557961f });
+	FindGameObjectByName("Stick25")->SetRotation({ 0,0,0,1 });
+	FindGameObjectByName("Stick25")->SetScale({ 11,11,11 });
+	FindGameObjectByName("Stick25")->SetMesh(MESHES::STICK);
+	FindGameObjectByName("Stick25")->SetTexture(TEXTURES::WOOD);
+	FindGameObjectByName("Stick25")->AddComponent<Tag_Object>(new Tag_Object());
+	FindGameObjectByName("Stick25")->SetTag(TAG_Stick);
+
+	CreateGameObject("Stick26");
+	FindGameObjectByName("Stick26")->SetPosition({ 98.660964966f,5.673445225f,0.495587826f });
+	FindGameObjectByName("Stick26")->SetRotation({ 0,0,0,1 });
+	FindGameObjectByName("Stick26")->SetScale({ 11,11,11 });
+	FindGameObjectByName("Stick26")->SetMesh(MESHES::STICK);
+	FindGameObjectByName("Stick26")->SetTexture(TEXTURES::WOOD);
+	FindGameObjectByName("Stick26")->AddComponent<Tag_Object>(new Tag_Object());
+	FindGameObjectByName("Stick26")->SetTag(TAG_Stick);
+
+	// ROCKS / AMALGATE (Next 27..36)
+	CreateGameObject("RockObj27");
+	FindGameObjectByName("RockObj27")->SetPosition({ -220.121109009f,-17.837585449f,23.317188263f });
+	FindGameObjectByName("RockObj27")->SetRotation({ -0.000000003f,0,0,1 });
+	FindGameObjectByName("RockObj27")->SetScale({ 0.599999905f,0.399999917f,0.599999905f });
+	FindGameObjectByName("RockObj27")->SetMesh(MESHES::ROCKLM1);
+	FindGameObjectByName("RockObj27")->SetTexture(TEXTURES::AMALGATE);
+	FindGameObjectByName("RockObj27")->AddComponent<Tag_Object>(new Tag_Object());
+	FindGameObjectByName("RockObj27")->SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj28");
+	FindGameObjectByName("RockObj28")->SetPosition({ -232.830734253f,-17.837585449f,-59.418899536f });
+	FindGameObjectByName("RockObj28")->SetRotation({ -0.000000003f,0,0,1 });
+	FindGameObjectByName("RockObj28")->SetScale({ 0.599999905f,0.399999917f,0.599999905f });
+	FindGameObjectByName("RockObj28")->SetMesh(MESHES::ROCKLM1);
+	FindGameObjectByName("RockObj28")->SetTexture(TEXTURES::AMALGATE);
+	FindGameObjectByName("RockObj28")->AddComponent<Tag_Object>(new Tag_Object());
+	FindGameObjectByName("RockObj28")->SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj29");
+	FindGameObjectByName("RockObj29")->SetPosition({ -200.757843018f,-17.261896133f,44.203128815f });
+	FindGameObjectByName("RockObj29")->SetRotation({ 0.58181572f,-0.153933644f,0.244918793f,0.760137975f });
+	FindGameObjectByName("RockObj29")->SetScale({ 1.899999976f,1.700000167f,1.899999976f });
+	FindGameObjectByName("RockObj29")->SetMesh(MESHES::ROCKLM1);
+	FindGameObjectByName("RockObj29")->SetTexture(TEXTURES::AMALGATE);
+	FindGameObjectByName("RockObj29")->AddComponent<Tag_Object>(new Tag_Object());
+	FindGameObjectByName("RockObj29")->SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj30");
+	FindGameObjectByName("RockObj30")->SetPosition({ -137.691513062f,-17.261896133f,1.127504706f });
+	FindGameObjectByName("RockObj30")->SetRotation({ 0.58181572f,-0.153933644f,0.244918793f,0.760137975f });
+	FindGameObjectByName("RockObj30")->SetScale({ 1.599999905f,1.400000095f,1.599999905f });
+	FindGameObjectByName("RockObj30")->SetMesh(MESHES::ROCKLM1);
+	FindGameObjectByName("RockObj30")->SetTexture(TEXTURES::AMALGATE);
+	FindGameObjectByName("RockObj30")->AddComponent<Tag_Object>(new Tag_Object());
+	FindGameObjectByName("RockObj30")->SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj31");
+	FindGameObjectByName("RockObj31")->SetPosition({ -147.615631104f,-17.619777679f,42.247142792f });
+	FindGameObjectByName("RockObj31")->SetRotation({ 0.58181572f,-0.153933644f,0.244918793f,0.760137975f });
+	FindGameObjectByName("RockObj31")->SetScale({ 1.199999809f,1.f,1.199999809f });
+	FindGameObjectByName("RockObj31")->SetMesh(MESHES::ROCKLM1);
+	FindGameObjectByName("RockObj31")->SetTexture(TEXTURES::AMALGATE);
+	FindGameObjectByName("RockObj31")->AddComponent<Tag_Object>(new Tag_Object());
+	FindGameObjectByName("RockObj31")->SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj32");
+	FindGameObjectByName("RockObj32")->SetPosition({ -190.05670166f,-17.619777679f,-0.854459167f });
+	FindGameObjectByName("RockObj32")->SetRotation({ 0.58181572f,-0.153933644f,0.244918793f,0.760137975f });
+	FindGameObjectByName("RockObj32")->SetScale({ 1.999999881f,1.800000191f,1.999999881f });
+	FindGameObjectByName("RockObj32")->SetMesh(MESHES::ROCKLM1);
+	FindGameObjectByName("RockObj32")->SetTexture(TEXTURES::AMALGATE);
+	FindGameObjectByName("RockObj32")->AddComponent<Tag_Object>(new Tag_Object());
+	FindGameObjectByName("RockObj32")->SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj33");
+	FindGameObjectByName("RockObj33")->SetPosition({ -241.102172852f,-17.619777679f,-0.687011302f });
+	FindGameObjectByName("RockObj33")->SetRotation({ 0.58181572f,-0.153933644f,0.244918793f,0.760137975f });
+	FindGameObjectByName("RockObj33")->SetScale({ 1.999999881f,1.800000191f,1.999999881f });
+	FindGameObjectByName("RockObj33")->SetMesh(MESHES::ROCKLM1);
+	FindGameObjectByName("RockObj33")->SetTexture(TEXTURES::AMALGATE);
+	FindGameObjectByName("RockObj33")->AddComponent<Tag_Object>(new Tag_Object());
+	FindGameObjectByName("RockObj33")->SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj34");
+	FindGameObjectByName("RockObj34")->SetPosition({ -125.511520386f,-18.194963455f,116.781829834f });
+	FindGameObjectByName("RockObj34")->SetRotation({ 0.172455788f,-0.08005701f,0.46663034f,0.8637743f });
+	FindGameObjectByName("RockObj34")->SetScale({ 0.799999475f,0.599999666f,0.799999475f });
+	FindGameObjectByName("RockObj34")->SetMesh(MESHES::ROCKLM1);
+	FindGameObjectByName("RockObj34")->SetTexture(TEXTURES::AMALGATE);
+	FindGameObjectByName("RockObj34")->AddComponent<Tag_Object>(new Tag_Object());
+	FindGameObjectByName("RockObj34")->SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj35");
+	FindGameObjectByName("RockObj35")->SetPosition({ -279.198638916f,-1.491132617f,107.217277527f });
+	FindGameObjectByName("RockObj35")->SetRotation({ 0.172455788f,-0.08005701f,0.46663034f,0.8637743f });
+	FindGameObjectByName("RockObj35")->SetScale({ 0.799999475f,0.599999666f,0.799999475f });
+	FindGameObjectByName("RockObj35")->SetMesh(MESHES::ROCKLM1);
+	FindGameObjectByName("RockObj35")->SetTexture(TEXTURES::AMALGATE);
+	FindGameObjectByName("RockObj35")->AddComponent<Tag_Object>(new Tag_Object());
+	FindGameObjectByName("RockObj35")->SetTag(TAG_Rock);
+
+	CreateGameObject("RockObj36");
+	FindGameObjectByName("RockObj36")->SetPosition({ -137.463684082f,15.442399025f,-30.732748032f });
+	FindGameObjectByName("RockObj36")->SetRotation({ 0.172455788f,-0.08005701f,0.46663034f,0.8637743f });
+	FindGameObjectByName("RockObj36")->SetScale({ 0.799999475f,0.599999666f,0.799999475f });
+	FindGameObjectByName("RockObj36")->SetMesh(MESHES::ROCKLM1);
+	FindGameObjectByName("RockObj36")->SetTexture(TEXTURES::AMALGATE);
+	FindGameObjectByName("RockObj36")->AddComponent<Tag_Object>(new Tag_Object());
+	FindGameObjectByName("RockObj36")->SetTag(TAG_Rock);
 
 	auto& amalgateRock = CreateGameObject("Rock");
-	pos = { -82,-17,94 };
+	XMFLOAT3 pos = { -82,-17,94 };
 	amalgateRock.SetPosition(pos);
 	amalgateRock.SetScale({ 0.2, 0.2, 0.2 });
 	amalgateRock.SetMesh(MESHES::ROCKBIG);
@@ -109,16 +239,6 @@ void GameScene::Start()
 	FindGameObjectByName("Next 0")->SetPosition({ -82,-17,94 });		// REPERE EMPLACEMENT
 	FindGameObjectByName("Next 0")->SetRotation({ 0,0,0,1 });
 	FindGameObjectByName("Next 0")->SetScale({ 1,1,1 });*/
-
-
-	// Music
-	//PlayMusicPlex("ArmonizerTheme");
-	//SetVolume("ArmonizerTheme", 0.4);
-
-	//PlayMusicPlex("Environment");
-
-	SetVolume("River", 0.2);
-	PlayMusicPlex("River");
 
 	CreateGameObject("Light");
 	auto* light = FindGameObjectByName("Light");
@@ -5053,11 +5173,20 @@ void GameScene::Update(float deltatime)
 		}
 	}
 
-	if (m_playerTest.IsAlive() || m_pauseIsOpen)
-	{
-		m_fpsCam.Update(deltatime);
-	}
 
+	//Pause menu
+	if (InputManager::GetKeyIsReleased(VK_ESCAPE))
+	{
+		m_pauseIsOpen = !m_pauseIsOpen;
+		if (m_pauseIsOpen)
+		{
+			SpawnMenu();
+		}
+		else
+		{
+			RemoveMenu();
+		}
+	}
 	if (m_pauseIsOpen)
 	{
 		if (mp_btnMainMenu->GetMouseOnBtn())
@@ -5074,106 +5203,87 @@ void GameScene::Update(float deltatime)
 			return;
 		}
 	}
-
-	if (InputManager::GetKeyIsReleased('N'))
+	else
 	{
-		StopMusicPlex();
-	}
-
-
-	//if (std::fmod(m_spawnTimer, 150.0f) == 0)
-	//{
-	//	// IL FAUT POUVOIR CREER DES ENEMY SANS GAMEOBJECT OU AU MOINS SANS NOM STD::STRING
-
-	//	//Enemy* newEnemy = new Enemy(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player);
-
-	//	auto& newEnemy = CreateGameObject<Enemy>(mp_ecsManager, mp_sceneManager->GetGameManager(), m_player, this);
-
-	//	float posX = Utils::randomFloat(-24, 24);
-	//	float posZ = Utils::randomFloat(-24, 24);
-	//	newEnemy->SetPosition({ posX, 1, posZ });
-	//	newEnemy.SetTexture(TEXTURES::iceCream);
-	//	//newEnemy->AddComponent<Tag_Enemy>(new Tag_Enemy());
-	//}
-
-	//m_spawnTimer++;
-
-	//portal->OnUdpdate(deltatime);
-
-	//// Enemies
-	//ComponentMask mask = (1ULL << Tag_Enemy::StaticTypeID);
-	//auto& ecs = mp_ecsManager;
-	//float closest = 100;
-	//ecs->ForEach(mask, [&](Entity e)
-	//	{
-	//		GetGameObjectByID(e).OnUdpdate(deltatime);
-	//	});
-	//// Projectiles
-	//mask = (1ULL << Tag_Projectile::StaticTypeID);
-	//ecs->ForEach(mask, [&](Entity e)
-	//	{
-	//		GetGameObjectByID(e).OnUdpdate(deltatime);
-	//	});
-
-
-
-	for (auto& gameObject : m_sceneGameObjects)
-	{
-		gameObject.get()->OnUpdate(deltatime);
-	}
-
-	//// PlayerState
-	m_playerTest.OnUpdate(deltatime);
-
-	//Portal System
-	//PortalSystem();
-
-	////if (m_enemyTest.GetGameObject().alive)
-	//if (m_playerTest.m_closestEnemy)
-	//	m_enemyTest.OnUdpdate(deltatime);
-
-	if (InputManager::GetKeyIsPressed('R'))
-	{
-		//FindGameObjectByName("player")->SetPosition({ 45, 3, -60 });
-	}
-
-	if (InputManager::GetKeyIsReleased('T'))
-	{
-		OutputDebugStringA(("\nPlayer State : " + std::string(m_playerTest.GetCurrentStateName())).c_str());
-	}
-
-	if (InputManager::GetKeyIsReleased(VK_ESCAPE))
-	{
-		m_pauseIsOpen = !m_pauseIsOpen;
-
-		if (m_pauseIsOpen)
+		if (m_playerTest.IsAlive() || m_pauseIsOpen)
 		{
-			SpawnMenu();
-			m_fpsCam.SetAlwaysActive(false);
-		}
-		else
-		{
-			RemoveMenu();
-			m_fpsCam.SetAlwaysActive(true);
+			m_fpsCam.Update(deltatime);
 		}
 
-	}
-
-	// Change scene [ALLWAYS AT THE END SO THERE IS NO OTHER CODE RUNNING AFTER IN THIS SCENE]
-	if (InputManager::GetKeyIsReleased('A'))
-	{
-		ChangeScene("DevScene");
-		return;
-	}
-
-	if (m_youWin)
-	{
-		m_chronoChangeScene -= 1.f * deltatime;
-
-		if (m_chronoChangeScene <= 0)
+		if (InputManager::GetKeyIsReleased('N'))
 		{
-			ChangeScene("MainMenuScene");
+			StopMusicPlex();
+		}
+		if (InputManager::GetKeyIsReleased('K'))
+		{
+			SetEnnemyNbDebugOnly(0);
+		}
+
+		//for (auto& gameObject : m_sceneGameObjects)
+		//{
+		//	gameObject.get()->OnUpdate(deltatime);
+		//}
+
+		std::vector<GameObject*> snapshot;
+		snapshot.reserve(m_sceneGameObjects.size());
+		for (auto& up : m_sceneGameObjects)
+		{
+			if (up) snapshot.push_back(up.get());
+		}
+		for (auto* go : snapshot)
+		{
+			if (go) go->OnUpdate(deltatime);
+		}
+
+		//// PlayerState
+		m_playerTest.OnUpdate(deltatime);
+
+		//Portal System
+		PortalSystem();
+
+		if (InputManager::GetKeyIsPressed('R'))
+		{
+			//FindGameObjectByName("player")->SetPosition({ 45, 3, -60 });
+		}
+
+		if (InputManager::GetKeyIsReleased('T'))
+		{
+			OutputDebugStringA(("\nPlayer State : " + std::string(m_playerTest.GetCurrentStateName())).c_str());
+		}
+
+		if (InputManager::GetKeyIsReleased(VK_ESCAPE))
+		{
+			m_pauseIsOpen = !m_pauseIsOpen;
+
+			if (m_pauseIsOpen)
+			{
+				SpawnMenu();
+				m_fpsCam.SetAlwaysActive(false);
+			}
+			else
+			{
+				RemoveMenu();
+				m_fpsCam.SetAlwaysActive(true);
+			}
+
+		}
+
+		// Change scene [ALLWAYS AT THE END SO THERE IS NO OTHER CODE RUNNING AFTER IN THIS SCENE]
+		if (InputManager::GetKeyIsReleased('A'))
+		{
+			ChangeScene("DevScene");
 			return;
+		}
+
+		if (m_youWin)
+		{
+			m_chronoChangeScene -= 1.f * deltatime;
+
+			if (m_chronoChangeScene <= 0)
+			{
+				ChangeScene("MainMenuScene");
+				return;
+			}
 		}
 	}
 }
@@ -5202,12 +5312,14 @@ void GameScene::SpawnMenu()
 	mp_btnMainMenu->SetScale({ 120, 50, 0 });
 	auto posPauseMenu = FindGameObjectByName("pauseMenu")->GetPosition();
 	mp_btnMainMenu->SetPosition({ posPauseMenu.x,posPauseMenu.y + 140,posPauseMenu.z });
+	m_fpsCam.SetAlwaysActive(false);
 }
 
 void GameScene::RemoveMenu()
 {
 	DestroyGameObject(*FindGameObjectByName("pauseMenu"));
 	DestroyGameObject(*FindGameObjectByName("btnMainMenu"));
+	m_fpsCam.SetAlwaysActive(true);
 }
 
 void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy)
@@ -5218,111 +5330,363 @@ void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy)
 
 void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy, EnemyType enemyType)
 {
-	if (enemyType == EnemyType::GolemBoss)
+	if (m_pl20.isFinished)
 	{
-		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, -5, enemyType);
+		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, 44, enemyType);
 	}
-	else
+	if (m_pl19.isFinished && !m_pl20.isFinished)
+	{
+		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, 34, enemyType);
+	}
+	if (m_pl16.isFinished && !m_pl19.isFinished)
+	{
+		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, 17, enemyType);
+	}
+	if (m_pl9.isFinished && !m_pl16.isFinished)
+	{
+		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, 0, enemyType);
+	}
+	if (m_pl8.isFinished && !m_pl9.isFinished)
+	{
+		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, 6, enemyType);
+	}
+	if(!m_pl8.isFinished)
 	{
 		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, -17, enemyType);
 	}
 
+	
 	m_portal->SetPosition(newPos);
 }
 
 void GameScene::PortalSystem()
 {
-	//1
-	if (GetEnnemyNb() <= 0 && !m_p1Spawned)
+	// 1
+	if (GetEnnemyNb() <= 0 && !m_pl1.hasSpawned)
 	{
-		SpawnPortal({ 190,-15,-115 }, 1, EnemyType::Crabe);
-		m_p1Spawned = true;
-		OutputDebugStringA("\n First wave \n");
+		SpawnPortal({ 172.f, -17.f, -117.f }, 1, EnemyType::Crabe);
+		m_pl1.hasSpawned = true;
+		OutputDebugStringA("\n Wave 1 \n");
 	}
-	if (m_p1Spawned && !m_p1Finished)
+	if (m_pl1.hasSpawned && !m_pl1.isFinished)
 	{
-		if (m_portal->SpawnIsFinished())
+		if (m_portal && m_portal->SpawnIsFinished())
 		{
-			m_p1Finished = true;
-
+			m_pl1.isFinished = true;
 		}
 	}
-	//2
-	if (GetEnnemyNb() <= 0 && m_p1Finished && !m_p2Spawned)
+
+	// 2
+	if (GetEnnemyNb() <= 0 && m_pl1.isFinished && !m_pl2.hasSpawned)
 	{
-		SpawnPortal({ 110,-15,-125 }, 3, EnemyType::Crabe);
-		m_p2Spawned = true;
-		OutputDebugStringA("\n Second wave \n");
+		SpawnPortal({ 83.f, -17.f, -162.f }, 2, EnemyType::Crabe);
+		m_pl2.hasSpawned = true;
+		OutputDebugStringA("\n Wave 2 \n");
+		// MUSIC
 		PlayMusicPlex("TheCrimsonTideClashfight");
 		SetVolume("TheCrimsonTideClashfight", 0.6);
 	}
-	if (m_p2Spawned && !m_p2Finished)
+	if (m_pl2.hasSpawned && !m_pl2.isFinished)
 	{
-		if (m_portal->SpawnIsFinished())
+		if (m_portal && m_portal->SpawnIsFinished())
 		{
-			m_p2Finished = true;
+			m_pl2.isFinished = true;
 		}
 	}
-	//3
-	if (GetEnnemyNb() <= 0 && m_p2Finished && !m_p3Spawned)
+
+	// 3
+	if (GetEnnemyNb() <= 0 && m_pl2.isFinished && !m_pl3.hasSpawned)
 	{
-		SpawnPortal({ -70,-15,-180 }, 3, EnemyType::Crabe);
-		m_p3Spawned = true;
-		OutputDebugStringA("\n third wave \n");
+		SpawnPortal({ -3.f, -17.f, -149.f }, 3, EnemyType::Crabe);
+		m_pl3.hasSpawned = true;
+		OutputDebugStringA("\n Wave 3 \n");
 	}
-	if (m_p3Spawned && !m_p3Finished)
+	if (m_pl3.hasSpawned && !m_pl3.isFinished)
 	{
-		if (m_portal->SpawnIsFinished())
+		if (m_portal && m_portal->SpawnIsFinished())
 		{
-			m_p3Finished = true;
+			m_pl3.isFinished = true;
 		}
 	}
-	//4
-	if (GetEnnemyNb() <= 0 && m_p3Finished && !m_p4Spawned)
+
+	// 4
+	if (GetEnnemyNb() <= 0 && m_pl3.isFinished && !m_pl4.hasSpawned)
 	{
-		SpawnPortal({ -170,-15,-90 }, 5, EnemyType::Crabe);
-		m_p4Spawned = true;
-		OutputDebugStringA("\n fourth wave \n");
+		SpawnPortal({ -125.f, -17.f, -159.f }, 1, EnemyType::Crabe);
+		m_pl4.hasSpawned = true;
+		OutputDebugStringA("\n Wave 4 \n");
 	}
-	if (m_p4Spawned && !m_p4Finished)
+	if (m_pl4.hasSpawned && !m_pl4.isFinished)
 	{
-		if (m_portal->SpawnIsFinished())
+		if (m_portal && m_portal->SpawnIsFinished())
 		{
-			m_p4Finished = true;
+			m_pl4.isFinished = true;
 		}
 	}
-	//5
-	if (GetEnnemyNb() <= 0 && m_p4Finished && !m_p5Spawned)
+
+	// 5
+	if (GetEnnemyNb() <= 0 && m_pl4.isFinished && !m_pl5.hasSpawned)
 	{
-		SpawnPortal({ -180,-15,-10 }, 5, EnemyType::CrabeImmobile);
-		m_p5Spawned = true;
-		OutputDebugStringA("\n fifth wave \n");
+		SpawnPortal({ -235.f, -17.f, -128.f }, 1, EnemyType::CrabeImmobile);
+		m_pl5.hasSpawned = true;
+		OutputDebugStringA("\n Wave 5 \n");
 	}
-	if (m_p5Spawned && !m_p5Finished)
+	if (m_pl5.hasSpawned && !m_pl5.isFinished)
 	{
-		if (m_portal->SpawnIsFinished())
+		if (m_portal && m_portal->SpawnIsFinished())
 		{
-			m_p5Finished = true;
+			m_pl5.isFinished = true;
 		}
 	}
-	//BOSS
-	if (GetEnnemyNb() <= 0 && m_p5Finished && !m_pBossSpawned)
+
+	// 6 (Next 6)
+	if (GetEnnemyNb() <= 0 && m_pl5.isFinished && !m_pl6.hasSpawned)
 	{
-		SpawnPortal({ -180,-15,-10 }, 1, EnemyType::GolemBoss);
-		m_pBossSpawned = true;
+		SpawnPortal({ -194.f, -17.f, 27.f }, 1, EnemyType::CrabeImmobile);
+		m_pl6.hasSpawned = true;
+		OutputDebugStringA("\n Wave 6 \n");
+	}
+	if (m_pl6.hasSpawned && !m_pl6.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl6.isFinished = true;
+		}
+	}
+
+	// 7 (Next 7)
+	if (GetEnnemyNb() <= 0 && m_pl6.isFinished && !m_pl7.hasSpawned)
+	{
+		SpawnPortal({ -149.f, -17.f, 80.f }, 1, EnemyType::CrabeImmobile);
+		m_pl7.hasSpawned = true;
+		OutputDebugStringA("\n Wave 7 \n");
+	}
+	if (m_pl7.hasSpawned && !m_pl7.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl7.isFinished = true;
+		}
+	}
+
+	// 8 (Next 8)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl7.isFinished && !m_pl8.hasSpawned)
+	{
+		SpawnPortal({ -70.f, -17.f, 135.f }, 1, EnemyType::CrabeImmobile);
+		m_pl8.hasSpawned = true;
+		OutputDebugStringA("\n Wave 8 \n");
+	}
+	if (m_pl8.hasSpawned && !m_pl8.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl8.isFinished = true;
+		}
+	}
+
+	// 9 (Next 9)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl8.isFinished && !m_pl9.hasSpawned)
+	{
+		SpawnPortal({ 4.f, 6.f, 7.f }, 1, EnemyType::CrabeImmobile);
+		m_pl9.hasSpawned = true;
+		OutputDebugStringA("\n Wave 9 \n");
+	}
+	if (m_pl9.hasSpawned && !m_pl9.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl9.isFinished = true;
+		}
+	}
+
+	// 10 (Next 10)
+	//if (GetEnnemyNb() <= 0 && m_pl9.isFinished && !m_pl10.hasSpawned)
+	//{
+	//	SpawnPortal({ 126.f, 7.f, 16.f }, 1, EnemyType::CrabeImmobile);
+	//	m_pl10.hasSpawned = true;
+	//	OutputDebugStringA("\n Wave 10 \n");
+	//}
+	//if (m_pl10.hasSpawned && !m_pl10.isFinished)
+	//{
+	//	if (m_portal && m_portal->SpawnIsFinished())
+	//	{
+	//		m_pl10.isFinished = true;
+	//	}
+	//}
+
+	// 11 (Next 11)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl9.isFinished && !m_pl11.hasSpawned)
+	{
+		SpawnPortal({ -137.f, -1.f, -64.f }, 1, EnemyType::CrabeImmobile);
+		m_pl11.hasSpawned = true;
+		OutputDebugStringA("\n Wave 11 \n");
+	}
+	if (m_pl11.hasSpawned && !m_pl11.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl11.isFinished = true;
+		}
+	}
+
+	// 12 (Next 12)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl11.isFinished && !m_pl12.hasSpawned)
+	{
+		SpawnPortal({ -249.f, -1.f, -63.f }, 1, EnemyType::CrabeImmobile);
+		m_pl12.hasSpawned = true;
+		OutputDebugStringA("\n Wave 12 \n");
+	}
+	if (m_pl12.hasSpawned && !m_pl12.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl12.isFinished = true;
+		}
+	}
+
+	// 13 (Next 13)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl12.isFinished && !m_pl13.hasSpawned)
+	{
+		SpawnPortal({ -256.f, -1.f, 58.f }, 1, EnemyType::CrabeImmobile);
+		m_pl13.hasSpawned = true;
+		OutputDebugStringA("\n Wave 13 \n");
+	}
+	if (m_pl13.hasSpawned && !m_pl13.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl13.isFinished = true;
+		}
+	}
+
+	// 14 (Next 14)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl13.isFinished && !m_pl14.hasSpawned)
+	{
+		SpawnPortal({ -147.f, -1.f, 80.f }, 1, EnemyType::CrabeImmobile);
+		m_pl14.hasSpawned = true;
+		OutputDebugStringA("\n Wave 14 \n");
+	}
+	if (m_pl14.hasSpawned && !m_pl14.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl14.isFinished = true;
+		}
+	}
+
+	// 15 (Next 15)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl14.isFinished && !m_pl15.hasSpawned)
+	{
+		SpawnPortal({ -133.f, -1.f, -24.f }, 1, EnemyType::CrabeImmobile);
+		m_pl15.hasSpawned = true;
+		OutputDebugStringA("\n Wave 15 \n");
+	}
+	if (m_pl15.hasSpawned && !m_pl15.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl15.isFinished = true;
+		}
+	}
+
+	// 16 (Next 16)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl15.isFinished && !m_pl16.hasSpawned)
+	{
+		SpawnPortal({ -244.f, -1.f, -37.f }, 1, EnemyType::CrabeImmobile);
+		m_pl16.hasSpawned = true;
+		OutputDebugStringA("\n Wave 16 \n");
+	}
+	if (m_pl16.hasSpawned && !m_pl16.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl16.isFinished = true;
+		}
+	}
+
+	// 17 (Next 17)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl16.isFinished && !m_pl17.hasSpawned)
+	{
+		SpawnPortal({ -260.200744629f, 16.591583252f, 87.960067749f }, 1, EnemyType::CrabeImmobile);
+		m_pl17.hasSpawned = true;
+		OutputDebugStringA("\n Wave 17 \n");
+	}
+	if (m_pl17.hasSpawned && !m_pl17.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl17.isFinished = true;
+		}
+	}
+
+	// 18 (Next 18)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl17.isFinished && !m_pl18.hasSpawned)
+	{
+		SpawnPortal({ -132.718688965f, 16.591583252f, 78.109970093f }, 1, EnemyType::CrabeImmobile);
+		m_pl18.hasSpawned = true;
+		OutputDebugStringA("\n Wave 18 \n");
+	}
+	if (m_pl18.hasSpawned && !m_pl18.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl18.isFinished = true;
+		}
+	}
+
+	// 19 (Next 19)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl18.isFinished && !m_pl19.hasSpawned)
+	{
+		SpawnPortal({ -151.561935425f, 16.591583252f, -46.297023773f }, 1, EnemyType::CrabeImmobile);
+		m_pl19.hasSpawned = true;
+		OutputDebugStringA("\n Wave 19 \n");
+	}
+	if (m_pl19.hasSpawned && !m_pl19.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl19.isFinished = true;
+		}
+	}
+
+	// 20 (Next 20)
+	if (/*GetEnnemyNb() <= 0 &&*/ m_pl19.isFinished && !m_pl20.hasSpawned)
+	{
+		SpawnPortal({ -156.43270874f, 33.940738678f, -17.962259293f }, 1, EnemyType::CrabeImmobile);
+		m_pl20.hasSpawned = true;
+		OutputDebugStringA("\n Wave 20 \n");
+	}
+	if (m_pl20.hasSpawned && !m_pl20.isFinished)
+	{
+		if (m_portal && m_portal->SpawnIsFinished())
+		{
+			m_pl20.isFinished = true;
+		}
+	}
+
+	// 21 (Next 21) BOSS
+	if (GetEnnemyNb() <= 0 && m_pl20.isFinished && !m_pl21.hasSpawned)
+	{
+		SpawnPortal({ -195.661529541f, 31.936805725f, 21.764213562f }, 1, EnemyType::GolemBoss);
+		m_pl21.hasSpawned = true;
 		PlayMusicPlex("TheAlphaGolem");
-		SetVolume("TheAlphaGolem", 0.6);
-		OutputDebugStringA("\n Boss wave \n");
 	}
-	if (m_pBossSpawned && !m_pBossFinished)
+	if (m_pl21.hasSpawned && !m_pl21.isFinished)
 	{
-		if (m_portal->SpawnIsFinished())
+		if (m_portal && m_portal->SpawnIsFinished())
 		{
-			m_pBossFinished = true;
+			m_pl21.isFinished = true;
 		}
 	}
+
+	// Ground fall
+	if (m_pl21.isFinished)
+	{
+
+	}
+
 	//WIN
-	if (GetEnnemyNb() <= 0 && m_pBossFinished && !m_youWin)
+	if (GetEnnemyNb() <= 0 && m_pl21.isFinished && !m_youWin)
 	{
 		OutputDebugStringA("\n [ ! You WIN ! ] \n");
 

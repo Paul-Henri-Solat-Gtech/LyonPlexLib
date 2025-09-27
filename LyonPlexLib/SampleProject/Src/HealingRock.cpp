@@ -14,6 +14,8 @@ HealingRock::HealingRock(Scene* scene, GameObject& playerGm, XMFLOAT3 pos, float
 	SetScale({ 1,1,1 });
 	auto rockScale = GetScale();
 	AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ rockScale.x / 2, rockScale.y / 2, rockScale.z / 2 })));
+
+	//LookAt(m_playerGm);
 }
 
 void HealingRock::OnUpdate(float deltatime)
@@ -25,7 +27,7 @@ void HealingRock::OnUpdate(float deltatime)
 	}
 	else
 	{
-		LookAt(m_playerGm);
+		//LookAt(m_playerGm);
 
 		m_lifetime -= 1 * deltatime;
 	}

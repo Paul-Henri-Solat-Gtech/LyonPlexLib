@@ -22,7 +22,7 @@ public:
 
 	void Destroy();
 
-	void Laube(XMFLOAT3 posStart, XMFLOAT3 posTarget);
+	void Lobe(XMFLOAT3 posStart, XMFLOAT3 posTarget);
 
 	//GameObject& GetPlayerGameObject() { return m_gmTarget; };
 	//GameObject* GetGameObject() { return m_projectileGameObject; };

@@ -435,7 +435,7 @@ void PlayerAction_Attack::Update(Player* player)
 					auto* tc = ecs.GetComponent<TransformComponent>(e);
 
 					newVec.x = playerPos.x - tc->position.x;
-					newVec.y = playerPos.y - tc->position.y;
+					// newVec.y = playerPos.y - tc->position.y;
 					newVec.z = playerPos.z - tc->position.z;
 
 					float length = newVec.length();
@@ -491,7 +491,7 @@ void PlayerAction_Attack::Update(Player* player)
 			//ComponentMask mask = (1ULL << Tag_Boulder::StaticTypeID) | (1ULL << Tag_BreakableWall::StaticTypeID);
 			ComponentMask mask = mask_TAG_Boulder;
 			auto& ecs = player->mp_gameManager->GetECSManager();
-			float closest = 25;
+			float closest = 40;
 			ecs.ForEach(mask, [&](Entity e)
 				{
 
@@ -514,7 +514,7 @@ void PlayerAction_Attack::Update(Player* player)
 
 					float dist = length - ecs.GetComponent<CollisionComponent>(player->GetEntity())->BoundingSphereRadius() - ((tc2->scale.x + tc2->scale.z) / 2);
 
-					if (dist < 12)
+					if (dist < 20)
 					{
 						//if (length < closest)
 						if (dist < closest)

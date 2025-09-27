@@ -30,7 +30,7 @@ namespace TEXTURES
 		heart_empty,
 		heart_demi,
 		heart_full,
-		gameOver,
+		//gameOver,
 		EMPTY,
 		Weapon_placeholder,
 		PAUSEMENU,
@@ -64,6 +64,9 @@ namespace TEXTURES
 		ScrollAtk,
 		WeaponWoodIcon,
 		WeaponRockIcon,
+		LASER,
+		AIR,
+		WOOD,
 
 		////CRABE IDLE
 		//CRABE_IDLE_1,

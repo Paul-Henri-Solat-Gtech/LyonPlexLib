@@ -5,6 +5,12 @@
 #include "Portals.h"
 #include "FpsCamera.h"
 
+struct portalLv1 
+{
+	bool hasSpawned = false;
+	bool isFinished = false;
+};
+
 class GameScene : public Scene
 {
 public:
@@ -35,10 +41,10 @@ private:
 	bool m_youWin;
 	float m_chronoChangeScene;
 
-	//Portals for the lvl1
+	//Portals for the lvl1 -> utiliser la struct
 	Portals* m_portal = nullptr;
 
-	// firstPortalHasSpawned = p_1Spawned
+	portalLv1 m_pl1, m_pl2, m_pl3, m_pl4, m_pl5, m_pl6, m_pl7, m_pl8, m_pl9, m_pl10, m_pl11, m_pl12, m_pl13, m_pl14, m_pl15, m_pl16, m_pl17, m_pl18, m_pl19, m_pl20,m_pl21, m_plboss;
 	bool m_p1Spawned, m_p2Spawned, m_p3Spawned, m_p4Spawned, m_p5Spawned, m_pBossSpawned;
 	bool m_p1Finished, m_p2Finished, m_p3Finished, m_p4Finished, m_p5Finished, m_pBossFinished;
 
@@ -62,5 +68,8 @@ private:
 
 	bool init2 = false;
 	bool weedsCreated = false;
+	//Sounds
+	DirectX::SoundEffectInstance* m_soundTest;
+
 };
 

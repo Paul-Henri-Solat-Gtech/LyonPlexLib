@@ -68,10 +68,12 @@ public:
 
 	// Audio
 	void CreateSoundPlex(const std::string& soundName, const std::wstring& soundPath);
-	void PlaySoundPlex(const std::string& soundName);
+	DirectX::SoundEffectInstance* PlaySoundPlex(const std::string& soundName, bool loop = false);
 	void PlayMusicPlex(const std::string& musicName);
 	void SetVolume(const std::string& musicName, float volume);
 	void StopMusicPlex();
+	void SetVolumePlex(std::string soundName, float volume);
+	DirectX::SoundEffectInstance* GetSoundLastInstance(std::string soundName);
 
 	// Component Entity (a enelver)
 	template<typename T>
@@ -125,6 +127,7 @@ public:
 	//Ennemy & gamepley
 	void SetEnnemyNb(int value) { m_ennemyNb = value; };
 	int GetEnnemyNb() { return m_ennemyNb; };
+	void SetEnnemyNbDebugOnly(int nbEnnemy) { m_ennemyNb = nbEnnemy; };
 
 	void SetPortalNb(int value) { m_portalNb = value; };
 	int GetPortalNb() { return m_portalNb; };

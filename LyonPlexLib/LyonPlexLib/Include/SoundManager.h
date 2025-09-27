@@ -15,12 +15,15 @@ public:
 	bool Init();
 
 	void CreateSound(const std::string& soundName, const std::wstring& soundPath);
-	void PlaySoundPlex(std::string soundName);
+	DirectX::SoundEffectInstance* PlaySoundPlex(std::string soundName, bool loop = false);
+
 	void PlayMusicPlex(std::string musicName);
 	void StopMusic();
 
 	void SetVolume(std::string musicName, float volume);
 	void SetMasterVolume(float volume);
+
+	DirectX::SoundEffectInstance* GetLastInstance(const std::string& soundName) const;
 
 	void Release();
 
@@ -38,9 +41,13 @@ private:
 
 	// Instance de musique en cours
 	std::unique_ptr<DirectX::SoundEffectInstance> m_musicInstance;
+	std::string m_musicName;
 
 	// instances regroupees par nom
 	std::unordered_map<std::string, std::vector<DirectX::SoundEffectInstance*>> m_instancesByName;
+
+	// Volume par defaut
+	std::unordered_map<std::string, float> m_defaultVolumes;
 
 	bool m_alive = true;
 

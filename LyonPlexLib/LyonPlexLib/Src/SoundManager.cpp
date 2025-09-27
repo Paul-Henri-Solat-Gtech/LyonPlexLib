@@ -1,6 +1,13 @@
 ﻿#include "pch.h"
 #include "SoundManager.h"
 
+// normalize volume: accept either 0..1 or percent (eg 50.f => 0.5f)
+static float NormalizeVolume(float v)
+{
+    if (v > 1.0f) return std::clamp(v / 100.0f, 0.0f, 1.0f);
+    return std::clamp(v, 0.0f, 1.0f);
+}
+
 bool SoundManager::Init()
 {
     //verifie engine->IsAudioDevicePresent() ou Reset si necessaire
@@ -34,6 +41,10 @@ void SoundManager::CreateSound(const std::string& soundName, const std::wstring&
         newSound.soundName = soundName;
         newSound.sound = std::make_unique<DirectX::SoundEffect>(m_audioEngine.get(),fullPath.c_str());
         m_soundsList.push_back(std::move(newSound));
+
+        // if no default volume set, assume 1.0f
+        if (m_defaultVolumes.find(soundName) == m_defaultVolumes.end())
+            m_defaultVolumes[soundName] = 1.0f;
     }
     catch (const std::exception& ex)
     {
@@ -42,9 +53,9 @@ void SoundManager::CreateSound(const std::string& soundName, const std::wstring&
     }
 }
 
-void SoundManager::PlaySoundPlex(std::string soundName)
+DirectX::SoundEffectInstance* SoundManager::PlaySoundPlex(std::string soundName, bool loop)
 {
-    if (m_soundsList.empty()) return;
+    if (m_soundsList.empty()) return nullptr;
 
     for (auto& savedSound : m_soundsList)
     {
@@ -53,14 +64,27 @@ void SoundManager::PlaySoundPlex(std::string soundName)
         {
             auto inst = savedSound.sound->CreateInstance();
             if (!inst) break;
-            inst->Play();
-            m_instancesByName[soundName].push_back(inst.get());
+
+            // apply default volume if present
+            auto itVol = m_defaultVolumes.find(soundName);
+            if (itVol != m_defaultVolumes.end())
+            {
+                inst->SetVolume(itVol->second);
+            }
+
+            inst->Play(loop);
+            DirectX::SoundEffectInstance* rawPtr = inst.get();
+
+            // stocke pointer non owning par nom
+            m_instancesByName[soundName].push_back(rawPtr);
+            // garde propriete
             m_activeSoundInstances.push_back(std::move(inst));
 
-           // OutputDebugStringA((std::string("PlayingSound: ") + soundName + "\n").c_str());
-            break;
+            return rawPtr;
         }
     }
+
+    return nullptr;
 }
 
 void SoundManager::PlayMusicPlex(std::string musicName)
@@ -73,8 +97,18 @@ void SoundManager::PlayMusicPlex(std::string musicName)
         if (snd.soundName == musicName)
         {
             auto inst = snd.sound->CreateInstance();
-            inst->Play(true); // true = loop
+            if (!inst) break;
+
+            // apply default volume if present
+            auto itVol = m_defaultVolumes.find(musicName);
+            if (itVol != m_defaultVolumes.end())
+            {
+                inst->SetVolume(itVol->second);
+            }
+
+            inst->Play(true); // loop pour musique
             m_musicInstance = std::move(inst);
+            m_musicName = musicName;
             break;
         }
     }
@@ -87,19 +121,40 @@ void SoundManager::StopMusic()
         m_musicInstance->Stop();
         m_musicInstance.reset();
     }
+    m_musicName.clear();
 }
 
 void SoundManager::SetVolume(std::string soundName, float volume)
 {
-    volume = std::clamp(volume, 0.0f, 1.0f);
+    float v = NormalizeVolume(volume);
 
-    auto it = m_instancesByName.find(soundName);
-    if (it != m_instancesByName.end())
+    // store as default for future instances
+    m_defaultVolumes[soundName] = v;
+
+    // apply to music instance if matches
+    if (!m_musicName.empty() && soundName == m_musicName)
     {
-        for (auto* inst : it->second)
+        if (m_musicInstance)
+            m_musicInstance->SetVolume(v);
+    }
+
+    // apply to current instances (if still valid)
+    auto soundInstance = m_instancesByName.find(soundName);
+    if (soundInstance != m_instancesByName.end())
+    {
+        auto& vec = soundInstance->second;
+        std::vector<DirectX::SoundEffectInstance*> alivePtrs;
+        alivePtrs.reserve(vec.size());
+
+        for (auto* inst : vec)
         {
-            if (inst) inst->SetVolume(volume);
+            if (inst)
+            {
+                inst->SetVolume(v);
+                alivePtrs.push_back(inst);
+            }
         }
+        vec = std::move(alivePtrs);
     }
 }
 
@@ -109,6 +164,15 @@ void SoundManager::SetMasterVolume(float volume)
     {
         m_audioEngine->SetMasterVolume(std::clamp(volume, 0.0f, 1.0f));
     }
+}
+
+DirectX::SoundEffectInstance* SoundManager::GetLastInstance(const std::string& soundName) const
+{
+    auto it = m_instancesByName.find(soundName);
+    if (it == m_instancesByName.end()) return nullptr;
+    const auto& vec = it->second;
+    if (vec.empty()) return nullptr;
+    return vec.back();
 }
 
 void SoundManager::Release()

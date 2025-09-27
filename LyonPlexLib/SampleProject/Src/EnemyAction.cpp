@@ -9,6 +9,7 @@ void EnnemyAction_Idle::Start(Enemy* ennemy)
 	switch (ennemy->m_type)
 	{
 	case EnemyType::Crabe:
+	case EnemyType::CrabeImmobile:
 	{
 		m_idleAnim.AddFrame(TEXTURES::CRABE_IDLE_1);
 		m_idleAnim.AddFrame(TEXTURES::CRABE_IDLE_2);
@@ -217,6 +218,7 @@ void EnnemyAction_Shoot::End(Enemy* ennemy)
 	switch (ennemy->m_type)
 	{
 	case EnemyType::Crabe:
+	case EnemyType::CrabeImmobile:
 		ennemy->SetTexture(TEXTURES::CRABE_IDLE_1);
 		break;
 	case EnemyType::Golem:
@@ -233,6 +235,7 @@ void EnnemyAction_Shoot::InitShootAnimation(Enemy* ennemy)
 	switch (ennemy->m_type)
 	{
 	case EnemyType::Crabe:
+	case EnemyType::CrabeImmobile:
 		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_1);
 		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_2);
 		m_shootAnim.AddFrame(TEXTURES::CRABE_ATTACK_3);
