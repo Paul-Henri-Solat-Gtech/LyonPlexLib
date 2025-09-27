@@ -14,7 +14,7 @@ class SoundManager
 public:
 	bool Init();
 
-	void CreateSound(const std::string& soundName, const std::wstring& soundPath);
+	void CreateSound(const std::string& soundName, const std::string& soundPath);
 	DirectX::SoundEffectInstance* PlaySoundPlex(std::string soundName, bool loop = false);
 
 	void PlayMusicPlex(std::string musicName);

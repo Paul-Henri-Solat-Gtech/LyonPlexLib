@@ -21,18 +21,19 @@ bool SoundManager::Init()
 	return true;
 }
 
-void SoundManager::CreateSound(const std::string& soundName, const std::wstring& soundPath)
+void SoundManager::CreateSound(const std::string& soundName, const std::string& soundPath)
 {
     // 1) Vérifier que le fichier existe
     if (!std::filesystem::exists(soundPath)) 
     {
         throw std::runtime_error("Sound file not found: " + std::string(soundPath.begin(), soundPath.end()));
     }
-       
+
+    std::wstring wpath(soundPath.begin(), soundPath.end());
     // 2) Convertir en chemin pleinement qualifié (optionnel mais utile pour debug)
-    DWORD len = GetFullPathNameW(soundPath.c_str(), 0, nullptr, nullptr);
+    DWORD len = GetFullPathNameW(wpath.c_str(), 0, nullptr, nullptr);
     std::wstring fullPath(len, L'\0');
-    GetFullPathNameW(soundPath.c_str(), len, fullPath.data(), nullptr);
+    GetFullPathNameW(wpath.c_str(), len, fullPath.data(), nullptr);
 
     // 3) Charger le sond
     try
