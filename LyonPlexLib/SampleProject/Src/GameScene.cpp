@@ -48,11 +48,10 @@ void GameScene::Start()
 
 	m_playerTest.SetPlayerArm(*FindGameObjectByName("bras"));
 
-	////Init Portals No need to put -> false its default
-	//m_p1Spawned = false;
-	//..
-	//m_p1Finished = false;
-	//..
+	// Music
+	PlayMusicPlex("ArmonizerTheme");
+	auto ambianceSoundTest = PlaySoundPlex("ambianceTest");
+	if (ambianceSoundTest) ambianceSoundTest->SetVolume(100.f);
 
 	//win
 	m_youWin = false;
@@ -233,9 +232,6 @@ void GameScene::Start()
 	FindGameObjectByName("Next 0")->SetRotation({ 0,0,0,1 });
 	FindGameObjectByName("Next 0")->SetScale({ 1,1,1 });*/
 
-
-	// Music
-	PlayMusicPlex("ArmonizerTheme");
 
 
 	CreateGameObject("Light");

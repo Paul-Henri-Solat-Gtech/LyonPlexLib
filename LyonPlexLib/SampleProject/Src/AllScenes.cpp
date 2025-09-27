@@ -54,7 +54,8 @@ void AllScenes::InitAllSounds()
     mp_gameManager->GetSoundManager()->CreateSound("BEAM", L"../SampleProject/Ressources/Sounds/beam.wav");
     mp_gameManager->GetSoundManager()->CreateSound("BIP", L"../SampleProject/Ressources/Sounds/bip.wav");
     mp_gameManager->GetSoundManager()->CreateSound("heal", L"../SampleProject/Ressources/Sounds/heal.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("heal", L"../SampleProject/Ressources/Sounds/pop.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("pop", L"../SampleProject/Ressources/Sounds/pop.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("ambianceTest", L"../SampleProject/Ressources/Sounds/Environment_sound.wav");
     
     //Musics
     mp_gameManager->GetSoundManager()->CreateSound("Corrosion", L"../SampleProject/Ressources/Sounds/Corrosion.wav");

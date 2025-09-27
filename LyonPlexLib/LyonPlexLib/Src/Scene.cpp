@@ -366,9 +366,9 @@ void Scene::CreateSoundPlex(const std::string& soundName, const std::wstring& so
 {
 	mp_sceneManager->GetGameManager()->GetSoundManager()->CreateSound(soundName, soundPath);
 }
-void Scene::PlaySoundPlex(const std::string& soundName)
+DirectX::SoundEffectInstance* Scene::PlaySoundPlex(const std::string& soundName, bool loop)
 {
-	mp_sceneManager->GetGameManager()->GetSoundManager()->PlaySoundPlex(soundName);
+	return mp_sceneManager->GetGameManager()->GetSoundManager()->PlaySoundPlex(soundName, loop);
 }
 void Scene::PlayMusicPlex(const std::string& musicName) 
 {
@@ -377,4 +377,13 @@ void Scene::PlayMusicPlex(const std::string& musicName)
 void Scene::StopMusicPlex()
 {
 	mp_sceneManager->GetGameManager()->GetSoundManager()->StopMusic();
+}
+void Scene::SetVolumePlex(std::string soundName, float volume)
+{
+	mp_sceneManager->GetGameManager()->GetSoundManager()->SetVolume(soundName, volume);
+}
+
+DirectX::SoundEffectInstance* Scene::GetSoundLastInstance(std::string soundName)
+{
+	return mp_sceneManager->GetGameManager()->GetSoundManager()->GetLastInstance(soundName);
 }

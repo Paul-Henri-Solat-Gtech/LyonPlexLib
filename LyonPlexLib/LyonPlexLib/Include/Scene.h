@@ -68,9 +68,11 @@ public:
 
 	// Audio
 	void CreateSoundPlex(const std::string& soundName, const std::wstring& soundPath);
-	void PlaySoundPlex(const std::string& soundName);
+	DirectX::SoundEffectInstance* PlaySoundPlex(const std::string& soundName, bool loop = false);
 	void PlayMusicPlex(const std::string& musicName);
 	void StopMusicPlex();
+	void SetVolumePlex(std::string soundName, float volume);
+	DirectX::SoundEffectInstance* GetSoundLastInstance(std::string soundName);
 
 	// Component Entity (a enelver)
 	template<typename T>
