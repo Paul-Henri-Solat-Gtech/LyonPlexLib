@@ -54,40 +54,40 @@ void AllScenes::InitAllSounds()
 #endif
 
     //Sounds
-    mp_gameManager->GetSoundManager()->CreateSound("roar", L"../SampleProject/Ressources/Sounds/Roar.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../SampleProject/Ressources/Sounds/swordSlash1.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("swordSpecialSlash", L"../SampleProject/Ressources/Sounds/swordSpecialSlash.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("deathScream", L"../SampleProject/Ressources/Sounds/deathScreamBBB3.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("HUGH", L"../SampleProject/Ressources/Sounds/HUGH.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("BEAM", L"../SampleProject/Ressources/Sounds/beam.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("BIP", L"../SampleProject/Ressources/Sounds/bip.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("heal", L"../SampleProject/Ressources/Sounds/heal.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("roar", path + "Sounds/Roar.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", path + "Sounds/swordSlash1.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("swordSpecialSlash", path + "Sounds/swordSpecialSlash.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("deathScream", path + "Sounds/deathScreamBBB3.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("HUGH", path + "Sounds/HUGH.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("BEAM", path + "Sounds/beam.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("BIP", path + "Sounds/bip.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("heal", path + "Sounds/heal.wav");
 
     // Ennemis
-    mp_gameManager->GetSoundManager()->CreateSound("Crabe_Degats", L"../SampleProject/Ressources/Sounds/Ennemis/Crabe_Degats.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("Crabe_Degats_Lourds", L"../SampleProject/Ressources/Sounds/Ennemis/Crabe_Degats_Lourds.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("Crabe_Mvmt", L"../SampleProject/Ressources/Sounds/Ennemis/Crabe_Mvmt.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("Golem_Degats", L"../SampleProject/Ressources/Sounds/Ennemis/Golem_Degats.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("Golem_Degats_Lourds", L"../SampleProject/Ressources/Sounds/Ennemis/Golem_Degats_Lourds.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("Golem_Mvmt", L"../SampleProject/Ressources/Sounds/Ennemis/Golem_Mvmt.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("Crabe_Degats", path + "Sounds/Ennemis/Crabe_Degats.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("Crabe_Degats_Lourds", path + "Sounds/Ennemis/Crabe_Degats_Lourds.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("Crabe_Mvmt", path + "Sounds/Ennemis/Crabe_Mvmt.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("Golem_Degats", path + "Sounds/Ennemis/Golem_Degats.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("Golem_Degats_Lourds", path + "Sounds/Ennemis/Golem_Degats_Lourds.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("Golem_Mvmt", path + "Sounds/Ennemis/Golem_Mvmt.wav");
 
     // Enviro
-    mp_gameManager->GetSoundManager()->CreateSound("Boulder", L"../SampleProject/Ressources/Sounds/Environment/Boulder.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("Environment", L"../SampleProject/Ressources/Sounds/Environment/Environment_sound.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("River", L"../SampleProject/Ressources/Sounds/Environment/River_Sound.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("Tree_cut", L"../SampleProject/Ressources/Sounds/Environment/Tree_cut.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("Tree_fall", L"../SampleProject/Ressources/Sounds/Environment/Tree_fallSound.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("Boulder", path + "Sounds/Environment/Boulder.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("Environment", path + "Sounds/Environment/Environment_sound.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("River", path + "Sounds/Environment/River_Sound.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("Tree_cut", path + "Sounds/Environment/Tree_cut.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("Tree_fall", path + "Sounds/Environment/Tree_fallSound.wav");
 
     // Weapons
-    mp_gameManager->GetSoundManager()->CreateSound("WoodenSword", L"../SampleProject/Ressources/Sounds/Slash/Sound_Slash.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("Hammer", L"../SampleProject/Ressources/Sounds/Slash/Sound_Weapon2.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("pop", L"../SampleProject/Ressources/Sounds/pop.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("WoodenSword", path + "Sounds/Slash/Sound_Slash.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("Hammer", path + "Sounds/Slash/Sound_Weapon2.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("pop", path + "Sounds/pop.wav");
     
     //Musics
-    mp_gameManager->GetSoundManager()->CreateSound("Corrosion", L"../SampleProject/Ressources/Sounds/Corrosion.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("ArmonizerTheme", L"../SampleProject/Ressources/Sounds/ArmonizerTheme.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("TheCrimsonTideClashArena", L"../SampleProject/Ressources/Sounds/TheCrimsonTideClashArena.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("TheCrimsonTideClashfight", L"../SampleProject/Ressources/Sounds/TheCrimsonTideClashfight.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("TheAlphaGolem", L"../SampleProject/Ressources/Sounds/TheAlphaGolem.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("Corrosion", path + "Sounds/Corrosion.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("ArmonizerTheme", path + "Sounds/ArmonizerTheme.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("TheCrimsonTideClashArena", path + "Sounds/TheCrimsonTideClashArena.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("TheCrimsonTideClashfight", path + "Sounds/TheCrimsonTideClashfight.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("TheAlphaGolem", path + "Sounds/TheAlphaGolem.wav");
 }
 
