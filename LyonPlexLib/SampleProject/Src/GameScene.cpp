@@ -5324,8 +5324,8 @@ void GameScene::RemoveMenu()
 
 void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy)
 {
-	m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, -17);
-	m_portal->SetPosition(newPos);
+	/*m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, -17);
+	m_portal->SetPosition(newPos);*/
 }
 
 void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy, EnemyType enemyType)
