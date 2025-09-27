@@ -67,7 +67,7 @@ public:
 	void EnableMouseRotationFor(GameObject& target, float sensitivity);
 
 	// Audio
-	void CreateSoundPlex(const std::string& soundName, const std::wstring& soundPath);
+	void CreateSoundPlex(const std::string& soundName, const std::string& soundPath);
 	DirectX::SoundEffectInstance* PlaySoundPlex(const std::string& soundName, bool loop = false);
 	void PlayMusicPlex(const std::string& musicName);
 	void SetVolume(const std::string& musicName, float volume);

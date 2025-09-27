@@ -241,7 +241,7 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 {
 	InitPlayerGameObj(ecsManager, scene);
 	SetScale({ 1, 4, 1 });
-	SetPosition({ -60,60,60 });
+	//SetPosition({ -60,60,60 });
 
 	mp_gameManager = gameManager;
 	mp_scene = scene;

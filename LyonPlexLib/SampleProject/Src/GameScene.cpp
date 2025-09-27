@@ -31,7 +31,8 @@ void GameScene::Start()
 
 	// Test player + stateMachine
 	m_playerTest.Init(mp_ecsManager, mp_sceneManager->GetGameManager(), this, m_cam);
-	//m_playerTest.SetPosition({ 250,-15,-115 });
+	m_playerTest.SetPosition({ 250,-15,-115 });
+
 	SetParent(m_cam, m_playerTest);
 
 	m_cam.SetPosition({ 0, m_playerTest.GetScale().y / 2, 0 });

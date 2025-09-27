@@ -363,7 +363,7 @@ void Scene::EnableMouseRotationFor(GameObject& target, float sensitivity)
 	}
 }
 
-void Scene::CreateSoundPlex(const std::string& soundName, const std::wstring& soundPath)
+void Scene::CreateSoundPlex(const std::string& soundName, const std::string& soundPath)
 {
 	mp_sceneManager->GetGameManager()->GetSoundManager()->CreateSound(soundName, soundPath);
 }
