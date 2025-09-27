@@ -5718,7 +5718,7 @@ void GameScene::CreateAdditionalHitboxes()
 	FindGameObjectByName("tmplRoof 0")->SetPosition({ -195.431732178,29.433662415,22.693534851 });
 	FindGameObjectByName("tmplRoof 0")->SetRotation({ 0,0,-0.707106948,-0.70710659 });
 	FindGameObjectByName("tmplRoof 0")->SetScale({ 1,8.200000763,10 });
-
+	FindGameObjectByName("tmplRoof 0")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 2,40,40 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
 
 	//CreateGameObject("HB_river 1", 18, 4294967295);
 	//FindGameObjectByName("HB_river 1")->SetPosition({ -34.95501709,16.350923538,-54.669914246 });
