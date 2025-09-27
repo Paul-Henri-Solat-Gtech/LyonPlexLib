@@ -38,3 +38,7 @@ using namespace DirectX;
 #include "GameManager.h"
 
 
+static std::string debugPath = "../SampleProject/Ressources/";
+static std::string releasePath = "Ressources/";
+
+

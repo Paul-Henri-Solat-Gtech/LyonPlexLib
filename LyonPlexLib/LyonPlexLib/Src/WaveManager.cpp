@@ -20,7 +20,7 @@ void WaveManager::InitWave()
 	m_Indices = { 0,1,2, 0,2,3 };
 
 
-	BuildAndUploadBuffers();	
+	BuildAndUploadBuffers();
 }
 
 void WaveManager::Update(float deltaTime)
@@ -40,8 +40,14 @@ void WaveManager::Update(float deltaTime)
 			auto* wavec = m_ECS->GetComponent<WaveComponent>(ent);
 			if (wavec->cubeMapID == 0 || wavec->normalMapID == 0)
 			{
-				wavec->normalMapID = mp_textureManager->LoadTexture("../SampleProject/Ressources/Environnement3D/Water/WaterNormal.dds");
-				wavec->cubeMapID = mp_textureManager->LoadCubeTexture("../SampleProject/Ressources/Environnement3D/Water/CubeMap.dds");
+				std::string path;
+#ifdef _DEBUG
+				path = debugPath;
+#else
+				path = releasePath;
+#endif
+				wavec->normalMapID = mp_textureManager->LoadTexture(path + "Environnement3D/Water/WaterNormal.dds");
+				wavec->cubeMapID = mp_textureManager->LoadCubeTexture(path + "Environnement3D/Water/CubeMap.dds");
 			}
 		});
 
@@ -62,7 +68,7 @@ void WaveManager::UploadData(void const* _Src, UINT64 offset)
 HRESULT WaveManager::BuildAndUploadBuffers()
 {
 	// upload to GPU buffers
-	UINT vByteSize = static_cast<UINT>((sizeof(WaveVertex) + 255) & ~255 );
+	UINT vByteSize = static_cast<UINT>((sizeof(WaveVertex) + 255) & ~255);
 	UINT iByteSize = static_cast<UINT>((sizeof(uint32_t) + 255) & ~255);
 
 	CD3DX12_HEAP_PROPERTIES heapProps(D3D12_HEAP_TYPE_UPLOAD);

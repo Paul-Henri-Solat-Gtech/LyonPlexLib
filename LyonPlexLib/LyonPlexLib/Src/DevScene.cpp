@@ -1003,8 +1003,4 @@ void DevScene::CreateAdditionalHitboxes()
 	FindGameObjectByName("HB_riverbed 26")->SetScale({ 21,11,16 });
 	FindGameObjectByName("HB_riverbed 26")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 10.5, 5.5, 8 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
 
-
-
-
-
 }

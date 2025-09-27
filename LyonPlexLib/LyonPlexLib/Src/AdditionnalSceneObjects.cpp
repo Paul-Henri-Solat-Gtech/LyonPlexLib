@@ -549,9 +549,12 @@ void AdditionnalSceneObjects::CreateFirstObjects(Scene* scene)
 		scene->FindGameObjectByName("HB 3")->SetScale({ 271,6,421 });
 		scene->FindGameObjectByName("HB 3")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 135.5, 3, 210.5 })));
 		scene->CreateGameHitbox("HB 4");// deep lac + river
-		scene->FindGameObjectByName("HB 4")->SetPosition({ -5,-30,-29 });
+		//scene->FindGameObjectByName("HB 4")->SetPosition({ -5,-30,-29 });
+		//scene->FindGameObjectByName("HB 4")->SetRotation({ 0,0,0,1 });
+		//scene->FindGameObjectByName("HB 4")->SetScale({ 156,6,416 });
+		scene->FindGameObjectByName("HB 4")->SetPosition({ -5,-24,-29 });
 		scene->FindGameObjectByName("HB 4")->SetRotation({ 0,0,0,1 });
-		scene->FindGameObjectByName("HB 4")->SetScale({ 156,6,416 });
+		scene->FindGameObjectByName("HB 4")->SetScale({ 156,2,416 });
 		scene->FindGameObjectByName("HB 4")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 78, 3, 208 })));
 
 		//scene->CreateGameHitbox("HB 5");// RockWall
@@ -655,6 +658,7 @@ void AdditionnalSceneObjects::CreateFirstObjects(Scene* scene)
 		scene->FindGameObjectByName("Champs 0")->SetPosition({ 239,-20,-131 });
 		scene->FindGameObjectByName("Champs 0")->SetRotation({ 0,0,0,1 });
 		scene->FindGameObjectByName("Champs 0")->SetScale({ 150,2,100 });
+		scene->FindGameObjectByName("Champs 0")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 75, 1, 50 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
 		scene->CreateGameObject("Maison", 4, TEXTURES::AMALGATE);
 		scene->FindGameObjectByName("Maison")->SetPosition({ 178,-19,-94 });
 		scene->FindGameObjectByName("Maison")->SetRotation({ 0,0,0,1 });
@@ -695,7 +699,7 @@ void AdditionnalSceneObjects::CreateFirstObjects(Scene* scene)
 		scene->FindGameObjectByName("Tree 12")->SetScale({ 7,7,7 });
 
 		scene->CreateGameObject("Olivier_big", MESHES::OLIVIER_1, 4294967295);
-		scene->FindGameObjectByName("Olivier_big")->SetPosition({ -79,-22,-115 });
+		scene->FindGameObjectByName("Olivier_big")->SetPosition({ -79,-2,-115 });
 		scene->FindGameObjectByName("Olivier_big")->SetRotation({ 0,0.656059146,0,0.754709542 });
 		scene->FindGameObjectByName("Olivier_big")->SetScale({ 7,7,7 });
 
@@ -787,6 +791,24 @@ void AdditionnalSceneObjects::CreateFirstObjects(Scene* scene)
 		scene->FindGameObjectByName("HB_RckTmpl 15")->SetPosition({ -146.787597656,20.042470932,-9.188296318 });
 		scene->FindGameObjectByName("HB_RckTmpl 15")->SetRotation({ 0,0.566406071,0,-0.824126303 });
 		scene->FindGameObjectByName("HB_RckTmpl 15")->SetScale({ 13,13,13 });
+		scene->CreateGameObject("RkTpl 1", 18, 1);
+		scene->FindGameObjectByName("RkTpl 1")->SetPosition({ -260.406097412,-0.591251791,97.307563782 });
+		scene->FindGameObjectByName("RkTpl 1")->SetRotation({ 0,-0.777145922,0,0.629320443 });
+		scene->FindGameObjectByName("RkTpl 1")->SetScale({ 5,4,9 });
+		scene->CreateGameObject("RkTpl 2", 18, 1);
+		scene->FindGameObjectByName("RkTpl 2")->SetPosition({ -263.824188232,-0.591251791,107.537635803 });
+		scene->FindGameObjectByName("RkTpl 2")->SetRotation({ 0,-0.777145922,0,0.629320443 });
+		scene->FindGameObjectByName("RkTpl 2")->SetScale({ 5,4,9 });
+		scene->CreateGameHitbox("RkTpl_HB 3");
+		scene->FindGameObjectByName("RkTpl_HB 3")->SetPosition({ -263.775787354,-0.55265379,108.133834839 });
+		scene->FindGameObjectByName("RkTpl_HB 3")->SetRotation({ 0,0,0,1 });
+		scene->FindGameObjectByName("RkTpl_HB 3")->SetScale({ 8.699998856,3.700000286,5.700000286 });
+		scene->FindGameObjectByName("RkTpl_HB 3")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 4.349999428, 1.850000143, 2.850000143 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+		scene->CreateGameHitbox("RkTpl_HB 4");
+		scene->FindGameObjectByName("RkTpl_HB 4")->SetPosition({ -259.931488037,-0.55265379,98.21975708 });
+		scene->FindGameObjectByName("RkTpl_HB 4")->SetRotation({ 0,-0.182235524,0,0.983254969 });
+		scene->FindGameObjectByName("RkTpl_HB 4")->SetScale({ 7.699998856,3.700000286,8.700000763 });
+		scene->FindGameObjectByName("RkTpl_HB 4")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 3.849999428, 1.850000143, 4.350000381 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
 
 
 

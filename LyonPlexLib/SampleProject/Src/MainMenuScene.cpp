@@ -51,8 +51,8 @@ void MainMenuScene::Start()
 	m_btnArenaSelected = false;
 
 	// Music
-	PlayMusicPlex("ArmonizerTheme");
 	SetVolume("ArmonizerTheme", 0.1);
+	PlayMusicPlex("ArmonizerTheme");
 }
 
 void MainMenuScene::Update(float deltatime)

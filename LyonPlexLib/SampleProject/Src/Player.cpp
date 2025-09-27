@@ -514,8 +514,9 @@ void Player::ApplyMovementAndCollisions(float dt)
 	using namespace DirectX;
 
 	const float EPS_LEN_SQ = 1e-8f;
-	const float SKIN_WIDTH = 0.01f;
-	const float MAX_SLOPE_DEG = 45.0f;
+	const float SKIN_WIDTH = 0.3f;
+	//const float MAX_SLOPE_DEG = 45.0f;
+	const float MAX_SLOPE_DEG = 30.0f;
 	const float MAX_SLOPE_COS = cosf(XMConvertToRadians(MAX_SLOPE_DEG));
 	const float FALLBACK_DIST = 0.25f;
 

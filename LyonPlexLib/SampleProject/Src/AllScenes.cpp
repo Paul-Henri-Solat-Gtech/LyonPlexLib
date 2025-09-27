@@ -45,6 +45,14 @@ void AllScenes::StartScene(std::string sceneName)
 
 void AllScenes::InitAllSounds() 
 {
+
+    std::string path;
+#ifdef _DEBUG
+    path = debugPath;
+#else
+    path = releasePath;
+#endif
+
     //Sounds
     mp_gameManager->GetSoundManager()->CreateSound("roar", L"../LyonPlexLib/Ressources/Roar.wav");
     mp_gameManager->GetSoundManager()->CreateSound("swordSlash1", L"../LyonPlexLib/Ressources/swordSlash1.wav");
