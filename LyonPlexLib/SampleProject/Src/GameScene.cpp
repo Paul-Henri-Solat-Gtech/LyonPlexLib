@@ -50,8 +50,8 @@ void GameScene::Start()
 
 	// Music
 	PlayMusicPlex("ArmonizerTheme");
-	auto ambianceSoundTest = PlaySoundPlex("ambianceTest");
-	if (ambianceSoundTest) ambianceSoundTest->SetVolume(100.f);
+	m_soundTest = PlaySoundPlex("ambianceTest",true);
+	if (m_soundTest) m_soundTest->SetVolume(30.f);
 
 	//win
 	m_youWin = false;

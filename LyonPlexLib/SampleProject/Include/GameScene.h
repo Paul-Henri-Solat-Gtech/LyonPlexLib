@@ -65,5 +65,9 @@ private:
 	uint64_t s_frameCount = 0;
 	double s_accumMs = 0.0;
 	uint64_t g_drawCalls = 0;
+
+	//Sounds
+	DirectX::SoundEffectInstance* m_soundTest;
+
 };
 

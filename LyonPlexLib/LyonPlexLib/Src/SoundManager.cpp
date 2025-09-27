@@ -139,10 +139,10 @@ void SoundManager::SetVolume(std::string soundName, float volume)
     }
 
     // apply to current instances (if still valid)
-    auto it = m_instancesByName.find(soundName);
-    if (it != m_instancesByName.end())
+    auto soundInstance = m_instancesByName.find(soundName);
+    if (soundInstance != m_instancesByName.end())
     {
-        auto& vec = it->second;
+        auto& vec = soundInstance->second;
         std::vector<DirectX::SoundEffectInstance*> alivePtrs;
         alivePtrs.reserve(vec.size());
 
