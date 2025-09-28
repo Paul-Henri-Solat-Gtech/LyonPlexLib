@@ -5289,7 +5289,7 @@ void GameScene::Update(float deltatime)
 
 		if (InputManager::GetKeyIsPressed('R'))
 		{
-			//FindGameObjectByName("player")->SetPosition({ 45, 3, -60 });
+			m_playerTest.SetPosition({ 250,-15,-115 });
 		}
 
 		if (InputManager::GetKeyIsReleased('T'))

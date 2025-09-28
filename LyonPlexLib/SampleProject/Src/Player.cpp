@@ -336,6 +336,7 @@ void Player::Init(ECSManager* ecsManager, GameManager* gameManager, Scene* scene
 					self->m_hp--;
 					self->HpUpdate();
 					self->m_isInvincible = true;
+					scenePtr->PlaySoundPlex("OW", false);
 					OutputDebugStringA("\n -1hp aie \n");
 				}
 
@@ -1391,6 +1392,14 @@ void Player::DeathManager()
 	m_gameOver.SetPosition({ (float)renderWidth / 2, (float)renderHeight / 2, 0 });
 	m_gameOver.SetScale({ (float)renderWidth * 0.4f, (float)renderHeight * 0.4f, 0 });
 	m_gameOver.GetComponent<TransformComponent>()->AddRotation(0, 0, 180);
+
+	//static float chrono = 3.0f; // persist entre appels
+	//chrono -= m_deltatime;
+	//if (chrono <= 0.0f)
+	//{
+	//	chrono = 3.0f;           // reset pour retenter plus tard
+	//	mp_scene->ChangeScene("MainMenuScene");
+	//}
 }
 
 void Player::InvincibilityManager(float deltatime)
