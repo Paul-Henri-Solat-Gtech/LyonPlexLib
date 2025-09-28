@@ -17,9 +17,6 @@ void ArenaScene::Start()
 	FindGameObjectByName("cam")->SetPosition({ 0, 0, 0.5f });
 
 	m_fpsCam.Init(m_cam, mp_sceneManager->GetWindow());
-
-	
-
 	m_fpsCam.SetAlwaysActive(true);
 
 	//PLAYER

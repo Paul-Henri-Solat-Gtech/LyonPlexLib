@@ -63,6 +63,10 @@ void AllScenes::InitAllSounds()
     mp_gameManager->GetSoundManager()->CreateSound("BIP", path + "Sounds/bip.wav");
     mp_gameManager->GetSoundManager()->CreateSound("heal", path + "Sounds/heal.wav");
 
+    // Player
+    mp_gameManager->GetSoundManager()->CreateSound("walkGrass", path + "Sounds/Player/Footstep_Dirt_1.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("walkIndoors", path + "Sounds/Player/Footsteps_Temple_Reverb_1.wav");
+
     // Ennemis
     mp_gameManager->GetSoundManager()->CreateSound("Crabe_Degats", path + "Sounds/Ennemis/Crabe_Degats.wav");
     mp_gameManager->GetSoundManager()->CreateSound("Crabe_Degats_Lourds", path + "Sounds/Ennemis/Crabe_Degats_Lourds.wav");
