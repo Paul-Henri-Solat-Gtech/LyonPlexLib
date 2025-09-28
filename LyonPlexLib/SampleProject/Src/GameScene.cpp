@@ -51,15 +51,16 @@ void GameScene::Start()
 	m_playerTest.SetPlayerArm(*FindGameObjectByName("bras"));
 
 	// Music
-	PlayMusicPlex("ArmonizerTheme");
-	m_soundTest = PlaySoundPlex("ambianceTest",true);
-	if (m_soundTest) m_soundTest->SetVolume(30.f);
-	
+	/*SetVolume("ArmonizerTheme", 0.1f);
+	PlayMusicPlex("ArmonizerTheme");*/
+	auto music = PlaySoundPlex("ArmonizerTheme", true);
+	if (music) music->SetVolume(0.1f);
 
-	// Music
-
-	// SetVolume("River", 0.2);
-	// PlayMusicPlex("River");
+	auto ambiance = PlaySoundPlex("ambianceTest", true);
+	if (ambiance) ambiance->SetVolume(40.f);
+	//PlaySoundPlex("ambianceTest", true);
+	m_soundTest = PlaySoundPlex("River", true);
+	//if (m_soundTest) m_soundTest->SetVolume(20.f);
 
 
 	//win
@@ -1002,7 +1003,7 @@ void GameScene::Start()
 		FindGameObjectByName("HB_T_suite2 16")->SetRotation({ 0,0,0,1 });
 		FindGameObjectByName("HB_T_suite2 16")->SetScale({ 96,1,21 });
 		FindGameObjectByName("HB_T_suite2 16")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 48, 0.5, 10.5 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
-		
+
 		//CreateGameHitbox("HB_Temple 4");
 		//FindGameObjectByName("HB_Temple 4")->SetPosition({ -106,-12,114 });
 		//FindGameObjectByName("HB_Temple 4")->SetRotation({ 0,0,0,1 });
@@ -5115,10 +5116,26 @@ void GameScene::Start()
 void GameScene::Update(float deltatime)
 {
 	// Creation de topus les objets de la scene qui ne pouvaient pas etre crees dans la fonciton Start
+	auto pos = m_playerTest.GetPosition();
+	if (pos.z < -60)
+	{
+		float reduction = (std::abs((-30 - pos.x)) / 150) * 100;
+		float riverSound = 100 - reduction;
+		riverSound = Utils::clamp(riverSound, 0, 80)/50;
+		if (m_soundTest) m_soundTest->SetVolume(riverSound);
+	}
+	else
+	{
+		float reduction = (std::abs((61 - pos.x)) / 250) * 100;
+		float riverSound = 100 - reduction;
+		riverSound = Utils::clamp(riverSound, 0, 70)/35;
+		if (m_soundTest) m_soundTest->SetVolume(riverSound);
+	}
 
 	if (weedsCreated)
 	{
 		AdditionnalSceneObjects::CreateObjects(this);
+		AdditionnalSceneObjects::CreateGrass(this);
 		//CreateGrass();
 		init2 = true;
 		weedsCreated = false;
@@ -5126,6 +5143,7 @@ void GameScene::Update(float deltatime)
 	if (!init2)
 	{
 		//CreateWeeds();
+		AdditionnalSceneObjects::CreateWeeds(this);
 		CreateAdditionalHitboxes();
 
 		weedsCreated = true;
@@ -5240,7 +5258,7 @@ void GameScene::Update(float deltatime)
 		m_playerTest.OnUpdate(deltatime);
 
 		//Portal System
-		PortalSystem();
+		//PortalSystem();
 
 		if (InputManager::GetKeyIsPressed('R'))
 		{
@@ -5351,12 +5369,12 @@ void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy, EnemyType enemyType)
 	{
 		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, 6, enemyType);
 	}
-	if(!m_pl8.isFinished)
+	if (!m_pl8.isFinished)
 	{
 		m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, -17, enemyType);
 	}
 
-	
+
 	m_portal->SetPosition(newPos);
 }
 

@@ -74,7 +74,7 @@ void AllScenes::InitAllSounds()
     // Enviro
     mp_gameManager->GetSoundManager()->CreateSound("Boulder", path + "Sounds/Environment/Boulder.wav");
     mp_gameManager->GetSoundManager()->CreateSound("Environment", path + "Sounds/Environment/Environment_sound.wav");
-    mp_gameManager->GetSoundManager()->CreateSound("River", path + "Sounds/Environment/River_Sound.wav");
+    mp_gameManager->GetSoundManager()->CreateSound("River", path + "Sounds/Environment/River_Sound_1.wav");
     mp_gameManager->GetSoundManager()->CreateSound("Tree_cut", path + "Sounds/Environment/Tree_cut.wav");
     mp_gameManager->GetSoundManager()->CreateSound("Tree_fall", path + "Sounds/Environment/Tree_fallSound.wav");
 
