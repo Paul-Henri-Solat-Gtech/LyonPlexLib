@@ -94,229 +94,229 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
     txtMngr.LoadTexture(path + "Image2D/air.png");
     txtMngr.LoadTexture(path + "Image2D/wood.png");
 
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/NoTexture.png");//1
-	// txtMngr.LoadTexture(path + "Environnement3D/Batiments/Amalgate.png");//2
-	// //txtMngr.LoadTexture(path + "Divers/ALGUE.jpg");//3
-	// txtMngr.LoadTexture(path + "Divers/ALGUE.png");//3
-	// txtMngr.LoadTexture(path + "Divers/ALGUE1.png");//3
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/grid.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/bois.jpg");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/eau.jpg");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/champ.jpg");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle1.jpg");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle2.jpg");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle3.jpg");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle4.jpg");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/chemin_terre.jpg");
-	// txtMngr.LoadTexture(path + "Environnement3D/pierre.png");
-	// txtMngr.LoadTexture(path + "Environnement3D/Herbe.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/pont.jpg");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/maison.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/temple.jpg");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/Cepha1test.png");
-	// txtMngr.LoadTexture(path + "Image2D/icecream.png");//19
-	// txtMngr.LoadTexture(path + "Image2D/start.png");//20
-	// txtMngr.LoadTexture(path + "Image2D/stop.png");//21
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/heart-empty.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/heart-demi.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/heart-full.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/GameOver.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/Empty.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/weaponPlaceHolder.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/pauseMenuL.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/btnQuit.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/btnMainMenu.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/LyonPlexLogo.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/lightlp.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/groundmt.png");
-	// txtMngr.LoadTexture(path + "Image2D/portail.png");
-	// txtMngr.LoadTexture(path + "Image2D/titreV2.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/slash.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/zero.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/one.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/two.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/tree.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/four.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/five.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/six.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/seven.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/eight.png");
-	// txtMngr.LoadTexture("../LyonPlexLib/Ressources/nine.png");
-	// txtMngr.LoadTexture(path + "Image2D/btnStart.png");
-	// txtMngr.LoadTexture(path + "Image2D/btnArena.png");
-	// txtMngr.LoadTexture(path + "Image2D/closebtnV2.png");
-	// txtMngr.LoadTexture(path + "Image2D/testSkyboxV2.png");
-	// txtMngr.LoadTexture(path + "Image2D/healingrock.png");
-	// txtMngr.LoadTexture(path + "Image2D/bgArmonizer.png");
-	// txtMngr.LoadTexture(path + "Image2D/WINSCREEN.png");
-	// txtMngr.LoadTexture(path + "Image2D/LOSESCREEN.png");
-	// txtMngr.LoadTexture(path + "Image2D/ScrollSpeed.png");
-	// txtMngr.LoadTexture(path + "Image2D/ScrollAtk.png");
-	// txtMngr.LoadTexture(path + "Image2D/WeaponWood.png");
-	// txtMngr.LoadTexture(path + "Image2D/WeaponRock.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/NoTexture.png");//1
+	 //txtMngr.LoadTexture(path + "Environnement3D/Batiments/Amalgate.png");//2
+	 ////txtMngr.LoadTexture(path + "Divers/ALGUE.jpg");//3
+	 //txtMngr.LoadTexture(path + "Divers/ALGUE.png");//3
+	 //txtMngr.LoadTexture(path + "Divers/ALGUE1.png");//3
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/TestBRAS.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/grid.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/bois.jpg");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/eau.jpg");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/champ.jpg");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle1.jpg");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle2.jpg");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle3.jpg");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/parcelle4.jpg");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/chemin_terre.jpg");
+	 //txtMngr.LoadTexture(path + "Environnement3D/pierre.png");
+	 //txtMngr.LoadTexture(path + "Environnement3D/Herbe.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/pont.jpg");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/maison.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/temple.jpg");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/Cepha1test.png");
+	 //txtMngr.LoadTexture(path + "Image2D/icecream.png");//19
+	 //txtMngr.LoadTexture(path + "Image2D/start.png");//20
+	 //txtMngr.LoadTexture(path + "Image2D/stop.png");//21
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/heart-empty.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/heart-demi.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/heart-full.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/GameOver.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/Empty.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/weaponPlaceHolder.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/pauseMenuL.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/btnQuit.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/btnMainMenu.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/LyonPlexLogo.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/lightlp.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/groundmt.png");
+	 //txtMngr.LoadTexture(path + "Image2D/portail.png");
+	 //txtMngr.LoadTexture(path + "Image2D/titreV2.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/slash.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/zero.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/one.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/two.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/tree.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/four.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/five.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/six.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/seven.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/eight.png");
+	 //txtMngr.LoadTexture("../LyonPlexLib/Ressources/nine.png");
+	 //txtMngr.LoadTexture(path + "Image2D/btnStart.png");
+	 //txtMngr.LoadTexture(path + "Image2D/btnArena.png");
+	 //txtMngr.LoadTexture(path + "Image2D/closebtnV2.png");
+	 //txtMngr.LoadTexture(path + "Image2D/testSkyboxV2.png");
+	 //txtMngr.LoadTexture(path + "Image2D/healingrock.png");
+	 //txtMngr.LoadTexture(path + "Image2D/bgArmonizer.png");
+	 //txtMngr.LoadTexture(path + "Image2D/WINSCREEN.png");
+	 //txtMngr.LoadTexture(path + "Image2D/LOSESCREEN.png");
+	 //txtMngr.LoadTexture(path + "Image2D/ScrollSpeed.png");
+	 //txtMngr.LoadTexture(path + "Image2D/ScrollAtk.png");
+	 //txtMngr.LoadTexture(path + "Image2D/WeaponWood.png");
+	 //txtMngr.LoadTexture(path + "Image2D/WeaponRock.png");
 
-	//// CRABE IDLE
-	//{
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/1.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/2.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/3.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/4.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/5.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/6.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/7.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/8.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/9.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/10.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/11.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/12.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/13.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/14.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/15.png");
-	//}
+	// CRABE IDLE
+	{
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/1.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/2.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/3.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/4.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/5.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/6.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/7.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/8.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/9.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/10.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/11.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/12.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/13.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/14.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/IDLE/15.png");
+	}
 
-	//// CRABE WALK
-	//{
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/1.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/2.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/3.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/4.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/5.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/6.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/7.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/8.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/9.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/10.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/11.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/12.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/13.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/14.png");
-	//}
+	// CRABE WALK
+	{
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/1.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/2.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/3.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/4.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/5.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/6.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/7.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/8.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/9.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/10.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/11.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/12.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/13.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/WALK/14.png");
+	}
 
-	//// CRABE ATTACK
-	//{
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/1.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/2.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/3.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/4.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/5.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/6.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/7.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/8.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/9.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/10.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/11.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/12.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/13.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/14.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/15.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/16.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/17.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/18.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/19.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/20.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/21.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/22.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/23.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/24.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/25.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/26.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/27.png");
-	//}
+	// CRABE ATTACK
+	{
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/1.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/2.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/3.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/4.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/5.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/6.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/7.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/8.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/9.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/10.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/11.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/12.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/13.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/14.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/15.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/16.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/17.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/18.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/19.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/20.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/21.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/22.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/23.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/24.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/25.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/26.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Crabe/ATTACK/27.png");
+	}
 
-	//// GOLEM IDLE
-	//{
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/1.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/2.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/3.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/4.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/5.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/6.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/7.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/8.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/9.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/10.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/11.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/12.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/13.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/14.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/15.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/16.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/17.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/18.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/19.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/20.png");
-	//}
+	// GOLEM IDLE
+	{
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/1.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/2.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/3.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/4.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/5.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/6.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/7.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/8.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/9.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/10.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/11.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/12.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/13.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/14.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/15.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/16.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/17.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/18.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/19.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/IDLE/20.png");
+	}
 
-	//// GOLEM WALK
-	//{
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/1.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/2.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/3.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/4.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/5.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/6.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/7.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/8.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/9.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/10.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/11.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/12.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/13.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/14.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/15.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/16.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/17.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/18.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/19.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/20.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/21.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/22.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/23.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/24.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/25.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/26.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/27.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/28.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/29.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/30.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/31.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/32.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/33.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/34.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/35.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/36.png");
-	//}
+	// GOLEM WALK
+	{
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/1.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/2.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/3.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/4.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/5.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/6.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/7.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/8.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/9.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/10.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/11.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/12.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/13.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/14.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/15.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/16.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/17.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/18.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/19.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/20.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/21.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/22.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/23.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/24.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/25.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/26.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/27.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/28.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/29.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/30.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/31.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/32.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/33.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/34.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/35.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/WALK/36.png");
+	}
 
-	//// GOLEM ATTACK
-	//{
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/1.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/2.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/3.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/4.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/5.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/6.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/7.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/8.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/9.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/10.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/11.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/12.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/13.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/14.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/15.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/16.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/17.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/18.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/19.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/20.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/21.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/22.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/23.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/24.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/25.png");
-	//    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/26.png");
-	//}
+	// GOLEM ATTACK
+	{
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/1.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/2.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/3.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/4.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/5.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/6.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/7.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/8.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/9.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/10.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/11.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/12.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/13.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/14.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/15.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/16.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/17.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/18.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/19.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/20.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/21.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/22.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/23.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/24.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/25.png");
+	    txtMngr.LoadTexture(path + "Animations/Enemies/Golem/ATTACK/26.png");
+	}
 
 	// IDLE ARM (24 frames)
 	{
@@ -556,30 +556,30 @@ bool SceneResources::InitTextureResources(TextureManager& txtMngr)
 
 	// ATTACK 3 WEAPON 2 (16 frames)
 	{
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/2.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/3.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/4.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/5.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/6.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/8.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/9.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/10.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/11.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/12.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/13.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/14.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/15.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/16.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/17.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/18.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/19.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/20.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/21.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/22.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/23.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/24.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/25.png");
-		//txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/26.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/2.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/3.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/4.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/5.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/6.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/8.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/9.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/10.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/11.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/12.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/13.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/14.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/15.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/16.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/17.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/18.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/19.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/20.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/21.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/22.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/23.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/24.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/25.png");
+		txtMngr.LoadTexture(path + "Animations/Player/HeavyWeapon/ATK3/26.png");
 	}
 
 

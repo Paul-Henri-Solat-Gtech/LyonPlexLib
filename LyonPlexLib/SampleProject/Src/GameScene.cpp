@@ -51,17 +51,20 @@ void GameScene::Start()
 	m_playerTest.SetPlayerArm(*FindGameObjectByName("bras"));
 
 	// Music
-	/*SetVolume("ArmonizerTheme", 0.1f);
-	PlayMusicPlex("ArmonizerTheme");*/
-	auto music = PlaySoundPlex("ArmonizerTheme", true);
-	if (music) music->SetVolume(0.1f);
 
-	auto ambiance = PlaySoundPlex("ambianceTest", true);
-	if (ambiance) ambiance->SetVolume(40.f);
-	//PlaySoundPlex("ambianceTest", true);
+	//auto music = PlaySoundPlex("ArmonizerTheme", true);
+	//if (music) music->SetVolume(0.1f);
+	PlayMusicPlex("ArmonizerTheme");
+	SetVolume("ArmonizerTheme", 0.1f);
+
+	auto ambiance = PlaySoundPlex("Environment", true);
+	if (ambiance) ambiance->SetVolume(0.1f);
+	
 	m_soundTest = PlaySoundPlex("River", true);
-	//if (m_soundTest) m_soundTest->SetVolume(20.f);
 
+	//StopMusicPlex();
+	//PlayMusicPlex("TheCrimsonTideClashfight");
+	//SetVolume("TheCrimsonTideClashfight", 0.1f);
 
 	//win
 	m_youWin = false;
@@ -1510,6 +1513,7 @@ void GameScene::Start()
 		FindGameObjectByName("Champs 0")->SetRotation({ 0,0,0,1 });
 		FindGameObjectByName("Champs 0")->SetScale({ 150,2,100 });
 		FindGameObjectByName("Champs 0")->AddComponent<CollisionComponent>(new CollisionComponent(CollisionComponent::MakeOBB({ 75, 1, 50 }, { 0, 0, 0, 1 }, { 0, 0, 0 })));
+		FindGameObjectByName("Champs 0")->SetTag(Tag::TAG_Environment);
 		CreateGameObject("Maison", 4, TEXTURES::AMALGATE);
 		FindGameObjectByName("Maison")->SetPosition({ 178,-19,-94 });
 		FindGameObjectByName("Maison")->SetRotation({ 0,0,0,1 });
@@ -5258,7 +5262,7 @@ void GameScene::Update(float deltatime)
 		m_playerTest.OnUpdate(deltatime);
 
 		//Portal System
-		//PortalSystem();
+		PortalSystem();
 
 		if (InputManager::GetKeyIsPressed('R'))
 		{
@@ -5343,8 +5347,8 @@ void GameScene::RemoveMenu()
 
 void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy)
 {
-	/*m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, -17);
-	m_portal->SetPosition(newPos);*/
+	m_portal = &CreateGameObject<Portals>(m_playerTest, this, nbEnemy, -17);
+	m_portal->SetPosition(newPos);
 }
 
 void GameScene::SpawnPortal(XMFLOAT3 newPos, int nbEnemy, EnemyType enemyType)
@@ -5402,8 +5406,9 @@ void GameScene::PortalSystem()
 		m_pl2.hasSpawned = true;
 		OutputDebugStringA("\n Wave 2 \n");
 		// MUSIC
+		StopMusicPlex();
 		PlayMusicPlex("TheCrimsonTideClashfight");
-		SetVolume("TheCrimsonTideClashfight", 0.6);
+		SetVolume("TheCrimsonTideClashfight", 0.1f);
 	}
 	if (m_pl2.hasSpawned && !m_pl2.isFinished)
 	{
