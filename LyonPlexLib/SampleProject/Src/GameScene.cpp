@@ -5154,7 +5154,23 @@ void GameScene::Update(float deltatime)
 	}
 	m_playerTest.SetTransformRotation({ 0,90,0 });
 	m_cam.SetTransformRotation({ 0,90,0 });
+	
+	if (weedsCreated)
+	{
+		AdditionnalSceneObjects::CreateObjects(this);
+		AdditionnalSceneObjects::CreateGrass(this);
+		//CreateGrass();
+		init2 = true;
+		weedsCreated = false;
+	}
+	if (!init2)
+	{
+		//CreateWeeds();
+		AdditionnalSceneObjects::CreateWeeds(this);
+		CreateAdditionalHitboxes();
 
+		weedsCreated = true;
+	}
 	//debug fps
 	// inside main loop, each frame
 	{
@@ -5196,6 +5212,13 @@ void GameScene::Update(float deltatime)
 		}
 	}
 
+	//Debug Position
+	if (InputManager::GetKeyIsReleased('P'))
+	{
+		XMFLOAT3 pos = m_playerTest.GetPosition();
+		std::string s = "pos = " + std::to_string(pos.x) + ", " + std::to_string(pos.y) + ", " + std::to_string(pos.z);
+		OutputDebugStringA(s.c_str());
+	}
 
 	//Pause menu
 	if (InputManager::GetKeyIsReleased(VK_ESCAPE))

@@ -3,6 +3,7 @@
 #include "Utils.h"
 #include <Enemy.h>
 #include <Boulder.h>
+#include <algorithm>
 
 float FPS_24 = 1 / 24;
 
@@ -130,6 +131,33 @@ void PlayerAction_Move::Start(Player* player)
 }
 void PlayerAction_Move::Update(Player* player)
 {
+	//coordonee temple
+	static const XMFLOAT3 b0 = { -106.394211f, -18.059315f, -68.763229f };
+	static const XMFLOAT3 b1 = { -284.201569f, -17.990446f, -68.329628f };
+	static const XMFLOAT3 b2 = { -280.698395f, -17.973127f, 110.693314f };
+	static const XMFLOAT3 b3 = { -104.915504f, -18.000055f, 109.861809f };
+	float minX = b0.x; if (b1.x < minX) minX = b1.x; if (b2.x < minX) minX = b2.x; if (b3.x < minX) minX = b3.x;
+	float maxX = b0.x; if (b1.x > maxX) maxX = b1.x; if (b2.x > maxX) maxX = b2.x; if (b3.x > maxX) maxX = b3.x;
+	float minZ = b0.z; if (b1.z < minZ) minZ = b1.z; if (b2.z < minZ) minZ = b2.z; if (b3.z < minZ) minZ = b3.z;
+	float maxZ = b0.z; if (b1.z > maxZ) maxZ = b1.z; if (b2.z > maxZ) maxZ = b2.z; if (b3.z > maxZ) maxZ = b3.z;
+	// Y limits pour eviter le toit
+	const float floorY = -19.f;
+	const float ceilingY = -17.f;
+	XMFLOAT3 pos = player->GetPosition();
+	bool inside = (pos.x >= minX && pos.x <= maxX) && (pos.z >= minZ && pos.z <= maxZ) && (pos.y >= floorY && pos.y <= ceilingY);
+	const char* walkSound = inside ? "walkIndoors" : "walkGrass";
+	
+	//XMFLOAT3 posPlayer = player->GetPosition();
+	//XMFLOAT3 posArm = player->GetPlayerArm().GetPosition();
+	//// debug compact : affiche player pos, arm pos et bounds AABB
+	//char dbg[256];
+	//sprintf_s(dbg, sizeof(dbg),
+	//	"DBG PlayerPos=%.3f,%.3f,%.3f | ArmPos=%.3f,%.3f,%.3f | X=[%.3f..%.3f] Z=[%.3f..%.3f]\n",
+	//	posPlayer.x, posPlayer.y, posPlayer.z,
+	//	posArm.x, posArm.y, posArm.z,
+	//	minX, maxX, minZ, maxZ);
+	//OutputDebugStringA(dbg);
+
 
 	//OutputDebugStringA("\n- MOVINGGG\n");
 	// Arm anim
@@ -139,6 +167,8 @@ void PlayerAction_Move::Update(Player* player)
 		player->GetPlayerArm().GetPosition().x = m_defaultPos.x + 50;
 		m_armIsUp = true;
 		m_canMoveArm = false;
+
+		player->mp_scene->PlaySoundPlex(walkSound, false);
 	}
 	if (m_canMoveArm && m_armIsUp)
 	{
