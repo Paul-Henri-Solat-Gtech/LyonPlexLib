@@ -72,7 +72,12 @@ void DevScene::Start()
 	FindGameObjectByName("SmallOLIVE")->SetScale({ 4,4,4 });
 
 
-
+	CreateGameObject("skybox", 2, 0);
+	FindGameObjectByName("skybox")->SetPosition({ 0,0,0 });
+	FindGameObjectByName("skybox")->SetRotation({ 0,0,0,1 });
+	FindGameObjectByName("skybox")->SetScale({ -1000,-1000,-1000 });
+	FindGameObjectByName("skybox")->SetMesh(MESHES::LOCAL_SPHERE);
+	FindGameObjectByName("skybox")->SetTexture(TEXTURES::SKYBOX);
 
 	// TEST TOUS LES MESHS
 	//int i = MESHES::Temple;
